@@ -3,7 +3,7 @@ function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
     scene: {
-      center: { lat: 6.266347, lng: 130.562822, alt: 12564220, heading: 0, pitch: -90 },
+      center: { lat: 26.520735, lng: 120.914959, alt: 23891502.7, heading: 92.1, pitch: -76.8, roll: 267.9 },
       clock: {
         multiplier: 200 // 速度
       }

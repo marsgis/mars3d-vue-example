@@ -16,7 +16,6 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   // 三维模型
   var tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
@@ -67,7 +66,6 @@ function initMap(options) {
   })
   map.addLayer(graphicLayerEdit)
 
-
   queryDthData()
 }
 // 加载数据
@@ -91,7 +89,6 @@ function toYLMS() {
   graphicLayerEdit.hasEdit = false
   graphicLayerEdit.show = false
   console.log(graphicLayerEdit)
-
 }
 
 // 切换到编辑模式
@@ -99,8 +96,6 @@ function toBJMS() {
   geoJsonLayerDTH.clear()
   graphicLayerEdit.hasEdit = true
   graphicLayerEdit.show = true
-
-
 }
 
 function deleteAll() {

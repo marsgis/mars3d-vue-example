@@ -54,7 +54,7 @@ function fetchAttrJson() {
 // 展示相关
 const labelWidth = 8
 const visible = ref(false)
-const activeTab = ref("attr")
+const activeTab = ref("style")
 
 defineExpose({
   showEditor,

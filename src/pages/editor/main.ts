@@ -78,7 +78,7 @@ marsEditorInstall(app, {
   baseUrl: process.env.BASE_URL,
   code: getQueryString("code") || "0",
   configLibs: window.configLibs,
-  homepage: "http://mars3d.cn/exampleNew",
+  homepage: "http://mars3d.cn/example",
   configSource: `${process.env.BASE_URL}config/example.json`
 })
 

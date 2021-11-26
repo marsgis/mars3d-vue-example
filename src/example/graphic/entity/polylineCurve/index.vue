@@ -20,7 +20,6 @@
   </PannelBox>
   <LocationTo />
 </template>
-
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
@@ -34,9 +33,8 @@ const mapWork = window.mapWork || {}
 const enabledEdit = ref<boolean>(false)
 
 const bindEdit = () => {
-  mapWork.bindEdit(enabledEdit)
+  mapWork.bindEdit(enabledEdit.value)
 }
-
 const btnDrawModel = () => {
   mapWork.btnDrawModel()
 }

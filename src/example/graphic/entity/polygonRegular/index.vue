@@ -2,7 +2,7 @@
   <PannelBox class="infoView">
     <a-form>
       <a-form-item>
-        <LayerState/>
+        <LayerState />
       </a-form-item>
 
       <a-form-item>
@@ -10,11 +10,7 @@
           <span class="pannel-item-label">数据维护:</span>
           <mars-button @click="btnDrawModel">绘制面</mars-button>
           <mars-button @click="btnDrawModelExtruded">立体面</mars-button>
-          <a-checkbox
-            v-model:checked="enabledEdit"
-            @change="bindEdit"
-            >是否编辑</a-checkbox
-          >
+          <a-checkbox v-model:checked="enabledEdit" @change="bindEdit">是否编辑</a-checkbox>
         </a-space>
       </a-form-item>
 
@@ -23,7 +19,7 @@
       </a-form-item>
     </a-form>
   </PannelBox>
-  <LocationTo/>
+  <LocationTo />
 </template>
 
 <script setup lang="ts">
@@ -37,11 +33,9 @@ import LayerState from "@comp/MarsSample/LayerState.vue"
 const mapWork = window.mapWork || {}
 const enabledEdit = ref(false)
 
-
 const bindEdit = () => {
   mapWork.bindEdit(enabledEdit.value)
 }
-
 const btnDrawModel = () => {
   mapWork.btnDrawModel()
 }
@@ -49,4 +43,3 @@ const btnDrawModelExtruded = () => {
   mapWork.btnDrawModelExtruded()
 }
 </script>
-<style scoped lang="less"></style>

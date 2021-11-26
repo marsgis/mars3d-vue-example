@@ -9,11 +9,9 @@
           <mars-button @click="btnRemoveAll">清除</mars-button>
         </a-space>
       </a-form-item>
-
       <a-form-item label="方向">
         <a-slider v-model:value="formState.slideStep" @change="changeSlider" :min="0" :max="360" :step="1" />
       </a-form-item>
-
       <a-form-item label="文字">
         <a-space>
           <mars-input v-model:value="formState.inputText" />
@@ -22,11 +20,13 @@
       </a-form-item>
     </a-form>
   </PannelBox>
+  <GraphicEditor ref="editor" />
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import GraphicEditor from "@comp/GraphicEditor/index.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
@@ -40,6 +40,35 @@ const formState: UnwrapRef<FormState> = reactive({
   slideStep: 0,
   inputText: "Mars3D 火星科技 2021"
 })
+
+// 属性面板
+const editor = ref()
+mapWork.graphicLayer.on(mapWork.mars3d.EventType.drawCreated, async (e: any) => {
+  const result = await editor.value.setValue(e.graphic)
+  if (result) {
+    editor.value.showEditor()
+  }
+})
+// 编辑修改了模型
+mapWork.graphicLayer.on(
+  [
+    mapWork.mars3d.EventType.editStart,
+    mapWork.mars3d.EventType.editMovePoint,
+    mapWork.mars3d.EventType.editStyle,
+    mapWork.mars3d.EventType.editRemovePoint
+  ],
+  async (e: any) => {
+    const result = await editor.value.setValue(e.graphic)
+    if (result) {
+      editor.value.showEditor()
+    }
+  }
+)
+// 停止编辑修改模型
+mapWork.graphicLayer.on([mapWork.mars3d.EventType.editStop, mapWork.mars3d.EventType.removeGraphic], async (e: any) => {
+  editor.value.hideEditor()
+})
+
 const changeSlider = () => {
   mapWork.changeSlider(formState.slideStep)
 }

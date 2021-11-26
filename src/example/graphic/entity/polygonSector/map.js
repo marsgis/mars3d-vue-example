@@ -11,7 +11,6 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -95,12 +94,12 @@ function btnClear() {
   graphicLayer.clear()
 }
 function btnExpFile() {
-  // 代码在\js\graphicManager.js
+  // 代码在\graphicManager.js
   // eslint-disable-next-line no-undef
   expFile(graphicLayer)
 }
 function btnImpFile(file) {
-  // 代码在\js\graphicManager.js
+  // 代码\graphicManager.js
   // eslint-disable-next-line no-undef
   impFile(graphicLayer, file)
 }

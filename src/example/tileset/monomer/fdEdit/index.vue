@@ -10,7 +10,7 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item v-if="value === '1' ">
+      <a-form-item v-if="value === '1'">
         <a-space>
           <mars-button @click="drawPolygon">单体化面</mars-button>
           <a-upload
@@ -32,114 +32,95 @@
   <GraphicEditor ref="editor" />
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, ref } from "vue"
+<script lang="ts" setup>
+import { getCurrentInstance, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
 
-export default defineComponent({
-  components: {
-    PannelBox,
-    GraphicEditor
-  },
+interface FileItem {
+  uid: string
+  name?: string
+  status?: string
+  response?: string
+  url?: string
+}
 
-  setup() {
-    interface FileItem {
-      uid: string
-      name?: string
-      status?: string
-      response?: string
-      url?: string
-    }
+interface FileInfo {
+  file: FileItem
+  fileList: FileItem[]
+}
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
+const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
+const editor = ref()
 
-    interface FileInfo {
-      file: FileItem
-      fileList: FileItem[]
-    }
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
-    const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
-    const editor = ref()
+const value = ref<string>("1")
 
-    const value = ref<string>("1")
-
-    mapWork.graphicLayerEdit.on(mapWork.mars3d.EventType.drawCreated, async (e: any) => {
-      const result = await editor.value.setValue(e.graphic)
-      if (result) {
-        editor.value.showEditor()
-      }
-    })
-
-    // 编辑修改了模型
-    mapWork.graphicLayerEdit.on(
-      [
-        mapWork.mars3d.EventType.editStart,
-        mapWork.mars3d.EventType.editMovePoint,
-        mapWork.mars3d.EventType.editStyle,
-        mapWork.mars3d.EventType.editRemovePoint
-      ],
-      async (e: any) => {
-        const result = await editor.value.setValue(e.graphic)
-        if (result) {
-          editor.value.showEditor()
-        }
-      }
-    )
-
-    // 停止编辑修改模型
-    mapWork.geoJsonLayerDTH.on([mapWork.mars3d.EventType.editStop, mapWork.mars3d.EventType.removeGraphic], async (e: any) => {
-      editor.value.hideEditor()
-    })
-
-    // 打开
-    const openGeoJSON = (info: FileInfo) => {
-      const item = info.file
-      const fileName = item.name
-      const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-      console.log(item)
-      if (fileType != "json") {
-        alert("文件类型不合法,请选择json格式标注文件！")
-      }
-
-      mapWork.openGeoJSON(item)
-    }
-    // 点击保存GeoJSON
-    const saveGeoJSON = () => {
-      if (mapWork.graphicLayerEdit.length === 0) {
-        globalProperties.$message("当前没有标注任何数据，无需保存！")
-        return
-      }
-      const geojson = mapWork.graphicLayerEdit.toGeoJSON()
-      mapWork.mars3d.Util.downloadFile("单体化.json", JSON.stringify(geojson))
-    }
-
-    // 单体化面
-    const drawPolygon = () => {
-      mapWork.drawPolygon()
-    }
-
-    const clear = () => {
-      mapWork.deleteAll()
-    }
-
-    // 模式发生改变
-    const modeChange = () => {
-      if (value.value === "1") {
-        mapWork.toBJMS()
-      }
-      mapWork.toYLMS()
-    }
-
-    return {
-      drawPolygon,
-      value,
-      openGeoJSON,
-      saveGeoJSON,
-      clear,
-      editor,
-      modeChange
-    }
+mapWork.graphicLayerEdit.on(mapWork.mars3d.EventType.drawCreated, async (e: any) => {
+  const result = await editor.value.setValue(e.graphic)
+  if (result) {
+    editor.value.showEditor()
   }
 })
+
+// 编辑修改了模型
+mapWork.graphicLayerEdit.on(
+  [
+    mapWork.mars3d.EventType.editStart,
+    mapWork.mars3d.EventType.editMovePoint,
+    mapWork.mars3d.EventType.editStyle,
+    mapWork.mars3d.EventType.editRemovePoint
+  ],
+  async (e: any) => {
+    const result = await editor.value.setValue(e.graphic)
+    if (result) {
+      editor.value.showEditor()
+    }
+  }
+)
+
+// 停止编辑修改模型
+mapWork.geoJsonLayerDTH.on([mapWork.mars3d.EventType.editStop, mapWork.mars3d.EventType.removeGraphic], async (e: any) => {
+  editor.value.hideEditor()
+})
+
+// 打开
+const openGeoJSON = (info: FileInfo) => {
+  const item = info.file
+  const fileName = item.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  console.log(item)
+  if (fileType != "json") {
+    alert("文件类型不合法,请选择json格式标注文件！")
+  }
+
+  mapWork.openGeoJSON(item)
+}
+// 点击保存GeoJSON
+const saveGeoJSON = () => {
+  if (mapWork.graphicLayerEdit.length === 0) {
+    globalProperties.$message("当前没有标注任何数据，无需保存！")
+    return
+  }
+  const geojson = mapWork.graphicLayerEdit.toGeoJSON()
+  mapWork.mars3d.Util.downloadFile("单体化.json", JSON.stringify(geojson))
+}
+
+// 单体化面
+const drawPolygon = () => {
+  mapWork.drawPolygon()
+}
+
+const clear = () => {
+  mapWork.deleteAll()
+}
+
+// 模式发生改变
+const modeChange = () => {
+  if (value.value === "1") {
+    mapWork.toBJMS()
+  }
+  mapWork.toYLMS()
+}
 </script>
 <style scoped lang="less"></style>
