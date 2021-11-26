@@ -1,0 +1,33 @@
+<template>
+  <PannelBox class="infoView">
+    <a-space>
+      <label>景点视角:</label>
+      <mars-button @click="changeView1">故宫</mars-button>
+      <mars-button @click="changeView2">珠峰</mars-button>
+      <mars-button @click="changeView3">华山</mars-button>
+      <mars-button @click="changeView4">大别山</mars-button>
+    </a-space>
+  </PannelBox>
+</template>
+
+<script lang="ts" setup>
+import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
+
+const changeView1 = () => {
+  mapWork.changeView1()
+}
+const changeView2 = () => {
+  mapWork.changeView2()
+}
+const changeView3 = () => {
+  mapWork.changeView3()
+}
+
+const changeView4 = () => {
+  mapWork.changeView4()
+}
+</script>
+<style scoped lang="less"></style>

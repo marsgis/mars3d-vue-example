@@ -18,12 +18,42 @@
 </p>
 
 
-## 代码说明
+> 国内用户可以访问[Gitee](https://gitee.com/marsgis/mars3d-vue-example) 
 
-正在开发中……
 
- 
+## 运行命令
 
+### 首次运行前安装依赖
+```
+npm install
+```
+
+### 启动开发环境
+```
+npm run serve
+```
+
+### 编译构建
+```
+npm run build
+```
+
+## 代码目录说明
+
+example 示例的所有代码目录
+
+
+
+## 新增或编辑示例
+
+ 请查阅 [Example.md](Example.md) 
+
+
+
+## 示例使用到的技术栈
+- [vue3](https://v3.cn.vuejs.org/api/)
+- [ant-design-vue](https://next.antdv.com/components/overview-cn/)
+- [iconpark](https://iconpark.oceanengine.com/official)
 
 
  

@@ -1,0 +1,59 @@
+<template>
+  <PannelBox class="infoView">
+    <a-form>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">缓冲半径:</span>
+          <mars-input-number class="radius" @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1" :max="999"></mars-input-number>公里
+        </a-space>
+      </a-form-item>
+
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">绘制:</span>
+          <mars-button @click="drawPoint">点</mars-button>
+          <mars-button @click="drawPolyline">线</mars-button>
+          <mars-button @click="drawPolygon">面</mars-button>
+        </a-space>
+      </a-form-item>
+    </a-form>
+  </PannelBox>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue"
+import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
+
+const radiusVal = ref<number>(1)
+
+// 点
+const drawPoint = () => {
+  mapWork.drawPoint()
+}
+// 线
+const drawPolyline = () => {
+  mapWork.drawPolyline()
+}
+
+// 面
+const drawPolygon = () => {
+  mapWork.drawPolygon()
+}
+
+const radiusChange = () => {
+  mapWork.radiusChange(radiusVal.value)
+}
+
+radiusChange()
+</script>
+<style scoped lang="less">
+.pannel-item-label {
+  width: 55px;
+}
+.ant-input-number {
+  width: 120px !important;
+}
+</style>
