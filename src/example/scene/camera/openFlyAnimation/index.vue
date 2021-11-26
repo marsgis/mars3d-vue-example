@@ -22,8 +22,3 @@ const stopAnimation = () => {
   mapWork.stopAnimation()
 }
 </script>
-<style scoped lang="less">
-.ant-space {
-  display: grid;
-}
-</style>

@@ -49,7 +49,7 @@ const currTime = ref(0)
 const hours = computed(() => Math.floor(currTime.value / 60))
 const minutes = computed(() => Math.floor(currTime.value % 60))
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("loadOk", (event: any) => {
   const date = event.shadowTime
 
   currTime.value = date.getHours() * 60 + date.getMinutes()
@@ -57,12 +57,14 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   timeVal.value = currTime.value
 })
 
+mapWork.eventTarget.on("shadows", (event: any) => {
+  timeChange()
+})
+
 const timeChange = () => {
   mapWork.setShadows(timeVal.value, currDate.value)
   currTime.value = timeVal.value
 }
-
-timeChange()
 
 const startPlay = () => {
   mapWork.startPlay(timeVal.value, currDate.value)

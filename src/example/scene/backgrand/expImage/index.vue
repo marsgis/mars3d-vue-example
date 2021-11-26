@@ -24,7 +24,6 @@ const showImg = ref<boolean>(false)
 const imges = ref()
 
 mapWork.eventTarget.on("loadOk", function (event: any) {
-  console.log(event)
   imges.value = event.base64
   showImg.value = true
 })
@@ -46,8 +45,5 @@ const downLoad2 = () => {
   left: 25%;
   width: 800px;
   height: 400px;
-}
-.ant-space {
-  display: grid;
 }
 </style>

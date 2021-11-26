@@ -68,7 +68,7 @@ ol {
 /* 重置文本格式元素 */
 a {
   text-decoration: none;
-  color: #ffffff;
+  color: @primary-color !important;
 }
 a:hover {
   text-decoration: underline;
@@ -176,14 +176,11 @@ html {
 //////////////////////////////////////
 #app {
   height: 100%;
-  position: relative;
 }
 
 .infoView {
-  position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 1000;
 
   .infoView-content {
     width: 300px;

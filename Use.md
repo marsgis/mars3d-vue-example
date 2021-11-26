@@ -25,6 +25,7 @@
 - 安装依赖
 
 ```
+使用npm
 npm i
 
 使用代理
@@ -60,9 +61,26 @@ nrm use taobao
 }
 ```
 
-- 运行项目 npm ru serve
+- 运行项目 npm run serve
 
 ### 问题或优化
 
-- 发现项目中存在的问题或者需要优化的地方，欢迎提交pr
+- 发现项目中存在的问题或者需要优化的地方，欢迎提交 pr
 - 也可以发送邮件到 wh@marsgis.cn
+
+> 原则：准确描述问题，采用邮件的方式，最好附上修改代码截图
+
+## 项目架构
+
+### 技术选型
+
+- vue3
+- typescript
+- vueCLI
+- eslint
+
+> 需要有一定的知识储备，包括 vue3 中的 composition Api、setup、setup script 模式等
+
+### 目录结构
+
+- 示例主目录 src/example

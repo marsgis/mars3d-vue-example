@@ -29,6 +29,9 @@ function initMap(options) {
     shadows: Cesium.ShadowMode.ENABLED
   })
   map.addLayer(tilesetLayer)
+
+  eventTarget.fire("shadows")
+
 }
 
 function stopPlay() {
@@ -66,5 +69,7 @@ function setShadows(value, date) {
     time: dateTime
   })
   map.addThing(shadows)
+
+
   return dateTime
 }

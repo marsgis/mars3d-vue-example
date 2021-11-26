@@ -1,5 +1,6 @@
 var map
-var eventTarget
+var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -10,8 +11,6 @@ function initMap(options) {
 
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
-
-  eventTarget = new mars3d.BaseClass()
 
   // 三维模型
   var tilesetLayer = new mars3d.layer.TilesetLayer({

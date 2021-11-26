@@ -30,8 +30,3 @@ const mr = () => {
   mapWork.mr()
 }
 </script>
-<style scoped lang="less">
-.ant-space {
-  display: grid;
-}
-</style>

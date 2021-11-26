@@ -28,8 +28,3 @@ const show3 = () => {
   mapWork.show3()
 }
 </script>
-<style scoped lang="less">
-.ant-space {
-  display: grid;
-}
-</style>

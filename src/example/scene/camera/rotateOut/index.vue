@@ -22,8 +22,3 @@ const stopRotate = () => {
   mapWork.stopRotate()
 }
 </script>
-<style scoped lang="less">
-.ant-space {
-  display: grid;
-}
-</style>
