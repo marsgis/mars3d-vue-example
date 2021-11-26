@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue"
+import { nextTick, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import { getQueryString } from "@/utils/index"
 

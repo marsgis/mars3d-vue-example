@@ -44,10 +44,6 @@ function initMap(options) {
   })
   map.graphicLayer.addGraphic(graphicSXT)
 
-
-  // updateModel()
-
-
   // 创建矢量数据图层
   var graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)

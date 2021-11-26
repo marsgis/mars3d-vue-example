@@ -70,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue"
+import { defineComponent, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 
 export default defineComponent({

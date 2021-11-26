@@ -55,7 +55,6 @@ export default defineComponent({
 
    onMounted(() => {
       mapWork.updateModel(headingVal.value, pitchVal.value, rollVal.value)
-
    })
 
     const headingChange = () => {

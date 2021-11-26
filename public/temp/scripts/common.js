@@ -22,7 +22,9 @@ fetch(configUrl)
     // 重写initMap方法
     var initFunc = window.initMap
     window.initMap = function () {
-      initFunc(json.map3d)
+      if (initFunc) {
+        initFunc(json.map3d)
+      }
     }
     vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
   })

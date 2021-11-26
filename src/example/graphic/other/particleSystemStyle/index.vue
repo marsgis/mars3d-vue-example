@@ -61,7 +61,7 @@
   </PannelBox>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
 
@@ -92,10 +92,6 @@ const formState: UnwrapRef<FormState> = reactive({
   // slideMaxSpeed: 4.0,
   slideGravity: -11.0
 })
-onMounted(() => {
-  // mapWork.initParamView(formState)
-})
-
 const initParamView = () => {
   mapWork.initParamView(formState)
 }

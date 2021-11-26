@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import roamLinePanel from "@comp/MarsSample/RoamLinePanel.vue"
 import type { UnwrapRef } from "vue"

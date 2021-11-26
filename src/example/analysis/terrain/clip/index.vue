@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref } from "vue"
+import { nextTick, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
 
@@ -97,17 +97,13 @@ mapWork.eventTabel.on("loadOk", () => {
   window.$notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
 
   dataSource.value = mapWork.table
-  mapWork.eventTabel.on("tableObject", function (event: any) {
-    dataSource.value = []
-    nextTick(() => {
-      dataSource.value = event.table
-    })
+})
+mapWork.eventTabel.on("tableObject", function (event: any) {
+  dataSource.value = []
+  nextTick(() => {
+    dataSource.value = event.table
   })
 })
-
-// onMounted(() => {
-
-// })
 
 // 表格的操作
 const flyto = (record: any) => {

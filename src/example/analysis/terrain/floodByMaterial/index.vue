@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
 

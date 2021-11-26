@@ -40,7 +40,7 @@
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2021-11-01
  */
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 import { isLonLat } from "@/utils/index"
 
 const storageName = "mars3d_queryGaodePOI"

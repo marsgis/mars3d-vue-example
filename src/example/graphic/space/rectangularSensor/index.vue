@@ -37,34 +37,34 @@
             <a-form-item>
               <a-space>
                 <span class="pannel-item-label">方向</span>
-                <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{headingValue}}
+                <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
               </a-space>
             </a-form-item>
 
             <a-form-item>
               <a-space>
                 <span class="pannel-item-label">仰角</span>
-                <a-slider @change="pitchChange" v-model:value="pitchValue" :min="0" :max="360" :step="0.01" />当前值{{pitchValue}}
+                <a-slider @change="pitchChange" v-model:value="pitchValue" :min="0" :max="360" :step="0.01" />当前值{{ pitchValue }}
               </a-space>
             </a-form-item>
 
             <a-form-item>
               <a-space>
                 <span class="pannel-item-label">左右(roll)</span>
-                <a-slider @change="rollChange" v-model:value="rollValue" :min="0" :max="360" :step="0.01" />当前值{{rollValue}}
+                <a-slider @change="rollChange" v-model:value="rollValue" :min="0" :max="360" :step="0.01" />当前值{{ rollValue }}
               </a-space>
             </a-form-item>
 
             <a-form-item>
               <a-space>
                 <span class="pannel-item-label">上下夹角</span>
-                <a-slider @change="xHalfAngle" v-model:value="xValue" :min="0" :max="89" :step="0.01" />当前值{{xValue}}
+                <a-slider @change="xHalfAngle" v-model:value="xValue" :min="0" :max="89" :step="0.01" />当前值{{ xValue }}
               </a-space>
             </a-form-item>
             <a-form-item>
               <a-space>
                 <span class="pannel-item-label">左右夹角</span>
-                <a-slider @change="yHalfAngle" v-model:value="yValue" :min="0" :max="89" :step="0.01" />当前值{{yValue}}
+                <a-slider @change="yHalfAngle" v-model:value="yValue" :min="0" :max="89" :step="0.01" />当前值{{ yValue }}
               </a-space>
             </a-form-item>
 
@@ -79,7 +79,7 @@
       </a-form>
     </div>
   </PannelBox>
- <LocationTo/>
+  <LocationTo />
 </template>
 
 <script lang="ts">
@@ -122,7 +122,9 @@ export default defineComponent({
     const yValue = ref<number>(50) // y轴方向
 
     // 初始化加载模型
-    mapWork.addGraphic_01(headingValue.value, pitchValue.value, rollValue.value, radius.value, xValue.value, yValue.value)
+    mapWork.eventTarget.on("loadOk", () => {
+      mapWork.addGraphic_01(headingValue.value, pitchValue.value, rollValue.value, radius.value, xValue.value, yValue.value)
+    })
 
     const radiusChange = () => {
       // 半径发生改变
@@ -155,7 +157,7 @@ export default defineComponent({
     }
 
     const bindShowHide = () => {
-     mapWork.bindShowHide(formState.enabledShowHide)
+      mapWork.bindShowHide(formState.enabledShowHide)
     }
 
     // 图上标绘

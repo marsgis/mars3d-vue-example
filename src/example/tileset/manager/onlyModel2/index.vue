@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
@@ -35,9 +35,7 @@ mapWork.eventTarget.on("loadOk", () => {
     url.value = "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
   }
 
-  mapWork.eventTarget.on("beforeUI", function (event: any) {
-    setTimeout(mapWork.showModel(url.value, event.map), 1000)
-  })
+  setTimeout(mapWork.showModel(url.value), 1000)
 })
 const showModel = () => {
   mapWork.showModel(url.value)
