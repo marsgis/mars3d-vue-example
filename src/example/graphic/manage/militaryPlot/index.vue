@@ -80,42 +80,23 @@ export default defineComponent({
       mapWork.drawExtrudedPolygon(type)
     }
 
-    // 停止编辑
-    mapWork.graphicLayer.on(mapWork.mars3d.EventType.editStop, async (e: any) => {
+    // 开始编辑
+    mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+      const result = await editor.value.setValue(e.graphic)
+      if (result) {
+        editor.value.showEditor()
+      }
+    })
+    // 编辑修改了模型
+    mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+      const result = await editor.value.setValue(e.graphic)
+      if (result) {
+        editor.value.showEditor()
+      }
+    })
+    // 停止编辑修改模型
+    mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
       editor.value.hideEditor()
-    })
-
-    // 停止编辑
-    mapWork.graphicLayer.on(mapWork.mars3d.EventType.removeGraphic, async (e: any) => {
-      editor.value.hideEditor()
-    })
-
-    // 移动坐标点
-    mapWork.graphicLayer.on(mapWork.mars3d.EventType.editMovePoint, async (e: any) => {
-      if (isEditable.value) {
-        const result = await editor.value.setValue(e.graphic)
-        if (result) {
-          editor.value.showEditor()
-        }
-      }
-    })
-
-    mapWork.graphicLayer.on(mapWork.mars3d.EventType.editStart, async (e: any) => {
-      if (isEditable.value) {
-        const result = await editor.value.setValue(e.graphic)
-        if (result) {
-          editor.value.showEditor()
-        }
-      }
-    })
-
-    mapWork.graphicLayer.on(mapWork.mars3d.EventType.editRemovePoint, async (e: any) => {
-      if (isEditable.value) {
-        const result = await editor.value.setValue(e.graphic)
-        if (result) {
-          editor.value.showEditor()
-        }
-      }
     })
 
     return {

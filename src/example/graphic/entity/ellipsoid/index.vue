@@ -41,29 +41,21 @@ const btnDrawModel = () => {
 
 // 属性面板
 const editor = ref()
-mapWork.graphicLayer.on(mapWork.mars3d.EventType.drawCreated, async (e: any) => {
+mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.graphicLayer.on(
-  [
-    mapWork.mars3d.EventType.editStart,
-    mapWork.mars3d.EventType.editMovePoint,
-    mapWork.mars3d.EventType.editStyle,
-    mapWork.mars3d.EventType.editRemovePoint
-  ],
-  async (e: any) => {
-    const result = await editor.value.setValue(e.graphic)
-    if (result) {
-      editor.value.showEditor()
-    }
+mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+  const result = await editor.value.setValue(e.graphic)
+  if (result) {
+    editor.value.showEditor()
   }
-)
+})
 // 停止编辑修改模型
-mapWork.graphicLayer.on([mapWork.mars3d.EventType.editStop, mapWork.mars3d.EventType.removeGraphic], async (e: any) => {
+mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 </script>

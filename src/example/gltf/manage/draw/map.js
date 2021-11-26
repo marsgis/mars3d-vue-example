@@ -1,5 +1,7 @@
 var map
 var graphicLayer
+var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -14,7 +16,6 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
@@ -23,6 +24,22 @@ function initMap(options) {
     isAutoEditing: true // 绘制完成后是否自动激活编辑
   })
   map.addLayer(graphicLayer)
+
+  // 触发自定义事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
+  })
 }
 
 function deleteAll() {

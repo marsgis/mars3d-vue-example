@@ -14,6 +14,3 @@ const btnSelPoint = () => {
   mapWork.btnSelPoint()
 }
 </script>
-<style scoped lang="less">
-
-</style>

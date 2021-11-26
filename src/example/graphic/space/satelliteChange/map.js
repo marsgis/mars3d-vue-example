@@ -1,6 +1,7 @@
 var map
 var drawGraphic
 var graphicLayer
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -77,6 +78,42 @@ function initMap(options) {
       })
     }
   }, 3000)
+
+  // 位置变化事件
+  graphicLayer.on(mars3d.EventType.change, function (event) {
+    // 判断卫星是否在面内
+    const weixin = event.graphic
+    if (!drawGraphic) {
+      weixin._lastInPoly = false
+      weixin.coneShow = false // 关闭视锥体
+      return
+    }
+
+    var position = weixin.position
+    if (!position) {
+      return
+    }
+    var openVideo = false
+    var thisIsInPoly = drawGraphic.isInPoly(position)
+    if (thisIsInPoly !== weixin._lastInPoly) {
+      if (thisIsInPoly) {
+        // 开始进入区域内
+        console.log(weixin.name + "开始进入区域内")
+
+        weixin.coneShow = true // 打开视锥体
+        openVideo = true // 打开视频面板
+      } else {
+        // 离开区域
+        console.log(weixin.name + "离开区域")
+
+        weixin.coneShow = false // 关闭视锥体
+        openVideo = false // 关闭视频面板
+      }
+
+      eventTarget.fire("video", { openVideo })
+      weixin._lastInPoly = thisIsInPoly
+    }
+  })
 }
 
 // 框选查询 矩形

@@ -1,6 +1,7 @@
 var map
 var graphicLayerEdit
 var geoJsonLayerDTH
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -66,6 +67,22 @@ function initMap(options) {
   })
   map.addLayer(graphicLayerEdit)
 
+  // 触发自定义事件
+  graphicLayerEdit.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayerEdit.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayerEdit.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
+  })
+
   queryDthData()
 }
 // 加载数据
@@ -88,7 +105,6 @@ function toYLMS() {
 
   graphicLayerEdit.hasEdit = false
   graphicLayerEdit.show = false
-  console.log(graphicLayerEdit)
 }
 
 // 切换到编辑模式

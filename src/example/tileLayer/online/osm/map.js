@@ -1,6 +1,8 @@
+var map
+var eventTarget = new mars3d.BaseClass()
 function initMap() {
   // 创建三维地球场景
-  var map = new mars3d.Map("mars3dContainer", {
+  map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 25.816726, lng: 114.165359, alt: 3339610, heading: 356, pitch: -81 },
       highDynamicRange: false
@@ -26,4 +28,5 @@ function initMap() {
       }
     ]
   })
+  eventTarget.fire("mapLoaded")
 }

@@ -1,7 +1,7 @@
-
 var map
 var graphicLayer
 var textMaterialProperty
+var eventTarget = new mars3d.BaseClass()
 
 var rotation = 0
 function getRotationValue() {
@@ -44,13 +44,27 @@ function initMap(options) {
     strokeColor: new Cesium.Color(1.0, 1.0, 1.0, 0.8)
   })
 
-
-
   // 加一些演示数据
   addGraphic_01(graphicLayer)
   addGraphic_02(graphicLayer)
   addGraphic_03(graphicLayer)
   addGraphic_04(graphicLayer)
+
+  // 触发自定义事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
+  })
 }
 
 // wall文字 entity方式

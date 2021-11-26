@@ -106,10 +106,10 @@ const globalProperties = getCurrentInstance()!.appContext.config.globalPropertie
 
 const mapWork = window.mapWork || {}
 
-const editor = ref()
-
 onMounted(() => {
-  bindLayerContextMenu(mapWork.graphicLayer)
+  mapWork.eventTarget.on("beforeUI", function (event: any) {
+    bindLayerContextMenu(event.graphicLayer)
+  })
 })
 
 // 显示隐藏
@@ -149,9 +149,9 @@ const showTooltip = () => {
 }
 
 // 是否绑定右键菜单
-const contextMenuShow = ref(true)
+const contextMenuShow = ref(false)
 const showContextMenu = () => {
-  if (tooltipShow.value) {
+  if (contextMenuShow.value) {
     bindLayerContextMenu(mapWork.graphicLayer)
   } else {
     mapWork.graphicLayer.unbindContextMenu(true)
@@ -327,7 +327,6 @@ const saveGeoJSON = () => {
 }
 
 // 打开GeoJSON
-
 const openGeoJSON = (info: FileInfo) => {
   const item = info.file
   const fileName = item.name
@@ -402,33 +401,23 @@ function toWKT() {
   return arrWKT
 }
 
-// 开始编辑
-mapWork.graphicLayer.on(mapWork.mars3d.EventType.editStart, async (e: any) => {
-  if (isEditable.value) {
-    const result = await editor.value.setValue(e.graphic)
-    if (result) {
-      editor.value.showEditor()
-    }
+// 属性面板
+const editor = ref()
+mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+  const result = await editor.value.setValue(e.graphic)
+  if (result) {
+    editor.value.showEditor()
   }
 })
-
-// 停止编辑
-mapWork.graphicLayer.on(mapWork.mars3d.EventType.editStop, async (e: any) => {
-  editor.value.hideEditor()
-})
-
-// 移动坐标点
-mapWork.graphicLayer.on(mapWork.mars3d.EventType.editMovePoint, async (e: any) => {
-  if (isEditable.value) {
-    const result = await editor.value.setValue(e.graphic)
-    if (result) {
-      editor.value.showEditor()
-    }
+// 编辑修改了模型
+mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+  const result = await editor.value.setValue(e.graphic)
+  if (result) {
+    editor.value.showEditor()
   }
 })
-
-// 删除对象
-mapWork.graphicLayer.on(mapWork.mars3d.EventType.removeGraphic, async (e: any) => {
+// 停止编辑修改模型
+mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 

@@ -100,8 +100,7 @@ const pagination = {
   showSizeChanger: false,
   showLessItems: true
 }
-
-onMounted(() => {
+mapWork.eventTarget.on("mapLoaded", () => {
   mapWork.map.on(mapWork.mars3d.EventType.cameraChanged, onMapCameraChanged)
 
   mapWork.map.addLayer(graphicLayer)

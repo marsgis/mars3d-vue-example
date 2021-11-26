@@ -1,4 +1,5 @@
 var map
+var eventTarget = new mars3d.BaseClass()
 function initMap() {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", {
@@ -36,6 +37,7 @@ function initMap() {
       }
     ]
   })
+  eventTarget.fire("mapLoaded")
 
   // poi查询栏
   // activatePOIQuery(map)

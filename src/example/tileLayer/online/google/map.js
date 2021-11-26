@@ -1,7 +1,6 @@
 var map
+var eventTarget = new mars3d.BaseClass()
 function initMap() {
-
-
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", {
     scene: {
@@ -60,12 +59,14 @@ function initMap() {
       }
     ]
   })
+  eventTarget.fire("mapLoaded")
 
-
-  globalNotify("已知问题：",
-  `(1)按国家测绘主管部门的通知,
+  globalNotify(
+    "已知问题：",
+    `(1)按国家测绘主管部门的通知,
   目前国家相关部门对未经审核批准的谷歌等地图做了封锁及下架，
-  目前谷歌地图服务暂不可用`)
+  目前谷歌地图服务暂不可用`
+  )
 }
 
 // 叠加的图层

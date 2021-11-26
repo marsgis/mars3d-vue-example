@@ -13,7 +13,7 @@ export default function (app: App): void {
       return new Promise((resolve, reject) => {
         notification.config({
           placement: "bottomRight",
-          duration: null
+          duration: undefined
         })
         const func = notification[type] as (a: any) => any
         func({

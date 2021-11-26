@@ -1,5 +1,6 @@
 var map
 var graphicLayer
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -18,17 +19,14 @@ function initMap(options) {
   })
   map.addLayer(graphicLayer)
 
+  eventTarget.fire("beforeUI", { graphicLayer })
+
   // 自定义提示
   // mars3d.Lang["_单击开始绘制"][0] = "新的提示内容";
   // mars3d.Lang["_单击增加点右击删除点"][0] = "新的提示内容";
   // mars3d.Lang["_双击完成绘制"][0] = "";
 
-  // 图层管理的相关处理，代码在\js\graphicManager.js
-  // window.initLayerManager(graphicLayer)
-
-  // graphicLayer.unbindPopup()
-
-  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
+  /* // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
   graphicLayer.on(mars3d.EventType.drawStart, function (e) {
     console.log("开始绘制", e)
   })
@@ -56,6 +54,21 @@ function initMap(options) {
   })
   graphicLayer.on(mars3d.EventType.removeGraphic, function (e) {
     console.log("删除了对象", e)
+  }) */
+  // 触发自定义事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
   })
 
   queryDrawData()

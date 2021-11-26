@@ -1,8 +1,9 @@
 var map
 var graphicLayer
 var gltfListObj
-let gltfItemObj
+var gltfItemObj
 var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -28,6 +29,22 @@ function initMap(options) {
   var globe = map.scene.globe
 
   queryModelListData()
+
+  // 触发自定义事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
+  })
 }
 
 function chkTestTerrain(val) {
@@ -43,9 +60,7 @@ function queryModelListData() {
   const configUrl = "//data.mars3d.cn/gltf/list.json"
   mars3d.Resource.fetchJson({ url: configUrl })
     .then(function (data) {
-      // setTimeout(() => {
       eventTarget.fire("loadOk", { data })
-      // }, 2000)
     })
     .otherwise(function (error) {
       console.log("加载JSON出错", error)

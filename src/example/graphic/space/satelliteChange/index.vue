@@ -13,14 +13,14 @@
   </PannelBox>
 
   <!-- 视频 面板 -->
-  <div id="videoView" class="videoWrap" v-show="formState.openVideo == true">
+  <div class="videoWrap" v-show="formState.openVideo == true">
     <div class="openPanel" v-show="formState.openPannel === true">
       <div class="closeAction" @click="closePannel">&lt; 收缩</div>
-      <video id="trailer" class="video" width="420" :muted="true" :autoplay="true">
+      <video width="420" :muted="true" :autoplay="true">
         <source src="//data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
       </video>
     </div>
-    <div class="closePannel" v-show="formState.openPannel === false">
+    <div v-show="formState.openPannel === false">
       <mars-button @click="openPanel">查看视频</mars-button>
     </div>
   </div>
@@ -36,7 +36,7 @@ const mapWork = window.mapWork || {}
 
 interface FormState {
   openVideo: boolean
-  openPannel:boolean
+  openPannel: boolean
 }
 const formState: UnwrapRef<FormState> = reactive({
   openVideo: false,
@@ -44,40 +44,8 @@ const formState: UnwrapRef<FormState> = reactive({
 })
 
 onMounted(() => {
-  mapWork.graphicLayer.on(mapWork.mars3d.EventType.change, function (event:any) {
-    // 位置变化事件
-    // 判断卫星是否在面内
-    const weixin = event.graphic
-    if (!mapWork.drawGraphic) {
-    weixin._lastInPoly = false
-    weixin.coneShow = false // 关闭视锥体
-    formState.openVideo = false // 关闭视频面板
-    return
-  }
-
-  var position = weixin.position
-  if (!position) {
-    return
-  }
-
-  var thisIsInPoly = mapWork.drawGraphic.isInPoly(position)
-  if (thisIsInPoly !== weixin._lastInPoly) {
-    if (thisIsInPoly) {
-      // 开始进入区域内
-      console.log(weixin.name + "开始进入区域内")
-
-      weixin.coneShow = true // 打开视锥体
-      formState.openVideo = true // 打开视频面板
-    } else {
-      // 离开区域
-      console.log(weixin.name + "离开区域")
-
-      weixin.coneShow = false // 关闭视锥体
-    formState.openVideo = false // 关闭视频面板
-    }
-
-    weixin._lastInPoly = thisIsInPoly
-  }
+  mapWork.eventTarget.on("video", function (e: any) {
+    formState.openVideo = e.openVideo
   })
 })
 
@@ -110,8 +78,8 @@ const closePannel = () => {
 <style scoped lang="less">
 .videoWrap {
   position: absolute;
-  bottom: 45px;
-  left: 2px;
+  bottom: 110px;
+  left: 52px;
   border: 1px solid gray;
   z-index: 9;
   background-color: #3f4854;

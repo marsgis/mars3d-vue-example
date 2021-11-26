@@ -1,6 +1,6 @@
-
 var map
 var graphicLayer
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -13,7 +13,6 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -21,19 +20,6 @@ function initMap(options) {
   // 图层管理的相关处理，代码在\js\graphicManager.js
   // eslint-disable-next-line no-undef
   initLayerManager(graphicLayer)
-
-  // 新增绘制
-  // $("#btnStartDraw").click(function () {
-  //   // 开始绘制
-  //   graphicLayer.startDraw({
-  //     type: "ellipsoid",
-  //     style: {
-  //       fill: true,
-  //       color: "#00ff00",
-  //       opacity: 0.6
-  //     }
-  //   })
-  // })
 
   // 加一些演示数据
   addGraphic_01(graphicLayer)
@@ -50,6 +36,22 @@ function initMap(options) {
   addGraphic_12(graphicLayer)
   addGraphic_13(graphicLayer)
   addGraphic_14(graphicLayer)
+
+  // 触发自定义事件
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    const graphic = e.graphic
+    eventTarget.fire("editorUI-draw", { graphic })
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      const graphic = e.graphic
+      eventTarget.fire("editorUI-SMR", { graphic })
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("editorUI-stop")
+  })
 }
 
 // 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
@@ -121,7 +123,6 @@ function centerAtModel() {
     map.addLayer(modelTest)
   }
 }
-
 
 //
 function addGraphic_01(graphicLayer) {

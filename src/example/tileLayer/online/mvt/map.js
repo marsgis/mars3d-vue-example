@@ -1,4 +1,5 @@
 var map
+var eventTarget = new mars3d.BaseClass()
 function initMap() {
 
   // 创建三维地球场景
@@ -34,6 +35,7 @@ function initMap() {
       }
     ]
   })
+  eventTarget.fire("mapLoaded")
   // 另外的实现方式可以参考：https://github.com/robbo1975/MapboxVectorTileImageryProvider
 
 }

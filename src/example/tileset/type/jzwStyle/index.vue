@@ -61,7 +61,7 @@ const formState: UnwrapRef<FormState> = reactive({
 // 透明度
 const alphaVal = ref<number>(1.5)
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   mapWork.addbrightnessEffect(alphaVal.value)
 })
 

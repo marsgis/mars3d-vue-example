@@ -2,6 +2,8 @@ var map
 var tiles3dLayer
 var brightnessEffect
 var bloomEffect
+var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -54,12 +56,12 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   map.basemap = 2017 // 切换到蓝色底图
 
   map.scene.light = new Cesium.DirectionalLight({
     direction: map.scene.camera.direction
   })
+
   map.on(mars3d.EventType.cameraMoveEnd, function (event) {
     map.scene.light.direction = map.scene.camera.direction
   })
@@ -70,6 +72,8 @@ function initMap(options) {
   map.addEffect(bloomEffect)
 
   setStyle2()
+
+  eventTarget.fire("loadOk")
 }
 
 function addbrightnessEffect(brightness) {
