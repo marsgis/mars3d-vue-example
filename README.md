@@ -38,16 +38,24 @@ npm run serve
 npm run build
 ```
 
-## 代码目录说明
-
-example 示例的所有代码目录
 
 
+### 下载最新lib
+建议从[http://mars3d.cn/download](http://mars3d.cn/download)下载最新mars3d类库后覆盖至`public/lib/`目录下即可。
 
-## 新增或编辑示例
 
+
+
+
+## 运行效果  
+ [在线体验](http://mars3d.cn/example)  
+
+ ![image](http://mars3d.cn/img/example.jpg)
+ 
+ 
+
+## 新增或编辑示例说明
  请查阅 [Example.md](Example.md) 
-
 
 
 ## 示例使用到的技术栈
