@@ -95,7 +95,7 @@ if (isLocal) {
     kriging: ["kriging/kriging.min.js"],
     three: ["three/three.js"],
     olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
-    hls: ["video/hls/hls.js", "video/hls/hls.js.map"],
+    hls: ["video/hls/hls.js"],
     datgui: ["datgui/dat.gui.min.js"]
   }
 } else {

@@ -2,25 +2,14 @@
   <PannelBox class="infoView">
     <a-form>
       <a-form-item label="卫星张角:">
-        <a-slider
-          @change="changeAngle"
-          v-model:value="formState.slideAngle"
-          :min="1" :max="70" :step="1" />
+        <a-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
       </a-form-item>
 
       <a-form-item label="开始时间:">
-        <mars-date-picker
-          v-model:value="startTime"
-          format="YYYY-MM-DD HH:mm:ss"
-          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-        />
+        <mars-date-picker v-model:value="startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
       <a-form-item label="结束时间:">
-        <mars-date-picker
-          v-model:value="endTime"
-          format="YYYY-MM-DD HH:mm:ss"
-          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-        />
+        <mars-date-picker v-model:value="endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
 
       <a-form-item label="区域颜色:">
@@ -38,37 +27,28 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item >
-        <a-checkbox
-          v-model:checked="formState.guidaoS"
-          @change="changeGuidaoS"
-          >升轨</a-checkbox
-        >
-        <a-checkbox
-          v-model:checked="formState.guidaoJ"
-          @change="changeGuidaoJ"
-          >降轨</a-checkbox
-        >
+      <a-form-item>
+        <a-checkbox v-model:checked="formState.guidaoS" @change="changeGuidaoS">升轨</a-checkbox>
+        <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
       </a-form-item>
     </a-form>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
+import { onMounted, reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import type { UnwrapRef } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 
-
 interface FormState {
-  slideAngle:number
-  slideOpacity:number
+  slideAngle: number
+  slideOpacity: number
   startTime: Dayjs | null
   endTime: Dayjs | null
   areaColor: string
-  guidaoS:boolean
-  guidaoJ:boolean
+  guidaoS: boolean
+  guidaoJ: boolean
 }
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
@@ -84,8 +64,12 @@ const formState: UnwrapRef<FormState> = reactive({
   guidaoJ: true
 })
 
-const startTime = ref<Dayjs>(dayjs(mapWork.weixinData.startTime, "YYYY-MM-DD HH:mm:ss"))
-const endTime = ref<Dayjs>(dayjs(mapWork.weixinData.endTime, "YYYY-MM-DD HH:mm:ss"))
+const startTime = ref()
+const endTime = ref()
+mapWork.eventTarget.on("loadOK", (event: any) => {
+  startTime.value = dayjs(event.startTime, "YYYY-MM-DD HH:mm:ss")
+  endTime.value = dayjs(event.endTime, "YYYY-MM-DD HH:mm:ss")
+})
 
 const changeAngle = () => {
   mapWork.changeAngle(formState.slideAngle)

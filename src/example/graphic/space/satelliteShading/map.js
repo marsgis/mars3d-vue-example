@@ -1,6 +1,6 @@
 var map
 var graphicLayer
-var weixinData = {}
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -110,10 +110,12 @@ function initMap(options) {
   }, 1000)
 
   var now = Cesium.JulianDate.toDate(map.clock.currentTime)
-  weixinData.startTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
+  const startTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
 
   now.setMinutes(now.getMinutes() + 60)
-  weixinData.endTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
+  const endTime = mars3d.Util.formatDate(now, "yyyy-MM-dd HH:mm:ss")
+
+  eventTarget.fire("loadOK", { startTime, endTime })
 }
 
 function btnAdd(data, bt, et) {
