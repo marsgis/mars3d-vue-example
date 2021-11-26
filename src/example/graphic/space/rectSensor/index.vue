@@ -1,60 +1,60 @@
 <template>
   <PannelBox class="infoView">
-      <a-form>
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">四棱锥体:</span>
-            <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
-          </a-space>
-        </a-form-item>
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">长度:</span>
-            <mars-input-number @change="sensorLength" v-model:value="lengthValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
-          </a-space>
-        </a-form-item>
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">方向角:</span>
-            <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
-          </a-space>
-        </a-form-item>
+    <a-form>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">四棱锥体:</span>
+          <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+        </a-space>
+      </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">长度:</span>
+          <mars-input-number @change="sensorLength" v-model:value="lengthValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
+        </a-space>
+      </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">方向角:</span>
+          <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
+        </a-space>
+      </a-form-item>
 
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">俯仰角:</span>
-            <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />当前值{{ pitchValue }}
-          </a-space>
-        </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">俯仰角:</span>
+          <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />当前值{{ pitchValue }}
+        </a-space>
+      </a-form-item>
 
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">左右角:</span>
-            <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />当前值{{ rollValue }}
-          </a-space>
-        </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">左右角:</span>
+          <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />当前值{{ rollValue }}
+        </a-space>
+      </a-form-item>
 
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">夹角1:</span>
-            <a-slider @change="angle1" v-model:value="angleValue1" :min="0.1" :max="89" :step="0.01" />当前值{{ angleValue1 }}
-          </a-space>
-        </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">夹角1:</span>
+          <a-slider @change="angle1" v-model:value="angleValue1" :min="0.1" :max="89" :step="0.01" />当前值{{ angleValue1 }}
+        </a-space>
+      </a-form-item>
 
-         <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">夹角2:</span>
-            <a-slider @change="angle2" v-model:value="angleValue2" :min="0.1" :max="89" :step="0.01" />当前值{{ angleValue2 }}
-          </a-space>
-        </a-form-item>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">夹角2:</span>
+          <a-slider @change="angle2" v-model:value="angleValue2" :min="0.1" :max="89" :step="0.01" />当前值{{ angleValue2 }}
+        </a-space>
+      </a-form-item>
 
-        <a-form-item>
-          <a-space>
-            <span class="pannel-item-label">顶盖:</span>
-            <a-checkbox @change="sensorTop" v-model:checked="formState.enabledShowModelTop">是否显示</a-checkbox>
-          </a-space>
-        </a-form-item>
-      </a-form>
+      <a-form-item>
+        <a-space>
+          <span class="pannel-item-label">顶盖:</span>
+          <a-checkbox @change="sensorTop" v-model:checked="formState.enabledShowModelTop">是否显示</a-checkbox>
+        </a-space>
+      </a-form-item>
+    </a-form>
   </PannelBox>
 </template>
 
@@ -80,7 +80,6 @@ export default defineComponent({
     const angleValue1 = ref<number>(30)
     const angleValue2 = ref<number>(30)
 
-
     // 长度（米）
     const lengthValue = ref<number>(700000)
 
@@ -95,7 +94,9 @@ export default defineComponent({
       enabledShowModelTop: true
     })
 
-    mapWork.addConicSensor(headingValue.value, pitchValue.value, rollValue.value, angleValue1.value, angleValue2.value, lengthValue.value)
+    mapWork.eventTarget.on("loadOk", () => {
+      mapWork.addConicSensor(headingValue.value, pitchValue.value, rollValue.value, angleValue1.value, angleValue2.value, lengthValue.value)
+    })
 
     // 显示/隐藏
     const sensorShowHide = () => {
@@ -125,7 +126,7 @@ export default defineComponent({
     const angle1 = () => {
       mapWork.angle1(angleValue1.value)
     }
-     const angle2 = () => {
+    const angle2 = () => {
       mapWork.angle2(angleValue2.value)
     }
 

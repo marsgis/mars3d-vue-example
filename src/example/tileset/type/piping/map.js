@@ -1,6 +1,7 @@
 var map
 var underground
 var terrainPlanClip
+var eventTarget = new mars3d.BaseClass()
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -29,6 +30,7 @@ function initMap(options) {
     center: { lat: 31.838081, lng: 117.216584, alt: 406, heading: 1, pitch: -34 }
   })
   map.addLayer(tiles3dLayer)
+  eventTarget.fire("loadOk")
 }
 
 function centerAtDX1() {

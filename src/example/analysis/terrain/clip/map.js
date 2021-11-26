@@ -1,8 +1,6 @@
-
 var map
 var terrainClip
 var eventTabel = new mars3d.BaseClass()
-
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -22,7 +20,7 @@ function initMap(options) {
   })
   map.addThing(terrainClip)
 
-  const areaItem = terrainClip.addArea(
+  var areaItem = terrainClip.addArea(
     [
       [116.334222, 30.899171, 645.46],
       [116.370874, 30.899171, 645.46],
@@ -33,7 +31,7 @@ function initMap(options) {
   )
   addTableItem(areaItem)
 
-  const areaItem2 = terrainClip.addArea(
+  var areaItem2 = terrainClip.addArea(
     [
       [116.416497, 30.934256, 775.89],
       [116.427392, 30.962941, 1084.88],
@@ -50,6 +48,7 @@ function initMap(options) {
   )
   addTableItem(areaItem2)
 
+  eventTabel.fire("isloadOK")
 }
 
 // 添加矩形
@@ -115,7 +114,6 @@ function chkUnionClippingRegions(val) {
 function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
-
 
 var table = []
 // 区域表格添加一行记录

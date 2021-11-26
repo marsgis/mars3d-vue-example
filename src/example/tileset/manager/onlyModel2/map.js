@@ -1,6 +1,10 @@
-
 var map
+<<<<<<< HEAD
 let tiles3dLayer
+=======
+var tiles3dLayer
+>>>>>>> 86b4022b6652376cda75427d6e48140679fc24b2
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -39,6 +43,12 @@ function initMap(options) {
   a.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
   a.style.backgroundRepeat = "no-repeat"
   a.style.backgroundSize = "100%"
+<<<<<<< HEAD
+  eventTarget.fire("loadOk")
+=======
+
+  eventTarget.fire("beforeUI", { map })
+>>>>>>> 86b4022b6652376cda75427d6e48140679fc24b2
 }
 
 function removeLayer() {

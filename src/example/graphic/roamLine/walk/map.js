@@ -2,6 +2,7 @@ var map
 var roamLine
 var roamLineData = {}
 var lblAllData = {}
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -80,6 +81,7 @@ function initMap(options) {
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息
     showRealTimeInfo(event, roamLine.alltimes)
+    eventTarget.fire("roamLineChange")
   })
 
   roamLine.bindPopup(

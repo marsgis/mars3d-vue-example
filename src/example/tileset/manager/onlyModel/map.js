@@ -1,6 +1,10 @@
-
 var map
+<<<<<<< HEAD
 let tiles3dLayer
+=======
+var tiles3dLayer
+>>>>>>> 86b4022b6652376cda75427d6e48140679fc24b2
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -41,6 +45,12 @@ function initMap(options) {
 
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
+<<<<<<< HEAD
+  eventTarget.fire("loadOk")
+=======
+
+  eventTarget.fire("beforeUI", { map })
+>>>>>>> 86b4022b6652376cda75427d6e48140679fc24b2
 }
 
 function changeColor(color) {
@@ -66,7 +76,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(_url) {
+function showModel(_url, map) {
   removeLayer()
   if (!_url) {
     return

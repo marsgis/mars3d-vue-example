@@ -78,17 +78,14 @@ export default defineComponent({
       td_wd: 0,
       td_gd: 0
     })
-
-    onMounted(() => {
-      mapWork.weixin.on("change", () => {
-        formState.name = mapWork.weixinData.name
-        formState.tle1 = mapWork.weixinData.tle1
-        formState.tle2 = mapWork.weixinData.tle2
-        formState.time = mapWork.weixinData.time
-        formState.td_jd = mapWork.weixinData.td_jd
-        formState.td_wd = mapWork.weixinData.td_wd
-        formState.td_gd = mapWork.weixinData.td_gd
-      })
+    mapWork.eventTarget.on("loadOK", () => {
+      formState.name = mapWork.weixinData.name
+      formState.tle1 = mapWork.weixinData.tle1
+      formState.tle2 = mapWork.weixinData.tle2
+      formState.time = mapWork.weixinData.time
+      formState.td_jd = mapWork.weixinData.td_jd
+      formState.td_wd = mapWork.weixinData.td_wd
+      formState.td_gd = mapWork.weixinData.td_gd
     })
 
     // 定位至卫星
@@ -136,10 +133,10 @@ td.column-money {
   padding: 5px 20px 5px 10px;
 }
 .tb-border {
-  border: 1px solid #4db3ff70
+  border: 1px solid #4db3ff70;
 }
 
 .tb-border tr td {
-  border: 1px solid #4db3ff70
+  border: 1px solid #4db3ff70;
 }
 </style>

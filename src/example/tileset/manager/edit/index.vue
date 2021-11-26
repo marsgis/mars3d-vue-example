@@ -150,7 +150,7 @@ const axisOptions = [
 
 const labelCol = { style: { width: "100px" } }
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   // 初始化界面
   mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
     const tileset = event.data

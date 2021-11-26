@@ -70,7 +70,7 @@
     </a-form>
   </PannelBox>
 
-  <roamLinePanel/>
+  <roamLinePanel />
 </template>
 
 <script setup lang="ts">
@@ -112,8 +112,7 @@ const formState: UnwrapRef<FormState> = reactive({
   slidePitchStep: 0,
   slideRollStep: 0
 })
-
-onMounted(() => {
+mapWork.eventTarget.on("loadOK", () => {
   formState.select = mapWork.changeLineData.select
   formState.followedX = mapWork.changeLineData.followedX
   formState.followedZ = mapWork.changeLineData.followedZ
@@ -208,10 +207,11 @@ const updateModel = () => {
 </script>
 
 <style scoped lang="less">
-.roamLinePanel{
+.roamLinePanel {
   width: 290px;
 }
-.ant-form-item .ant-select,.ant-input-number{
+.ant-form-item .ant-select,
+.ant-input-number {
   width: 120px;
 }
 </style>

@@ -1,7 +1,7 @@
-
 var map
 var queryMapserver
 var geoJsonLayer
+var eventTarget = new mars3d.BaseClass()
 
 var drawGraphic
 var $table
@@ -57,7 +57,10 @@ function initMap(options) {
   })
   map.addLayer(geoJsonLayer)
 
-
+  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+    const list = event.list
+    eventTarget.fire("befortUI", { list })
+  })
 }
 
 // 框选查询 矩形

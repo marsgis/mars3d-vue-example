@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView  manager-pannel" v-auto-height="100">
+  <PannelBox class="infoView manager-pannel" v-auto-height="100">
     <a-tree
       checkable
       :show-line="true"
@@ -19,6 +19,9 @@
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import { onMounted, ref } from "vue"
 
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
+
 const treeData = ref<any[]>([])
 
 const expandedKeys = ref<string[]>([])
@@ -27,7 +30,7 @@ const checkedKeys = ref<string[]>([])
 
 const layersObj: any = {}
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOK", () => {
   initTree()
 })
 
@@ -72,8 +75,6 @@ function initTree() {
       expandedKeys.value.push(node.key)
     }
   }
-
-  console.log(treeData)
 }
 
 function findChild(parent: any, list: any[]) {
@@ -92,7 +93,6 @@ function findChild(parent: any, list: any[]) {
         if (item.hasChildLayer) {
           node.children = findChild(node, list)
         }
-        console.log(item.isAdded && item.show)
         if (item.isAdded && item.show) {
           checkedKeys.value.push(node.key)
         }

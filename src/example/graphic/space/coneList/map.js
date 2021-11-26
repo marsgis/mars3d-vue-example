@@ -1,6 +1,8 @@
 var map
 var weixinData = {}
 var weixin
+var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -110,6 +112,7 @@ function initMap(options) {
       weixinData.td_gd = formatLength(point.alt)
     }
   })
+  eventTarget.fire("loadOK")
 }
 
 // 定位至卫星

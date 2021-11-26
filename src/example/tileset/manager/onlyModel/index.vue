@@ -25,7 +25,7 @@ const mapWork = window.mapWork || {}
 const url = ref<any>()
 const color = ref("#363635")
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   // 历史记录模型地址
   const modelUrl = localStorage.getItem("onlyModel")
   if (modelUrl) {
@@ -33,8 +33,9 @@ onMounted(() => {
   } else {
     url.value = "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
   }
-
-  setTimeout(mapWork.showModel(url.value), 1000)
+  mapWork.eventTarget.on("beforeUI", function (event: any) {
+    setTimeout(mapWork.showModel(url.value, event.map), 1000)
+  })
 })
 const changeColor = () => {
   mapWork.changeColor(color.value)

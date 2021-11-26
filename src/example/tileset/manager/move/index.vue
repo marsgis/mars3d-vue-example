@@ -63,7 +63,7 @@ const enableHasTerrain = ref<boolean>(false)
 
 const enableTestTerrain = ref<boolean>(false)
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   // url传入模型地址
   const modelUrl = localStorage.getItem("3dtiles_move")
   if (modelUrl) {

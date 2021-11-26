@@ -70,103 +70,76 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue"
+<script lang="ts" setup>
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 
-export default defineComponent({
-  components: {
-    PannelBox
-  },
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
 
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
+const outerRadius = ref<number>(2000) // 外
 
-    const outerRadius = ref<number>(2000) // 外
+const innerRadius = ref<number>(500) // 内
 
-    const innerRadius = ref<number>(500) // 内
+const headingValue = ref<number>(0) // 方向
 
-    const headingValue = ref<number>(0) // 方向
+const pitchValue = ref<number>(0) // 仰角
 
-    const pitchValue = ref<number>(0) // 仰角
+const rollValue = ref<number>(0) // 左右
 
-    const rollValue = ref<number>(0) // 左右
+const startFovH = ref<number>(180) //
 
-    const startFovH = ref<number>(180) //
+const endFovH = ref<number>(-180) //
 
-    const endFovH = ref<number>(-180) //
+const startFovV = ref<number>(0)
 
-    const startFovV = ref<number>(0)
+const endFovV = ref<number>(90)
 
-    const endFovV = ref<number>(90)
-
-    mapWork.getViewConfig(
-      headingValue.value,
-      pitchValue.value,
-      rollValue.value,
-      outerRadius.value,
-      innerRadius.value,
-      startFovH.value,
-      endFovH.value,
-      startFovV.value,
-      endFovV.value
-    )
-
-    const headingChange = () => {
-      // 方向发生改变
-      mapWork.headingChange(headingValue.value)
-    }
-    const pitchChange = () => {
-      // 仰角发生改变
-      mapWork.pitchChange(pitchValue.value)
-    }
-    // roll发生改变
-
-    const rollChange = () => {
-      mapWork.rollChange(rollValue.value)
-    }
-    const outerRadiusChange = () => {
-      mapWork.outerRadiusChange(outerRadius.value)
-    }
-    const innerRadiusChange = () => {
-      mapWork.innerRadiusChange(innerRadius.value)
-    }
-    const startFovHChange = () => {
-      mapWork.startFovHChange(startFovH.value)
-    }
-    const endFovHChange = () => {
-      mapWork.endFovHChange(endFovH.value)
-    }
-    const startFovVChange = () => {
-      mapWork.startFovVChange(startFovV.value)
-    }
-    const endFovVChange = () => {
-      mapWork.endFovVChange(endFovV.value)
-    }
-
-    return {
-      headingValue,
-      pitchValue,
-      rollValue,
-      startFovH,
-      endFovH,
-      startFovV,
-      endFovV,
-      headingChange,
-      pitchChange,
-      rollChange,
-      outerRadiusChange,
-      innerRadiusChange,
-      startFovHChange,
-      endFovHChange,
-      startFovVChange,
-      endFovVChange,
-      innerRadius,
-      outerRadius
-    }
-  }
+mapWork.eventTarget.on("loadOk", () => {
+  mapWork.getViewConfig(
+    headingValue.value,
+    pitchValue.value,
+    rollValue.value,
+    outerRadius.value,
+    innerRadius.value,
+    startFovH.value,
+    endFovH.value,
+    startFovV.value,
+    endFovV.value
+  )
 })
+
+const headingChange = () => {
+  // 方向发生改变
+  mapWork.headingChange(headingValue.value)
+}
+const pitchChange = () => {
+  // 仰角发生改变
+  mapWork.pitchChange(pitchValue.value)
+}
+// roll发生改变
+
+const rollChange = () => {
+  mapWork.rollChange(rollValue.value)
+}
+const outerRadiusChange = () => {
+  mapWork.outerRadiusChange(outerRadius.value)
+}
+const innerRadiusChange = () => {
+  mapWork.innerRadiusChange(innerRadius.value)
+}
+const startFovHChange = () => {
+  mapWork.startFovHChange(startFovH.value)
+}
+const endFovHChange = () => {
+  mapWork.endFovHChange(endFovH.value)
+}
+const startFovVChange = () => {
+  mapWork.startFovVChange(startFovV.value)
+}
+const endFovVChange = () => {
+  mapWork.endFovVChange(endFovV.value)
+}
 </script>
 <style scoped lang="less">
 .ant-slider {

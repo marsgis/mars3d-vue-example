@@ -5,9 +5,9 @@
         <a-form-item label="分析区域:" />
       </a-col>
       <a-col :span="15">
-          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-          <mars-button @click="btnDraw">绘制多边形</mars-button>
-          <mars-button @click="clearDraw">清除</mars-button>
+        <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+        <mars-button @click="btnDraw">绘制多边形</mars-button>
+        <mars-button @click="clearDraw">清除</mars-button>
       </a-col>
 
       <a-col :span="7">
@@ -57,7 +57,8 @@ const formState: UnwrapRef<FormState> = reactive({
   maxHeight: "",
   speed: 80
 })
-onMounted(() => {
+
+mapWork.eventTarget.on("loadOk", () => {
   mapWork.floodByMaterial.speed = Number(formState.speed)
 })
 

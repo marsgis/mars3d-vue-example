@@ -58,9 +58,12 @@ const formState: UnwrapRef<FormState> = reactive({
   maxHeight: "",
   speed: 10
 })
-onMounted(() => {
+
+mapWork.eventTarget.on("loadOk", () => {
   mapWork.floodByGraphic.speed = Number(formState.speed)
+
 })
+
 
 // 添加矩形
 const btnDrawExtent = () => {

@@ -1,7 +1,7 @@
-
 var map
 var roamLine
 var roamLineData = {}
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -16,8 +16,6 @@ function initMap(options) {
 
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
 
   map.hasTerrain = false
 
@@ -78,8 +76,12 @@ function initMap(options) {
 
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息
+
     showRealTimeInfo(event, roamLine.alltimes)
+    eventTarget.fire("roamLineChange")
   })
+
+  eventTarget.fire("loadOk")
 }
 
 function updateModel(isAuto, val) {
@@ -96,15 +98,16 @@ function updateModel(isAuto, val) {
 function formatTime(strtime) {
   strtime = Number(strtime) || 0
 
-  if (strtime < 60) { return strtime.toFixed(0) + "秒" } else if (strtime >= 60 && strtime < 3600) {
-      var miao = Math.floor(strtime % 60)
-      return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? (miao + "秒") : "")
+  if (strtime < 60) {
+    return strtime.toFixed(0) + "秒"
+  } else if (strtime >= 60 && strtime < 3600) {
+    var miao = Math.floor(strtime % 60)
+    return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
-      strtime = Math.floor(strtime / 60) // 秒转分钟
-      return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
+    strtime = Math.floor(strtime / 60) // 秒转分钟
+    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
   }
 }
-
 
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {
@@ -149,7 +152,7 @@ function testShading() {
   const line1 = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
       var pt1 = roamLine.position
-        var pt2 = centerPosion
+      var pt2 = centerPosion
       if (!pt1 || !pt2) {
         return []
       }

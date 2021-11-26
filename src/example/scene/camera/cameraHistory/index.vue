@@ -25,9 +25,10 @@ const formState = reactive({
   nowView: 0
 })
 onMounted(() => {
-  mapWork.cameraHistory.on(mapWork.mars3d.EventType.change, function (event: any) {
-    formState.allLength = event.count
-    formState.nowView = event.index + 1
+  mapWork.eventTarget.on("changeCameraHistory", function (event: any) {
+    const item = event.data
+    formState.allLength = item.count
+    formState.nowView = item.index + 1
   })
 })
 

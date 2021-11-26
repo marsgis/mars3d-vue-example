@@ -1,5 +1,5 @@
 var map
-var eventTarget
+var eventTarget = new mars3d.BaseClass()
 // 汉化属性名称
 var objNames = {
   // 属性分组
@@ -53,8 +53,6 @@ function initMap(options) {
   // 创建Graphic图层
   var graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
-
-  eventTarget = new mars3d.BaseClass()
 
   var primitive = new mars3d.graphic.ModelPrimitive({
     position: [113.693, 31.243, 220000],

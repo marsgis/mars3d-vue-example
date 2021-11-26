@@ -27,7 +27,10 @@
             :dataSource="dataSource"
             :columns="columns"
             :custom-row="customRow"
-            size="small" bordered="true" :scroll="{ y: 400 }"/>
+            size="small"
+            bordered="true"
+            :scroll="{ y: 400 }"
+          />
         </a-form-item>
       </div>
     </a-form>
@@ -44,7 +47,7 @@ interface DataItem {
   name: string
   age: number
   address: string
-  graphic:any
+  graphic: any
 }
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
@@ -56,10 +59,10 @@ const show = ref(false)
 // 表格数据
 const dataSource = ref([any])
 onMounted(() => {
-  mapWork.geoJsonLayer.on(mapWork.mars3d.EventType.load, function(event:any) {
+  mapWork.eventTarget.on("befortUI", function (event: any) {
     show.value = true
     dataSource.value = []
-    event.list.forEach((item:any, index:number) => {
+    event.list.forEach((item: any, index: number) => {
       dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
     })
   })
@@ -108,8 +111,8 @@ const customRow = (record: DataItem) => {
   return {
     onClick: () => {
       if (record.graphic == null) {
-      mapWork.globalMsg(record.name + " 无经纬度坐标信息！")
-      return
+        mapWork.globalMsg(record.name + " 无经纬度坐标信息！")
+        return
       }
       record.graphic.openHighlight()
       record.graphic.flyTo({
@@ -119,11 +122,9 @@ const customRow = (record: DataItem) => {
           record.graphic.openPopup()
         }
       })
-
     }
   }
 }
-
 
 // 绘制范围
 const drawRectangle = () => {
@@ -146,7 +147,7 @@ const query = () => {
     column: "项目名称",
     text: serverName.value,
     graphic: mapWork.drawGraphic,
-    success: (result:any) => {
+    success: (result: any) => {
       if (result.count == 0) {
         mapWork.globalMsg("未查询到相关记录！")
         return
@@ -155,7 +156,7 @@ const query = () => {
       }
       mapWork.geoJsonLayer.load({ data: result.geojson })
     },
-    error: (error:any, msg:any) => {
+    error: (error: any, msg: any) => {
       console.log("服务访问错误", error)
       mapWork.globalAlert(msg, "服务访问错误")
     }
@@ -169,10 +170,10 @@ const removeAll = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   width: 400px;
 }
-.inputServe{
+.inputServe {
   width: 280px;
 }
 </style>

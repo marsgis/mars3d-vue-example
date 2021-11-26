@@ -91,7 +91,7 @@ const columns = ref([
 ])
 const dataSource = ref([])
 
-onMounted(() => {
+mapWork.eventTabel.on("loadOk", () => {
   mapWork.terrainClip.diffHeight = formState.txtHeight
 
   window.$notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
@@ -104,6 +104,10 @@ onMounted(() => {
     })
   })
 })
+
+// onMounted(() => {
+
+// })
 
 // 表格的操作
 const flyto = (record: any) => {

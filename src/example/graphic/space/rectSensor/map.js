@@ -2,6 +2,7 @@ var map
 var graphicLayer
 var rectSensor
 var testLine
+var eventTarget = new mars3d.BaseClass()
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -33,6 +34,9 @@ function initMap(options) {
     }
   })
   graphicLayer.addGraphic(graphic)
+
+eventTarget.fire("loadOk")
+
 }
 
 function addConicSensor(heading, pitch, roll, angle1, angle2, length) {

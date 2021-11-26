@@ -22,7 +22,7 @@ const mapWork = window.mapWork || {}
 
 const url = ref<any>()
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   if (mapWork.url) {
     url.value = mapWork.url
   }
@@ -35,9 +35,10 @@ onMounted(() => {
     url.value = "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
   }
 
-  setTimeout(mapWork.showModel(url.value), 1000)
+  mapWork.eventTarget.on("beforeUI", function (event: any) {
+    setTimeout(mapWork.showModel(url.value, event.map), 1000)
+  })
 })
-
 const showModel = () => {
   mapWork.showModel(url.value)
   localStorage.setItem("onlyModel2", url.value)

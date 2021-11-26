@@ -107,9 +107,10 @@ export default defineComponent({
       td_wd: 0,
       td_gd: 0
     })
-    mapWork.centerPoint(angleValue.value)
-    onMounted(() => {
-      mapWork.weixin.on("change", () => {
+    mapWork.eventTarget.on("loadOk", function (event: any) {
+      mapWork.centerPoint(angleValue.value)
+
+       mapWork.weixin.on("change", () => {
         formState.name = mapWork.weixinData.name
         formState.tle1 = mapWork.weixinData.tle1
         formState.tle2 = mapWork.weixinData.tle2

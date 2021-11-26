@@ -5,6 +5,7 @@ var modelGraphic
 var graphicLayer
 var reverse = true // z轴方向，true朝向空中，false朝向地心
 var converter = Cesium.Transforms.eastNorthUpToFixedFrame
+var eventTarget = new mars3d.BaseClass()
 // var converter = Cesium.Transforms.localFrameToFixedFrameGenerator('east', 'south')
 
 function initMap(options) {
@@ -25,6 +26,8 @@ function initMap(options) {
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
+
+  eventTarget.fire("loadOk")
 }
 
 function addModelGraphic(x, y, z, heading, pitch, roll, angle1, angle2) {

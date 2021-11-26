@@ -1,7 +1,6 @@
-
 var map
 var floodByMaterial
-
+var eventTarget = new mars3d.BaseClass()
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {
@@ -27,7 +26,6 @@ function initMap(options) {
   })
   map.addThing(floodByMaterial)
 
-
   floodByMaterial.on(mars3d.EventType.start, function (e) {
     console.log("开始分析", e)
   })
@@ -37,6 +35,8 @@ function initMap(options) {
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })
+
+  eventTarget.fire("loadOk")
 }
 
 // 绘制矩形

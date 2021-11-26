@@ -1,6 +1,7 @@
 var map
 var roamLine
 var roamLineData = {}
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -109,8 +110,9 @@ function initMap(options) {
   })
 
   roamLine.on(mars3d.EventType.change, (event) => {
-    // 面板显示相关信息
+    // 面板显示相关信
     showRealTimeInfo(event, roamLine.alltimes)
+    eventTarget.fire("roamLineChange")
   })
 
   // 不贴地时，直接开始
@@ -152,7 +154,6 @@ function formatTime(strtime) {
     return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
   }
 }
-
 
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {

@@ -33,32 +33,34 @@ onMounted(() => {
   myChart1 = echarts.init(document.getElementById("echartsView1")!)
 })
 
-mapWork.measureObj.on(mapWork.mars3d.EventType.start, function (e: any) {
-  console.log("开始分析", e)
-  // 开始分析前回调(异步)
-  mapWork.showLoading()
-})
+mapWork.eventTarget.on("loadOk", function (event: any) {
+  mapWork.measureObj.on(mapWork.mars3d.EventType.start, function (e: any) {
+    console.log("开始分析", e)
+    // 开始分析前回调(异步)
+    mapWork.showLoading()
+  })
 
-mapWork.measureObj.on(mapWork.mars3d.EventType.end, function (e: any) {
-  console.log("分析结束", e)
-  // 分析完成后回调(异步)
-  mapWork.hideLoading()
+  mapWork.measureObj.on(mapWork.mars3d.EventType.end, function (e: any) {
+    console.log("分析结束", e)
+    // 分析完成后回调(异步)
+    mapWork.hideLoading()
 
-  if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type) {
-    console.log(e)
-    data.value = e
-    setEchartsData(data.value)
-    isShow.value = true
-  }
-})
+    if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type) {
+      console.log(e)
+      data.value = e
+      setEchartsData(data.value)
+      isShow.value = true
+    }
+  })
 
-mapWork.measureObj.on(mapWork.mars3d.EventType.click, function (e: any) {
-  // console.log('单击了对象', e)
-  data.value = e.graphic?.measured
-  if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type && data.value) {
-    setEchartsData(data.value)
-    isShow.value = true
-  }
+  mapWork.measureObj.on(mapWork.mars3d.EventType.click, function (e: any) {
+    // console.log('单击了对象', e)
+    data.value = e.graphic?.measured
+    if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type && data.value) {
+      setEchartsData(data.value)
+      isShow.value = true
+    }
+  })
 })
 
 const measureSection = () => {

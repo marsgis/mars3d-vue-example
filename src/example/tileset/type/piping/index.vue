@@ -93,9 +93,8 @@ export default defineComponent({
     // 深度
     const heightVal = ref<number>(30)
 
-
-
-    onMounted(() => {
+    mapWork.eventTarget.on("loadOk", () => {
+      // 创建Echarts图层
       mapWork.terrainClips(heightVal.value)
     })
 
@@ -132,7 +131,6 @@ export default defineComponent({
     const centerAtDX1 = () => {
       mapWork.centerAtDX1()
     }
-
 
     const centerAtDX2 = () => {
       mapWork.centerAtDX2()

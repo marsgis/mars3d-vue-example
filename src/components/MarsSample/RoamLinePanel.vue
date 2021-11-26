@@ -1,33 +1,33 @@
 <template>
   <PannelBox class="infoView">
     <a-form>
-      <a-row :gutter="[0,8]">
+      <a-row :gutter="[0, 8]">
         <a-col :span="12">总长度:</a-col>
-        <a-col :span="12">{{formState.td_alllength}}</a-col>
+        <a-col :span="12">{{ formState.td_alllength }}</a-col>
 
         <a-col :span="12">已漫游长度:</a-col>
-        <a-col :span="12">{{formState.td_length}}</a-col>
+        <a-col :span="12">{{ formState.td_length }}</a-col>
 
         <a-col :span="12">总时长:</a-col>
-        <a-col :span="12">{{formState.td_alltimes}}</a-col>
+        <a-col :span="12">{{ formState.td_alltimes }}</a-col>
 
         <a-col :span="12">已漫游时间:</a-col>
-        <a-col :span="12">{{formState.td_times}}</a-col>
+        <a-col :span="12">{{ formState.td_times }}</a-col>
 
         <a-col :span="12">经度:</a-col>
-        <a-col :span="12">{{formState.td_jd}}</a-col>
+        <a-col :span="12">{{ formState.td_jd }}</a-col>
 
         <a-col :span="12">纬度:</a-col>
-        <a-col :span="12">{{formState.td_wd}}</a-col>
+        <a-col :span="12">{{ formState.td_wd }}</a-col>
 
         <a-col :span="12">漫游高程:</a-col>
-        <a-col :span="12">{{formState.td_gd}}</a-col>
+        <a-col :span="12">{{ formState.td_gd }}</a-col>
 
         <a-col :span="12">地面高程:</a-col>
-        <a-col :span="12">{{formState.td_dmhb}}</a-col>
+        <a-col :span="12">{{ formState.td_dmhb }}</a-col>
 
         <a-col :span="12">离地距离:</a-col>
-        <a-col :span="12">{{formState.td_ldgd}}</a-col>
+        <a-col :span="12">{{ formState.td_ldgd }}</a-col>
 
         <a-progress :percent="formState.percent" size="small" />
       </a-row>
@@ -46,16 +46,16 @@ import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
-  td_alllength:number
-  td_length:number
-  td_alltimes:number
-  td_times:number
-  td_jd:number
-  td_wd:number
-  td_gd:number
-  td_dmhb:number
-  td_ldgd:number
-  percent:number
+  td_alllength: number
+  td_length: number
+  td_alltimes: number
+  td_times: number
+  td_jd: number
+  td_wd: number
+  td_gd: number
+  td_dmhb: number
+  td_ldgd: number
+  percent: number
 }
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
@@ -76,8 +76,7 @@ const formState: UnwrapRef<FormState> = reactive({
 onMounted(() => {
   formState.td_alllength = mapWork.roamLineData.td_alllength
   formState.td_alltimes = mapWork.roamLineData.td_alltimes
-
-  mapWork.roamLine.on("change", () => {
+  mapWork.eventTarget.on("roamLineChange", () => {
     formState.td_length = mapWork.roamLineData.td_length
     formState.td_times = mapWork.roamLineData.td_times
     formState.td_jd = mapWork.roamLineData.td_jd
@@ -91,7 +90,7 @@ onMounted(() => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width:200px;
+  width: 200px;
   top: auto;
   bottom: 60px;
 }

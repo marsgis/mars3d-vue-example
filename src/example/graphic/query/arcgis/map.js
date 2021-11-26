@@ -1,7 +1,7 @@
-
 var map
 var queryMapserver
 var geoJsonLayer
+var eventTarget = new mars3d.BaseClass()
 
 var drawGraphic
 
@@ -21,8 +21,6 @@ function initMap(options) {
     popup: "all",
     pageSize: 6
   })
-
-
 
   // 用于显示查询结果（geojson）的图层
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -58,6 +56,11 @@ function initMap(options) {
     popup: "all"
   })
   map.addLayer(geoJsonLayer)
+
+  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+    const list = event.list
+    eventTarget.fire("beforUI", { list })
+  })
 }
 
 // 框选查询 矩形

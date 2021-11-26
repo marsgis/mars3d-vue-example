@@ -2,7 +2,7 @@
   <PannelBox class="infoView roamLinePanel">
     <a-form>
       <a-form-item>
-        <a-row :gutter="[0,10]">
+        <a-row :gutter="[0, 10]">
           <a-col :span="8">模型角度:</a-col>
           <a-col :span="11">
             <a-radio-group v-model:value="formState.radio">
@@ -15,7 +15,7 @@
       <div v-show="formState.radio === '2'">
         <a-form>
           <a-form-item>
-            <a-row :gutter="[0,10]">
+            <a-row :gutter="[0, 10]">
               <a-col :span="8">heading值:</a-col>
               <a-col :span="11">根据路线自动计算</a-col>
 
@@ -35,7 +35,7 @@
       <mars-button @click="btnClear"> 清除地面投影</mars-button>
     </a-form>
   </PannelBox>
-  <roamLinePanel/>
+  <roamLinePanel />
 </template>
 
 <script setup lang="ts">
@@ -45,9 +45,9 @@ import roamLinePanel from "@comp/MarsSample/RoamLinePanel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
-  radio:string
-  slidePitchStep:number
-  slideRollStep:number
+  radio: string
+  slidePitchStep: number
+  slideRollStep: number
 }
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork || {}
@@ -58,7 +58,7 @@ const formState: UnwrapRef<FormState> = reactive({
   slideRollStep: 10
 })
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   mapWork.updateModel(false, formState)
 })
 
@@ -76,4 +76,3 @@ const btnClear = () => {
   width: 300px;
 }
 </style>
-

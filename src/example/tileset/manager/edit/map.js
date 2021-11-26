@@ -29,6 +29,7 @@ function initMap(options) {
   })
 
   setTimeout(showModel, 1000)
+  eventTarget.fire("loadOk")
 }
 
 // 查看构件

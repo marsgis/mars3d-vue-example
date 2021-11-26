@@ -65,7 +65,7 @@
               </a-space>
             </a-form-item>
 
-             <a-form-item>
+            <a-form-item>
               <a-space>
                 <span class="pannel-item-label"></span>
                 <mars-button @click="clipPoly">内挖</mars-button>
@@ -113,7 +113,8 @@ export default defineComponent({
     // 裁剪距离
     const distanceVal = ref<number>(0)
 
-    onMounted(() => {
+    mapWork.eventTarget.on("loadOk", () => {
+      // 创建Echarts图层
       mapWork.terrainClips(heightVal.value)
     })
 

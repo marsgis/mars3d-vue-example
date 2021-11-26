@@ -1,6 +1,6 @@
-
 var map
 var cameraHistory
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -12,23 +12,25 @@ function initMap(options) {
   cameraHistory = new mars3d.thing.CameraHistory()
   map.addThing(cameraHistory)
 
-
+  cameraHistory.on(mars3d.EventType.change, function (data) {
+    eventTarget.fire("changeCameraHistory", { data })
+  })
 }
 
 // 上一条视角
 function lastView() {
   var result = cameraHistory.goLast()
 
-    if (!result) {
-      globalMsg("当前已是第一条记录了")
-    }
+  if (!result) {
+    globalMsg("当前已是第一条记录了")
+  }
 }
 // 下一条视角
 function nextView() {
   var result = cameraHistory.goNext()
-    if (!result) {
-      globalMsg("当前已是最后一条记录了")
-    }
+  if (!result) {
+    globalMsg("当前已是最后一条记录了")
+  }
 }
 // 回到当前视角
 function lastOneView() {

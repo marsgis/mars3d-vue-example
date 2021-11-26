@@ -10,7 +10,14 @@
       <a-form-item>
         <a-space>
           <span class="pannel-item-label">长度:</span>
-          <mars-input-number class="inputNum" @change="sensorLength" v-model:value="lengthValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
+          <mars-input-number
+            class="inputNum"
+            @change="sensorLength"
+            v-model:value="lengthValue"
+            :min="1"
+            :max="999999999"
+            :step="1.0"
+          ></mars-input-number>
         </a-space>
       </a-form-item>
       <a-form-item>
@@ -90,7 +97,9 @@ export default defineComponent({
       enabledShowModelTop: true
     })
 
-    mapWork.addConicSensor(headingValue.value, pitchValue.value, rollValue.value, angleValue.value, lengthValue.value)
+    mapWork.eventTarget.on("loadOk", () => {
+      mapWork.addConicSensor(headingValue.value, pitchValue.value, rollValue.value, angleValue.value, lengthValue.value)
+    })
 
     // 显示/隐藏
     const sensorShowHide = () => {

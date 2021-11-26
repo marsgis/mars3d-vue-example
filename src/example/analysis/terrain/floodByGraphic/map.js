@@ -1,7 +1,7 @@
 var map
 var floodByGraphic
-
 var drawPotions
+var eventTarget = new mars3d.BaseClass()
 
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
@@ -9,8 +9,6 @@ function initMap(options) {
 
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
-
-  // var speed = Number($("#speed").val())
 
   // 基于polygon矢量面抬高模拟，只支持单个区域
   floodByGraphic = new mars3d.thing.FloodByGraphic({
@@ -32,6 +30,8 @@ function initMap(options) {
   floodByGraphic.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })
+
+  eventTarget.fire("loadOk")
 }
 
 function onChangeHeight(height) {
@@ -97,7 +97,6 @@ function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
 }
-
 
 // 开始分析
 function begin(data) {

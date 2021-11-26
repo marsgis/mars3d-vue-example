@@ -10,7 +10,14 @@
       <a-form-item>
         <a-space>
           <span class="pannel-item-label">半径:</span>
-          <mars-input-number class="inputNum" @change="sensorRadius" v-model:value="radiusValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
+          <mars-input-number
+            class="inputNum"
+            @change="sensorRadius"
+            v-model:value="radiusValue"
+            :min="1"
+            :max="999999999"
+            :step="1.0"
+          ></mars-input-number>
         </a-space>
       </a-form-item>
       <a-form-item>
@@ -66,7 +73,9 @@ export default defineComponent({
       enabledModelArea: false
     })
 
-    mapWork.addConicSensor(angleValue.value, radiusValue.value)
+    mapWork.eventTarget.on("loadOk", function (event: any) {
+      mapWork.addConicSensor(angleValue.value, radiusValue.value)
+    })
 
     // 显示/隐藏
     const sensorShowHide = () => {

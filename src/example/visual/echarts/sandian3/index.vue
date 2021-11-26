@@ -1,10 +1,6 @@
 <template>
   <PannelBox class="infoView">
-    <a-checkbox
-      v-model:checked="pointerEvents"
-      @change="chkPointerEvents">
-        启用Echars交互
-    </a-checkbox>
+    <a-checkbox v-model:checked="pointerEvents" @change="chkPointerEvents"> 启用Echars交互 </a-checkbox>
   </PannelBox>
 </template>
 
@@ -15,7 +11,7 @@ import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork || {}
 const pointerEvents = ref(false)
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   // 创建Echarts图层
   mapWork.createEchartsLayer(pointerEvents.value)
 })
@@ -26,7 +22,7 @@ const chkPointerEvents = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   left: 10px;
   width: 155px;
 }

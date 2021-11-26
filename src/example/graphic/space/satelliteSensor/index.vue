@@ -132,16 +132,18 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledShowMatrix: true
 })
 
-mapWork.addModelGraphic(
-  model_x.value,
-  model_y.value,
-  model_z.value,
-  headingValue.value,
-  pitchValue.value,
-  rollValue.value,
-  angleValue1.value,
-  angleValue2.value
-)
+mapWork.eventTarget.on("loadOk", () => {
+  mapWork.addModelGraphic(
+    model_x.value,
+    model_y.value,
+    model_z.value,
+    headingValue.value,
+    pitchValue.value,
+    rollValue.value,
+    angleValue1.value,
+    angleValue2.value
+  )
+})
 
 // 显示/隐藏
 const sensorShowHide = () => {

@@ -3,29 +3,14 @@
     <a-form>
       <a-form-item>
         <a-space>
-          <a-checkbox
-            v-model:checked="formState.enabledWadi"
-            @change="chkClippingPlanes">
-              是否挖地
-          </a-checkbox>
-          <a-checkbox
-            v-model:checked="formState.enabledWaiqiege"
-            @change="chkUnionClippingRegions">
-              是否外切割
-          </a-checkbox>
-          <a-checkbox
-            v-model:checked="formState.enabledShendu"
-            @change="chkTestTerrain">
-              深度检测
-          </a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
+          <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
         </a-space>
       </a-form-item>
 
       <a-form-item label="开挖深度">
-        <mars-input-number
-          v-model:value="formState.txtHeight"
-          @change="changeClipHeight"
-          :step="1" :min="-500" :max="999"/>
+        <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
         <span>（米）</span>
       </a-form-item>
 
@@ -36,7 +21,6 @@
           <mars-button @click="removeAll">清除</mars-button>
         </a-space>
       </a-form-item>
-
     </a-form>
   </PannelBox>
 </template>
@@ -48,9 +32,9 @@ import type { UnwrapRef } from "vue"
 
 interface FormState {
   enabledWadi: boolean
-  enabledWaiqiege:boolean
-  enabledShendu:boolean
-  txtHeight:number
+  enabledWaiqiege: boolean
+  enabledShendu: boolean
+  txtHeight: number
 }
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
@@ -63,11 +47,10 @@ const formState: UnwrapRef<FormState> = reactive({
   txtHeight: 30
 })
 
-onMounted(() => {
+mapWork.eventTarget.on("loadOk", () => {
   mapWork.terrainPlanClip.diffHeight = formState.txtHeight
 
-  window.$notify("已知问题提示",
-  "（1）因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对")
+  window.$notify("已知问题提示", "（1）因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对")
 })
 
 // 是否挖地
@@ -105,10 +88,10 @@ const changeClipHeight = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   width: 300px;
 }
-.ant-input-number{
+.ant-input-number {
   width: 100px !important;
 }
 </style>
