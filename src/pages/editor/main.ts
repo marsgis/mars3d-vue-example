@@ -77,6 +77,7 @@ iconInstall(app)
 marsEditorInstall(app, {
   baseUrl: process.env.BASE_URL,
   code: getQueryString("code") || "0",
+  fullScreen: getQueryString("full") || "0",
   configLibs: window.configLibs,
   homepage: "http://mars3d.cn/example",
   configSource: `${process.env.BASE_URL}config/example.json`
