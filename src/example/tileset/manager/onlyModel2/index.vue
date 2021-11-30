@@ -37,6 +37,7 @@ mapWork.eventTarget.on("loadOk", () => {
 
   setTimeout(mapWork.showModel(url.value), 1000)
 })
+
 const showModel = () => {
   mapWork.showModel(url.value)
   localStorage.setItem("onlyModel2", url.value)

@@ -52,7 +52,6 @@ function getViewConfig(heading, pitch, roll, radius, startRadius, startFovH, end
     startFovV: Cesium.Math.toRadians(startFovV),
     endFovV: Cesium.Math.toRadians(endFovV)
   }
-  console.log(style)
 
   camberRadar = new mars3d.graphic.CamberRadar({
     position: [117.170264, 31.840312, 363],

@@ -1,65 +1,60 @@
 <template>
   <PannelBox class="infoView">
-    <a-collapse v-model:activeKey="activeKey">
-      <template #expandIcon>
-        <icon-down-c />
-      </template>
-      <a-collapse-panel key="1" header="相机平移">
-        <a-form>
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="5">相机平移:</a-col>
+        <a-col :span="19">
           <a-space>
             <span>W :向前</span>
             <span>S :向后</span>
             <span>D :向右</span>
-          </a-space>
-          <a-space>
             <span>A :向左</span>
             <span>Q :升高高度</span>
             <span>E :降低高度</span>
+            <span title="">步长</span>
+            <a-slider v-model:value="formState.slideStep" @change="changeSlider" :min="0" :max="300" :step="0.01" />
           </a-space>
+        </a-col>
+      </a-row>
+    </div>
 
-          <a-form-item>
-            <a-space>
-              <span title="">步长</span>
-              <a-slider v-model:value="formState.slideStep" @change="changeSlider" :min="0" :max="300" :step="0.01" />
-            </a-space>
-          </a-form-item>
-        </a-form>
-      </a-collapse-panel>
-
-      <a-collapse-panel key="2" header="相对于相机本身">
-        <a-space>
-          <span>↑ :抬头</span>
-          <span>↓ :低头</span>
-          <span>← :向左旋转</span>
-          <span>>→ :向右旋转</span>
-          <span>↑ :抬头</span>
-        </a-space>
-      </a-collapse-panel>
-
-      <a-collapse-panel key="3" header="相对于屏幕中心点">
-        <a-space>
-          <span>I :飞近</span>
-          <span>K :远离</span>
-          <span>J :逆时针旋转</span>
-        </a-space>
-        <a-form-item>
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="5">相对于相机本身:</a-col>
+        <a-col :span="19">
           <a-space>
+            <span>↑ :抬头</span>
+            <span>↓ :低头</span>
+            <span>← :向左旋转</span>
+            <span>>→ :向右旋转</span>
+            <span>↑ :抬头</span>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
+
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="5">相对于屏幕中心点:</a-col>
+        <a-col :span="19">
+          <a-space>
+            <span>I :飞近</span>
+            <span>K :远离</span>
+            <span>J :逆时针旋转</span>
             <span>L :顺时针旋转</span>
             <span>U :向上旋转</span>
             <span>O :向下旋转</span>
           </a-space>
-        </a-form-item>
-      </a-collapse-panel>
+        </a-col>
+      </a-row>
+    </div>
 
-      <a-collapse-panel key="4" header="演示视角">
-        <div class="f-tac">
-          <a-space>
-            <mars-button @click="centerAtDX1">室内</mars-button>
-            <mars-button @click="centerAtDX2">室外</mars-button>
-          </a-space>
-        </div>
-      </a-collapse-panel>
-    </a-collapse>
+    <div class="f-mb f-tac">
+      <a-space>
+        <mars-button @click="centerAtDX1">室内</mars-button>
+        <mars-button @click="centerAtDX2">室外</mars-button>
+      </a-space>
+    </div>
   </PannelBox>
 </template>
 
@@ -93,5 +88,11 @@ const centerAtDX2 = () => {
 <style scoped lang="less">
 .ant-slider {
   width: 160px;
+}
+.infoView {
+  width: 428px;
+  :deep(.ant-space) {
+    flex-wrap: wrap;
+  }
 }
 </style>

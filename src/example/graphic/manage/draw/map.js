@@ -19,7 +19,7 @@ function initMap(options) {
   })
   map.addLayer(graphicLayer)
 
-  eventTarget.fire("beforeUI", { graphicLayer })
+  eventTarget.fire("loadOK", { graphicLayer })
 
   // 自定义提示
   // mars3d.Lang["_单击开始绘制"][0] = "新的提示内容";

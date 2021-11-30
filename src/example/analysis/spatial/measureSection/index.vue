@@ -1,4 +1,5 @@
 <template>
+  <!-- UI面板 -->
   <PannelBox class="infoView">
     <a-space>
       <mars-button @click="measureSection">绘制线</mars-button>
@@ -6,13 +7,14 @@
     </a-space>
   </PannelBox>
 
-  <LocationTo />
-
+  <!-- ecahrt图表 -->
   <PannelBox class="echartsBox" v-show="isShow">
     <div id="sectionChars" class="echatsView">
       <div id="echartsView1" style="width: 100%; height: 100%"></div>
     </div>
   </PannelBox>
+
+  <LocationTo />
 </template>
 
 <script setup lang="ts">
@@ -29,38 +31,28 @@ const isShow = ref<boolean>(false)
 const data = ref()
 
 let myChart1: echarts.ECharts
+
+// 图表自适应
+window.addEventListener("resize", function () {
+  console.log("123")
+  myChart1.resize()
+})
 onMounted(() => {
   myChart1 = echarts.init(document.getElementById("echartsView1")!)
 })
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
-  mapWork.measureObj.on(mapWork.mars3d.EventType.start, function (e: any) {
-    console.log("开始分析", e)
-    // 开始分析前回调(异步)
-    mapWork.showLoading()
-  })
-
-  mapWork.measureObj.on(mapWork.mars3d.EventType.end, function (e: any) {
-    console.log("分析结束", e)
-    // 分析完成后回调(异步)
-    mapWork.hideLoading()
-
-    if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type) {
-      console.log(e)
-      data.value = e
-      setEchartsData(data.value)
-      isShow.value = true
-    }
-  })
-
-  mapWork.measureObj.on(mapWork.mars3d.EventType.click, function (e: any) {
-    // console.log('单击了对象', e)
-    data.value = e.graphic?.measured
-    if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type && data.value) {
-      setEchartsData(data.value)
-      isShow.value = true
-    }
-  })
+mapWork.eventTarget.on("end", function (event: any) {
+  data.value = event.e
+  setEchartsData(data.value)
+  isShow.value = true
+})
+mapWork.eventTarget.on("click", function (event: any) {
+  const e = event.e
+  data.value = e.graphic?.measured
+  if (e.graphic?.type === mapWork.mars3d.graphic.SectionMeasure.type && data.value) {
+    setEchartsData(data.value)
+    isShow.value = true
+  }
 })
 
 const measureSection = () => {
@@ -177,10 +169,6 @@ function setEchartsData(data: any) {
 
   myChart1.setOption(option)
   myChart1.resize()
-
-  window.addEventListener("resize", function () {
-    myChart1.resize()
-  })
 }
 </script>
 <style scoped lang="less">

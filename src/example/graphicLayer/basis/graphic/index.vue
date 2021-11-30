@@ -1,34 +1,63 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item><LayerState /></a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">点状(单个坐标):</span>
-          <div :key="item" v-for="(item, index) in arrPoint">
-            <mars-button :href="arrPointHref[index]" target="_blank">{{ item }}</mars-button>
-          </div>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span>图层状态:</span>
+        <a-checkbox v-model:checked="formState.enabledShowHide" @change="bindShowHide">显示隐藏</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledPopup" @change="bindPopup">Popup绑定</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledTooltip" @change="bindTooltip">Tooltip</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledRightMenu" @change="bindRightMenu">右键绑定</a-checkbox>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="4">点状:</a-col>
+        <a-col :span="19">
+          <a-space>
+            <div :key="item" v-for="(item, index) in arrPoint">
+              <mars-button :href="arrPointHref[index]" target="_blank">{{ item }}</mars-button>
+            </div>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">线面状(多个坐标):</span>
-          <div :key="item" v-for="(item, index) in arrPolyline">
-            <mars-button :href="arrPolylineHref[index]" target="_blank">{{ item }}</mars-button>
-          </div>
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="4">线面状:</a-col>
+        <a-col :span="19">
+          <a-space>
+            <div :key="item" v-for="(item, index) in arrPolyline">
+              <mars-button :href="arrPolylineHref[index]" target="_blank">{{ item }}</mars-button>
+            </div>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
+import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
+import type { UnwrapRef } from "vue"
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork || {}
+
+interface FormState {
+  enabledShowHide: boolean
+  enabledPopup: boolean
+  enabledTooltip: boolean
+  enabledRightMenu: boolean
+}
+
+const formState: UnwrapRef<FormState> = reactive({
+  enabledShowHide: true,
+  enabledPopup: true,
+  enabledTooltip: false,
+  enabledRightMenu: true
+})
 
 const arrPoint = ["文字", "点", "图标点", "平面", "盒子", "圆", "圆锥", "球", "小模型"]
 const arrPolyline = ["线", "管道", "走廊", "墙", "矩形", "面"]
@@ -51,9 +80,28 @@ const arrPolylineHref = [
   "editor.html?id=graphic/entity/rectangle",
   "editor.html?id=graphic/entity/polygon"
 ]
+
+const bindShowHide = () => {
+  mapWork.bindShowHide(formState.enabledShowHide)
+}
+const bindPopup = () => {
+  mapWork.bindPopup(formState.enabledPopup)
+}
+const bindTooltip = () => {
+  mapWork.bindTooltip(formState.enabledTooltip)
+}
+const bindRightMenu = () => {
+  mapWork.bindRightMenu(formState.enabledRightMenu)
+}
 </script>
 <style scoped lang="less">
-.pannel-item-label {
-  width: 100px;
+.infoView {
+  width: 428px;
+  :deep(.ant-space) {
+    flex-wrap: wrap;
+  }
+}
+.ant-col-4 {
+  max-width: 11.666667%;
 }
 </style>

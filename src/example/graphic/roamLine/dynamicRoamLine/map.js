@@ -199,9 +199,8 @@ function updatePath() {
 // 读取车辆gps坐标路径的接口
 function getPathList(beginTime, endTime) {
   queryCarPathApiData()
-    .then(function (res) {
+    .then((res) => {
       var listALL = res.data || []
-
       // 因为读取静态json，为了演示动态，筛选数据内符合时间范围内的数据。
       // 真实接口中可以注释下面代码。
       var d_beginTime = new Date(beginTime)
@@ -210,9 +209,6 @@ function getPathList(beginTime, endTime) {
         var thistime = new Date(item.time)
         return thistime >= d_beginTime && thistime <= d_endTime
       })
-      // 真实接口中可以注释上面代码。
-
-      addLog(`${endTime} 获取到 ${list.length} 条GPS坐标记录`)
 
       // 循环车辆
       graphicLayer.eachGraphic((car) => {
@@ -229,11 +225,10 @@ function getPathList(beginTime, endTime) {
               return Cesium.Cartesian3.fromDegrees(parseFloat(item.lon), parseFloat(item.lat), 0)
             }
           })
-          // addLog(`${car.id} 更新 ${path.length} 条轨迹记录`)
         }
       })
     })
-    .otherwise(function () {
+    .otherwise(() => {
       globalMsg("实时查询气象信息失败，请稍候再试")
     })
 }

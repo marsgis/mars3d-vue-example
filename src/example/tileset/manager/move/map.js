@@ -1,5 +1,6 @@
 var map
 var eventTarget = new mars3d.BaseClass()
+
 function initMap(options) {
   // 合并属性参数，可覆盖config.json中的对应配置
   var mapOptions = mars3d.Util.merge(options, {})
@@ -64,7 +65,6 @@ function showModel(modelUrl) {
   })
 }
 
-var result
 function change(type) {
   switch (type) {
     default:
@@ -88,7 +88,9 @@ function change(type) {
       break
   }
 
-  result = "x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1)
+  var result = "x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1)
+  // 触发自定义事件
+  eventTarget.fire("changeStep", { result })
   // 创建平移矩阵方法二
   var translation = Cesium.Cartesian3.fromArray([x, y, z])
   tiles3dLayer.tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation)

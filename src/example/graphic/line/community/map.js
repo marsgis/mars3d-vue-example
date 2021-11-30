@@ -1,4 +1,3 @@
-
 var map
 
 function initMap(options) {
@@ -74,51 +73,53 @@ function addGraphics() {
   map.addLayer(graphicLayer)
 
   mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-shequ.json" })
-  .then(function (geojson) {
-    const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
+    .then(function (geojson) {
+      const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 
-    for (let i = 0; i < arr.length; i++) {
-      const item = arr[i]
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i]
 
-      // polygon面
-      var polygonEntity = new mars3d.graphic.PolygonEntity({
-        positions: item.positions,
-        style: {
-          color: item.attr.color,
-          opacity: 0.4
-        }
-      })
-      graphicLayer.addGraphic(polygonEntity)
-
-      // PolylineEntity线
-      var graphicLine = new mars3d.graphic.PolylineEntity({
-        positions: item.positions,
-        style: {
-          width: 4,
-          closure: true,
-          // clampToGround: true,
-          material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineTrail, {
+        // polygon面
+        var polygonEntity = new mars3d.graphic.PolygonEntity({
+          positions: item.positions,
+          style: {
             color: item.attr.color,
-            speed: 4
-          })
-        }
-      })
-      graphicLayer.addGraphic(graphicLine)
+            opacity: 0.4
+          }
+        })
+        graphicLayer.addGraphic(polygonEntity)
 
-      // 动态边框文本 DIV
-      var graphic = new mars3d.graphic.DivBoderLabel({
-        position: polygonEntity.center,
-        style: {
-          text: item.attr.name,
-          font_size: 15,
-          font_family: "微软雅黑",
-          color: "#ccc",
-          boderColor: "#15d1f2",
-          addHeight: 100
-        }
-      })
-      graphicLayer.addGraphic(graphic)
-    }
-  })
-  .otherwise(function (error) { console.log("加载JSON出错", error) })
+        // PolylineEntity线
+        var graphicLine = new mars3d.graphic.PolylineEntity({
+          positions: item.positions,
+          style: {
+            width: 4,
+            closure: true,
+            // clampToGround: true,
+            material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.LineTrail, {
+              color: item.attr.color,
+              speed: 4
+            })
+          }
+        })
+        graphicLayer.addGraphic(graphicLine)
+
+        // 动态边框文本 DIV
+        var graphic = new mars3d.graphic.DivBoderLabel({
+          position: polygonEntity.center,
+          style: {
+            text: item.attr.name,
+            font_size: 15,
+            font_family: "微软雅黑",
+            color: "#ccc",
+            boderColor: "#15d1f2",
+            addHeight: 100
+          }
+        })
+        graphicLayer.addGraphic(graphic)
+      }
+    })
+    .otherwise(function (error) {
+      console.log("加载JSON出错", error)
+    })
 }

@@ -1,50 +1,48 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <span>3dtile模型移动(只适合小范围内的偏移 笛卡尔坐标方向，非贴球面)</span>
-      </a-form-item>
+    <div class="f-mb">
+      <span>3dtile模型移动(只适合小范围内的偏移 笛卡尔坐标方向，非贴球面)</span>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">模型URL:</span>
-          <mars-input v-model:value="url"></mars-input>
-          <mars-button @click="showModel">加载模型</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">模型URL:</span>
+        <mars-input v-model:value="url"></mars-input>
+        <mars-button @click="showModel">加载模型</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">设置移动步长:</span>
-          <mars-button @click="getValue(0.1)" value="">0.1</mars-button>
-          <mars-button @click="getValue(1)" value="1">1</mars-button>
-          <mars-button @click="getValue(10)" value="10">10</mars-button>
-          <mars-button @click="getValue(100)" value="100">100</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">设置移动步长:</span>
+        <mars-button @click="getValue(0.1)" value="">0.1</mars-button>
+        <mars-button @click="getValue(1)" value="1">1</mars-button>
+        <mars-button @click="getValue(10)" value="10">10</mars-button>
+        <mars-button @click="getValue(100)" value="100">100</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">按步长移动:</span>
-          <mars-button @click="change(0)">x+</mars-button>
-          <mars-button @click="change(1)">x-</mars-button>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">按步长移动:</span>
+        <mars-button @click="change(0)">x+</mars-button>
+        <mars-button @click="change(1)">x-</mars-button>
 
-          <mars-button @click="change(2)">y+</mars-button>
-          <mars-button @click="change(3)">y-</mars-button>
+        <mars-button @click="change(2)">y+</mars-button>
+        <mars-button @click="change(3)">y-</mars-button>
 
-          <mars-button @click="change(4)">z+</mars-button>
-          <mars-button @click="change(5)">z-</mars-button>
-        </a-space>
-      </a-form-item>
+        <mars-button @click="change(4)">z+</mars-button>
+        <mars-button @click="change(5)">z-</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <a-checkbox @change="chkHasTerrain" v-model:checked="enableHasTerrain">是否有地形</a-checkbox>
-          <a-checkbox @change="chkTestTerrain" v-model:checked="enableTestTerrain">是否深度检测</a-checkbox>
-          <span>当前偏移量 {{ result }}</span>
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div class="f-tac">
+      <a-space>
+        <a-checkbox @change="chkHasTerrain" v-model:checked="enableHasTerrain">是否有地形</a-checkbox>
+        <a-checkbox @change="chkTestTerrain" v-model:checked="enableTestTerrain">是否深度检测</a-checkbox>
+        <span>当前偏移量 {{ result }}</span>
+      </a-space>
+    </div>
   </PannelBox>
 </template>
 
@@ -84,7 +82,9 @@ const showModel = () => {
 
 const change = (val: number) => {
   mapWork.change(val)
-  result.value = mapWork.result
+  mapWork.eventTarget.on("changeStep", function (event: any) {
+    result.value = event.result
+  })
 }
 
 // 是否有地形
@@ -104,9 +104,6 @@ const getValue = (val: number) => {
 </script>
 <style scoped lang="less">
 .pannel-item-label {
-  width: 90px;
-}
-.infoView {
-  width: 450px;
+  width: 83px;
 }
 </style>

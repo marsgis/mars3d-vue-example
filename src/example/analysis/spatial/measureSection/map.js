@@ -22,11 +22,30 @@ function initMap(options) {
     }
   })
   map.addThing(measureObj)
+
   map.on(mars3d.EventType.click, function (e) {
     hideTipMarker()
   })
 
-  eventTarget.fire("loadOk", { measureObj })
+  // 触发自定义事件
+  measureObj.on(mars3d.EventType.start, function (e) {
+    console.log("开始分析", e)
+    // 开始分析前回调(异步)
+    showLoading()
+  })
+  measureObj.on(mars3d.EventType.end, function (e) {
+    console.log("分析结束", e)
+    // 分析完成后回调(异步)
+    hideLoading()
+
+    if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
+      eventTarget.fire("end", { e })
+    }
+  })
+  measureObj.on(mars3d.EventType.click, function (e) {
+    console.log("单击了对象", e)
+    eventTarget.fire("click", { e })
+  })
 }
 
 function removeAll() {
@@ -41,6 +60,7 @@ function measureSection() {
   })
 }
 
+// echart图表中的图标
 var tipGraphic
 function showTipMarker(point, z, inthtml) {
   var _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
@@ -85,6 +105,7 @@ function getMinZ(arr) {
   }
   return minz
 }
+
 // 定位至模型
 var modelTest
 function centerAtModel() {

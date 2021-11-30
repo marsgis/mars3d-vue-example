@@ -35,6 +35,7 @@ mapWork.eventTarget.on("loadOk", () => {
   }
   setTimeout(mapWork.showModel(url.value), 1000)
 })
+
 const changeColor = () => {
   mapWork.changeColor(color.value)
 }

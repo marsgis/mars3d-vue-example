@@ -17,7 +17,6 @@ function initMap(options) {
   // 创建三维地球场景
   map = new mars3d.Map("mars3dContainer", mapOptions)
 
-
   // 添加参考三维模型
   var tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
@@ -39,10 +38,7 @@ function initMap(options) {
   addGraphic_01()
 }
 
-
-
 function createVideoDom() {
-
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
   videoElement.setAttribute("autoplay", "autoplay")
@@ -56,25 +52,23 @@ function createVideoDom() {
   sourceContainer.setAttribute("type", "video/mp4")
 
   hls()
-
 }
 function hls() {
- // 加HLS演示数据
- var hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8"
-
- if (window.Hls.isSupported()) {
-   var hls = new window.Hls()
-   hls.loadSource(hlsUrl)
-   hls.attachMedia(videoElement)
-   hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
-     videoElement.play()
-   })
- } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-   videoElement.src = hlsUrl
-   videoElement.addEventListener("loadedmetadata", function () {
-     videoElement.play()
-   })
- }
+  // 加HLS演示数据
+  var hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8"
+  if (window.Hls.isSupported()) {
+    var hls = new window.Hls()
+    hls.loadSource(hlsUrl)
+    hls.attachMedia(videoElement)
+    hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
+      videoElement.play()
+    })
+  } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
+    videoElement.src = hlsUrl
+    videoElement.addEventListener("loadedmetadata", function () {
+      videoElement.play()
+    })
+  }
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
@@ -232,11 +226,10 @@ function clearVideo() {
 
 // 播放暂停
 function playOrpause() {
-  if (!selectedView) {
-    return
-  }
-
-  selectedView.play = !selectedView.play
+  // if (!selectedView) {
+  //   return
+  // }
+  // selectedView.play = !selectedView.play
 }
 
 // 定位至视频位置
@@ -369,4 +362,3 @@ function rotateCamera(dir) {
     map.camera.position = selectedView.position
   }
 }
-

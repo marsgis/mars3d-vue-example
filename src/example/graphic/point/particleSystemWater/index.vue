@@ -1,68 +1,101 @@
 <template>
-  <PannelBox class="infoView">
-    <a-space>
-      <span class="pannel-item-label">闸门:</span>
-
-      <a-checkbox v-model:checked="formState.enabledShowAll" class="pannel-item" @change="bindShowAll">全部</a-checkbox>
-
-      <a-checkbox-group v-model:value="formState.checkbox">
-        <a-checkbox @change="changeZhaMen" :key="item" v-for="item in zhamenData" :value="item">{{ item }}号</a-checkbox>
-      </a-checkbox-group>
-    </a-space>
+  <PannelBox class="infoView manager-pannel">
+    <a-directory-tree checkable :expandedKeys="expandedKeys" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+      <template #title="{ title }">
+        <span class="tree-style" :title="title">{{ title }}</span>
+      </template>
+    </a-directory-tree>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import type { UnwrapRef } from "vue"
-
-interface FormState {
-  enabledShowAll: boolean
-  checkbox: string[]
-}
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
 
-const zhamenData = ["13", "12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1"]
+const checkedKeys = ref<string[]>([]) // 默认选中
 
-const formState: UnwrapRef<FormState> = reactive({
-  enabledShowAll: true,
-  checkbox: []
+const expandedKeys = ref<string[]>([]) // 默认展开
+
+const treeData = ref<any[]>([
+  {
+    title: "全部",
+    key: 0,
+    id: -1,
+    children: [
+      {
+        title: "1号",
+        key: 1
+      },
+      {
+        title: "2号",
+        key: 2
+      },
+      {
+        title: "3号",
+        key: 3
+      },
+      {
+        title: "4号",
+        key: 4
+      },
+      {
+        title: "5号",
+        key: 5
+      },
+      {
+        title: "6号",
+        key: 6
+      },
+      {
+        title: "7号",
+        key: 7
+      },
+      {
+        title: "8号",
+        key: 8
+      },
+      {
+        title: "9号",
+        key: 9
+      },
+      {
+        title: "10号",
+        key: 10
+      },
+      {
+        title: "11号",
+        key: 11
+      },
+      {
+        title: "12号",
+        key: 12
+      },
+      {
+        title: "13号",
+        key: 13
+      }
+    ]
+  }
+])
+
+const tree = treeData.value[0].children
+tree.forEach((element: any) => {
+  checkedKeys.value.push(element.key)
+  expandedKeys.value.push(element.key)
 })
 
-onMounted(() => {
-  if (formState.enabledShowAll) {
-    formState.checkbox = zhamenData
+const checkedChange = (keys: string[], checkedNodes: any) => {
+  const chilrenAll = checkedNodes.node.children
+  const checkedId: number = checkedNodes.node.key
+  const ischecked: boolean = checkedNodes.node.checked
+  if (chilrenAll && chilrenAll.length >= 12) {
+    mapWork.bindShowAll(!ischecked)
   }
-})
 
-// 全部闸门的控制
-const bindShowAll = () => {
-  if (formState.enabledShowAll) {
-    formState.checkbox = zhamenData
-  } else {
-    formState.checkbox = []
-  }
-  mapWork.bindShowAll(formState.enabledShowAll)
-}
-// 单个闸门的控制
-const changeZhaMen = (e: Event) => {
-  mapWork.changeZhaMen(e.target)
+  mapWork.changeZhaMen(checkedId, ischecked)
 }
 </script>
-<style scoped lang="less">
-.infoView {
-  width: 915px;
-  max-width: calc(100% - 10px);
-  min-width: 100px;
-  right:10px;
-}
-.pannel-item-label {
-  width: 40px;
-}
-.pannel-item {
-  min-width: 56px;
-}
-</style>
+<style scoped lang="less"></style>

@@ -1,7 +1,7 @@
 <template>
   <PannelBox class="infoView">
-    <a-row :gutter="[10, 10]">
-      <a-col :span="22">
+    <a-row :gutter="[1, 10]">
+      <a-col :span="24">
         <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
           <a-space>
             <mars-button @click="btnDrawExtent">添加矩形</mars-button>
@@ -11,30 +11,39 @@
         </a-form-item>
       </a-col>
 
-      <a-col :span="22">
+      <a-col :span="24">
         <a-form-item label="等高线:" :labelCol="labelCol" :labelAlign="labelAlign">
           <a-space>
             <a-checkbox v-model:checked="formState.chkEnabled" @change="showDengGX">显示</a-checkbox>
-            <mars-color-picker v-model:value="formState.color" @change="changeColor" />
           </a-space>
         </a-form-item>
       </a-col>
 
-      <a-col :span="15">
-        <a-form-item label="间隔" :labelCol="smallCol" labelAlign="right">
-          <a-slider v-model:value="formState.txtSpacing" @change="changeSpacing" :min="10.0" :max="500.0" :step="1.0" />
+      <a-col :span="24" v-show="formState.chkEnabled">
+        <a-form-item label="颜色" :labelCol="labelCol" :labelAlign="labelAlign">
+          <mars-color-picker v-model:value="formState.color" @change="changeColor" />
         </a-form-item>
       </a-col>
-      <a-col :span="4" class="miFont">（米）</a-col>
 
-      <a-col :span="15">
-        <a-form-item label="线宽" :labelCol="smallCol" labelAlign="right">
-          <a-slider v-model:value="formState.txtWidth" @change="changeWidth" :min="1.0" :max="10.0" :step="0.1" />
+      <a-col :span="24" v-show="formState.chkEnabled">
+        <a-form-item label="间隔" :labelCol="labelCol" :labelAlign="labelAlign">
+          <a-space>
+            <a-slider v-model:value="formState.txtSpacing" @change="changeSpacing" :min="10.0" :max="500.0" :step="1.0" />
+            <span>（米）</span>
+          </a-space>
         </a-form-item>
       </a-col>
-      <a-col :span="4" class="miFont">（px）</a-col>
 
-      <a-col :span="22">
+      <a-col :span="24" v-show="formState.chkEnabled">
+        <a-form-item label="线宽" :labelCol="labelCol" :labelAlign="labelAlign">
+          <a-space>
+            <a-slider v-model:value="formState.txtWidth" @change="changeWidth" :min="1.0" :max="10.0" :step="0.1" />
+            <span>（px）</span>
+          </a-space>
+        </a-form-item>
+      </a-col>
+
+      <a-col :span="24">
         <a-form-item label="地表渲染:" :labelCol="labelCol" :labelAlign="labelAlign">
           <a-radio-group v-model:value="formState.radio" @change="changeShadingType">
             <a-radio value="none">无</a-radio>
@@ -45,13 +54,13 @@
         </a-form-item>
       </a-col>
 
-      <a-col :span="22">
+      <a-col :span="24">
         <a-form-item label="状态控制:" :labelCol="labelCol" :labelAlign="labelAlign">
           <a-checkbox v-model:checked="formState.showElse" @change="chkClippingPlanes"> 显示其他区域 </a-checkbox>
         </a-form-item>
       </a-col>
 
-      <a-col :span="22">
+      <a-col :span="24">
         <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
@@ -91,7 +100,6 @@ const mapWork = window.mapWork || {}
 
 const labelCol = ref({ span: 5 })
 const labelAlign = ref("left")
-const smallCol = ref({ span: 12 })
 
 const formState: UnwrapRef<FormState> = reactive({
   chkEnabled: true,
@@ -128,7 +136,7 @@ onMounted(() => {
   })
 })
 
-// 表格操作
+// 定位和删除
 const flyto = (record: any) => {
   mapWork.flyToGraphic(record.graphicId)
 }
@@ -184,12 +192,13 @@ const changeShadingType = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 380px;
+  width: 331px;
+}
+.ant-slider {
+  width: 140px;
 }
 .miFont {
-  font-size: 15px;
-  margin-top: 10px;
+  margin-top: 6px;
   margin-left: -11px;
-  color: white;
 }
 </style>

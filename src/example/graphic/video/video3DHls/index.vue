@@ -64,133 +64,99 @@
       </a-form-item>
     </a-form>
   </PannelBox>
-
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue"
+<script lang="ts" setup>
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 
-export default defineComponent({
-  components: {
-    PannelBox
-  },
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork || {}
 
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
+const checked = ref<boolean>(false)
 
-    const checked = ref<boolean>(false)
+const ckdFrustum = ref<boolean>(true)
 
-    const ckdFrustum = ref<boolean>(true)
+const adjustVal = ref<number>(0.5)
 
-    const adjustVal = ref<number>(0.5)
+const opacityValue = ref<number>(0.7) // 透明度
 
-    const opacityValue = ref<number>(0.7) // 透明度
+const fovValue = ref<number>(45) // 水平拉伸
 
-    const fovValue = ref<number>(45) // 水平拉伸
+const scaleValue = ref<number>(1.6) // 宽高比例
 
-    const scaleValue = ref<number>(1.6) // 宽高比例
+mapWork.adjustVal = adjustVal.value
 
+// 混合系数
+const opacity = () => {
+  mapWork.opacity(opacityValue.value)
+}
+// 水平拉伸
+const cameraFov = () => {
+  mapWork.cameraFov(fovValue.value)
+}
+// 宽高比例
+const cameraWidHei = () => {
+  mapWork.cameraWidHei(scaleValue.value)
+}
 
-    mapWork.adjustVal = adjustVal.value
+const cameraFollow = () => {
+  mapWork.cameraFollowVal = checked.value
+}
 
-    // 混合系数
-    const opacity = () => {
-      mapWork.opacity(opacityValue.value)
-    }
-    // 水平拉伸
-    const cameraFov = () => {
-      mapWork.cameraFov(fovValue.value)
-    }
-    // 宽高比例
-    const cameraWidHei = () => {
-      mapWork.cameraWidHei(scaleValue.value)
-    }
+// 投射视频
+const createViewForVideo = () => {
+  mapWork.createViewForVideo(ckdFrustum.value, opacityValue.value)
+}
 
-    const cameraFollow = () => {
-      mapWork.cameraFollowVal = checked.value
-    }
+// 图片投放
+const createViewForPicture = () => {
+  mapWork.createViewForPicture(ckdFrustum.value, opacityValue.value)
+}
 
-    // 投射视频
-    const createViewForVideo = () => {
-      mapWork.createViewForVideo(ckdFrustum.value, opacityValue.value)
-    }
+// 文本投放
+const createText = () => {
+  mapWork.createText(ckdFrustum.value, opacityValue.value)
+}
+// 颜色投放
+const createViewForColor = () => {
+  mapWork.createViewForColor(ckdFrustum.value, opacityValue.value)
+}
 
-    // 图片投放
-    const createViewForPicture = () => {
-      mapWork.createViewForPicture(ckdFrustum.value, opacityValue.value)
-    }
+// 清除
+const clear = () => {
+  mapWork.clearVideo()
+}
 
-    // 文本投放
-    const createText = () => {
-      mapWork.createText(ckdFrustum.value, opacityValue.value)
-    }
-    // 颜色投放
-    const createViewForColor = () => {
-      mapWork.createViewForColor(ckdFrustum.value, opacityValue.value)
-    }
+// 定位至视频位置
+const locate = () => {
+  mapWork.locate()
+}
+// 打印参数
+const printParameters = () => {
+  mapWork.printParameters()
+}
 
-    // 清除
-    const clear = () => {
-      mapWork.clearVideo()
-    }
+// 播放暂停
+const playOrpause = () => {
+  mapWork.playOrpause()
+}
 
-    // 定位至视频位置
-    const locate = () => {
-      mapWork.locate()
-    }
-    // 打印参数
-    const printParameters = () => {
-      mapWork.printParameters()
-    }
+// 视频位置
+const selCamera = () => {
+  mapWork.selCamera()
+}
 
-    // 播放暂停
-    const playOrpause = () => {
-      mapWork.playOrpause()
-    }
+// 视点
 
-    // 视频位置
-    const selCamera = () => {
-      mapWork.selCamera()
-    }
+const selView = () => {
+  mapWork.selView()
+}
 
-    // 视点
-
-    const selView = () => {
-      mapWork.selView()
-    }
-
-    // 线框是否显示
-    const showFrustum = () => {
-      mapWork.showFrustum(ckdFrustum.value)
-    }
-
-    return {
-      createViewForVideo,
-      createViewForPicture,
-      createText,
-      createViewForColor,
-      clear,
-      locate,
-      printParameters,
-      playOrpause,
-      selCamera,
-      cameraFollow,
-      showFrustum,
-      cameraFov,
-      cameraWidHei,
-      opacity,
-      selView,
-      checked,
-      opacityValue,
-      fovValue,
-      adjustVal,
-      ckdFrustum,
-      scaleValue
-    }
-  }
-})
+// 线框是否显示
+const showFrustum = () => {
+  mapWork.showFrustum(ckdFrustum.value)
+}
 </script>
 <style scoped lang="less">
 .ant-slider {

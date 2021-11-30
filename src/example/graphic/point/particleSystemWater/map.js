@@ -1,4 +1,3 @@
-
 var map
 var graphicLayer
 
@@ -86,11 +85,11 @@ function initMap(options) {
 }
 
 // 单个闸门控制
-function changeZhaMen(item) {
-  const id = Number(item.value)
+function changeZhaMen(id, checked) {
+  // const id = Number(item.value)
   var particleSystem = graphicLayer.getGraphicById(id)
   if (particleSystem) {
-    particleSystem.show = item.checked
+    particleSystem.show = !checked
   }
 }
 // 全部闸门的控制
