@@ -20,10 +20,10 @@
 
 ## 项目介绍
 
- 这是一个基于 Vue3.0 开发的 mars3d 示例项目。
+ 这是一个基于 Vue3.0 开发的 mars3d 功能示例项目。
 
  > 如果您不熟悉Vue，对原生JS比较熟悉，可以阅读： 
- [功能示例原生版教程](/guide/start/example-old.html) 、
+ [功能示例原生版教程](http://mars3d.cn/dev/guide/start/example-old.html) 、
  [mars3d-es5-example代码](https://gitee.com/marsgis/mars3d-es5-example) 
 
 
@@ -51,9 +51,8 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 
 - 推荐使用 vscode，安装参考[开发环境搭建教程](guide/start/env.html)
 - 安装 vscode 插件，推荐安装 volar（并禁用 vetur）、ESlint 、 Prettier
-- 配置 vscode 参数
+- 配置 vscode 参数， setting.json相关配置
 ```json
-// setting.json相关配置
 {
   "eslint.format.enable": true,
   "[json]": {
