@@ -1,18 +1,25 @@
-var map
-var graphicLayer
-var echartTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 29.526546, lng: 119.823425, alt: 803, heading: 178, pitch: -27 },
-      fxaa: true
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+export const echartTarget = new mars3d.BaseClass()
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.526546, lng: 119.823425, alt: 803, heading: 178, pitch: -27 },
+    fxaa: true
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -27,38 +34,46 @@ function initMap(options) {
     })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function showData(arrdata) {
-  var polylines1 = []
-  var polylines2 = []
-  var polylines3 = []
-  var polylines4 = []
-  var polylines5 = []
-  var polylinesTB = []
-  for (var i = 0; i < arrdata.length; i++) {
-    var item = arrdata[i]
+  let polylines1 = []
+  let polylines2 = []
+  let polylines3 = []
+  let polylines4 = []
+  let polylines5 = []
+  const polylinesTB = []
+  for (let i = 0; i < arrdata.length; i++) {
+    const item = arrdata[i]
 
     // 所在经纬度坐标及海拔高度
-    var longitude = Number(item.longitude)
-    var latitude = Number(item.latitude)
-    var height = Number(item.height)
+    const longitude = Number(item.longitude)
+    const latitude = Number(item.latitude)
+    const height = Number(item.height)
 
-    var originPoint = {
+    const originPoint = {
       longitude: longitude,
       latitude: latitude,
       height: height
     }
-    var position = Cesium.Cartesian3.fromDegrees(originPoint.longitude, originPoint.latitude, originPoint.height)
+    const position = Cesium.Cartesian3.fromDegrees(originPoint.longitude, originPoint.latitude, originPoint.height)
 
     // 计算电线塔转角角度
-    var degree = parseInt(item.degree)
+    const degree = parseInt(item.degree)
 
     // 5条线路坐标
     const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
-    var newPoint1 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.341789, 16.837972, 50.717621), hpr)
-    var newPoint2 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.34241, -16.838163, 50.717617), hpr)
-    var newPoint3 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025005, 0.022878, 39.540545), hpr)
-    var newPoint4 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.024999, 15.009109, 39.303012), hpr)
-    var newPoint5 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025001, -15.009585, 39.301099), hpr)
+    const newPoint1 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.341789, 16.837972, 50.717621), hpr)
+    const newPoint2 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(0.34241, -16.838163, 50.717617), hpr)
+    const newPoint3 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025005, 0.022878, 39.540545), hpr)
+    const newPoint4 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.024999, 15.009109, 39.303012), hpr)
+    const newPoint5 = mars3d.PointUtil.getPositionByHprAndOffset(position, new Cesium.Cartesian3(-0.025001, -15.009585, 39.301099), hpr)
 
     polylinesTB.push(newPoint3) // 图标显示的点
 
@@ -69,9 +84,9 @@ function showData(arrdata) {
       polylines4.push(newPoint4)
       polylines5.push(newPoint5)
     } else {
-      var angularityFactor = -5000
-      var num = 50
-      var positions = mars3d.PolyUtil.getLinkedPointList(polylines1[polylines1.length - 1], newPoint1, angularityFactor, num) // 计算曲线点
+      const angularityFactor = -5000
+      const num = 50
+      let positions = mars3d.PolyUtil.getLinkedPointList(polylines1[polylines1.length - 1], newPoint1, angularityFactor, num) // 计算曲线点
       polylines1 = polylines1.concat(positions)
 
       positions = mars3d.PolyUtil.getLinkedPointList(polylines2[polylines2.length - 1], newPoint2, angularityFactor, num) // 计算曲线点
@@ -87,7 +102,7 @@ function showData(arrdata) {
       polylines5 = polylines5.concat(positions)
     }
 
-    var html = mars3d.Util.getTemplateHtml({
+    const html = mars3d.Util.getTemplateHtml({
       title: "塔杆",
       template: [
         { field: "roadName", name: "所属线路" },
@@ -120,9 +135,9 @@ function showData(arrdata) {
 
 // 绘制电线塔模型
 function drawWireTowerModel(position, degree, inthtml) {
-  var modelUrls = ["tower.glb", "V.glb", "vertical01.glb", "vertical02.glb"]
-  for (var j = 0; j < modelUrls.length; j++) {
-    var primitive = new mars3d.graphic.ModelPrimitive({
+  const modelUrls = ["tower.glb", "V.glb", "vertical01.glb", "vertical02.glb"]
+  for (let j = 0; j < modelUrls.length; j++) {
+    const primitive = new mars3d.graphic.ModelPrimitive({
       position: position,
       style: {
         url: "//data.mars3d.cn/gltf/mars/tower/" + modelUrls[j],
@@ -138,7 +153,7 @@ function drawWireTowerModel(position, degree, inthtml) {
 }
 
 function drawGuideLine(positions, color) {
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     positions: positions,
     style: {
       width: 4,
@@ -158,9 +173,9 @@ function computeSurfacePointsHeight(polylines5) {
     positions: polylines5, // 需要计算的源路线坐标数组
     callback: function (raisedPositions) {
       // raisedPositions为含高程信息的新坐标数组，noHeight为标识是否存在无地形数据。
-      var heightArry = []
-      var heightTDArray = []
-      var distanceArray
+      const heightArry = []
+      const heightTDArray = []
+      let distanceArray
       for (let i = 0; i < polylines5.length; i++) {
         const item = polylines5[i]
         const carto = Cesium.Cartographic.fromCartesian(item)
@@ -171,7 +186,7 @@ function computeSurfacePointsHeight(polylines5) {
         heightTDArray.push(tdHeight)
 
         // 距离数组
-        var positionsLineFirst = raisedPositions[0]
+        const positionsLineFirst = raisedPositions[0]
         distanceArray = raisedPositions.map(function (data) {
           return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
         })

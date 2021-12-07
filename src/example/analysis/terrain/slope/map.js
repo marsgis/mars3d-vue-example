@@ -1,15 +1,30 @@
+import * as mars3d from "mars3d"
 
-var map
-var slope
-var contourLine
+let map // mars3d.Map三维地图对象
+let slope
+let contourLine
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+  addSlope()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addSlope() {
   // 剖度坡向
   slope = new mars3d.thing.Slope({
     point: {
@@ -26,7 +41,7 @@ function initMap(options) {
     },
     tooltip: function (event) {
       // 自定义显示内容
-      var attr = event.czmObject.attr
+      const attr = event.czmObject.attr
       return `坡度: ${attr.slopeStr1}  (${attr.slopeStr2})<br />坡向: ${attr.direction}°`
     }
   })
@@ -49,12 +64,10 @@ function initMap(options) {
     shadingType: "none" // 地表渲染效果类型:无nono, 高程 elevation, 坡度slope, 坡向aspect
   })
   map.addThing(contourLine)
-
-
 }
 
 // 添加矩形
-function btnDrawExtent(splitNum) {
+export function btnDrawExtent(splitNum) {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -65,7 +78,7 @@ function btnDrawExtent(splitNum) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -80,8 +93,9 @@ function btnDrawExtent(splitNum) {
     }
   })
 }
+
 // 绘制多边形
-function btnDraw(splitNum) {
+export function btnDraw(splitNum) {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -94,7 +108,7 @@ function btnDraw(splitNum) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -109,8 +123,9 @@ function btnDraw(splitNum) {
     }
   })
 }
+
 // 添加点
-function btnDrawPoint() {
+export function btnDrawPoint() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "point",
@@ -118,7 +133,7 @@ function btnDrawPoint() {
       color: "#ffff00"
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       slope.add(positions)
@@ -126,11 +141,11 @@ function btnDrawPoint() {
   })
 }
 // 改变阴影
-function changeShadingType(val) {
+export function changeShadingType(val) {
   contourLine.shadingType = val
 }
 
-function clearAll() {
+export function clearAll() {
   slope.clear()
   contourLine.clear()
 }

@@ -1,27 +1,47 @@
-/* eslint-disable no-undef */
+import * as mars3d from "mars3d"
 
-var map
+let map // mars3d.Map三维地图对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 30.841762, lng: 116.26537, alt: 3281, heading: 39, pitch: -63 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    // 此处参数会覆盖config.json中的对应配置
+    center: { lat: 30.841762, lng: 116.26537, alt: 3281, heading: 39, pitch: -63 }
+  }
 }
 
-function removeAll() {
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function removeAll() {
   map.graphicLayer.clear()
-  clearInterResult() // 在js/showPolygonInter.js
+  // eslint-disable-next-line no-undef
+  clearInterResult()
 }
 
-function interPolygon(val) {
+/**
+ * 面插值
+ *
+ * @export
+ * @param {number} val 步长
+ * @returns {void}
+ */
+export function interPolygon(val) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -32,22 +52,30 @@ function interPolygon(val) {
       clampToGround: true
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      // var splitNum = Number($("#txtSplitNum").val())
-      var resultInter = mars3d.PolyUtil.interPolygon({
+      // let splitNum = Number($("#txtSplitNum").val())
+      const resultInter = mars3d.PolyUtil.interPolygon({
         scene: map.scene,
         positions: positions,
         splitNum: val // splitNum插值分割的个数
       })
 
-      showInterResult(resultInter.list) // 在js/showPolygonInter.js
+      // eslint-disable-next-line no-undef
+      showInterResult(resultInter.list)
     }
   })
 }
 
-function interLine(val) {
+/**
+ * 线插值
+ *
+ * @export
+ * @param {number} val 步长
+ * @returns {void}
+ */
+export function interLine(val) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -55,19 +83,27 @@ function interLine(val) {
       width: 3
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      var arrLine = mars3d.PolyUtil.interLine(positions, {
+      const arrLine = mars3d.PolyUtil.interLine(positions, {
         splitNum: val // 插值分割的个数
       })
 
-      showInterLineResult(arrLine) // 在js/showPolygonInter.js
+      // eslint-disable-next-line no-undef
+      showInterLineResult(arrLine)
     }
   })
 }
 
-function interPolyline(val) {
+/**
+ * 线插值(高度等分)
+ *
+ * @export
+ * @param {number} val 步长
+ * @returns {void}
+ */
+export function interPolyline(val) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -76,16 +112,17 @@ function interPolyline(val) {
       clampToGround: true
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      var arrLine = mars3d.PolyUtil.interPolyline({
+      const arrLine = mars3d.PolyUtil.interPolyline({
         scene: map.scene,
         positions: positions,
         splitNum: val // 插值分割的个数
       })
 
-      showInterLineResult(arrLine) // 在js/showPolygonInter.js
+      // eslint-disable-next-line no-undef
+      showInterLineResult(arrLine)
     }
   })
 }

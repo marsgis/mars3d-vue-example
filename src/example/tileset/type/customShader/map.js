@@ -1,23 +1,28 @@
-var map
-var tiles3dLayer
+import * as mars3d from "mars3d"
 
+let map // mars3d.Map三维地图对象
+let tiles3dLayer
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.267519, lng: 121.42728, alt: 2923, heading: 118, pitch: -27 }
-    }
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.267519, lng: 121.42728, alt: 2923, heading: 118, pitch: -27 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   Cesium.ExperimentalFeatures.enableModelExperimental = true
+  map.basemap = 2017 // 蓝色底图
 
-
-   // 创建三维地球场景
-   map = new mars3d.Map("mars3dContainer", mapOptions)
-   map.basemap = 2017 // 蓝色底图
-
-   tiles3dLayer = new mars3d.layer.TilesetLayer({
+  tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "上海市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-shanghai/tileset.json",
     maximumScreenSpaceError: 8,
@@ -27,11 +32,19 @@ function initMap(options) {
   map.addLayer(tiles3dLayer)
 }
 
-function setStyleDef() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function setStyleDef() {
   tiles3dLayer.customShader = undefined
 }
 
-function setStyle1() {
+export function setStyle1() {
   globalMsg(`当前效果是：根据视角距离，模型呈现不同颜色`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
@@ -45,7 +58,7 @@ function setStyle1() {
   })
 }
 
-function setStyle2() {
+export function setStyle2() {
   globalMsg(`当前效果是：动态渐变+动态光环的特效`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({

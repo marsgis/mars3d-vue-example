@@ -1,19 +1,39 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.808815, lng: 117.188016, alt: 800, heading: 55, pitch: -15 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.808815, lng: 117.188016, alt: 800, heading: 55, pitch: -15 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance
+  maskDiv()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function maskDiv() {
+  console.log(map)
   map.basemap = 2017 // 切换至蓝色底图
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
     maximumScreenSpaceError: 1,
@@ -29,7 +49,7 @@ function initMap(options) {
 
   // 添加蒙版
 
-  var maskDiv = document.createElement("div")
+  const maskDiv = document.createElement("div")
   maskDiv.className = "maskDiv"
   document.body.appendChild(maskDiv)
   maskDiv.style.cssText = `position: absolute;

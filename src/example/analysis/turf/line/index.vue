@@ -1,37 +1,33 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">原始数据:</span>
-          <mars-button @click="drawLine">绘制线</mars-button>
-          <mars-button @click="clearAll">清除</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">原始数据:</span>
+        <mars-button @click="drawLine">绘制线</mars-button>
+        <mars-button @click="clearAll">清除</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">计算平行线:</span>
-          <mars-input-number class="line" v-model:value="value" :min="1" :max="10" />公里
-          <mars-button @click="parallelLines">计算</mars-button>
-        </a-space>
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">计算曲线:</span>
-          <mars-button @click="calculationCurve">计算</mars-button>
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">计算平行线:</span>
+        <mars-input-number class="line" v-model:value="value" :min="1" :max="10" />公里
+        <mars-button @click="parallelLines">计算</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">计算曲线:</span>
+        <mars-button @click="calculationCurve">计算</mars-button>
+      </a-space>
+    </div>
   </PannelBox>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const value = ref<number>(5)
 

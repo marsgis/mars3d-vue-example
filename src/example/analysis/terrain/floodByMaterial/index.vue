@@ -1,40 +1,37 @@
 <template>
   <PannelBox class="infoView">
-    <a-row :gutter="[10, 10]">
-      <a-col :span="7">
-        <a-form-item label="分析区域:" />
-      </a-col>
-      <a-col :span="15">
+    <div class="f-mb">
+      <a-space>
+        <span>分析区域</span>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
         <mars-button @click="btnDraw">绘制多边形</mars-button>
         <mars-button @click="clearDraw">清除</mars-button>
-      </a-col>
+      </a-space>
+    </div>
 
-      <a-col :span="7">
-        <a-form-item label="最低海拔（米）:" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.minHeight" :step="1" />
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>最低海拔</span>
+        <mars-input-number v-model:value="formState.minHeight" :step="1" />米
+      </a-space>
+    </div>
 
-      <a-col :span="7">
-        <a-form-item label="最高海拔（米）:" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.maxHeight" :step="1" />
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>最高海拔</span>
+        <mars-input-number v-model:value="formState.maxHeight" :step="1" />米
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span>淹没速度</span>
+        <mars-input-number v-model:value="formState.speed" :step="1" />米/秒
+      </a-space>
+    </div>
 
-      <a-col :span="7">
-        <a-form-item label="淹没速度（米/秒）:" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.speed" :step="1" />
-      </a-col>
-
-      <a-col :span="24">
-        <mars-button @click="begin">开始分析</mars-button>
-      </a-col>
-    </a-row>
+    <div class="f-tac">
+      <mars-button @click="begin">开始分析</mars-button>
+    </div>
   </PannelBox>
 </template>
 
@@ -42,6 +39,7 @@
 import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   minHeight: any
@@ -49,23 +47,24 @@ interface FormState {
   speed: number
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
 const formState: UnwrapRef<FormState> = reactive({
   minHeight: "",
   maxHeight: "",
   speed: 80
 })
 
-mapWork.eventTarget.on("loadOk", () => {
-  mapWork.floodByMaterial.speed = Number(formState.speed)
+let floodByMaterial: any
+
+mapWork.eventTarget.on("loadOk", (e: any) => {
+  floodByMaterial = e.floodByMaterial
+  floodByMaterial.speed = Number(formState.speed)
 })
 
 // 添加矩形
+
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent((min: any, max: any) => {
-    if (mapWork.floodByMaterial.length > 0) {
+    if (floodByMaterial.length > 0) {
       min = Math.min(min, Number(formState.minHeight))
       max = Math.max(max, Number(formState.maxHeight))
     }
@@ -95,6 +94,6 @@ const begin = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 380px;
+  width: 320px;
 }
 </style>

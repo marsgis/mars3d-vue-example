@@ -1,22 +1,37 @@
-var map
-var graphicLayer
-var graphic1
-var graphic2
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.715325, lng: 117.233867, alt: 21228, heading: 2, pitch: -60 }
-    },
-    layers: []
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let graphic1
+let graphic2
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.715325, lng: 117.233867, alt: 21228, heading: 2, pitch: -60 }
+  },
+  layers: []
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addEntity()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
+function addEntity() {
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -59,7 +74,7 @@ function initMap(options) {
 
 // 求交
 let intersectGraphic
-function intersect() {
+export function intersect() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null
@@ -90,7 +105,7 @@ function intersect() {
 }
 
 // 清除
-function clear() {
+export function clear() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null

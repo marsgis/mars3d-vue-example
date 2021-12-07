@@ -1,15 +1,19 @@
-var map
-var tilesetPlanClip
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let tilesetPlanClip
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
 
+  map = mapInstance // 记录map
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 11.5 },
@@ -35,7 +39,15 @@ function initMap(options) {
   map.addThing(tilesetPlanClip)
 }
 
-function drawPoly() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawPoly() {
   tilesetPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -46,7 +58,7 @@ function drawPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       // 加入positions才能使3d裁剪确定位置，生效
@@ -55,7 +67,7 @@ function drawPoly() {
   })
 }
 
-function drawPoly2() {
+export function drawPoly2() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -67,7 +79,7 @@ function drawPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true
@@ -76,7 +88,7 @@ function drawPoly2() {
   })
 }
 
-function drawExtent() {
+export function drawExtent() {
   tilesetPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -88,7 +100,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -96,7 +108,7 @@ function drawExtent() {
   })
 }
 
-function drawExtent2() {
+export function drawExtent2() {
   tilesetPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -108,7 +120,7 @@ function drawExtent2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true
@@ -119,6 +131,6 @@ function drawExtent2() {
   })
 }
 
-function clear() {
+export function clear() {
   tilesetPlanClip.clear()
 }

@@ -1,16 +1,22 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 27.689337, lng: 118.112448, alt: 762174, heading: 358, pitch: -62 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 27.689337, lng: 118.112448, alt: 762174, heading: 358, pitch: -62 }
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
   mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
     .then(function (geojson) {
       showBJXLine(geojson.features[0])
@@ -27,9 +33,23 @@ function initMap(options) {
       globalAlert("Json文件加载失败！")
     })
 }
-// API文档，参考lib\mars3d\thirdParty\weiVectorTile\Document.rar（解压Document.rar）
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * API文档，参考lib\mars3d\thirdParty\weiVectorTile\Document.rar（解压Document.rar）
+ *
+ * @param {Array} geojson 获取得到的数据 数组对象
+ * @returns {void} 无
+ */
 function showGeoJsonVectorTile(geojson) {
-  var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer = new mars3d.layer.WeiVectorTileLayer({
     source: geojson,
     zIndex: 2,
     removeDuplicate: false,
@@ -77,13 +97,11 @@ function showGeoJsonVectorTile(geojson) {
 }
 
 function showBJXLine(feature) {
-  // console.log('边界线', feature)
-
   // 缓冲区
-  var bufferedOuter = turf.buffer(feature, 2000, {
+  let bufferedOuter = turf.buffer(feature, 2000, {
     units: "meters"
   })
-  var bufferedInner = turf.buffer(feature, 1000, {
+  let bufferedInner = turf.buffer(feature, 1000, {
     units: "meters"
   })
 
@@ -94,7 +112,7 @@ function showBJXLine(feature) {
   bufferedInner = turf.featureCollection([bufferedInner])
   bufferedOuter = turf.featureCollection([bufferedOuter])
 
-  var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer = new mars3d.layer.WeiVectorTileLayer({
     source: bufferedOuter,
     zIndex: 99,
     removeDuplicate: false,
@@ -114,7 +132,7 @@ function showBJXLine(feature) {
   })
   map.addLayer(tileLayer)
 
-  var tileLayer2 = new mars3d.layer.WeiVectorTileLayer({
+  const tileLayer2 = new mars3d.layer.WeiVectorTileLayer({
     source: bufferedInner,
     zIndex: 99,
     removeDuplicate: false,

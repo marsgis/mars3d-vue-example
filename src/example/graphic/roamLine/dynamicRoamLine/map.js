@@ -1,16 +1,25 @@
-var map
-var graphicLayer
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.773622, lng: 117.077444, alt: 5441, heading: 359, pitch: -57 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.773622, lng: 117.077444, alt: 5441, heading: 359, pitch: -57 }
+  }
+}
+
+export var eventTarget = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 演示数据的时间
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2020-11-25 10:10:00"))
@@ -25,6 +34,14 @@ function initMap(options) {
     .otherwise(function () {
       globalMsg("查询信息失败")
     })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 var colors = [
@@ -203,13 +220,14 @@ function getPathList(beginTime, endTime) {
       var listALL = res.data || []
       // 因为读取静态json，为了演示动态，筛选数据内符合时间范围内的数据。
       // 真实接口中可以注释下面代码。
-      var d_beginTime = new Date(beginTime)
-      var d_endTime = new Date(endTime)
-      var list = listALL.filter((item) => {
+      const d_beginTime = new Date(beginTime)
+      const d_endTime = new Date(endTime)
+      const list = listALL.filter((item) => {
         var thistime = new Date(item.time)
         return thistime >= d_beginTime && thistime <= d_endTime
       })
 
+      addLog(`${endTime} 获取到 ${list.length} 条GPS坐标记录`)
       // 循环车辆
       graphicLayer.eachGraphic((car) => {
         // 取出对应车辆的轨迹列表
@@ -234,10 +252,10 @@ function getPathList(beginTime, endTime) {
 }
 
 function addLog(log) {
-  eventTarget.fire("loadOk", { log })
+  eventTarget.fire("showMsg", { log })
 }
 
-function onSelece(data, selected) {
+export function onSelece(data, selected) {
   const car = graphicLayer.getGraphicById(data.key)
   if (!car) {
     return

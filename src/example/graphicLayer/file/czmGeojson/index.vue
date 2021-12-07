@@ -1,28 +1,26 @@
 <template>
   <PannelBox class="infoView">
     <a-space>
-      <mars-button @click="showPointDemo">体育设施点</mars-button>
-      <mars-button @click="showChinaLineDemo">省界线</mars-button>
-      <mars-button @click="showGuihuaDemo">规划面</mars-button>
-      <mars-button @click="showAnhuiDemo">安徽区域面</mars-button>
+      <mars-button @click="showPoint">体育设施点</mars-button>
+      <mars-button @click="showChinaLine">省界线</mars-button>
+      <mars-button @click="showPlanningSurface">规划面</mars-button>
+      <mars-button @click="showRegion">安徽区域面</mars-button>
     </a-space>
   </PannelBox>
 
   <PannelBox class="infoView manager-pannel">
-    <a-directory-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
-    </a-directory-tree>
+    </mars-tree>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 onMounted(() => {
   initTree()
@@ -71,7 +69,7 @@ const checkedChange = (keys: string[], checkedNodes: any) => {
     })
   }
   if (show) {
-    mapWork.map.flyTo(layer)
+    mapWork.flyToLayer(layer)
   } else {
     layer.show = show
   }
@@ -113,21 +111,21 @@ function initTree() {
   })
 }
 
-const showPointDemo = () => {
+const showPoint = () => {
   checkedKeys.value = []
-  mapWork.showPointDemo()
+  mapWork.showPoint()
 }
-const showChinaLineDemo = () => {
+const showChinaLine = () => {
   checkedKeys.value = []
-  mapWork.showChinaLineDemo()
+  mapWork.showChinaLine()
 }
-const showGuihuaDemo = () => {
+const showPlanningSurface = () => {
   checkedKeys.value = []
-  mapWork.showGuihuaDemo()
+  mapWork.showPlanningSurface()
 }
-const showAnhuiDemo = () => {
+const showRegion = () => {
   checkedKeys.value = []
-  mapWork.showAnhuiDemo()
+  mapWork.showRegion()
 }
 </script>
 <style scoped lang="less">

@@ -1,19 +1,23 @@
-var map
-var graphicLayer
-var pointAndLine
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let pointAndLine
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
+  }
+}
 
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -23,8 +27,17 @@ function initMap(options) {
   pointAndLine = new mars3d.layer.GraphicLayer()
   map.addLayer(pointAndLine)
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 绘制障碍面
-function drawPolygon() {
+export function drawPolygon() {
   clearLayer()
   graphicLayer.startDraw({
     type: "polygon",
@@ -38,7 +51,7 @@ function drawPolygon() {
   })
 }
 // 绘制起点
-function startPoint() {
+export function startPoint() {
   pointAndLine.clear()
   pointAndLine.startDraw({
     type: "point",
@@ -58,7 +71,7 @@ function startPoint() {
 }
 
 // 绘制终点
-function endPoint() {
+export function endPoint() {
   pointAndLine.startDraw({
     type: "point",
     style: {
@@ -77,7 +90,7 @@ function endPoint() {
 }
 
 // 计算最短路径
-function shortestPath() {
+ export function shortestPath() {
   const polygonLayer = graphicLayer.getGraphics()
   const allPoint = pointAndLine.getGraphics()
 
@@ -90,16 +103,16 @@ function shortestPath() {
     globalMsg("请绘起点和终点")
     return
   }
-  var polygon = polygonLayer[0].toGeoJSON() // 障碍面
-  var startPoint = allPoint[0].toGeoJSON() // 起点
-  var endPoint = allPoint[1].toGeoJSON() // 终点
+  const polygon = polygonLayer[0].toGeoJSON() // 障碍面
+  const startPoint = allPoint[0].toGeoJSON() // 起点
+  const endPoint = allPoint[1].toGeoJSON() // 终点
 
-  var options = {
+  const options = {
     obstacles: polygon
   }
-  var path = turf.shortestPath(startPoint, endPoint, options)
+  const path = turf.shortestPath(startPoint, endPoint, options)
 
-  var positions = path.geometry.coordinates
+  const positions = path.geometry.coordinates
   const polyonLine = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
@@ -109,7 +122,7 @@ function shortestPath() {
   pointAndLine.addGraphic(polyonLine)
 }
 
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   pointAndLine.clear()
 }

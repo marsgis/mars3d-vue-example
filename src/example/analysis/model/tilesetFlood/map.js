@@ -1,22 +1,39 @@
-var map
-var tilesetFlood
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let tilesetFlood
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
+  addLayer()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addLayer() {
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
     maximumScreenSpaceError: 6,
     maximumMemoryUsage: 2048,
@@ -48,7 +65,7 @@ function initMap(options) {
 }
 
 // 修改分析方式
-function changeFloodType(val) {
+export function changeFloodType(val) {
   if (val === "1") {
     tilesetFlood.floodAll = true
   } else {
@@ -57,7 +74,8 @@ function changeFloodType(val) {
 }
 
 // 绘制矩形
-function btnDrawExtent() {
+export function btnDrawExtent() {
+  tilesetFlood.clear()
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -68,13 +86,14 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       tilesetFlood.addArea(positions)
     }
   })
 }
 // 绘制多边形
-function btnDraw() {
+export function btnDraw() {
+  tilesetFlood.clear()
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -85,25 +104,25 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       tilesetFlood.addArea(positions)
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
     }
   })
 }
+
 // 开始分析
-function begin(data) {
-  console.log(tilesetFlood.floodAll, tilesetFlood.length)
+export function begin(data) {
   if (!tilesetFlood.floodAll && tilesetFlood.length == 0) {
     globalMsg("请首先绘制分析区域！")
     return
   }
   map.graphicLayer.clear()
 
-  var minValue = Number(data.minHeight)
-  var maxValue = Number(data.maxHeight)
-  var speed = Number(data.speed)
+  const minValue = Number(data.minHeight)
+  const maxValue = Number(data.maxHeight)
+  const speed = Number(data.speed)
   if (minValue <= 1800) {
     globalMsg("最低海拔过低，请耐心等候几秒")
   }
@@ -120,5 +139,5 @@ function begin(data) {
 }
 
 function onChangeHeight(height) {
-  console.log("分析中，高度变化了", height)
+  // console.log("分析中，高度变化了", height)
 }

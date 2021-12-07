@@ -48,19 +48,13 @@
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import any from "nprogress"
-
-interface DataItem {
-  key: number
-  name: string
-  age: number
-  address: string
-}
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as echarts from "echarts"
+import * as mapWork from "./map.js"
 
 const serverName = ref("")
-const show = ref(false)
+
+const show = ref<boolean>(false)
+
 const activeKey = ref("1")
 
 // 表格数据
@@ -80,11 +74,14 @@ mapWork.eventTarget.on("loadOk", function(event:any) {
   })
 
   // 饼状图数据
-  var pieEcharts = mapWork.echarts.init(document.getElementById("pieChart"))
+  const pieDom:any = document.getElementById("pieChart")
+  const pieEcharts = echarts.init(pieDom)
+
   pieEcharts.setOption(event.pieEchartsOption)
 
   // 柱状图数据
-  var histogramECharts = mapWork.echarts.init(document.getElementById("histogram"))
+  const histogramDom:any = document.getElementById("histogram")
+  const histogramECharts = echarts.init(histogramDom)
   histogramECharts.setOption(event.histogramOption)
 })
 
@@ -124,10 +121,11 @@ const drawPolygon = () => {
 // 查询数据
 const query = () => {
   mapWork.queryData(serverName.value)
-  if (mapWork.tf) {
+  if (dataSource.value.length !== 0) {
     show.value = true
   } else {
     show.value = false
+
   }
 }
 
@@ -139,10 +137,10 @@ const removeAll = () => {
 </script>
 <style scoped lang="less">
 .infoView{
-  width: 400px;
+  width: 320px;
 }
 .inputServe{
-  width: 300px;
+  width:250px;
 }
 .chart{
   width: 380px;

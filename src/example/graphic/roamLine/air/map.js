@@ -1,18 +1,23 @@
+import * as mars3d from "mars3d"
 
-var map
-var roamLine
-var roamLineData = {}
-var eventTarget = new mars3d.BaseClass()
+let map // mars3d.Map三维地图对象
+let roamLine
+const roamLineData = {}
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 参数可以从 基础项目 飞行漫游功能界面操作后保存JSON
@@ -38,9 +43,6 @@ function initMap(options) {
   roamLine.start()
 
   addDivPoint(roamLine.property)
-
-
-
   // 显示基本信息，名称、总长、总时间
   roamLineData.td_alltimes = formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
@@ -52,16 +54,26 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 格式化时间
 function formatTime(strtime) {
   strtime = Number(strtime) || 0
 
-  if (strtime < 60) { return strtime.toFixed(0) + "秒" } else if (strtime >= 60 && strtime < 3600) {
-      var miao = Math.floor(strtime % 60)
-      return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? (miao + "秒") : "")
+  if (strtime < 60) {
+    return strtime.toFixed(0) + "秒"
+  } else if (strtime >= 60 && strtime < 3600) {
+    const miao = Math.floor(strtime % 60)
+    return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
-      strtime = Math.floor(strtime / 60) // 秒转分钟
-      return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
+    strtime = Math.floor(strtime / 60) // 秒转分钟
+    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
   }
 }
 
@@ -70,8 +82,7 @@ function showRealTimeInfo(params, _alltime) {
   if (params == null) {
     return
   }
-
-  var val = Math.ceil((params.time * 100) / _alltime)
+  let val = Math.ceil((params.time * 100) / _alltime)
   if (val < 1) {
     val = 1
   }
@@ -80,7 +91,6 @@ function showRealTimeInfo(params, _alltime) {
   }
 
   roamLineData.percent = val
-
   roamLineData.td_jd = params.lng
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
@@ -103,10 +113,10 @@ function showRealTimeInfo(params, _alltime) {
 
 function addDivPoint(position) {
   // 创建DIV数据图层
-  var divLayer = new mars3d.layer.DivLayer()
+  const divLayer = new mars3d.layer.DivLayer()
   map.addLayer(divLayer)
 
-  var graphic = new mars3d.graphic.DivGraphic({
+  const graphic = new mars3d.graphic.DivGraphic({
     position: position,
     hasCache: false,
     style: {

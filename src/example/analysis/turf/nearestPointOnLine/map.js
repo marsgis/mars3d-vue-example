@@ -1,18 +1,25 @@
-var map
-var graphicLayer
-var pointLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 90, pitch: -51 },
-      fxaa: true
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let pointLayer
+
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 90, pitch: -51 },
+    fxaa: true
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+ export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -23,8 +30,17 @@ function initMap(options) {
   map.addLayer(pointLayer)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+
 // 绘制线
-function drawLine() {
+export function drawLine() {
   if (pointLayer) {
     pointLayer.clear()
   }
@@ -44,7 +60,7 @@ function drawLine() {
 }
 
 // 绘制点
-function drawPoint() {
+export function drawPoint() {
   pointLayer.clear()
   pointLayer.startDraw({
     type: "point",
@@ -59,7 +75,7 @@ function drawPoint() {
 }
 
 // 最近点计算
-function nearPoint() {
+ function nearPoint() {
   const lineLayer = graphicLayer.getGraphics()
   const point = pointLayer.getGraphics()
 
@@ -90,7 +106,7 @@ function nearPoint() {
 }
 
 // 清除数据
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   pointLayer.clear()
 }

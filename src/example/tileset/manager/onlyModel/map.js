@@ -1,10 +1,18 @@
-var map
-let tiles3dLayer
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
+let map // mars3d.Map三维地图对象
+let tiles3dLayer
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ *方便演示，移除默认配置的control
+ *
+ * @param {object} option 默认配置的参数
+ * @return {object} option
+ */
+export const mapOptions = function (option) {
+  option = {
     scene: {
       center: { lat: 33.597401, lng: 119.031399, alt: 514, heading: 0, pitch: -46 },
       showSun: false,
@@ -34,18 +42,36 @@ function initMap(options) {
         show: true
       }
     ]
-  })
-  delete mapOptions.control
-  delete mapOptions.terrain
-  delete mapOptions.basemaps
+  }
+  delete option.control
+  delete option.terrain
+  delete option.basemaps
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+  return option
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
   eventTarget.fire("loadOk")
 }
 
-function changeColor(color) {
-  var clr = Cesium.Color.fromCssColorString(color)
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function changeColor(color) {
+  const clr = Cesium.Color.fromCssColorString(color)
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
 
@@ -67,7 +93,7 @@ function removeLayer() {
 }
 
 // 当前页面业务相关
-function showModel(_url) {
+export function showModel(_url) {
   removeLayer()
   if (!_url) {
     return
@@ -92,6 +118,6 @@ function showModel(_url) {
   })
 }
 
-function flyTo() {
+export function flyTo() {
   tiles3dLayer.flyTo()
 }

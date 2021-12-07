@@ -1,21 +1,28 @@
-var map
-var limitHeight
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 25.092295, lng: 102.64431, alt: 2815, heading: 104, pitch: -32 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let limitHeight
+
+export const mapOptions = {
+  scene: {
+    center: { lat: 25.092295, lng: 102.64431, alt: 2815, heading: 104, pitch: -32 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
     maximumScreenSpaceError: 6,
     maximumMemoryUsage: 2048
@@ -42,13 +49,21 @@ function initMap(options) {
   // })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 滑动条
-function currHeight(value) {
+export function currHeight(value) {
   limitHeight.height = value
 }
 
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -59,7 +74,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       limitHeight.positions = positions
 
       map.graphicLayer.clear()
@@ -68,7 +83,7 @@ function drawExtent() {
 }
 
 // 绘制面
-function drawPolygon() {
+export function drawPolygon() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -79,7 +94,7 @@ function drawPolygon() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       limitHeight.positions = positions
 
       map.graphicLayer.clear()
@@ -87,7 +102,8 @@ function drawPolygon() {
     }
   })
 }
-function clear() {
+
+export function clear() {
   limitHeight.clear()
   map.graphicLayer.clear()
 }

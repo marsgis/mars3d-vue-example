@@ -1,24 +1,32 @@
-var map
-var floodByMaterial
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      showSun: false,
-      showMoon: false,
-      showSkyBox: false,
-      showSkyAtmosphere: false,
-      fog: false,
-      globe: {
-        showGroundAtmosphere: false,
-        enableLighting: false
-      }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let floodByMaterial
+
+export const mapOptions = {
+  scene: {
+    showSun: false,
+    showMoon: false,
+    showSkyBox: false,
+    showSkyAtmosphere: false,
+    fog: false,
+    globe: {
+      showGroundAtmosphere: false,
+      enableLighting: false
+    }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 基于地球材质，可以多个区域
   floodByMaterial = new mars3d.thing.FloodByMaterial({
@@ -36,11 +44,19 @@ function initMap(options) {
     console.log("结束分析", e)
   })
 
-  eventTarget.fire("loadOk")
+  eventTarget.fire("loadOk", { floodByMaterial })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 绘制矩形
-function btnDrawExtent(callback) {
+export function btnDrawExtent(callback) {
   floodByMaterial.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -51,7 +67,7 @@ function btnDrawExtent(callback) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
 
       // 更新最大、最小高度值
       updateHeightRange(positions, callback)
@@ -61,8 +77,9 @@ function btnDrawExtent(callback) {
     }
   })
 }
+
 // 绘制多边形
-function btnDraw(callback) {
+export function btnDraw(callback) {
   floodByMaterial.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -72,7 +89,7 @@ function btnDraw(callback) {
       outline: false
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
 
       // 更新最大、最小高度值
       updateHeightRange(positions, callback)
@@ -80,11 +97,12 @@ function btnDraw(callback) {
     }
   })
 }
+
 // 求最大、最小高度值
 function updateHeightRange(positions, callback) {
   showLoading()
 
-  var result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
+  const result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
   const minHeight = Math.ceil(result.minHeight)
   const maxHeight = Math.floor(result.maxHeight)
 
@@ -93,16 +111,16 @@ function updateHeightRange(positions, callback) {
 }
 
 // 开始分析
-function begin(data) {
+export function begin(data) {
   if (floodByMaterial.length == 0) {
     globalMsg("请首先绘制分析区域！")
     return
   }
   map.graphicLayer.clear()
 
-  var minValue = Number(data.minHeight)
-  var maxValue = Number(data.maxHeight)
-  var speed = Number(data.speed)
+  const minValue = Number(data.minHeight)
+  const maxValue = Number(data.maxHeight)
+  const speed = Number(data.speed)
 
   floodByMaterial.setOptions({
     minHeight: minValue,
@@ -116,7 +134,7 @@ function onChangeHeight(height) {
   console.log("高度发生了变化", height)
 }
 
-function clearDraw() {
+export function clearDraw() {
   floodByMaterial.clear()
   map.graphicLayer.clear()
 }

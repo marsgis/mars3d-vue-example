@@ -1,17 +1,14 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
+
         <a-space>
           <mars-button @click="drawRectangle">框选</mars-button>
           <mars-button @click="drawCircle">圆形</mars-button>
           <mars-button @click="drawPolygon">多边形</mars-button>
           <mars-button @click="drawClear">清除</mars-button>
         </a-space>
-      </a-form-item>
-    </a-form>
-  </PannelBox>
 
+  </PannelBox>
   <!-- 视频 面板 -->
   <div class="videoWrap" v-show="formState.openVideo == true">
     <div class="openPanel" v-show="formState.openPannel === true">
@@ -30,9 +27,7 @@
 import { onMounted, reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+ import * as mapWork from "./map.js"
 
 interface FormState {
   openVideo: boolean

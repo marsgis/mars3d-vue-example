@@ -1,45 +1,57 @@
+import * as mars3d from "mars3d"
 
-var map
+let map // mars3d.Map三维地图对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 26.163233, lng: 77.849567, alt: 17754541, heading: 360, pitch: -90 },
-      sceneMode: 2
-    },
-    terrain: false,
-    layers: []
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 26.163233, lng: 77.849567, alt: 17754541, heading: 360, pitch: -90 },
+    sceneMode: 2
+  },
+  terrain: false,
+  layers: []
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
 
   // 加载数据
   mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/oneBeltOneRoad.json" })
-  .then(function (res) {
-    showRoad(res.data.land, {
-      name: "丝绸之路经济带",
-      color: Cesium.Color.CORAL
-    })
+    .then(function (res) {
+      showRoad(res.data.land, {
+        name: "丝绸之路经济带",
+        color: Cesium.Color.CORAL
+      })
 
-    showRoad(res.data.sea, {
-      name: "21世纪海上丝绸之路",
-      color: Cesium.Color.DEEPSKYBLUE
+      showRoad(res.data.sea, {
+        name: "21世纪海上丝绸之路",
+        color: Cesium.Color.DEEPSKYBLUE
+      })
     })
+    .otherwise(function () {
+      globalMsg("实时查询信息失败，请稍候再试")
     })
-  .otherwise(function () {
-    globalMsg("实时查询信息失败，请稍候再试")
-  })
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 function showRoad(arr, options) {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   const arrPosition = []
@@ -53,7 +65,7 @@ function showRoad(arr, options) {
 
     // 创建点
     if (item.icon) {
-      var billboardPrimitive = new mars3d.graphic.BillboardPrimitive({
+      const billboardPrimitive = new mars3d.graphic.BillboardPrimitive({
         name: item.name,
         position: position,
         style: {
@@ -84,10 +96,10 @@ function showRoad(arr, options) {
     }
   }
 
-  var positions = mars3d.PolyUtil.getBezierCurve(arrPosition)
+  const positions = mars3d.PolyUtil.getBezierCurve(arrPosition)
   positions.push(arrPosition[arrPosition.length - 1])
 
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     positions: positions,
     style: {
       width: 4,

@@ -1,23 +1,27 @@
-var map
-var skyline
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },
-      globe: {
-        depthTestAgainstTerrain: true
-      }
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let skyline
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },
+    globe: {
+      depthTestAgainstTerrain: true
     }
-  })
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加个模型，观看效果更佳
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
@@ -30,18 +34,24 @@ function initMap(options) {
 
   skyline = new mars3d.thing.Skyline()
   map.addThing(skyline)
-
-
 }
 
-function changeColor() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function changeColor() {
   skyline.color = Cesium.Color.fromRandom()
 }
 
-function lineWidth(val) {
+export function lineWidth(val) {
   skyline.width = val
-
 }
-function isVChecked(value) {
+
+export function isVChecked(value) {
   skyline.enabled = value
 }

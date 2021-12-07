@@ -96,9 +96,9 @@
       { "name": "opacity", "label": "透明度", "type": "slider", "defval": 1.0, "min": 0, "max": 1, "step": 0.01 },
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": true, "impact": ["outlineColor", "outlineOpacity", "outlineWidth"] },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
-      { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 2.0 },
+      { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 0 },
 
       {
         "name": "scaleByDistance",
@@ -382,7 +382,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 1.0 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       { "name": "rotationDegree", "label": "旋转角度", "type": "number", "step": 1, "defval": 0.0 },
@@ -443,7 +443,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 1 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       { "name": "rotationDegree", "label": "旋转角度", "type": "number", "step": 1, "defval": 0.0 },
@@ -495,7 +495,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "hidden", "defval": 1 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       { "name": "numberOfVerticalLines", "label": "边线边数", "type": "number", "step": 1, "defval": 16.0 },
@@ -562,7 +562,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "label": "边框宽度", "type": "hidden", "defval": 1.0 },
-      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       {
@@ -628,7 +628,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "hidden", "defval": 1.0 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       {
@@ -682,7 +682,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "hidden", "defval": 1.0 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       {
@@ -767,7 +767,7 @@
         ]
       },
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineColor", "outlineOpacity"] },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       {
@@ -866,7 +866,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "hidden", "defval": 1.0 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       {
@@ -969,7 +969,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 1 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
 
       { "name": "rotationDegree", "label": "旋转角度", "type": "number", "step": 1, "defval": 0.0 },
@@ -1025,7 +1025,7 @@
 
       { "name": "outline", "label": "是否边框", "type": "radio", "defval": false, "impact": ["outlineWidth", "outlineColor", "outlineOpacity"] },
       { "name": "outlineWidth", "isImpact": true, "label": "边框宽度", "type": "number", "step": 1, "defval": 1.0 },
-      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "outlineColor", "isImpact": true, "label": "边框颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "边框透明度", "type": "slider", "min": 0, "max": 1, "step": 0.01, "defval": 0.6 },
 
       {

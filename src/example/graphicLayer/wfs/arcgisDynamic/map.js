@@ -1,71 +1,92 @@
-var map
-function initMap() {
+import * as mars3d from "mars3d"
 
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", {
-    scene: {
-      center: { lat: 30.931953, lng: 117.352307, alt: 207201, heading: 360, pitch: -64 }
-    },
-    control: {
-      baseLayerPicker: true, // basemaps底图切换按钮
-      homeButton: true, // 视角复位按钮
-      sceneModePicker: true, // 二三维切换按钮
-      defaultContextMenu: true, // 右键菜单
-      locationBar: { fps: true } // 状态栏
-    },
-    terrain: {
-      url: "http://data.mars3d.cn/terrain",
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.931953, lng: 117.352307, alt: 207201, heading: 360, pitch: -64 }
+  },
+  control: {
+    baseLayerPicker: true, // basemaps底图切换按钮
+    homeButton: true, // 视角复位按钮
+    sceneModePicker: true, // 二三维切换按钮
+    defaultContextMenu: true, // 右键菜单
+    locationBar: { fps: true } // 状态栏
+  },
+  terrain: {
+    url: "http://data.mars3d.cn/terrain",
+    show: true
+  },
+  // 方式1：在创建地球前的参数中配置
+  basemaps: [
+    {
+      name: "ArcGIS影像",
+      icon: "img/basemaps/esriWorldImagery.png",
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+      enablePickFeatures: false,
       show: true
     },
-    // 方式1：在创建地球前的参数中配置
-    basemaps: [
-      {
-        name: "ArcGIS影像",
-        icon: "img/basemaps/esriWorldImagery.png",
-        type: "arcgis",
-        url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-        enablePickFeatures: false,
-        show: true
-      },
-      {
-        name: "ArcGIS电子街道",
-        icon: "img/basemaps/google_vec.png",
-        type: "arcgis",
-        url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-        enablePickFeatures: false
-      },
-      {
-        name: "ArcGIS NatGeo",
-        icon: "img/basemaps/esriWorldStreetMap.png",
-        type: "arcgis",
-        url: "https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer",
-        enablePickFeatures: false
-      },
-      {
-        name: "蓝色底图",
-        icon: "img/basemaps/bd-c-midnight.png",
-        type: "arcgis",
-        url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-        enablePickFeatures: false,
-        chinaCRS: mars3d.ChinaCRS.GCJ02
-      },
-      {
-        name: "灰色底图",
-        icon: "img/basemaps/bd-c-grayscale.png",
-        type: "arcgis",
-        url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
-        enablePickFeatures: false,
-        chinaCRS: mars3d.ChinaCRS.GCJ02
-      }
-    ]
-  })
+    {
+      name: "ArcGIS电子街道",
+      icon: "img/basemaps/google_vec.png",
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      enablePickFeatures: false
+    },
+    {
+      name: "ArcGIS NatGeo",
+      icon: "img/basemaps/esriWorldStreetMap.png",
+      type: "arcgis",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer",
+      enablePickFeatures: false
+    },
+    {
+      name: "蓝色底图",
+      icon: "img/basemaps/bd-c-midnight.png",
+      type: "arcgis",
+      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+      enablePickFeatures: false,
+      chinaCRS: mars3d.ChinaCRS.GCJ02
+    },
+    {
+      name: "灰色底图",
+      icon: "img/basemaps/bd-c-grayscale.png",
+      type: "arcgis",
+      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
+      enablePickFeatures: false,
+      chinaCRS: mars3d.ChinaCRS.GCJ02
+    }
+  ]
 }
 
-// 叠加的图层
-var arcGisLayer
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+}
 
-function addLayer() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 叠加的图层
+ *
+ * @export
+ * @returns {void}
+ */
+let arcGisLayer
+export function addLayer() {
   removeLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -103,11 +124,11 @@ function addLayer() {
     console.log("单击了矢量数据，共" + event.features.length + "条", event)
   })
 }
-function removeLayer() {
+
+// 移除图层
+export function removeLayer() {
   if (arcGisLayer) {
     map.removeLayer(arcGisLayer, true)
     arcGisLayer = null
   }
 }
-
-

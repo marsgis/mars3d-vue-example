@@ -1,23 +1,40 @@
-var map
-var graphicLayer
-var videoElement
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.44134, lng: 119.482687, alt: 199, heading: 227, pitch: -28 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let videoElement
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.44134, lng: 119.482687, alt: 199, heading: 227, pitch: -28 }
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  addModel()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addModel() {
   createVideoDom()
 
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
     url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
     position: { alt: 11.5 },
@@ -56,7 +73,7 @@ function initMap(options) {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
       callback: function (e) {
-        var graphic = e.graphic
+        const graphic = e.graphic
         if (graphic) {
           graphicLayer.removeGraphic(graphic)
         }
@@ -64,12 +81,11 @@ function initMap(options) {
     }
   ])
 
-  addGraphic_01()
-  addGraphic_02()
+  addGraphic01()
+  addGraphic02()
 }
 
 function createVideoDom() {
-
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
   videoElement.setAttribute("autoplay", "autoplay")
@@ -91,8 +107,8 @@ function createVideoDom() {
 }
 
 // 竖立视频
-function addGraphic_01() {
-  var graphic = new mars3d.graphic.PolygonEntity({
+function addGraphic01() {
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481299, 28.439988, 140],
       [119.481162, 28.440102, 140],
@@ -108,8 +124,8 @@ function addGraphic_01() {
 }
 
 // 地面视频
-function addGraphic_02() {
-  var graphic = new mars3d.graphic.PolygonEntity({
+function addGraphic02() {
+  const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481749, 28.440171],
       [119.481385, 28.440457],
@@ -125,12 +141,12 @@ function addGraphic_02() {
   graphicLayer.addGraphic(graphic)
 }
 
-var rotation = 0
+let rotation = 0
 function getRotationValue() {
   return rotation
 }
 
-function drawRectangle() {
+export function drawRectangle() {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -146,8 +162,14 @@ function drawRectangle() {
   })
 }
 
-// 绘制这个polygon的时候，点的绘制顺序和面的角度不同，会使画面翻转
-function drawPolygon(clampToGround) {
+/**
+ * 绘制这个polygon的时候，点的绘制顺序和面的角度不同，会使画面翻转
+ *
+ * @export
+ * @param {boolean} clampToGround  是否贴地 clampToGround = true/false
+ * @returns {void}
+ */
+export function drawPolygon(clampToGround) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -163,22 +185,29 @@ function drawPolygon(clampToGround) {
 }
 
 // 播放暂停
-function videoPlay() {
+export function videoPlay() {
   if (!map.clock.shouldAnimate) {
     map.clock.shouldAnimate = true
   }
 }
-function videoStop() {
+export function videoStop() {
   if (map.clock.shouldAnimate) {
     map.clock.shouldAnimate = false
   }
 }
 
-function angleChange(value) {
+/**
+ * 方向改变
+ *
+ * @export
+ * @param {number} value  范围在0-360°
+ * @returns {void}
+ */
+export function angleChange(value) {
   rotation = Cesium.Math.toRadians(value)
 }
 
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
   graphicLayer.clear()
 }

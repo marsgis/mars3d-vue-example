@@ -1,47 +1,55 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 53.285266, lng: 142.68078, alt: 17309707, heading: 45, pitch: -83 },
-      mapMode2D: Cesium.MapMode2D.ROTATE, // 二三维场景切换黑影
-      clock: {
-        currentTime: "2021-01-01T12:08:20Z",
-        multiplier: 60 // 速度
-      },
-      cameraController: {
-        maximumZoomDistance: 9000000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      }
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 53.285266, lng: 142.68078, alt: 17309707, heading: 45, pitch: -83 },
+    mapMode2D: Cesium.MapMode2D.ROTATE, // 二三维场景切换黑影
+    clock: {
+      currentTime: "2021-01-01T12:08:20Z",
+      multiplier: 60 // 速度
     },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: false, // 是否显示时间线控件
-      infoBox: false,
-      baseLayerPicker: false,
-      fullscreenButton: false,
-      sceneModePicker: true,
-      geocoder: false, // 查询
-      navigationHelpButton: false, // 提示
-      compass: { top: "10px", left: "5px" }
+    cameraController: {
+      maximumZoomDistance: 9000000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     }
-  })
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: false, // 是否显示时间线控件
+    infoBox: false,
+    baseLayerPicker: false,
+    fullscreenButton: false,
+    sceneModePicker: true,
+    geocoder: false, // 查询
+    navigationHelpButton: false, // 提示
+    compass: { top: "10px", left: "5px" }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var property = getDynamicProperty() // 取数据
+  const property = getDynamicProperty() // 取数据
 
   // 视锥体 展示
-  var conicSensor = new mars3d.graphic.ConicSensor({
+  const conicSensor = new mars3d.graphic.ConicSensor({
     position: property,
     style: {
       angle: 15,
@@ -53,9 +61,17 @@ function initMap(options) {
   graphicLayer.addGraphic(conicSensor)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function getDynamicProperty() {
   // 该数据是由后端计算返回的轨道信息
-  var wxkjx = [
+  const wxkjx = [
     {
       time: "2021-01-01T12:08:20Z",
       x: -143.774623333805,
@@ -94,12 +110,11 @@ function getDynamicProperty() {
     }
   ]
 
-  var property = new Cesium.SampledPositionProperty()
-  for (var z = 0; z < wxkjx.length; z++) {
-    var item = wxkjx[z]
-
-    var thisTime = Cesium.JulianDate.fromIso8601(item.time)
-    var position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
+  const property = new Cesium.SampledPositionProperty()
+  for (let z = 0; z < wxkjx.length; z++) {
+    const item = wxkjx[z]
+    const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+    const position = Cesium.Cartesian3.fromDegrees(item.x, item.y, item.z)
 
     // 添加每一个链接点的信息，到达的时间以及坐标位置
     property.addSample(thisTime, position)

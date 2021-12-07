@@ -20,12 +20,12 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item label="">
+      <div class="f-tac">
         <a-space>
           <mars-button @click="btnAnalyse">开始分析</mars-button>
           <mars-button @click="removeAll">清除</mars-button>
         </a-space>
-      </a-form-item>
+      </div>
 
       <div v-show="wayShow">
         <a-table
@@ -45,6 +45,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
 interface DataItem {
   key: number
@@ -55,8 +56,6 @@ interface DataItem {
   graphic: any
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const strat = ref("")
 const count = ref(0)
@@ -155,10 +154,10 @@ const removeAll = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 320px;
+  width: 280px;
 }
 .selectWidth{
-  width: 220px;
+  width: 210px;
 }
 .inputWidth{
   width: 150px;

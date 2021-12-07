@@ -1,26 +1,30 @@
+import * as mars3d from "mars3d"
 
-var map
-var queryMapserver
-var drawGraphic
-var geoJsonLayer
+let map // mars3d.Map三维地图对象
+let queryMapserver
+let drawGraphic
+let geoJsonLayer
 
-// 抛出事件
-var eventTarget = new mars3d.BaseClass()
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 }
+  },
+  control: {
+    infoBox: false
+  }
+}
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 }
-    },
-    control: {
-      infoBox: false
-    }
-  })
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 用于参考
   const arcGisLayer = new mars3d.layer.ArcGisLayer({
@@ -52,8 +56,16 @@ function initMap(options) {
   map.addLayer(geoJsonLayer)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -71,7 +83,7 @@ function drawRectangle() {
   })
 }
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -89,7 +101,7 @@ function drawCircle() {
   })
 }
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -107,18 +119,16 @@ function drawPolygon() {
   })
 }
 // 清除数据
-function clearAll() {
+export function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()
-  // $("#tab_check").hide()
 }
+
 // 查询数据
-var tf = true
-function queryData(queryVal) {
+export function queryData(queryVal) {
   if (drawGraphic == null) {
     globalMsg("请绘制查询区域！")
-    tf = false
     return
   }
 
@@ -137,9 +147,9 @@ function queryData(queryVal) {
 
       const drawGeoJSON = drawGraphic.toGeoJSON({ outline: true })
 
-      var arrArea = []
+      const arrArea = []
       const arrFeatures = result.geojson.features
-      for (var i = 0; i < arrFeatures.length; i++) {
+      for (let i = 0; i < arrFeatures.length; i++) {
         const feature = arrFeatures[i]
 
         try {
@@ -153,7 +163,7 @@ function queryData(queryVal) {
           clearAll()
         }
 
-        var area = turf.area(feature) || feature.properties.Shape_Area || 0
+        const area = turf.area(feature) || feature.properties.Shape_Area || 0
         feature.properties.muArea = mars3d.Util.formatNum(area * 0.0015, 2) // 平方米转亩
 
         // 需要统计的数据
@@ -166,7 +176,6 @@ function queryData(queryVal) {
       // 显示数据
       geoJsonLayer.load({ data: result.geojson })
       calculateArea(arrArea)
-
     },
     error: (error, msg) => {
       console.log("服务访问错误", error)
@@ -180,7 +189,7 @@ function calculateArea(arr) {
   console.log("计算前数据", arr)
 
   const objTemp = {}
-  for (var i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 
     if (!objTemp[item.type]) {
@@ -191,10 +200,10 @@ function calculateArea(arr) {
     objTemp[item.type].count++
   }
 
-  var arrPie = [] // 饼状图:名称+面积
-  var arrTable = [] // 表格: 名称+面积+数量
-  var arrType = [] // 柱状图:名称
-  var arrArea = [] // 柱状图:面积
+  const arrPie = [] // 饼状图:名称+面积
+  const arrTable = [] // 表格: 名称+面积+数量
+  const arrType = [] // 柱状图:名称
+  const arrArea = [] // 柱状图:面积
 
   for (const type in objTemp) {
     const area = mars3d.Util.formatNum(objTemp[type].area, 2)
@@ -203,11 +212,9 @@ function calculateArea(arr) {
     arrPie.push({ name: type, value: area })
     arrTable.push({ name: type, area: area, count: objTemp[type].count })
   }
-  // console.log("统计结果", arrTable);
-
 
   // echarts饼状图
-  var pieEchartsOption = {
+  const pieEchartsOption = {
     title: {
       text: "饼状图",
       left: "center",
@@ -244,7 +251,7 @@ function calculateArea(arr) {
   }
 
   // echarts柱状图
-  var histogramOption = {
+  const histogramOption = {
     tooltip: {
       trigger: "item",
       backgroundColor: "rgba(63, 72, 84, 0.7)",
@@ -300,11 +307,10 @@ function calculateArea(arr) {
   }
 
   eventTarget.fire("loadOk", { arrTable, pieEchartsOption, histogramOption })
-
 }
 
 // 规划面着色配置
-var styleFieldOptions = {
+const styleFieldOptions = {
   A1: {
     // 行政办公用地
     color: "rgba(255,127,159,0.9)"
@@ -642,4 +648,3 @@ var styleFieldOptions = {
     color: "rgba(159,127,255,0.9)"
   }
 }
-

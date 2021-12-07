@@ -20,26 +20,27 @@
         <a-slider @change="changeColorOpacity" v-model:value="formState.slideOpacity" :min="0.01" :max="1.0" :step="0.01" />
       </a-form-item>
 
-      <a-form-item>
+      <div class="f-mb f-tac">
         <a-space>
           <mars-button @click="btnAdd">计算成像区域</mars-button>
           <mars-button @click="btnRemoveAll">清除所有</mars-button>
         </a-space>
-      </a-form-item>
+      </div>
 
-      <a-form-item>
+      <div class="f-tac">
         <a-checkbox v-model:checked="formState.guidaoS" @change="changeGuidaoS">升轨</a-checkbox>
         <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
-      </a-form-item>
+      </div>
     </a-form>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import type { UnwrapRef } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+ import * as mapWork from "./map.js"
 
 interface FormState {
   slideAngle: number
@@ -51,8 +52,7 @@ interface FormState {
   guidaoJ: boolean
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+
 
 const formState: UnwrapRef<FormState> = reactive({
   slideAngle: 10,
@@ -66,6 +66,7 @@ const formState: UnwrapRef<FormState> = reactive({
 
 const startTime = ref()
 const endTime = ref()
+
 mapWork.eventTarget.on("loadOK", (event: any) => {
   startTime.value = dayjs(event.startTime, "YYYY-MM-DD HH:mm:ss")
   endTime.value = dayjs(event.endTime, "YYYY-MM-DD HH:mm:ss")

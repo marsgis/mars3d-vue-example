@@ -4,17 +4,18 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "report": "vue-cli-service build --report",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "@icon-park/vue-next": "^1.3.5",
-    "ant-design-vue": "3.0.0-alpha.11",
+    "ant-design-vue": "3.0.0-alpha.13",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
     "lodash": "^4.17.21",
-    "mars-editor": "^1.1.2",
+    "mars-editor": "2.0.3",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",
     "split.js": "^1.6.4",

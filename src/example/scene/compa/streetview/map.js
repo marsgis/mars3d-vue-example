@@ -1,20 +1,29 @@
-var map
-var tileLayer
-var graphicLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 }
-    },
-    control: {
-      compass: { bottom: "320px", right: "5px" }
-    }
-  })
-  creatDom()
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let tileLayer
+let graphicLayer
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 }
+  },
+  control: {
+    compass: { bottom: "320px", right: "5px" }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  creatDom()
   map.basemap = "腾讯电子"
 
   // 矢量图层数据
@@ -29,10 +38,17 @@ function initMap(options) {
   map.addLayer(tileLayer)
 
   splitScreen()
-
 }
 
-function chooseStree() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function chooseStree() {
   if (markerStreet) {
     graphicLayer.removeGraphic(markerStreet, true)
     markerStreet = null
@@ -46,7 +62,6 @@ function chooseStree() {
   if (typeView != 0) {
     viewTo3d()
   }
-
 
   graphicLayer.startDraw({
     type: "billboard",
@@ -79,37 +94,35 @@ function creatDom() {
   iframDom.setAttribute("src", "example/scene/compa/streetview/baidu.html?lng=117.215219&lat=31.861592")
 }
 
-var typeView = 0
+let typeView = 0
 
 // 3d显示
-function viewTo3d() {
+export function viewTo3d() {
   typeView = 0
-  var dom2d = document.getElementById("centerDiv")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDiv")
+  const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "block"
   dom3d.style.width = "100%"
   dom3d.style.left = "0"
 
   dom2d.style.display = "none"
-
 }
 
 // // 街景显示
-function streetscape() {
+export function streetscape() {
   typeView = 1
-  var dom2d = document.getElementById("centerDiv")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDiv")
+  const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "none"
   dom2d.style.width = "100%"
   dom2d.style.display = "block"
-
 }
 
 // 分屏显示
-function splitScreen() {
+export function splitScreen() {
   typeView = 2
-  var dom2d = document.getElementById("centerDiv")
-  var dom3d = document.getElementById("centerDiv3D")
+  const dom2d = document.getElementById("centerDiv")
+  const dom3d = document.getElementById("centerDiv3D")
 
   dom2d.style.width = "50%"
   dom3d.style.width = "50%"

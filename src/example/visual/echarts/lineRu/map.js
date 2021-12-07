@@ -1,35 +1,55 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 26.197302, lng: 112.783136, alt: 5933911, heading: 356, pitch: -80 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 26.197302, lng: 112.783136, alt: 5933911, heading: 356, pitch: -80 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建Echarts图层
   createEchartsLayer()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function createEchartsLayer() {
-  /* var geoCoorddata = {
+  /* let geoCoorddata = {
     武汉: [114.30539299999998, 30.593099],
     深圳: [114.05786499999999, 22.543096],
     北京: [116.40739499999995, 39.904211],
     阿克苏: [80.26338699999997, 41.167548],
   }; */
 
-  var options = getEchartsOption()
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const options = getEchartsOption()
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }
 
+/**
+ *echart图层
+ *
+ * @return {option} echart图表的数据
+ */
 function getEchartsOption() {
-  var geoCoordMap = {
+  const geoCoordMap = {
     上海: [121.4648, 31.2891],
     东莞: [113.8953, 22.901],
     东营: [118.7073, 37.5513],
@@ -149,7 +169,7 @@ function getEchartsOption() {
     韶关: [113.7964, 24.7028]
   }
 
-  var BJData = [
+  const BJData = [
     [
       {
         name: "北京",
@@ -314,14 +334,14 @@ function getEchartsOption() {
     ]
   ]
 
-  // var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+  // let planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
 
-  var convertData = function (data) {
-    var res = []
-    for (var i = 0; i < data.length; i++) {
-      var dataItem = data[i]
-      var fromCoord = geoCoordMap[dataItem[0].name]
-      var toCoord = geoCoordMap[dataItem[1].name]
+  const convertData = function (data) {
+    const res = []
+    for (let i = 0; i < data.length; i++) {
+      const dataItem = data[i]
+      const fromCoord = geoCoordMap[dataItem[0].name]
+      const toCoord = geoCoordMap[dataItem[1].name]
       if (fromCoord && toCoord) {
         res.push({
           fromName: dataItem[0].name,
@@ -333,7 +353,7 @@ function getEchartsOption() {
     return res
   }
 
-  // var covertColor = function (data) {
+  // let covertColor = function (data) {
   //   data.map(function (dataItem) {
   //     console.log(dataItem[0]);
   //     let value = dataItem[0].value;
@@ -352,7 +372,7 @@ function getEchartsOption() {
   //   });
   // };
 
-  var series = []
+  const series = []
   ;[["北京", BJData]].forEach(function (item, i) {
     series.push(
       {
@@ -412,7 +432,7 @@ function getEchartsOption() {
     )
   })
 
-  var option = {
+  const option = {
     animation: false,
     // title: {
     //    text: 'EasyOP集群分布图',

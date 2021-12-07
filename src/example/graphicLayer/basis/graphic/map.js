@@ -1,81 +1,87 @@
+import * as mars3d from "mars3d"
 
-var map
-var graphicLayer
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  const mapOptions = mars3d.Util.merge(options, {})
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-  // 1.在map上绑定监听事件
-  // map.on(mars3d.EventType.clickGraphic, function(event) {
-  //   //clickGraphic
-  //   console.log('监听map，单击了矢量对象', event)
-  // })
-  // map.on(mars3d.EventType.mouseMove, function(event) {
-  //   //mouseMove
-  //   console.log('监听map，鼠标移动了', event)
-  // })
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  // 1.在map上绑定监听事件
+  /* map.on(mars3d.EventType.clickGraphic, function (event) {
+    // clickGraphic
+    console.log("监听map，单击了矢量对象", event)
+  })
+  map.on(mars3d.EventType.mouseMove, function (event) {
+    // mouseMove
+    console.log("监听map，鼠标移动了", event)
+  }) */
 
-  // 图层管理的相关处理，代码在\js\graphicManager.js
   // 2.在layer上绑定监听事件
-  // eslint-disable-next-line no-undef
-  initLayerManager(graphicLayer)
+  initLayerManager()
 
   // 加一些演示数据
-  addGraphic_e01(graphicLayer)
-  addGraphic_e02(graphicLayer)
-  addGraphic_e03(graphicLayer)
-  addGraphic_e04(graphicLayer)
-  addGraphic_e05(graphicLayer)
-  addGraphic_e06(graphicLayer)
-  addGraphic_e07(graphicLayer)
-  addGraphic_e08(graphicLayer)
-  addGraphic_e09(graphicLayer)
-  addGraphic_e10(graphicLayer)
-  addGraphic_e11(graphicLayer)
-  addGraphic_e12(graphicLayer)
-  addGraphic_e13(graphicLayer)
-  addGraphic_e14(graphicLayer)
-  addGraphic_e15(graphicLayer)
+  addGraphice01(graphicLayer)
+  addGraphice02(graphicLayer)
+  addGraphice03(graphicLayer)
+  addGraphice04(graphicLayer)
+  addGraphice05(graphicLayer)
+  addGraphice06(graphicLayer)
+  addGraphice07(graphicLayer)
+  addGraphice08(graphicLayer)
+  addGraphice09(graphicLayer)
+  addGraphice10(graphicLayer)
+  addGraphice11(graphicLayer)
+  addGraphice12(graphicLayer)
+  addGraphice13(graphicLayer)
+  addGraphice14(graphicLayer)
+  addGraphice15(graphicLayer)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
+export function bindShowHide(val) {
   graphicLayer.show = val
 }
-function bindPopup(val) {
+export function bindPopup(val) {
   if (val) {
-    // eslint-disable-next-line no-undef
     bindLayerPopup(graphicLayer)
   } else {
     graphicLayer.unbindPopup()
   }
 }
-function bindTooltip(val) {
+export function bindTooltip(val) {
   if (val) {
     graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
   } else {
     graphicLayer.unbindTooltip()
   }
 }
-function bindRightMenu(val) {
+export function bindRightMenu(val) {
   if (val) {
-    // eslint-disable-next-line no-undef
     bindLayerContextMenu(graphicLayer)
   } else {
     graphicLayer.unbindContextMenu(true)
   }
 }
 
-function addGraphic_e01(graphicLayer) {
+function addGraphice01(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     position: new mars3d.LatLngPoint(116.1, 31.0, 1000),
     style: {
@@ -94,7 +100,7 @@ function addGraphic_e01(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e02(graphicLayer) {
+function addGraphice02(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     position: [116.2, 31.0, 1000],
     style: {
@@ -108,7 +114,7 @@ function addGraphic_e02(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e03(graphicLayer) {
+function addGraphice03(graphicLayer) {
   const graphic = new mars3d.graphic.BillboardEntity({
     name: "贴地图标",
     position: [116.3, 31.0, 1000],
@@ -123,7 +129,7 @@ function addGraphic_e03(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e04(graphicLayer) {
+function addGraphice04(graphicLayer) {
   const graphic = new mars3d.graphic.PlaneEntity({
     position: new mars3d.LatLngPoint(116.4, 31.0, 1000),
     style: {
@@ -138,8 +144,7 @@ function addGraphic_e04(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-//
-function addGraphic_e05(graphicLayer) {
+function addGraphice05(graphicLayer) {
   const graphic = new mars3d.graphic.BoxEntity({
     position: new mars3d.LatLngPoint(116.5, 31.0, 1000),
     style: {
@@ -155,7 +160,7 @@ function addGraphic_e05(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e06(graphicLayer) {
+function addGraphice06(graphicLayer) {
   const graphic = new mars3d.graphic.CircleEntity({
     position: [116.1, 30.9, 1000],
     style: {
@@ -172,7 +177,7 @@ function addGraphic_e06(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e07(graphicLayer) {
+function addGraphice07(graphicLayer) {
   const graphic = new mars3d.graphic.CylinderEntity({
     position: [116.2, 30.9, 1000],
     style: {
@@ -188,7 +193,7 @@ function addGraphic_e07(graphicLayer) {
 }
 
 //
-function addGraphic_e08(graphicLayer) {
+function addGraphice08(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LatLngPoint(116.3, 30.9, 1000),
     style: {
@@ -201,7 +206,7 @@ function addGraphic_e08(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e09(graphicLayer) {
+function addGraphice09(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "消防员",
     position: [116.4, 30.9, 1000],
@@ -214,7 +219,7 @@ function addGraphic_e09(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic_e10(graphicLayer) {
+function addGraphice10(graphicLayer) {
   const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [116.5, 30.9, 1000],
@@ -229,7 +234,7 @@ function addGraphic_e10(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic_e11(graphicLayer) {
+function addGraphice11(graphicLayer) {
   const graphic = new mars3d.graphic.PolylineVolumeEntity({
     positions: [
       [116.1, 30.8, 1000],
@@ -246,7 +251,7 @@ function addGraphic_e11(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic_e12(graphicLayer) {
+function addGraphice12(graphicLayer) {
   const graphic = new mars3d.graphic.CorridorEntity({
     positions: [
       [116.2, 30.8, 1000],
@@ -262,7 +267,7 @@ function addGraphic_e12(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic_e13(graphicLayer) {
+function addGraphice13(graphicLayer) {
   const graphic = new mars3d.graphic.WallEntity({
     positions: [
       [116.3, 30.8, 1000],
@@ -285,7 +290,7 @@ function addGraphic_e13(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic_e14(graphicLayer) {
+function addGraphice14(graphicLayer) {
   const graphic = new mars3d.graphic.RectangleEntity({
     positions: [
       [116.383144, 30.819978, 444.42],
@@ -303,7 +308,7 @@ function addGraphic_e14(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic_e15(graphicLayer) {
+function addGraphice15(graphicLayer) {
   const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [116.510278, 30.834372, 567.29],
@@ -324,4 +329,175 @@ function addGraphic_e15(graphicLayer) {
     }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+
+// 在图层级处理一些事物
+function initLayerManager() {
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
+    console.log("监听layer，鼠标移入了矢量对象", event)
+  })
+  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
+    console.log("监听layer，鼠标移出了矢量对象", event)
+  }) */
+
+  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerPopup()
+
+  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu()
+}
+
+// 绑定图层的弹窗
+function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic?.attr || {}
+    attr.test1 = "测试属性"
+    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+
+    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+  })
+}
+
+// 绑定右键菜单
+function bindLayerContextMenu() {
+  graphicLayer.bindContextMenu([
+    {
+      text: "开始编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic || !graphic.startEditing) {
+          return false
+        }
+        return !graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayer.startEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "停止编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayer.stopEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayer.removeGraphic(graphic)
+      }
+    },
+    {
+      text: "计算长度",
+      iconCls: "fa fa-medium",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "polyline" ||
+          graphic.type === "polylineP" ||
+          graphic.type === "curve" ||
+          graphic.type === "curveP" ||
+          graphic.type === "polylineVolume" ||
+          graphic.type === "polylineVolumeP" ||
+          graphic.type === "corridor" ||
+          graphic.type === "corridorP" ||
+          graphic.type === "wall" ||
+          graphic.type === "wallP"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的长度为:" + strDis)
+      }
+    },
+    {
+      text: "计算周长",
+      iconCls: "fa fa-medium",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "circle" ||
+          graphic.type === "circleP" ||
+          graphic.type === "rectangle" ||
+          graphic.type === "rectangleP" ||
+          graphic.type === "polygon" ||
+          graphic.type === "polygonP"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的周长为:" + strDis)
+      }
+    },
+    {
+      text: "计算面积",
+      iconCls: "fa fa-reorder",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "circle" ||
+          graphic.type === "circleP" ||
+          graphic.type === "rectangle" ||
+          graphic.type === "rectangleP" ||
+          graphic.type === "polygon" ||
+          graphic.type === "polygonP" ||
+          graphic.type === "scrollWall" ||
+          graphic.type === "water"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        globalAlert("该对象的面积为:" + strArea)
+      }
+    }
+  ])
 }

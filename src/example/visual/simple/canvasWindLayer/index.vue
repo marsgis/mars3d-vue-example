@@ -59,6 +59,7 @@
 import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   count: number
@@ -68,8 +69,7 @@ interface FormState {
   color:string
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+
 
 const labelCol = ref({ span: 8 })
 const labelAlign = ref("left")
@@ -88,10 +88,12 @@ const formState: UnwrapRef<FormState> = reactive({
 const changeCount = () => {
   mapWork.changeCount(formState.count)
 }
+
 // 修改存活时间
 const changeAge = () => {
   mapWork.changeAge(formState.age)
 }
+
 // 修改移动速率
 const changeSpeed = () => {
   mapWork.changeSpeed(formState.speed)

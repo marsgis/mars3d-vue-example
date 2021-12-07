@@ -1,54 +1,46 @@
 <template>
   <PannelBox class="infoView modelView" v-auto-height="60">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <a-checkbox @change="chkTestTerrain" v-model:checkde="isTestTerrain">深度检测</a-checkbox>
-          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
+        <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
+      </a-space>
+    </div>
 
-      <div class="infoView-content">
-        <a-upload
-          :multiple="false"
-          name="file"
-          accept="json,geojson,kml,kmz"
-          :showUploadList="false"
-          @change="openGeoJSON"
-          :beforeUpload="() => false"
-        >
-          <icon-folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开" />
-        </a-upload>
-        <icon-disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
+    <div class="f-mb infoView-content">
+      <a-upload :multiple="false" name="file" accept="json,geojson,kml,kmz" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+        <icon-folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开" />
+      </a-upload>
+      <icon-disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
+    </div>
+
+    <div class="f-mb">
+      <mars-select
+        ref="select"
+        v-model:value="value1"
+        style="width: 200px; margin-left: 10px"
+        :options="selectOptions"
+        @focus="focus"
+        @change="handleChange"
+      ></mars-select>
+
+      <div class="f-mb gltfImg" v-auto-height="220">
+        <ul>
+          <li v-for="imgs in dataList" :key="imgs.name">
+            <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
+          </li>
+        </ul>
       </div>
-
-      <a-form-item>
-        <mars-select
-          ref="select"
-          v-model:value="value1"
-          style="width: 200px; margin-left: 10px"
-          :options="selectOptions"
-          @focus="focus"
-          @change="handleChange"
-        ></mars-select>
-
-        <div class="gltfImg" v-auto-height="220">
-          <ul>
-            <li v-for="imgs in dataList" :key="imgs.name">
-              <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
-            </li>
-          </ul>
-        </div>
-      </a-form-item>
-    </a-form>
+    </div>
   </PannelBox>
   <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, onMounted, ref } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import * as mapWork from "./map.js"
 
 interface FileItem {
   uid: string
@@ -62,34 +54,72 @@ interface FileInfo {
   file: FileItem
   fileList: FileItem[]
 }
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
-const editor = ref()
 
-const isTestTerrain = ref<boolean>(true)
+// 深度检测
+const isTestTerrain = ref<boolean>(false)
+const chkTestTerrain = () => {
+  mapWork.chkTestTerrain(isTestTerrain.value)
+}
 
+// 仅在模型上绘制
 const isonlyModel = ref<boolean>(false)
+const onlyPickModelPosition = () => {
+  mapWork.onlyPickModelPosition(isonlyModel.value)
+}
 
-const value1 = ref<string>("车辆")
+// 绘制模型
+const showModel = (style: any) => {
+  mapWork.drawGltf(style)
+}
 
+//* **********************下拉框******************* */
 let modelData: any
-
 const selectOptions = ref<any[]>([])
+const value1 = ref<string>("车辆")
+const dataList = ref<any[]>([])
 
-onMounted(() => {
-  mapWork.eventTarget.on("loadOk", function (event: any) {
-    modelData = event.data
-    Object.keys(modelData).forEach((k, index) => {
-      selectOptions.value.push({
-        value: k,
-        lable: k
-      })
+mapWork.eventTarget.on("loadOk", function (event: any) {
+  modelData = event.data
+  // 下拉框数据
+  Object.keys(modelData).forEach((k) => {
+    selectOptions.value.push({
+      value: k,
+      lable: k
     })
-    handleChange()
   })
+  handleChange()
 })
+// 下拉框改变
+const handleChange = () => {
+  dataList.value = modelData[value1.value]
 
+  for (let i = 0; i < dataList.value.length; i++) {
+    const item = dataList.value[i]
+
+    item.image = mapWork.changeItemImage(item)
+    item.style.url = mapWork.changeItemUrl(item)
+    dataList.value[i] = item
+  }
+}
+
+// ************************JSON文件************************/
+// 打开
+const openGeoJSON = (info: FileInfo) => {
+  const item = info.file
+  const fileName = item.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  if (fileType != "json") {
+    alert("文件类型不合法,请选择json格式标注文件！")
+  }
+  mapWork.openGeoJSON(item)
+}
+// 点击保存GeoJSON
+const saveGeoJSON = () => {
+  mapWork.saveGeoJSON()
+}
+
+// ************************属性面板************************/
+const editor = ref()
 mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
@@ -107,53 +137,6 @@ mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
 mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   editor.value.hideEditor()
 })
-
-// 深度检测
-const chkTestTerrain = () => {
-  mapWork.chkTestTerrain(isTestTerrain.value)
-}
-
-const onlyPickModelPosition = () => {
-  mapWork.onlyPickModelPosition(isonlyModel.value)
-}
-
-// 打开
-const openGeoJSON = (info: FileInfo) => {
-  const item = info.file
-  const fileName = item.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
-    alert("文件类型不合法,请选择json格式标注文件！")
-  }
-  mapWork.openGeoJSON(item)
-}
-// 点击保存GeoJSON
-const saveGeoJSON = () => {
-  if (mapWork.graphicLayer.length === 0) {
-    globalProperties.$message("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = mapWork.graphicLayer.toGeoJSON()
-  mapWork.mars3d.Util.downloadFile("模型标绘.json", JSON.stringify(geojson))
-}
-
-const dataList = ref<any[]>([])
-
-const handleChange = () => {
-  dataList.value = modelData[value1.value]
-
-  for (let i = 0; i < dataList.value.length; i++) {
-    const item = dataList.value[i]
-
-    item.image = mapWork.mars3d.Util.template(item.image, { gltfServerUrl: "//data.mars3d.cn/gltf" })
-    item.style.url = mapWork.mars3d.Util.template(item.style.url, { gltfServerUrl: "//data.mars3d.cn/gltf" })
-    dataList.value[i] = item
-  }
-}
-
-const showModel = (style: any) => {
-  mapWork.drawGltf(style)
-}
 </script>
 <style scoped lang="less">
 .infoView-content {

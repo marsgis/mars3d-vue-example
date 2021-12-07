@@ -19,19 +19,28 @@ fetch(configUrl)
     }
   })
   .then((json) => {
-    // 重写initMap方法
-    var initFunc = window.initMap
-    window.initMap = function () {
-      if (initFunc) {
-        initFunc(json.map3d)
-      }
-    }
+    // 构建地图
+    vueGlobal._map = initMap(json.map3d)
     vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
   })
   .catch(function (error) {
     console.log("加载JSON出错", error)
-    alert(error?.message)
+    globalAlert(error?.message)
   })
+
+// 构造地图主方法【必须】
+function initMap(options) {
+  if (window.mapOptions) {
+    if (typeof window.mapOptions === "function") {
+      options = window.mapOptions(options)
+    } else {
+      window.mapOptions = options = mars3d.Util.merge(options, window.mapOptions)
+    }
+  }
+
+  // 创建三维地球场景
+  return new mars3d.Map("mars3dContainer", options)
+}
 
 // 调用vue的消息提示（自动消失）
 function globalMsg(msg, type, ...args) {

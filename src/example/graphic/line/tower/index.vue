@@ -5,19 +5,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import * as echarts from "echarts"
+import * as mapWork from "./map.js"
 
-const mapWork = window.mapWork || {}
-onMounted(() => {
-  mapWork.echartTarget.on("addEchart", function(event:any) {
-    drawHeightToDistanceEcharts(event.heightArry, event.heightTDArray, event.distanceArray)
-  })
+mapWork.echartTarget.on("addEchart", function (event: any) {
+  drawHeightToDistanceEcharts(event.heightArry, event.heightTDArray, event.distanceArray)
 })
 
 // 获取的dom元素
-function drawHeightToDistanceEcharts(heightArry:any[], heightTDArray:any[], distanceArray:any[]) {
+function drawHeightToDistanceEcharts(heightArry: any[], heightTDArray: any[], distanceArray: any[]) {
   const myChart = echarts.init(document.getElementById("section")!, "dark")
 
   var option = {

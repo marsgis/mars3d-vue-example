@@ -1,48 +1,69 @@
-var map
-var graphicLayer
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: {
+      lat: 31.799613,
+      lng: 117.27357,
+      alt: 72.55,
+      heading: 59.8,
+      pitch: -18,
+      roll: 0
+    }
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { bottom: "353px", left: "5px" }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 时间控制参数
-var args = {
+const args = {
   space: 100,
   time: 5,
   martTimeInter: null,
   cleanTimeInter: null
 }
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: {
-        lat: 31.799613,
-        lng: 117.27357,
-        alt: 72.55,
-        heading: 59.8,
-        pitch: -18,
-        roll: 0
-      }
-    },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { bottom: "353px", left: "5px" }
-    }
-  })
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+    // 因为animation面板遮盖，修改底部bottom值
+    const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
+    toolbar.style.bottom = "60px"
+  addLayer()
+}
 
- // 因为animation面板遮盖，修改底部bottom值
- const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
- toolbar.style.bottom = "110px"
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addLayer() {
+
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 合肥高铁
-  var coors = [
+  const coors = [
     [117.277697, 31.800233, 45],
     [117.262022, 31.798983, 45],
     [117.229506, 31.793351, 45],
@@ -55,10 +76,10 @@ function initMap(options) {
     [117.091144, 31.787516, 45]
   ]
 
-  var positions = mars3d.PointTrans.lonlats2cartesians(coors)
+  const positions = mars3d.PointTrans.lonlats2cartesians(coors)
 
   // 插值求新路线（按固定间隔米数插值） positions输入的值需为笛卡尔空间xyz坐标数组
-  var positionsNew = mars3d.PolyUtil.interLine(positions, {
+  const positionsNew = mars3d.PolyUtil.interLine(positions, {
     minDistance: 20 // 间隔20米
   })
 
@@ -77,9 +98,9 @@ function initMap(options) {
 
 // 构造动态高铁   positions:设计的路线    positionsTD地面的贴地路线（用于比较）
 function inintRoad(positionsSJ, positionsTD) {
-  var heightArray = []
-  var heightTDArray = []
-  var mpoints = []
+  const heightArray = []
+  const heightTDArray = []
+  const mpoints = []
   for (let i = 0; i < positionsSJ.length; i++) {
     const position = positionsSJ[i]
     const carto = Cesium.Cartographic.fromCartesian(position)
@@ -95,15 +116,15 @@ function inintRoad(positionsSJ, positionsTD) {
   }
 
   //  距离数组
-  var positionsLineFirst = positionsTD[0]
-  var distanceArray = positionsTD.map(function (data) {
+  const positionsLineFirst = positionsTD[0]
+  const distanceArray = positionsTD.map(function (data) {
     return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
   })
 
   // 显示echarts
   eventTarget.fire("dataLoaded", { heightArray, heightTDArray, distanceArray })
   //  画线
-  var primitive = new mars3d.graphic.PolylinePrimitive({
+  const primitive = new mars3d.graphic.PolylinePrimitive({
     id: "设计路线",
     positions: positionsSJ,
     style: {
@@ -115,7 +136,7 @@ function inintRoad(positionsSJ, positionsTD) {
   })
   graphicLayer.addGraphic(primitive)
 
-  var primitiveTD = new mars3d.graphic.PolylinePrimitive({
+  const primitiveTD = new mars3d.graphic.PolylinePrimitive({
     id: "贴地路线",
     positions: positionsTD,
     style: {
@@ -126,11 +147,11 @@ function inintRoad(positionsSJ, positionsTD) {
   graphicLayer.addGraphic(primitiveTD)
 
   // =================计算路线====================
-  var start = map.clock.currentTime.clone()
+  const start = map.clock.currentTime.clone()
 
-  var counts = mpoints.length
+  const counts = mpoints.length
 
-  var arrProperty = []
+  const arrProperty = []
 
   // 16组车身+头尾2个车头 共18组
   for (let j = 0; j < 18; j++) {
@@ -212,7 +233,7 @@ function inintRoad(positionsSJ, positionsTD) {
 
 // 添加车头
 function addTrainHead(position, availability, rotatePI) {
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车头",
     position: position,
     orientation: new Cesium.VelocityOrientationProperty(position),
@@ -230,7 +251,7 @@ function addTrainHead(position, availability, rotatePI) {
 
 // 添加车身
 function addTrainBody(position, availability) {
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     name: "和谐号车身",
     position: position,
     orientation: new Cesium.VelocityOrientationProperty(position),

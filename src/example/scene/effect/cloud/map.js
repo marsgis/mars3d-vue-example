@@ -1,23 +1,30 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1000,
-        maximumZoomDistance: 300000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      }
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1000,
+      maximumZoomDistance: 300000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     }
-  })
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-  var graphic = new mars3d.graphic.RectangleEntity({
+  const graphic = new mars3d.graphic.RectangleEntity({
     coordinates: Cesium.Rectangle.fromDegrees(-180.0, -90.0, 180.0, 90.0),
     style: {
       height: 6000,
@@ -31,4 +38,12 @@ function initMap(options) {
     }
   })
   map.graphicLayer.addGraphic(graphic)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

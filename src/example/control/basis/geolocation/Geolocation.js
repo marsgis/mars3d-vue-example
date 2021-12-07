@@ -39,6 +39,7 @@ class Geolocation extends mars3d.control.ToolButton {
         })
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       var that = this
       this.geolocation.getCurrentPosition()
 
@@ -63,7 +64,9 @@ class Geolocation extends mars3d.control.ToolButton {
 
     this._map.flyToPoint(position, {
       radius: 2000,
-      complete: function () {}
+      complete: function () {
+        console.log("complete")
+      }
     })
 
     this.clearLocationPoint()

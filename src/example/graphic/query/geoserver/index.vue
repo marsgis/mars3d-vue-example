@@ -41,6 +41,7 @@
 import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import any from "nprogress"
+import * as mapWork from "./map.js"
 
 interface DataItem {
   key: number
@@ -50,14 +51,12 @@ interface DataItem {
   graphic: any
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
 const serverName = ref("")
 const show = ref(false)
 
 // 表格数据
 const dataSource = ref([any])
+
 onMounted(() => {
   mapWork.eventTarget.on("befortUI", function (event: any) {
     show.value = true
@@ -85,12 +84,13 @@ const columns = ref([
     key: "address"
   }
 ])
+
 const rowSelection = ref({
   hideSelectAll: true,
   hideDefaultSelections: true,
   onSelect: (record: DataItem, selected: boolean) => {
     if (record.graphic == null) {
-      mapWork.globalMsg(record.name + " 无经纬度坐标信息！")
+     window.$message(record.name + " 无经纬度坐标信息！")
       return
     }
     if (selected) {
@@ -107,11 +107,12 @@ const rowSelection = ref({
     }
   }
 })
+
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
       if (record.graphic == null) {
-        mapWork.globalMsg(record.name + " 无经纬度坐标信息！")
+        window.$message(record.name + " 无经纬度坐标信息！")
         return
       }
       record.graphic.openHighlight()
@@ -131,10 +132,12 @@ const drawRectangle = () => {
   show.value = false
   mapWork.drawRectangle()
 }
+
 const drawCircle = () => {
   show.value = false
   mapWork.drawCircle()
 }
+
 const drawPolygon = () => {
   show.value = false
   mapWork.drawPolygon()
@@ -143,24 +146,7 @@ const drawPolygon = () => {
 const query = () => {
   show.value = false
   mapWork.clearAll(true)
-  mapWork.queryMapserver.query({
-    column: "项目名称",
-    text: serverName.value,
-    graphic: mapWork.drawGraphic,
-    success: (result: any) => {
-      if (result.count == 0) {
-        mapWork.globalMsg("未查询到相关记录！")
-        return
-      } else {
-        mapWork.globalMsg("共查询到 " + result.count + " 条记录！")
-      }
-      mapWork.geoJsonLayer.load({ data: result.geojson })
-    },
-    error: (error: any, msg: any) => {
-      console.log("服务访问错误", error)
-      mapWork.globalAlert(msg, "服务访问错误")
-    }
-  })
+  mapWork.query(serverName.value)
 }
 // 清除数据
 const removeAll = () => {
@@ -171,9 +157,9 @@ const removeAll = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 400px;
+  width: 320px;
 }
 .inputServe {
-  width: 280px;
+  width: 250px;
 }
 </style>

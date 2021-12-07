@@ -7,35 +7,15 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-
-import { defineComponent } from "vue"
+<script setup lang="ts">
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
-export default defineComponent({
-  components: {
-    PannelBox
-  },
-  setup () {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
+const addLayer = () => {
+  mapWork.addLayer()
+}
 
-    const addLayer = () => {
-      mapWork.addLayer()
-    }
-
-    const removeLayer = () => {
-      mapWork.removeLayer()
-    }
-
-    return {
-      addLayer,
-      removeLayer
-
-    }
-  }
-})
+const removeLayer = () => {
+  mapWork.removeLayer()
+}
 </script>
-<style scoped lang="less">
-
-</style>

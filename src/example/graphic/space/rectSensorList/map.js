@@ -1,37 +1,42 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1000,
-        maximumZoomDistance: 300000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      },
-      globe: { enableLighting: true },
-      clock: {
-        multiplier: 1 // 速度
-      }
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1000,
+      maximumZoomDistance: 300000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
+    globe: { enableLighting: true },
+    clock: {
+      multiplier: 1 // 速度
     }
-  })
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   delete mapOptions.terrain
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
-
-  var tle_arr = [
+  const tle_arr = [
     "COSMOS 33918U",
     "1 33918U 93036DX  21197.87508339  .00001232  00000-0  17625-3 0  9990",
     "2 33918  74.0595 343.7064 0054912  74.2148  45.2906 14.76790626663155",
@@ -62,9 +67,23 @@ function initMap(options) {
   ]
   createSatelliteList(tle_arr)
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ *
+ * @param {Array} arr 卫星数据集合
+ * @returns {void}
+ */
 function createSatelliteList(arr) {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -72,7 +91,7 @@ function createSatelliteList(arr) {
   })
 
   for (let i = 0; i < arr.length; i += 3) {
-    var item = arr[i]
+    const item = arr[i]
     const weixin = new mars3d.graphic.Satellite({
       name: arr[i],
       tle1: arr[i + 1],

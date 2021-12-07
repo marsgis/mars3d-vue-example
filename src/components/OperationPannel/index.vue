@@ -31,7 +31,7 @@ export default defineComponent({
       componentName = exampleId
       loaded.value = true
     }
-    const onChildMounted = () => {
+    const onChildMounted = (e: any) => {
       context.emit("childMounted")
     }
     return {

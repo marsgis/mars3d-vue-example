@@ -1,21 +1,41 @@
-var tileLayer
-var wmsLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.268322, lng: 117.426104, alt: 1052215, heading: 0, pitch: -69 }
-    },
-    control: {
-      baseLayerPicker: false
-    },
-    basemaps: [],
-    layers: [{ type: "tileinfo", name: "瓦片信息", order: 2, show: true }]
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  var map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let tileLayer
+let wmsLayer
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.268322, lng: 117.426104, alt: 1052215, heading: 0, pitch: -69 }
+  },
+  control: {
+    baseLayerPicker: false
+  },
+  basemaps: [],
+  layers: [{ type: "tileinfo", name: "瓦片信息", order: 2, show: true }]
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  addLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addLayer() {
   // 添加图层
   tileLayer = new mars3d.layer.TdtLayer({
     name: "天地图影像",
@@ -44,7 +64,7 @@ function initMap(options) {
 }
 
 function addTileStatus() {
-  var count = 0
+  let count = 0
   // 添加单个瓦片，开始加载瓦片（请求前）
   tileLayer.on(mars3d.EventType.addTile, function (event) {
     count++

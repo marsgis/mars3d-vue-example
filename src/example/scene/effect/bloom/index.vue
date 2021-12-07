@@ -1,53 +1,49 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">状态:</span>
           <a-checkbox v-model:checked="formState.chkShowEffect" @change="bindShowEffect">开启效果</a-checkbox>
         </a-space>
-      </a-form-item>
+      </div>
 
-      <a-form-item>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">对比度:</span>
           <a-slider v-model:value="formState.txt_contrast" @change="txt_contrast" :min="-255.0" :max="255.0" :step="0.01" />
         </a-space>
-      </a-form-item>
-      <a-form-item>
+      </div>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">亮度:</span>
           <a-slider v-model:value="formState.txt_brightness" @change="txt_brightness" :min="-0.1" :max="3.0" :step="0.01" />
         </a-space>
-      </a-form-item>
-      <a-form-item>
+      </div>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">增量:</span>
           <a-slider v-model:value="formState.txt_delta" @change="txt_delta" :min="1" :max="5" :step="0.01" />
         </a-space>
-      </a-form-item>
-      <a-form-item>
+      </div>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">步长:</span>
           <a-slider v-model:value="formState.txt_stepSize" @change="txt_stepSize" :min="0" :max="7" :step="0.01" />
         </a-space>
-      </a-form-item>
-      <a-form-item>
+      </div>
+      <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">Sigma:</span>
           <a-slider v-model:value="formState.txt_sigma" @change="txt_sigma" :min="1" :max="10" :step="0.01" />
         </a-space>
-      </a-form-item>
-    </a-form>
+      </div>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const formState = reactive({
   chkShowEffect: true,

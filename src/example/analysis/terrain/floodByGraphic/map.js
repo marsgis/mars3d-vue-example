@@ -1,14 +1,19 @@
-var map
-var floodByGraphic
-var drawPotions
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+let map // mars3d.Map三维地图对象
+let floodByGraphic
+let drawPotions
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 基于polygon矢量面抬高模拟，只支持单个区域
   floodByGraphic = new mars3d.thing.FloodByGraphic({
@@ -31,7 +36,15 @@ function initMap(options) {
     console.log("结束分析", e)
   })
 
-  eventTarget.fire("loadOk")
+  eventTarget.fire("loadOk", { floodByGraphic })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 function onChangeHeight(height) {
@@ -39,7 +52,7 @@ function onChangeHeight(height) {
 }
 
 // 绘制矩形
-function btnDrawExtent(callback) {
+export function btnDrawExtent(callback) {
   drawPotions = null
   floodByGraphic.clear()
   map.graphicLayer.clear()
@@ -53,21 +66,21 @@ function btnDrawExtent(callback) {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
 
       // 区域
       drawPotions = positions
 
       // 求最大、最小高度值
       showLoading()
-      var result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
+      const result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
       callback(result.minHeight, result.maxHeight)
       hideLoading()
     }
   })
 }
 // 绘制多边形
-function btnDraw(callback) {
+export function btnDraw(callback) {
   drawPotions = null
   floodByGraphic.clear()
   map.graphicLayer.clear()
@@ -80,26 +93,26 @@ function btnDraw(callback) {
       outline: false
     },
     success: function (graphic) {
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
 
       drawPotions = positions
 
       // 求最大、最小高度值
       showLoading()
-      var result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
+      const result = mars3d.PolyUtil.getHeightRange(positions, map.scene)
       callback(result.minHeight, result.maxHeight)
       hideLoading()
     }
   })
 }
 
-function clearDraw() {
+export function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
 }
 
 // 开始分析
-function begin(data) {
+export function begin(data) {
   if (drawPotions == null) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -107,9 +120,9 @@ function begin(data) {
   map.graphicLayer.clear()
   floodByGraphic.positions = drawPotions
 
-  var minValue = Number(data.minHeight)
-  var maxValue = Number(data.maxHeight)
-  var speed = Number(data.speed)
+  const minValue = Number(data.minHeight)
+  const maxValue = Number(data.maxHeight)
+  const speed = Number(data.speed)
   console.log(minValue, maxValue, speed)
 
   floodByGraphic.setOptions({

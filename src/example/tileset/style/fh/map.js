@@ -1,15 +1,22 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.83251, lng: 117.221054, alt: 183, heading: 355, pitch: -48 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.83251, lng: 117.221054, alt: 183, heading: 355, pitch: -48 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/max-fcfh/tileset.json",
@@ -40,4 +47,12 @@ function initMap(options) {
   map.on(mars3d.EventType.clickMap, function (event) {
     tiles3dLayer.style = undefined
   })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

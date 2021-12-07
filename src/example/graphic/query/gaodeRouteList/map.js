@@ -1,26 +1,34 @@
-var map
-var routeLayer
-var gaodeRoute
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let routeLayer
+let gaodeRoute
 
 // 当前页面业务相关
-var startGraphic
-var endPointArr
-var poiLayer
-var queryGaodePOI
+let startGraphic
+let endPointArr
+let poiLayer
+let queryGaodePOI
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
+  }
+}
 
 // 自定义事件
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
-    }
-  })
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+ export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
 
   // 创建矢量数据图层
   routeLayer = new mars3d.layer.GraphicLayer()
@@ -39,23 +47,27 @@ function initMap(options) {
   map.addLayer(poiLayer)
 
   poiLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
 
-    var inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
-    var type = item.type.trim()
-    if (type != "") {
+    let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
+
+    const type = String(item.type).trim()
+    if (type) {
       inHtml += "<div><label>类别</label>" + type + "</div>"
     }
-    var xzqh = item.xzqh.trim()
-    if (xzqh != "") {
+
+    const xzqh = String(item.xzqh).trim()
+    if (xzqh) {
       inHtml += "<div><label>区域</label>" + xzqh + "</div>"
     }
-    var tel = item.tel.trim()
-    if (tel != "") {
+
+    const tel = String(item.tel).trim()
+    if (tel) {
       inHtml += "<div><label>电话</label>" + tel + "</div>"
     }
-    var address = item.address.trim()
-    if (address != "") {
+
+    if (item.address) {
+      const address = item.address.trim()
       inHtml += "<div><label>地址</label>" + address + "</div>"
     }
     inHtml += "</div>"
@@ -63,8 +75,16 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 起点
-function stratPoint() {
+export function stratPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -88,9 +108,9 @@ function stratPoint() {
   })
 }
 // 终点
-function endPoint() {
+export function endPoint() {
   showLoading()
-  var extent = map.getExtent() // 当前视域内
+  const extent = map.getExtent() // 当前视域内
 
   queryGaodePOI.queryPolygon({
     text: "企业",
@@ -118,7 +138,7 @@ function endPoint() {
 }
 
 // 开始分析
-function btnAnalyse() {
+export function btnAnalyse() {
   if (!startGraphic || !endPointArr || endPointArr.length == 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -129,10 +149,10 @@ function btnAnalyse() {
 }
 
 function queryRoute(type) {
-  var startPoint = startGraphic.coordinate
-  var arr = []
-  for (var i = 0; i < endPointArr.length; i++) {
-    var item = endPointArr[i]
+  const startPoint = startGraphic.coordinate
+  const arr = []
+  for (let i = 0; i < endPointArr.length; i++) {
+    const item = endPointArr[i]
     arr.push([startPoint, [item.x, item.y]])
   }
 
@@ -151,22 +171,22 @@ function queryRoute(type) {
   })
 }
 function showRouteResult(data) {
-  for (var i = 0; i < data.length; i++) {
-    var item = data[i]
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i]
     if (!item) {
       continue
     }
 
-    var lnglats = item.points
+    const lnglats = item.points
     if (!lnglats || lnglats.length < 1) {
       continue
     }
 
-    var name = endPointArr[i].name
+    const name = endPointArr[i].name
 
-    var time = formatTime(item.allDuration)
-    var distance = mars3d.MeasureUtil.formatDistance(item.allDistance)
-    var html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
+    const time = formatTime(item.allDuration)
+    const distance = mars3d.MeasureUtil.formatDistance(item.allDistance)
+    const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
 
     const graphic = new mars3d.graphic.PolylineEntity({
       positions: lnglats,
@@ -195,10 +215,10 @@ function addEndPointEntity(arr) {
 
   endPointArr = arr
 
-  for (var i = 0; i < arr.length; i++) {
-    var item = arr[i]
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
 
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.x, item.y),
       style: {
         image: "img/marker/end.png",
@@ -224,10 +244,8 @@ function addEndPointEntity(arr) {
   }
 }
 
-var lastRoute
-
-// 表格的点击事件
-function centerAtRoute(id) {
+let lastRoute
+export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
 
   if (lastRoute) {
@@ -249,7 +267,7 @@ function centerAtRoute(id) {
 }
 
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -265,7 +283,7 @@ function formatTime(strtime) {
   if (strtime < 60) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
-    var miao = Math.floor(strtime % 60)
+    const miao = Math.floor(strtime % 60)
     return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟

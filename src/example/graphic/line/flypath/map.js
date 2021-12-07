@@ -1,24 +1,28 @@
+import * as mars3d from "mars3d"
 
-var map
-var graphicLayer
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let pathEntity = null
 
-var pathEntity = null
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 32.550222, lng: 117.366824, alt: 2696, heading: 273, pitch: -67 }
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true // 是否显示时间线控件
+  }
+}
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 32.550222, lng: 117.366824, alt: 2696, heading: 273, pitch: -67 }
-    },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true // 是否显示时间线控件
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -26,7 +30,6 @@ function initMap(options) {
 
   mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/flypath.json" })
     .then(function (res) {
-      console.log(res)
       initPath(res)
     })
     .otherwise(function (error) {
@@ -34,18 +37,26 @@ function initMap(options) {
     })
 }
 
-// 添加事件
-function viewAircraft() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+// 改变视角  跟踪，上方和侧方
+export function viewAircraft() {
   map.trackedEntity = pathEntity.entity
 
-    pathEntity.flyToPoint({
-      radius: 500, // 距离目标点的距离
-      heading: 40,
-      pitch: -50,
-      duration: 0.01
-    })
+  pathEntity.flyToPoint({
+    radius: 500, // 距离目标点的距离
+    heading: 40,
+    pitch: -50,
+    duration: 0.01
+  })
 }
-function viewTopDown() {
+export function viewTopDown() {
   map.trackedEntity = undefined
 
   map.flyToPoint(pathEntity.positionShow, {
@@ -54,33 +65,33 @@ function viewTopDown() {
     pitch: -89
   })
 }
-function viewSide() {
+export function viewSide() {
   map.trackedEntity = undefined
 
-    map.flyToPoint(pathEntity.positionShow, {
-      radius: 3000,
-      heading: -90,
-      pitch: -25
-    })
+  map.flyToPoint(pathEntity.positionShow, {
+    radius: 3000,
+    heading: -90,
+    pitch: -25
+  })
 }
 
 function initPath(data) {
-  var property = new Cesium.SampledPositionProperty()
+  const property = new Cesium.SampledPositionProperty()
 
-  var start
-  var stop
-  for (var i = 0, len = data.length; i < len; i++) {
-    var item = data[i]
-    var lng = Number(item.x.toFixed(6)) // 经度
-    var lat = Number(item.y.toFixed(6)) // 纬度
-    var height = item.z // 高度
-    var time = item.time // 时间
+  let start
+  let stop
+  for (let i = 0, len = data.length; i < len; i++) {
+    const item = data[i]
+    const lng = Number(item.x.toFixed(6)) // 经度
+    const lat = Number(item.y.toFixed(6)) // 纬度
+    const height = item.z // 高度
+    const time = item.time // 时间
 
-    var position = null
+    let position = null
     if (lng && lat) {
       position = Cesium.Cartesian3.fromDegrees(lng, lat, height)
     }
-    var juliaDate = null
+    let juliaDate = null
     if (time) {
       juliaDate = Cesium.JulianDate.fromIso8601(time)
     }
@@ -94,7 +105,7 @@ function initPath(data) {
       stop = juliaDate
     }
 
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       position: position,
       style: {
         pixelSize: 4,
@@ -150,7 +161,7 @@ function initPath(data) {
   graphicLayer.addGraphic(pathEntity)
 
   // 圆锥追踪体
-  var coneTrack = new mars3d.graphic.ConeTrack({
+  const coneTrack = new mars3d.graphic.ConeTrack({
     position: property,
     style: {
       length: 100,

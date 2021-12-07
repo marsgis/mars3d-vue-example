@@ -24,7 +24,6 @@
       <a-col :span="22">
         <a-form-item label="开挖深度" :labelCol="labelCol" :labelAlign="labelAlign">
           <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
-          <span>（米）</span>
         </a-form-item>
       </a-col>
 
@@ -55,6 +54,7 @@
 import { nextTick, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   enabledWadi: boolean
@@ -63,8 +63,7 @@ interface FormState {
   txtHeight: number
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+
 
 const labelCol = ref({ span: 6 })
 const labelAlign = ref("left")
@@ -91,8 +90,8 @@ const columns = ref([
 ])
 const dataSource = ref([])
 
-mapWork.eventTabel.on("loadOk", () => {
-  mapWork.terrainClip.diffHeight = formState.txtHeight
+mapWork.eventTabel.on("loadOk", (e:any) => {
+  e.terrainClip.diffHeight = formState.txtHeight
 
   window.$notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
 
@@ -153,7 +152,7 @@ const changeClipHeight = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 400px;
+  width:360px;
 }
 .miFont {
   font-size: 15px;

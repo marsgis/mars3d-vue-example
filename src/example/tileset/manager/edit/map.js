@@ -1,18 +1,20 @@
-var map
+import * as mars3d from "mars3d"
 
-var tilesEditor = null
-var tiles3dLayer = null
+let map // mars3d.Map三维地图对象
+let tilesEditor = null
+let tiles3dLayer = null
 
 // 自定义事件
-var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
@@ -25,21 +27,29 @@ function initMap(options) {
   })
 
   tilesEditor.on("change", function (data) {
+    tilesEditor.enabled = true
     eventTarget.fire("tilesEditor", { data })
   })
 
   setTimeout(showModel, 1000)
-  eventTarget.fire("loadOk")
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 查看构件
-function showCompTree(model) {
+export function showCompTree(model) {
   querySceneTreeData(model)
     .then(function (scene) {
-      var data = []
+      const data = []
       if (scene.scenes) {
-        for (var i = 0; i < scene.scenes.length; i++) {
-          var node = scene.scenes[i]
+        for (let i = 0; i < scene.scenes.length; i++) {
+          const node = scene.scenes[i]
           name2text(node)
           data.push(node)
         }
@@ -59,7 +69,7 @@ function showModel() {
   removeLayer()
 
   // 获取参数
-  var params = getConfig()
+  const params = getConfig()
   delete params.center
 
   if (!params.url) {
@@ -83,13 +93,21 @@ function showModel() {
   // 加载完成事件
   tiles3dLayer.on(mars3d.EventType.load, function (event) {
     const data = event.tileset
+
+    if (tiles3dLayer.transform) {
+      tilesEditor.range = data.boundingSphere.radius * 0.9
+      tilesEditor.heading = tiles3dLayer.rotation_z
+      tilesEditor.position = tiles3dLayer.position
+    } else {
+      tilesEditor.enabled = false
+    }
     eventTarget.fire("tiles3dLayerLoad", { data, tiles3dLayer })
   })
 }
 
 // 异步求准确高度
-function getDefined(data) {
-  var params = getConfig(data)
+export function getDefined(data) {
+  const params = getConfig(data)
   // 求地面海拔 (异步)
   if (Cesium.defined(params.position) && Cesium.defined(params.position.alt)) {
     // 存在历史设置的高度时不用处理
@@ -100,7 +118,7 @@ function getDefined(data) {
         if (newHeight == null) {
           return
         }
-        var offsetZ = Math.ceil(newHeight - tiles3dLayer.orginCenterPoint.alt + 1)
+        const offsetZ = Math.ceil(newHeight - tiles3dLayer.orginCenterPoint.alt + 1)
         console.log("地面海拔：" + newHeight.toFixed(2) + ",需要偏移" + offsetZ)
 
         data.txtZ = offsetZ
@@ -110,11 +128,11 @@ function getDefined(data) {
   }
 }
 
-function editor(event, txtZ) {
+export function editor(event, txtZ) {
   if (Cesium.defined(event.position)) {
-    var pos = event.position
-    var thisZ = txtZ
-    var position = mars3d.PointUtil.setPositionsHeight(pos, thisZ)
+    const pos = event.position
+    const thisZ = txtZ
+    const position = mars3d.PointUtil.setPositionsHeight(pos, thisZ)
 
     tilesEditor.position = position
     tiles3dLayer.center = position
@@ -127,9 +145,9 @@ function editor(event, txtZ) {
   }
 }
 
-function getConfig(pannelData) {
-  var url, maximumScreenSpaceError
-  var tf = false
+export function getConfig(pannelData) {
+  let url, maximumScreenSpaceError
+  let tf = false
   if (pannelData) {
     url = pannelData.txtModel
     maximumScreenSpaceError = mars3d.Util.formatNum(pannelData.maximumScreenSpaceError, 1)
@@ -139,7 +157,7 @@ function getConfig(pannelData) {
     tf = true
   }
 
-  var params = {
+  const params = {
     name: "模型名称",
     type: "3dtiles",
     url: url,
@@ -152,56 +170,56 @@ function getConfig(pannelData) {
     return params
   }
 
-  var x = mars3d.Util.formatNum(pannelData.txtX, 6)
+  const x = mars3d.Util.formatNum(pannelData.txtX, 6)
   if (x) {
     params.position = params.position || {}
     params.position.lng = x
   }
 
-  var y = mars3d.Util.formatNum(pannelData.txtY, 6)
+  const y = mars3d.Util.formatNum(pannelData.txtY, 6)
   if (y) {
     params.position = params.position || {}
     params.position.lat = y
   }
 
-  var z = mars3d.Util.formatNum(pannelData.txtZ, 6)
+  const z = mars3d.Util.formatNum(pannelData.txtZ, 6)
   if (z) {
     params.position = params.position || {}
     params.position.alt = z
   }
 
-  var rotation_x = mars3d.Util.formatNum(pannelData.rotationX, 1)
+  const rotation_x = mars3d.Util.formatNum(pannelData.rotationX, 1)
   if (rotation_x) {
     params.rotation = params.rotation || {}
     params.rotation.x = rotation_x
   }
 
-  var rotation_y = mars3d.Util.formatNum(pannelData.rotationY, 1)
+  const rotation_y = mars3d.Util.formatNum(pannelData.rotationY, 1)
   if (rotation_y) {
     params.rotation = params.rotation || {}
     params.rotation.y = rotation_y
   }
 
-  var rotation_z = mars3d.Util.formatNum(pannelData.rotationZ, 1)
+  const rotation_z = mars3d.Util.formatNum(pannelData.rotationZ, 1)
   if (rotation_z) {
     params.rotation = params.rotation || {}
     params.rotation.z = rotation_z
   }
 
-  var luminanceAtZenith = mars3d.Util.formatNum(pannelData.luminanceAtZenith, 1)
+  const luminanceAtZenith = mars3d.Util.formatNum(pannelData.luminanceAtZenith, 1)
   if (luminanceAtZenith !== 0.2) {
     params.luminanceAtZenith = luminanceAtZenith
   }
 
-  var scale = mars3d.Util.formatNum(pannelData.scale || 1, 1)
+  const scale = mars3d.Util.formatNum(pannelData.scale || 1, 1)
   if (scale > 0) {
     params.scale = scale
   }
 
-  var axis = pannelData.axis
+  const axis = pannelData.axis
   params.axis = axis
 
-  var isProxy = pannelData.chkProxy
+  const isProxy = pannelData.chkProxy
   if (isProxy) {
     params.proxy = "//server.mars3d.cn/proxy/"
   }
@@ -210,9 +228,9 @@ function getConfig(pannelData) {
 }
 
 // 修改更改后的参数
-function updateModel(pannelData) {
+export function updateModel(pannelData) {
   // 获取参数
-  var params = getConfig(pannelData)
+  const params = getConfig(pannelData)
   params.rotation = params.rotation || {}
   params.rotation.x = params.rotation.x || 0
   params.rotation.y = params.rotation.y || 0
@@ -232,7 +250,7 @@ function updateModel(pannelData) {
   tilesEditor.enabled = pannelData.tilesEditorEnabled
 }
 
-function locate() {
+export function locate() {
   if (tiles3dLayer.tileset?.boundingSphere) {
     map.camera.flyToBoundingSphere(tiles3dLayer.tileset.boundingSphere, {
       offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, tiles3dLayer.tileset.boundingSphere.radius * 2)
@@ -245,8 +263,7 @@ function locate() {
 }
 
 // 保存GeoJSON
-
-function saveBookmark(params) {
+export function saveBookmark(params) {
   if (params.axis == "") {
     delete params.axis
   }
@@ -266,7 +283,7 @@ function removeLayer() {
 
 // 取构件树数据
 function querySceneTreeData(url) {
-  var scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json"
+  const scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json"
 
   return mars3d.Resource.fetchJson({ url: scenetree })
 }
@@ -282,7 +299,7 @@ function name2text(o) {
   }
 
   if (o.children) {
-    for (var i = 0; i < o.children.length; i++) {
+    for (let i = 0; i < o.children.length; i++) {
       name2text(o.children[i])
     }
   }

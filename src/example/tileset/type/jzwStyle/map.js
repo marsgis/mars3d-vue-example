@@ -1,60 +1,68 @@
-var map
-var tiles3dLayer
-var brightnessEffect
-var bloomEffect
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.868646, lng: 117.249678, alt: 1485, heading: 110, pitch: -40 }
-    },
-    layers: [
-      {
-        type: "geojson",
-        name: "道路线",
-        url: "//data.mars3d.cn/file/geojson/hefei-road.json",
-        symbol: {
-          styleOptions: {
-            materialType: "PolylineGlow",
-            glowPower: 0.2,
-            color: "#FF4500",
-            width: 12,
-            opacity: 0.8
-            // clampToGround: true,
-          }
-        },
-        popup: "{name}",
-        zIndex: 20,
-        show: true
+let map // mars3d.Map三维地图对象
+let tiles3dLayer
+let brightnessEffect
+let bloomEffect
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.868646, lng: 117.249678, alt: 1485, heading: 110, pitch: -40 }
+  },
+  layers: [
+    {
+      type: "geojson",
+      name: "道路线",
+      url: "//data.mars3d.cn/file/geojson/hefei-road.json",
+      symbol: {
+        styleOptions: {
+          materialType: "PolylineGlow",
+          glowPower: 0.2,
+          color: "#FF4500",
+          width: 12,
+          opacity: 0.8
+          // clampToGround: true,
+        }
       },
-      {
-        type: "geojson",
-        name: "河流(面状)",
-        url: "//data.mars3d.cn/file/geojson/hefei-water.json",
-        symbol: {
-          type: "waterCombine",
-          styleOptions: {
-            normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
-            frequency: 5000.0, // 控制波数的数字。
-            animationSpeed: 0.05, // 控制水的动画速度的数字。
-            amplitude: 9.0, // 控制水波振幅的数字。
-            specularIntensity: 0.8, // 控制镜面反射强度的数字。
-            baseWaterColor: "#00baff", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
-            blendColor: "#00baff" // 从水中混合到非水域时使用的rgba颜色对象。
-            // clampToGround: true,
-          }
-        },
-        popup: "{name}",
-        zIndex: 10,
-        show: true
-      }
-    ]
-  })
+      popup: "{name}",
+      zIndex: 20,
+      show: true
+    },
+    {
+      type: "geojson",
+      name: "河流(面状)",
+      url: "//data.mars3d.cn/file/geojson/hefei-water.json",
+      symbol: {
+        type: "waterCombine",
+        styleOptions: {
+          normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
+          frequency: 5000.0, // 控制波数的数字。
+          animationSpeed: 0.05, // 控制水的动画速度的数字。
+          amplitude: 9.0, // 控制水波振幅的数字。
+          specularIntensity: 0.8, // 控制镜面反射强度的数字。
+          baseWaterColor: "#00baff", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
+          blendColor: "#00baff" // 从水中混合到非水域时使用的rgba颜色对象。
+          // clampToGround: true,
+        }
+      },
+      popup: "{name}",
+      zIndex: 10,
+      show: true
+    }
+  ]
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017 // 切换到蓝色底图
 
@@ -76,7 +84,15 @@ function initMap(options) {
   eventTarget.fire("loadOk")
 }
 
-function addbrightnessEffect(brightness) {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function addbrightnessEffect(brightness) {
   brightnessEffect = new mars3d.effect.BrightnessEffect({
     enabled: true,
     brightness: brightness
@@ -84,7 +100,7 @@ function addbrightnessEffect(brightness) {
   map.addEffect(brightnessEffect)
 }
 
-function setStyle1() {
+export function setStyle1() {
   if (tiles3dLayer) {
     tiles3dLayer.remove()
   }
@@ -105,13 +121,13 @@ function setStyle1() {
   map.addLayer(tiles3dLayer)
 }
 
-function setStyle2() {
+export function setStyle2() {
   if (tiles3dLayer) {
     tiles3dLayer.remove()
   }
 
   // 自定义特效 Shader
-  var fragmentShader = `
+  const fragmentShader = `
           // 注意shader中写浮点数是，一定要带小数点，否则会报错，比如0需要写成0.0，1要写成1.0
           float _baseHeight = 0.0; // 物体的基础高度，需要修改成一个合适的建筑基础高度
           float _heightRange = 80.0; // 高亮的范围(_baseHeight ~ _baseHeight + _heightRange)
@@ -148,7 +164,7 @@ function setStyle2() {
 }
 
 // 不改动cesium源码版本的建筑物样式
-function setStyle3() {
+export function setStyle3() {
   if (tiles3dLayer) {
     tiles3dLayer.remove()
   }
@@ -192,7 +208,7 @@ function setStyle3() {
   map.addLayer(tiles3dLayer)
 }
 // 颜色改变
-function changeColor(color) {
+export function changeColor(color) {
   tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [["true", `color("${color}")`]]
@@ -201,12 +217,12 @@ function changeColor(color) {
 }
 
 // 开启泛光
-function chkBloom(val) {
+export function chkBloom(val) {
   bloomEffect.enabled = val
 }
 
 // 开启光照
-function chkShadows(val) {
+export function chkShadows(val) {
   map.viewer.shadows = val
   if (val) {
     setTimeout(function () {
@@ -216,10 +232,12 @@ function chkShadows(val) {
   }
 }
 
-function chkBrightness(val) {
+// 调整亮度
+export function chkBrightness(val) {
   brightnessEffect.enabled = val
 }
 
-function alphaChange(value) {
+// 透明度
+export function alphaChange(value) {
   brightnessEffect.brightness = value
 }

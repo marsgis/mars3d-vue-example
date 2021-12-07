@@ -49,6 +49,8 @@ import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import { setAutoHeight } from "@/utils/index"
+import * as mapWork from "./map.js"
+
 interface typhoon {
   id: number
   name_en: string
@@ -95,9 +97,6 @@ const columnsPath: TableColumnType = [
   }
 ]
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
 const typhoonList = ref<typhoon[]>([]) // 台风列表数据
 
 const dataPath = ref([]) // 台风路径数据
@@ -142,14 +141,6 @@ const rowSelection: TableProps["rowSelection"] = {
     }
   }
 }
-
-const startPlay = () => {
-  mapWork.startPlay()
-}
-const stopPlay = () => {
-  mapWork.stopPlay()
-}
-
 // 点击行
 const rowClick = (recode: any) => {
   return {
@@ -165,6 +156,13 @@ const tyRowClick = (recode: any) => {
       mapWork.clickTyRow(recode)
     }
   }
+}
+
+const startPlay = () => {
+  mapWork.startPlay()
+}
+const stopPlay = () => {
+  mapWork.stopPlay()
 }
 </script>
 <style scoped lang="less">

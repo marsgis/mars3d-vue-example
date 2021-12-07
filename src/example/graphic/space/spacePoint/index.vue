@@ -90,6 +90,7 @@
 import { onMounted, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   selXiLie: string
@@ -119,8 +120,6 @@ const formState: UnwrapRef<FormState> = reactive({
   pointInfo: false,
   viewContorUi: true
 })
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 onMounted(() => {
   mapWork.eventTarget.on("clickWeixin", function (event: any) {
@@ -128,7 +127,6 @@ onMounted(() => {
     formState.viewContorUi = true
     formState.pointInfo = true
     formState.viewContorUi = false
-
     weixinValueList.value = event.weixinList
   })
 
@@ -283,30 +281,33 @@ const changeSlider = () => {
   }, 500)
 }
 
+const LOW_ORBIT = 2000
+const GEOSYNCHRONOUS_ORBIT = 35786
+
 const selectSatellites = () => {
   switch (formState.selGuidao) {
     default:
       break
     case "low":
-      formState.sliApogee = [0, mapWork.LOW_ORBIT]
-      formState.sliPerigee = [0, mapWork.LOW_ORBIT]
+      formState.sliApogee = [0, LOW_ORBIT]
+      formState.sliPerigee = [0, LOW_ORBIT]
       break
     case "medium":
-      formState.sliApogee = [mapWork.LOW_ORBIT, mapWork.GEOSYNCHRONOUS_ORBIT]
-      formState.sliPerigee = [mapWork.LOW_ORBIT, mapWork.GEOSYNCHRONOUS_ORBIT]
+      formState.sliApogee = [LOW_ORBIT, GEOSYNCHRONOUS_ORBIT]
+      formState.sliPerigee = [LOW_ORBIT, GEOSYNCHRONOUS_ORBIT]
       break
     case "geosynchronous":
-      formState.sliApogee = [mapWork.GEOSYNCHRONOUS_ORBIT * 0.98, mapWork.GEOSYNCHRONOUS_ORBIT * 1.02]
-      formState.sliPerigee = [mapWork.GEOSYNCHRONOUS_ORBIT * 0.98, mapWork.GEOSYNCHRONOUS_ORBIT * 1.02]
+      formState.sliApogee = [GEOSYNCHRONOUS_ORBIT * 0.98, GEOSYNCHRONOUS_ORBIT * 1.02]
+      formState.sliPerigee = [GEOSYNCHRONOUS_ORBIT * 0.98, GEOSYNCHRONOUS_ORBIT * 1.02]
       break
     case "geostationary":
-      formState.sliApogee = [mapWork.GEOSYNCHRONOUS_ORBIT * 0.98, mapWork.GEOSYNCHRONOUS_ORBIT * 1.02]
-      formState.sliPerigee = [mapWork.GEOSYNCHRONOUS_ORBIT * 0.98, mapWork.GEOSYNCHRONOUS_ORBIT * 1.02]
+      formState.sliApogee = [GEOSYNCHRONOUS_ORBIT * 0.98, GEOSYNCHRONOUS_ORBIT * 1.02]
+      formState.sliPerigee = [GEOSYNCHRONOUS_ORBIT * 0.98, GEOSYNCHRONOUS_ORBIT * 1.02]
       formState.sliInclination = [0, 1]
       break
     case "high":
-      formState.sliApogee = [mapWork.GEOSYNCHRONOUS_ORBIT * 1.02, 600000]
-      formState.sliPerigee = [mapWork.GEOSYNCHRONOUS_ORBIT * 1.02, 500000]
+      formState.sliApogee = [GEOSYNCHRONOUS_ORBIT * 1.02, 600000]
+      formState.sliPerigee = [GEOSYNCHRONOUS_ORBIT * 1.02, 500000]
       break
   }
   mapWork.selectSatellites(formState)
@@ -327,14 +328,12 @@ const reset = () => {
 
   mapWork.resetUI()
 }
+
 const highlightSatellite = () => {
-  // 单击事件
-  if (mapWork.lastSelectWX) {
-    formState.pointInfo = false
-    formState.viewContorUi = true
-    // 重置上次选中的轨道样式
-    mapWork.highlightSatellite()
-  }
+  formState.pointInfo = false
+  formState.viewContorUi = true
+  // 重置上次选中的轨道样式
+  mapWork.highlightSatellite()
 }
 </script>
 <style scoped lang="less">

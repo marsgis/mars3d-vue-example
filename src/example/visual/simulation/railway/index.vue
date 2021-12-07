@@ -8,7 +8,8 @@
 import { onMounted } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import * as echarts from "echarts"
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
+
 
 let myChart: any = null
 

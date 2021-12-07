@@ -1,21 +1,40 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 }
-    },
-    control: {
-      sceneModePicker: false
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 }
+  },
+  control: {
+    sceneModePicker: false
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
+  addLayer()
+}
 
-  var windLayer = new mars3d.layer.WindLayer({
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addLayer() {
+  const windLayer = new mars3d.layer.WindLayer({
     maxParticles: 9000,
     particleHeight: 1.0,
     fadeOpacity: 0.996,
@@ -37,7 +56,7 @@ function initMap(options) {
   }
 
   // eslint-disable-next-line no-undef
-  var gui = new dat.GUI({
+  const gui = new dat.GUI({
     autoPlace: false
   })
   gui.add(windLayer, "maxParticles", 1, 256 * 256, 1).onFinishChange(onParticleSystemOptionsChange)
@@ -53,17 +72,17 @@ function initMap(options) {
 }
 
 // 数据加载类
-var DataProcess = (function () {
-  var data
+const DataProcess = (function () {
+  let data
 
-  var loadNetCDF = function (filePath) {
+  const loadNetCDF = function (filePath) {
     return new Promise(function (resolve) {
-      var request = new XMLHttpRequest()
+      const request = new XMLHttpRequest()
       request.open("GET", filePath)
       request.responseType = "arraybuffer"
 
       request.onload = function () {
-        var arrayToMap = function (array) {
+        const arrayToMap = function (array) {
           return array.reduce(function (map, object) {
             map[object.name] = object
             return map
@@ -71,24 +90,24 @@ var DataProcess = (function () {
         }
 
         // eslint-disable-next-line new-cap
-        var NetCDF = new netcdfjs(request.response)
-        var dimensions = arrayToMap(NetCDF.dimensions)
+        const NetCDF = new netcdfjs(request.response)
+        const dimensions = arrayToMap(NetCDF.dimensions)
 
-        var variables = arrayToMap(NetCDF.variables)
-        var uAttributes = arrayToMap(variables.U.attributes) //
-        var vAttributes = arrayToMap(variables.V.attributes)
+        const variables = arrayToMap(NetCDF.variables)
+        const uAttributes = arrayToMap(variables.U.attributes) //
+        const vAttributes = arrayToMap(variables.V.attributes)
 
-        var arrLon = NetCDF.getDataVariable("lon").flat()
-        var arrLat = NetCDF.getDataVariable("lat").flat()
-        var arrLev = [1] // NetCDF.getDataVariable('lev').flat()
+        const arrLon = NetCDF.getDataVariable("lon").flat()
+        const arrLat = NetCDF.getDataVariable("lat").flat()
+        const arrLev = [1] // NetCDF.getDataVariable('lev').flat()
 
-        var arrU = NetCDF.getDataVariable("U").flat()
-        var maxU = uAttributes.max.value
-        var minU = uAttributes.min.value
+        const arrU = NetCDF.getDataVariable("U").flat()
+        const maxU = uAttributes.max.value
+        const minU = uAttributes.min.value
 
-        var arrV = NetCDF.getDataVariable("V").flat()
-        var maxV = vAttributes.max.value
-        var minV = vAttributes.min.value
+        const arrV = NetCDF.getDataVariable("V").flat()
+        const maxV = vAttributes.max.value
+        const minV = vAttributes.min.value
 
         data = {}
         data.dimensions = {} // dimensions: {lon: 720, lat: 361, lev: 1}
@@ -125,22 +144,22 @@ var DataProcess = (function () {
     })
   }
 
-  var loadText = function (filePath) {
-    var request = new XMLHttpRequest()
+  const loadText = function (filePath) {
+    const request = new XMLHttpRequest()
     request.open("GET", filePath, false)
     request.send()
     return request.responseText
   }
 
-  var loadColorTable = function (filePath) {
-    var string = loadText(filePath)
-    var json = JSON.parse(string)
+  const loadColorTable = function (filePath) {
+    const string = loadText(filePath)
+    const json = JSON.parse(string)
 
-    var colorNum = json.ncolors
-    var colorTable = json.colorTable
+    const colorNum = json.ncolors
+    const colorTable = json.colorTable
 
-    var colorsArray = new Float32Array(3 * colorNum)
-    for (var i = 0; i < colorNum; i++) {
+    const colorsArray = new Float32Array(3 * colorNum)
+    for (let i = 0; i < colorNum; i++) {
       colorsArray[3 * i] = colorTable[3 * i]
       colorsArray[3 * i + 1] = colorTable[3 * i + 1]
       colorsArray[3 * i + 2] = colorTable[3 * i + 2]
@@ -151,7 +170,7 @@ var DataProcess = (function () {
     data.colorTable.array = colorsArray
   }
 
-  var loadData = async function (ncFilePath, colorTableFilePath) {
+  const loadData = async function (ncFilePath, colorTableFilePath) {
     await loadNetCDF(ncFilePath)
     loadColorTable(colorTableFilePath)
     return data

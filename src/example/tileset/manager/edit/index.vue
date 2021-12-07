@@ -85,17 +85,18 @@
     </div>
   </PannelBox>
   <PannelBox class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
-    <a-tree checkable :show-line="true" :show-icon="true" :tree-data="treeData">
+    <mars-tree checkable :tree-data="treeData">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
-    </a-tree>
+    </mars-tree>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   txtModel: string
@@ -114,9 +115,6 @@ interface FormState {
   luminanceAtZenith: number
   opacity: number
 }
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const formState = reactive<FormState>({
   txtModel: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
@@ -150,43 +148,34 @@ const axisOptions = [
 
 const labelCol = { style: { width: "100px" } }
 
-mapWork.eventTarget.on("loadOk", () => {
-  // 初始化界面
-  mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
-    const tileset = event.data
-    const tiles3dLayer = event.tiles3dLayer
+// 初始化界面
+mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
+  const tileset = event.data
+  const tiles3dLayer = event.tiles3dLayer
 
-    // 取模型中心点信息
-    var locParams = mapWork.tiles3dLayer.center
-    if (locParams.alt < -1000 || locParams.alt > 10000) {
-      locParams.alt = 0 // 高度异常数据，自动赋值高度为0
-    }
+  // 取模型中心点信息
+  var locParams = tiles3dLayer.center
+  if (locParams.alt < -1000 || locParams.alt > 10000) {
+    locParams.alt = 0 // 高度异常数据，自动赋值高度为0
+  }
 
-    formState.txtX = locParams.lng.toFixed(6)
-    formState.txtY = locParams.lat.toFixed(6)
-    formState.txtZ = locParams.alt.toFixed(6)
-    formState.luminanceAtZenith = tileset.luminanceAtZenith
-    formState.maximumScreenSpaceError = tileset.maximumScreenSpaceError
+  formState.txtX = locParams.lng.toFixed(6)
+  formState.txtY = locParams.lat.toFixed(6)
+  formState.txtZ = locParams.alt.toFixed(6)
+  formState.luminanceAtZenith = tileset.luminanceAtZenith
+  formState.maximumScreenSpaceError = tileset.maximumScreenSpaceError
 
-    if (tiles3dLayer.transform) {
-      formState.rotationX = tiles3dLayer.rotation_x.toFixed(1)
-      formState.rotationY = tiles3dLayer.rotation_y.toFixed(1)
-      formState.rotationZ = tiles3dLayer.rotation_z.toFixed(1)
-      formState.scale = tiles3dLayer.scale || 1
-      formState.axis = tiles3dLayer.axis
-
-      mapWork.tilesEditor.range = tileset.boundingSphere.radius * 0.9
-      mapWork.tilesEditor.heading = tiles3dLayer.rotation_z
-      mapWork.tilesEditor.position = tiles3dLayer.position
-    } else {
-      mapWork.tilesEditor.enabled = false
-
-      mapWork.getDefined(formState)
-    }
-  })
+  if (tiles3dLayer.transform) {
+    formState.rotationX = tiles3dLayer.rotation_x.toFixed(1)
+    formState.rotationY = tiles3dLayer.rotation_y.toFixed(1)
+    formState.rotationZ = tiles3dLayer.rotation_z.toFixed(1)
+    formState.scale = tiles3dLayer.scale || 1
+    formState.axis = tiles3dLayer.axis
+  } else {
+    mapWork.getDefined(formState)
+  }
 
   mapWork.eventTarget.on("tilesEditor", function (event: any) {
-    mapWork.tilesEditor.enabled = true
     mapWork.editor(event.data, formState.txtZ)
   })
 
@@ -208,7 +197,7 @@ const formStateChange = () => {
 }
 
 const locateToModel = () => {
-  mapWork.locate(formState)
+  mapWork.locate()
 }
 
 const saveBookmark = () => {

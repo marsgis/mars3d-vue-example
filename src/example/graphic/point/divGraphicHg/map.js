@@ -1,7 +1,9 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-var arrData = [
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
   { name: "油罐二", position: [117.095206, 31.814878, 47.3] },
   { name: "油罐三", position: [117.094653, 31.814428, 47.3] },
@@ -11,16 +13,19 @@ var arrData = [
   { name: "冷却室", position: [117.094662, 31.816403, 32.9] }
 ]
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
-    }
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加载油田联合站模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -43,14 +48,23 @@ function initMap(options) {
   divGraphicYellow()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  graphicLayer.clear()
+}
+
 // 效果一
-function divGraphicYellow() {
+export function divGraphicYellow() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
     const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivGraphic({
+    const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
         html: `<div class="marsBlackPanel  animation-spaceInDown">
@@ -88,13 +102,13 @@ function divGraphicYellow() {
 }
 
 // 效果二
-function divGraphicBule() {
+export function divGraphicBule() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
     const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivGraphic({
+    const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
         html: `<div class="marsBlueGradientPnl">
@@ -110,13 +124,13 @@ function divGraphicBule() {
 }
 
 // 效果三
-function divGraphicWhite() {
+export function divGraphicWhite() {
   graphicLayer.clear()
 
   for (let i = 0; i < arrData.length; i++) {
     const item = arrData[i]
 
-    var divGraphic = new mars3d.graphic.DivUpLabel({
+    const divGraphic = new mars3d.graphic.DivUpLabel({
       position: item.position,
       style: {
         text: item.name,

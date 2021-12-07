@@ -1,6 +1,6 @@
 <template>
   <PannelBox class="infoView">
-    <a-row :gutter="[2,10]">
+    <a-row :gutter="[2, 10]">
       <a-col :span="24">
         <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
           <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
@@ -10,47 +10,41 @@
         </a-form-item>
       </a-col>
 
-      <a-col :span="8" v-show ="formState.radio == '2'" >
+      <a-col :span="8" v-show="formState.radio == '2'">
         <a-form-item label="分析区域:" />
       </a-col>
-      <a-col :span="16" v-show ="formState.radio == '2'" >
-          <a-space>
-            <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-            <mars-button @click="btnDraw">绘制多边形</mars-button>
-          </a-space>
+      <a-col :span="16" v-show="formState.radio == '2'">
+        <a-space>
+          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+          <mars-button @click="btnDraw">绘制多边形</mars-button>
+        </a-space>
       </a-col>
 
       <a-col :span="8">
-        <a-form-item label="最低海拔（米）"/>
+        <a-form-item label="最低海拔（米）" />
       </a-col>
       <a-col :span="16">
-        <mars-input-number
-          v-model:value="formState.minHeight"
-          :step="1"/>
+        <mars-input-number v-model:value="formState.minHeight" :step="1" />
       </a-col>
 
       <a-col :span="8">
         <a-form-item label="最高海拔（米）" />
       </a-col>
       <a-col :span="16">
-          <mars-input-number
-            v-model:value="formState.maxHeight"
-            :step="1"/>
+        <mars-input-number v-model:value="formState.maxHeight" :step="1" />
       </a-col>
 
       <a-col :span="8">
         <a-form-item label="淹没速度（米/秒）" />
       </a-col>
       <a-col :span="16">
-          <mars-input-number
-            v-model:value="formState.speed"
-            :step="1"/>
+        <mars-input-number v-model:value="formState.speed" :step="1" />
       </a-col>
 
       <a-col :span="21">
         <mars-button @click="begin">开始分析</mars-button>
       </a-col>
-    </a-row >
+    </a-row>
   </PannelBox>
 </template>
 
@@ -58,16 +52,14 @@
 import { onMounted, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
-  radio:string
-  minHeight:any
-  maxHeight:any
-  speed:number
+  radio: string
+  minHeight: any
+  maxHeight: any
+  speed: number
 }
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const labelCol = ref({ span: 8 })
 const labelAlign = ref("left")
@@ -79,8 +71,14 @@ const formState: UnwrapRef<FormState> = reactive({
   speed: 10
 })
 onMounted(() => {
-  window.$notify("已知问题提示",
-"（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。（2）目前不支持所有3dtile数据，请替换url进行自测")
+  window.$notify(
+    "已知问题提示",
+    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+  （2）目前不支持所有3dtile数据，请替换url进行自测`,
+    {
+      duration: null
+    }
+  )
 })
 // 修改分析方式
 const changeFloodType = () => {
@@ -102,7 +100,7 @@ const begin = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   width: 320px;
 }
 </style>

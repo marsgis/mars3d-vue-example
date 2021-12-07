@@ -8,35 +8,19 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
+<script setup lang="ts">
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
-export default defineComponent({
-  components: {
-    PannelBox
-  },
-  setup () {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
+const viewSeeTop = () => {
+  mapWork.viewSeeTop()
+}
 
-    const viewSeeTop = () => {
-      mapWork.viewSeeTop()
-    }
+const viewSeeCe = () => {
+  mapWork.viewSeeCe()
+}
 
-    const viewSeeCe = () => {
-      mapWork.viewSeeCe()
-    }
-
-    const viewSeeHome = () => {
-      mapWork.viewSeeHome()
-    }
-
-    return {
-      viewSeeTop,
-      viewSeeCe,
-      viewSeeHome
-    }
-  }
-})
+const viewSeeHome = () => {
+  mapWork.viewSeeHome()
+}
 </script>

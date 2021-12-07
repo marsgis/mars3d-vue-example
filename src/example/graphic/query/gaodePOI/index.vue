@@ -19,7 +19,7 @@
         <mars-input v-model:value="serverName" placeholder="查询名称和地址"></mars-input>
       </a-form-item>
 
-      <a-form-item label="" v-show="radioFanwei === '3'">
+      <a-form-item label="框选" v-show="radioFanwei === '3'">
         <a-space>
           <mars-button @click="drawRectangle">框选范围</mars-button>
           <mars-button @click="drawCircle">圆形范围</mars-button>
@@ -54,22 +54,17 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import any from "nprogress"
 import axios from "axios"
+import * as mapWork from "./map.js"
 
 interface DataItem {
   key: number
   name: string
-  age: number
-  address: string
   graphic: any
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
 const radioFanwei = ref("1")
-const serverName = ref("")
+const serverName = ref<string>("")
 const citySheng = ref("安徽省")
 const cityShi = ref("合肥市")
 const show = ref(false)
@@ -116,83 +111,25 @@ const drawRectangle = () => {
   show.value = false
   mapWork.drawRectangle()
 }
+
 const drawCircle = () => {
   show.value = false
   mapWork.drawCircle()
 }
+
 const drawPolygon = () => {
   show.value = false
   mapWork.drawPolygon()
 }
+
 // 查询数据
 const query = () => {
   show.value = false
   mapWork.clearAll(true)
-  mapWork.clearAll(radioFanwei.value == "3")
-  mapWork.bootstrapList = []
-  switch (radioFanwei.value) {
-    default:
-      // 按城市
-      var dnnm = citySheng.value
-      var dmmc = cityShi.value
 
-      loadData({
-        page: 0,
-        city: dmmc,
-        citylimit: true
-      })
-      break
-    case "2": // 当前视角范围
-      var extent = mapWork.map.getExtent()
-      loadData({
-        page: 0,
-        polygon: [
-          [extent.xmin, extent.ymin],
-          [extent.xmax, extent.ymax]
-        ],
-        limit: true
-      })
-      break
-    case "3": // 按范围
-      if (!mapWork.drawGraphic) {
-        window.$message("请绘制限定范围！")
-        return
-      }
-      loadData({
-        page: 0,
-        graphic: mapWork.drawGraphic,
-        limit: true
-      })
-      break
-  }
-}
+  mapWork.clearAll(radioFanwei.value === "3")
 
-function loadData(queryOptions: any) {
-  if (serverName.value.length == 0) {
-    window.$message("请输入 名称 关键字筛选数据！")
-    return
-  }
-  mapWork.showLoading()
-
-  mapWork.lastQueryOptions = {
-    ...queryOptions,
-    count: 25, // count 每页数量
-    text: serverName.value,
-    success: function (res: any) {
-      show.value = true
-      var data = res.list
-      mapWork.bootstrapList = mapWork.bootstrapList.concat(data)
-
-      mapWork.addGraphics(data)
-      table(data)
-      mapWork.hideLoading()
-    },
-    error: function (msg: any, error: any) {
-      mapWork.globalAlert(msg)
-      mapWork.hideLoading()
-    }
-  }
-  mapWork.queryGaodePOI.query(mapWork.lastQueryOptions)
+  mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
 }
 
 // 城市的数据
@@ -201,12 +138,15 @@ interface Option {
   label: string
   children?: Option[]
 }
+
 const value = ref<string[]>([])
 const options = ref<Option[]>([])
+
 // 读取JSON数据
 function fetchAttrJson() {
   return axios.get(`${process.env.BASE_URL}config/city.json`)
 }
+
 onBeforeMount(async () => {
   const { data }: any = await fetchAttrJson()
   options.value = data
@@ -219,20 +159,22 @@ const onChange = (value: string, selectedOptions: Option[]) => {
 }
 
 // 表格数据
-const dataSource = ref([any])
-function table(data: any) {
+const dataSource = ref<any>([])
+
+mapWork.eventTarget.on("tableData", (e: any) => {
   show.value = true
   dataSource.value = []
-  data.forEach((item: any, index: number) => {
+  e.data.forEach((item: any, index: number) => {
     dataSource.value.push({ key: index, name: item.name, type: item.type, address: item.address, graphic: item.graphic })
   })
-}
+})
+
 
 // 清除数据
 const removeAll = () => {
   show.value = false
   dataSource.value = []
-  mapWork.removeAll()
+  mapWork.clearAll()
 }
 </script>
 <style scoped lang="less">

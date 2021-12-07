@@ -1,17 +1,39 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.118943, lng: 114.834765, alt: 4038547, heading: 351, pitch: -83 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.118943, lng: 114.834765, alt: 4038547, heading: 351, pitch: -83 }
+  }
+}
 
-  var urlArr = [
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  start(1)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let step = 0
+let arrTileLayer
+
+function start(time) {
+  // 图片url
+  const urlArr = [
     "//data.mars3d.cn/file/img/radar/201906211112.PNG",
     "//data.mars3d.cn/file/img/radar/201906211124.PNG",
     "//data.mars3d.cn/file/img/radar/201906211130.PNG",
@@ -19,17 +41,10 @@ function initMap(options) {
     "//data.mars3d.cn/file/img/radar/201906211142.PNG"
   ]
 
-  start(urlArr, 1)
-}
-
-var step = 0
-var arrTileLayer
-
-function start(urlArr, time) {
-  var arr = []
+  const arr = []
   // 获取图层
-  for (var i = 0, len = urlArr.length; i < len; i++) {
-    var tileLayer = new mars3d.layer.ImageLayer({
+  for (let i = 0, len = urlArr.length; i < len; i++) {
+    const tileLayer = new mars3d.layer.ImageLayer({
       url: urlArr[i],
       rectangle: { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 },
       alpha: 0
@@ -51,8 +66,8 @@ function changeRadarAlpha(time) {
     step = 0
     arrTileLayer[arrTileLayer.length - 1].alpha = 0
   }
-  var layer1 = arrTileLayer[step]
-  var layer2 = arrTileLayer[step + 1]
+  const layer1 = arrTileLayer[step]
+  const layer2 = arrTileLayer[step + 1]
   if (!layer1 || !layer2) {
     return
   }

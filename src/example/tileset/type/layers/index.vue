@@ -1,27 +1,16 @@
 <template>
   <PannelBox class="infoView">
-    <a-tree
-      checkable
-      :show-line="true"
-      :show-icon="true"
-      :tree-data="treeData"
-      v-model:expandedKeys="expandedKeys"
-      v-model:checkedKeys="checkedKeys"
-      @check="checkedChange"
-    >
+    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
-    </a-tree>
+    </mars-tree>
   </PannelBox>
 </template>
-<script  lang="ts" setup>
-
+<script lang="ts" setup>
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])
 
@@ -51,7 +40,7 @@ const checkedChange = (keys: string[]) => {
       }
       layer.flyTo()
     } else {
-       if (layer.isAdded) {
+      if (layer.isAdded) {
         window.mapWork.map.removeLayer(layer)
       }
     }
@@ -62,7 +51,7 @@ function initTree() {
   const layers = treeModelData
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
-    const layer = mapWork.mars3d.LayerUtil.create(layers[i]) // 创建图层
+    const layer = mapWork.createLayer(mapWork.createLayer(layers[i])) // 创建图层
     if (layer && layer.pid === 20) {
       const node: any = {
         title: layer.name,
@@ -91,7 +80,7 @@ function findChild(parent: any, list: any[]) {
           pId: item.pid,
           uuid: item.uuid
         }
-        const nodeLayer = mapWork.mars3d.LayerUtil.create(item) // 创建图层
+        const nodeLayer = mapWork.createLayer(item) // 创建图层
         layersObj[item.id] = nodeLayer
         node.children = findChild(node, list)
         expandedKeys.value.push(node.key)
@@ -103,5 +92,3 @@ function findChild(parent: any, list: any[]) {
     })
 }
 </script>
-
-<style scoped lang="less"></style>

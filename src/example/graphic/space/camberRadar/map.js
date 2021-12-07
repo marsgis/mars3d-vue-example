@@ -1,30 +1,38 @@
-var map
-var camberRadar
-var graphicLayer
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.784488, lng: 117.16699, alt: 9030, heading: 1, pitch: -57 },
-      cameraController: {
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      }
-    },
-    control: {
-      sceneModePicker: false
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let camberRadar
+let graphicLayer
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.784488, lng: 117.16699, alt: 9030, heading: 1, pitch: -57 },
+    cameraController: {
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
+    }
+  },
+  control: {
+    sceneModePicker: false
+  }
+}
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {
@@ -38,8 +46,31 @@ function initMap(options) {
   eventTarget.fire("loadOk")
 }
 
-function getViewConfig(heading, pitch, roll, radius, startRadius, startFovH, endFovH, startFovV, endFovV) {
-  var style = {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 地图加载完成，添加一个双曲面雷达
+ *
+ * @export
+ * @param {number} heading 方向角 0~360°
+ * @param {number} pitch 俯仰角 -180°~180°
+ * @param {number} roll  翻滚角  -180°~180°
+ * @param {number} radius 外曲面半径
+ * @param {number} startRadius  内曲面半径
+ * @param {number} startFovH  左横截面角度
+ * @param {number} endFovH 右横截面角度
+ * @param {number} startFovV 垂直起始角度
+ * @param {number} endFovV 垂直结束角度
+ * @returns {void}
+ */
+export function getViewConfig(heading, pitch, roll, radius, startRadius, startFovH, endFovH, startFovV, endFovV) {
+  const style = {
     radius: radius,
     startRadius: startRadius,
 
@@ -67,38 +98,38 @@ function getViewConfig(heading, pitch, roll, radius, startRadius, startFovH, end
   graphicLayer.addGraphic(camberRadar)
 }
 
-function headingChange(value) {
+export function headingChange(value) {
   camberRadar.heading = value
 }
 
-function pitchChange(value) {
+export function pitchChange(value) {
   camberRadar.pitch = value
 }
 
-function rollChange(value) {
+export function rollChange(value) {
   camberRadar.roll = value
 }
 
-function outerRadiusChange(val) {
+export function outerRadiusChange(val) {
   camberRadar.radius = val
 }
 
-function innerRadiusChange(val) {
+export function innerRadiusChange(val) {
   camberRadar.startRadius = val
 }
 
-function startFovHChange(value) {
+export function startFovHChange(value) {
   camberRadar.startFovH = Cesium.Math.toRadians(value)
 }
 
-function endFovHChange(value) {
+export function endFovHChange(value) {
   camberRadar.endFovH = Cesium.Math.toRadians(value)
 }
 
-function startFovVChange(value) {
+export function startFovVChange(value) {
   camberRadar.startFovV = Cesium.Math.toRadians(value)
 }
 
-function endFovVChange(value) {
+export function endFovVChange(value) {
   camberRadar.endFovV = Cesium.Math.toRadians(value)
 }

@@ -1,17 +1,23 @@
-var map
-var graphicLayer
-var pointsLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  const mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let pointsLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -22,10 +28,18 @@ function initMap(options) {
   map.addLayer(pointsLayer)
 }
 
-const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
+
+const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 // 生成50个随机点
-function randomPoints() {
+export function randomPoints() {
   clearlayer()
 
   const points = turf.randomPoint(50, { bbox: bbox }) // 50个随机点
@@ -49,7 +63,7 @@ function randomPoints() {
 }
 
 // 计算包围面
-function convexPolygon() {
+export function convexPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -70,7 +84,7 @@ function convexPolygon() {
 }
 
 // 泰森多边形
-function voronoiPolygon() {
+export function voronoiPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -97,11 +111,11 @@ function voronoiPolygon() {
 }
 
 // 计算TIN多边形
-function tinPolygon() {
+export function tinPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
-  for (var i = 0; i < points.features.length; i++) {
+  for (let i = 0; i < points.features.length; i++) {
     points.features[i].properties.z = ~~(Math.random() * 9)
   }
   const tin = turf.tin(points, "z")
@@ -127,7 +141,7 @@ function tinPolygon() {
 }
 
 // 清除所有矢量图层
-function clearlayer() {
+export function clearlayer() {
   graphicLayer.clear()
   pointsLayer.clear()
 }

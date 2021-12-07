@@ -75,9 +75,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const formState = reactive({
   radioFanwei: "1",
@@ -102,17 +100,13 @@ var currGD: number
 
 onMounted(() => {
   // 默认显示地图中心点坐标
-  mapWork.eventTarget.on("befortUI", function (event: any) {
-    const map = event.map
-    var point = mapWork.map.getCenter()
-    point.format()
-    currJD = point.lng
-    currWD = point.lat
-    currGD = point.alt
-
-    formState.jd = mapWork.mars3d.Util.formatNum(currJD, 6)
-    formState.wd = mapWork.mars3d.Util.formatNum(currWD, 6)
-    formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+  mapWork.eventTarget.on("loadOK", function (event: any) {
+    currJD = event.currJD
+    currWD = event.currWD
+    currGD = event.currGD
+    formState.jd = mapWork.marsUtilFormtNum(currJD)
+    formState.wd = mapWork.marsUtilFormtNum(currWD)
+    formState.alt = mapWork.marsUtilFormtNum(currGD)
   })
 })
 
@@ -120,20 +114,20 @@ const changeFanwei = () => {
   switch (formState.radioFanwei) {
     default:
       // 十进制
-      formState.jd = mapWork.mars3d.Util.formatNum(currJD, 6)
-      formState.wd = mapWork.mars3d.Util.formatNum(currWD, 6)
-      formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+      formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+      formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
       break
     case "2": // 度分秒
-      formState.jdDegree = mapWork.mars3d.PointTrans.degree2dms(currJD).degree
-      formState.jdMinute = mapWork.mars3d.PointTrans.degree2dms(currJD).minute
-      formState.jdSecond = mapWork.mars3d.PointTrans.degree2dms(currJD).second
+      formState.jdDegree = mapWork.marsPointTrans(currJD).degree
+      formState.jdMinute = mapWork.marsPointTrans(currJD).minute
+      formState.jdSecond = mapWork.marsPointTrans(currJD).second
 
-      formState.wdDegree = mapWork.mars3d.PointTrans.degree2dms(currWD).degree
-      formState.wdMinute = mapWork.mars3d.PointTrans.degree2dms(currWD).minute
-      formState.wdSecond = mapWork.mars3d.PointTrans.degree2dms(currWD).second
+      formState.wdDegree = mapWork.marsPointTrans(currWD).degree
+      formState.wdMinute = mapWork.marsPointTrans(currWD).minute
+      formState.wdSecond = mapWork.marsPointTrans(currWD).second
 
-      formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
       break
     case "3": // CGCS2000
       changeFendai()
@@ -144,34 +138,30 @@ const changeFanwei = () => {
 const changeFendai = () => {
   if (formState.radioFendai == "2") {
     // 十进制转2000平面六分度
-    var zoon6 = mapWork.mars3d.PointTrans.proj4Trans([currJD, currWD], mapWork.mars3d.CRS.EPSG4326, mapWork.mars3d.CRS.CGCS2000_GK_Zone_6)
-    formState.gk6X = mapWork.mars3d.Util.formatNum(zoon6[0], 1)
-    formState.gk6Y = mapWork.mars3d.Util.formatNum(zoon6[1], 1)
-    formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+    var zoon6 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
+    formState.gk6X = mapWork.marsUtilFormtNum(zoon6[0], 1)
+    formState.gk6Y = mapWork.marsUtilFormtNum(zoon6[1], 1)
+    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
   } else {
     // 十进制转2000平面三分度
-    var zone3 = mapWork.mars3d.PointTrans.proj4Trans([currJD, currWD], mapWork.mars3d.CRS.EPSG4326, mapWork.mars3d.CRS.CGCS2000_GK_Zone_3)
-    formState.gk6X = mapWork.mars3d.Util.formatNum(zone3[0], 1)
-    formState.gk6Y = mapWork.mars3d.Util.formatNum(zone3[1], 1)
-    formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+    var zone3 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
+    formState.gk6X = mapWork.marsUtilFormtNum(zone3[0], 1)
+    formState.gk6Y = mapWork.marsUtilFormtNum(zone3[1], 1)
+    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
   }
 }
 
 const bindMourseClick = () => {
-  mapWork.map.setCursor(true)
-  mapWork.map.once(mapWork.mars3d.EventType.click, function (event: any) {
-    mapWork.map.setCursor(false)
-    var cartesian = event.cartesian
-    var point = mapWork.mars3d.LatLngPoint.fromCartesian(cartesian)
-    point.format() // 经度、纬度、高度
+  mapWork.bindMourseClick()
 
-    currJD = point.lng
-    currWD = point.lat
-    currGD = point.alt
+  mapWork.eventTarget.on("clickMap", (event: any) => {
+    currJD = event.point.lng
+    currWD = event.point.lat
+    currGD = event.point.alt
 
-    formState.jd = mapWork.mars3d.Util.formatNum(currJD, 6)
-    formState.wd = mapWork.mars3d.Util.formatNum(currWD, 6)
-    formState.alt = mapWork.mars3d.Util.formatNum(currGD, 6)
+    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
     changeFanwei()
     // 更新面板
     mapWork.updateMarker(false, currJD, currWD, currGD)
@@ -179,11 +169,11 @@ const bindMourseClick = () => {
 }
 const submitCenter = () => {
   if (formState.jd > 180 || formState.jd < -180) {
-    mapWork.globalAlert("请输入有效的经度值！")
+    window.$alert("请输入有效的经度值！")
     return
   }
   if (formState.wd > 90 || formState.wd < -90) {
-    mapWork.globalAlert("请输入有效的纬度值！")
+    window.$alert("请输入有效的纬度值！")
     return
   }
   mapWork.updateMarker(true, formState.jd, formState.wd, formState.alt)

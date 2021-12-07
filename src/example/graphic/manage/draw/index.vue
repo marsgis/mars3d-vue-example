@@ -107,11 +107,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
 import LocationTo from "@comp/MarsSample/LocationTo.vue"
 import _ from "lodash"
+import * as mapWork from "./map.js"
 
 interface FileItem {
   uid: string
@@ -126,197 +127,36 @@ interface FileInfo {
   fileList: FileItem[]
 }
 
-const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
-
-const mapWork = window.mapWork || {}
-
-mapWork.eventTarget.on("loadOK", function (event: any) {
-  bindLayerContextMenu(event.graphicLayer)
-})
-
 // 显示隐藏
 const isShow = ref(true)
 const showChange = () => {
-  mapWork.graphicLayer.show = isShow.value
+  mapWork.showGraphicLayer(isShow.value)
 }
 
 // 是否绑定Popup
 const popupShow = ref(false)
 const showPopup = () => {
   if (popupShow.value) {
-    bindLayerPopup(mapWork.graphicLayer)
+    mapWork.bindLayerPopup()
   } else {
-    mapWork.graphicLayer.unbindPopup()
+    mapWork.unbindPopup()
   }
-}
-
-function bindLayerPopup(graphicLayer: any) {
-  graphicLayer.bindPopup(function (event: any) {
-    const attr = event.graphic?.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mapWork.mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
-  })
 }
 
 // 是否绑定Tooltip
 const tooltipShow = ref(false)
 const showTooltip = () => {
-  if (tooltipShow.value) {
-    mapWork.graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    mapWork.graphicLayer.unbindTooltip()
-  }
+  mapWork.showToolTip(tooltipShow.value)
 }
 
 // 是否绑定右键菜单
 const contextMenuShow = ref(false)
 const showContextMenu = () => {
   if (contextMenuShow.value) {
-    bindLayerContextMenu(mapWork.graphicLayer)
+    mapWork.bindLayerContextMenu()
   } else {
-    mapWork.graphicLayer.unbindContextMenu(true)
+    mapWork.unbindContextMenu()
   }
-}
-
-function bindLayerContextMenu(graphicLayer: any) {
-  graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "删除对象",
-      iconCls: "fa fa-trash-o",
-      show: (event: any) => {
-        const graphic = event.graphic
-        if (!graphic || graphic.isDestroy) {
-          return false
-        } else {
-          return true
-        }
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        graphicLayer.removeGraphic(graphic)
-      }
-    },
-    {
-      text: "计算长度",
-      iconCls: "fa fa-medium",
-      show: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        const strDis = mapWork.mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalProperties.$alert("该对象的长度为:" + strDis)
-      }
-    },
-    {
-      text: "计算周长",
-      iconCls: "fa fa-medium",
-      show: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        const strDis = mapWork.mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalProperties.$alert("该对象的周长为:" + strDis)
-      }
-    },
-    {
-      text: "计算面积",
-      iconCls: "fa fa-reorder",
-      show: function (e: any) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
-      callback: function (e: any) {
-        const graphic = e.graphic
-        const strArea = mapWork.mars3d.MeasureUtil.formatArea(graphic.area)
-        globalProperties.$alert("该对象的面积为:" + strArea)
-      }
-    }
-  ])
 }
 
 // 是否可编辑
@@ -330,22 +170,17 @@ const isEditableChange = () => {
 // 是否仅在3dtiles上标绘
 const onlyPickModelPosition = ref(false)
 const onlyPickModelPositionChange = () => {
-  mapWork.map.onlyPickModelPosition = onlyPickModelPosition.value
+  mapWork.onlyPickModelPositionChange(onlyPickModelPosition.value)
 }
 
 // 点击清除按钮
 const clear = () => {
-  mapWork.graphicLayer.clear()
+  mapWork.clear()
 }
 
 // 点击保存GeoJSON
 const saveGeoJSON = () => {
-  if (mapWork.graphicLayer.length === 0) {
-    globalProperties.$message("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = mapWork.graphicLayer.toGeoJSON()
-  mapWork.mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
+  mapWork.saveGeoJSON()
 }
 
 // 打开GeoJSON
@@ -362,65 +197,12 @@ const openGeoJSON = (info: FileInfo) => {
 
 // 点击保存KML
 const saveKML = () => {
-  if (mapWork.graphicLayer.length === 0) {
-    globalProperties.$message("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const strResult = toKML()
-  mapWork.mars3d.Util.downloadFile("我的标注.kml", strResult)
-}
-
-function toKML() {
-  let geojsonObject = mapWork.graphicLayer.toGeoJSON()
-  if (geojsonObject == null) {
-    return null
-  }
-
-  geojsonObject = _.cloneDeep(geojsonObject)
-
-  const kml = mapWork.kgUtil.toKml(geojsonObject, {
-    name: "Mars3D标绘数据",
-    documentName: "Mars3D标绘数据文件",
-    documentDescription: "标绘数据 by mars3d.cn",
-    simplestyle: true
-  })
-
-  return kml
+  mapWork.saveKML()
 }
 
 // 点击保存WKT
 const saveWKT = () => {
-  if (mapWork.graphicLayer.length === 0) {
-    globalProperties.$message("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const strResult = toWKT()
-  mapWork.mars3d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(strResult))
-}
-
-function toWKT() {
-  let geojsonObject = mapWork.graphicLayer.toGeoJSON()
-  if (geojsonObject == null) {
-    return null
-  }
-  geojsonObject = _.cloneDeep(geojsonObject)
-
-  const arrWKT: any[] = []
-  let index = 0
-  geojsonObject.features.forEach((feature: any) => {
-    const attr = feature.properties
-    const style = feature.properties.style
-
-    const wkt = mapWork.Terraformer.WKT.convert(feature.geometry) // geojson转换WKT格式 ,terraformer库
-    arrWKT.push({
-      id: ++index,
-      name: attr.name || "",
-      remark: attr.remark || "",
-      style: style,
-      wkt: wkt
-    })
-  })
-  return arrWKT
+  mapWork.saveWKT()
 }
 
 // 属性面板

@@ -1,20 +1,43 @@
-var map
-var geoJsonLayer
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.722018, lng: 117.251926, alt: 8378, heading: 360, pitch: -33 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let geoJsonLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.722018, lng: 117.251926, alt: 8378, heading: 360, pitch: -33 }
+  }
+}
 
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   map.basemap = 2017 // 切换到蓝色底图
 
+  addLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 添加合肥市建筑物和体育设施点
+ * @returns {void}
+ *
+ */
+function addLayer() {
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥市建筑物",
     url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
@@ -49,19 +72,20 @@ function initMap(options) {
 
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
-    var geojsonLength = geoJsonLayer.length
+    const geojsonLength = geoJsonLayer.length
     eventTarget.fire("loadOk", { geojsonLength })
     console.log("数据加载完成", event)
   })
 }
 
-function toGeojson() {
+// 保存为Geojson文件
+export function toGeojson() {
   const geojson = geoJsonLayer.toGeoJSON()
   mars3d.Util.downloadFile("hfty-point-含高度值.json", JSON.stringify(geojson))
 }
 
 // 计算贴地高度示例代码，可以将获取到的高度更新到数据库内，后续不用重复计算。
-function getDataSurfaceHeight() {
+export function getDataSurfaceHeight() {
   if (geoJsonLayer.length === 0) {
     globalMsg("数据尚未加载成功！")
     return
@@ -71,7 +95,7 @@ function getDataSurfaceHeight() {
   // 对图层内的数据做贴地运算,自动得到贴地高度
   geoJsonLayer.clampToGround({
     endItem: function (index, len) {
-      var resultData = {
+      const resultData = {
         percent: index + 1,
         percentAll: len
       }

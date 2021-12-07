@@ -1,26 +1,41 @@
-var map
-var heatLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.80232, lng: 117.206907, alt: 1996, heading: 39, pitch: -22 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let heatLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.80232, lng: 117.206907, alt: 1996, heading: 39, pitch: -22 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
 
   // 图层1
-  var arrPoints = getRandomPoints(1000) // 测试点数据，实际开发时换掉
+  const arrPoints = getRandomPoints(1000) // 测试点数据，实际开发时换掉
   showHeatMap(arrPoints, 300)
 
   // 图层2
-  var arrPoints2 = getRandomPoints(1000) // 测试点数据，实际开发时换掉
+  const arrPoints2 = getRandomPoints(1000) // 测试点数据，实际开发时换掉
   showHeatMap(arrPoints2, 800)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 function showHeatMap(arrPoints, height) {
@@ -41,21 +56,21 @@ function showHeatMap(arrPoints, height) {
 }
 
 // 更新数据
-function btnUpdate() {
+export function btnUpdate() {
   heatLayer.positions = getRandomPoints(1000)
 }
 
 // 获取bbox矩形区域内的count个随机点
 function getRandomPoints(count) {
-  var xmin = 117.226189
-  var xmax = 117.245831
-  var ymin = 31.828858
-  var ymax = 31.842967
-  var arr = []
-  var arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
-  for (var i = 0; i < arrPoint.length; i++) {
-    var item = arrPoint[i].geometry.coordinates
-    var val = Math.floor(Math.random() * 100) // 热力值
+  const xmin = 117.226189
+  const xmax = 117.245831
+  const ymin = 31.828858
+  const ymax = 31.842967
+  const arr = []
+  const arrPoint = turf.randomPoint(count, { bbox: [xmin, ymin, xmax, ymax] }).features // 随机点
+  for (let i = 0; i < arrPoint.length; i++) {
+    const item = arrPoint[i].geometry.coordinates
+    const val = Math.floor(Math.random() * 100) // 热力值
     arr.push({ lng: item[0], lat: item[1], value: val })
   }
   return arr

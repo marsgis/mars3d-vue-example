@@ -1,20 +1,26 @@
+import * as mars3d from "mars3d"
 
-var map
-var floorGraphic
+let map // mars3d.Map三维地图对象
+let floorGraphic
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.832215, lng: 117.219965, alt: 195, heading: 31, pitch: -36 }
-    }
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.832215, lng: 117.219965, alt: 195, heading: 31, pitch: -36 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该对象代码定义在：js/FloorGraphic.js
@@ -31,26 +37,33 @@ function initMap(options) {
     }
   })
   graphicLayer.addGraphic(floorGraphic)
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 展开
-function openFloorModel() {
-  var height = 5 // 展开的每层间隔高度，单位：米
+export function openFloorModel() {
+  const height = 5 // 展开的每层间隔高度，单位：米
   floorGraphic.openAll(height)
 }
 
 // 合并
-function mergeFloorModel() {
+export function mergeFloorModel() {
   floorGraphic.mergeAll()
 }
 
 // 还原
-function resetModel() {
+export function resetModel() {
   floorGraphic.reset()
 }
 
 // 楼层显示
-function showFloorModel(floorNum) {
+export function showFloorModel(floorNum) {
   floorGraphic.showFloor(floorNum)
 }

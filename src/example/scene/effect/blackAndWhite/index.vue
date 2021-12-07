@@ -1,29 +1,25 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <span>启用:</span>
-          <a-switch v-model:checked="checked" @change="isChecked" />
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span>启用:</span>
+        <a-switch v-model:checked="checked" @change="isChecked" />
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span>渐变:</span>
-          <a-slider @change="gradations" v-model:value="gradationsValue" :min="1" :max="10" step="0.01" />
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div>
+      <a-space>
+        <span>渐变:</span>
+        <a-slider @change="gradations" v-model:value="gradationsValue" :min="1" :max="10" step="0.01" />
+      </a-space>
+    </div>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const gradationsValue = ref<number>(4)
 

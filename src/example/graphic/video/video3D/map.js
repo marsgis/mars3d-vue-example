@@ -1,23 +1,42 @@
-var map
-var graphicLayer
-var selectedView
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.843366, lng: 117.205566, alt: 132, heading: 179, pitch: -56 },
-      fxaa: true, // 不开启抗锯齿，编辑时界面会闪烁
-      globe: {
-        depthTestAgainstTerrain: true // 不加无法投射到地形上
-      }
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let selectedView
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.843366, lng: 117.205566, alt: 132, heading: 179, pitch: -56 },
+    fxaa: true, // 不开启抗锯齿，编辑时界面会闪烁
+    globe: {
+      depthTestAgainstTerrain: true // 不加无法投射到地形上
     }
-  })
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  addModel()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addModel() {
   // 添加参考三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
     url: "//data.mars3d.cn/3dtiles/qx-hfdxy/tileset.json",
     position: { alt: -24 },
@@ -30,16 +49,13 @@ function initMap(options) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  // 绑定属性及处理事件
-  bindEvnet()
-
   // 加一些演示数据
-  addGraphic_01()
+ addGraphic01()
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic_01() {
-  var video3D = new mars3d.graphic.Video3D({
+function addGraphic01() {
+  const video3D = new mars3d.graphic.Video3D({
     type: mars3d.graphic.Video3D.Type.Video,
     url: "http://data.mars3d.cn/file/video/menqian.mp4",
     position: [117.20551, 31.842824, 41.4],
@@ -73,17 +89,24 @@ function addGraphic_01() {
   selectedView = video3D // 记录下
 }
 
-// 视频投放
-function createViewForVideo(showFrustum, opacity) {
+/**
+ * 视频投射
+ *
+ * @export
+ * @param {boolean} showFrustum 线框是否显示
+ * @param {number} opacity 透明度
+ * @returns {void} 无
+ */
+export function createViewForVideo(showFrustum, opacity) {
   // 取屏幕中心点
-  var cartesian = map.getCenter({ format: false })
+  const cartesian = map.getCenter({ format: false })
   if (!cartesian) {
     return
   }
-  var cameraPosition = Cesium.clone(map.scene.camera.position)
+  const cameraPosition = Cesium.clone(map.scene.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     type: mars3d.graphic.Video3D.Type.Video,
     url: "http://data.mars3d.cn/file/video/lukou.mp4",
     position: cartesian,
@@ -98,17 +121,25 @@ function createViewForVideo(showFrustum, opacity) {
   selectedView = video3D // 记录下
 }
 
-// 图片投放
-function createViewForPicture(showFrustum, opacity) {
+
+/**
+ * 图片投放
+ *
+ * @export
+ * @param {boolean} showFrustum 线框是否显示
+ * @param {number} opacity 透明度
+ * @returns {void} 无
+ */
+export function createViewForPicture(showFrustum, opacity) {
   // 取屏幕中心点
-  var cartesian = map.getCenter({ format: false })
+  const cartesian = map.getCenter({ format: false })
   if (!cartesian) {
     return
   }
-  var cameraPosition = Cesium.clone(map.scene.camera.position)
+  const cameraPosition = Cesium.clone(map.scene.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     type: mars3d.graphic.Video3D.Type.Image,
     url: "./img/tietu/gugong.jpg",
     position: cartesian,
@@ -123,17 +154,26 @@ function createViewForPicture(showFrustum, opacity) {
   selectedView = video3D // 记录下
 }
 
-// 文本投放
-function createText(showFrustum, opacity) {
-  var cartesian = map.getCenter({ format: false })
+
+
+/**
+ * 文本投放
+ *
+ * @export
+ * @param {boolean} showFrustum 线框是否显示
+ * @param {number} opacity 透明度
+ * @returns {void} 无
+ */
+export function createText(showFrustum, opacity) {
+  const cartesian = map.getCenter({ format: false })
   if (!cartesian) {
     return
   }
 
-  var cameraPosition = Cesium.clone(map.scene.camera.position)
+  const cameraPosition = Cesium.clone(map.scene.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     type: mars3d.graphic.Video3D.Type.Text,
     position: cartesian,
     cameraPosition: cameraPosition,
@@ -159,17 +199,24 @@ function createText(showFrustum, opacity) {
   selectedView = video3D // 记录下
 }
 
-// 颜色投放
-function createViewForColor(showFrustum, opacity) {
+/**
+ * 颜色投放
+ *
+ * @export
+ * @param {boolean} showFrustum 线框是否显示
+ * @param {number} opacity 透明度
+ * @returns {void} 无
+ */
+export function createViewForColor(showFrustum, opacity) {
   // 取屏幕中心点
-  var cartesian = map.getCenter({ format: false })
+  const cartesian = map.getCenter({ format: false })
   if (!cartesian) {
     return
   }
-  var cameraPosition = Cesium.clone(map.scene.camera.position)
+  const cameraPosition = Cesium.clone(map.scene.camera.position)
 
   // 构造投射体
-  var video3D = new mars3d.graphic.Video3D({
+  const video3D = new mars3d.graphic.Video3D({
     type: mars3d.graphic.Video3D.Type.Color,
     position: cartesian,
     cameraPosition: cameraPosition,
@@ -185,13 +232,13 @@ function createViewForColor(showFrustum, opacity) {
 }
 
 // 清除
-function clearVideo() {
+export function clearVideo() {
   graphicLayer.clear()
   selectedView = null
 }
 
 // 播放暂停
-function playOrpause() {
+export function playOrpause() {
   if (!selectedView) {
     return
   }
@@ -200,25 +247,25 @@ function playOrpause() {
 }
 
 // 定位至视频位置
-function locate() {
+export function locate() {
   if (!selectedView) {
     return
   }
   selectedView.flyTo()
 }
-// 打印参数
 
-function printParameters() {
+// 打印参数
+export function printParameters() {
   if (!selectedView) {
     return
   }
 
-  var params = JSON.stringify(selectedView.toJSON())
+  const params = JSON.stringify(selectedView.toJSON())
   console.log(params)
 }
 
 // 混合系数
-function opacity(value) {
+export function opacity(value) {
   if (!selectedView) {
     return
   }
@@ -226,8 +273,7 @@ function opacity(value) {
 }
 
 // 水平拉伸
-
-function cameraFov(value) {
+export function cameraFov(value) {
   if (!selectedView) {
     return
   }
@@ -235,14 +281,14 @@ function cameraFov(value) {
 }
 
 // 宽高比例
-function cameraWidHei(value) {
+export function cameraWidHei(value) {
   if (selectedView) {
     selectedView.aspectRatio = value
   }
 }
 
 // 线框是否显示
-function showFrustum(ckd) {
+export function showFrustum(ckd) {
   if (!selectedView) {
     return
   }
@@ -250,14 +296,14 @@ function showFrustum(ckd) {
 }
 
 // 视频位置
-function selCamera() {
+export function selCamera() {
   if (!selectedView) {
     return
   }
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.cameraPosition = point
@@ -265,7 +311,7 @@ function selCamera() {
   })
 }
 
-function selView() {
+export function selView() {
   if (!selectedView) {
     return
   }
@@ -273,7 +319,7 @@ function selView() {
   map.graphicLayer.startDraw({
     type: "point",
     success: (graphic) => {
-      var point = graphic.point
+      const point = graphic.point
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point
@@ -281,8 +327,7 @@ function selView() {
   })
 }
 // 键盘微调控制
-
-function bindEvnet() {
+export function bindEvnet(step) {
   document.addEventListener(
     "keydown",
     function (e) {
@@ -290,22 +335,22 @@ function bindEvnet() {
         default:
           break
         case "A".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.LEFT)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.LEFT, step)
           break
         case "D".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.RIGHT)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.RIGHT, step)
           break
         case "W".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.TOP)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.TOP, step)
           break
         case "S".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.BOTTOM)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.BOTTOM, step)
           break
         case "Q".charCodeAt(0): // Q键
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.ALONG)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.ALONG, step)
           break
         case "E".charCodeAt(0): // E
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.INVERSE)
+          rotateCamera(mars3d.graphic.Video3D.RatateDirection.INVERSE, step)
           break
       }
     },
@@ -314,16 +359,22 @@ function bindEvnet() {
 }
 
 // 微调视频
-var adjustVal
-var cameraFollowVal
-function rotateCamera(dir) {
+function rotateCamera(dir, adjustVal) {
   if (!selectedView) {
     return
   }
 
   selectedView.rotateCamera(dir, adjustVal)
+}
 
-  if (cameraFollowVal) {
+/**
+ *
+ * @export
+ * @param {boolean} isFollow 相机是否跟随
+ * @returns {void} 无
+ */
+export function cameraFollow(isFollow) {
+  if (isFollow) {
     map.camera.direction = selectedView.style.camera.direction
     map.camera.right = selectedView.style.camera.right
     map.camera.up = selectedView.style.camera.up

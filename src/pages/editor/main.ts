@@ -5,70 +5,10 @@ import { getQueryString } from "@/utils/index"
 import marsEditorInstall from "mars-editor"
 import MarsUI from "@comp/MarsUI"
 
-import {
-  AutoComplete,
-  Button,
-  Cascader,
-  Checkbox,
-  Col,
-  Collapse,
-  Dropdown,
-  Form,
-  Input,
-  InputNumber,
-  List,
-  Menu,
-  Modal,
-  PageHeader,
-  Popover,
-  Progress,
-  Radio,
-  Row,
-  Slider,
-  Space,
-  Spin,
-  Switch,
-  Table,
-  Tabs,
-  Tooltip,
-  Tree,
-  Typography,
-  Upload
-} from "ant-design-vue"
-
 // 加载全局样式
 import "@/styles/index.less"
 
 const app = createApp(Application)
-
-app.use(AutoComplete)
-app.use(Row)
-app.use(Cascader)
-app.use(Col)
-app.use(Collapse)
-app.use(Button)
-app.use(List)
-app.use(Form)
-app.use(Input)
-app.use(InputNumber)
-app.use(Checkbox)
-app.use(Radio)
-app.use(Switch)
-app.use(Space)
-app.use(Slider)
-app.use(Table)
-app.use(Tree)
-app.use(Upload)
-app.use(Progress)
-app.use(PageHeader)
-app.use(Menu)
-app.use(Dropdown)
-app.use(Popover)
-app.use(Spin)
-app.use(Modal)
-app.use(Typography)
-app.use(Tabs)
-app.use(Tooltip)
 
 app.use(MarsUI)
 
@@ -91,6 +31,9 @@ app.directive("auto-height", {
     let wapperHeight = container?.clientHeight || 0
     el.style.height = `${wapperHeight - loseHeight}px`
 
+    document.oncontextmenu = function (e) {
+      e.preventDefault()
+    }
     window.onresize = () => {
       wapperHeight = container?.clientHeight || 0
       const resizeHeight = wapperHeight - loseHeight

@@ -1,21 +1,24 @@
+import * as mars3d from "mars3d"
 
-var map
-var canvasWindLayer
+let map // mars3d.Map三维地图对象
+let canvasWindLayer
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 17.262069, lng: 118.610529, alt: 21466323, heading: 359, pitch: -89 }
-    }
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 17.262069, lng: 118.610529, alt: 21466323, heading: 359, pitch: -89 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+ export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
-
-
 
   // 风场
   canvasWindLayer = new mars3d.layer.CanvasWindLayer({
@@ -31,41 +34,53 @@ function initMap(options) {
   loadEarthData()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 滑动条事件
 // 修改粒子数量
-function changeCount(val) {
+export function changeCount(val) {
   if (val) {
     canvasWindLayer.particlesNumber = val
   }
 }
+
 // 修改存活时间
-function changeAge(val) {
+export function changeAge(val) {
   if (val) {
     canvasWindLayer.maxAge = val
   }
 }
+
 // 修改移动速率
-function changeSpeed(val) {
+export function changeSpeed(val) {
   if (val) {
     canvasWindLayer.speedRate = val
   }
 }
+
 // 修改线宽
-function changeLinewidth(val) {
+export function changeLinewidth(val) {
   if (val) {
     canvasWindLayer.lineWidth = val
   }
 }
+
 // 改变颜色
-function changeColor(color) {
+export function changeColor(color) {
   canvasWindLayer.color = color
 }
 
 // 加载全球数据
-var earthWindData
+let earthWindData
 // 加载气象
-var dongnanWindData
-function loadEarthData() {
+let dongnanWindData
+export function loadEarthData() {
   map.flyHome()
 
   canvasWindLayer.speedRate = 50
@@ -85,7 +100,7 @@ function loadEarthData() {
     })
 }
 // 加载局部数据
-function loadDongnanData() {
+export function loadDongnanData() {
   map.setCameraView({
     y: 30.484229,
     x: 116.627601,
@@ -124,13 +139,13 @@ function queryWindpointApiData() {
 
 // 将数据转换为需要的格式:风向转UV
 function convertWindData(arr) {
-  var arrU = []
-  var arrV = []
+  const arrU = []
+  const arrV = []
 
-  var xmin = arr[0].x
-  var xmax = arr[0].x
-  var ymin = arr[0].y
-  var ymax = arr[0].y
+  let xmin = arr[0].x
+  let xmax = arr[0].x
+  let ymin = arr[0].y
+  let ymax = arr[0].y
 
   // 风向是以y轴正方向为零度顺时针转，0度表示北风。90度表示东风。
   // u表示经度方向上的风，u为正，表示西风，从西边吹来的风。
@@ -151,15 +166,15 @@ function convertWindData(arr) {
       ymax = item.y
     }
 
-    var u = mars3d.WindUtil.getU(item.speed, item.dir)
+    const u = mars3d.WindUtil.getU(item.speed, item.dir)
     arrU.push(u)
 
-    var v = mars3d.WindUtil.getV(item.speed, item.dir)
+    const v = mars3d.WindUtil.getV(item.speed, item.dir)
     arrV.push(v)
   }
 
-  var rows = getKeyNumCount(arr, "y") // 计算 行数
-  var cols = getKeyNumCount(arr, "x") // 计算 列数
+  const rows = getKeyNumCount(arr, "y") // 计算 行数
+  const cols = getKeyNumCount(arr, "x") // 计算 列数
 
   return {
     xmin: xmin,
@@ -174,12 +189,12 @@ function convertWindData(arr) {
 }
 
 function getKeyNumCount(arr, key) {
-  var obj = {}
+  const obj = {}
   arr.forEach((item) => {
     obj[item[key]] = true
   })
 
-  var count = 0
+  let count = 0
   for (const col in obj) {
     count++
   }

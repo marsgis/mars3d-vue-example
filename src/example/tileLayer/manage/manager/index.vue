@@ -1,9 +1,7 @@
 <template>
   <PannelBox class="infoView manager-pannel" v-auto-height="100">
-    <a-tree
+    <mars-tree
       checkable
-      :show-line="true"
-      :show-icon="true"
       :tree-data="treeData"
       v-model:expandedKeys="expandedKeys"
       v-model:checkedKeys="checkedKeys"
@@ -12,15 +10,13 @@
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
-    </a-tree>
+    </mars-tree>
   </PannelBox>
 </template>
 <script lang="ts" setup>
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import { onMounted, ref } from "vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import { ref } from "vue"
+import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])
 

@@ -1,18 +1,18 @@
 <template>
   <PannelBox class="infoView infoview">
-    <a-form-item>
+    <div class="f-mb">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
         <mars-button @click="butAddTxtName">添加</mars-button>
       </a-space>
-    </a-form-item>
+    </div>
     <div class="bookmarkView">
       <div v-bind:class="{ noFound: formState.found, addNewImg: formState.noFound }" :key="value.name" v-for="(value, index) in formState.imgObject">
         <img class="markImg" :src="value.img" @click="flytoView(value)" v-show="formState.noFound == true" />
         <p>{{ value.name }}</p>
-        <mars-button class="deleteImg" @click="butDeleteTxtName(index)" v-show="formState.noFound == true"
-          ><img src="img/icon/delete.svg"
-        /></mars-button>
+        <mars-button class="deleteImg" @click="butDeleteTxtName(index)" v-show="formState.noFound == true">
+          <img src="img/icon/delete.svg" />
+        </mars-button>
       </div>
     </div>
   </PannelBox>
@@ -21,10 +21,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-let arrView: any[] = []
+import * as mapWork from "./map.js"
 
 const formState = reactive({
   input: "",
@@ -33,73 +30,64 @@ const formState = reactive({
   imgObject: [{ id: 0, name: "没有匹配的值", img: "", center: "" }]
 })
 
-let index = 0
 onMounted(() => {
-  try {
-    const data: any = JSON.parse(localStorage.getItem("bookmark")!)
-    if (data && data.length > 0) {
-      console.log("历史数据", data)
-
-      for (var i = 0; i < data.length; i++) {
-        const item = data[i]
-      }
-
-      index = data[data.length - 1].id
-    }
-  } catch (err: any) {}
+  mapWork.getLocalStorage()
 })
 
+mapWork.eventTarget.on("localStorage", (item: any) => {
+  // 删除未匹配项
+  if (formState.imgObject[0].img === "") {
+    formState.imgObject.splice(0, 1)
+    formState.noFound = true
+    formState.found = false
+  }
+  formState.imgObject.push(item)
+})
+
+let index = 0
 // 添加视角书签
 const butAddTxtName = () => {
   const name = formState.input
+  const imgObject = formState.imgObject
+
   if (!name) {
     window.$message("请输入名称")
     return
   }
 
   // 删除未匹配项
-  if (formState.imgObject[0].img == "") {
+  if (imgObject[0].img === "") {
     formState.imgObject.splice(0, 1)
     formState.noFound = true
     formState.found = false
   }
 
   // 不能使用相同名称
-  if (arrView) {
-    for (var i = 0; i < arrView.length; i++) {
-      if (arrView[i].name == name) {
+  if (name) {
+    for (var i = 0; i < imgObject.length; i++) {
+      if (imgObject[i].name == name) {
         window.$message(name + " 已存在，请更换名称!")
         return
       }
     }
   } else {
-    arrView = []
+    formState.imgObject = []
   }
 
   // 动态的获取index
-  const item = {
-    id: index++,
-    name: name,
-    image: "",
-    center: mapWork.map.getCameraView()
-  }
-  arrView.push(item)
-
-  mapWork.map.expImage({
-    download: false,
-    width: 300,
-    callback: function (image: any) {
-      item.image = image
-      formState.imgObject.push({ id: item.id, name: item.name, img: item.image, center: item.center })
-
-      // 记录到历史
-      localStorage.setItem("bookmark", JSON.stringify(arrView))
-    }
-  })
+  mapWork.butAddTxtName(index++, name)
 
   // UI处理
   formState.input = ""
 }
+
+// 触发事件
+mapWork.eventTarget.on("addImgObject", (item: any) => {
+  formState.imgObject.push({ id: item.id, name: item.name, img: item.image, center: item.center })
+
+  // 记录到历史
+  mapWork.setLocalStorage(formState.imgObject)
+})
 
 // 视角操作
 const flytoView = (val: any) => {
@@ -107,24 +95,14 @@ const flytoView = (val: any) => {
 }
 
 const butDeleteTxtName = (index: number) => {
-  deleteTxtName(formState.imgObject[index])
   formState.imgObject.splice(index, 1)
 
-  if (arrView.length == 0) {
+  if (formState.imgObject.length == 0) {
     formState.imgObject = [{ id: 0, name: "没有匹配的值", img: "", center: "" }]
     formState.noFound = false
     formState.found = true
   }
-}
-
-function deleteTxtName(item: any) {
-  for (var i = 0; i < arrView.length; i++) {
-    if (arrView[i].name == item.name) {
-      arrView.splice(i, 1)
-      break
-    }
-  }
-  localStorage.setItem("bookmark", JSON.stringify(arrView))
+  mapWork.setLocalStorage(formState.imgObject)
 }
 </script>
 <style scoped lang="less">

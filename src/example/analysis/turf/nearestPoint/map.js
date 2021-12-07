@@ -1,8 +1,10 @@
-var map
-var pointLayer
-var graphicLayer
+import * as mars3d from "mars3d"
 
-var pointStyle = {
+let map // mars3d.Map三维地图对象
+let pointLayer
+let graphicLayer
+
+const pointStyle = {
   verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
   scale: 1,
   scaleByDistance: true,
@@ -13,19 +15,21 @@ var pointStyle = {
   clampToGround: true
 }
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
-      fxaa: true
-    }
-  })
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.967015, lng: 117.316406, alt: 9150, heading: 206, pitch: -42 },
+    fxaa: true
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   pointLayer = new mars3d.layer.GeoJsonLayer({
     name: "体育设施点",
@@ -53,6 +57,14 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function clickPoint(position) {
   if (pointLayer.length === 0) {
     globalMsg("正在加载数据,请稍等......")
@@ -62,7 +74,7 @@ function clickPoint(position) {
   graphicLayer.clear()
 
   // 生成查询点
-  var queryPoint = new mars3d.graphic.BillboardEntity({
+  const queryPoint = new mars3d.graphic.BillboardEntity({
     position: position,
     style: {
       ...pointStyle,
@@ -73,10 +85,12 @@ function clickPoint(position) {
   graphicLayer.addGraphic(queryPoint)
 
   // turf分析
-  var targetPoint = queryPoint.toGeoJSON()
-  var points = pointLayer.toGeoJSON()
-  var nearest = turf.nearestPoint(targetPoint, points)
-  if (!nearest) { return }
+  const targetPoint = queryPoint.toGeoJSON()
+  const points = pointLayer.toGeoJSON()
+  const nearest = turf.nearestPoint(targetPoint, points)
+  if (!nearest) {
+    return
+  }
 
   const nearestPoint = mars3d.Util.geoJsonToGraphics(nearest)[0]
 
@@ -96,7 +110,7 @@ function clickPoint(position) {
   graphicLayer.addGraphic(polyline)
 
   // 终点
-  var endPoint = new mars3d.graphic.CircleEntity({
+  const endPoint = new mars3d.graphic.CircleEntity({
     position: nearestPoint.position,
     style: {
       radius: polyline.distance / 10,
@@ -113,6 +127,6 @@ function clickPoint(position) {
   endPoint.openPopup()
 }
 
-function clearAll() {
+export function clearAll() {
   graphicLayer.clear()
 }

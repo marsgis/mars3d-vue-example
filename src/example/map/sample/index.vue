@@ -112,19 +112,11 @@
           </a-table>
         </a-collapse-panel>
         <a-collapse-panel key="3" header="树控件">
-          <a-tree
-            checkable
-            :show-line="true"
-            :show-icon="true"
-            :tree-data="treeData"
-            v-model:expandedKeys="expandedKeys"
-            v-model:checkedKeys="checkedKeys"
-            @check="onCheckTreeItem"
-          >
+          <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
             <template #title="{ title }">
               <span>{{ title }}</span>
             </template>
-          </a-tree>
+          </mars-tree>
         </a-collapse-panel>
       </a-collapse>
 
@@ -148,10 +140,9 @@
 import { onMounted, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
+import axios from "axios"
 import type { Dayjs } from "dayjs"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork
+import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3"])
 
@@ -182,21 +173,11 @@ const formState = reactive<FormState>({
   color: "#ffff00"
 })
 
-mapWork.eventTarget.on("test", (res: any) => {
-  console.log("触发test")
-  console.log(res)
-})
-
 const rules = {
   url: [{ required: true, message: "请输入内容", trigger: "blur" }]
 }
 
-onMounted(() => {
-  initTable()
-  initTree()
-})
-
-// 数字输入框修改事件
+// 输入框修改事件
 const onTextChange = () => {
   window.$message("您输入了文本：" + formState.url)
 }
@@ -313,7 +294,7 @@ const onClickTopLoading = () => {
   }, 3000)
 }
 
-// 表格控件相关处理
+// ========================= 表格控件相关处理============================
 
 // 表格列头
 const columns: TableColumnType = [
@@ -340,11 +321,11 @@ interface typhoon {
   state: string
 }
 const typhoonList = ref<typhoon[]>([]) // 列表数据
-
-function initTable() {
+onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
-  mapWork.mars3d.Resource.fetchJson({ url: url }).then(function (data: any) {
+  axios.get(url).then(function (res: any) {
+    const data = res.data
     typhoonList.value = data.typhoonList.map((item: any) => ({
       id: item[0],
       name_en: item[1],
@@ -353,13 +334,12 @@ function initTable() {
       state: item[7]
     }))
   })
-}
+})
 
 // 勾选了表格列表的行
 const rowSelection: TableProps["rowSelection"] = {
   onSelect: (selectedRow: any, selectedRows: boolean) => {
     console.log(selectedRow)
-
     if (selectedRows) {
       window.$message("勾选了行:" + selectedRow.name_cn)
     } else {
@@ -378,20 +358,21 @@ const customTableRow = (selectedRow: any) => {
   }
 }
 
-// 树控件相关处理
+// ========================= 树控件相关处理============================
+
 const layersObj: any = {}
 const treeData = ref<any[]>([])
 const expandedKeys = ref<string[]>([])
 const checkedKeys = ref<string[]>([])
 
-function initTree() {
+onMounted(() => {
   // 取图层列表数据
   const url = "/config/tileset.json"
-  mapWork.mars3d.Resource.fetchJson({ url: url }).then(function (data: any) {
+  axios.get(url).then(function (res: any) {
+    const data = res.data
     var layers = data.layers
-    //
     for (let i = layers.length - 1; i >= 0; i--) {
-      const layer = mapWork.mars3d.LayerUtil.create(layers[i]) // 创建图层
+      const layer = mapWork.createLayer(layers[i]) // 创建图层
       if (layer && layer.pid === 20) {
         const node: any = {
           title: layer.name,
@@ -407,7 +388,7 @@ function initTree() {
     }
     console.log(treeData)
   })
-}
+})
 
 function findChild(parent: any, list: any[]) {
   return list
@@ -421,7 +402,7 @@ function findChild(parent: any, list: any[]) {
           pId: item.pid,
           uuid: item.uuid
         }
-        const nodeLayer = mapWork.mars3d.LayerUtil.create(item) // 创建图层
+        const nodeLayer = mapWork.createLayer(item) // 创建图层
         layersObj[item.id] = nodeLayer
         node.children = findChild(node, list)
         expandedKeys.value.push(node.key)
@@ -435,6 +416,7 @@ function findChild(parent: any, list: any[]) {
 
 // 勾选了树节点
 const onCheckTreeItem = (keys: string[]) => {
+  console.log(keys)
   Object.keys(layersObj).forEach((k) => {
     const show = keys.indexOf(k) !== -1
     const layer = layersObj[k]

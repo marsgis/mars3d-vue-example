@@ -4,18 +4,6 @@
     "icon": "fa-globe",
     "children": [
       {
-        "name": "示例样板",
-        "details": "这是一个示例的模版，包含所有UI控件的演示和交互演示，可以基于此示例学习开发新的示例。",
-        "children": [
-          {
-            "name": "UI控件及交互演示",
-            "main": "map/sample",
-            "usePannel": true,
-            "date": "2021-11-15"
-          }
-        ]
-      },
-      {
         "name": "创建三维场景",
         "details": "演示 new mars3d.Map() 构造场景时支持的一些参数",
         "children": [
@@ -33,6 +21,12 @@
             "name": "原生Cesium来创建地球(可与第3方SDK结合使用)",
             "main": "map/fastStart/cesiumTo",
             "date": "2021-11-02"
+          },
+          {
+            "name": "UI控件及交互演示样板",
+            "main": "map/sample",
+            "usePannel": true,
+            "date": "2021-11-15"
           }
         ]
       },
@@ -277,8 +271,6 @@
           {
             "name": "谷歌地球企业版【需部署私服】",
             "main": "tileLayer/basis/gee",
-            "usePannel": true,
-            "libs": ["mars3d"],
             "date": "2021-11-10"
           },
           {
@@ -336,7 +328,7 @@
     "icon": "fa-briefcase",
     "children": [
       {
-        "name": "初始化控件",
+        "name": "Cesium内置控件",
         "details": "Cesium内置的控件，构造地图时按需传参配置",
         "children": [
           {
@@ -354,17 +346,11 @@
             "main": "control/cesium/geocoder",
             "resources": ["cesiumControl.css"],
             "date": "2021-10-01"
-          },
-          {
-            "name": "控件控制(显示及关闭)",
-            "main": "control/cesium/display",
-            "usePannel": true,
-            "date": "2021-11-01"
           }
         ]
       },
       {
-        "name": "内置控件",
+        "name": "Mars3D内置控件",
         "details": "Mars3D内置的控件，直接按需调用即可",
         "children": [
           {
@@ -401,7 +387,7 @@
         ]
       },
       {
-        "name": "自定义控件",
+        "name": "控件",
         "children": [
           {
             "name": "导航球",
@@ -418,6 +404,11 @@
             "name": "比例尺",
             "main": "control/basis/distanceLegend",
             "date": "2021-11-10"
+          },
+          {
+            "name": "时钟控制",
+            "main": "control/basis/clockAnimate",
+            "date": "2021-12-03"
           },
           {
             "name": "下侧状态栏",
@@ -452,7 +443,7 @@
           {
             "name": "移动端位置定位",
             "main": "control/basis/geolocation",
-            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js"],
+            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js", "Geolocation.css"],
             "date": "2021-10-06"
           },
           {
@@ -460,6 +451,12 @@
             "main": "control/basis/queryPoiBtn",
             "resources": ["poiQueryButton.css", "PoiQueryButton.js"],
             "date": "2021-11-11"
+          },
+          {
+            "name": "控件控制(显示及关闭)",
+            "main": "control/basis/display",
+            "usePannel": true,
+            "date": "2021-11-01"
           }
         ]
       }
@@ -476,14 +473,13 @@
             "name": "graphic 数据图层",
             "main": "graphicLayer/basis/graphic",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10"
           },
           {
             "name": "DIV 图层",
             "main": "graphicLayer/basis/divGraphic",
             "usePannel": true,
-            "resources": ["/temp/styles/divGraphic.css", "/temp/scripts/graphicManager.js"],
+            "resources": ["/temp/styles/divGraphic.css"],
             "date": "2021-10-07"
           }
         ]
@@ -617,7 +613,6 @@
           {
             "name": "三维地名服务",
             "main": "graphicLayer/other/tdtDmLayer",
-            "usePannel": true,
             "libs": ["mars3d", "mars3d-tdt"],
             "date": "2021-11-01",
             "plugins": "tdt"
@@ -643,28 +638,24 @@
             "name": "Label 文字",
             "main": "graphic/entity/label",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "文字贴图",
             "main": "graphic/entity/textMaterialProperty",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-08"
           },
           {
             "name": "Point 点 ",
             "main": "graphic/entity/point",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Billboard 图标点",
             "main": "graphic/entity/billboard",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
@@ -677,56 +668,50 @@
             "name": "字体图片点",
             "main": "graphic/entity/fontBillboard",
             "usePannel": true,
-            "resources": ["/lib/font-awesome/css/font-awesome.min.css", "/lib/dom2img/dom-to-image.js", "/temp/scripts/graphicManager.js"],
+            "resources": ["/lib/font-awesome/css/font-awesome.min.css", "/lib/dom2img/dom-to-image.js"],
             "date": "2021-11-10"
           },
           {
             "name": "Div图片点",
             "main": "graphic/entity/divBillboard",
             "usePannel": true,
-            "resources": ["/temp/styles/divGraphic.css", "/temp/scripts/graphicManager.js", "domToImage.js"],
+            "resources": ["/temp/styles/divGraphic.css", "domToImage.js"],
             "date": "2021-11-10"
           },
           {
             "name": "Plane 平面",
             "main": "graphic/entity/plane",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Box 盒子",
             "main": "graphic/entity/box",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Circle 圆、圆柱",
             "main": "graphic/entity/circle",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Ellipse 椭圆、椭圆柱",
             "main": "graphic/entity/ellipse",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Cylinder 圆锥",
             "main": "graphic/entity/cylinder",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "圆锥追踪体",
             "main": "graphic/entity/coneTrack",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-10"
           },
@@ -734,28 +719,24 @@
             "name": "Ellipsoid 球、半球、椭球",
             "main": "graphic/entity/ellipsoid",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "半球、雷达范围",
             "main": "graphic/entity/hemisphere",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10"
           },
           {
             "name": "Model 小模型",
             "main": "graphic/entity/model",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-02"
           },
           {
             "name": "点对象动态位置",
             "main": "graphic/entity/dynamic",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
           },
@@ -764,7 +745,6 @@
             "main": "graphic/entity/dynamic3Dtiles",
             "hidden": true,
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
           },
@@ -772,70 +752,60 @@
             "name": "Path 轨迹",
             "main": "graphic/entity/path",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10"
           },
           {
             "name": "Polyline 线",
             "main": "graphic/entity/polyline",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "曲线",
             "main": "graphic/entity/polylineCurve",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "PolylineVolume 管道线",
             "main": "graphic/entity/polylineVolume",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Corridor 走廊",
             "main": "graphic/entity/corridor",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Wall 墙",
             "main": "graphic/entity/wall",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Rectangle 矩形",
             "main": "graphic/entity/rectangle",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "Polygon 面",
             "main": "graphic/entity/polygon",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-10-05"
           },
           {
             "name": "正多边形",
             "main": "graphic/entity/polygonRegular",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10"
           },
           {
             "name": "扇形",
             "main": "graphic/entity/polygonSector",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-10"
           }
         ]
@@ -848,115 +818,99 @@
             "name": "Label 文字(支持大数据)",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/label",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/label"
           },
           {
             "name": "文字贴图",
             "date": "2021-10-08",
             "usePannel": true,
-            "main": "graphic/primitive/textMaterial",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/textMaterial"
           },
           {
             "name": "Point 点(支持大数据)",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/point",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/point"
           },
           {
             "name": "Billboard 图标点(支持大数据)",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/billboard",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/billboard"
           },
           {
             "name": "Plane 平面",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/plane",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/plane"
           },
           {
             "name": "Box 盒子",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/box",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/box"
           },
           {
             "name": "Circle 圆、椭圆、圆柱",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/circle",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/circle"
           },
           {
             "name": "Cylinder 圆锥、圆柱",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/cylinder",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/cylinder"
           },
           {
             "name": "Frustum 四棱锥体",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/frustum",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/frustum"
           },
           {
             "name": "光锥体",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif",
             "usePannel": true,
-            "main": "graphic/primitive/lightCone",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/lightCone"
           },
           {
             "name": "Ellipsoid 球、半球、椭球",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/ellipsoid",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/ellipsoid"
           },
           {
             "name": "Model 小模型",
             "date": "2021-11-02",
             "usePannel": true,
-            "main": "graphic/primitive/model",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/model"
           },
           {
             "name": "点对象动态位置",
             "date": "2021-11-11",
             "thumbnail": "thumbnail.gif",
             "usePannel": true,
-            "main": "graphic/primitive/dynamic",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/dynamic"
           },
           {
             "name": "Polyline 线",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/polyline",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/polyline"
           },
           {
             "name": "PolylineVolume 管道线",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/polylineVolume",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/polylineVolume"
           },
           {
             "name": "Corridor 走廊",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/corridor",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/corridor"
           },
           {
             "name": "动态河流",
@@ -975,52 +929,45 @@
             "name": "Wall 墙",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/wall",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/wall"
           },
           {
             "name": "扩散围墙",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif",
             "usePannel": true,
-            "main": "graphic/primitive/diffuseWall",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/diffuseWall"
           },
           {
             "name": "走马灯围墙",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif",
             "usePannel": true,
-            "main": "graphic/primitive/scrollWall",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/scrollWall"
           },
           {
             "name": "Rectangle 矩形",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/rectangle",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/rectangle"
           },
           {
             "name": "Polygon 面",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/polygon",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/polygon"
           },
           {
             "name": "水域面",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/water",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/water"
           },
           {
             "name": "井",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "graphic/primitive/pit",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/pit"
           }
         ]
       },
@@ -1064,10 +1011,10 @@
         "name": "其他矢量对象",
         "children": [
           {
-            "name": "DIV文本点",
-            "main": "graphic/other/divGraphic",
+            "name": "DIV 图层",
+            "main": "graphicLayer/basis/divGraphic",
             "usePannel": true,
-            "resources": ["/temp/styles/divGraphic.css", "/temp/scripts/graphicManager.js"],
+            "resources": ["/temp/styles/divGraphic.css"],
             "date": "2021-10-07"
           },
           {
@@ -1125,6 +1072,7 @@
           {
             "name": "浮动监控点HLS",
             "main": "graphic/point/divGraphicCameraHls",
+            "libs": ["hls", "mars3d"],
             "resources": ["camera.css", "/temp/styles/divGraphic.css"],
             "date": "2021-11-10",
             "hidden": true
@@ -1369,8 +1317,7 @@
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif",
             "main": "graphic/space/rectangularSensor",
-            "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "usePannel": true
           },
           {
             "name": "CamberRadar 双曲面雷达范围",
@@ -1662,7 +1609,6 @@
             "name": "军事标绘",
             "date": "2021-10-09",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "main": "graphic/manage/militaryPlot"
           },
           {
@@ -1705,15 +1651,13 @@
             "name": "ModelEntity对象",
             "main": "graphic/entity/model",
             "usePannel": true,
-            "resources": ["/temp/scripts/graphicManager.js"],
             "date": "2021-11-02"
           },
           {
             "name": "ModelPrimitive对象",
             "date": "2021-11-02",
             "usePannel": true,
-            "main": "graphic/primitive/model",
-            "resources": ["/temp/scripts/graphicManager.js"]
+            "main": "graphic/primitive/model"
           },
           {
             "name": "ModelCombine对象(大数据+合并渲染)",
@@ -2523,7 +2467,6 @@
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif",
             "main": "visual/mapv/dynamicPoint",
-            "usePannel": true,
             "libs": ["mars3d", "mars3d-mapv"],
             "plugins": "mapv"
           },

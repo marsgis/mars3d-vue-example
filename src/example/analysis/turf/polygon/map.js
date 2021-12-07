@@ -1,19 +1,24 @@
-var map
-var graphicLayer
-var polygonsLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.771917, lng: 117.373238, alt: 34263, heading: 336, pitch: -69 },
-      fxaa: true
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let polygonsLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.771917, lng: 117.373238, alt: 34263, heading: 336, pitch: -69 },
+    fxaa: true
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -41,8 +46,16 @@ function initMap(options) {
   graphicLayer.addGraphic(graphic)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 绘制面
-function drawPolygon() {
+export function drawPolygon() {
   graphicLayer.clear()
   polygonsLayer.clear()
 
@@ -60,17 +73,17 @@ function drawPolygon() {
 }
 
 // 旋转面
-function spinPolygons(angle) {
+export function spinPolygons(angle) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 
   const graphic = graphicLayer.getGraphics()[0]
   const poly = graphic.toGeoJSON({ closure: true })
 
-  var centerPoint = mars3d.LatLngPoint.fromCartesian(graphic.center).toArray() // 围绕执行旋转的点
+  const centerPoint = mars3d.LatLngPoint.fromCartesian(graphic.center).toArray() // 围绕执行旋转的点
 
   // truf旋转操作
-  var rotatedPoly = turf.transformRotate(poly, angle, { pivot: centerPoint })
+  const rotatedPoly = turf.transformRotate(poly, angle, { pivot: centerPoint })
 
   const spinGraphic = mars3d.Util.geoJsonToGraphics(rotatedPoly, {
     style: {
@@ -85,7 +98,7 @@ function spinPolygons(angle) {
 }
 
 // 平移面
-function translationPolygons(offset) {
+export function translationPolygons(offset) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 
@@ -93,7 +106,7 @@ function translationPolygons(offset) {
   const poly = graphic.toGeoJSON({ closure: true })
 
   // truf平移操作
-  var rotatedPoly = turf.transformTranslate(poly, offset, 10)
+  const rotatedPoly = turf.transformTranslate(poly, offset, 10)
 
   const spinGraphic = mars3d.Util.geoJsonToGraphics(rotatedPoly, {
     style: {
@@ -108,7 +121,7 @@ function translationPolygons(offset) {
 }
 
 // 缩放面
-function zoomPolygons(scale) {
+export function zoomPolygons(scale) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 
@@ -120,7 +133,7 @@ function zoomPolygons(scale) {
   const poly = graphic.toGeoJSON({ closure: true })
 
   // truf缩放操作
-  var rotatedPoly = turf.transformScale(poly, scale)
+  const rotatedPoly = turf.transformScale(poly, scale)
 
   const spinGraphic = mars3d.Util.geoJsonToGraphics(rotatedPoly, {
     style: {
@@ -135,9 +148,9 @@ function zoomPolygons(scale) {
 }
 
 // 颜色
-var index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+let index = 0
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }

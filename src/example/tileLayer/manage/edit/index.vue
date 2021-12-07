@@ -1,68 +1,64 @@
 <template>
   <PannelBox class="infoView">
-      <a-form ref="formRef" :model="formState" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-form-item label="图层URL" name="url">
-          <mars-input v-model:value="formState.url"></mars-input>
+    <a-form ref="formRef" :model="formState" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
+      <a-form-item label="图层URL" name="url">
+        <mars-input v-model:value="formState.url"></mars-input>
+      </a-form-item>
+      <a-form-item label="类型" name="type">
+        <mars-select placeholder="请选择类型" v-model:value="formState.type" :options="selectOptions"> </mars-select>
+      </a-form-item>
+      <template v-if="['wms', 'wmts'].includes(formState.type)">
+        <a-form-item label="图层名">
+          <mars-input v-model:value="formState.txtLayer" @change="dataUpdate"></mars-input>
         </a-form-item>
-        <a-form-item label="类型" name="type">
-          <mars-select placeholder="请选择类型" v-model:value="formState.type" :options="selectOptions"> </mars-select>
+        <a-form-item label="瓦片格式">
+          <mars-select v-model:value="formState.txtTileFormat" :options="tileOptions"></mars-select>
         </a-form-item>
-        <template v-if="['wms', 'wmts'].includes(formState.type)">
-          <a-form-item label="图层名">
-            <mars-input v-model:value="formState.txtLayer" @change="dataUpdate"></mars-input>
-          </a-form-item>
-          <a-form-item label="瓦片格式">
-            <mars-select v-model:value="formState.txtTileFormat" :options="tileOptions"></mars-select>
-          </a-form-item>
-        </template>
-        <a-form-item label="坐标系">
-          <mars-select v-model:value="formState.CRS" @change="dataUpdate" :options="crsOptions"> </mars-select>
-        </a-form-item>
-        <a-form-item label="国内坐标系">
-          <mars-select v-model:value="formState.chinaCRS" @change="dataUpdate" :options="chinaCRSOptions"> </mars-select>
-        </a-form-item>
-        <a-form-item label="加载层级">
-          <a-slider range :default-value="[0, 21]" :min="0" :max="21" :step="1" @change="onChange" @afterChange="afterChange" />
-        </a-form-item>
-        <a-form-item label="显示层级">
-          <a-slider range :default-value="[0, 21]" @change="onChangeShow" @afterChange="afterChangeShow" :min="0" :max="21" :step="1" />
-        </a-form-item>
-        <a-form-item label="输入框">
-          <a-row :gutter="5">
-            <a-col :span="18">
-              <mars-input v-model:value="formState.rectangle" @change="changeRectangle" :allowClear="true"> </mars-input>
-            </a-col>
-            <a-col :span="6">
-              <a-space size="small">
-                <mars-button class="small-btn" @click="btnDrawExtent">绘制</mars-button>
-              </a-space>
-            </a-col>
-          </a-row>
-        </a-form-item>
-        <a-form-item label="透明度">
-          <a-slider v-model:value="formState.opacity" @change="changeOpacity" :min="0" :max="1" :step="0.01" />
-        </a-form-item>
-        <a-form-item label="亮度">
-          <a-slider v-model:value="formState.brightness" @change="changeBrightness" :min="0" :max="1" :step="0.01" />
-        </a-form-item>
-        <a-form-item label="使用代理">
-          <a-switch v-model:checked="formState.chkProxy" />
-        </a-form-item>
-        <div class="f-tac">
-          <a-space>
-            <mars-button size="middle" @click="loadCoverage">加载图层</mars-button>
-            <mars-button size="middle" @click="reset">重置参数</mars-button>
-          </a-space>
-        </div>
-      </a-form>
+      </template>
+      <a-form-item label="坐标系">
+        <mars-select v-model:value="formState.CRS" @change="dataUpdate" :options="crsOptions"> </mars-select>
+      </a-form-item>
+      <a-form-item label="国内坐标系">
+        <mars-select v-model:value="formState.chinaCRS" @change="dataUpdate" :options="chinaCRSOptions"> </mars-select>
+      </a-form-item>
+      <a-form-item label="加载层级">
+        <a-slider range :default-value="[0, 21]" :min="0" :max="21" :step="1" @change="onChange" @afterChange="afterChange" />
+      </a-form-item>
+      <a-form-item label="显示层级">
+        <a-slider range :default-value="[0, 21]" @change="onChangeShow" @afterChange="afterChangeShow" :min="0" :max="21" :step="1" />
+      </a-form-item>
+      <a-form-item label="输入框">
+        <a-row :gutter="5">
+          <a-col :span="18">
+            <mars-input v-model:value="formState.rectangle" @change="changeRectangle" :allowClear="true"> </mars-input>
+          </a-col>
+          <a-col :span="6">
+            <a-space size="small">
+              <mars-button class="small-btn" @click="btnDrawExtent">绘制</mars-button>
+            </a-space>
+          </a-col>
+        </a-row>
+      </a-form-item>
+      <a-form-item label="透明度">
+        <a-slider v-model:value="formState.opacity" @change="changeOpacity" :min="0" :max="1" :step="0.01" />
+      </a-form-item>
+      <a-form-item label="亮度">
+        <a-slider v-model:value="formState.brightness" @change="changeBrightness" :min="0" :max="1" :step="0.01" />
+      </a-form-item>
+      <a-form-item label="使用代理"> <a-switch v-model:checked="formState.chkProxy" /> 是否使用代理 </a-form-item>
+      <div class="f-tac">
+        <a-space>
+          <mars-button size="middle" @click="loadCoverage">加载图层</mars-button>
+          <mars-button size="middle" @click="reset">重置参数</mars-button>
+        </a-space>
+      </div>
+    </a-form>
   </PannelBox>
 </template>
 <script lang="ts" setup>
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import { reactive, ref } from "vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 const formRef = ref()
 
 const formState = reactive({
@@ -96,8 +92,14 @@ const loadCoverage = async () => {
 const reset = () => {
   // 重置参数
   formRef.value.resetFields() // 重置表单校验
+  formState.rectangle = "" // 清空绘制区域输入框的数据
+
+  // 清除绘制区域和移除加载的矢量数据
+  mapWork.btnClearExtent()
+  mapWork.removeLayer()
 }
 
+// 加载的层级
 const onChange = (val: any) => {
   formState.minLoadLevel = val[0]
   mapWork.dataUpdate(formState)
@@ -107,6 +109,7 @@ const afterChange = (val: any) => {
   mapWork.dataUpdate(formState)
 }
 
+// 显示的层级
 const onChangeShow = (val: any) => {
   formState.minShowLevel = val[0]
   mapWork.dataUpdate(formState)
@@ -120,6 +123,7 @@ const afterChangeShow = (val: any) => {
 const dataUpdate = () => {
   mapWork.dataUpdate(formState)
 }
+
 // 绘制和清除区域
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent(formState)
@@ -213,7 +217,6 @@ const chinaCRSOptions = [
     label: "百度偏移"
   }
 ]
-const levelMarks = [0, 5, 10, 15, 18, 21]
 </script>
 
 <style scoped lang="less">

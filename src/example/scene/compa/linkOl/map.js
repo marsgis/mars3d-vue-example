@@ -1,39 +1,35 @@
-//
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  creat2dDom()
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
-      fxaa: true
-    }
-  })
-  delete mapOptions.terrain
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-  setTimeout(() => {
-    mapManager.createMap2D(map)
-  }, 1000)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
+    fxaa: true
+  }
 }
 
 // 二三维地图联动控制
-var mapManager = {
+const mapManager = {
   createMap2D: function (viewer) {
+    // eslint-disable-next-line no-undef
     const tileWorldImagery = new ol.layer.Tile({
+      // eslint-disable-next-line no-undef
       source: new ol.source.XYZ({
         url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         crossOrigin: "Anonymous"
       })
     })
 
+    // eslint-disable-next-line no-undef
     const map2d = new ol.Map({
       target: "map2d",
       projection: "EPSG:3857",
       layers: [tileWorldImagery],
+      // eslint-disable-next-line no-undef
       view: new ol.View({
+        // eslint-disable-next-line no-undef
         center: ol.proj.fromLonLat([134.364805, 26.710497]),
         zoom: 4,
         minZoom: 2
@@ -42,19 +38,44 @@ var mapManager = {
     this.map2d = map2d
 
     // 联动控制器
+    // eslint-disable-next-line no-undef
     this.ol3d = new olcs.OLCesium({ map: map2d, viewer: viewer })
 
     mapManager.viewTo23D() // 默认
   },
   viewTo23D: function () {
-    var dom2d = document.getElementById("centerDiv")
-    var dom3d = document.getElementById("centerDiv3D")
+    const dom2d = document.getElementById("centerDiv")
+    const dom3d = document.getElementById("centerDiv3D")
     dom3d.style.left = "50%"
     dom2d.style.width = "50%"
     dom3d.style.width = "50%"
 
     this.map2d.updateSize()
   }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  creat2dDom()
+
+  setTimeout(() => {
+    mapManager.createMap2D(map)
+  }, 1000)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 function creat2dDom() {

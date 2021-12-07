@@ -98,6 +98,7 @@ class FloorGraphic extends mars3d.graphic.BasePointEntity {
    *
    * @param {number} [time=4] 完成合并时间,单位:秒
    * @memberof FloorGraphic
+   * @returns {void}
    */
   mergeAll(time = 4) {
     const point = this.point // 楼栋位置

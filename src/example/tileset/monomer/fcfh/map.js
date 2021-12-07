@@ -1,21 +1,26 @@
-var map
-var geoJsonLayerDTH
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let geoJsonLayerDTH
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
+  }
+}
 
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     pid: 2030,
     type: "3dtiles",
     name: "校园",
@@ -43,11 +48,18 @@ function initMap(options) {
                 说明：教学楼`
     return html
   })
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 是否显示个户颜色
-function chkShowColor(val) {
+export function chkShowColor(val) {
   geoJsonLayerDTH.closePopup()
   if (val) {
     geoJsonLayerDTH.eachGraphic((graphic, index) => {
@@ -66,13 +78,13 @@ function chkShowColor(val) {
 
 // 添加单体化矢量对象
 function createDthGraphic(options) {
-  var points = options.positions // 各顶点的坐标
-  var attr = options.attr // 楼层层高配置信息
+  const points = options.positions // 各顶点的坐标
+  const attr = options.attr // 楼层层高配置信息
 
-  var minHight = attr.bottomHeight // 当前层的 底部海拔高度
-  var maxHight = attr.topHeight // 当前层的 顶部海拔高度
+  const minHight = attr.bottomHeight // 当前层的 底部海拔高度
+  const maxHight = attr.topHeight // 当前层的 顶部海拔高度
 
-  var primitive = new mars3d.graphic.PolygonPrimitive({
+  const primitive = new mars3d.graphic.PolygonPrimitive({
     positions: points,
     style: {
       height: minHight,
@@ -94,9 +106,9 @@ function createDthGraphic(options) {
 }
 
 // 颜色
-var index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+let index = 0
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }

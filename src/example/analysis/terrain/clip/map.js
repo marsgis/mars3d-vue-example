@@ -1,18 +1,43 @@
-var map
-var terrainClip
-var eventTabel = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 360, pitch: -56 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let terrainClip
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 360, pitch: -56 }
+  }
+}
 
+export const eventTabel = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addTerrainClip()
+
+  globalNotify(
+    "已知问题：",
+    `(1) 开挖区域内矢量对象无法穿透进行拾取。
+      (2) 多个开挖区域距离太远时会存在误差。`,
+    { duration: null }
+  )
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addTerrainClip() {
   terrainClip = new mars3d.thing.TerrainClip({
     // diffHeight: 20, // 井的深度
     image: "img/textures/excavate_side_min.jpg",
@@ -21,7 +46,7 @@ function initMap(options) {
   })
   map.addThing(terrainClip)
 
-  var areaItem = terrainClip.addArea(
+  const areaItem = terrainClip.addArea(
     [
       [116.334222, 30.899171, 645.46],
       [116.370874, 30.899171, 645.46],
@@ -32,7 +57,7 @@ function initMap(options) {
   )
   addTableItem(areaItem)
 
-  var areaItem2 = terrainClip.addArea(
+  const areaItem2 = terrainClip.addArea(
     [
       [116.416497, 30.934256, 775.89],
       [116.427392, 30.962941, 1084.88],
@@ -49,11 +74,11 @@ function initMap(options) {
   )
   addTableItem(areaItem2)
 
-  eventTabel.fire("isloadOK")
+  eventTabel.fire("loadOK", { terrainClip })
 }
 
 // 添加矩形
-function btnDrawExtent() {
+export function btnDrawExtent() {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -62,7 +87,7 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -74,7 +99,7 @@ function btnDrawExtent() {
   })
 }
 // 添加多边形
-function btnDraw() {
+export function btnDraw() {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -84,7 +109,7 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -95,40 +120,46 @@ function btnDraw() {
   })
 }
 // 清除
-function removeAll() {
+export function removeAll() {
   terrainClip.clear() // 清除挖地区域
   table = []
 }
+
 // 改变切割的深度
-function changeClipHeight(val) {
+export function changeClipHeight(val) {
   terrainClip.diffHeight = val
 }
+
 // 是否挖地
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainClip.enabled = val
 }
+
 // 是否外切割
-function chkUnionClippingRegions(val) {
+export function chkUnionClippingRegions(val) {
   terrainClip.clipOutSide = val
 }
+
 // 是否深度检测
-function chkTestTerrain(val) {
+export function chkTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
 
-var table = []
+let table = []
 // 区域表格添加一行记录
 function addTableItem(item) {
   table.push({ key: item.id - 1, name: "开挖区域" + item.id, graphicId: item.id })
 
   eventTabel.fire("tableObject", { table })
 }
+
 // 表格操作
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = terrainClip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
-function deletedGraphic(item) {
+
+export function deletedGraphic(item) {
   const graphic = terrainClip.getAreaById(item)
   terrainClip.removeArea(graphic)
 }

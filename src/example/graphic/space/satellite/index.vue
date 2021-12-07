@@ -1,59 +1,57 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">视椎体状态:</span>
-          <mars-button @click="locate">定位至卫星</mars-button>
-          <mars-button @click="selPoint(formState.enabledSee)">{{ formState.enabledSee ? "取消凝视" : "凝视" }}</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">视椎体状态:</span>
+        <mars-button @click="locate">定位至卫星</mars-button>
+        <mars-button @click="selPoint(formState.enabledSee)">{{ formState.enabledSee ? "取消凝视" : "凝视" }}</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">类型:</span>
-          <a-radio-group v-model:value="value" name="radioGroup" @change="chkSensorType">
-            <a-radio value="1">圆锥体</a-radio>
-            <a-radio value="2">四棱锥体</a-radio>
-          </a-radio-group>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">类型:</span>
+        <a-radio-group v-model:value="value" name="radioGroup" @change="chkSensorType">
+          <a-radio value="1">圆锥体</a-radio>
+          <a-radio value="2">四棱锥体</a-radio>
+        </a-radio-group>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">前后侧摆:</span>
-          <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">前后侧摆:</span>
+        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />值{{ pitchValue }}
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">左右侧摆:</span>
-          <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">左右侧摆:</span>
+        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />值{{ rollValue }}
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">夹角1:</span>
-          <a-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />当前值{{ angleValue1 }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">夹角1:</span>
+        <a-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />值{{ angleValue1 }}
+      </a-space>
+    </div>
 
-      <a-form-item v-if="value === '2'">
-        <a-space>
-          <span class="pannel-item-label">夹角2:</span>
-          <a-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />当前值{{ angleValue2 }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb" v-if="value === '2'">
+      <a-space>
+        <span class="pannel-item-label">夹角2:</span>
+        <a-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />值{{ angleValue2 }}
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">参考系轴:</span>
-          <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">参考系轴:</span>
+        <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
+      </a-space>
+    </div>
   </PannelBox>
 
   <PannelBox class="messageShow">
@@ -91,10 +89,11 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, reactive, ref } from "vue"
+<script lang="ts" setup>
+import { onMounted, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   enabledShowMatrix: boolean // 参考轴系
@@ -107,123 +106,98 @@ interface FormState {
   td_wd: number
   td_gd: string
 }
-export default defineComponent({
-  components: {
-    PannelBox
-  },
 
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
-    const value = ref<string>("2")
-    // 角度
-    const angleValue1 = ref<number>(30)
-    const angleValue2 = ref<number>(20)
+const value = ref<string>("2")
+const angleValue1 = ref<number>(30)
+const angleValue2 = ref<number>(20)
+const pitchValue = ref<number>(0) // 仰角
+const rollValue = ref<number>(0) // 左右
 
-    const pitchValue = ref<number>(0) // 仰角
-
-    const rollValue = ref<number>(0) // 左右
-
-    const formState: UnwrapRef<FormState> = reactive({
-      enabledShowMatrix: false,
-      enabledSee: false,
-      name: "",
-      tle1: "",
-      tle2: "",
-      time: "",
-      td_jd: 0,
-      td_wd: 0,
-      td_gd: "0米"
-    })
-
-    onMounted(() => {
-      mapWork.eventTarget.on("loadOk", function (event: any) {
-        const nowData = event.weixinData
-        const height = formatLength(nowData.td_gd)
-
-        formState.name = nowData.name
-        formState.tle1 = nowData.tle1
-        formState.tle2 = nowData.tle2
-        formState.time = nowData.time
-        formState.td_jd = nowData.td_jd
-        formState.td_wd = nowData.td_wd
-        formState.td_gd = height
-      })
-    })
-
-    // 数据处理
-    function formatLength(val: number) {
-      if (val == null) {
-        return ""
-      }
-      val = Number(val)
-      const valstr = (val * 0.001).toFixed(2) + "公里"
-      return valstr
-    }
-
-    // 俯仰角
-    const pitchChange = () => {
-      mapWork.pitchChange(pitchValue.value)
-    }
-
-    // 左右角
-    const rollChange = () => {
-      mapWork.rollChange(rollValue.value)
-    }
-
-    // 夹角
-    const angle1 = () => {
-      mapWork.angle1(angleValue1.value)
-    }
-    const angle2 = () => {
-      mapWork.angle2(angleValue2.value)
-    }
-    // 定位至卫星
-    const locate = () => {
-      mapWork.locate()
-    }
-    // 凝视目标
-    const selPoint = (texShow: boolean) => {
-      formState.enabledSee = !texShow
-      if (!texShow) {
-        mapWork.selPoint()
-      }
-      mapWork.selPoint()
-    }
-
-    // 参考轴系显示与隐藏
-    const chkShowModelMatrix = () => {
-      mapWork.chkShowModelMatrix(formState.enabledShowMatrix)
-    }
-
-    // 类型选择
-    const chkSensorType = () => {
-      mapWork.chkSensorType(value.value)
-    }
-
-    return {
-      value,
-      selPoint,
-      formState,
-      chkShowModelMatrix,
-      chkSensorType,
-      locate,
-      angle1,
-      angle2,
-      angleValue1,
-      angleValue2,
-      pitchValue,
-      rollValue,
-      pitchChange,
-      rollChange
-    }
-  }
+const formState: UnwrapRef<FormState> = reactive({
+  enabledShowMatrix: false,
+  enabledSee: false,
+  name: "",
+  tle1: "",
+  tle2: "",
+  time: "",
+  td_jd: 0,
+  td_wd: 0,
+  td_gd: "0米"
 })
+
+onMounted(() => {
+  mapWork.eventTarget.on("loadOk", function (event: any) {
+    const nowData = event.weixinData
+    const height = formatLength(nowData.td_gd)
+    formState.name = nowData.name
+    formState.tle1 = nowData.tle1
+    formState.tle2 = nowData.tle2
+    formState.time = nowData.time
+    formState.td_jd = nowData.td_jd
+    formState.td_wd = nowData.td_wd
+    formState.td_gd = height
+  })
+})
+
+// 数据处理
+function formatLength(val: number) {
+  if (val == null) {
+    return ""
+  }
+  val = Number(val)
+  const valstr = (val * 0.001).toFixed(2) + "公里"
+  return valstr
+}
+
+// 俯仰角
+const pitchChange = () => {
+  mapWork.pitchChange(pitchValue.value)
+}
+
+// 左右角
+const rollChange = () => {
+  mapWork.rollChange(rollValue.value)
+}
+
+// 夹角
+const angle1 = () => {
+  mapWork.angle1(angleValue1.value)
+}
+
+const angle2 = () => {
+  mapWork.angle2(angleValue2.value)
+}
+
+// 定位至卫星
+const locate = () => {
+  mapWork.locate()
+}
+
+// 凝视目标
+const selPoint = (texShow: boolean) => {
+  formState.enabledSee = !texShow
+  if (!texShow) {
+    mapWork.selPoint()
+  }
+  mapWork.selPoint()
+}
+
+// 参考轴系显示与隐藏
+const chkShowModelMatrix = () => {
+  mapWork.chkShowModelMatrix(formState.enabledShowMatrix)
+}
+
+// 类型选择
+const chkSensorType = () => {
+  mapWork.chkSensorType(value.value)
+}
 </script>
 <style scoped lang="less">
-.inputNum {
-  width: 70px !important;
+
+.infoView {
+  width: 280px;
 }
+
 .messageShow {
   right: 10px;
   bottom: 50px;
@@ -256,10 +230,10 @@ td.column-money {
   padding: 5px 20px 5px 10px;
 }
 .tb-border {
-  border: 1px solid #4db3ff70
+  border: 1px solid #4db3ff70;
 }
 
 .tb-border tr td {
-  border: 1px solid #4db3ff70
+  border: 1px solid #4db3ff70;
 }
 </style>

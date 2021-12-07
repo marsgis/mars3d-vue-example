@@ -1,16 +1,22 @@
-var map
-var sightline
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let sightline
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   sightline = new mars3d.thing.Sightline({
     visibleColor: new Cesium.Color(0, 1, 0, 0.4),
@@ -18,9 +24,19 @@ function initMap(options) {
     // depthFailColor: Cesium.Color.fromCssColorString("#db2c8f"),
   })
   map.addThing(sightline)
+
+  globalNotify("功能和已知问题提示", "(1) 依赖cesium底层接口，少数情况下不够准确", { duration: null })
 }
 
-function drawCircle() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawCircle() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -32,17 +48,17 @@ function drawCircle() {
     success: function (graphic) {
       // 绘制成功后回调
 
-      var center = graphic.positionShow
+      let center = graphic.positionShow
       center = mars3d.PointUtil.addPositionsHeight(center, 1.5) // 加人的身高等因素，略微抬高一些
 
-      var targetPoints = graphic.getOutlinePositions(false, 45)
+      const targetPoints = graphic.getOutlinePositions(false, 45)
 
       map.graphicLayer.clear()
       map.scene.globe.depthTestAgainstTerrain = true
 
-      var targetArr = []
-      for (var i = 0; i < targetPoints.length; i++) {
-        var targetPoint = targetPoints[i]
+      const targetArr = []
+      for (let i = 0; i < targetPoints.length; i++) {
+        let targetPoint = targetPoints[i]
         targetPoint = mars3d.PointUtil.getSurfacePosition(map.scene, targetPoint)
         sightline.add(center, targetPoint)
       }
@@ -54,7 +70,7 @@ function drawCircle() {
   })
 }
 
-function drawLine() {
+export function drawLine() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polyline",
@@ -65,12 +81,12 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
       map.scene.globe.depthTestAgainstTerrain = true
 
-      var center = positions[0]
-      var targetPoint = positions[1]
+      const center = positions[0]
+      const targetPoint = positions[1]
       sightline.add(center, targetPoint, { offsetHeight: 1.5 }) // 1.5是加人的身高等因素，略微抬高一些
 
       createPoint(center, true)
@@ -81,13 +97,20 @@ function drawLine() {
   })
 }
 
-function clearAll() {
+export function clearAll() {
   sightline.clear()
   map.graphicLayer.clear()
 }
 
+/**
+ * 绘制成功后创建点
+ *
+ * @param {Array} position 坐标点
+ * @param {boolean} isFirst 点文字
+ * @return {object} 返回像素点Entity对象
+ */
 function createPoint(position, isFirst) {
-  var graphic = new mars3d.graphic.PointEntity({
+  const graphic = new mars3d.graphic.PointEntity({
     position: position,
     style: {
       color: Cesium.Color.fromCssColorString("#3388ff"),
@@ -115,7 +138,7 @@ function createPoint(position, isFirst) {
   return graphic
 }
 // 定位至模型
-var modelTest
+let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({

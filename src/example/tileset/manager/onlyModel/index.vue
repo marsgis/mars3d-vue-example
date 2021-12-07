@@ -18,9 +18,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const url = ref<any>()
 const color = ref("#363635")
@@ -33,7 +31,9 @@ mapWork.eventTarget.on("loadOk", () => {
   } else {
     url.value = "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
   }
-  setTimeout(mapWork.showModel(url.value), 1000)
+  setTimeout(() => {
+    mapWork.showModel(url.value)
+  }, 1000)
 })
 
 const changeColor = () => {

@@ -1,18 +1,26 @@
-var map
-var graphicLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.806147, lng: 117.236965, alt: 3307, heading: 359, pitch: -54 }
-    },
-    terrain: {
-      show: false
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.806147, lng: 117.236965, alt: 3307, heading: 359, pitch: -54 }
+  },
+  terrain: {
+    show: false
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -21,7 +29,6 @@ function initMap(options) {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     const pickedItem = event.pickedObject?.data
-    // let attr = event.graphic.attr
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
@@ -34,23 +41,32 @@ function initMap(options) {
   })
 
   // 加一些演示数据
-  addGraphic_a1(graphicLayer)
+ addGraphicDemo1()
 }
 
-function addData(count) {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  clearLayer()
+}
+
+export function addCombineData(count) {
   graphicLayer.clear()
 
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
   count = count * 10000
 
-  var arrData = []
-  for (var j = 0; j < count; ++j) {
-    var position = randomPoint()
-    var pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500)
-    var pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500)
-    var pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500)
-    var pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500)
+  const arrData = []
+  for (let j = 0; j < count; ++j) {
+    const position = randomPoint()
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, 500)
+    const pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 135, 500)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 225, 500)
+    const pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 315, 500)
 
     arrData.push({
       positions: [pt1, pt2, pt3, pt4, pt1],
@@ -66,7 +82,7 @@ function addData(count) {
   }
 
   // 多个面对象的合并渲染。
-  var primitive = new mars3d.graphic.PolygonCombine({
+  const primitive = new mars3d.graphic.PolygonCombine({
     instances: arrData,
 
     // 高亮时的样式
@@ -78,27 +94,26 @@ function addData(count) {
   graphicLayer.addGraphic(primitive)
 
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   console.log(usedTime)
 
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
 }
 
-function addGraphic_a1(graphicLayer) {
-  // 加一些演示数据
+function addGraphicDemo1() {
   mars3d.Resource.fetchJson({
     url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
   })
     .then((data) => {
       const arr = mars3d.Util.geoJsonToGraphics(data, {
         symbol: {
-          callback: function (attr, styleOpt) {
+          callback: function (attr) {
             const diffHeight = (attr.floor || 1) * 5
 
             return {
@@ -113,7 +128,7 @@ function addGraphic_a1(graphicLayer) {
       globalMsg("共加载" + arr.length + "个面")
 
       // 多个面对象的合并渲染。
-      var primitive = new mars3d.graphic.PolygonCombine({
+      const primitive = new mars3d.graphic.PolygonCombine({
         instances: arr,
         // 公共样式
         style: {
@@ -135,7 +150,7 @@ function addGraphic_a1(graphicLayer) {
 }
 
 // 适用于其他Geometry类型的数据，可以完全自定义
-// function addGraphic_a2(graphicLayer) {
+// function addGraphicDemo2(graphicLayer) {
 //   //加一些演示数据
 //   Cesium.Resource.fetchJson({
 //     url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
@@ -168,7 +183,7 @@ function addGraphic_a1(graphicLayer) {
 //       }
 
 //       //多个对象的合并渲染。
-//       var primitive = new mars3d.graphic.BaseCombine({
+//       let primitive = new mars3d.graphic.BaseCombine({
 //         instances: instances,
 //       });
 //       graphicLayer.addGraphic(primitive);
@@ -180,8 +195,8 @@ function addGraphic_a1(graphicLayer) {
 
 // 取区域内的随机图标
 function randomPoint() {
-  var jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
-  var wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000
+  const jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
+  const wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000
   return Cesium.Cartesian3.fromDegrees(jd, wd)
 }
 function random(min, max) {

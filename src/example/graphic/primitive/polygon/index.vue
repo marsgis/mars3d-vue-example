@@ -1,18 +1,16 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">大数据加载:</span>
-          <mars-input-number class="inputNum" :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
-          <mars-button @click="addData">生成</mars-button>
-        </a-space>
-      </a-form-item>
-      <DataManage></DataManage>
-    </a-form>
+    <div class="f-mb">
+      <LayerState />
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">大数据加载:</span>
+        <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
+        <mars-button @click="addPrimitiveData">生成</mars-button>
+      </a-space>
+    </div>
+    <DataManage />
   </PannelBox>
 </template>
 
@@ -21,18 +19,16 @@ import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import LayerState from "@comp/MarsSample/LayerState.vue"
 import DataManage from "@comp/MarsSample/DataManage.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
+// 生成大数据
 const num = ref<number>(0.1)
-
-const addData = () => {
-  mapWork.addData(num.value)
+const addPrimitiveData = () => {
+  mapWork.addPrimitiveData(num.value)
 }
 </script>
 <style scoped lang="less">
-.inputNum {
-  width: 70px !important;
+.ant-input-number {
+  width: 70px;
 }
 </style>

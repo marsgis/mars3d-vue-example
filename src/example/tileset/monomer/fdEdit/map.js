@@ -1,24 +1,32 @@
-var map
-var graphicLayerEdit
-var geoJsonLayerDTH
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 43.820826, lng: 125.144526, alt: 679, heading: 333, pitch: -32 }
-    },
-    control: {
-      infoBox: false
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayerEdit
+let geoJsonLayerDTH
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 43.820826, lng: 125.144526, alt: 679, heading: 333, pitch: -32 }
+  },
+  control: {
+    infoBox: false
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 三维模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "校园",
     url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
@@ -84,7 +92,18 @@ function initMap(options) {
   })
 
   queryDthData()
+
+  bindLayerContextMenu()
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 加载数据
 function queryDthData() {
   const configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
@@ -97,9 +116,152 @@ function queryDthData() {
     })
 }
 
+/**
+ * 绑定右键菜单功能，开始编辑，删除等
+ *@returns {void} 无
+ */
+function bindLayerContextMenu() {
+  graphicLayerEdit.bindContextMenu([
+    {
+      text: "开始编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic || !graphic.startEditing) {
+          return false
+        }
+        return !graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayerEdit.startEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "停止编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayerEdit.stopEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayerEdit.removeGraphic(graphic)
+      }
+    },
+    {
+      text: "计算长度",
+      iconCls: "fa fa-medium",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "polyline" ||
+          graphic.type === "polylineP" ||
+          graphic.type === "curve" ||
+          graphic.type === "curveP" ||
+          graphic.type === "polylineVolume" ||
+          graphic.type === "polylineVolumeP" ||
+          graphic.type === "corridor" ||
+          graphic.type === "corridorP" ||
+          graphic.type === "wall" ||
+          graphic.type === "wallP"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的长度为:" + strDis)
+      }
+    },
+    {
+      text: "计算周长",
+      iconCls: "fa fa-medium",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "circle" ||
+          graphic.type === "circleP" ||
+          graphic.type === "rectangle" ||
+          graphic.type === "rectangleP" ||
+          graphic.type === "polygon" ||
+          graphic.type === "polygonP"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的周长为:" + strDis)
+      }
+    },
+    {
+      text: "计算面积",
+      iconCls: "fa fa-reorder",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return (
+          graphic.type === "circle" ||
+          graphic.type === "circleP" ||
+          graphic.type === "rectangle" ||
+          graphic.type === "rectangleP" ||
+          graphic.type === "polygon" ||
+          graphic.type === "polygonP" ||
+          graphic.type === "scrollWall" ||
+          graphic.type === "water"
+        )
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
+        globalAlert("该对象的面积为:" + strArea)
+      }
+    }
+  ])
+}
+
 // 切换到预览模式
-function toYLMS() {
-  var geojson = graphicLayerEdit.toGeoJSON()
+export function toYLMS() {
+  const geojson = graphicLayerEdit.toGeoJSON()
 
   geoJsonLayerDTH.load({ data: geojson })
 
@@ -108,17 +270,17 @@ function toYLMS() {
 }
 
 // 切换到编辑模式
-function toBJMS() {
+export function toBJMS() {
   geoJsonLayerDTH.clear()
   graphicLayerEdit.hasEdit = true
   graphicLayerEdit.show = true
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayerEdit.clear()
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   graphicLayerEdit.startDraw({
     type: "polygon",
     style: {
@@ -129,8 +291,14 @@ function drawPolygon() {
   })
 }
 
-// 打开保存的文件
-function openGeoJSON(file) {
+/**
+ *打开geojson文件
+ *
+ * @export
+ * @param {FileInfo} file 文件名称
+ * @returns {void} 无
+ */
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -173,4 +341,14 @@ function openGeoJSON(file) {
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
   }
+}
+
+// 保存JSON文件
+export function saveGeoJSON() {
+  if (graphicLayerEdit.length === 0) {
+    globalMsg("当前没有标注任何数据，无需保存！")
+    return
+  }
+  const geojson = graphicLayerEdit.toGeoJSON()
+  mars3d.Util.downloadFile("单体化.json", JSON.stringify(geojson))
 }

@@ -1,18 +1,36 @@
-var map
-var measureObj
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let measureObj
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
+  }
+}
 
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addMeasure()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addMeasure() {
   measureObj = new mars3d.thing.Measure({
     // 设置文本样式
     label: {
@@ -33,37 +51,60 @@ function initMap(options) {
     // 开始分析前回调(异步)
     showLoading()
   })
+
   measureObj.on(mars3d.EventType.end, function (e) {
     console.log("分析结束", e)
     // 分析完成后回调(异步)
-    hideLoading()
 
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
       eventTarget.fire("end", { e })
     }
+    hideLoading()
+
+
+
   })
+
   measureObj.on(mars3d.EventType.click, function (e) {
     console.log("单击了对象", e)
-    eventTarget.fire("click", { e })
+    // mars3d.graphic.SectionMeasure.type
+    if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
+      eventTarget.fire("click", { e })
+    }
   })
 }
 
-function removeAll() {
+export function removeAll() {
   measureObj.clear()
   hideTipMarker()
 }
 
-function measureSection() {
+export function measureSection() {
   measureObj.section({
     // maxPointNum:2,
     splitNum: 300 // 插值次数
   })
 }
 
-// echart图表中的图标
-var tipGraphic
-function showTipMarker(point, z, inthtml) {
-  var _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
+export function calculation(params) {
+  const len = mars3d.MeasureUtil.formatDistance(Number(params.axisValue))
+  const hbgdStr = mars3d.MeasureUtil.formatDistance(Number(params.value))
+
+  return { len, hbgdStr }
+}
+
+let tipGraphic
+/**
+ *  echart图表中的图标
+ *
+ * @export
+ * @param {Array} point 坐标点
+ * @param {number} z 海拔高度
+ * @param {html} inthtml html
+ * @returns {void}
+ */
+export function showTipMarker(point, z, inthtml) {
+  const _position_draw = Cesium.Cartesian3.fromDegrees(point.lng, point.lat, z)
 
   if (!tipGraphic) {
     tipGraphic = new mars3d.graphic.BillboardEntity({
@@ -83,7 +124,7 @@ function showTipMarker(point, z, inthtml) {
   tipGraphic.bindPopup(inthtml).openPopup()
 }
 
-function hideTipMarker() {
+export function hideTipMarker() {
   if (!tipGraphic) {
     return
   }
@@ -91,23 +132,8 @@ function hideTipMarker() {
   tipGraphic = null
 }
 
-function getMinZ(arr) {
-  var minz = "dataMin"
-  if (arr == null || arr.length === 0) {
-    return minz
-  }
-
-  minz = arr[0].alt
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].alt < minz) {
-      minz = arr[i].alt
-    }
-  }
-  return minz
-}
-
 // 定位至模型
-var modelTest
+let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({

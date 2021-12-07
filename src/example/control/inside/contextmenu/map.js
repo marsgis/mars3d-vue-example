@@ -1,11 +1,15 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 演示3种不同层次的绑定方式，可以按需使用
   bindMapDemo()
@@ -13,17 +17,25 @@ function initMap(options) {
   bindGraphicDemo()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 1.在map地图上绑定右键菜单
 function bindMapDemo() {
   // 内置的默认右键菜单获取方法
-  // var defaultContextmenuItems =map.getDefaultContextMenu()
+  // let defaultContextmenuItems =map.getDefaultContextMenu()
   // 可以删减defaultContextmenuItems数组内值
   // map.bindContextMenu(defaultContextmenuItems)
 
   // 解除已绑定的右键菜单
   map.unbindContextMenu()
 
-  var mapContextmenuItems = [
+  const mapContextmenuItems = [
     {
       text: "显示此处经纬度",
       iconCls: "fa fa-info-circle",
@@ -31,7 +43,7 @@ function bindMapDemo() {
         return Cesium.defined(e.cartesian)
       },
       callback: function (e) {
-        var mpt = mars3d.LatLngPoint.fromCartesian(e.cartesian)
+        const mpt = mars3d.LatLngPoint.fromCartesian(e.cartesian)
         globalAlert(mpt.toString(), "位置信息")
       }
     },
@@ -90,7 +102,7 @@ function bindMapDemo() {
 
 // 2.在layer图层上绑定右键菜单
 function bindLayerDemo() {
-  var graphicLayer = new mars3d.layer.GeoJsonLayer({
+  const graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "标绘示例数据",
     url: "//data.mars3d.cn/file/geojson/mars3d-draw.json"
   })

@@ -1,22 +1,42 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(mapOptions) {
-  // 方便演示，移除默认配置的control
-  delete mapOptions.control
+let map // mars3d.Map三维地图对象
 
-  // 方式1：在创建地球前的传参中配置control参数
-  // mapOptions.control = {
-  //   distanceLegend: { left: '100px', bottom: '2px' },
-  // }
+/**
+ *方便演示，移除默认配置的control
+ *
+ * @param {object} option 默认配置的参数
+ * @return {object} option
+ */
+export const mapOptions = function (option) {
+  option.control = {
+    distanceLegend: false // 当前演示的示例控件-比例尺控件
+  }
+  return option
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-  // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
-  var distanceLegend = new mars3d.control.DistanceLegend({ left: "100px", bottom: "2px" })
+  // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件) 不可多次添加
+  const distanceLegend = new mars3d.control.DistanceLegend({ left: "100px", bottom: "2px" })
   map.addControl(distanceLegend)
 
   distanceLegend.on(mars3d.EventType.change, function (event) {
     console.log("比例尺发生变化", event)
   })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

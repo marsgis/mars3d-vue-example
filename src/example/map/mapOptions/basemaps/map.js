@@ -1,8 +1,8 @@
+import * as mars3d from "mars3d"
+
 function initMap() {
-
-
   // 在创建地球前的传参中配置basemaps参数
-  var map = new mars3d.Map("mars3dContainer", {
+  const map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 14.029537, lng: 105.94238, alt: 4879779, heading: 360, pitch: -66 }
     },

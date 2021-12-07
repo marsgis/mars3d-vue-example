@@ -1,72 +1,96 @@
 <template>
   <PannelBox class="infoView">
-    <a-form :model="formState">
-      <a-form-item>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">所在位置：</span>
         <mars-button @click="btnSelectPosition">图上选点</mars-button>
-      </a-form-item>
-      <a-form-item>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">发射目标方向:</span>
         <mars-button @click="btnSelectTarget">图上选点</mars-button>
-        <span class="pannel-item-label">点高度:</span>
-        <mars-input class="inputNum" @change="txtTargetHeight" v-model:value="formState.pointHeight" :step="0.01" />
-      </a-form-item>
+        <span>点高度:</span>
+        <mars-input @change="txtTargetHeight" v-model:value="formState.pointHeight" :step="0.01" />
+      </a-space>
+    </div>
 
-      <a-form-item>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">粒子图片大小:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.sliderParticleSize" :min="2" :max="60" :step="1" />
-        <mars-input class="inputNum" v-model:value="formState.sliderParticleSize" :min="2" :max="60" :step="1" />&nbsp;&nbsp;(px)
-      </a-form-item>
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.sliderParticleSize" :min="2" :max="60" :step="1" />
+        <mars-input v-model:value="formState.sliderParticleSize" :min="2" :max="60" :step="1" />
+        (px)
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">粒子开始比例:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideStart" :min="0.0" :max="10.0" :step="1" />
-        <mars-input class="inputNum" v-model:value="formState.slideStart" :min="0.0" :max="10.0" :step="1" />
-      </a-form-item>
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.slideStart" :min="0.0" :max="10.0" :step="1" />
+        <mars-input v-model:value="formState.slideStart" :min="0.0" :max="10.0" :step="1" />
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">粒子结束比例:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideStop" :min="0.0" :max="10.0" :step="1" />
-        <mars-input class="inputNum" v-model:value="formState.slideStop" :min="0.0" :max="10.0" :step="1" />
-      </a-form-item>
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.slideStop" :min="0.0" :max="10.0" :step="1" />
+        <mars-input v-model:value="formState.slideStop" :min="0.0" :max="10.0" :step="1" />
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">粒子发射数量:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.emissionRate" :min="0.0" :max="500.0" :step="1" />
-        <mars-input class="inputNum" v-model:value="formState.emissionRate" :min="0.0" :max="500.0" :step="1" />&nbsp;&nbsp;(次/秒)
-      </a-form-item>
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.emissionRate" :min="0.0" :max="500.0" :step="1" />
+        <mars-input v-model:value="formState.emissionRate" :min="0.0" :max="500.0" :step="1" />
+        (次/秒)
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">最小寿命时长:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideMinLife" :min="0.1" :max="30.0" :step="0.1" />
-        <mars-input class="inputNum" v-model:value="formState.slideMinLife" :min="0.1" :max="30.0" :step="0.1" />&nbsp;&nbsp;(秒)
-      </a-form-item>
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.slideMinLife" :min="0.1" :max="30.0" :step="0.1" />
+        <mars-input v-model:value="formState.slideMinLife" :min="0.1" :max="30.0" :step="0.1" />
+        (秒)
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">最大寿命时长:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideMaxLife" :min="0.1" :max="30.0" :step="0.1" />
-        <mars-input class="inputNum" v-model:value="formState.slideMaxLife" :min="0.1" :max="30.0" :step="0.1" />&nbsp;&nbsp;(秒)
-      </a-form-item>
-      <!-- <a-form-item>
-      <span class="pannel-item-label">最小速度:</span>
-      <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideMinSpeed" :min="-20.0" :max="20.0" :step="1" />
-      <mars-input class="inputNum" v-model:value="formState.slideMinSpeed" :min="-20.0" :max="20.0" :step="1"/>
-    </a-form-item>
-    <a-form-item>
-      <span class="pannel-item-label">最大速度:</span>
-      <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideMaxSpeed" :min="-20.0" :max="20.0" :step="1" />
-      <mars-input class="inputNum" v-model:value="formState.slideMaxSpeed" :min="-20.0" :max="20.0" :step="1"/>
-    </a-form-item> -->
-      <a-form-item>
+        <a-slider @change="initParamView" v-model:value="formState.slideMaxLife" :min="0.1" :max="30.0" :step="0.1" />
+        <mars-input v-model:value="formState.slideMaxLife" :min="0.1" :max="30.0" :step="0.1" />
+        (秒)
+      </a-space>
+    </div>
+    <!-- <div class="f-mb">
+      <a-space>
+
+        <span class="pannel-item-label">最小速度:</span>
+      <a-slider @change="initParamView" v-model:value="formState.slideMinSpeed" :min="-20.0" :max="20.0" :step="1" />
+      <mars-input v-model:value="formState.slideMinSpeed" :min="-20.0" :max="20.0" :step="1"/>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+
+        <span class="pannel-item-label">最大速度:</span>
+      <a-slider @change="initParamView" v-model:value="formState.slideMaxSpeed" :min="-20.0" :max="20.0" :step="1" />
+      <mars-input v-model:value="formState.slideMaxSpeed" :min="-20.0" :max="20.0" :step="1"/>
+      </a-space>
+    </div> -->
+    <div class="f-mb">
+      <a-space>
         <span class="pannel-item-label">重力因子:</span>
-        <a-slider class="sliderNum" @change="initParamView" v-model:value="formState.slideGravity" :min="-20.0" :max="20.0" :step="1" />
-        <mars-input class="inputNum" v-model:value="formState.slideGravity" :min="-20.0" :max="20.0" :step="1" />
-      </a-form-item>
-    </a-form>
+        <a-slider @change="initParamView" v-model:value="formState.slideGravity" :min="-20.0" :max="20.0" :step="1" />
+        <mars-input v-model:value="formState.slideGravity" :min="-20.0" :max="20.0" :step="1" />
+      </a-space>
+    </div>
   </PannelBox>
 </template>
 <script setup lang="ts">
 import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 interface FormState {
   pointHeight: string
@@ -111,16 +135,14 @@ const btnSelectPosition = () => {
 </script>
 <style>
 .pannel-item-label {
-  width: 100px;
-  display: inline-block;
-  text-align: center;
+  width: 80px;
 }
-.sliderNum {
+.ant-slider {
   display: inline-block;
   margin: -2px 7px;
   width: 100px;
 }
-.inputNum {
-  width: 80px;
+.ant-input-affix-wrapper {
+  width: 70px;
 }
 </style>

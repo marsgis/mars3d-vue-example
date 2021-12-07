@@ -5,7 +5,6 @@
  * @author 木遥 2021-11-01
  */
 
-
 /* 统一所有输入控件的边框 */
 .ant-radio-wrapper,
 .ant-radio-button-wrapper,
@@ -82,7 +81,7 @@
 
 /*滑动条 输入面板内时修改高度等*/
 .ant-form-item-control-input {
-  .ant-slider{
+  .ant-slider {
     margin: 0px 6px 6px 6px;
   }
   /*滑动条 未选择、已选择部分 高度*/
@@ -155,7 +154,7 @@
   border: 1px solid rgba(32, 160, 255, 0.6);
   background: rgba(30, 36, 50, 0.6);
 
-  .ant-notification-notice-icon{
+  .ant-notification-notice-icon {
     margin: 0;
     font-size: 22px;
     line-height: 22px;
@@ -173,7 +172,7 @@
     line-height: 21px;
     text-indent: 25px;
   }
-  .ant-notification-notice-close{
+  .ant-notification-notice-close {
     color: #ffffff;
     top: 10px;
     right: 10px;
@@ -309,5 +308,45 @@
   .ant-input-group-addon {
     padding-left: 4px;
     padding-right: 4px;
+  }
+
+  .anticon-file {
+    display: none;
+  }
+  .ant-tree-show-line .ant-tree-indent-unit::before {
+    border-right: 1px dotted #fff;
+  }
+  .ant-tree-switcher-noop {
+    width: 20px;
+  }
+  .ant-tree-switcher-noop::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    height: 26px;
+    border-right: 1px dotted #fff;
+  }
+  .ant-tree-treenode-leaf-last {
+    .ant-tree-switcher-noop::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      height: 10px;
+      border-right: 1px dotted #fff;
+    }
+  }
+  .ant-tree-switcher-noop::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    position: absolute;
+    top: 10px;
+    border-bottom: 1px dotted #fff;
+  }
+  .ant-tree-node-content-wrapper {
+    padding: 0;
+    .ant-tree-iconEle {
+      line-height: 2.5;
+    }
   }
 }

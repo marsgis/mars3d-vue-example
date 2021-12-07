@@ -12,9 +12,8 @@
 
 <script lang="ts" setup>
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const changeView1 = () => {
   mapWork.changeView1()
@@ -30,4 +29,4 @@ const changeView4 = () => {
   mapWork.changeView4()
 }
 </script>
-<style scoped lang="less"></style>
+

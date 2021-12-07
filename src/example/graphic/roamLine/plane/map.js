@@ -1,34 +1,55 @@
-var map
-var roamLine
-var roamLineData = {}
-var changeLineData = {}
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.859616, lng: 116.296235, alt: 445, heading: 258, pitch: -29 }
-    },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { bottom: "355px", left: "5px" }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let roamLine
+const roamLineData = {}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.859616, lng: 116.296235, alt: 445, heading: 258, pitch: -29 }
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { bottom: "355px", left: "5px" }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
+  addGraphicLayer()
+
+  globalNotify("已知问题：", `(1) 不支持对地形的求交，目前仅对椭球体做投射。 `)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后保存JSON
-  var flydata = {
+  const flydata = {
     name: "飞机航线",
     speed: 100,
     showStop: true,
@@ -160,8 +181,6 @@ function initMap(options) {
   roamLine = new mars3d.graphic.RoamLine(flydata)
   graphicLayer.addGraphic(roamLine)
 
-  initUI()
-
   if (map.viewer.timeline) {
     map.viewer.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
   }
@@ -173,23 +192,13 @@ function initMap(options) {
     alltime: roamLine.alltimes
   })
 
-  eventTarget.fire("loadOK")
+  eventTarget.fire("loadOK", { roamLine })
+
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息
     showRealTimeInfo(event, roamLine.alltimes)
     eventTarget.fire("roamLineChange")
   })
-}
-
-function initUI() {
-  const data = roamLine.options.camera
-
-  changeLineData.select = data.type
-  changeLineData.followedX = data.followedX
-  changeLineData.followedZ = data.followedZ
-  changeLineData.offsetZ = data.offsetZ || 0
-  changeLineData.offsetY = data.offsetY || 0
-  changeLineData.offsetX = data.offsetX || 0
 }
 
 // 格式化时间
@@ -199,7 +208,7 @@ function formatTime(strtime) {
   if (strtime < 60) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
-    var miao = Math.floor(strtime % 60)
+    const miao = Math.floor(strtime % 60)
     return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
@@ -207,14 +216,13 @@ function formatTime(strtime) {
   }
 }
 
-
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {
   if (params == null) {
     return
   }
 
-  var val = Math.ceil((params.time * 100) / _alltime)
+  let val = Math.ceil((params.time * 100) / _alltime)
   if (val < 1) {
     val = 1
   }
@@ -244,9 +252,9 @@ function showRealTimeInfo(params, _alltime) {
   }
 }
 
-function updateModel(isAuto, val) {
-  var pitch = val.slidePitchStep
-  var roll = val.slideRollStep
+export function updateModel(isAuto, val) {
+  const pitch = val.slidePitchStep
+  const roll = val.slideRollStep
 
   roamLine.updateAngle(isAuto, {
     pitch: pitch,
@@ -255,13 +263,13 @@ function updateModel(isAuto, val) {
 }
 
 // 改变视角模式
-function updateCameraSetting(data) {
-  var cameraType = data.select
-  var followedX = data.followedX
-  var followedZ = data.followedZ
-  var offsetZ = data.offsetZ
-  var offsetY = data.offsetY
-  var offsetX = data.offsetX
+export function updateCameraSetting(data) {
+  const cameraType = data.select
+  const followedX = data.followedX
+  const followedZ = data.followedZ
+  const offsetZ = data.offsetZ
+  const offsetY = data.offsetY
+  const offsetX = data.offsetX
 
   roamLine.setCameraOptions({
     type: cameraType,
@@ -273,9 +281,34 @@ function updateCameraSetting(data) {
     offsetX: offsetX
   })
 }
+// 开始漫游
+export function startRoamLine() {
+  roamLine.start()
+}
+
+// 停止漫游
+export function stopRoamLine() {
+  roamLine.pause()
+}
+
+/**
+ * 点击暂停触发的函数
+ *
+ * @export
+ * @return {string} 返回状态
+ */
+export function pauseRoamLine() {
+  if (roamLine.isPause) {
+    roamLine.proceed() // 继续
+    return "pause"
+  } else {
+    roamLine.pause() // 暂停
+    return "proceed"
+  }
+}
 
 // 显示基本信息，名称、总长、总时间
-var _alltime = 100
+let _alltime = 100
 
 function showAllInfo(params) {
   _alltime = params.alltime

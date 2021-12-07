@@ -1,19 +1,22 @@
+import * as mars3d from "mars3d"
 
-var map
+let map // mars3d.Map三维地图对象
 
-function initMap(options) {
-  // Echart图表 vline.js
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 3.74685, lng: 103.588387, alt: 14532035, heading: 0, pitch: -86 }
+  }
+}
 
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 3.74685, lng: 103.588387, alt: 14532035, heading: 0, pitch: -86 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017
 
@@ -26,6 +29,14 @@ function initMap(options) {
     })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 访问后端接口，取数据
 function queryPopulationApiData() {
   return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/population.json" })
@@ -36,7 +47,6 @@ function showData(data) {
 
   for (let x = 0; x < 1; x++) {
     const series = data[x]
-    const seriesName = series[0]
     const coordinates = series[1]
 
     // 创建Graphic图层
@@ -69,5 +79,3 @@ function showData(data) {
     }
   }
 }
-
-

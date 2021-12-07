@@ -1,22 +1,39 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建mapv图层
   createMapvLayer()
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function createMapvLayer() {
-  var randomCount = 1000
-  var data = []
-  var citys = [
+  let randomCount = 1000
+  const data = []
+  const citys = [
     "北京",
     "天津",
     "上海",
@@ -52,8 +69,8 @@ function createMapvLayer() {
 
   // 自定义数据
   while (randomCount--) {
-    var cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
-    var cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter1 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter2 = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     data.push({
       geometry: {
         type: "LineString",
@@ -66,16 +83,16 @@ function createMapvLayer() {
     })
   }
 
-  var options = {
+  const options = {
     strokeStyle: "rgba(255, 250, 50, 0.3)",
     shadowColor: "rgba(255, 250, 50, 1)",
     shadowBlur: 20,
     lineWidth: 0.7,
     draw: "simple"
   }
-  var dataSet = new this.mapv.DataSet(data)
+  const dataSet = new this.mapv.DataSet(data)
 
   // 创建MapV图层
-  var mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
   map.addLayer(mapVLayer)
 }

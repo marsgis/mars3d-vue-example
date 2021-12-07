@@ -1,24 +1,39 @@
-var map
-var treeEvent = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.291758, lng: 117.333025, alt: 61430, heading: 0, pitch: -46 }
-    },
-    control: {
-      infoBox: false
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-  showPointDemo()
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.291758, lng: 117.333025, alt: 61430, heading: 0, pitch: -46 }
+  },
+  control: {
+    infoBox: false
+  }
 }
 
-var geoJsonLayer
+export const treeEvent = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  showPoint()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let geoJsonLayer
 
 function removeLayer() {
   if (geoJsonLayer) {
@@ -27,8 +42,12 @@ function removeLayer() {
   }
 }
 
+export function flyToLayer(layer) {
+  map.flyTo(layer)
+}
+
 // 示例：显示点数据
-function showPointDemo() {
+export function showPoint() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.CzmGeoJsonLayer({
@@ -104,7 +123,7 @@ function showPointDemo() {
 }
 
 // 示例：显示线数据
-function showChinaLineDemo() {
+export function showChinaLine() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.CzmGeoJsonLayer({
@@ -134,7 +153,7 @@ function showChinaLineDemo() {
 }
 
 // 示例：显示面数据（规划面）
-function showGuihuaDemo() {
+export function showPlanningSurface() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.CzmGeoJsonLayer({
@@ -190,7 +209,7 @@ function showGuihuaDemo() {
 
   // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
   // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-  var layerTest = map.getLayer(1987, "id")
+  const layerTest = map.getLayer(1987, "id")
   layerTest.on(mars3d.EventType.click, function (event) {
     // 单击事件
     console.log("单击了图层", event)
@@ -198,7 +217,7 @@ function showGuihuaDemo() {
 }
 
 // 示例：显示面数据（安徽行政区划），鼠标高亮处理
-function showAnhuiDemo() {
+export function showRegion() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.CzmGeoJsonLayer({
@@ -263,7 +282,7 @@ function showAnhuiDemo() {
     console.log("单击了图层", event)
   })
 
-  var lastEntity
+  let lastEntity
 
   // 清除高亮面
   function clearLastHighlightedEntity() {
@@ -271,8 +290,8 @@ function showAnhuiDemo() {
       return
     }
 
-    var color = lastEntity.polygon.material.color
-    var newclr = color.getValue().withAlpha(0.3)
+    const color = lastEntity.polygon.material.color
+    const newclr = color.getValue().withAlpha(0.3)
     color.setValue(newclr)
 
     lastEntity = null
@@ -284,8 +303,8 @@ function showAnhuiDemo() {
       return
     }
 
-    var color = entity.polygon.material.color
-    var newclr = color.getValue().withAlpha(1)
+    const color = entity.polygon.material.color
+    const newclr = color.getValue().withAlpha(1)
     color.setValue(newclr)
 
     lastEntity = entity
@@ -295,7 +314,7 @@ function showAnhuiDemo() {
   geoJsonLayer.on(mars3d.EventType.mouseOver, function (event) {
     console.log("鼠标移入图层", event)
 
-    var entity = event.czmObject
+    const entity = event.czmObject
     if (entity && entity.polygon) {
       highlightedEntity(entity)
     }
@@ -303,7 +322,7 @@ function showAnhuiDemo() {
   geoJsonLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("鼠标移出图层", event)
 
-    var entity = event.czmObject
+    const entity = event.czmObject
     if (entity && entity.polygon) {
       clearLastHighlightedEntity()
     }

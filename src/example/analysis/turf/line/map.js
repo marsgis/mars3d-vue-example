@@ -1,19 +1,23 @@
-var map
-var graphicLayer
-var lineLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let lineLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
+  }
+}
 
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -24,7 +28,15 @@ function initMap(options) {
   map.addLayer(lineLayer)
 }
 
-function drawLine() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawLine() {
   clearLayer()
 
   lineLayer.startDraw({
@@ -38,7 +50,7 @@ function drawLine() {
 }
 
 // 计算曲线
-function calculationCurve() {
+export function calculationCurve() {
   graphicLayer.clear()
 
   let line = lineLayer.getGraphics()
@@ -48,10 +60,10 @@ function calculationCurve() {
   }
   line = line[0].toGeoJSON()
 
-  var curved = turf.bezierSpline(line)
-  var positions = curved.geometry.coordinates
+  const curved = turf.bezierSpline(line)
+  const positions = curved.geometry.coordinates
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 4,
@@ -62,7 +74,7 @@ function calculationCurve() {
 }
 
 // 计算平行线
-function parallelLines(distance) {
+export function parallelLines(distance) {
   let line = lineLayer.getGraphics()
   if (line.length === 0) {
     globalMsg("请绘制线！")
@@ -72,11 +84,11 @@ function parallelLines(distance) {
 
   graphicLayer.clear()
 
-  var offsetLine = turf.lineOffset(line, distance, { units: "miles" })
+  const offsetLine = turf.lineOffset(line, distance, { units: "miles" })
 
-  var positions = offsetLine.geometry.coordinates
+  const positions = offsetLine.geometry.coordinates
 
-  var graphic = new mars3d.graphic.PolylineEntity({
+  const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       width: 4,
@@ -86,7 +98,7 @@ function parallelLines(distance) {
   graphicLayer.addGraphic(graphic)
 }
 
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   lineLayer.clear()
 }

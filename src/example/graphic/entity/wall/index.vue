@@ -1,21 +1,19 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">数据维护:</span>
-          <mars-button @click="btnDrawModel">绘制墙</mars-button>
-          <mars-button @click="btnDrawModelClosure">闭合墙</mars-button>
-          <a-checkbox v-model:checked="enabledEdit" @change="bindEdit">是否编辑</a-checkbox>
-        </a-space>
-      </a-form-item>
-      <a-form-item>
-        <dataManage />
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <LayerState />
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">数据维护:</span>
+        <mars-button @click="onClickDrawModel">绘制墙</mars-button>
+        <mars-button @click="onClickDrawModelClosure">闭合墙</mars-button>
+        <a-checkbox v-model:checked="enabledEdit" @change="bindEdit">是否编辑</a-checkbox>
+      </a-space>
+    </div>
+    <div>
+      <dataManage />
+    </div>
   </PannelBox>
   <LocationTo />
   <GraphicEditor ref="editor" />
@@ -28,19 +26,19 @@ import dataManage from "@comp/MarsSample/DataManage.vue"
 import LocationTo from "@comp/MarsSample/LocationTo.vue"
 import LayerState from "@comp/MarsSample/LayerState.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+const onClickDrawModel = () => {
+  mapWork.onClickDrawModel()
+}
+const onClickDrawModelClosure = () => {
+  mapWork.onClickDrawModelClosure()
+}
+
+// 是否编辑
 const enabledEdit = ref(false)
-
 const bindEdit = () => {
   mapWork.bindEdit(enabledEdit.value)
-}
-const btnDrawModel = () => {
-  mapWork.btnDrawModel()
-}
-const btnDrawModelClosure = () => {
-  mapWork.btnDrawModelClosure()
 }
 
 // 属性面板

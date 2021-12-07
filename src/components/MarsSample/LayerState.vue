@@ -8,13 +8,13 @@
   </a-space>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * 公共组件：封装图层状态操作
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2021-11-01
  */
-import { defineComponent, reactive } from "vue"
+import { reactive } from "vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
@@ -24,43 +24,26 @@ interface FormState {
   enabledRightMenu: boolean
 }
 
-export default defineComponent({
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork
 
-    const formState: UnwrapRef<FormState> = reactive({
-      enabledShowHide: true,
-      enabledPopup: true,
-      enabledTooltip: false,
-      enabledRightMenu: true
-    })
-    const bindShowHide = () => {
-      mapWork.bindShowHide(formState.enabledShowHide)
-    }
-    const bindPopup = () => {
-      mapWork.bindPopup(formState.enabledPopup)
-    }
-    const bindTooltip = () => {
-      mapWork.bindTooltip(formState.enabledTooltip)
-    }
-    const bindRightMenu = () => {
-      mapWork.bindRightMenu(formState.enabledRightMenu)
-    }
-
-    return {
-      formState,
-      bindShowHide,
-      bindPopup,
-      bindTooltip,
-      bindRightMenu
-    }
-  }
+const formState: UnwrapRef<FormState> = reactive({
+  enabledShowHide: true,
+  enabledPopup: true,
+  enabledTooltip: false,
+  enabledRightMenu: true
 })
-</script>
-<style scoped lang="less">
-.pannel-item-label {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 12px;
+const bindShowHide = () => {
+  mapWork.bindShowHide(formState.enabledShowHide)
 }
-</style>
+const bindPopup = () => {
+  mapWork.bindPopup(formState.enabledPopup)
+}
+const bindTooltip = () => {
+  mapWork.bindTooltip(formState.enabledTooltip)
+}
+const bindRightMenu = () => {
+  mapWork.bindRightMenu(formState.enabledRightMenu)
+}
+</script>
+

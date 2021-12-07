@@ -1,47 +1,53 @@
+import * as mars3d from "mars3d"
 
-var map
-var poiLayer
-var queryGaodePOI
+let map // mars3d.Map三维地图对象
+let poiLayer
+let queryGaodePOI
+let drawGraphic // 限定区域
+let resultList = [] // 查询结果
+let lastQueryOptions // 上一次请求参数，用于 下一页使用
 
-var drawGraphic // 限定区域
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
+  }
+}
 
-var bootstrapList = [] // 查询结果
-var lastQueryOptions // 上一次请求参数，用于 下一页使用
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   poiLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(poiLayer)
 
-
   poiLayer.bindPopup(function (event) {
-    var item = event.graphic.attr
+    const item = event.graphic.attr
 
-    var inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
-    if (item.type != "") {
-      const type = item.type.trim()
+    let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
+
+    const type = String(item.type).trim()
+    if (type) {
       inHtml += "<div><label>类别</label>" + type + "</div>"
     }
-    if (item.xzqh != "") {
-      const xzqh = item.xzqh.trim()
+    const xzqh = String(item.xzqh).trim()
+    if (xzqh) {
       inHtml += "<div><label>区域</label>" + xzqh + "</div>"
     }
-    if (item.tel != "") {
-      const tel = item.tel.trim()
+    const tel = String(item.tel).trim()
+    if (tel) {
       inHtml += "<div><label>电话</label>" + tel + "</div>"
     }
-    if (item.address != "") {
-      const address = item.address.trim()
+    const address = String(item.address).trim()
+    if (address) {
       inHtml += "<div><label>地址</label>" + address + "</div>"
     }
     inHtml += "</div>"
@@ -53,24 +59,102 @@ function initMap(options) {
   })
 }
 
-function bindViewEvent() {
-  // 加载更多- 下一页
-  /* $("#loadMore").click(function () {
-    if (!lastQueryOptions) {
-      return
-    }
-
-    lastQueryOptions.page++
-    loadData(lastQueryOptions)
-  }) */
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
+/**
+ * 查询
+ *
+ * @export
+ * @param {string} radioFanwei 范围选择
+ * @param {string} cityShi 城市
+ * @param {string} text 关键字
+ * @returns {void}
+ */
+export function query(radioFanwei, cityShi, text) {
+  resultList = []
+  switch (radioFanwei) {
+    default: {
+      const dmmc = cityShi
+      loadData(
+        {
+          page: 0,
+          city: dmmc,
+          citylimit: true
+        },
+        text
+      )
+      break
+    }
+    case "2": {
+      // 当前视角范围
+      const extent = map.getExtent()
+      loadData(
+        {
+          page: 0,
+          polygon: [
+            [extent.xmin, extent.ymin],
+            [extent.xmax, extent.ymax]
+          ],
+          limit: true
+        },
+        text
+      )
+      break
+    }
+    case "3": // 按范围
+      if (!drawGraphic) {
+        globalMsg("请绘制限定范围！")
+        return
+      }
+      loadData(
+        {
+          page: 0,
+          graphic: drawGraphic,
+          limit: true
+        },
+        text
+      )
+      break
+  }
+}
 
-function clearAll(noClearDraw) {
+function loadData(queryOptions, text) {
+  if (!text) {
+    globalMsg("请输入 名称 关键字筛选数据！")
+    return
+  }
+  showLoading()
+
+  lastQueryOptions = {
+    ...queryOptions,
+    count: 25, // count 每页数量
+    text: text,
+    success: function (res) {
+      const data = res.list
+      resultList = resultList.concat(data)
+
+      addGraphics(data)
+
+      eventTarget.fire("tableData", { data }) // 抛出数据给vue
+
+      hideLoading()
+    },
+    error: function (msg) {
+      globalAlert(msg).hideLoading()
+    }
+  }
+  queryGaodePOI.query(lastQueryOptions)
+}
+
+export function clearAll(noClearDraw) {
   lastQueryOptions = null
-
-  bootstrapList = []
-
+  resultList = []
   poiLayer.clear()
 
   if (!noClearDraw) {
@@ -80,12 +164,10 @@ function clearAll(noClearDraw) {
 }
 
 function addGraphics(arr) {
-  console.log("查询数据结果", arr)
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
 
-  for (var i = 0; i < arr.length; i++) {
-    var item = arr[i]
-
-    var graphic = new mars3d.graphic.BillboardEntity({
+    const graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.lng, item.lat),
       style: {
         image: "img/marker/mark3.png",
@@ -119,9 +201,8 @@ function addGraphics(arr) {
   }
 }
 
-
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -139,8 +220,9 @@ function drawRectangle() {
     }
   })
 }
+
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -157,8 +239,9 @@ function drawCircle() {
     }
   })
 }
+
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -174,8 +257,4 @@ function drawPolygon() {
       console.log("多边行：", drawGraphic.toGeoJSON())
     }
   })
-}
-// 清除按钮
-function removeAll() {
-  clearAll()
 }

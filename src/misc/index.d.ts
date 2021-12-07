@@ -15,5 +15,6 @@ declare global {
     $notify: any
     $showLoading: any
     $hideLoading: any
+    _map: any
   }
 }

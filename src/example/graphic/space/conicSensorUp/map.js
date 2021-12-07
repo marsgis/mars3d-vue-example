@@ -1,25 +1,34 @@
-var map
-var conicSensor
-var graphicLayer
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 25.987821, lng: 122.076928, alt: 1295307, heading: 327, pitch: -59 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let conicSensor
+let graphicLayer
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    // 此处参数会覆盖config.json中的对应配置
+    center: { lat: 25.987821, lng: 122.076928, alt: 1295307, heading: 327, pitch: -59 }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {
@@ -33,7 +42,22 @@ function initMap(options) {
   eventTarget.fire("loadOk")
 }
 
-function addConicSensor(angle, length) {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+/**
+ * 初始化 添加一个双椎体
+ *
+ * @export
+ * @param {number} angle 角度
+ * @param {number} length 半径
+ * @returns {void}
+ */
+export function addConicSensor(angle, length) {
   // 圆锥体
   conicSensor = new mars3d.graphic.ConicSensor({
     position: [117.170264, 31.840312, 363],
@@ -48,22 +72,26 @@ function addConicSensor(angle, length) {
 }
 
 // 顶部显示隐藏
-function sensorTop(val) {
-  conicSensor.topShow = val
+export function sensorTop(isChecked) {
+  conicSensor.topShow = isChecked
 }
+
 // 地面阴影
-function sensorArea(val) {
+export function sensorArea(val) {
   conicSensor.shadowShow = val
 }
-// 显示/隐藏
-function sensorShowHide(val) {
-  conicSensor.show = val
+
+// 圆锥体 显示/隐藏
+export function sensorShowHide(isChecked) {
+  conicSensor.show = isChecked
 }
-// 半径
-function sensorRadius(val) {
+
+// 半径改变
+export function sensorRadius(val) {
   conicSensor.length = val
 }
+
 // 角度(半长角)
-function angle(val) {
+export function angle(val) {
   conicSensor.angle = val
 }

@@ -12,11 +12,9 @@
 
 <script setup lang="ts">
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
-window.$notify("功能 和 已知问题提示", "(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
+window.$notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })
 
 // 绘制矩形
 const drawExtent = () => {

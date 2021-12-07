@@ -1,44 +1,35 @@
 <template>
   <PannelBox class="mars-load-legend">
-      <p class="mars-load-head">One Belt One Road 图例</p>
-      <ul class="mars-load-introduce">
-        <li>
-          <span class="mars-load-introduce-dai">
-            <i></i>
-            <i></i>
-            <i></i>
-          </span>
-          <div class="mars-load-info">
-            <p>丝绸之路经济带</p>
-            <p>Silk Road Economic Belt</p>
-          </div>
-        </li>
-        <li>
-          <span class="mars-load-introduce-lu">
-            <i></i>
-            <i></i>
-            <i></i>
-          </span>
-          <div class="mars-load-info">
-            <p>21世纪海上丝绸之路</p>
-            <p>21st century Maritime Silk Road</p>
-          </div>
-        </li>
-      </ul>
+    <p class="mars-load-head">One Belt One Road 图例</p>
+    <ul class="mars-load-introduce">
+      <li>
+        <span class="mars-load-introduce-dai">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+        <div class="mars-load-info">
+          <p>丝绸之路经济带</p>
+          <p>Silk Road Economic Belt</p>
+        </div>
+      </li>
+      <li>
+        <span class="mars-load-introduce-lu">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+        <div class="mars-load-info">
+          <p>21世纪海上丝绸之路</p>
+          <p>21st century Maritime Silk Road</p>
+        </div>
+      </li>
+    </ul>
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
+<script setup lang="ts">
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-
-export default defineComponent({
-  components: {
-    PannelBox
-  }
-
-})
 </script>
 <style scoped lang="less">
 .mars-load-legend {

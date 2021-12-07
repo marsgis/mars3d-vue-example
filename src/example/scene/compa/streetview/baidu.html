@@ -31,55 +31,55 @@
 
     <!--页面js-->
     <script>
-      var panorama;
+      var panorama
 
       window.onload = function () {
+        var request = getRequest()
 
-         var request =  getRequest()
+        var baiduMpt = new BMap.Point(request.lng, request.lat)
+        var map = new BMap.Map("streetscapeMap") // mars3d.Map三维地图对象
+        map.centerAndZoom(baiduMpt, 15)
+        map.addTileLayer(new BMap.PanoramaCoverageLayer())
 
-        var baiduMpt = new BMap.Point(request.lng, request.lat);
-        var map = new BMap.Map("streetscapeMap");
-        map.centerAndZoom(baiduMpt, 15);
-        map.addTileLayer(new BMap.PanoramaCoverageLayer());
-
-        panorama = new BMap.Panorama("streetscapeMap");
-        panorama.setPosition(baiduMpt); //根据经纬度坐标展示全景图
-        panorama.setPov({ heading: -40, pitch: 6 });
+        panorama = new BMap.Panorama("streetscapeMap")
+        panorama.setPosition(baiduMpt) //根据经纬度坐标展示全景图
+        panorama.setPov({ heading: -40, pitch: 6 })
         panorama.addEventListener("position_changed", function (e) {
           //全景图位置改变后，普通地图中心点也随之改变
-          var pos = panorama.getPosition(); //街景变换返回触发的回调函数
+          var pos = panorama.getPosition() //街景变换返回触发的回调函数
 
           if (parent) {
-            pos = parent.mars3d.PointTrans.bd2wgs([pos.lng, pos.lat]);
-            parent.updateMarker({ lng: pos[0], lat: pos[1] });
+            pos = parent.mars3d.PointTrans.bd2wgs([pos.lng, pos.lat])
+            parent.updateMarker({ lng: pos[0], lat: pos[1] })
           }
 
           // var pov = panorama.getPov()
-        });
-      };
+        })
+      }
 
       //外部传入坐标，更新街景
       function setPosition(point) {
-        let bdPoint = parent.mars3d.PointTrans.wgs2bd([point.lng, point.lat]);
-        panorama.setPosition(new BMap.Point(bdPoint[0], bdPoint[1])); //根据经纬度坐标展示全景图
+        let bdPoint = parent.mars3d.PointTrans.wgs2bd([point.lng, point.lat])
+        panorama.setPosition(new BMap.Point(bdPoint[0], bdPoint[1])) //根据经纬度坐标展示全景图
       }
 
-         //url参数获取
-    function getRequest(target) {
-        var theRequest = new Object();
-        try {//屏蔽跨域时报错
-            target = target || window;
-            var url = target.location.search; //获取url中"?"符后的字串
-            if (url.indexOf("?") != -1) {
-                var str = url.substr(1);
-                var strs = str.split("&");
-                for (var i = 0; i < strs.length; i++) {
-                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
-                }
+      //url参数获取
+      function getRequest(target) {
+        var theRequest = new Object()
+        try {
+          //屏蔽跨域时报错
+          target = target || window
+          var url = target.location.search //获取url中"?"符后的字串
+          if (url.indexOf("?") != -1) {
+            var str = url.substr(1)
+            var strs = str.split("&")
+            for (var i = 0; i < strs.length; i++) {
+              theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1])
             }
-        } catch (e) { }
-        return theRequest;
-    }
+          }
+        } catch (e) {}
+        return theRequest
+      }
     </script>
   </body>
 </html>

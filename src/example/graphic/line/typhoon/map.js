@@ -1,32 +1,44 @@
-var map
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 8.560501, lng: 111.849127, alt: 10725692, heading: 358, pitch: -87 }
-    }
-    // control: {
-    //   animation: true,
-    //   timeline: true,
-    // },
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 8.560501, lng: 111.849127, alt: 10725692, heading: 358, pitch: -87 }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 绘制24/48小时警戒线
   drawWarningLine()
   queryTyphoonList()
 }
 
-var typhoonListObj = {}
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let typhoonListObj = {}
 
 // 勾选了台风
-var typhoonObj
+let typhoonObj
 let selectTF
-function selectOneTyphoon(row) {
+export function selectOneTyphoon(row) {
   typhoonListObj = {}
   if (typhoonListObj[row.id]) {
     const typhoon = typhoonListObj[row.id]
@@ -54,7 +66,7 @@ function selectOneTyphoon(row) {
   }
 }
 
-function clickPathRow(row) {
+export function clickPathRow(row) {
   typhoonObj.showPointFQ(row)
   const graphic = typhoonObj.getPointById(row.id)
   if (graphic) {
@@ -67,14 +79,14 @@ function clickPathRow(row) {
   }
 }
 
-function clickTyRow(row) {
+export function clickTyRow(row) {
   if (typhoonListObj[row.id]) {
     selectOneTyphoon(row)
   }
 }
 
 // 取消勾选台风
-function unSelectOneTyphoon(row) {
+export function unSelectOneTyphoon(row) {
   const typhoon = typhoonListObj[row.id]
   if (typhoon == selectTF) {
     stopPlay()
@@ -97,16 +109,17 @@ function queryTyphoonList() {
 }
 
 // 开始播放
-function startPlay() {
+export function startPlay() {
   if (!selectTF) {
     return
   }
+  // eslint-disable-next-line no-undef
   selectTF.playTyphoon = selectTF.playTyphoon || new PlayTyphoon(selectTF.options, map)
   selectTF.playTyphoon.start()
   selectTF.show = false
 }
 // 停止播放
-function stopPlay() {
+export function stopPlay() {
   if (selectTF?.playTyphoon) {
     selectTF.playTyphoon.stop()
     selectTF.show = true
@@ -115,7 +128,7 @@ function stopPlay() {
 
 // 转换数据,将后端接口数据转换为需要的格式
 function conversionPathData(oldData) {
-  var path = []
+  const path = []
   oldData[8].forEach((message) => {
     let circle7
     let circle10
@@ -290,7 +303,7 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(lineWarning24)
 
   // 注记文本
-  var textWarning24 = new mars3d.graphic.RectangleEntity({
+  const textWarning24 = new mars3d.graphic.RectangleEntity({
     positions: [
       [128.129019, 29.104287],
       [125.850451, 28.424599]
@@ -328,7 +341,7 @@ function drawWarningLine() {
   map.graphicLayer.addGraphic(lineWarning48)
 
   // 注记文本
-  var textWarning48 = new mars3d.graphic.RectangleEntity({
+  const textWarning48 = new mars3d.graphic.RectangleEntity({
     positions: [
       [130.502492, 25.959716],
       [133.423638, 26.772991]

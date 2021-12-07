@@ -18,12 +18,12 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item>
+      <div class="f-tac">
         <a-space>
           <mars-button @click="btnAnalyse">开始分析</mars-button>
           <mars-button @click="removeAll">清除</mars-button>
         </a-space>
-      </a-form-item>
+      </div>
 
       <div v-show="wayShow" class="showRoam">
         <p style="color: #cad1d1">总距离：{{ allDiatance }}</p>
@@ -37,9 +37,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const strat = ref("")
 const end = ref("")
@@ -48,6 +46,7 @@ const wayShow = ref(false)
 const allDiatance = ref("")
 const useTime = ref("")
 const dh = ref("")
+
 // 下拉菜单
 const selectWayOptions = ref([
   {
@@ -115,5 +114,8 @@ const removeAll = () => {
   width: 300px;
   padding: 5px;
   line-height: 25px;
+}
+.ant-select {
+  width: 250px;
 }
 </style>

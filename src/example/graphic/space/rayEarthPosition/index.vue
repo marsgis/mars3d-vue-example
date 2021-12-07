@@ -1,36 +1,34 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">视椎体状态:</span>
-          <a-checkbox v-model:checked="formState.enabledShowHide" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">视椎体状态:</span>
+        <a-checkbox v-model:checked="formState.enabledShowHide" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
 
-          <mars-button @click="locate">定位至卫星</mars-button>
-        </a-space>
-      </a-form-item>
+        <mars-button @click="locate">定位至卫星</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">前后侧摆:</span>
-          <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">前后侧摆:</span>
+        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">左右侧摆:</span>
-          <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">左右侧摆:</span>
+        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">夹角:</span>
-          <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
-        </a-space>
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">夹角:</span>
+        <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
+      </a-space>
+    </div>
   </PannelBox>
   <PannelBox class="messageShow">
     <table class="mars-table tb-border">
@@ -67,10 +65,11 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from "vue"
+<script lang="ts" setup>
+import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   enabledShowHide: boolean // 参考轴系
@@ -82,82 +81,56 @@ interface FormState {
   td_wd: number
   td_gd: number
 }
-export default defineComponent({
-  components: {
-    PannelBox
-  },
 
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
-    // 角度
-    const angleValue = ref<number>(10)
+// 角度
+const angleValue = ref<number>(10)
+const pitchValue = ref<number>(0) // 仰角
+const rollValue = ref<number>(0) // 左右
 
-    const pitchValue = ref<number>(0) // 仰角
-
-    const rollValue = ref<number>(0) // 左右
-
-    const formState: UnwrapRef<FormState> = reactive({
-      enabledShowHide: false,
-      name: "",
-      tle1: "",
-      tle2: "",
-      time: "",
-      td_jd: 0,
-      td_wd: 0,
-      td_gd: 0
-    })
-    mapWork.eventTarget.on("loadOk", function (event: any) {
-      mapWork.centerPoint(angleValue.value)
-
-       mapWork.weixin.on("change", () => {
-        formState.name = mapWork.weixinData.name
-        formState.tle1 = mapWork.weixinData.tle1
-        formState.tle2 = mapWork.weixinData.tle2
-        formState.time = mapWork.weixinData.time
-        formState.td_jd = mapWork.weixinData.td_jd
-        formState.td_wd = mapWork.weixinData.td_wd
-        formState.td_gd = mapWork.weixinData.td_gd
-      })
-    })
-
-    // 俯仰角
-    const pitchChange = () => {
-      mapWork.pitchChange(pitchValue.value)
-    }
-
-    // 左右角
-    const rollChange = () => {
-      mapWork.rollChange(rollValue.value)
-    }
-
-    // 夹角
-    const angle = () => {
-      mapWork.angle(angleValue.value)
-    }
-    // 定位至卫星
-    const locate = () => {
-      mapWork.locate()
-    }
-
-    // 显示/隐藏
-    const chkShowModelMatrix = () => {
-      mapWork.chkShowModelMatrix(formState.enabledShowHide)
-    }
-
-    return {
-      formState,
-      chkShowModelMatrix,
-      locate,
-      angle,
-      angleValue,
-      pitchValue,
-      rollValue,
-      pitchChange,
-      rollChange
-    }
-  }
+const formState: UnwrapRef<FormState> = reactive({
+  enabledShowHide: false,
+  name: "",
+  tle1: "",
+  tle2: "",
+  time: "",
+  td_jd: 0,
+  td_wd: 0,
+  td_gd: 0
 })
+mapWork.eventTarget.on("realData", (event: any) => {
+  mapWork.centerPoint(angleValue.value)
+  formState.name = event.name
+  formState.tle1 = event.tle1
+  formState.tle2 = event.tle2
+  formState.time = event.time
+  formState.td_jd = event.td_jd
+  formState.td_wd = event.td_wd
+  formState.td_gd = event.td_gd
+})
+
+// 俯仰角
+const pitchChange = () => {
+  mapWork.pitchChange(pitchValue.value)
+}
+
+// 左右角
+const rollChange = () => {
+  mapWork.rollChange(rollValue.value)
+}
+
+// 夹角
+const angle = () => {
+  mapWork.angle(angleValue.value)
+}
+// 定位至卫星
+const locate = () => {
+  mapWork.locate()
+}
+
+// 显示/隐藏
+const chkShowModelMatrix = () => {
+  mapWork.chkShowModelMatrix(formState.enabledShowHide)
+}
 </script>
 <style scoped lang="less">
 .inputNum {

@@ -1,40 +1,56 @@
-var map
-var tileLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 24.336939, lng: 108.949729, alt: 14990362, heading: 0, pitch: -90 }
-    },
-    control: {
-      baseLayerPicker: false,
-      infoBox: false
-    },
-    basemaps: [
-      {
-        name: "单张图片",
-        icon: "img/basemaps/bingmap.png",
-        type: "image",
-        url: "//data.mars3d.cn/file/img/world/world.jpg",
-        show: true
-      }
-    ],
-    layers: [
-      {
-        name: "瓦片测试信息",
-        type: "tileinfo",
-        color: "rgba(255,255,0,0.6)",
-        show: true
-      }
-    ]
-  })
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+import * as mars3d from "mars3d"
 
+let map // mars3d.Map三维地图对象
+let tileLayer
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 24.336939, lng: 108.949729, alt: 14990362, heading: 0, pitch: -90 }
+  },
+  control: {
+    baseLayerPicker: false,
+    infoBox: false
+  },
+  basemaps: [
+    {
+      name: "单张图片",
+      icon: "img/basemaps/bingmap.png",
+      type: "image",
+      url: "//data.mars3d.cn/file/img/world/world.jpg",
+      show: true
+    }
+  ],
+  layers: [
+    {
+      name: "瓦片测试信息",
+      type: "tileinfo",
+      color: "rgba(255,255,0,0.6)",
+      show: true
+    }
+  ]
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 加载图层
-function createTileLayer(options) {
+export function createTileLayer(options) {
   const params = {
     type: options.type, // 类型
     url: options.url, // 图层url
@@ -65,6 +81,7 @@ function createTileLayer(options) {
 
   // 移除原有图层
   removeLayer()
+
   // 绘制区域
   const rectangle = options.rectangle
   if (rectangle) {
@@ -97,8 +114,9 @@ function createTileLayer(options) {
   })
   map.addLayer(tileLayer)
 }
+
 // 移除并销毁图层
-function removeLayer() {
+export function removeLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
@@ -106,7 +124,7 @@ function removeLayer() {
 }
 
 // 数据更新
-function dataUpdate(params) {
+export function dataUpdate(params) {
   if (tileLayer) {
     params.flyTo = false
     createTileLayer(params)
@@ -114,7 +132,7 @@ function dataUpdate(params) {
 }
 
 // 绘制和清除区域
-function btnDrawExtent(options) {
+export function btnDrawExtent(options) {
   if (tileLayer) {
     tileLayer.rectangle = null
   }
@@ -128,13 +146,13 @@ function btnDrawExtent(options) {
       outlineColor: "#ff0000"
     },
     success: function (graphic) {
-      var rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
+      const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
       options.rectangle = JSON.stringify(rectangle)
       createTileLayer(options)
     }
   })
 }
-function btnClearExtent() {
+export function btnClearExtent() {
   map.graphicLayer.clear()
   if (tileLayer) {
     tileLayer.rectangle = null
@@ -144,9 +162,13 @@ function btnClearExtent() {
 }
 
 // 修改图层的部分值
-function changeOpacity(val) {
-  tileLayer.opacity = val
+export function changeOpacity(val) {
+  if (tileLayer) {
+    tileLayer.opacity = val
+  }
 }
-function changeBrightness(val) {
-  tileLayer.brightness = val
+export function changeBrightness(val) {
+  if (tileLayer) {
+    tileLayer.brightness = val
+  }
 }

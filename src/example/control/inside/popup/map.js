@@ -1,14 +1,19 @@
-var map
-var graphicLayer
-var geoJsonLayer
-var showTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let geoJsonLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const eventTarget = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -23,11 +28,18 @@ function initMap(options) {
     console.log("关闭了popup(全局监听)", event)
   })
 
-  //
   bindLayerDemo()
 }
 
-function removeDemoLayer() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function removeDemoLayer() {
   graphicLayer.clear()
 
   if (geoJsonLayer) {
@@ -37,7 +49,7 @@ function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Popup单击弹窗
-function bindMapDemo() {
+export function bindMapDemo() {
   removeDemoLayer()
 
   // 关闭弹窗
@@ -49,7 +61,7 @@ function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Popup单击弹窗
-function bindLayerDemo() {
+export function bindLayerDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -85,7 +97,7 @@ function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义Popup单击弹窗
-function bindLayerDemo2() {
+export function bindLayerDemo2() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -111,7 +123,7 @@ function bindLayerDemo2() {
 }
 
 // 2.在layer图层上绑定Popup单击弹窗
-function bindLayerTemplateDemo() {
+export function bindLayerTemplateDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -146,8 +158,8 @@ function bindLayerTemplateDemo() {
   })
 }
 
-// 3.在graphic数据上绑定Popup单击弹窗
-function bindGraphicDemo1() {
+// 3.在graphic数据上绑定Popup单击弹窗局部刷新
+export function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars3d.graphic.BoxEntity({
@@ -170,7 +182,7 @@ function bindGraphicDemo1() {
 
   function getInnerHtml(event) {
     // let attr = event.graphic.attr
-    var inthtml = `<table style="width:280px;">
+    const inthtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
                 <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
@@ -193,11 +205,11 @@ function bindGraphicDemo1() {
   })
 }
 
-// 3.在graphic数据上绑定Popup单击弹窗
-function bindGraphicDemo2() {
+// 4.在graphic数据上绑定Popup单击弹窗
+export function bindGraphicDemo2() {
   removeDemoLayer()
 
-  var graphic = new mars3d.graphic.BillboardEntity({
+  const graphic = new mars3d.graphic.BillboardEntity({
     position: new mars3d.LatLngPoint(116.328539, 30.978731, 1521),
     style: {
       image: "img/marker/di3.png",
@@ -232,7 +244,7 @@ function bindGraphicDemo2() {
     const container = event.container // popup对应的DOM
     const tdTime = container.querySelector("#tdTime")
     if (tdTime) {
-      var date = mars3d.Util.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss S")
+      const date = mars3d.Util.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss S")
 
       tdTime.innerHTML = date
     }
@@ -252,5 +264,5 @@ function bindGraphicDemo2() {
 // 只是为了演示，可以单击详情
 function showXQ() {
   const showHistoryLayer = true
-  showTarget.fire("showTF", { showHistoryLayer })
+  eventTarget.fire("showWebsite", { showHistoryLayer })
 }

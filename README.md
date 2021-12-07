@@ -26,15 +26,9 @@
  [功能示例原生版教程](http://mars3d.cn/dev/guide/start/example-old.html) 、
  [mars3d-es5-example代码](https://gitee.com/marsgis/mars3d-es5-example) 
 
-
-
+ 
 ## 视频讲解
 建议先看一遍视频讲解，再实际操作，您可以[新页面查看高清视频](https://www.bilibili.com/video/BV1PL41177SS/)
-
-
-视频预览：
-<iframe src="//player.bilibili.com/player.html?aid=464541155&bvid=BV1PL41177SS&cid=452039973&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;min-height:550px;"> </iframe>
-
 
 
 
@@ -196,6 +190,24 @@ mars3d-vue-example
 }
 ```
 同级目录下只需要配置文件名，不在同级目录的 需配置打包后文件位置的绝对路径如 `/example/graphic/line/typhoon/Typhoon.js`
+
+
+## 单个示例的内部结构
+
+每个示例都是一个单独的文件夹，均放在`src\example`示例目录下的子目录，因为示例众多，建议多级目录来管理。
+
+### 示例相关文件
+示例目录下，一般有2个文件（地图业务与UI解耦）：
+
+- map.js文件：涉及地图业务的操作均写在 map.js 中；
+
+- index.vue 文件：是一个Vue组件面板，涉及 UI 层面、和地图无关的操作均写在 index.vue 中；
+
+ 
+### 内部构流程图
+示例的内部构造处理流程图：
+
+![image](http://mars3d.cn/dev/img/guide/example-vue-one.jpg)
 
 
 

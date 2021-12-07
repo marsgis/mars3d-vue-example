@@ -1,28 +1,38 @@
+import * as mars3d from "mars3d"
+
 let map
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  const mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: {
-        lat: 28.440864,
-        lng: 119.486477,
-        alt: 588.23,
-        heading: 268.6,
-        pitch: -37.8,
-        roll: 359.8
-      },
-      fxaa: true,
-      requestRenderMode: true // 显式渲染
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: {
+      lat: 28.440864,
+      lng: 119.486477,
+      alt: 588.23,
+      heading: 268.6,
+      pitch: -37.8,
+      roll: 359.8
     },
-    control: {
-      infoBox: false
-    },
-    layers: []
-  })
+    fxaa: true,
+    requestRenderMode: true // 显式渲染
+  },
+  control: {
+    infoBox: false
+  },
+  layers: []
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+
+  // 固定光照，避免gltf模型随时间存在亮度不一致。
+  map.fixedLight = true
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
@@ -55,7 +65,7 @@ function initMap(options) {
     map.scene.globe.showGroundAtmosphere = false
   }
 
-  var type = mars3d.Util.getRequestByName("data")
+  const type = mars3d.Util.getRequestByName("data")
   switch (type) {
     default:
     case "qx-shequ":
@@ -80,18 +90,31 @@ function initMap(options) {
 
   // showQxShequDemo()
 }
-// 浏览器
-function isPCBroswer() {
-  var sUserAgent = navigator.userAgent.toLowerCase()
 
-  var bIsIpad = sUserAgent.match(/ipad/i) == "ipad"
-  var bIsIphoneOs = sUserAgent.match(/iphone/i) == "iphone"
-  var bIsMidp = sUserAgent.match(/midp/i) == "midp"
-  var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"
-  var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb"
-  var bIsAndroid = sUserAgent.match(/android/i) == "android"
-  var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce"
-  var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile"
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 浏览器
+ *
+ * @returns {void}
+ */
+function isPCBroswer() {
+  const sUserAgent = navigator.userAgent.toLowerCase()
+
+  const bIsIpad = sUserAgent.match(/ipad/i) == "ipad"
+  const bIsIphoneOs = sUserAgent.match(/iphone/i) == "iphone"
+  const bIsMidp = sUserAgent.match(/midp/i) == "midp"
+  const bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"
+  const bIsUc = sUserAgent.match(/ucweb/i) == "ucweb"
+  const bIsAndroid = sUserAgent.match(/android/i) == "android"
+  const bIsCE = sUserAgent.match(/windows ce/i) == "windows ce"
+  const bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile"
   if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
     return false
   } else {
@@ -102,8 +125,8 @@ function isPCBroswer() {
 function getRequestByName(name, defval, target) {
   try {
     target = target || window
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i")
-    var r = target.location.search.substr(1).match(reg)
+    const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i")
+    const r = target.location.search.substr(1).match(reg)
     if (r != null) {
       return decodeURI(r[2])
     }
@@ -112,24 +135,28 @@ function getRequestByName(name, defval, target) {
 }
 
 // 绑定事件
-function bindTestTerrain(val) {
+export function bindTestTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
 }
-function bindWireframe(val) {
+export function bindWireframe(val) {
   // 三角网
   tiles3dLayer.tileset.debugWireframe = val
 }
-function bindBoundbox(val) {
+export function bindBoundbox(val) {
   // 包围盒
   tiles3dLayer.tileset.debugShowBoundingVolume = val
 }
-function bindGfirstperson(val) {
+export function bindGfirstperson(val) {
   // 键盘漫游
   map.keyboardRoam.enabled = val
 }
 
 let tiles3dLayer
-
+/**
+ * 移除图层
+ *
+ * @returns {void}
+ */
 function removeLayer() {
   if (tiles3dLayer) {
     map.basemap = 2021 // 切换到默认影像底图
@@ -148,8 +175,13 @@ maximumMemoryUsage 参数详细解释：这个参数默认是512，也即是当�
 这个值应该处于最差视角下资源占用 和 显存最大量之间。结论：这个参数要根据当前显卡显存来配置，如果我们场景只显示这一个倾斜数据，这个可以设置到显存的50 % 左右，比如我的显存是6G，这个可以设置到3000左右。那么既保证不超过显存限制，又可以最大利用显存缓存，配合crn压缩之后，这个几乎可以保证你第二次查看倾斜同一位置的时候，看不到加载过程，非常棒。
 */
 
-// 示例：倾斜摄影 县城社区
-function showQxShequDemo() {
+/**
+ * 倾斜摄影 县城社区
+ *
+ * @export showJzwHefeiDemo 倾斜摄影
+ * @returns {void}
+ */
+export function showQxShequDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -179,8 +211,13 @@ function showQxShequDemo() {
   })
 }
 
-// 示例：倾斜摄影 景区文庙
-function showQxSimiaoDemo() {
+/**
+ * 倾斜摄影 景区文庙
+ *
+ * @export showJzwHefeiDemo 倾斜摄影
+ * @returns {void}
+ */
+export function showQxSimiaoDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -224,8 +261,13 @@ function showQxSimiaoDemo() {
   })
 }
 
-// 示例：城市白膜建筑物 合肥市区
-function showJzwHefeiDemo() {
+/**
+ * 城市白膜建筑物 合肥市区
+ *
+ * @export showJzwHefeiDemo 城市白膜
+ * @returns {void}
+ */
+export function showJzwHefeiDemo() {
   removeLayer()
 
   map.basemap = 2017 // 切换到蓝色底图
@@ -258,8 +300,13 @@ function showJzwHefeiDemo() {
   })
 }
 
-// 示例：人工建模 石化工厂
-function showMaxShihuaDemo() {
+/**
+ * 人工建模 石化工厂
+ *
+ * @export showMaxShihuaDemo 石化工厂模型
+ * @returns {void}
+ */
+export function showMaxShihuaDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -293,7 +340,7 @@ function showMaxShihuaDemo() {
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   tiles3dLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
     return mars3d.Util.getTemplateHtml({ title: "石化工厂", template: "all", attr: attr })
   })
@@ -304,8 +351,13 @@ function showMaxShihuaDemo() {
   })
 }
 
-// 示例：BIM 桥梁
-function showBimQiaoliangDemo() {
+/**
+ * BIM 桥梁
+ *
+ * @export showBimQiaoliangDemo 桥梁模型
+ * @returns {void}
+ */
+export function showBimQiaoliangDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -341,7 +393,7 @@ function showBimQiaoliangDemo() {
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   tiles3dLayer.bindPopup(function (event) {
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
     return mars3d.Util.getTemplateHtml({ title: "桥梁", template: "all", attr: attr })
   })
 
@@ -351,8 +403,13 @@ function showBimQiaoliangDemo() {
   })
 }
 
-// 示例：BIM 桥梁
-function showBimDitiezhanDemo() {
+/**
+ * BIM 桥梁
+ *
+ * @export showBimDitiezhanDemo 桥梁模型
+ * @returns {void}
+ */
+export function showBimDitiezhanDemo() {
   removeLayer()
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({

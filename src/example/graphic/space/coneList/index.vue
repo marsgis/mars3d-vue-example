@@ -1,15 +1,10 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <mars-button @click="locate">定位至卫星</mars-button>
-          <span class="pannel-item-label">参考系</span>
-          <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
-        </a-space>
-      </a-form-item>
-    </a-form>
-
+    <a-space>
+      <mars-button @click="locate">定位至卫星</mars-button>
+      <span class="pannel-item-label">参考系</span>
+      <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
+    </a-space>
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -44,10 +39,11 @@
   </PannelBox>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, reactive, ref } from "vue"
+<script lang="ts" setup>
+import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   enabledShowMatrix: boolean // 参考轴系
@@ -59,52 +55,37 @@ interface FormState {
   td_wd: number
   td_gd: number
 }
-export default defineComponent({
-  components: {
-    PannelBox
-  },
 
-  setup() {
-    // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-    const mapWork = window.mapWork || {}
-
-    const formState: UnwrapRef<FormState> = reactive({
-      enabledShowMatrix: true,
-      name: "",
-      tle1: "",
-      tle2: "",
-      time: "",
-      td_jd: 0,
-      td_wd: 0,
-      td_gd: 0
-    })
-    mapWork.eventTarget.on("loadOK", () => {
-      formState.name = mapWork.weixinData.name
-      formState.tle1 = mapWork.weixinData.tle1
-      formState.tle2 = mapWork.weixinData.tle2
-      formState.time = mapWork.weixinData.time
-      formState.td_jd = mapWork.weixinData.td_jd
-      formState.td_wd = mapWork.weixinData.td_wd
-      formState.td_gd = mapWork.weixinData.td_gd
-    })
-
-    // 定位至卫星
-    const locate = () => {
-      mapWork.locate()
-    }
-
-    // 参考轴系显示与隐藏
-    const chkShowModelMatrix = () => {
-      mapWork.chkShowModelMatrix(formState.enabledShowMatrix)
-    }
-
-    return {
-      formState,
-      chkShowModelMatrix,
-      locate
-    }
-  }
+const formState: UnwrapRef<FormState> = reactive({
+  enabledShowMatrix: false,
+  name: "",
+  tle1: "",
+  tle2: "",
+  time: "",
+  td_jd: 0,
+  td_wd: 0,
+  td_gd: 0
 })
+
+mapWork.eventTarget.on("realData", (e: any) => {
+  formState.name = e.name
+  formState.tle1 = e.tle1
+  formState.tle2 = e.tle2
+  formState.time = e.time
+  formState.td_jd = e.td_jd
+  formState.td_wd = e.td_wd
+  formState.td_gd = e.td_gd
+})
+
+// 定位至卫星
+const locate = () => {
+  mapWork.locate()
+}
+
+// 参考轴系显示与隐藏
+const chkShowModelMatrix = () => {
+  mapWork.chkShowModelMatrix(formState.enabledShowMatrix)
+}
 </script>
 <style scoped lang="less">
 th.column-money,

@@ -1,15 +1,19 @@
-var map
-var tilesetPlanClip
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let tilesetPlanClip
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "教学楼",
     url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
     position: { lng: 117.251229, lat: 31.844015, alt: 31.2 },
@@ -29,17 +33,18 @@ function initMap(options) {
   })
   map.addThing(tilesetPlanClip)
 
-  // //加载完成事件
-  // tilesetLayer.on(mars3d.EventType.load, function (event) {
-  //   var tileset = event.tileset
-  //   //可以按模型实际大小动态赋值
-  //   // var radius = tileset.boundingSphere.radius / 3
-  //   // $('#rangeDistance').attr('min', -radius)
-  //   // $('#rangeDistance').attr('max', radius)
-  // })
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 绘制线
-function drawLine() {
+export function drawLine() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -52,7 +57,7 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -61,7 +66,7 @@ function drawLine() {
 }
 
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -73,7 +78,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -82,7 +87,7 @@ function drawExtent() {
 }
 
 // 绘制面
-function drawPoly() {
+export function drawPoly() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -94,7 +99,7 @@ function drawPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -102,7 +107,7 @@ function drawPoly() {
   })
 }
 // 绘制面(外切)
-function drawPoly2() {
+export function drawPoly2() {
   tilesetPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -113,7 +118,7 @@ function drawPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true
@@ -123,40 +128,44 @@ function drawPoly2() {
 }
 
 // 切顶部
-function clipping1() {
+export function clipping1() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.ZR
 }
+
 // 切底部
-function clipping2() {
+export function clipping2() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.Z
 }
 
 // 切东部
-function clipping3() {
+export function clipping3() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.XR
 }
+
 // 切西部
-function clipping4() {
+export function clipping4() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.X
 }
+
 // 切南部
-function clipping5() {
+export function clipping5() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.Y
 }
+
 // 切北部
-function clipping6() {
+export function clipping6() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.YR
 }
 
 // 距离
-function rangeDistance(value) {
+export function rangeDistance(value) {
   tilesetPlanClip.distance = value
 }
 // 偏移量
-function rangeNormalZ(value) {
+export function rangeNormalZ(value) {
   tilesetPlanClip.normalZ = value
 }
 
-function clear() {
+export function clear() {
   tilesetPlanClip.clear()
 }

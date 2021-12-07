@@ -1,28 +1,26 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">数据维护:</span>
-          <mars-button @click="btnDrawModel">图上标绘</mars-button>
-          <a-checkbox v-model:checked="enabledEdit" @change="bindEdit">是否编辑</a-checkbox>
-        </a-space>
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">方法演示:</span>
-          <mars-button @click="btnStartBounce">开始弹跳</mars-button>
-          <mars-button @click="btnStartBounce2">开始弹跳（自动停止）</mars-button>
-          <mars-button @click="btnStopBounce">停止弹跳</mars-button>
-        </a-space>
-      </a-form-item>
-      <a-form-item>
-        <dataManage />
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <LayerState />
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">数据维护:</span>
+        <mars-button @click="onClickDrawModel">图上标绘</mars-button>
+        <a-checkbox v-model:checked="enabledEdit" @change="bindEdit">是否编辑</a-checkbox>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">方法演示:</span>
+        <mars-button @click="onClickStartBounce">开始弹跳</mars-button>
+        <mars-button @click="onClickStartBounce2">开始弹跳（自动停止）</mars-button>
+        <mars-button @click="onClickStopBounce">停止弹跳</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <dataManage />
+    </div>
   </PannelBox>
   <LocationTo />
   <GraphicEditor ref="editor" />
@@ -35,27 +33,25 @@ import dataManage from "@comp/MarsSample/DataManage.vue"
 import LocationTo from "@comp/MarsSample/LocationTo.vue"
 import LayerState from "@comp/MarsSample/LayerState.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+const onClickDrawModel = () => {
+  mapWork.onClickDrawModel()
+}
+const onClickStartBounce = () => {
+  mapWork.onClickStartBounce()
+}
+const onClickStartBounce2 = () => {
+  mapWork.onClickStartBounce2()
+}
+const onClickStopBounce = () => {
+  mapWork.onClickStopBounce()
+}
 
+// 是否编辑
 const enabledEdit = ref<boolean>(false)
-
 const bindEdit = () => {
   mapWork.bindEdit(enabledEdit.value)
-}
-
-const btnDrawModel = () => {
-  mapWork.btnDrawModel()
-}
-const btnStartBounce = () => {
-  mapWork.btnStartBounce()
-}
-const btnStartBounce2 = () => {
-  mapWork.btnStartBounce2()
-}
-const btnStopBounce = () => {
-  mapWork.btnStopBounce()
 }
 
 // 属性面板

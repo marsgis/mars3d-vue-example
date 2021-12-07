@@ -1,29 +1,44 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 31.817534, lng: 117.219389, alt: 308, heading: 110, pitch: -24 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.817534, lng: 117.219389, alt: 308, heading: 110, pitch: -24 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphic_a1(graphicLayer)
-  addGraphic_a2(graphicLayer)
-  addGraphic_a3(graphicLayer)
+  addGraphicDemo1(graphicLayer)
+  addGraphicDemo2(graphicLayer)
+  addGraphicDemo3(graphicLayer)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 喷泉效果
-function addGraphic_a1(graphicLayer) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+function addGraphicDemo1(graphicLayer) {
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.224855, 31.815135, 28.05), // 位置
     style: {
       image: "./img/particle/fountain2.png",
@@ -52,8 +67,8 @@ function addGraphic_a1(graphicLayer) {
 }
 
 // 火炬效果
-function addGraphic_a2(graphicLayer) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+function addGraphicDemo2(graphicLayer) {
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.225518, 31.815549, 28.28), // 位置
     style: {
       image: "./img/particle/fire4.png",
@@ -82,8 +97,8 @@ function addGraphic_a2(graphicLayer) {
 }
 
 // 动态运行车辆的尾气粒子效果
-function addGraphic_a3(graphicLayer) {
-  var roamLine = new mars3d.graphic.RoamLine({
+function addGraphicDemo3(graphicLayer) {
+  const roamLine = new mars3d.graphic.RoamLine({
     positions: [
       [117.226585, 31.818437, 32.41],
       [117.226838, 31.811681, 28.23]
@@ -101,7 +116,7 @@ function addGraphic_a3(graphicLayer) {
   // 启动漫游
   roamLine.start()
 
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     modelMatrix: (time) => {
       return roamLine.modelMatrix
     },

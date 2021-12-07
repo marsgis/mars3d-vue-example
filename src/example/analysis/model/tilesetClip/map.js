@@ -1,24 +1,29 @@
+import * as mars3d from "mars3d"
 
-var map
-var tilesetClip
-var eventTarget = new mars3d.BaseClass()
+let map // mars3d.Map三维地图对象
+let tilesetClip
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 }
-    }
-  })
+export const mapOptions = {
+  scene: {
+    center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
   // 加模型
-  var tilesetLayer = new mars3d.layer.TilesetLayer({
+  const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
     maximumScreenSpaceError: 6,
     maximumMemoryUsage: 2048,
@@ -49,8 +54,16 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 绘制矩形
-function btnDrawExtent() {
+export function btnDrawExtent() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -61,18 +74,18 @@ function btnDrawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
 
-      var item = tilesetClip.addArea(positions)
+      const item = tilesetClip.addArea(positions)
       addTableItem(item)
     }
   })
 }
 // 绘制裁剪区
-function btnDraw() {
+export function btnDraw() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -83,18 +96,18 @@ function btnDraw() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
 
-      var item = tilesetClip.addArea(positions)
+      const item = tilesetClip.addArea(positions)
       addTableItem(item)
     }
   })
 }
 // 清除
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
   tilesetClip.clear()
 }
@@ -103,13 +116,15 @@ function removeAll() {
 function addTableItem(item) {
   eventTarget.fire("addItem", { item })
 }
+
 // 定位至模型
-function flyToGraphic(item) {
+export function flyToGraphic(item) {
   const graphic = tilesetClip.getAreaById(item)
   map.flyToPositions(graphic.positions)
 }
+
 // 删除模型
-function deletedGraphic(item) {
+export function deletedGraphic(item) {
   const graphic = tilesetClip.getAreaById(item)
   tilesetClip.removeArea(graphic)
 }

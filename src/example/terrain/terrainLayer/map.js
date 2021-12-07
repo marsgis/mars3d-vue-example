@@ -1,22 +1,42 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    // 方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
-    terrain: {
-      url: "http://data.mars3d.cn/terrain",
-      show: true
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+/**
+ * 合并属性参数，可覆盖config.json中的对应配置
+ * @type {object}
+ */
+export const mapOptions = {
+  // 方式1：在创建地球前的传参中配置 terrain 参数[目前1个球只支持1个地形服务]
+  terrain: {
+    url: "http://data.mars3d.cn/terrain",
+    show: true
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 方式2：在创建地球后更新terrainProvider(用 mars3d.layer.createTerrainProvider工厂方法创建)[目前1个球只支持1个地形服务]
   map.terrainProvider = mars3d.LayerUtil.createTerrainProvider({
     url: "http://data.mars3d.cn/terrain"
   })
 }
-function radioTerrain(type) {
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function radioTerrain(type) {
   switch (type) {
     default:
     case "none": // 无地形
@@ -58,10 +78,10 @@ function radioTerrain(type) {
 }
 
 // 可以开启和关闭地形
-function enabledTerrain(val) {
+export function enabledTerrain(val) {
   map.hasTerrain = val
 }
 // 三角网
-function enabledSanjiaowang(val) {
+export function enabledTerrainSJW(val) {
   map.scene.globe._surface.tileProvider._debug.wireframe = val
 }

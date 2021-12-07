@@ -1,33 +1,36 @@
 // AQI来源：https://aqicn.org
 
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-var imgData = null
-var lastExtent = null
-var bWorking = false
-var currentData
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-var startTimestamp, endTimestamp
-var timeout = 1000
-var worker
+let imgData = null
+let lastExtent = null
+let bWorking = false
+let currentData
 
-function initMap(options) {
+let startTimestamp, endTimestamp
+let timeout = 1000
+let worker
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 25.251743, lng: 107.045599, alt: 553192, heading: 356, pitch: -51 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
   imgData = getImageData()
-
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 26.762661, lng: 118.413045, alt: 972170, heading: 348, pitch: -60 }
-    }
-    // control: {
-    //   animation: true, //是否创建动画小器件，左下角仪表
-    //   timeline: true, //是否显示时间线控件
-    // },
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -56,11 +59,19 @@ function initMap(options) {
   map.on(mars3d.EventType.clockTick, onMap_clockTick)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function onMap_clockTick() {
   endTimestamp = new Date().getTime()
   if (bWorking == false) {
-    var extent = map.getExtent()
-    var bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax
+    const extent = map.getExtent()
+    const bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax
     if (bbox != lastExtent) {
       console.log(bbox)
 
@@ -87,7 +98,7 @@ function startWorker(strBounds) {
   worker.onmessage = function (event) {
     // Worker返回的结果。
     currentData = event.data.entityTable
-    var currTime = event.data.currTime
+    const currTime = event.data.currTime
     if (currentData.length != 0 && currTime > startTimestamp) {
       createGraphics(currentData)
     }
@@ -101,10 +112,10 @@ function createGraphics(currentData) {
   graphicLayer.clear()
   console.log("加载数据", currentData)
 
-  for (var i = currentData.length - 1; i >= 0; i--) {
+  for (let i = currentData.length - 1; i >= 0; i--) {
     const item = currentData[i]
 
-    var primitive = new mars3d.graphic.BillboardPrimitive({
+    const primitive = new mars3d.graphic.BillboardPrimitive({
       id: item.x,
       name: item.city,
       position: [item.lon, item.lat],
@@ -126,16 +137,14 @@ function createGraphics(currentData) {
 
 // 获取色带
 function getImageData() {
-  var nWidth = 500
-  var canvas, ctx
-
-  canvas = document.createElement("canvas")
+  const nWidth = 500
+  const canvas = document.createElement("canvas")
   canvas.width = nWidth
   canvas.height = nWidth
-  ctx = canvas.getContext("2d")
+  const ctx = canvas.getContext("2d")
   ctx.beginPath()
   /* 指定渐变区域 */
-  var grad = ctx.createLinearGradient(0, 0, nWidth, 0)
+  const grad = ctx.createLinearGradient(0, 0, nWidth, 0)
   /* 指定几个颜色 */
   grad.addColorStop(0.05, "rgb(0, 228, 0)") // green
   grad.addColorStop(0.15, "rgb(256, 256, 0)") // yellow

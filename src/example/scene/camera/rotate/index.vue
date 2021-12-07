@@ -36,16 +36,14 @@
 
   <div class="btnBar">
     <mars-button class="btnbar_item" href="https://mars3d.cn/" target="_blank">公司简介</mars-button>
-    <mars-button class="btnbar_item"  href="https://mars3d.cn/template" target="_blank">公司项目</mars-button>
+    <mars-button class="btnbar_item" href="https://mars3d.cn/template" target="_blank">公司项目</mars-button>
     <mars-button class="btnbar_item" href="https://mars3d.cn/example" target="_blank">主要产品</mars-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 // 开始
 const startRotate = () => {

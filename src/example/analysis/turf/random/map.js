@@ -1,16 +1,21 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -19,17 +24,25 @@ function initMap(options) {
   randomPoints()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 颜色
-var index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
+let index = 0
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
-function randomPoints() {
+export function randomPoints() {
   graphicLayer.clear()
 
   const points = turf.randomPoint(100, { bbox: bbox })
@@ -52,7 +65,7 @@ function randomPoints() {
   })
 }
 
-function randomPolylines() {
+export function randomPolylines() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
@@ -81,7 +94,7 @@ function randomPolylines() {
   })
 }
 
-function randomPolygons() {
+export function randomPolygons() {
   graphicLayer.clear()
 
   let numVertices = parseInt(Math.random() * 10)
@@ -108,6 +121,6 @@ function randomPolygons() {
   })
 }
 
-function clearAll() {
+export function clearAll() {
   graphicLayer.clear()
 }

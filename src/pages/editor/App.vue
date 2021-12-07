@@ -27,7 +27,8 @@ const id = getQueryString("id")
 
 const editorRef = ref()
 function onChildMounted() {
-  editorRef.value.initMap()
+  console.log("子组件加载完成了")
+  editorRef.value.setMap(window._map)
 }
 
 let loadingNum = 0

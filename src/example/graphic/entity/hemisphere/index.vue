@@ -1,13 +1,11 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-      </a-form-item>
-      <a-form-item>
-        <dataManage />
-      </a-form-item>
-    </a-form>
+    <div class="f-mb">
+      <LayerState />
+    </div>
+    <div class="f-mb">
+      <dataManage />
+    </div>
   </PannelBox>
   <LocationTo />
 </template>

@@ -8,4 +8,3 @@
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import LayerState from "@comp/MarsSample/LayerState.vue"
 </script>
-<style scoped lang="less"></style>

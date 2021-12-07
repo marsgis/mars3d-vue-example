@@ -26,14 +26,14 @@
 import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   radio: string
   txtSplitNum: number
 }
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+
 
 const formState: UnwrapRef<FormState> = reactive({
   radio: "none",

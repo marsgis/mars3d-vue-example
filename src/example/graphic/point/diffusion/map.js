@@ -1,20 +1,27 @@
-var map
-var center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点
-var graphicLayerElllipsoid
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.805861, lng: 117.158491, alt: 1311, heading: 53, pitch: -45 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayerElllipsoid
+const center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.805861, lng: 117.158491, alt: 1311, heading: 53, pitch: -45 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayerElllipsoid = new mars3d.layer.GraphicLayer()
@@ -27,13 +34,13 @@ function initMap(options) {
   createParticle(graphicLayer)
 
   // 添加点集
-  var resource = new Cesium.Resource({
+  const resource = new Cesium.Resource({
     url: "//data.mars3d.cn/file/apidemo/diffusion.json"
   })
   resource
     .fetchJson()
     .then(function (rs) {
-      console.log("加载数据" + rs.length + "条")
+      globalNotify("已知问题：", `加载${rs.length}条数据，请耐心等待~`, { duration: null })
 
       setTimeout(() => {
         creteaPointPrimitive(graphicLayer, rs)
@@ -44,11 +51,19 @@ function initMap(options) {
     })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 添加点集
 function creteaPointPrimitive(graphicLayer, rs) {
   clr.init()
 
-  var degree = 45 // 角度
+  const degree = 45 // 角度
   const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(degree), 0, 0)
 
   let len = rs.length
@@ -56,13 +71,13 @@ function creteaPointPrimitive(graphicLayer, rs) {
   // 减少数据量
   len = len * 0.255
 
-  for (var i = 1; i < len; i++) {
-    var item = rs[i]
-    var val = item[3]
-    var par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr)
+  for (let i = 1; i < len; i++) {
+    const item = rs[i]
+    const val = item[3]
+    const par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr)
 
     // 加point点
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       position: par1Position,
       style: {
         pixelSize: 5,
@@ -75,10 +90,10 @@ function creteaPointPrimitive(graphicLayer, rs) {
 }
 
 // 半球范围圈
-function createEllipsoid(redShow, yellowShow) {
+export function createEllipsoid(redShow, yellowShow) {
   graphicLayerElllipsoid.clear()
-  var radiu = 200
-  var redSphere = new mars3d.graphic.EllipsoidEntity({
+  let radiu = 200
+  const redSphere = new mars3d.graphic.EllipsoidEntity({
     name: "危险圈",
     position: center,
     style: {
@@ -98,7 +113,7 @@ function createEllipsoid(redShow, yellowShow) {
   redSphere.show = redShow
 
   radiu = 400
-  var yellowSphere = new mars3d.graphic.EllipsoidEntity({
+  const yellowSphere = new mars3d.graphic.EllipsoidEntity({
     name: "警告圈",
     position: center,
     style: {
@@ -120,7 +135,7 @@ function createEllipsoid(redShow, yellowShow) {
 
 // 添加火焰粒子效果
 function createParticle(graphicLayer) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     position: center, // 位置
     style: {
       image: "img/particle/fire.png",
@@ -164,21 +179,21 @@ function createParticle(graphicLayer) {
 }
 
 // 颜色处理
-var clr = {
+const clr = {
   span: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07],
   colors: ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"],
   init: function () {
-    for (var k = 0, length = this.colors.length; k < length; k++) {
+    for (let k = 0, length = this.colors.length; k < length; k++) {
       this.colors[k] = Cesium.Color.fromCssColorString(this.colors[k]).withAlpha(0.6)
     }
   },
   getColor: function (num) {
-    var length = this.span.length + 1
+    let length = this.span.length + 1
     if (length > this.colors.length) {
       length = this.colors.length
     }
 
-    for (var k = 0; k < length; k++) {
+    for (let k = 0; k < length; k++) {
       if (num < this.span[k]) {
         return this.colors[k]
       }

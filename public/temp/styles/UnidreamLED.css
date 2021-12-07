@@ -1,6 +1,6 @@
 @font-face {
   font-family: "UnidreamLED";
-  src: url("/UnidreamLED.ttf") format("truetype");
+  src: url("UnidreamLED.ttf") format("truetype");
 }
 
 .coneNum {

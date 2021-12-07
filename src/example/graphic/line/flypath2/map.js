@@ -1,26 +1,65 @@
+import * as mars3d from "mars3d"
 
-var map
-var linePositions
-var graphicPath
+let map // mars3d.Map三维地图对象
+let linePositions
+let graphicPath
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 20.803452, lng: 116.629014, alt: 1734203, heading: 3, pitch: -57 }
-    }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 20.803452, lng: 116.629014, alt: 1734203, heading: 3, pitch: -57 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  addGraphics()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function viewSeeTop() {
+  // 顶视图
+  map.trackedEntity = undefined
+  map.flyToPositions(linePositions, { pitch: -90 })
+}
+export function viewSeeCe() {
+  // 侧视图
+  map.trackedEntity = graphicPath.entity
+  graphicPath.flyToPoint({
+    radius: 50000,
+    heading: 0
   })
+}
+export function viewSeeHome() {
+  // 主视图
+  map.trackedEntity = graphicPath.entity
+  graphicPath.flyToPoint({
+    radius: 50000,
+    heading: 90
+  })
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
+function addGraphics() {
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 半球
-  var graphicQiu = new mars3d.graphic.EllipsoidEntity({
+  const graphicQiu = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LatLngPoint(117.276726, 31.864175, -10000.0),
     style: {
       radii: new Cesium.Cartesian3(200000.0, 200000.0, 200000.0),
@@ -57,10 +96,10 @@ function initMap(options) {
   // graphicLayer.addGraphic(graphicLine);
 
   // 飞机path路径
-  var property = new Cesium.SampledPositionProperty()
-  var start = map.clock.currentTime
-  var alltimes = 0
-  for (var i = 0, len = linePositions.length; i < len; i++) {
+  const property = new Cesium.SampledPositionProperty()
+  const start = map.clock.currentTime
+  let alltimes = 0
+  for (let i = 0, len = linePositions.length; i < len; i++) {
     alltimes += 1
     const time = Cesium.JulianDate.addSeconds(start, alltimes, new Cesium.JulianDate())
     property.addSample(time, linePositions[i])
@@ -108,25 +147,4 @@ function initMap(options) {
   map.clock.clockRange = Cesium.ClockRange.LOOP_STOP // 到达终止时间后循环
   map.clock.multiplier = 1
   map.clock.shouldAnimate = true
-}
-function viewSeeTop() {
-  // 顶视图
-  map.trackedEntity = undefined
-  map.flyToPositions(linePositions, { pitch: -90 })
-}
-function viewSeeCe() {
-  // 侧视图
-    map.trackedEntity = graphicPath.entity
-    graphicPath.flyToPoint({
-      radius: 50000,
-      heading: 0
-    })
-}
-function viewSeeHome() {
-  // 主视图
-  map.trackedEntity = graphicPath.entity
-  graphicPath.flyToPoint({
-    radius: 50000,
-    heading: 90
-  })
 }

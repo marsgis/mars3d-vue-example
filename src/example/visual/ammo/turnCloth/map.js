@@ -1,31 +1,49 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.834535, lng: 117.21992, alt: 80, heading: 38, pitch: -34 },
-      fxaa: true
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.834535, lng: 117.21992, alt: 80, heading: 38, pitch: -34 },
+    fxaa: true
+  }
+}
 
-  var MeshVisualizer = Cesium.MeshVisualizer
-  var Mesh = Cesium.Mesh
-  var MeshMaterial = Cesium.MeshMaterial
-  var FramebufferTexture = Cesium.FramebufferTexture
-  var GeometryUtils = Cesium.GeometryUtils
-  var LOD = Cesium.LOD
-  var PlaneBufferGeometry = Cesium.PlaneBufferGeometry
-  var BasicMeshMaterial = Cesium.BasicMeshMaterial
-  var MeshPhongMaterial = Cesium.MeshPhongMaterial
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  creatDemo()
+}
 
-  var center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
-  var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
-  var meshVisualizer = new MeshVisualizer({
+function creatDemo() {
+  const MeshVisualizer = Cesium.MeshVisualizer
+  const Mesh = Cesium.Mesh
+  const MeshMaterial = Cesium.MeshMaterial
+  const FramebufferTexture = Cesium.FramebufferTexture
+  const GeometryUtils = Cesium.GeometryUtils
+  const LOD = Cesium.LOD
+  const PlaneBufferGeometry = Cesium.PlaneBufferGeometry
+  const BasicMeshMaterial = Cesium.BasicMeshMaterial
+  const MeshPhongMaterial = Cesium.MeshPhongMaterial
+
+  const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
+  const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
+
+  const meshVisualizer = new MeshVisualizer({
     modelMatrix: modelMatrix,
     up: { y: 1 },
     referenceAxisParameter: {
@@ -40,19 +58,19 @@ function initMap(options) {
 
   Ammo().then(function () {
     // Physics variables
-    var gravityConstant = -9.8
-    var collisionConfiguration
-    var dispatcher
-    var broadphase
-    var solver
-    var physicsWorld
-    var rigidBodies = []
-    var margin = 0.05
-    var hinge
-    var cloth
-    var transformAux1 = new Ammo.btTransform()
-    var armMovement = 0
-    var softBodySolver
+    const gravityConstant = -9.8
+    let collisionConfiguration
+    let dispatcher
+    let broadphase
+    let solver
+    let physicsWorld
+    const rigidBodies = []
+    const margin = 0.05
+    let hinge
+    let cloth
+    const transformAux1 = new Ammo.btTransform()
+    let armMovement = 0
+    let softBodySolver
 
     function initPhysics() {
       // Physics configuration
@@ -77,14 +95,20 @@ function initMap(options) {
         translucent: false
       })
     }
+
     function createObjects() {
-      var pos = new Cesium.Cartesian3()
-      var quat = new Cesium.Quaternion()
+      const pos = new Cesium.Cartesian3()
+      const quat = new Cesium.Quaternion()
 
       // Ground
-      ;(pos.x = 0), (pos.y = -0.5), (pos.z = 0)
-      ;(quat.x = 0), (quat.y = 0), (quat.z = 0), (quat.w = 1)
-      var ground = createParalellepiped(
+      pos.x = 0
+      pos.y = -0.5
+      pos.z = 0
+      quat.x = 0
+      quat.y = 0
+      quat.z = 0
+      quat.w = 1
+      const ground = createParalellepiped(
         40,
         1,
         40,
@@ -99,18 +123,24 @@ function initMap(options) {
       )
 
       // Wall
-      var brickMass = 0.5
-      var brickLength = 1.2
-      var brickDepth = 0.6
-      var brickHeight = brickLength * 0.5
-      var numBricksLength = 6
-      var numBricksHeight = 8
-      var z0 = -numBricksLength * brickLength * 0.5
+      const brickMass = 0.5
+      const brickLength = 1.2
+      const brickDepth = 0.6
+      const brickHeight = brickLength * 0.5
+      const numBricksLength = 6
+      const numBricksHeight = 8
+      const z0 = -numBricksLength * brickLength * 0.5
 
-      ;(pos.x = 0), (pos.y = brickHeight * 0.5), (pos.z = z0)
-      ;(quat.x = 0), (quat.y = 0), (quat.z = 0), (quat.w = 1)
-      for (var j = 0; j < numBricksHeight; j++) {
-        var oddRow = j % 2 == 1
+      pos.x = 0
+      pos.y = brickHeight * 0.5
+      pos.z = z0
+      quat.x = 0
+      quat.y = 0
+      quat.z = 0
+      quat.w = 1
+
+      for (let j = 0; j < numBricksHeight; j++) {
+        const oddRow = j % 2 == 1
 
         pos.z = z0
 
@@ -118,16 +148,16 @@ function initMap(options) {
           pos.z -= 0.25 * brickLength
         }
 
-        var nRow = oddRow ? numBricksLength + 1 : numBricksLength
+        const nRow = oddRow ? numBricksLength + 1 : numBricksLength
         for (let i = 0; i < nRow; i++) {
-          var brickLengthCurrent = brickLength
-          var brickMassCurrent = brickMass
+          let brickLengthCurrent = brickLength
+          let brickMassCurrent = brickMass
           if (oddRow && (i == 0 || i == nRow - 1)) {
             brickLengthCurrent *= 0.5
             brickMassCurrent *= 0.5
           }
 
-          var brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
+          const brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
 
           if (oddRow && (i == 0 || i == nRow - 2)) {
             pos.z += 0.75 * brickLength
@@ -140,17 +170,17 @@ function initMap(options) {
 
       // The cloth
       // Cloth graphic object
-      var clothWidth = 4
-      var clothHeight = 3
-      var clothNumSegmentsZ = clothWidth * 5
-      var clothNumSegmentsY = clothHeight * 5
-      var clothSegmentLengthZ = clothWidth / clothNumSegmentsZ
-      var clothSegmentLengthY = clothHeight / clothNumSegmentsY
-      var clothPos = new Cesium.Cartesian3(-3, 3, 2)
+      const clothWidth = 4
+      const clothHeight = 3
+      const clothNumSegmentsZ = clothWidth * 5
+      const clothNumSegmentsY = clothHeight * 5
+      const clothSegmentLengthZ = clothWidth / clothNumSegmentsZ
+      const clothSegmentLengthY = clothHeight / clothNumSegmentsY
+      const clothPos = new Cesium.Cartesian3(-3, 3, 2)
 
-      var clothGeometry = new PlaneBufferGeometry(clothWidth, clothHeight, clothNumSegmentsZ, clothNumSegmentsY)
+      const clothGeometry = new PlaneBufferGeometry(clothWidth, clothHeight, clothNumSegmentsZ, clothNumSegmentsY)
 
-      var clothMaterial = new MeshPhongMaterial({
+      const clothMaterial = new MeshPhongMaterial({
         defaultColor: "rgb(255,255,255)",
         side: MeshMaterial.Sides.DOUBLE,
         translucent: false
@@ -163,12 +193,12 @@ function initMap(options) {
       meshVisualizer.add(cloth)
 
       // Cloth physic object
-      var softBodyHelpers = new Ammo.btSoftBodyHelpers()
-      var clothCorner00 = new Ammo.btVector3(clothPos.x, clothPos.y + clothHeight, clothPos.z)
-      var clothCorner01 = new Ammo.btVector3(clothPos.x, clothPos.y + clothHeight, clothPos.z - clothWidth)
-      var clothCorner10 = new Ammo.btVector3(clothPos.x, clothPos.y, clothPos.z)
-      var clothCorner11 = new Ammo.btVector3(clothPos.x, clothPos.y, clothPos.z - clothWidth)
-      var clothSoftBody = softBodyHelpers.CreatePatch(
+      const softBodyHelpers = new Ammo.btSoftBodyHelpers()
+      const clothCorner00 = new Ammo.btVector3(clothPos.x, clothPos.y + clothHeight, clothPos.z)
+      const clothCorner01 = new Ammo.btVector3(clothPos.x, clothPos.y + clothHeight, clothPos.z - clothWidth)
+      const clothCorner10 = new Ammo.btVector3(clothPos.x, clothPos.y, clothPos.z)
+      const clothCorner11 = new Ammo.btVector3(clothPos.x, clothPos.y, clothPos.z - clothWidth)
+      const clothSoftBody = softBodyHelpers.CreatePatch(
         physicsWorld.getWorldInfo(),
         clothCorner00,
         clothCorner01,
@@ -179,7 +209,7 @@ function initMap(options) {
         0,
         true
       )
-      var sbConfig = clothSoftBody.get_m_cfg()
+      const sbConfig = clothSoftBody.get_m_cfg()
       sbConfig.set_viterations(10)
       sbConfig.set_piterations(10)
 
@@ -193,39 +223,50 @@ function initMap(options) {
       clothSoftBody.setActivationState(4)
 
       // The base
-      var armMass = 2
-      var armLength = 3 + clothWidth
-      var pylonHeight = clothPos.y + clothHeight
-      var baseMaterial = new MeshPhongMaterial({
+      const armMass = 2
+      const armLength = 3 + clothWidth
+      const pylonHeight = clothPos.y + clothHeight
+      const baseMaterial = new MeshPhongMaterial({
         defaultColor: "rgb(255,255,0)",
         side: MeshMaterial.Sides.DOUBLE,
         translucent: false
       })
-      ;(pos.x = clothPos.x), (pos.y = 0.1), (pos.z = clothPos.z - armLength)
-      ;(quat.x = 0), (quat.y = 0), (quat.z = 0), (quat.w = 1)
-      var base = createParalellepiped(1, 0.2, 1, 0, pos, quat, baseMaterial)
 
-      ;(pos.x = clothPos.x), (pos.y = 0.5 * pylonHeight), (pos.z = clothPos.z - armLength)
-      var pylon = createParalellepiped(0.4, pylonHeight, 0.4, 0, pos, quat, baseMaterial)
+      pos.x = clothPos.x
+      pos.y = 0.1
+      pos.z = clothPos.z - armLength
+      quat.x = 0
+      quat.y = 0
+      quat.z = 0
+      quat.w = 1
+      const base = createParalellepiped(1, 0.2, 1, 0, pos, quat, baseMaterial)
 
-      ;(pos.x = clothPos.x), (pos.y = pylonHeight + 0.2), (pos.z = clothPos.z - 0.5 * armLength)
-      var arm = createParalellepiped(0.4, 0.4, armLength + 0.4, armMass, pos, quat, baseMaterial)
+      pos.x = clothPos.x
+      pos.y = 0.5 * pylonHeight
+      pos.z = clothPos.z - armLength
+
+      const pylon = createParalellepiped(0.4, pylonHeight, 0.4, 0, pos, quat, baseMaterial)
+
+      pos.x = clothPos.x
+      pos.y = pylonHeight + 0.2
+      pos.z = clothPos.z - 0.5 * armLength
+      const arm = createParalellepiped(0.4, 0.4, armLength + 0.4, armMass, pos, quat, baseMaterial)
 
       // Glue the cloth to the arm
-      var influence = 0.5
+      const influence = 0.5
       clothSoftBody.appendAnchor(0, arm.physicsBody, false, influence)
       clothSoftBody.appendAnchor(clothNumSegmentsZ, arm.physicsBody, false, influence)
 
       // Hinge constraint to move the arm
-      var pivotA = new Ammo.btVector3(0, pylonHeight * 0.5, 0)
-      var pivotB = new Ammo.btVector3(0, -0.2, -armLength * 0.5)
-      var axis = new Ammo.btVector3(0, 1, 0)
+      const pivotA = new Ammo.btVector3(0, pylonHeight * 0.5, 0)
+      const pivotB = new Ammo.btVector3(0, -0.2, -armLength * 0.5)
+      const axis = new Ammo.btVector3(0, 1, 0)
       hinge = new Ammo.btHingeConstraint(pylon.physicsBody, arm.physicsBody, pivotA, pivotB, axis, axis, true)
       physicsWorld.addConstraint(hinge, true)
     }
 
     function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
-      var threeObject = new Mesh(
+      const threeObject = new Mesh(
         Cesium.BoxGeometry.fromDimensions({
           dimensions: new Cesium.Cartesian3(sx, sy, sz),
           vertexFormat: new Cesium.VertexFormat({
@@ -240,7 +281,7 @@ function initMap(options) {
       threeObject.quaternion = new Cesium.Quaternion()
       threeObject.geometry.attributes.uv = threeObject.geometry.attributes.st
       threeObject.geometry.attributes.st = undefined
-      var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
+      const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
       shape.setMargin(margin)
 
       createRigidBody(threeObject, shape, mass, pos, quat)
@@ -252,17 +293,17 @@ function initMap(options) {
       Cesium.Cartesian3.clone(pos, threeObject.position)
       Cesium.Quaternion.clone(quat, threeObject.quaternion)
 
-      var transform = new Ammo.btTransform()
+      const transform = new Ammo.btTransform()
       transform.setIdentity()
       transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z))
       transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w))
-      var motionState = new Ammo.btDefaultMotionState(transform)
+      const motionState = new Ammo.btDefaultMotionState(transform)
 
-      var localInertia = new Ammo.btVector3(0, 0, 0)
+      const localInertia = new Ammo.btVector3(0, 0, 0)
       physicsShape.calculateLocalInertia(mass, localInertia)
 
-      var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
-      var body = new Ammo.btRigidBody(rbInfo)
+      const rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia)
+      const body = new Ammo.btRigidBody(rbInfo)
 
       threeObject.physicsBody = body
 
@@ -287,14 +328,14 @@ function initMap(options) {
       physicsWorld.stepSimulation(deltaTime, 10)
 
       // Update cloth
-      var softBody = cloth.physicsBody
-      var clothPositions = cloth.geometry.attributes.position.values
-      var numVerts = clothPositions.length / 3
-      var nodes = softBody.get_m_nodes()
-      var indexFloat = 0
+      const softBody = cloth.physicsBody
+      const clothPositions = cloth.geometry.attributes.position.values
+      const numVerts = clothPositions.length / 3
+      const nodes = softBody.get_m_nodes()
+      let indexFloat = 0
       for (let i = 0; i < numVerts; i++) {
-        var node = nodes.at(i)
-        var nodePos = node.get_m_x()
+        const node = nodes.at(i)
+        const nodePos = node.get_m_x()
         clothPositions[indexFloat++] = nodePos.x()
         clothPositions[indexFloat++] = nodePos.y()
         clothPositions[indexFloat++] = nodePos.z()
@@ -308,13 +349,13 @@ function initMap(options) {
 
       // Update rigid bodies
       for (let i = 0, il = rigidBodies.length; i < il; i++) {
-        var objGraph = rigidBodies[i]
-        var objPhys = objGraph.physicsBody
-        var ms = objPhys.getMotionState()
+        const objGraph = rigidBodies[i]
+        const objPhys = objGraph.physicsBody
+        const ms = objPhys.getMotionState()
         if (ms) {
           ms.getWorldTransform(transformAux1)
-          var p = transformAux1.getOrigin()
-          var q = transformAux1.getRotation()
+          const p = transformAux1.getOrigin()
+          const q = transformAux1.getRotation()
           objGraph.position.x = p.x()
           objGraph.position.y = p.y()
           objGraph.position.z = p.z()
@@ -328,7 +369,7 @@ function initMap(options) {
       }
     }
 
-    var start = false
+    let start = false
     function initInput() {
       window.addEventListener(
         "keydown",
@@ -360,14 +401,14 @@ function initMap(options) {
       )
     }
 
-    var startTime = new Date()
+    let startTime = new Date()
     function update(frameState) {
-      var deltaTime = (new Date() - startTime) / 1000.0
+      const deltaTime = (new Date() - startTime) / 1000.0
       updatePhysics(deltaTime)
       startTime = new Date()
     }
 
-    var init = false
+    let init = false
     setTimeout(function () {
       if (!init) {
         initPhysics()

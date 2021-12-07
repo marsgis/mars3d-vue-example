@@ -1,20 +1,38 @@
-var map
-var measure
-var measureVolume
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      globe: { depthTestAgainstTerrain: true },
-      center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let measure
+let measureVolume
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    globe: { depthTestAgainstTerrain: true },
+    center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 }
+  }
+}
 
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addMeasure()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addMeasure() {
   measure = new mars3d.thing.Measure({
     label: {
       color: "#ffffff",
@@ -44,11 +62,11 @@ function initMap(options) {
     console.log("开始分析", event)
 
     // eslint-disable-next-line no-undef
-    clearInterResult() // 在js/showPolygonInter.js
+    clearInterResult()
     showLoading()
 
     // 打印下边界，测试用
-    var coords = mars3d.PointTrans.cartesians2lonlats(event.positions)
+    const coords = mars3d.PointTrans.cartesians2lonlats(event.positions)
     console.log(JSON.stringify(coords))
   })
 
@@ -64,9 +82,9 @@ function initMap(options) {
 
 // 点选高度
 function showHeightVal() {
-  var baseHeight = measureVolume.height.toFixed(1)
-  var minHeight = measureVolume.minHeight.toFixed(1)
-  var maxHeight = getFixedNum(measureVolume.maxHeight)
+  const baseHeight = measureVolume.height.toFixed(1)
+  const minHeight = measureVolume.minHeight.toFixed(1)
+  const maxHeight = getFixedNum(measureVolume.maxHeight)
 
   // 触发自定义事件 heightVal ，改变vue面板中的值
   eventTarget.fire("heightVal", { baseHeight, minHeight, maxHeight })
@@ -77,7 +95,7 @@ function getFixedNum(val) {
 }
 
 // 方量分析
-function analysisMeasure() {
+export function analysisMeasure() {
   // 手动绘制的方式分析
   measureVolume = measure.volume({
     splitNum: 6 // 面内插值次数，控制精度[注意精度越大，分析时间越长]
@@ -86,13 +104,13 @@ function analysisMeasure() {
 }
 
 // 清除
-function clear() {
+export function clear() {
   measure.clear()
   // eslint-disable-next-line no-undef
   clearInterResult() // 在js/showPolygonInter.js
 }
 
-function showResult(reslut) {
+export function showResult(reslut) {
   if (reslut) {
     // eslint-disable-next-line no-undef
     showInterResult(measureVolume.interPolygonObj.list) // 在js/showPolygonInter.js
@@ -103,13 +121,13 @@ function showResult(reslut) {
 }
 
 // 修改基础高度
-function baseHeight(num) {
+export function baseHeight(num) {
   measureVolume.height = num
   showHeightVal()
 }
 
 // 修改底高
-function txtMinHeight(num) {
+export function txtMinHeight(num) {
   if (num > measureVolume.height) {
     globalMsg("墙底部高度不能高于基准面高")
     return
@@ -118,8 +136,8 @@ function txtMinHeight(num) {
 }
 
 // 修改顶高
-function txtMaxHeight(num) {
-  var maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
+export function txtMaxHeight(num) {
+  const maxHeight = getFixedNum(measureVolume.polygonMaxHeight)
   if (num < maxHeight) {
     globalMsg("墙顶部高度不能低于区域内的地表高" + maxHeight)
     measureVolume.maxHeight = Number(maxHeight)
@@ -132,6 +150,6 @@ function txtMaxHeight(num) {
   measureVolume.maxHeight = num
 }
 
-function selHeight() {
+export function selHeight() {
   measureVolume.selecteHeight(showHeightVal)
 }

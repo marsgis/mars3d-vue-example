@@ -14,20 +14,12 @@
         <span>停止</span>
       </mars-button>
     </a-space>
-    <a-tree
-      class="f-mb"
-      :show-line="true"
-      :show-icon="true"
-      :tree-data="treeData"
-      v-model:selectedKeys="selectedKeys"
-      :defaultExpandAll="true"
-      :selectable="true"
-    >
+    <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
       <template #title="{ title, isLeaf, dataRef }">
         <span @click="startBegin(dataRef)" v-if="isLeaf" type="link">{{ title }}({{ dataRef.times }}秒)</span>
         <span v-else>{{ title }}</span>
       </template>
-    </a-tree>
+    </mars-tree>
     <template v-if="isPlay">
       <h3 class="f-mb">总时长：{{ totalTimes }}</h3>
       <h3 class="f-mb">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
@@ -37,7 +29,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const isPlay = ref(false)
 const isPause = ref(false)
@@ -58,7 +50,7 @@ const play = () => {
 const pause = () => {
   clearTimeout(timer)
   currentIndex--
-  mapWork.map.cancelFlight()
+  mapWork.cancelFlight()
   mapWork.stopRotatePoint()
   isPause.value = true
 }
@@ -66,7 +58,7 @@ const stop = () => {
   isPlay.value = false
   isPause.value = false
   currentIndex = 0
-  mapWork.map.cancelFlight()
+  mapWork.cancelFlight()
   mapWork.stopRotatePoint()
   mapWork.clear()
   clearTimeout(timer)

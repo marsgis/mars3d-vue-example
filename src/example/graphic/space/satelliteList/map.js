@@ -1,35 +1,41 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      shadows: true,
-      center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1000,
-        maximumZoomDistance: 300000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      },
-      globe: { enableLighting: true },
-      clock: {
-        multiplier: 1 // 速度
-      }
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    shadows: true,
+    center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1000,
+      maximumZoomDistance: 300000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
+    globe: { enableLighting: true },
+    clock: {
+      multiplier: 1 // 速度
     }
-  })
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
   const dmzList = [
     { name: "西安", radius: 1500000, point: [108.938314, 34.345614, 342.9] },
@@ -47,20 +53,26 @@ function initMap(options) {
     })
 }
 
-// 地面站图层
-var dmzLayer
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
+// 地面站图层
+let dmzLayer
 // 创建地面站
 function creatreDmzList(arr) {
   // 创建矢量数据图层
   dmzLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(dmzLayer)
 
-  for (var i = 0; i < arr.length; i++) {
-    var item = arr[i]
-
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
     // 地面站gltf模型
-    var graphic = new mars3d.graphic.ModelEntity({
+    const graphic = new mars3d.graphic.ModelEntity({
       name: "地面站模型",
       position: item.point,
       style: {
@@ -94,7 +106,7 @@ function creatreDmzList(arr) {
 // 创建卫星列表
 function createSatelliteList(arr) {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 单击地图空白处
@@ -112,8 +124,8 @@ function createSatelliteList(arr) {
     processInArea(event.graphic)
   })
 
-  for (var i = 0; i < arr.length; i++) {
-    var item = arr[i]
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
 
     // 属性处理
     item.model = {
@@ -151,13 +163,13 @@ function createSatelliteList(arr) {
     item.popup = `名称：${item.name}<br/>英文名：${item.name_en || ""}<br/>类型：${item.type}`
     // 属性处理  END
 
-    var satelliteObj = new mars3d.graphic.Satellite(item)
+    const satelliteObj = new mars3d.graphic.Satellite(item)
     graphicLayer.addGraphic(satelliteObj)
   }
   console.log("当前卫星数量: " + arr.length)
 }
 
-var lastSelectWX
+let lastSelectWX
 
 function highlightSatellite(satelliteObj) {
   if (lastSelectWX) {
@@ -189,7 +201,7 @@ function highlightSatellite(satelliteObj) {
 
 // 判断卫星是否在面内
 function processInArea(weixin) {
-  var position = weixin?.position
+  const position = weixin?.position
   if (!position) {
     return
   }
@@ -200,10 +212,9 @@ function processInArea(weixin) {
     }
 
     dmzGraphic._lastInPoly[weixin.uuid] = dmzGraphic._lastInPoly[weixin.uuid] || {}
-
     const lastState = dmzGraphic._lastInPoly[weixin.uuid]
 
-    var thisIsInPoly = dmzGraphic.isInPoly(position)
+    const thisIsInPoly = dmzGraphic.isInPoly(position)
     if (thisIsInPoly !== lastState.state) {
       if (thisIsInPoly) {
         // 开始进入区域内
@@ -211,7 +222,7 @@ function processInArea(weixin) {
 
         const line = new mars3d.graphic.PolylineEntity({
           positions: new Cesium.CallbackProperty(function (time) {
-            var pots = weixin.position
+            const pots = weixin.position
             if (!pots) {
               return []
             }

@@ -1,7 +1,9 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-var arrData = [
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
   { name: "油罐二", position: [117.095206, 31.814878, 47.3] },
   { name: "油罐三", position: [117.094653, 31.814428, 47.3] },
@@ -11,16 +13,19 @@ var arrData = [
   { name: "冷却室", position: [117.094662, 31.816403, 32.9] }
 ]
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.81226, lng: 117.096703, alt: 231, heading: 329, pitch: -28 }
+  }
+}
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加载油田联合站模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -43,7 +48,7 @@ function initMap(options) {
   for (let i = 0; i < arrData.length; i++) {
     const item = arrData[i]
 
-    var graphic = new mars3d.graphic.CanvasBillboard({
+    const graphic = new mars3d.graphic.CanvasBillboard({
       position: item.position,
       style: {
         text: 18,
@@ -61,6 +66,15 @@ function initMap(options) {
       graphic.text = random(0, 100) // 更新文本
     })
   }, 1000)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  graphicLayer.clear()
 }
 
 function random(min, max) {

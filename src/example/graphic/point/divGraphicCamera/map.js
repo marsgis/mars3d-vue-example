@@ -1,15 +1,22 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.649617, lng: 117.081721, alt: 444, heading: 348, pitch: -25 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.649617, lng: 117.081721, alt: 444, heading: 348, pitch: -25 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加载石化工厂模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -23,7 +30,7 @@ function initMap(options) {
   map.addLayer(tiles3dLayer)
 
   // 创建DIV数据图层
-  var graphicLayer = new mars3d.layer.DivLayer()
+  const graphicLayer = new mars3d.layer.DivLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
@@ -53,8 +60,16 @@ function initMap(options) {
   addGraphic(graphicLayer, [117.078331, 31.660016, 47.2])
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function addGraphic(graphicLayer, position) {
-  var graphicImg = new mars3d.graphic.DivGraphic({
+  const graphicImg = new mars3d.graphic.DivGraphic({
     position: position,
     style: {
       html: ` <div class="mars3d-camera-content">

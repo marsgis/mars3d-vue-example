@@ -29,6 +29,22 @@ module.exports = {
     }
   },
   configureWebpack: {
+    devServer: {
+      historyApiFallback: false
+    },
+    module: {
+      rules: [
+        {
+          test: /\.vue$/,
+          use: [
+            {
+              // 本地引用loader
+              loader: path.resolve("./build/example-vue-loader.js")
+            }
+          ]
+        }
+      ]
+    },
     plugins: [
       new CopyWebpackPlugin({
         patterns: [
@@ -54,6 +70,10 @@ module.exports = {
     config.resolve.alias.set("@", resolve("src")).set("@comp", resolve("src/components")).set("@exmp", resolve("src/example"))
 
     config.plugin("monaco-editor").use(MonacoWebpackPlugin)
+
+    // 移除 prefetch preload 插件
+    config.plugins.delete("preload-editor")
+    config.plugins.delete("prefetch-editor")
   },
   css: {
     loaderOptions: {

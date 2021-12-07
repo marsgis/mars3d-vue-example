@@ -1,35 +1,49 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(mapOptions) {
-  // 方便演示，移除默认配置的control
-  delete mapOptions.control
+let map // mars3d.Map三维地图对象
 
-  // 方式1：在创建地球前的传参中配置control参数
-  // mapOptions.control = {
-  //   locationBar: {
-  //     fps: true,
-  //     template: '<div>经度:{lng}</div><div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>'
-  //   }
-  // }
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ *方便演示，移除默认配置的control
+ *
+ * @param {object} option 默认配置的参数
+ * @return {object} option
+ * @example
+ * locationBar: {
+ *    fps: true,
+ *    template:
+ *      "<div>经度:{lng}</div><div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"
+ *  }
+ */
+export const mapOptions = function (option) {
+  option.control = {
+    locationBar: false // 当前演示的示例控件-比例尺控件
+  }
+  return option
+}
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
-  var locationBar = new mars3d.control.LocationBar({
+  const locationBar = new mars3d.control.LocationBar({
     fps: true,
     template:
       "<div>经度:{lng}</div><div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"
     // template: function (locationData) {
-    //   var pitch
+    //   let pitch
     //   if (locationData.pitch < 0) {
     //     pitch = '俯视:' + -locationData.pitch
     //   } else {
     //     pitch = '仰视:' + locationData.pitch
     //   }
 
-    //   var dfmX = mars3d.Util.formatDegree(locationData.lng)
-    //   var dfmY = mars3d.Util.formatDegree(locationData.lat)
+    //   let dfmX = mars3d.Util.formatDegree(locationData.lng)
+    //   let dfmY = mars3d.Util.formatDegree(locationData.lat)
 
     //   return ` <div>经度:${locationData.lat} , ${dfmX}</div>
     //           <div>纬度:${locationData.lng} , ${dfmY}</div>
@@ -40,4 +54,12 @@ function initMap(mapOptions) {
     // },
   })
   map.addControl(locationBar)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

@@ -1,26 +1,70 @@
+import * as mars3d from "mars3d"
 
-var map
-var graphicLayer
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 27.390195, lng: 117.386057, alt: 550488, heading: 0, pitch: -49 }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 27.390195, lng: 117.386057, alt: 550488, heading: 0, pitch: -49 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addGraphics()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 改变迁移的速度
+ *
+ * @param {number} val 滑动条的数值
+ * @returns {void} 无
+ * @example
+ * 更新material
+ * graphic.setStyle({
+ *   material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+ *     image: "img/textures/lineClr.png",
+ *     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
+ *     speed: speed,
+ *   }),
+ * });
+ */
+export function changeSlide(val) {
+  if (!val) {
+    return
+  }
+
+  graphicLayer.eachGraphic((graphic) => {
+    if (graphic instanceof mars3d.graphic.PolylinePrimitive) {
+      // 只更新速度（平滑过度）
+      graphic.uniforms.speed = val
     }
   })
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
+function addGraphics() {
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1)
+  const center = Cesium.Cartesian3.fromDegrees(117.257436, 31.838742, 1)
 
-  var graphic = new mars3d.graphic.CircleEntity({
+  const graphic = new mars3d.graphic.CircleEntity({
     name: "合肥市",
     position: center,
     style: {
@@ -34,7 +78,7 @@ function initMap(options) {
   })
   graphicLayer.addGraphic(graphic)
 
-  var cities = [
+  const cities = [
     { name: "六安市", lon: 116.3123, lat: 31.8329 },
     { name: "安庆市", lon: 116.7517, lat: 30.5255 },
     { name: "滁州市", lon: 118.1909, lat: 32.536 },
@@ -53,16 +97,16 @@ function initMap(options) {
     { name: "铜陵市", lon: 117.9382, lat: 30.9375 }
   ]
 
-  var lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+  const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
     image: "img/textures/lineClr.png",
     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
     speed: 10
   })
-  for (var i = 0; i < cities.length; i++) {
-    var item = cities[i]
-    var thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1)
-    var positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
-    var primitive = new mars3d.graphic.PolylinePrimitive({
+  for (let i = 0; i < cities.length; i++) {
+    const item = cities[i]
+    const thisPoint = Cesium.Cartesian3.fromDegrees(item.lon, item.lat, 1)
+    const positions = mars3d.PolyUtil.getLinkedPointList(center, thisPoint, 40000, 100) // 计算曲线点
+    const primitive = new mars3d.graphic.PolylinePrimitive({
       positions: positions,
       style: {
         width: 2,
@@ -72,25 +116,4 @@ function initMap(options) {
     primitive.bindPopup(`合肥 - ${item.name}`)
     graphicLayer.addGraphic(primitive)
   }
-}
-function changeSlide(val) {
-  if (!val) {
-    return
-  }
-
-  graphicLayer.eachGraphic((graphic) => {
-    if (graphic instanceof mars3d.graphic.PolylinePrimitive) {
-      // 只更新速度（平滑过度）
-      graphic.uniforms.speed = val
-
-      // 更新material
-      // graphic.setStyle({
-      //   material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
-      //     image: "img/textures/lineClr.png",
-      //     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
-      //     speed: speed,
-      //   }),
-      // });
-    }
-  })
 }

@@ -1,29 +1,48 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 31.688428, lng: 117.118323, alt: 10375, heading: 29, pitch: -30 }
-    },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    // 此处参数会覆盖config.json中的对应配置
+    center: { lat: 31.688428, lng: 117.118323, alt: 10375, heading: 29, pitch: -30 }
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
   map.clock.multiplier = 1
 
+  addGraphicLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 绑定点击事件
@@ -31,7 +50,7 @@ function initMap(options) {
     console.log("单击了漫游路线", event)
   })
 
-  var arrLine = [
+  const arrLine = [
     {
       id: "1",
       name: "A01",
@@ -328,8 +347,8 @@ function initMap(options) {
     }
   ]
 
-  for (var i = 0, len = arrLine.length; i < len; i++) {
-    var flydata = arrLine[i]
+  for (let i = 0, len = arrLine.length; i < len; i++) {
+    const flydata = arrLine[i]
 
     flydata.label = {
       show: true,
@@ -359,7 +378,7 @@ function initMap(options) {
     }
     // flydata.forwardExtrapolationType = Cesium.ExtrapolationType.NONE;
 
-    var roamLine = new mars3d.graphic.RoamLine(flydata)
+    const roamLine = new mars3d.graphic.RoamLine(flydata)
     graphicLayer.addGraphic(roamLine)
 
     // 启动漫游

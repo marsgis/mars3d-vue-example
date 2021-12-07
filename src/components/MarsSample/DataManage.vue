@@ -2,7 +2,9 @@
       <a-space>
         <span class="pannel-item-label">数据管理:</span>
         <mars-button @click="btnClear">清除</mars-button>
-        <mars-button @click="btnExpFile">保存GeoJSON</mars-button>
+        <mars-button @click="btnExpFile"  title="保存GeoJSON">
+           <icon-save />
+        保存</mars-button>
         <a-upload
           :multiple="false"
           name="file"
@@ -13,9 +15,9 @@
           :beforeUpload="beforeUploade"
           @change="btnImpFile"
         >
-          <a-button>
-            <upload-outlined></upload-outlined>
-            打开GeoJSON
+          <a-button title="打开GeoJSON">
+            <icon-upload-one />
+            打开
           </a-button>
         </a-upload>
       </a-space>

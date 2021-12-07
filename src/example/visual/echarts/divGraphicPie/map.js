@@ -1,16 +1,23 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 32.246011, lng: 119.666969, alt: 317736, heading: 360, pitch: -90 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 32.246011, lng: 119.666969, alt: 317736, heading: 360, pitch: -90 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建div图层
   graphicLayer = new mars3d.layer.DivLayer()
@@ -87,8 +94,16 @@ function initMap(options) {
   showDivGraphic(arrData)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function showDivGraphic(arr) {
-  for (var i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     const deepUnUsed = arr[i].DeepUnUsedLength // 国道
     const deepUsed = arr[i].DeepUsedLength // 县道
     const total = arr[i].TotalLength // 中间显示
@@ -97,11 +112,11 @@ function showDivGraphic(arr) {
     const cityName = arr[i].PortName // 城市名字
     const points = [arr[i].X, arr[i].Y] // 位置
 
-    var point = mars3d.LatLngPoint.fromCartesian(points) // 经纬度坐标
-    var divPostion = point._position
+    const point = mars3d.LatLngPoint.fromCartesian(points) // 经纬度坐标
+    const divPostion = point._position
 
     // 白色背景
-    var backGroundGraphic = new mars3d.graphic.DivGraphic({
+    const backGroundGraphic = new mars3d.graphic.DivGraphic({
       position: divPostion,
       style: {
         html: '<div style="width:60px;height:60px;border-radius: 50%;background-color: #ffffff; position: relative;"></div>',
@@ -112,7 +127,7 @@ function showDivGraphic(arr) {
     graphicLayer.addGraphic(backGroundGraphic)
 
     // div
-    var graphic = new mars3d.graphic.DivGraphic({
+    const graphic = new mars3d.graphic.DivGraphic({
       position: divPostion,
       style: {
         html: '<div style="width: 100px;height:100px;"></div>',
@@ -127,7 +142,7 @@ function showDivGraphic(arr) {
 
       const chartChart = echarts.init(dom)
 
-      var option = {
+      const option = {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}km </br>占比 : {d}%",

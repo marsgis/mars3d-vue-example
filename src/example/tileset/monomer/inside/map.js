@@ -1,20 +1,27 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.654916, lng: 117.08278, alt: 279, heading: 316, pitch: -29 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.654916, lng: 117.08278, alt: 279, heading: 316, pitch: -29 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
     name: "石化工厂",
     url: "//data.mars3d.cn/3dtiles/max-shihua/tileset.json",
@@ -30,4 +37,12 @@ function initMap(options) {
   tiles3dLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了3dtiles图层", event)
   })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

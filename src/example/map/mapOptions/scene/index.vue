@@ -11,7 +11,6 @@
           <mars-select
             v-if="data[index].operation === 'select'"
             ref="select"
-            v-model:value="view"
             style="width: 120px"
             @change="handleChange"
             :options="selectOptions"
@@ -33,7 +32,6 @@
             @change="(data[index] as any).change(index)"
             v-model:value="data[index].value"
           />
-          <!-- <mars-color-picker @change="changeColor1" v-if="data[index].key === '15'" v-model:value="formState1.color" /> -->
 
           <!-- range滑动 -->
           <a-slider
@@ -55,8 +53,8 @@ import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { TableColumnType } from "ant-design-vue"
 import { setAutoHeight } from "@/utils/index"
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
+
 const data = ref([
   {
     key: "1",
@@ -234,11 +232,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
-        mapWork.map.basemap = 2021
-      } else {
-        mapWork.map.basemap = undefined
-      }
+      mapWork.showBaseMap(data.value[index].value)
     }
   },
   {
@@ -315,9 +309,9 @@ const data = ref([
     value: "2",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
-        mapWork.setSceneCameraControllerOptions("constrainedAxis", true)
-      } else {
         mapWork.setSceneCameraControllerOptions("constrainedAxis", false)
+      } else {
+        mapWork.setSceneCameraControllerOptions("constrainedAxis", true)
       }
     }
   },

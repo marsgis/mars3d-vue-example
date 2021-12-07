@@ -1,18 +1,39 @@
-var map
+import * as mars3d from "mars3d"
 
-// API文档，参考lib\mars3d\thirdParty\weiVectorTile\Document.rar（解压Document.rar）
+let map // mars3d.Map三维地图对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.221078, lng: 117.305076, alt: 136530, heading: 10, pitch: -68 }
-    }
-  })
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.221078, lng: 117.305076, alt: 136530, heading: 10, pitch: -68 }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  showWeiVectorTileLayer()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+/**
+ * API文档，参考lib\mars3d\thirdParty\weiVectorTile\Document.rar（解压Document.rar）
+ * 显示国界线
+ *
+ * @returns {void}
+ */
+function showWeiVectorTileLayer() {
   // shp 国界线
   Cesium.when.all(
     [
@@ -25,7 +46,7 @@ function initMap(options) {
       files[1].name = "hefei_xz.dbf"
       files[2].name = "hefei_xz.prj"
 
-      var tileLayer = new mars3d.layer.WeiVectorTileLayer({
+      const tileLayer = new mars3d.layer.WeiVectorTileLayer({
         source: files,
         removeDuplicate: false,
         zIndex: 2,

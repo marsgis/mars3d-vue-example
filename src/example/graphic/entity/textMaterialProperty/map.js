@@ -1,26 +1,27 @@
-var map
-var graphicLayer
-var textMaterialProperty
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-var rotation = 0
-function getRotationValue() {
-  return rotation
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let textMaterialProperty
+export const eventTarget = new mars3d.BaseClass()
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.792325, lng: 121.480055, alt: 146, heading: 198, pitch: -54 }
+  }
 }
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 29.792325, lng: 121.480055, alt: 146, heading: 198, pitch: -54 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "水利闸门",
     url: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
     position: { alt: 15.2 },
@@ -45,10 +46,10 @@ function initMap(options) {
   })
 
   // 加一些演示数据
-  addGraphic_01(graphicLayer)
-  addGraphic_02(graphicLayer)
-  addGraphic_03(graphicLayer)
-  addGraphic_04(graphicLayer)
+  addGraphic01(graphicLayer)
+  addGraphic02(graphicLayer)
+  addGraphic03(graphicLayer)
+  addGraphic04(graphicLayer)
 
   // 触发自定义事件
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
@@ -67,9 +68,23 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  removeAll()
+}
+
+let rotation = 0
+function getRotationValue() {
+  return rotation
+}
+
 // wall文字 entity方式
-function addGraphic_01(graphicLayer) {
-  var wallEntity = new mars3d.graphic.WallEntity({
+function addGraphic01(graphicLayer) {
+  const wallEntity = new mars3d.graphic.WallEntity({
     positions: [
       [121.479914, 29.791249, 32],
       [121.479694, 29.791303, 32]
@@ -88,8 +103,8 @@ function addGraphic_01(graphicLayer) {
 }
 
 //  wall文字  primitive方式添加
-function addGraphic_02(graphicLayer) {
-  var primitive = new mars3d.graphic.WallEntity({
+function addGraphic02(graphicLayer) {
+  const primitive = new mars3d.graphic.WallEntity({
     positions: [
       [121.479343, 29.791419, 35],
       [121.479197, 29.791474, 35]
@@ -124,8 +139,8 @@ function onCustomCanvas(canvas, material) {
 }
 
 // rectangle贴地矩形  3dtiles路面文字
-function addGraphic_03(graphicLayer) {
-  var rectangleEntity = new mars3d.graphic.RectangleEntity({
+function addGraphic03(graphicLayer) {
+  const rectangleEntity = new mars3d.graphic.RectangleEntity({
     name: "路面文字",
     positions: [
       [121.479989, 29.791162],
@@ -157,8 +172,8 @@ function addGraphic_03(graphicLayer) {
   graphicLayer.addGraphic(rectangleEntity)
 }
 
-function addGraphic_04(graphicLayer) {
-  var rectangleEntity = new mars3d.graphic.RectangleEntity({
+function addGraphic04(graphicLayer) {
+  const rectangleEntity = new mars3d.graphic.RectangleEntity({
     positions: [
       [121.479593, 29.791632, 13],
       [121.480136, 29.79169, 13]
@@ -171,7 +186,7 @@ function addGraphic_04(graphicLayer) {
   graphicLayer.addGraphic(rectangleEntity)
 }
 
-function btnDrawWall() {
+export function onClickDrawWall() {
   graphicLayer.startDraw({
     type: "wall",
     maxPointNum: 2,
@@ -189,7 +204,7 @@ function btnDrawWall() {
   })
 }
 
-function btnDrawRectangle() {
+export function onClickDrawRectangle() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -205,7 +220,7 @@ function btnDrawRectangle() {
 }
 
 // 根据中心点来计算矩形
-function btnDrawPoint() {
+export function onClickDrawPoint() {
   graphicLayer.startDraw({
     type: "point",
     style: {
@@ -214,17 +229,17 @@ function btnDrawPoint() {
       clampToGround: true
     },
     success: function (graphic) {
-      var position = graphic.positionShow
+      const position = graphic.positionShow
       graphic.remove()
 
-      var positions = mars3d.PolyUtil.getRectPositionsByCenter({
+      const positions = mars3d.PolyUtil.getRectPositionsByCenter({
         center: position,
         width: 60,
         height: 10
       })
       console.log(positions)
 
-      var rectangleEntity = new mars3d.graphic.RectangleEntity({
+      const rectangleEntity = new mars3d.graphic.RectangleEntity({
         positions: positions,
         style: {
           material: textMaterialProperty,
@@ -238,17 +253,16 @@ function btnDrawPoint() {
   })
 }
 
-function changeSlider(val) {
+export function onChangeSlider(val) {
   if (val) {
     rotation = Cesium.Math.toRadians(val)
   }
 }
 
-function btnOK(val) {
-  console.log(val)
+export function onClickSure(val) {
   textMaterialProperty.text = val
 }
 
-function btnRemoveAll() {
+export function removeAll() {
   graphicLayer.clear()
 }

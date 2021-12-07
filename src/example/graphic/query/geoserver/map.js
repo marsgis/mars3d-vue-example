@@ -1,22 +1,60 @@
-var map
-var queryMapserver
-var geoJsonLayer
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-var drawGraphic
-var $table
+let map // mars3d.Map三维地图对象
+let queryMapserver
+let geoJsonLayer
+let drawGraphic
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
+  }
+}
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  showGeoJsonLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function query(text) {
+  queryMapserver.query({
+    column: "项目名称",
+    text: text,
+    graphic: drawGraphic,
+    success: (result) => {
+      if (result.count == 0) {
+        globalMsg("未查询到相关记录！")
+        return
+      } else {
+        globalMsg("共查询到 " + result.count + " 条记录！")
+      }
+      geoJsonLayer.load({ data: result.geojson })
+    },
+    error: (error, msg) => {
+      console.log("服务访问错误", error)
+      globalAlert(msg, "服务访问错误")
     }
   })
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+function showGeoJsonLayer() {
   queryMapserver = new mars3d.query.QueryGeoServer({
     url: "//server.mars3d.cn/geoserver/mars/wfs",
     layer: "mars:hfjy"
@@ -64,7 +102,7 @@ function initMap(options) {
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -83,7 +121,7 @@ function drawRectangle() {
   })
 }
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -101,7 +139,7 @@ function drawCircle() {
   })
 }
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -119,11 +157,11 @@ function drawPolygon() {
   })
 }
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   clearAll()
 }
 
-function clearAll(noClearDraw) {
+export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     map.graphicLayer.clear()

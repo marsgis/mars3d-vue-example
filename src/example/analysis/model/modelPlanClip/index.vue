@@ -45,11 +45,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+ import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-
-const activeKey = ref(["1", "2", "3", "4"])
 const distanceValue = ref<number>(0)
 const deviationValue = ref<number>(0)
 

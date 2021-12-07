@@ -29,18 +29,18 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       }
       var inHtml = `<div class="mars-popup-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars-popup-content" >`
 
-      var phone = item.tel.replace(/^\s*|\s*$/g, "")
-      if (phone != "") {
+      var phone = String(item.tel).trim()
+      if (phone) {
         inHtml += "<div><label>电话</label>" + phone + "</div>"
       }
 
-      var dz = item.address.replace(/^\s*|\s*$/g, "")
-      if (dz != "") {
+      var dz = String(item.address).trim()
+      if (item.address) {
         inHtml += "<div><label>地址</label>" + dz + "</div>"
       }
 
+      var fl = String(item.type).trim()
       if (item.type) {
-        var fl = item.type.replace(/^\s*|\s*$/g, "")
         if (fl != "") {
           inHtml += "<div><label>类别</label>" + fl + "</div>"
         }

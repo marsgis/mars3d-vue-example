@@ -1,10 +1,8 @@
+import * as mars3d from "mars3d"
+
 function initMap() {
-
-  // 与超图结合示例：      https://github.com/marsgis/mars3d-link-supermap
-  // 与earthsdk结合示例：  https://github.com/marsgis/mars3d-link-earthsdk
-
   // 构造地球（可以使用原生Cesium或第3方SDK方式去构造Viewer）
-  var viewer = new Cesium.Viewer("mars3dContainer", {
+  const viewer = new Cesium.Viewer("mars3dContainer", {
     animation: false,
     timeline: false,
     baseLayerPicker: false, // 是否显示图层选择控件
@@ -12,9 +10,10 @@ function initMap() {
       url: Cesium.buildModuleUrl("Assets/Textures/NaturalEarthII")
     })
   })
+  console.log("Cesium原生Cesium构造完成", viewer) // 打印测试信息
 
   // mars3d.Map也可以直接传入外部已经构造好的viewer, 支持config.json所有参数
-  var map = new mars3d.Map(viewer, {
+  const map = new mars3d.Map(viewer, {
     scene: {
       center: { lat: 30.054604, lng: 108.885436, alt: 17036414, heading: 0, pitch: -90 },
       fxaa: true
@@ -24,6 +23,5 @@ function initMap() {
     }
   })
 
-  // cesium对应的原始地球对象
-  // var viewer = map.viewer
+  console.log("mars3d的Map主对象构造完成", map) // 打印测试信息
 }

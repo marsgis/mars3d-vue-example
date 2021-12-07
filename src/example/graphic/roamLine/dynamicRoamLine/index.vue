@@ -12,9 +12,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 interface DataItem {
   key: string | number
@@ -36,7 +34,6 @@ onMounted(() => {
   mapWork.eventTarget.on("loadOk", function (event: any) {
     msg.value.push(event.log)
 
-
     event.tableData.forEach((item: any, index: number) => {
       arr.push({
         key: item.id,
@@ -49,6 +46,10 @@ onMounted(() => {
     dataSource.value = arr
     rowKeys.value = arrKey
   })
+})
+
+mapWork.eventTarget.on("showMsg", function (event: any) {
+  msg.value.push(event.log)
 })
 
 const columns: any[] = [

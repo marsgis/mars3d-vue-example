@@ -1,26 +1,32 @@
-var map
-var modelPlanClip
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
-      fxaa: true
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let modelPlanClip
 
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.841619, lng: 117.140395, alt: 1259, heading: 90, pitch: -51 },
+    fxaa: true
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加模型
-  var graphic = new mars3d.graphic.ModelPrimitive({
+  const graphic = new mars3d.graphic.ModelPrimitive({
     position: [117.150365, 31.841954, 50.26],
     style: {
       url: "//data.mars3d.cn/gltf/mars/dikuai/d1.gltf",
@@ -39,39 +45,48 @@ function initMap(options) {
   map.addThing(modelPlanClip)
 }
 
-function rangeDistance(value) {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function rangeDistance(value) {
   modelPlanClip.distance = value
 }
 
-function rangeNormalZ(value) {
+export function rangeNormalZ(value) {
   modelPlanClip.normalZ = value
 }
 
-function clipping1() {
+export function clipping1() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.ZR
 }
 
-function clipping2() {
+export function clipping2() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.Z
 }
 
-function clipping3() {
+export function clipping3() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.XR
 }
-function clipping4() {
+
+export function clipping4() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.X
 }
 
-function clipping5() {
+export function clipping5() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.Y
 }
 
-function clipping6() {
+export function clipping6() {
   modelPlanClip.type = mars3d.thing.ModelPlanClip.Type.YR
 }
 
 // 绘制线
-function drawLine() {
+export function drawLine() {
   modelPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -84,7 +99,7 @@ function drawLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -92,7 +107,7 @@ function drawLine() {
   })
 }
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   modelPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -103,7 +118,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -112,7 +127,7 @@ function drawExtent() {
 }
 
 // 绘制面
-function drawPoly() {
+export function drawPoly() {
   modelPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -124,7 +139,7 @@ function drawPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.positions = positions
@@ -132,7 +147,7 @@ function drawPoly() {
   })
 }
 // 绘制面(外切)
-function drawPoly2() {
+export function drawPoly2() {
   modelPlanClip.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -143,7 +158,7 @@ function drawPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       modelPlanClip.clipOutSide = true
@@ -152,6 +167,6 @@ function drawPoly2() {
   })
 }
 
-function clear() {
+export function clear() {
   modelPlanClip.clear()
 }

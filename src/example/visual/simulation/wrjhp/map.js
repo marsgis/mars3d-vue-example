@@ -1,23 +1,43 @@
-var map
-var graphicLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: {
-        lat: 31.30003,
-        lng: 116.08603,
-        alt: 11445.39,
-        heading: 51.4,
-        pitch: -86.6,
-        roll: 2.3
-      }
-    }
-  })
-  delete mapOptions.terrain
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: {
+      lat: 31.30003,
+      lng: 116.08603,
+      alt: 11445.39,
+      heading: 51.4,
+      pitch: -86.6,
+      roll: 2.3
+    }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  addEntity()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addEntity() {
+  delete mapOptions.terrain
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -52,7 +72,7 @@ function initMap(options) {
   })
 }
 
-var work4HP = {
+const work4HP = {
   flySpeed: 600, // 飞行速度
   psNum: 400, // 投射间隔路程
   frameNum: 0,
@@ -132,12 +152,12 @@ var work4HP = {
     this.frameNum++
 
     // 当前的路线中的点位
-    var currIndex = this.roamLine.currIndex // 当前飞行的线路,共五条线，从零开始
+    const currIndex = this.roamLine.currIndex // 当前飞行的线路,共五条线，从零开始
 
     if (currIndex % 2 === 0) {
       if (this.frameNum % this.stepNum === 0) {
         // 计算方向
-        var p1, p2
+        let p1, p2
         if (currIndex === 0 || !currIndex) {
           p1 = this.roamLine.positions[0]
           p2 = this.roamLine.positions[1]
@@ -149,12 +169,12 @@ var work4HP = {
           return
         }
         // 获取起点坐标到终点坐标的 Heading Pitch Roll方向角度值
-        var hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2)
+        const hpr = mars3d.PointUtil.getHeadingPitchRollForLine(p1, p2)
         // 将弧度转换为度
-        var heading = Cesium.Math.toDegrees(hpr.heading)
+        const heading = Cesium.Math.toDegrees(hpr.heading)
 
         // 添加四棱锥体线
-        var graphicFrustum = new mars3d.graphic.FrustumPrimitive({
+        const graphicFrustum = new mars3d.graphic.FrustumPrimitive({
           position: this.roamLine.position,
           style: {
             angle: 15,
@@ -170,9 +190,6 @@ var work4HP = {
           flat: true
         })
         graphicLayer.addGraphic(graphicFrustum)
-
-        console.log(graphicFrustum)
-
         this.arr4LinePrimitive.push(graphicFrustum)
       }
       if (this.frameNum % this.stepNum === 10) {
@@ -189,7 +206,7 @@ var work4HP = {
         // 地面的4个顶点坐标
         const positions = graphicFrustum.getRayEarthPositions()
         // 添加地面矩形
-        var primitive = new mars3d.graphic.PolygonPrimitive({
+        const primitive = new mars3d.graphic.PolygonPrimitive({
           positions: positions,
           style: {
             color: this.arrColor[graphicLayer.length % this.arrColor.length],

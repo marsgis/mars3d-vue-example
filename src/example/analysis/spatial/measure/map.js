@@ -1,14 +1,35 @@
-var map
-var measure
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+let map // mars3d.Map三维地图对象
+let measure
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  control: {
+    defaultContextMenu: false // 右键菜单
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
+  addMeasure()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addMeasure() {
   measure = new mars3d.thing.Measure({
     label: {
       color: "#ffffff",
@@ -34,12 +55,13 @@ function initMap(options) {
   })
   // 任意一个矢量数据被移出，贴地面积中的插值计算点都会被移除
   measure.on(mars3d.EventType.remove, function (e) {
-    clearInterResult() // 在js/showPolygonInter.js
+    // eslint-disable-next-line no-undef
+    clearInterResult()
   })
 }
-function onlyPickModelPosition(val) {
-  // 控制鼠标只取模型上的点，忽略地形上的点的拾取
 
+export function onlyPickModelPosition(val) {
+  // 控制鼠标只取模型上的点，忽略地形上的点的拾取
   map.onlyPickModelPosition = val
 }
 
@@ -48,13 +70,14 @@ function endDraw() {
   measure.endDraw()
 }
 
-function removeAll() {
+export function removeAll() {
   measure.clear()
   // eslint-disable-next-line no-undef
   clearInterResult() // 在js/showPolygonInter.js
 }
+
 // 空间距离
-function measureLength() {
+export function measureLength() {
   measure.distance({
     showAddText: true
     // style: {
@@ -65,7 +88,7 @@ function measureLength() {
   })
 }
 // 贴地距离
-function measureSurfaceLength() {
+export function measureSurfaceLength() {
   measure.distanceSurface({
     showAddText: true
     // unit: 'm', //支持传入指定计量单位
@@ -77,7 +100,7 @@ function measureSurfaceLength() {
   })
 }
 // 水平面积
-function measureArea() {
+export function measureArea() {
   measure.area({
     // style: {
     //   color: '#00fff2',
@@ -90,7 +113,7 @@ function measureArea() {
   })
 }
 // 贴地面积
-function measureSurfaceeArea() {
+export function measureSurfaceeArea() {
   measure.areaSurface({
     style: {
       color: "#ffff00"
@@ -99,26 +122,27 @@ function measureSurfaceeArea() {
   })
 }
 // 高度差
-function measureHeight() {
+export function measureHeight() {
   measure.height()
 }
+
 // 三角测量
-function measureTriangleHeight() {
+export function measureTriangleHeight() {
   measure.heightTriangle()
 }
+
 // 方位角
-function measureAngle() {
+export function measureAngle() {
   measure.angle()
 }
 
 // 坐标测量
-function measurePoint() {
+export function measurePoint() {
   measure.point()
 }
 
-
 // 定位至模型
-var modelTest
+let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({

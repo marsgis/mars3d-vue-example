@@ -1,19 +1,26 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 32.432745, lng: 115.601935, alt: 131, heading: 237, pitch: -31 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 32.432745, lng: 115.601935, alt: 131, heading: 237, pitch: -31 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 显示水域
-  var waterLayer = new mars3d.layer.GeoJsonLayer({
+  const waterLayer = new mars3d.layer.GeoJsonLayer({
     url: "//data.mars3d.cn/file/geojson/wangjiaba.json",
     symbol: {
       type: "waterCombine",
@@ -31,8 +38,25 @@ function initMap(options) {
   })
   map.addLayer(waterLayer)
 
+  // 创建Graphic图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
+  addWaterGate()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+// 添加水柱
+function addWaterGate() {
   // 水柱位置
-  var posArr = [
+  const posArr = [
     [115.600031, 32.43217, 38],
     [115.600104, 32.432121, 38],
     [115.600163, 32.432059, 38],
@@ -48,15 +72,11 @@ function initMap(options) {
     [115.600967, 32.431617, 38]
   ]
 
-  // 创建Graphic图层
-  graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
+  for (let i = 0, len = posArr.length; i < len; i++) {
+    const pos = posArr[i]
+    const position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2])
 
-  for (var i = 0, len = posArr.length; i < len; i++) {
-    var pos = posArr[i]
-    var position = Cesium.Cartesian3.fromDegrees(pos[0], pos[1], pos[2])
-
-    var particleSystem = new mars3d.graphic.ParticleSystem({
+    const particleSystem = new mars3d.graphic.ParticleSystem({
       id: i + 1,
       position: position, // 位置
       style: {
@@ -85,15 +105,15 @@ function initMap(options) {
 }
 
 // 单个闸门控制
-function changeZhaMen(id, checked) {
+export function onChangeGate(id, checked) {
   // const id = Number(item.value)
-  var particleSystem = graphicLayer.getGraphicById(id)
+  const particleSystem = graphicLayer.getGraphicById(id)
   if (particleSystem) {
     particleSystem.show = !checked
   }
 }
 // 全部闸门的控制
-function bindShowAll(val) {
+export function bindShowAll(val) {
   graphicLayer.eachGraphic((graphic) => {
     graphic.show = val
   })

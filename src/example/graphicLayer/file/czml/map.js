@@ -1,49 +1,65 @@
-var map
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 360, pitch: -48 }
-      // cameraController: {
-      //   maximumZoomDistance: 500000000,
-      // },
-    },
-    control: {
-      animation: true,
-      timeline: true,
-      compass: { top: "10px", left: "5px" }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.623244, lng: 123.508771, alt: 345435, heading: 360, pitch: -48 }
+    // cameraController: {
+    //   maximumZoomDistance: 500000000,
+    // },
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true,
+    compass: { top: "10px", left: "5px" }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
   // url传入模型地址
-  var type = mars3d.Util.getRequestByName("data")
+  const type = mars3d.Util.getRequestByName("data")
 
   switch (type) {
     default:
-      showFeijiDemo()
+      showAircraft()
       break
     case "feiji":
-      showFeijiDemo()
+      showAircraft()
       break
     case "chuanbo":
-      showChuanboDemo()
+      showShip()
       break
     case "huojian":
-      showHuojianDemo()
+      showRocket()
       break
   }
 }
 
-var czmlLayer
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
+let czmlLayer
 function removeLayer() {
   map.trackedEntity = null
   if (czmlLayer) {
@@ -52,7 +68,7 @@ function removeLayer() {
   }
 }
 // 示例：
-function showFeijiDemo() {
+export function showAircraft() {
   removeLayer()
 
   czmlLayer = new mars3d.layer.CzmlLayer({
@@ -73,10 +89,8 @@ function showFeijiDemo() {
   })
 }
 
-let tiles3dLayer
-
 // 示例：
-function showQicheDemo() {
+export function showCar() {
   removeLayer()
 
   map.setCameraView({ lat: 40.893923, lng: 121.917192, alt: 691, heading: 64, pitch: -46 })
@@ -99,7 +113,7 @@ function showQicheDemo() {
 }
 
 // 示例：
-function showChuanboDemo() {
+export function showShip() {
   removeLayer()
 
   czmlLayer = new mars3d.layer.CzmlLayer({
@@ -121,7 +135,7 @@ function showChuanboDemo() {
 }
 
 // 示例：
-function showBDWeixinDemo() {
+export function showBDSatellite() {
   removeLayer()
 
   // 更新地球参数
@@ -150,7 +164,7 @@ function showBDWeixinDemo() {
   })
 }
 
-function showWeixinDemo() {
+export function showSatellite() {
   removeLayer()
 
   // 更新地球参数
@@ -180,7 +194,7 @@ function showWeixinDemo() {
 }
 
 // 示例：
-function showHuojianDemo() {
+export function showRocket() {
   removeLayer()
 
   map.basemap = "ArcGIS影像"
@@ -207,7 +221,7 @@ function showHuojianDemo() {
 }
 
 // 示例：
-function showXiaofangDemo() {
+export function showFireDrill() {
   removeLayer()
 
   map.setCameraView({ lat: 32.891559, lng: 117.360875, alt: 378, heading: 18, pitch: -62 })

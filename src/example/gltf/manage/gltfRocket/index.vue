@@ -9,21 +9,19 @@
       @change="handleChange"
     ></mars-select>
 
-    <a-form-item v-for="rg in state" :key="rg.name">
+    <div v-for="rg in state" :key="rg.name">
       <a-space>
         <span>{{ rg.name }}</span>
         <a-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current" />
       </a-space>
-    </a-form-item>
+    </div>
   </PannelBox>
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, ref } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const value1 = ref<string>("火箭整体")
 
@@ -33,7 +31,7 @@ const dataList = ref<any[]>([])
 
 const state = ref<any[]>([])
 
-mapWork.eventTarget.on("loadOver", function (event: any) {
+mapWork.eventTarget.on("loadOk", function (event: any) {
   const modelData = event.articulations
   dataList.value = modelData
   for (let i = 0; i < modelData.length; i++) {

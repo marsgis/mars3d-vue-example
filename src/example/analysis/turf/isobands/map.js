@@ -1,16 +1,21 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 23.359088, lng: 116.19963, alt: 1262727, heading: 2, pitch: -60 }
-    },
-    layers: []
-  })
+let map // mars3d.Map三维地图对象
+export const mapOptions = {
+  scene: {
+    center: { lat: 23.359088, lng: 116.19963, alt: 1262727, heading: 2, pitch: -60 }
+  },
+  layers: []
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.imageryLayers._layers.forEach(function (layer, index, arr) {
     layer.brightness = 0.4
@@ -26,8 +31,16 @@ function initMap(options) {
     })
 }
 
-var colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
-var breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+const colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
+const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 
 // 访问后端接口，取数据
 function queryWindpointApiData() {
@@ -36,10 +49,10 @@ function queryWindpointApiData() {
 
 // 等值线面
 function showWindLine(arr) {
-  // var min = arr[0].speed
-  // var max = arr[0].speed
+  // let min = arr[0].speed
+  // let max = arr[0].speed
 
-  var pointGrid = []
+  const pointGrid = []
   for (let i = 0, len = arr.length; i < len; i++) {
     const item = arr[i]
 
@@ -57,12 +70,12 @@ function showWindLine(arr) {
   }
 
   // breaks = []
-  // var step = (max - min) / 10
-  // for (var i = min; i <= max; i += step) {
+  // let step = (max - min) / 10
+  // for (let i = min; i <= max; i += step) {
   //   breaks.push(Number(i.toFixed(1)))
   // }
 
-  var points = {
+  const points = {
     type: "FeatureCollection",
     features: pointGrid
   }
@@ -78,11 +91,11 @@ function showWindLine(arr) {
   // points.features.map((i) => (i.properties.speed = Number(i.properties.speed.toFixed(2))))
 
   // 等值面
-  var geojsonPoly = turf.isobands(points, breaks, {
+  const geojsonPoly = turf.isobands(points, breaks, {
     zProperty: "speed"
   })
 
-  var geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "等值面",
     data: geojsonPoly,
     popup: "{speed}",
@@ -105,25 +118,25 @@ function showWindLine(arr) {
   map.addLayer(geoJsonLayer)
 
   // 等值线
-  var geojsonLine = turf.isolines(points, breaks, {
+  const geojsonLine = turf.isolines(points, breaks, {
     zProperty: "speed"
   })
 
   // 进行平滑处理
-  // var features = geojsonLine.features;
-  // for (var i = 0; i < features.length; i++) {
-  //     var _coords = features[i].geometry.coordinates;
-  //     var _lCoords = [];
-  //     for (var j = 0; j < _coords.length; j++) {
-  //         var _coord = _coords[j];
-  //         var line = turf.lineString(_coord);
-  //         var curved = turf.bezierSpline(line);
+  // let features = geojsonLine.features;
+  // for (let i = 0; i < features.length; i++) {
+  //     let _coords = features[i].geometry.coordinates;
+  //     let _lCoords = [];
+  //     for (let j = 0; j < _coords.length; j++) {
+  //         let _coord = _coords[j];
+  //         let line = turf.lineString(_coord);
+  //         let curved = turf.bezierSpline(line);
   //         _lCoords.push(curved.geometry.coordinates);
   //     }
   //     features[i].geometry.coordinates = _lCoords;
   // }
 
-  var layerDZX = new mars3d.layer.GeoJsonLayer({
+  const layerDZX = new mars3d.layer.GeoJsonLayer({
     name: "等值线",
     data: geojsonLine,
     popup: "{speed}",
@@ -140,7 +153,7 @@ function showWindLine(arr) {
 }
 
 function getColor(value) {
-  for (var i = 0; i < breaks.length; i++) {
+  for (let i = 0; i < breaks.length; i++) {
     if (breaks[i] === value) {
       return colors[i]
     }

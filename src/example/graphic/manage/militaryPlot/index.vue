@@ -88,9 +88,8 @@ import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
 import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 const editor = ref()
 
 // 是否可编辑
@@ -102,27 +101,27 @@ const isEditableChange = () => {
 }
 
 // 显示隐藏
-const enabledShowHide = ref(true)
+const enabledShowHide = ref<boolean>(true)
 const bindShowHide = () => {
-  mapWork.bindShowHide(enabledShowHide)
+  mapWork.bindShowHide(enabledShowHide.value)
 }
 
 // 是否绑定Popup
-const enabledPopup = ref(true)
+const enabledPopup = ref<boolean>(true)
 const bindPopup = () => {
-  mapWork.bindPopup(enabledPopup)
+  mapWork.bindPopup(enabledPopup.value)
 }
 
 // 是否绑定Tooltip
-const enabledTooltip = ref(false)
+const enabledTooltip = ref<boolean>(false)
 const bindTooltip = () => {
-  mapWork.bindTooltip(enabledTooltip)
+  mapWork.bindTooltip(enabledTooltip.value)
 }
 
 // 是否绑定右键菜单
-const enabledRightMenu = ref(true)
+const enabledRightMenu = ref<boolean>(true)
 const bindRightMenu = () => {
-  mapWork.bindRightMenu(enabledRightMenu)
+  mapWork.bindRightMenu(enabledRightMenu.value)
 }
 
 interface FileItem {
@@ -137,10 +136,12 @@ interface FileInfo {
   file: FileItem
   fileList: FileItem[]
 }
+
 //  清除数据
 const btnClear = () => {
   mapWork.btnClear()
 }
+
 // 保存geojson
 const btnExpFile = () => {
   mapWork.btnExpFile()

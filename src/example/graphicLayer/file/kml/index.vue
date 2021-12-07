@@ -1,29 +1,28 @@
 <template>
   <PannelBox class="infoView">
     <a-space>
-      <mars-button @click="showTieluDemo">铁路</mars-button>
-      <mars-button @click="showGaosuluDemo">高速公路线</mars-button>
-      <mars-button @click="showQixiangDemo">气象等值面</mars-button>
-      <mars-button @click="showGuojiaDemo">国家GDP数据</mars-button>
-      <mars-button @click="showAnquanDemo">海上安全通告</mars-button>
+      <mars-button @click="shoRailway">铁路</mars-button>
+      <mars-button @click="showExpressway">高速公路线</mars-button>
+      <mars-button @click="showMeteorological">气象等值面</mars-button>
+      <mars-button @click="showGDP">国家GDP数据</mars-button>
+      <mars-button @click="showSafetyNotice">海上安全通告</mars-button>
     </a-space>
   </PannelBox>
 
   <PannelBox class="infoView manager-pannel">
-    <a-directory-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
-    </a-directory-tree>
+    </mars-tree>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+ import * as mapWork from "./map.js"
 
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const treeData = ref<any[]>([
   {
@@ -65,7 +64,7 @@ const checkedChange = (keys: string[], checkedNodes: any) => {
   if (entity == null) {
     return
   }
-  mapWork.map.flyTo(entity)
+  mapWork.flyToEntity()
 }
 
 function initTree() {
@@ -102,30 +101,30 @@ function initTree() {
   })
 }
 
-const showTieluDemo = () => {
+const shoRailway = () => {
   checkedKeys.value = []
 
-  mapWork.showTieluDemo()
+  mapWork.shoRailway()
 }
-const showGaosuluDemo = () => {
+const showExpressway = () => {
   checkedKeys.value = []
 
-  mapWork.showGaosuluDemo()
+  mapWork.showExpressway()
 }
-const showQixiangDemo = () => {
+const showMeteorological = () => {
   checkedKeys.value = []
 
-  mapWork.showQixiangDemo()
+  mapWork.showMeteorological()
 }
-const showGuojiaDemo = () => {
+const showGDP = () => {
   checkedKeys.value = []
 
-  mapWork.showGuojiaDemo()
+  mapWork.showGDP()
 }
-const showAnquanDemo = () => {
+const showSafetyNotice = () => {
   checkedKeys.value = []
 
-  mapWork.showAnquanDemo()
+  mapWork.showSafetyNotice()
 }
 </script>
 <style scoped lang="less">

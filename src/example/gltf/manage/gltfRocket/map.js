@@ -1,7 +1,9 @@
-var map
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+
 // 汉化属性名称
-var objNames = {
+const objNames = {
   // 属性分组
   LaunchVehicle: "火箭整体",
   Fairing: "整流罩",
@@ -33,28 +35,43 @@ var objNames = {
   Rotate: "旋转"
 }
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
+  addRockets()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addRockets() {
   // 绑定到UI界面控制参数
-  var viewModel = {
+  const viewModel = {
     articulations: [],
     stages: [],
     selectedArticulation: undefined
   }
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  var primitive = new mars3d.graphic.ModelPrimitive({
+  const primitive = new mars3d.graphic.ModelPrimitive({
     position: [113.693, 31.243, 220000],
     style: {
       url: "//data.mars3d.cn/gltf/sample/launchvehicle/launchvehicle.glb",
@@ -67,16 +84,16 @@ function initMap(options) {
 
   // gltf模型加载完成事件
   primitive.on(mars3d.EventType.load, (event) => {
-    var model = event.model
+    const model = event.model
 
     // 缩放区域到模型所在位置
-    var controller = map.scene.screenSpaceCameraController
-    var r = 2.0 * Math.max(model.boundingSphere.radius, map.camera.frustum.near)
+    const controller = map.scene.screenSpaceCameraController
+    const r = 2.0 * Math.max(model.boundingSphere.radius, map.camera.frustum.near)
     controller.minimumZoomDistance = r * 0.2
 
-    var center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, Cesium.Cartesian3.ZERO, new Cesium.Cartesian3())
-    var heading = Cesium.Math.toRadians(0.0)
-    var pitch = Cesium.Math.toRadians(-10.0)
+    const center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, Cesium.Cartesian3.ZERO, new Cesium.Cartesian3())
+    const heading = Cesium.Math.toRadians(0.0)
+    const pitch = Cesium.Math.toRadians(-10.0)
     map.camera.lookAt(center, new Cesium.HeadingPitchRange(heading, pitch, r * 1.5))
 
     // 设置参数效果
@@ -86,13 +103,13 @@ function initMap(options) {
 
     // 递归取参数
     viewModel.articulations = Object.keys(model._runtime.articulationsByName).map(function (articulationName) {
-      var name = objNames[articulationName] || articulationName
+      const name = objNames[articulationName] || articulationName
       // 属性分组
       return {
         name: name,
         stages: model._runtime.articulationsByName[articulationName].stages.map(function (stage) {
           // 属性
-          var stageModel = {
+          const stageModel = {
             name: objNames[stage.name] || stage.name,
             minimum: stage.minimumValue,
             maximum: stage.maximumValue,
@@ -109,8 +126,8 @@ function initMap(options) {
             }
           })
           Cesium.knockout.getObservable(stageModel, "current").subscribe(function (newValue) {
-            var _name = articulationName + " " + stage.name
-            var _val = Number(stageModel.current)
+            const _name = articulationName + " " + stage.name
+            const _val = Number(stageModel.current)
 
             model.setArticulationStage(_name, _val)
             model.applyArticulations()
@@ -125,6 +142,6 @@ function initMap(options) {
       }
     })
     viewModel.selectedArticulation = viewModel.articulations[0]
-    eventTarget.fire("loadOver", viewModel)
+    eventTarget.fire("loadOk", viewModel)
   })
 }

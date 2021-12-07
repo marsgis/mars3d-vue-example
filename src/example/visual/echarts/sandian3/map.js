@@ -1,23 +1,39 @@
-var map
+import * as mars3d from "mars3d"
 
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 13.474941, lng: 117.364073, alt: 2774097, heading: 6, pitch: -62 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 13.474941, lng: 117.364073, alt: 2774097, heading: 6, pitch: -62 }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   eventTarget.fire("loadOk")
 }
 
-var echartsLayer
-function createEchartsLayer(val) {
-  var options = getEchartsOption()
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let echartsLayer
+export function createEchartsLayer(val) {
+  const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
 
   options.pointerEvents = val
@@ -31,12 +47,17 @@ function createEchartsLayer(val) {
 }
 
 // 启用echars交互
-function chkPointerEvents(val) {
+export function chkPointerEvents(val) {
   echartsLayer.pointerEvents = val
 }
 
+/**
+ *echart图层
+ *
+ * @return {option} echart图表的数据
+ */
 function getEchartsOption() {
-  var data = [
+  const data = [
     {
       name: "上海",
       value: 19780
@@ -183,7 +204,7 @@ function getEchartsOption() {
     }
   ]
 
-  var geoCoordMap = {
+  const geoCoordMap = {
     上海: [121.48, 31.22],
     珠海: [113.52, 22.3],
     三亚: [109.31, 18.14],
@@ -223,10 +244,10 @@ function getEchartsOption() {
   }
 
   // 在echart图表中展示图点
-  var convertData = function (data) {
-    var res = []
-    for (var i = 0; i < data.length; i++) {
-      var geoCoord = geoCoordMap[data[i].name]
+  const convertData = function (data) {
+    const res = []
+    for (let i = 0; i < data.length; i++) {
+      const geoCoord = geoCoordMap[data[i].name]
       if (geoCoord) {
         res.push({
           name: data[i].name,
@@ -237,7 +258,7 @@ function getEchartsOption() {
     return res
   }
 
-  /* var convertedData = [
+  /* let convertedData = [
     convertData(data),
     convertData(
       data
@@ -253,20 +274,18 @@ function getEchartsOption() {
     return a.value - b.value
   })
 
-  var categoryData = []
-  var barData = []
-  var sum = 0
-  var count = data.length
+  const categoryData = []
+  const barData = []
+  let sum = 0
+  const count = data.length
 
-  for (var i = 0; i < count; i++) {
+  for (let i = 0; i < count; i++) {
     categoryData.push(data[i].name)
     barData.push(data[i].value)
     sum += data[i].value
   }
-  // console.log(categoryData);
-  // console.log(sum + "   " + count);
 
-  var option = {
+  const option = {
     animation: false,
     backgroundColor: "rgba(17, 19, 42, 0.3)",
     title: [
@@ -351,7 +370,7 @@ function getEchartsOption() {
         coordinateSystem: "mars3dMap",
         data: convertData(data),
         symbolSize: function (val) {
-          var size = (val[2] / 500) * 1.5
+          const size = (val[2] / 500) * 1.5
           return Math.max(size, 8)
         },
         label: {
@@ -378,7 +397,7 @@ function getEchartsOption() {
         coordinateSystem: "mars3dMap",
         data: convertData(data),
         symbolSize: function (val) {
-          var size = val[2] / 500
+          const size = val[2] / 500
           return Math.max(size, 8)
         },
         showEffectOn: "render",

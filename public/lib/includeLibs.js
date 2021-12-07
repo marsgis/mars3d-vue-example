@@ -5,7 +5,7 @@
  * @author 木遥 2021-11-26
  */
 
-var isLocal = true //是否使用本地lib
+var isLocal = false //是否使用本地lib
 
 if (isLocal) {
   //lib类库管理js
@@ -16,7 +16,7 @@ if (isLocal) {
       "Cesium/Widgets/widgets.css", // cesium
       "Cesium/Cesium.js",
       "turf/turf.min.js",
-      "mars3d/mars3d.css", // mars3d
+      "mars3d/mars3d.css", // mars3d本地版本
       "mars3d/mars3d.js"
     ],
     "mars3d-space": [
@@ -95,61 +95,67 @@ if (isLocal) {
     kriging: ["kriging/kriging.min.js"],
     three: ["three/three.js"],
     olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
-    hls: ["video/hls/hls.js"],
+    hls: ["video/hls/hls.min.js"],
     datgui: ["datgui/dat.gui.min.js"]
   }
 } else {
   //lib类库管理js CDN版本
   window.configLibs = {
     //////////////////////////mars3d及其插件////////////////////////
+    // mars3d: [
+    //   // 三维地球“主库”
+    //   "https://cdn.jsdelivr.net/npm/mars3d-cesium/Build/Cesium/Widgets/widgets.css", // cesium
+    //   "https://cdn.jsdelivr.net/npm/mars3d-cesium/Build/Cesium/Cesium.js",
+    //   "https://unpkg.com/@turf/turf/turf.min.js",
+    //   "https://cdn.jsdelivr.net/npm/mars3d/dist/mars3d.css", // mars3d npm稳定版
+    //   "https://cdn.jsdelivr.net/npm/mars3d/dist/mars3d.js"
+    // ],
     mars3d: [
       // 三维地球“主库”
-      "https://cdn.jsdelivr.net/npm/mars3d-cesium@1.87.0/Build/Cesium/Widgets/widgets.css", // cesium
-      "https://cdn.jsdelivr.net/npm/mars3d-cesium@1.87.0/Build/Cesium/Cesium.js",
+      "Cesium/Widgets/widgets.css", // cesium （需要本地,非本地时偶尔多线程会跨域异常）
+      "Cesium/Cesium.js",
       "https://unpkg.com/@turf/turf/turf.min.js",
-      // "https://cdn.jsdelivr.net/npm/mars3d@3.1.12/dist/mars3d.css", // mars3d npm稳定版
-      // "https://cdn.jsdelivr.net/npm/mars3d@3.1.12/dist/mars3d.js"
       "https://mars3d.cn/lib/mars3d/mars3d.css", //mars3d 最新开发版
       "https://mars3d.cn/lib/mars3d/mars3d.js"
     ],
     "mars3d-space": [
       // 卫星插件
-      "https://cdn.jsdelivr.net/npm/mars3d-space@3.1.12/dist/mars3d-space.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-space/dist/mars3d-space.js"
     ],
     "mars3d-echarts": [
       // echarts支持插件
       "https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js",
       "https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js",
-      "https://cdn.jsdelivr.net/npm/mars3d-echarts@3.1.12/dist/mars3d-echarts.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-echarts/dist/mars3d-echarts.js"
     ],
     "mars3d-mapv": [
       // mapv支持插件
       "https://cdn.jsdelivr.net/npm/mapv/build/mapv.min.js",
-      "https://cdn.jsdelivr.net/npm/mars3d-mapv@3.1.12/dist/mars3d-mapv.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-mapv/dist/mars3d-mapv.js"
     ],
     "mars3d-heatmap": [
       // heatmap热力图支持插件
       "https://mars3d.cn/lib/mars3d/plugins/heatmap/heatmap.min.js",
-      "https://cdn.jsdelivr.net/npm/mars3d-heatmap@3.1.12/dist/mars3d-heatmap.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-heatmap/dist/mars3d-heatmap.js"
     ],
     "mars3d-wind": [
       // 风场图层插件
       "https://mars3d.cn/lib/mars3d/plugins/wind/netcdfjs.js", // m10_windLayer解析nc
-      "https://cdn.jsdelivr.net/npm/mars3d-wind@3.1.12/dist/mars3d-wind.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-wind/dist/mars3d-wind.js"
     ],
     "mars3d-tdt": [
       // 天地图三维
-      "https://cdn.jsdelivr.net/npm/mars3d-tdt@3.1.12/dist/mars3d-tdt.js"
+      "https://cdn.jsdelivr.net/npm/mars3d-tdt/dist/mars3d-tdt.js"
     ],
 
     //////////////////////////mars2d及其插件////////////////////////
 
     mars2d: [
-      "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css", //leaflet
-      "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
-      "https://cdn.jsdelivr.net/npm/mars2d@3.0.0/dist/mars2d.css", //mars2d
-      "https://cdn.jsdelivr.net/npm/mars2d@3.0.0/dist/mars2d.js",
-      "https://cdn.jsdelivr.net/npm/mars2d-esri@3.0.0/dist/mars2d-esri.js"
+      "https://unpkg.com/leaflet/dist/leaflet.css", //leaflet
+      "https://unpkg.com/leaflet/dist/leaflet.js",
+      "https://cdn.jsdelivr.net/npm/mars2d/dist/mars2d.css", //mars2d
+      "https://cdn.jsdelivr.net/npm/mars2d/dist/mars2d.js",
+      "https://cdn.jsdelivr.net/npm/mars2d-esri/dist/mars2d-esri.js"
     ],
 
     //////////////////////////cesium相关第3方插件////////////////////////

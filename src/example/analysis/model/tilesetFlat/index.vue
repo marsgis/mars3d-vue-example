@@ -55,6 +55,7 @@
 import { onMounted, reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   enabledBianJieXian: boolean
@@ -66,9 +67,6 @@ interface TableItem {
   name: string
   graphicId: string
 }
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const formState: UnwrapRef<FormState> = reactive({
   enabledBianJieXian: true,
@@ -90,16 +88,18 @@ const columns = ref([
 ])
 const dataSource = ref<TableItem[]>([])
 
-
 onMounted(() => {
   window.$notify(
     "已知问题提示",
-    "（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。（2）目前不支持所有3dtile数据，请替换url进行自测"
+    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+    （2）目前不支持所有3dtile数据，请替换url进行自测`,
+    { duration: null }
   )
 
   mapWork.eventTarget.on("dataLoaded", function (event: any) {
     dataSource.value = event.list.map((item: any) => ({ key: item.id - 1, name: "压平区" + item.id, graphicId: item.id }))
   })
+
   mapWork.eventTarget.on("addItem", function (event: any) {
     const item = event.item
     dataSource.value.push({ key: item.id - 1, name: "压平区" + item.id, graphicId: item.id })

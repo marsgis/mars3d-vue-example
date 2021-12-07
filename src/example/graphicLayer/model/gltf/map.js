@@ -1,27 +1,40 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.799033, lng: 117.177563, alt: 4324.03, heading: 0, pitch: -45, roll: 0 },
-      fxaa: true
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.799033, lng: 117.177563, alt: 4324.03, heading: 0, pitch: -45, roll: 0 },
+    fxaa: true
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
-
   showShanghaiDemo()
 }
 
-var gltfLayer
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
-function removeLayer() {
+let gltfLayer
+
+export function removeLayer() {
   map.trackedEntity = null
   if (gltfLayer) {
     map.removeLayer(gltfLayer, true)
@@ -30,7 +43,7 @@ function removeLayer() {
 }
 
 // 示例：上海
-function showShanghaiDemo() {
+export function showShanghaiDemo() {
   removeLayer()
 
   // 创建gltf模型，
@@ -55,7 +68,7 @@ function showShanghaiDemo() {
 }
 
 // 示例：骨骼动画
-function showDonghuaDemo() {
+export function showDonghuaDemo() {
   removeLayer()
 
   // 创建gltf模型
@@ -90,12 +103,10 @@ function showDonghuaDemo() {
 }
 
 // 风力发电机
-function showFenliDemo() {
+export function showFenliDemo() {
   removeLayer()
 
-  // var arrData = [];
-
-  var positions = [
+  const positions = [
     { lng: 112.227630577, lat: 39.0613382363999, alt: 1815 },
     { lng: 112.229302206, lat: 39.0579481036999, alt: 1827 },
     { lng: 112.226596341, lat: 39.0584773033999, alt: 1849 },
@@ -143,18 +154,18 @@ function showFenliDemo() {
 }
 
 // 光伏电场
-function showGuangfu() {
+export function showGuangfu() {
   removeLayer()
 
-  var arrData = []
+  const arrData = []
   // 构造数据
-  var longitudeString = 93.1214
-  var latitudeString = 42.7863
-  var height = 678
-  var heading = 0
+  const longitudeString = 93.1214
+  const latitudeString = 42.7863
+  const height = 678
+  const heading = 0
   // 光伏电厂位置太阳能电池板位置
-  for (var i = 0; i < 120; i++) {
-    var point
+  for (let i = 0; i < 120; i++) {
+    let point
     if (i < 20) {
       point = { lng: longitudeString, lat: latitudeString + i / 1000, alt: height }
     } else if (i < 40) {

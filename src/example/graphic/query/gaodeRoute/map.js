@@ -1,24 +1,29 @@
-var map
-var routeLayer
-var gaodeRoute
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let routeLayer
+let gaodeRoute
 
 // 当前页面业务相关
-var startGraphic, endGraphic
-var lineGraphic
+let startGraphic, endGraphic
 
-// 自定义事件
-var eventTarget = new mars3d.BaseClass()
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
+  }
+}
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
-    }
-  })
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   routeLayer = new mars3d.layer.GraphicLayer()
@@ -29,8 +34,16 @@ function initMap(options) {
   })
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 开始分析按钮
-function btnAnalyse(type) {
+export function btnAnalyse(type) {
   if (!startGraphic || !endGraphic) {
     globalMsg("请设置起点和终点")
     return
@@ -38,7 +51,7 @@ function btnAnalyse(type) {
   queryRoute(type)
 }
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -51,8 +64,14 @@ function removeAll() {
   routeLayer.clear()
 }
 
-// 起点按钮
-function startPoint(type) {
+/**
+ * 起点按钮
+ *
+ * @export
+ * @param {string} type 不同方式路线查询
+ * @returns {void}
+ */
+export function startPoint(type) {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -68,7 +87,7 @@ function startPoint(type) {
     success: function (graphic) {
       startGraphic = graphic
 
-      var point = graphic.point
+      const point = graphic.point
       point.format()
 
       // 触发自定义事件，改变输入框的值
@@ -78,8 +97,15 @@ function startPoint(type) {
     }
   })
 }
-// 终点按钮
-function endPoint(type) {
+
+/**
+ * 终点按钮
+ *
+ * @export
+ * @param {string} type 不同方式路线查询
+ * @returns {void}
+ */
+export function endPoint(type) {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -95,7 +121,7 @@ function endPoint(type) {
     success: function (graphic) {
       endGraphic = graphic
 
-      var point = graphic.point
+      const point = graphic.point
       point.format()
 
       // 触发自定义事件，改变输入框的值
@@ -119,17 +145,17 @@ function queryRoute(type) {
     points: [startGraphic.coordinate, endGraphic.coordinate],
     success: function (data) {
       hideLoading()
-      var lineFirst = data.paths[0]
-      var points = lineFirst.points
+      const lineFirst = data.paths[0]
+      const points = lineFirst.points
       if (!points || points.length < 1) {
         return
       }
 
-      var time = formatTime(lineFirst.allDuration)
-      var distance = mars3d.MeasureUtil.formatDistance(lineFirst.allDistance)
-      var html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
+      const time = formatTime(lineFirst.allDuration)
+      const distance = mars3d.MeasureUtil.formatDistance(lineFirst.allDistance)
+      const html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
 
-      var graphic = new mars3d.graphic.PolylineEntity({
+      const graphic = new mars3d.graphic.PolylineEntity({
         positions: points,
         style: {
           clampToGround: true,
@@ -140,12 +166,12 @@ function queryRoute(type) {
       })
       routeLayer.addGraphic(graphic)
 
-      var allTime = formatTime(data.paths[0].allDuration)
-      var allDistance = mars3d.MeasureUtil.formatDistance(data.paths[0].allDistance)
+      const allTime = formatTime(data.paths[0].allDuration)
+      const allDistance = mars3d.MeasureUtil.formatDistance(data.paths[0].allDistance)
 
-      var dhHtml = ""
-      for (var i = 0; i < data.paths[0].steps.length; i++) {
-        var item = data.paths[0].steps[i]
+      let dhHtml = ""
+      for (let i = 0; i < data.paths[0].steps.length; i++) {
+        const item = data.paths[0].steps[i]
         dhHtml += item.instruction + "；"
       }
 
@@ -165,11 +191,10 @@ function formatTime(strtime) {
   if (strtime < 60) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
-    var miao = Math.floor(strtime % 60)
+    const miao = Math.floor(strtime % 60)
     return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
     return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
   }
 }
-

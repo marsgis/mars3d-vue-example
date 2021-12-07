@@ -3,19 +3,19 @@
     <a-form>
       <a-form-item>
         <a-space>
-          <mars-button @click="btnDrawWall">竖立墙</mars-button>
-          <mars-button @click="btnDrawRectangle">贴地矩形</mars-button>
-          <mars-button title="根据中心点和长宽来计算矩形" @click="btnDrawPoint">贴地矩形2</mars-button>
-          <mars-button @click="btnRemoveAll">清除</mars-button>
+          <mars-button @click="onClickDrawWall">竖立墙</mars-button>
+          <mars-button @click="onClickDrawRectangle">贴地矩形</mars-button>
+          <mars-button title="根据中心点和长宽来计算矩形" @click="onClickDrawPoint">贴地矩形2</mars-button>
+          <mars-button @click="removeAll">清除</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="方向">
-        <a-slider v-model:value="formState.slideStep" @change="changeSlider" :min="0" :max="360" :step="1" />
+        <a-slider v-model:value="formState.slideStep" @change="onChangeSlider" :min="0" :max="360" :step="1" />
       </a-form-item>
       <a-form-item label="文字">
         <a-space>
           <mars-input v-model:value="formState.inputText" />
-          <mars-button @click="btnOK">确定</mars-button>
+          <mars-button @click="onClickSure">确定</mars-button>
         </a-space>
       </a-form-item>
     </a-form>
@@ -28,18 +28,37 @@ import { reactive, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 import GraphicEditor from "@comp/GraphicEditor/index.vue"
 import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
 interface FormState {
   slideStep: number
   inputText: string
 }
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const formState: UnwrapRef<FormState> = reactive({
   slideStep: 0,
   inputText: "Mars3D 火星科技 2021"
 })
+
+const onChangeSlider = () => {
+  mapWork.onChangeSlider(formState.slideStep)
+}
+
+const onClickDrawWall = () => {
+  mapWork.onClickDrawWall()
+}
+const onClickDrawRectangle = () => {
+  mapWork.onClickDrawRectangle()
+}
+const onClickDrawPoint = () => {
+  mapWork.onClickDrawPoint()
+}
+const removeAll = () => {
+  mapWork.removeAll()
+}
+const onClickSure = () => {
+  mapWork.onClickSure(formState.inputText)
+}
 
 // 属性面板
 const editor = ref()
@@ -60,24 +79,4 @@ mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
 mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   editor.value.hideEditor()
 })
-
-const changeSlider = () => {
-  mapWork.changeSlider(formState.slideStep)
-}
-
-const btnDrawWall = () => {
-  mapWork.btnDrawWall()
-}
-const btnDrawRectangle = () => {
-  mapWork.btnDrawRectangle()
-}
-const btnDrawPoint = () => {
-  mapWork.btnDrawPoint()
-}
-const btnRemoveAll = () => {
-  mapWork.btnRemoveAll()
-}
-const btnOK = () => {
-  mapWork.btnOK(formState.inputText)
-}
 </script>

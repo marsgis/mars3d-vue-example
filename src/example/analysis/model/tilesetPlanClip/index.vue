@@ -6,13 +6,13 @@
         <template #extra>
           <icon-config theme="outline" />
         </template>
-        <a-form-item>
+        <div class="f-mb">
           <a-space>
             <mars-button @click="drawLine">绘制线</mars-button>
             <mars-button @click="drawExtent">绘制矩形</mars-button>
             <mars-button @click="drawPoly">绘制面</mars-button>
           </a-space>
-        </a-form-item>
+        </div>
         <mars-button @click="drawPoly2">绘制面(外切)</mars-button>
       </a-collapse-panel>
 
@@ -21,20 +21,21 @@
         <template #extra>
           <icon-config theme="outline" />
         </template>
-        <a-form-item>
+        <div class="f-mb">
           <a-space>
             <mars-button @click="clipping1">切顶部</mars-button>
             <mars-button @click="clipping2">切底部</mars-button>
             <mars-button @click="clipping3">切东向</mars-button>
           </a-space>
-        </a-form-item>
-        <a-form-item>
+        </div>
+
+        <div class="f-mb">
           <a-space>
             <mars-button @click="clipping4">切西向</mars-button>
             <mars-button @click="clipping5">切南向</mars-button>
             <mars-button @click="clipping6">切北向</mars-button>
           </a-space>
-        </a-form-item>
+        </div>
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="裁剪距离">
@@ -60,9 +61,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+ import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])
 const distanceVal = ref<number>(0)
@@ -90,6 +89,7 @@ const drawLine = () => {
 const drawExtent = () => {
   mapWork.drawExtent()
 }
+
 // 绘制面
 const drawPoly = () => {
   mapWork.drawPoly()
@@ -99,21 +99,27 @@ const drawPoly = () => {
 const drawPoly2 = () => {
   mapWork.drawPoly2()
 }
+
 const clipping1 = () => {
   mapWork.clipping1()
 }
+
 const clipping2 = () => {
   mapWork.clipping2()
 }
+
 const clipping3 = () => {
   mapWork.clipping3()
 }
+
 const clipping4 = () => {
   mapWork.clipping4()
 }
+
 const clipping5 = () => {
   mapWork.clipping5()
 }
+
 const clipping6 = () => {
   mapWork.clipping6()
 }

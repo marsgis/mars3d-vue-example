@@ -1,18 +1,24 @@
-var map
-var graphicLayer
-var road
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 31.808563, lng: 117.187762, alt: 234, heading: 95, pitch: -15 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let road
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.808563, lng: 117.187762, alt: 234, heading: 95, pitch: -15 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -41,7 +47,7 @@ function initMap(options) {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
       callback: function (e) {
-        var primitive = e.graphic
+        const primitive = e.graphic
         if (primitive) {
           graphicLayer.removeGraphic(primitive)
         }
@@ -50,7 +56,6 @@ function initMap(options) {
   ])
 
   // 加一些演示数据
-
   road = new mars3d.graphic.Road({
     positions: [
       [117.181132, 31.814245, 45.95],
@@ -73,8 +78,17 @@ function initMap(options) {
   graphicLayer.addGraphic(road)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  clear()
+}
+
 // 绘制道路
-function drawLine(width, height, opacity) {
+export function drawLine(width, height, opacity) {
   map.graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -82,7 +96,7 @@ function drawLine(width, height, opacity) {
       width: 3
     },
     success: (graphic) => {
-      var points = graphic.points
+      const points = graphic.points
 
       graphic.remove() // 删除绘制的线
 
@@ -101,7 +115,7 @@ function drawLine(width, height, opacity) {
 }
 
 // 宽度发生改变
-function widthChange(value) {
+export function widthChange(value) {
   if (!road) {
     return
   }
@@ -109,7 +123,7 @@ function widthChange(value) {
 }
 
 // 路高度发生改变
-function heightChange(value) {
+export function heightChange(value) {
   if (!road) {
     return
   }
@@ -117,7 +131,7 @@ function heightChange(value) {
 }
 
 // 透明度发生改变
-function alphaChange(value) {
+export function alphaChange(value) {
   if (!road) {
     return
   }
@@ -125,7 +139,7 @@ function alphaChange(value) {
 }
 
 // 清除
-function clear() {
+export function clear() {
   graphicLayer.clear()
   road = null
 }

@@ -1,16 +1,18 @@
-var map
-var streetView
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let streetView
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
-
-
-   streetView = new mars3d.thing.StreetView({
+  streetView = new mars3d.thing.StreetView({
     rotateSpeed: 30, // 右键拖动的移动度数，旋转的方向和速度，正负控制方向。
     windingPointDirection: false, /// 绕点旋转方向 true逆时针，false顺时针
     windingPointTime: 30, // 绕点旋转的一周时长(秒)，控制速度。
@@ -22,8 +24,15 @@ function initMap(options) {
   map.addThing(streetView)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
-function shadingMaterials(val) {
+export function shadingMaterials(val) {
   if (val === 1) {
     streetView.enabled = true
   } else {
@@ -32,7 +41,7 @@ function shadingMaterials(val) {
 }
 
 // 定位至模型
-var modelTest
+let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({

@@ -1,11 +1,7 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-        <mars-button href="editor.html?id=graphic/entity/dynamic3Dtiles" target="_blank">动态贴模型示例</mars-button>
-      </a-form-item>
-    </a-form>
+    <LayerState />
+    <mars-button href="editor.html?id=graphic/entity/dynamic3Dtiles" target="_blank">动态贴模型示例</mars-button>
   </PannelBox>
   <LocationTo />
 </template>

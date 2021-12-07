@@ -1,42 +1,61 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1000,
-        maximumZoomDistance: 300000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      }
-    },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 12.845055, lng: 112.931363, alt: 24286797, heading: 3, pitch: -90 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1000,
+      maximumZoomDistance: 300000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     }
-  })
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
   map.clock.shouldAnimate = true
   map.clock.multiplier = 60 // 速度
 
+  addGraphicLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
 
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
     tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -79,7 +98,7 @@ function initMap(options) {
   graphicLayer.addGraphic(weixin)
 
   // 目标卫星
-  var winxinMB = new mars3d.graphic.Satellite({
+  const winxinMB = new mars3d.graphic.Satellite({
     name: "COSMOS 2251 DEB",
     tle1: "1 33916U 93036DV  21197.38574736  .00000034  00000-0  48020-4 0  9991",
     tle2: "2 33916  74.0517 160.4563 0330253 328.4241 153.7022 13.66391564618811",
@@ -122,7 +141,7 @@ function initMap(options) {
   graphicLayer.addGraphic(winxinMB)
 
   // 四棱椎体
-  var rectSensor = new mars3d.graphic.RectSensor({
+  const rectSensor = new mars3d.graphic.RectSensor({
     position: new Cesium.CallbackProperty(function (time) {
       return weixin.position
     }, false),

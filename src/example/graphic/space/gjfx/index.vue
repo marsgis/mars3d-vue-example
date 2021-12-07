@@ -1,45 +1,43 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">过境区域:</span>
-          <mars-button @click="drawRectangle">框选</mars-button>
-          <mars-button @click="drawCircle">圆形</mars-button>
-          <mars-button @click="drawPolygon">多边形</mars-button>
-          <mars-button @click="drawClear">清除</mars-button>
-        </a-space>
-      </a-form-item>
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">开始时间:</span>
-          <mars-date-picker v-model:value="startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">过境区域:</span>
+        <mars-button @click="drawRectangle">框选</mars-button>
+        <mars-button @click="drawCircle">圆形</mars-button>
+        <mars-button @click="drawPolygon">多边形</mars-button>
+        <mars-button @click="drawClear">清除</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">开始时间:</span>
+        <mars-date-picker v-model:value="startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label">结束时间:</span>
-          <mars-date-picker v-model:value="endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">结束时间:</span>
+        <mars-date-picker v-model:value="endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-space>
-          <span class="pannel-item-label"></span>
-          <mars-button @click="startFX">开始分析</mars-button>
-          <mars-button @click="clearResult">清除</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label"></span>
+        <mars-button @click="startFX">开始分析</mars-button>
+        <mars-button @click="clearResult">清除</mars-button>
+      </a-space>
+    </div>
 
-      <a-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="data">
-        <template #bodyCell="{ column, text }">
-          <template v-if="column.dataIndex === 'name'">
-            <a>{{ text }}</a>
-          </template>
+    <a-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="data">
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.dataIndex === 'name'">
+          <a>{{ text }}</a>
         </template>
-      </a-table>
-    </a-form>
+      </template>
+    </a-table>
   </PannelBox>
 </template>
 
@@ -47,6 +45,7 @@
 import { ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
 const columns = [
   {
@@ -75,9 +74,6 @@ const columns = [
     key: "distance"
   }
 ]
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 const startTime = ref<Dayjs>(dayjs())
 const endTime = ref<Dayjs>(dayjs().add(60, "minute"))
@@ -111,11 +107,8 @@ const startFX = () => {
 
   mapWork.startFX(startTimes, endTimes)
 
-  data.value = mapWork.tableList
+  mapWork.eventTarget.on("dataList", (e: any) => {
+    data.value = e.tableList
+  })
 }
 </script>
-<style scoped lang="less">
-.inputNum {
-  width: 70px !important;
-}
-</style>

@@ -1,36 +1,42 @@
-var map
-var drawGraphic
-var graphicLayer
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: -13.151771, lng: 55.60413, alt: 30233027, heading: 154, pitch: -89 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1,
-        maximumZoomDistance: 300000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      },
-      clock: {
-        multiplier: 10 // 速度
-      }
+let map // mars3d.Map三维地图对象
+let drawGraphic
+let graphicLayer
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: -13.151771, lng: 55.60413, alt: 30233027, heading: 154, pitch: -89 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1,
+      maximumZoomDistance: 300000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
+    clock: {
+      multiplier: 10 // 速度
     }
-  })
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -42,8 +48,19 @@ function initMap(options) {
   graphicLayer.on(mars3d.EventType.change, function (event) {
     // 监听位置变化
   })
+  creatSatellite()
+}
 
-  var weixin = new mars3d.graphic.Satellite({
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function creatSatellite() {
+  const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",
     tle2: "2 39150  97.8300 252.9072 0018449 344.7422  15.3253 14.76581022440650",
@@ -70,7 +87,7 @@ function initMap(options) {
   weixin._lastInPoly = false
 
   setTimeout(() => {
-    var position = weixin.position
+    const position = weixin.position
     if (position) {
       map.flyToPoint(position, {
         radius: 900000, // 距离目标点的距离
@@ -89,12 +106,12 @@ function initMap(options) {
       return
     }
 
-    var position = weixin.position
+    const position = weixin.position
     if (!position) {
       return
     }
-    var openVideo = false
-    var thisIsInPoly = drawGraphic.isInPoly(position)
+    let openVideo = false
+    const thisIsInPoly = drawGraphic.isInPoly(position)
     if (thisIsInPoly !== weixin._lastInPoly) {
       if (thisIsInPoly) {
         // 开始进入区域内
@@ -117,7 +134,7 @@ function initMap(options) {
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -133,7 +150,7 @@ function drawRectangle() {
   })
 }
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   map.graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -149,7 +166,7 @@ function drawCircle() {
   })
 }
 // 框选查询   多边
-function drawPolygon() {
+export function drawPolygon() {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -165,41 +182,7 @@ function drawPolygon() {
   })
 }
 // 清除
-function drawClear() {
+export function drawClear() {
   map.graphicLayer.clear()
   drawGraphic = null
 }
-
-// // 判断卫星是否在面内
-// function processInArea(weixin) {
-//   if (!drawGraphic) {
-//     weixin._lastInPoly = false
-//     weixin.coneShow = false // 关闭视锥体
-//     // $("#videoView").hide() // 关闭视频面板
-//     return
-//   }
-
-//   var position = weixin.position
-//   if (!position) {
-//     return
-//   }
-
-//   var thisIsInPoly = drawGraphic.isInPoly(position)
-//   if (thisIsInPoly !== weixin._lastInPoly) {
-//     if (thisIsInPoly) {
-//       // 开始进入区域内
-//       console.log(weixin.name + "开始进入区域内")
-
-//       weixin.coneShow = true // 打开视锥体
-//       // $("#videoView").show() // 打开视频面板
-//     } else {
-//       // 离开区域
-//       console.log(weixin.name + "离开区域")
-
-//       weixin.coneShow = false // 关闭视锥体
-//       // $("#videoView").hide() // 关闭视频面板
-//     }
-
-//     weixin._lastInPoly = thisIsInPoly
-//   }
-// }

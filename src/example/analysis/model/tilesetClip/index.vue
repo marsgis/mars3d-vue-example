@@ -1,48 +1,45 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-space>
-          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-          <mars-button @click="btnDraw">绘制剪裁区</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
-      </a-form-item>
+    <div class="f-mb">
+      <a-space>
+        <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+        <mars-button @click="btnDraw">绘制剪裁区</mars-button>
+        <mars-button @click="removeAll">清除</mars-button>
+      </a-space>
+    </div>
 
-      <a-form-item>
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'caozuo'">
-              <a-space>
-                <mars-button type="link">
-                  <icon-move-one fill="#FFF" @click="flyto(record)" />
-                </mars-button>
-                <mars-button type="link">
-                  <icon-delete fill="#FFF" @click="deleted(record)" />
-                </mars-button>
-              </a-space>
-            </template>
-            <template v-else>
-              {{ record.name }}
-            </template>
+    <div class="f-mb">
+      <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'caozuo'">
+            <a-space>
+              <mars-button type="link">
+                <icon-move-one fill="#FFF" @click="flyto(record)" />
+              </mars-button>
+              <mars-button type="link">
+                <icon-delete fill="#FFF" @click="deleted(record)" />
+              </mars-button>
+            </a-space>
           </template>
-        </a-table>
-      </a-form-item>
-    </a-form>
+          <template v-else>
+            {{ record.name }}
+          </template>
+        </template>
+      </a-table>
+    </div>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import * as mapWork from "./map.js"
 
 interface TableItem {
   key: number
   name: string
   graphicId: string
 }
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
 
 // 表格数据
 const columns = ref([
@@ -63,7 +60,9 @@ const dataSource = ref<TableItem[]>([])
 onMounted(() => {
   window.$notify(
     "已知问题提示",
-    "（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。（2）目前不支持所有3dtile数据，请替换url进行自测"
+    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+  （2）目前不支持所有3dtile数据，请替换url进行自测`,
+    { duration: null }
   )
 
   mapWork.eventTarget.on("dataLoaded", function (event: any) {

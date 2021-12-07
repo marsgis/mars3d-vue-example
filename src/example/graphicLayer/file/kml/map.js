@@ -1,49 +1,64 @@
-var map
-var treeEvent = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
-    },
-    layers: [
-      {
-        name: "国境线",
-        type: "kml",
-        url: "//data.mars3d.cn/file/kml/countryboundary.kml",
-        symbol: {
-          styleOptions: {
-            color: "#FED976",
-            width: 2
-          }
-        },
-        popup: "all",
-        show: true
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.614035, lng: 117.292184, alt: 25686, heading: 0, pitch: -44 }
+  },
+  layers: [
+    {
+      name: "国境线",
+      type: "kml",
+      url: "//data.mars3d.cn/file/kml/countryboundary.kml",
+      symbol: {
+        styleOptions: {
+          color: "#FED976",
+          width: 2
+        }
       },
-      {
-        name: "省界线",
-        type: "kml",
-        url: "//data.mars3d.cn/file/kml/province.kml",
-        symbol: {
-          styleOptions: {
-            color: "#00FF00",
-            width: 2
-          }
-        },
-        popup: "all",
-        show: true
-      }
-    ]
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-  showTieluDemo()
+      popup: "all",
+      show: true
+    },
+    {
+      name: "省界线",
+      type: "kml",
+      url: "//data.mars3d.cn/file/kml/province.kml",
+      symbol: {
+        styleOptions: {
+          color: "#00FF00",
+          width: 2
+        }
+      },
+      popup: "all",
+      show: true
+    }
+  ]
 }
 
-var kmlLayer
+export const treeEvent = new mars3d.BaseClass()
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  shoRailway()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let kmlLayer
 
 function removeLayer() {
   map.trackedEntity = null
@@ -52,9 +67,13 @@ function removeLayer() {
     kmlLayer = null
   }
 }
+// flyTo至目标
+export function flyToEntity(entity) {
+  map.flyTo(entity)
+}
 
 // 示例：
-function showTieluDemo() {
+export function shoRailway() {
   removeLayer()
 
   kmlLayer = new mars3d.layer.KmlLayer({
@@ -106,7 +125,7 @@ function showTieluDemo() {
 }
 
 // 示例：
-function showGaosuluDemo() {
+export function showExpressway() {
   removeLayer()
 
   kmlLayer = new mars3d.layer.KmlLayer({
@@ -137,7 +156,7 @@ function showGaosuluDemo() {
 }
 
 // 示例：
-function showAnquanDemo() {
+export function showSafetyNotice() {
   removeLayer()
 
   kmlLayer = new mars3d.layer.KmlLayer({
@@ -162,7 +181,7 @@ function showAnquanDemo() {
 }
 
 // 示例：
-function showQixiangDemo() {
+export function showMeteorological() {
   removeLayer()
 
   kmlLayer = new mars3d.layer.KmlLayer({
@@ -187,7 +206,7 @@ function showQixiangDemo() {
 }
 
 // 示例：
-function showGuojiaDemo() {
+export function showGDP() {
   removeLayer()
 
   kmlLayer = new mars3d.layer.KmlLayer({

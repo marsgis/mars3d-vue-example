@@ -1,3 +1,5 @@
+import * as mars3d from "mars3d"
+
 // xyz图层url所支持的字符串模版:
 // {z}: 切片方案中切片的级别。零级是四叉树金字塔的根。
 // {x}:切片方案中的图块X坐标，其中0是最西端的图块。
@@ -17,56 +19,73 @@
 // {width}:每个图块的宽度（以像素为单位）。
 // {height}: 每个图块的高度（以像素为单位）。
 
-var map
-function initMap() {
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", {
-    scene: {
-      center: { lat: 29.968111, lng: 106.437663, alt: 8098707, heading: 5, pitch: -88 }
-    },
-    control: {
-      baseLayerPicker: true, // basemaps底图切换按钮
-      homeButton: true, // 视角复位按钮
-      sceneModePicker: true, // 二三维切换按钮
-      defaultContextMenu: true, // 右键菜单
-      locationBar: { fps: true } // 状态栏
-    },
-    terrain: {
-      url: "http://data.mars3d.cn/terrain",
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.968111, lng: 106.437663, alt: 8098707, heading: 5, pitch: -88 }
+  },
+  control: {
+    baseLayerPicker: true, // basemaps底图切换按钮
+    homeButton: true, // 视角复位按钮
+    sceneModePicker: true, // 二三维切换按钮
+    defaultContextMenu: true, // 右键菜单
+    locationBar: { fps: true } // 状态栏
+  },
+  terrain: {
+    url: "http://data.mars3d.cn/terrain",
+    show: true
+  },
+  // 方式1：在创建地球前的参数中配置
+  basemaps: [
+    {
+      name: "电子地图",
+      icon: "img/basemaps/google_vec.png",
+      type: "xyz",
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      subdomains: "abc",
       show: true
     },
-    // 方式1：在创建地球前的参数中配置
-    basemaps: [
-      {
-        name: "电子地图",
-        icon: "img/basemaps/google_vec.png",
-        type: "xyz",
-        url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        subdomains: "abc",
-        show: true
-      },
-      {
-        name: "影像地图",
-        icon: "img/basemaps/gaode_img.png",
-        type: "xyz",
-        url: "//data.mars3d.cn/tile/googleImg/{z}/{x}/{y}.jpg",
-        maximumLevel: 12
-      },
-      {
-        name: "EPSG4490影像",
-        icon: "img/basemaps/tdt_img.png",
-        type: "xyz",
-        url: "http://t3.tianditu.gov.cn/img_c/wmts?service=WMTS&version=1.0.0&request=GetTile&tilematrix={z}&layer=img&style=default&tilerow={y}&tilecol={x}&tilematrixset=c&format=tiles&tk=6c99c7793f41fccc4bd595b03711913e",
-        crs: "EPSG:4490" // 标识坐标系
-      }
-    ]
-  })
+    {
+      name: "影像地图",
+      icon: "img/basemaps/gaode_img.png",
+      type: "xyz",
+      url: "//data.mars3d.cn/tile/googleImg/{z}/{x}/{y}.jpg",
+      maximumLevel: 12
+    },
+    {
+      name: "EPSG4490影像",
+      icon: "img/basemaps/tdt_img.png",
+      type: "xyz",
+      url: "http://t3.tianditu.gov.cn/img_c/wmts?service=WMTS&version=1.0.0&request=GetTile&tilematrix={z}&layer=img&style=default&tilerow={y}&tilecol={x}&tilematrixset=c&format=tiles&tk=6c99c7793f41fccc4bd595b03711913e",
+      crs: "EPSG:4490" // 标识坐标系
+    }
+  ]
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 叠加的图层
-var tileLayer
+let tileLayer
 
-function addLayer() {
+export function addLayer() {
   removeLayer()
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -81,7 +100,7 @@ function addLayer() {
   })
   map.addLayer(tileLayer)
 }
-function removeLayer() {
+export function removeLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

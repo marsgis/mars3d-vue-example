@@ -3,9 +3,11 @@ import { App } from "vue"
 
 /**
  * message 信息弹窗
- *
+ * @export
+ * @param {App} app vue实例
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2021-11-01
+ * @returns {void}
  */
 export default function (app: App): void {
   message.config({

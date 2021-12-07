@@ -1,43 +1,52 @@
-var map
-var flatBillboard
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.18408, lng: 116.160667, alt: 1138597, heading: 1, pitch: -78 },
-      globe: {
-        baseColor: "#a3b3c2"
-      }
-    },
-    control: {
-      infoBox: false
-    },
-    terrain: false,
-    layers: [
-      {
-        type: "geojson",
-        name: "全国省界",
-        url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
-        symbol: {
-          type: "polygonCombine",
-          styleOptions: {
-            fill: false,
-            outline: true,
-            outlineWidth: 2,
-            outlineColor: "#cccccc",
-            outlineOpacity: 0.8
-          }
-        },
-        show: true
-      }
-    ]
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let flatBillboard
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.18408, lng: 116.160667, alt: 1138597, heading: 1, pitch: -78 },
+    globe: {
+      baseColor: "#a3b3c2"
+    }
+  },
+  control: {
+    infoBox: false
+  },
+  terrain: false,
+  layers: [
+    {
+      type: "geojson",
+      name: "全国省界",
+      url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
+      symbol: {
+        type: "polygonCombine",
+        styleOptions: {
+          fill: false,
+          outline: true,
+          outlineWidth: 2,
+          outlineColor: "#cccccc",
+          outlineOpacity: 0.8
+        }
+      },
+      show: true
+    }
+  ]
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
   map.basemap = undefined
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件
@@ -66,26 +75,32 @@ function initMap(options) {
   graphicLayer.addGraphic(flatBillboard)
   loadDemo()
 }
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
+
 // 生成图标
-function showDataPoint(numPoints) {
+export function showDataPoint(numPoints) {
   clearData()
   showLoading()
-  var startTime = new Date().getTime()
+  const startTime = new Date().getTime()
   // 创建等值线区域
-  var extent = [112.287256, 27.408204, 120.695453, 34.659583]
-  var pointGrid = turf.pointGrid(extent, numPoints, {
+  const extent = [112.287256, 27.408204, 120.695453, 34.659583]
+  const pointGrid = turf.pointGrid(extent, numPoints, {
     units: "miles"
   })
-  var arr = []
-  for (var i = 0; i < pointGrid.features.length; i++) {
-    var coor = pointGrid.features[i].geometry.coordinates
-    var position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000)
+  const arr = []
+  for (let i = 0; i < pointGrid.features.length; i++) {
+    const coor = pointGrid.features[i].geometry.coordinates
+    const position = Cesium.Cartesian3.fromDegrees(coor[0], coor[1], 1000)
 
-    var angle = random(0, 360) // 随机方向
-    var speed = random(0, 60) // 随机数值
+    const angle = random(0, 360) // 随机方向
+    const speed = random(0, 60) // 随机数值
 
     arr.push({
       position: position,
@@ -100,26 +115,26 @@ function showDataPoint(numPoints) {
 
   flatBillboard.instances = arr
   hideLoading()
-  var endTime = new Date().getTime()
+  const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
-  var usedTime = (endTime - startTime) / 1000
+  const usedTime = (endTime - startTime) / 1000
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
 // 清除数据
-function clearData() {
+export function clearData() {
   if (flatBillboard) {
     flatBillboard.clear()
   }
 }
 // 加载演示数据
-function loadDemo() {
+export function loadDemo() {
   queryWindPointApiData().then(function (arr) {
     showWindPoint(arr)
   })
 }
 // 访问后端接口，取数据
-var arrWind
+let arrWind
 function queryWindPointApiData() {
   return new Promise(function (resolve, reject) {
     if (arrWind) {
@@ -139,7 +154,7 @@ function queryWindPointApiData() {
 
 function showWindPoint(arr) {
   clearData()
-  var arrPoint = []
+  const arrPoint = []
   for (let i = 0, len = arr.length; i < len; i++) {
     const item = arr[i]
     arrPoint.push({
@@ -155,8 +170,12 @@ function showWindPoint(arr) {
   flatBillboard.instances = arrPoint
 }
 
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 function getImageBySpeed(speed) {
-  var windVaneUrl = "img/windVane/01.svg"
+  let windVaneUrl = "img/windVane/01.svg"
   if (speed >= 0 && speed <= 2) {
     windVaneUrl = "img/windVane/01.svg"
   } else if (speed > 2 && speed <= 4) {

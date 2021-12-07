@@ -1,19 +1,26 @@
-var map
-var tiles3dLayerDTH
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let tiles3dLayerDTH
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 43.823957, lng: 125.136704, alt: 286, heading: 11, pitch: -24 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 添加三维模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "校园",
     url: "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
     position: { alt: 15.8 },
@@ -52,8 +59,16 @@ function initMap(options) {
   map.addLayer(tiles3dLayerDTH)
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 各层颜色显示
-function chkShowColor(val) {
+export function chkShowColor(val) {
   if (val) {
     tiles3dLayerDTH.style = {
       color: {

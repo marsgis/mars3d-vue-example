@@ -1,21 +1,39 @@
-var map
-var threeLayer
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.980053, lng: 117.375049, alt: 110976, heading: 357, pitch: -50 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let threeLayer
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.980053, lng: 117.375049, alt: 110976, heading: 357, pitch: -50 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+
+  // eslint-disable-next-line no-undef
   threeLayer = new ThreeLayer()
   map.addLayer(threeLayer)
 
   init3DObject()
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function init3DObject() {
   let minWGS84 = [117.142184, 31.869697]
   let maxWGS84 = [117.357015, 31.713898]
@@ -27,7 +45,7 @@ function init3DObject() {
   // translate "up" in Three.js space so the "bottom" of the mesh is the handle
   sphere.scale.set(5000, 5000, 5000)
   sphere.uuid = "sphere"
-  var sphereYup = new THREE.Group()
+  const sphereYup = new THREE.Group()
   sphereYup.add(sphere)
   threeLayer.scene.add(sphereYup) // don’t forget to add it to the Three.js scene manually
   sphereYup.position.set(ce.x, ce.y, ce.z)
@@ -48,7 +66,7 @@ function init3DObject() {
   dodecahedronMesh.rotation.x = Math.PI / 2 // rotate mesh for Cesium's Y-up system
   dodecahedronMesh.uuid = "12面体"
 
-  var dodecahedronMeshYup = new THREE.Group()
+  const dodecahedronMeshYup = new THREE.Group()
   dodecahedronMeshYup.add(dodecahedronMesh)
   threeLayer.scene.add(dodecahedronMeshYup) // don’t forget to add it to the Three.js scene manually
   dodecahedronMeshYup.position.set(ce.x, ce.y, ce.z)
@@ -61,17 +79,17 @@ function init3DObject() {
 
   // 添加灯光
   // 添加点光源
-  var spotLight = new THREE.SpotLight(0xffffff)
+  const spotLight = new THREE.SpotLight(0xffffff)
   spotLight.position.set(0, 0, 50000)
   spotLight.castShadow = true // 设置光源投射阴影
   spotLight.intensity = 1
   sphereYup.add(spotLight)
 
   // 添加环境光
-  var hemiLight = new THREE.HemisphereLight(0xff0000, 0xff0000, 1)
+  const hemiLight = new THREE.HemisphereLight(0xff0000, 0xff0000, 1)
   sphereYup.add(hemiLight)
 
-  var cartToVec = function (cart) {
+  const cartToVec = function (cart) {
     return new THREE.Vector3(cart.x, cart.y, cart.z)
   }
 
@@ -80,15 +98,15 @@ function init3DObject() {
     minWGS84 = _3Dobjects[id].minWGS84
     maxWGS84 = _3Dobjects[id].maxWGS84
     // convert lat/long center position to Cartesian3
-    var center = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2)
+    const center = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2)
 
     // get forward direction for orienting model
-    var centerHigh = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2, 1)
+    const centerHigh = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2, 1)
 
     // use direction from bottom left to top left as up-vector
-    var bottomLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], minWGS84[1]))
-    var topLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], maxWGS84[1]))
-    var latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize()
+    const bottomLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], minWGS84[1]))
+    const topLeft = cartToVec(Cesium.Cartesian3.fromDegrees(minWGS84[0], maxWGS84[1]))
+    const latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize()
 
     // configure entity position and orientation
     _3Dobjects[id].threeMesh.position.copy(center)

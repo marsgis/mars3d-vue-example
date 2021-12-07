@@ -1,29 +1,37 @@
-var map
-var graphicLayer
-var rectSensor
-var testLine
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 23.729961, lng: 116.284734, alt: 1868672, heading: 355, pitch: -65 },
-      cameraController: {
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      }
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let rectSensor
+let testLine
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 23.729961, lng: 116.284734, alt: 1868672, heading: 355, pitch: -65 },
+    cameraController: {
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     }
-  })
+  }
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加个模型
-  var graphic = new mars3d.graphic.ModelEntity({
+  const graphic = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
     style: {
@@ -35,13 +43,32 @@ function initMap(options) {
   })
   graphicLayer.addGraphic(graphic)
 
-eventTarget.fire("loadOk")
-
+  eventTarget.fire("loadOk")
 }
 
-function addConicSensor(heading, pitch, roll, angle1, angle2, length) {
-   // 四棱锥体
-   rectSensor = new mars3d.graphic.RectSensor({
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 初始化创建一个四棱锥体
+ *
+ * @export
+ * @param {number} heading 方向角
+ * @param {number} pitch 俯仰角
+ * @param {number} roll 左右角
+ * @param {number} angle1 夹角1
+ * @param {number} angle2 夹角1
+ * @param {number} length 长度
+ * @returns {void}
+ */
+export function addConicSensor(heading, pitch, roll, angle1, angle2, length) {
+  // 四棱锥体
+  rectSensor = new mars3d.graphic.RectSensor({
     position: [117.170264, 31.840312, 363],
     style: {
       angle1: angle1,
@@ -63,9 +90,9 @@ function addConicSensor(heading, pitch, roll, angle1, angle2, length) {
   graphicLayer.addGraphic(rectSensor)
 
   // 测试连接线
-   testLine = new mars3d.graphic.PolylineEntity({
+  testLine = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var localEnd = rectSensor.rayPosition
+      const localEnd = rectSensor.rayPosition
       if (!localEnd) {
         return []
       }
@@ -83,40 +110,40 @@ function addConicSensor(heading, pitch, roll, angle1, angle2, length) {
 }
 
 // 方向角
-function headingChange(value) {
+export function headingChange(value) {
   rectSensor.heading = value
 }
 
 // 俯仰角
-function pitchChange(value) {
+export function pitchChange(value) {
   rectSensor.pitch = value
 }
 
 // 左右角
-function rollChange(value) {
+export function rollChange(value) {
   rectSensor.roll = value
 }
 
 // 夹角1
-function angle1(value) {
+export function angle1(value) {
   rectSensor.angle1 = value
 }
 // 夹角1
-function angle2(value) {
+export function angle2(value) {
   rectSensor.angle2 = value
 }
 
 // 显示/隐藏
-function sensorShowHide(val) {
+export function sensorShowHide(val) {
   rectSensor.show = val
   testLine.show = val
 }
 
 // 顶部显示隐藏
-function sensorTop(val) {
+export function sensorTop(val) {
   rectSensor.topShow = val
 }
 
-function sensorLength(val) {
+export function sensorLength(val) {
   rectSensor.length = val
 }

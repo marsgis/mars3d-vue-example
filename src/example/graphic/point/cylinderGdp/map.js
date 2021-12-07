@@ -1,50 +1,55 @@
+import * as mars3d from "mars3d"
 
-var map
-var graphicLayer
-var barColors = ["#00fdcf", "#63AEFF", "#FFB861", "#FF6D5D"]
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.286465, lng: 117.620524, alt: 510892, heading: 358, pitch: -50 }
-    },
-    layers: [
-      {
-        id: 1987,
-        type: "geojson",
-        name: "淮海经济区11市",
-        url: "//data.mars3d.cn/file/geojson/huaihai.json",
-        symbol: {
-          styleOptions: {
-            materialType: mars3d.MaterialType.PolyGradient,
-            color: "#3388cc",
-            opacity: 0.7,
-            alphaPower: 1.3,
-            length: "{gdp}"
-          },
-          styleField: "Name",
-          styleFieldOptions: {
-            济宁市: { color: "#D4AACE" },
-            临沂市: { color: "#8DC763" },
-            菏泽市: { color: "#F7F39A" },
-            枣庄市: { color: "#F7F39A" },
-            徐州市: { color: "#96F0F1" },
-            宿迁市: { color: "#EAC9A8" },
-            连云港市: { color: "#F7F39A" },
-            商丘市: { color: "#D4AACE" },
-            宿州市: { color: "#8DC763" },
-            亳州市: { color: "#96F0F1" },
-            淮北市: { color: "#EAC9A8" }
-          }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.286465, lng: 117.620524, alt: 510892, heading: 358, pitch: -50 }
+  },
+  layers: [
+    {
+      id: 1987,
+      type: "geojson",
+      name: "淮海经济区11市",
+      url: "//data.mars3d.cn/file/geojson/huaihai.json",
+      symbol: {
+        styleOptions: {
+          materialType: mars3d.MaterialType.PolyGradient,
+          color: "#3388cc",
+          opacity: 0.7,
+          alphaPower: 1.3,
+          length: "{gdp}"
         },
-        show: true
-      }
-    ]
-  })
+        styleField: "Name",
+        styleFieldOptions: {
+          济宁市: { color: "#D4AACE" },
+          临沂市: { color: "#8DC763" },
+          菏泽市: { color: "#F7F39A" },
+          枣庄市: { color: "#F7F39A" },
+          徐州市: { color: "#96F0F1" },
+          宿迁市: { color: "#EAC9A8" },
+          连云港市: { color: "#F7F39A" },
+          商丘市: { color: "#D4AACE" },
+          宿州市: { color: "#8DC763" },
+          亳州市: { color: "#96F0F1" },
+          淮北市: { color: "#EAC9A8" }
+        }
+      },
+      show: true
+    }
+  ]
+}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   map.basemap = 2017 // 蓝色底图
 
@@ -53,16 +58,14 @@ function initMap(options) {
   map.addLayer(graphicLayer)
 
   mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/huaihai-jj.json" })
-  .then(function (res) {
-    conventChartsData(res.data) // 单击显示的popup
-    showYearZT(res.data) // 柱状图
-    bindHaihuaiPopup()
-  })
-  .otherwise(function () {
-    console.log("huoqu shipai")
-    // eslint-disable-next-line no-undef
-    globalMsg("获取信息失败，请稍候再试")
-  })
+    .then(function (res) {
+      conventChartsData(res.data) // 单击显示的popup
+      showYearZT(res.data) // 柱状图
+      bindHaihuaiPopup()
+    })
+    .otherwise(function () {
+      globalMsg("获取信息失败，请稍候再试")
+    })
 
   map.on(mars3d.EventType.load, function (event) {
     console.log("矢量数据对象加载完成", event)
@@ -70,7 +73,18 @@ function initMap(options) {
 }
 
 /**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
  * 展示某年的椎体
+ *
+ * @param {object} data 通过JSON获取的数据
+ * @returns {void} 无
  */
 function showYearZT(data) {
   const yearArr = Object.keys(data)
@@ -89,13 +103,13 @@ function showYearZT(data) {
                   <span style="color:#FFB861">第二产业：${num2}</span><br/>
                   <span style="color:#FF6D5D">第三产业：${num3}</span>`
 
-    var height1 = Math.floor(num1 * 10)
-    var height2 = Math.floor(num2 * 10)
-    var height3 = Math.floor(num3 * 10)
+    const height1 = Math.floor(num1 * 10)
+    const height2 = Math.floor(num2 * 10)
+    const height3 = Math.floor(num3 * 10)
 
-    var p1 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 / 2)
-    var p2 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 / 2)
-    var p3 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 + height1 / 2)
+    const p1 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 / 2)
+    const p2 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 / 2)
+    const p3 = Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height3 + height2 + height1 / 2)
 
     // 添加柱体
     createZT(p1, height3, "#63AEFF", html)
@@ -103,7 +117,7 @@ function showYearZT(data) {
     createZT(p3, height1, "#FF6D5D", html)
 
     // 添加文字
-    var primitive = new mars3d.graphic.LabelPrimitive({
+    const primitive = new mars3d.graphic.LabelPrimitive({
       position: Cesium.Cartesian3.fromDegrees(jwd[0], jwd[1], height1 + height2 + height3),
       style: {
         text: numall,
@@ -123,9 +137,9 @@ function showYearZT(data) {
   }
 }
 
-/**  创建柱体 */
+//  创建柱体
 function createZT(position, len, color, html) {
-  var graphic = new mars3d.graphic.CylinderEntity({
+  const graphic = new mars3d.graphic.CylinderEntity({
     position: position,
     style: {
       length: len,
@@ -143,7 +157,7 @@ function createZT(position, len, color, html) {
   return graphic
 }
 
-var cityPosition = [
+const cityPosition = [
   { name: "亳州", jwd: [116.203602, 33.496075] },
   { name: "商丘", jwd: [115.871509, 34.297084] },
   { name: "淮北", jwd: [116.688413, 33.689214] },
@@ -157,9 +171,7 @@ var cityPosition = [
   { name: "菏泽", jwd: [115.716086, 35.05629] }
 ]
 
-/**
- * 根据名称获取坐标
- */
+//  根据名称获取坐标
 function getJWDByName(name) {
   for (let i = 0; i < cityPosition.length; i += 1) {
     const item = cityPosition[i]
@@ -200,8 +212,7 @@ function conventChartsData(arrOld) {
 }
 
 function bindHaihuaiPopup() {
-  var layerHuaihai = map.getLayer(1987, "id") // 获取config.json中对应图层
-
+  const layerHuaihai = map.getLayer(1987, "id") // 获取config.json中对应图层
 
   // 在layer上绑定Popup单击弹窗
   layerHuaihai.bindPopup(
@@ -225,7 +236,6 @@ function bindHaihuaiPopup() {
     if (!option) {
       return
     }
-    console.log(container)
     gdpCharts = echarts.init(container.querySelector("#gdpCharts"))
     gdpCharts.setOption(option)
   })
@@ -253,7 +263,7 @@ function getCityChartsOptions(attr) {
     arrData[b] = [b, 0, arrGDPvalues[b]]
   }
 
-  var option = {
+  const option = {
     visualMap: {
       max: 4500,
       show: false,

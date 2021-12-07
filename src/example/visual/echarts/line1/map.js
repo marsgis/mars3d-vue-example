@@ -1,31 +1,53 @@
-var map
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 14.986428, lng: 113.87451, alt: 3519007, heading: 353, pitch: -69 }
-    }
-  })
+let map // mars3d.Map三维地图对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 14.986428, lng: 113.87451, alt: 3519007, heading: 353, pitch: -69 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建Echarts图层
   createEchartsLayer()
 }
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function createEchartsLayer() {
-  var options = getEchartsOption()
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const options = getEchartsOption()
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 
   // 图表自适应
-  window.addEventListener("resize", function () { echartsLayer.resize() })
+  window.addEventListener("resize", function () {
+    echartsLayer.resize()
+  })
 }
 
-function getEchartsOption(data) {
-  var allData = {
+/**
+ *echart图层
+ *
+ * @return {option} echart图表的数据
+ */
+function getEchartsOption() {
+  const allData = {
     citys: [
       {
         itemStyle: {
@@ -281,7 +303,7 @@ function getEchartsOption(data) {
       }
     ]
   }
-  var option = {
+  const option = {
     animation: false,
 
     backgroundColor: "rgba(17, 19, 42, 0.4)",

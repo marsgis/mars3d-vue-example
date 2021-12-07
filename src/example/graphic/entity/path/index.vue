@@ -1,10 +1,6 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <LayerState />
-      </a-form-item>
-    </a-form>
+    <LayerState />
   </PannelBox>
   <LocationTo />
 </template>

@@ -1,24 +1,33 @@
-var map
-var underground
-var terrainPlanClip
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.839437, lng: 117.216104, alt: 554, heading: 359, pitch: -55 },
-      baseColor: "rgba(0,0,0.0,0.5)",
-      globe: {
-        depthTestAgainstTerrain: true
-      }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let underground
+let terrainPlanClip
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.839437, lng: 117.216104, alt: 554, heading: 359, pitch: -55 },
+    baseColor: "rgba(0,0,0.0,0.5)",
+    globe: {
+      depthTestAgainstTerrain: true
+    }
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
     url: "//data.mars3d.cn/3dtiles/max-piping/tileset.json",
     position: { lng: 117.215457, lat: 31.843363, alt: -3.6 },
@@ -30,10 +39,19 @@ function initMap(options) {
     center: { lat: 31.838081, lng: 117.216584, alt: 406, heading: 1, pitch: -34 }
   })
   map.addLayer(tiles3dLayer)
+
   eventTarget.fire("loadOk")
 }
 
-function centerAtDX1() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function centerAtDX1() {
   map.setCameraView({
     lat: 31.840106,
     lng: 117.216768,
@@ -44,7 +62,7 @@ function centerAtDX1() {
   })
 }
 
-function centerAtDX2() {
+export function centerAtDX2() {
   map.setCameraView({
     lat: 31.841263,
     lng: 117.21538,
@@ -54,8 +72,9 @@ function centerAtDX2() {
     roll: 0.1
   })
 }
+
 // 是否开启地下模式
-function chkUnderground(val, alphaVal) {
+export function chkUnderground(val, alphaVal) {
   // 地下模式
   underground = new mars3d.thing.Underground({
     alpha: alphaVal,
@@ -67,17 +86,17 @@ function chkUnderground(val, alphaVal) {
 }
 
 // 透明度发生改变
-function alphaChange(value) {
+export function alphaChange(value) {
   if (underground) {
     underground.alpha = value
   }
 }
 // 是否开挖
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainPlanClip.enabled = val
 }
 
-function terrainClips(heightVal) {
+export function terrainClips(heightVal) {
   // 挖地区域
   terrainPlanClip = new mars3d.thing.TerrainClip({
     positions: [
@@ -94,12 +113,12 @@ function terrainClips(heightVal) {
   map.addThing(terrainPlanClip)
 }
 
-function heightChange(num) {
+export function heightChange(num) {
   terrainPlanClip.height = num
 }
 
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   terrainPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -111,7 +130,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -123,7 +142,7 @@ function drawExtent() {
 }
 
 // 绘制多边形
-function drawPolygon() {
+export function drawPolygon() {
   terrainPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -135,7 +154,7 @@ function drawPolygon() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -146,7 +165,7 @@ function drawPolygon() {
   })
 }
 
-function clearWJ() {
+export function clearWJ() {
   terrainPlanClip.clear() // 清除挖地区域
 }
 

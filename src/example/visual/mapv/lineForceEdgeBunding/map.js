@@ -1,22 +1,39 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.808307, lng: 110.597446, alt: 7852846, heading: 353, pitch: -86 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建mapv图层
   createMapvLayer()
 }
-function createMapvLayer() {
-  // var randomCount = 500;
 
-  var nodeData = {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function createMapvLayer() {
+  // let randomCount = 500;
+
+  const nodeData = {
     0: {
       x: 108.154518,
       y: 36.643346
@@ -27,14 +44,14 @@ function createMapvLayer() {
     }
   }
 
-  var edgeData = [
+  const edgeData = [
     {
       source: "1",
       target: "0"
     }
   ]
 
-  var citys = [
+  const citys = [
     "北京",
     "天津",
     "上海",
@@ -70,7 +87,7 @@ function createMapvLayer() {
 
   // 自定义数据
   for (let i = 1; i < 500; i++) {
-    var cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
+    const cityCenter = this.mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)])
     nodeData[i] = {
       x: cityCenter.lng - 5 + Math.random() * 10,
       y: cityCenter.lat - 5 + Math.random() * 10
@@ -81,17 +98,17 @@ function createMapvLayer() {
     })
   }
 
-  var fbundling = this.mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
+  const fbundling = this.mapv.utilForceEdgeBundling().nodes(nodeData).edges(edgeData)
 
-  var results = fbundling()
+  const results = fbundling()
 
-  var data = []
-  var timeData = []
+  const data = []
+  const timeData = []
 
-  for (var i = 0; i < results.length; i++) {
-    var line = results[i]
-    var coordinates = []
-    for (var j = 0; j < line.length; j++) {
+  for (let i = 0; i < results.length; i++) {
+    const line = results[i]
+    const coordinates = []
+    for (let j = 0; j < line.length; j++) {
       coordinates.push([line[j].x, line[j].y])
       timeData.push({
         geometry: {
@@ -110,7 +127,7 @@ function createMapvLayer() {
     })
   }
 
-  var options1 = {
+  const options1 = {
     strokeStyle: "rgba(55, 50, 250, 0.3)",
     globalCompositeOperation: "lighter",
     shadowColor: "rgba(55, 50, 250, 0.5)",
@@ -118,12 +135,12 @@ function createMapvLayer() {
     lineWidth: 1.0,
     draw: "simple"
   }
-  var dataSet1 = new this.mapv.DataSet(data)
+  const dataSet1 = new this.mapv.DataSet(data)
   // 创建MapV图层
-  var mapVLayer1 = new mars3d.layer.MapVLayer(options1, dataSet1)
+  const mapVLayer1 = new mars3d.layer.MapVLayer(options1, dataSet1)
   map.addLayer(mapVLayer1)
 
-  var options2 = {
+  const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.9)",
     globalCompositeOperation: "lighter",
     size: 1.5,
@@ -138,8 +155,8 @@ function createMapvLayer() {
     },
     draw: "simple"
   }
-  var dataSet2 = new this.mapv.DataSet(timeData)
+  const dataSet2 = new this.mapv.DataSet(timeData)
   // 创建MapV图层
-  var mapVLayer2 = new mars3d.layer.MapVLayer(options1, dataSet1)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options1, dataSet1)
   map.addLayer(mapVLayer2)
 }

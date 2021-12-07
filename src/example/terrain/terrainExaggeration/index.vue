@@ -2,32 +2,24 @@
   <PannelBox class="infoView">
     <a-space>
       <span>夸张程度:</span>
-      <a-slider :min="1" :max="50" v-model:value="formState.terrainExaggeration" @change="formStateChange" />
+      <a-slider :min="1" :max="50" v-model:value="terrainExaggeration" @change="formStateChange" />
     </a-space>
   </PannelBox>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
+import { ref } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import type { UnwrapRef } from "vue"
+import * as mapWork from "./map.js"
 
-interface FormState {
-  terrainExaggeration: number
-}
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
-const formState: UnwrapRef<FormState> = reactive({
-  terrainExaggeration: 10
-})
+const terrainExaggeration = ref<number>(1)
 
 const formStateChange = () => {
-  mapWork.changeTerrain(formState.terrainExaggeration)
+  mapWork.changeTerrain(terrainExaggeration.value)
 }
 </script>
 <style scoped lang="less">
-.ant-slider{
+.ant-slider {
   width: 100px;
 }
 </style>

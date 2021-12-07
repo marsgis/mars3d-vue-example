@@ -1,23 +1,19 @@
 <template>
   <PannelBox class="infoView">
-    <a-form>
-      <a-form-item>
-        <a-checkbox v-model:checked="formState.chkUnderground" @change="chkUnderground"> 显示限定范围 </a-checkbox>
-      </a-form-item>
+    <div class="f-mb">
+      <a-checkbox v-model:checked="formState.chkUnderground" @change="chkUnderground"> 显示限定范围 </a-checkbox>
+    </div>
 
-      <a-for-item>
-        <p>当前共有{{ formState.allLength }}条视角记录</p>
-      </a-for-item>
-    </a-form>
+    <div>
+      <p>当前共有{{ formState.allLength }}条视角记录</p>
+    </div>
   </PannelBox>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const formState = reactive({
   allLength: 0,

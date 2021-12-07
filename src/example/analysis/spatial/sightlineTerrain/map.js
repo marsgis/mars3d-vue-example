@@ -1,22 +1,42 @@
-var map
-var sightline
+import * as mars3d from "mars3d"
 
-var positionSXT
-var positionDM
-var positionJD // 与地面的交点
+let map // mars3d.Map三维地图对象
+let sightline
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 30.841574, lng: 116.18792, alt: 6828, heading: 215, pitch: -28 }
-    }
-  })
+let positionSXT
+let positionDM
+let positionJD // 与地面的交点
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    // 此处参数会覆盖config.json中的对应配置
+    center: { lat: 30.841574, lng: 116.18792, alt: 6828, heading: 215, pitch: -28 }
+  }
+}
 
+export var eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  creatTestData()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+// 创建测试数据
+function creatTestData() {
   sightline = new mars3d.thing.Sightline()
   map.addThing(sightline)
 
@@ -27,7 +47,7 @@ function initMap(options) {
   // 测试数据
   positionSXT = Cesium.Cartesian3.fromDegrees(116.144409, 30.744228, 1045)
 
-  var graphicSXT = new mars3d.graphic.PointEntity({
+  const graphicSXT = new mars3d.graphic.PointEntity({
     position: positionSXT,
     style: {
       color: "#ffff00",
@@ -45,12 +65,12 @@ function initMap(options) {
   map.graphicLayer.addGraphic(graphicSXT)
 
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 地面点
-  var graphic = new mars3d.graphic.PointEntity({
-    position: new Cesium.CallbackProperty(function (time) {
+  const TargetGraphic = new mars3d.graphic.PointEntity({
+    position: new Cesium.CallbackProperty(() => {
       return positionDM
     }, false),
     style: {
@@ -69,9 +89,9 @@ function initMap(options) {
       }
     }
   })
-  graphicLayer.addGraphic(graphic)
+  graphicLayer.addGraphic(TargetGraphic)
 
-  var graphicJD = new mars3d.graphic.PointEntity({
+  const graphicJD = new mars3d.graphic.PointEntity({
     position: new Cesium.CallbackProperty(function (time) {
       return positionJD
     }, false),
@@ -101,60 +121,65 @@ function initMap(options) {
   })
   graphicLayer.addGraphic(graphicLine)
 
-
+  eventTarget.fire("loadOK")
 }
 
-
 // 计算与地面焦点
-function getCenter() {
-    if (!positionSXT || !positionDM) {
-      return []
-    }
+export function getCenter() {
+  if (!positionSXT || !positionDM) {
+    return []
+  }
 
-    sightline.clear()
-    sightline.addAsync(positionSXT, positionDM)
+  sightline.clear()
+  sightline.addAsync(positionSXT, positionDM)
 }
 
 // 设置摄像头位置
-function sePoint() {
-   map.graphicLayer.clear()
-    map.graphicLayer.startDraw({
-      type: "point",
-      style: {
-        pixelSize: 8,
-        color: "#ffff00",
-        label: {
-          text: "摄像头",
-          font_size: 20,
-          color: "#ffffff",
-          outline: true,
-          outlineColor: "#000000",
-          pixelOffsetY: -20
-        }
-      },
-      success: function (graphic) {
-        positionSXT = graphic.positionShow
-        positionSXT = mars3d.PointUtil.addPositionsHeight(positionSXT, 5.0) // 增加杆子高度
-
-        updateModel()
+export function sePoint() {
+  map.graphicLayer.clear()
+  map.graphicLayer.startDraw({
+    type: "point",
+    style: {
+      pixelSize: 8,
+      color: "#ffff00",
+      label: {
+        text: "摄像头",
+        font_size: 20,
+        color: "#ffffff",
+        outline: true,
+        outlineColor: "#000000",
+        pixelOffsetY: -20
       }
-    })
+    },
+    success: function (graphic) {
+      positionSXT = graphic.positionShow
+      positionSXT = mars3d.PointUtil.addPositionsHeight(positionSXT, 5.0) // 增加杆子高度
+    }
+  })
 }
 
-
-function testTerrain(val) {
+export function testTerrain(val) {
   map.scene.globe.depthTestAgainstTerrain = val
   if (val) {
     globalMsg("深度监测打开后，您将无法看到地下或被地形遮挡的对象")
   }
 }
 
-function updateModel(heading, pitch, roll) {
+/**
+ *  更新模型数据
+ *
+ * @export
+ * @param {number} heading 轨迹方向
+ * @param {number} pitch 前后侧摆角度
+ * @param {number} roll 左右侧摆角度
+ * @returns {void}
+ */
+export function updateModel(heading, pitch, roll) {
   if (!positionSXT) {
     return
   }
 
-  var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+  const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
   positionDM = mars3d.PointUtil.getRayEarthPosition(positionSXT, hpr, true, map.scene.globe.ellipsoid)
 
   if (!positionDM) {

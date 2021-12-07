@@ -1,39 +1,45 @@
-var map
-var graphicLayer
-var allCount
-var lastSelectWX
+import * as mars3d from "mars3d"
 
-// 自定义事件
-var eventTarget = new mars3d.BaseClass()
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
+let allCount
+let lastSelectWX
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 29.646563, lng: 96.25028, alt: 150004581, heading: 352, pitch: -90 },
-      cameraController: {
-        zoomFactor: 3.0,
-        minimumZoomDistance: 1,
-        maximumZoomDistance: 500000000,
-        constrainedAxis: false // 解除在南北极区域鼠标操作限制
-      },
-      clock: {
-        multiplier: 2 // 速度
-      }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 29.646563, lng: 96.25028, alt: 150004581, heading: 352, pitch: -90 },
+    cameraController: {
+      zoomFactor: 3.0,
+      minimumZoomDistance: 1,
+      maximumZoomDistance: 500000000,
+      constrainedAxis: false // 解除在南北极区域鼠标操作限制
     },
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
+    clock: {
+      multiplier: 2 // 速度
     }
-  })
-  delete mapOptions.terrain
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
+  delete mapOptions.terrain
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
+
   // 修改天空盒
   map.scene.skyBox = new Cesium.SkyBox({
     sources: {
@@ -54,16 +60,24 @@ function initMap(options) {
       lastSelectWX = null
     }
 
+    queryTleApiData()
+      .then(function (arr) {
+        initData(arr.list)
+      })
+      .otherwise(function () {
+        globalMsg("获取空间目标轨道数据异常！")
+      })
+
     eventTarget.fire("clickMap")
   })
+}
 
-  queryTleApiData()
-    .then(function (arr) {
-      initData(arr.list)
-    })
-    .otherwise(function () {
-      globalMsg("获取空间目标轨道数据异常！")
-    })
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 访问后端接口，取数据
@@ -111,7 +125,7 @@ function initData(arr) {
       delete item.info
     }
 
-    var primitive = new mars3d.graphic.PointPrimitive({
+    const primitive = new mars3d.graphic.PointPrimitive({
       id: item.id,
       style: style,
       attr: item
@@ -183,16 +197,15 @@ function initData(arr) {
 }
 
 // 采用多线程来计算卫星位置
-var worker
+let worker
 function initWorker(arr) {
   worker = new Worker("example/graphic/space/spacePoint/tleWorker.js")
 
   worker.onmessage = function (event) {
     const time = event.data.time
     const positionObj = event.data.positionObj
-    // console.log('接收到数据', positionObj)
 
-    for (var id in positionObj) {
+    for (const id in positionObj) {
       const item = positionObj[id]
       if (!item) {
         continue
@@ -225,7 +238,7 @@ function postWorkerMessage(arr) {
 
 function weixingStyle(item) {
   // 高亮选中的轨道样式
-  var weixin = new mars3d.graphic.Satellite({
+  const weixin = new mars3d.graphic.Satellite({
     tle1: item.tle1,
     tle2: item.tle2,
     model: {
@@ -269,11 +282,9 @@ function weixingStyle(item) {
 }
 
 // Orbital altitude definitions.
-var LOW_ORBIT = 2000
-var GEOSYNCHRONOUS_ORBIT = 35786
 
 // 重置
-function resetUI() {
+export function resetUI() {
   // 循环所有卫星
   graphicLayer.eachGraphic(function (graphic) {
     if (graphic.selected) {
@@ -287,51 +298,51 @@ function resetUI() {
 }
 
 // Well known satellite constellations.
-var GPS = [
+const GPS = [
   20959, 22877, 23953, 24876, 25933, 26360, 26407, 26605, 26690, 27663, 27704, 28129, 28190, 28361, 28474, 28874, 29486, 29601, 32260, 32384, 32711,
   35752, 36585, 37753, 38833, 39166, 39533, 39741, 40105, 40294, 40534
 ]
-var GLONASS = [
+const GLONASS = [
   28915, 29672, 29670, 29671, 32276, 32275, 32393, 32395, 36111, 36112, 36113, 36400, 36402, 36401, 37139, 37138, 37137, 37829, 37869, 37867, 37868,
   39155, 39620, 40001
 ]
-var INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476]
-var LANDSAT = [25682, 39084]
-var DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115]
+const INMARSAT = [20918, 21149, 21814, 21940, 23839, 24307, 24674, 24819, 25153, 28628, 28899, 33278, 40384, 39476]
+const LANDSAT = [25682, 39084]
+const DIGITALGLOBE = [25919, 32060, 33331, 35946, 40115]
 
 // 判断卫星数据
-function selectSatellites(data) {
+export function selectSatellites(data) {
   if (!graphicLayer) {
     return
   }
 
-  var xilie = data.selXiLie // 系列卫星
-  var country = data.selCountry // 所属国家
-  var type = data.selType // 对象类型
+  const xilie = data.selXiLie // 系列卫星
+  const country = data.selCountry // 所属国家
+  const type = data.selType // 对象类型
 
-  var val1 = data.sliLaunchdate
-  var min1 = 1950
-  var max1 = 2021
+  const val1 = data.sliLaunchdate
+  const min1 = 1950
+  const max1 = 2021
 
-  var val2 = data.sliPeriod
-  var min2 = 0
-  var max2 = 60000
+  const val2 = data.sliPeriod
+  const min2 = 0
+  const max2 = 60000
 
-  var val3 = data.sliInclination
-  var min3 = 0
-  var max3 = 150
+  const val3 = data.sliInclination
+  const min3 = 0
+  const max3 = 150
 
-  var val4 = data.sliApogee
-  var min4 = 0
-  var max4 = 600000
+  const val4 = data.sliApogee
+  const min4 = 0
+  const max4 = 600000
 
-  var val5 = data.sliPerigee
-  var min5 = 0
-  var max5 = 500000
+  const val5 = data.sliPerigee
+  const min5 = 0
+  const max5 = 500000
 
-  var val6 = data.sliRcs
-  var min6 = 0
-  var max6 = 1000
+  const val6 = data.sliRcs
+  const min6 = 0
+  const max6 = 1000
 
   let selCount = 0
 
@@ -399,7 +410,7 @@ function selectSatellites(data) {
         return
       }
 
-      var y = attr.launchDate.getFullYear()
+      const y = attr.launchDate.getFullYear()
       if (y <= val1[0] || y >= val1[1]) {
         return
       }
@@ -806,7 +817,7 @@ function getCountryName(code) {
 }
 
 // 清除卫星的点击事件,隐藏卫星的面板
-function highlightSatellite() {
+export function highlightSatellite() {
   lastSelectWX.remove()
   lastSelectWX = null
 }

@@ -1,27 +1,36 @@
-var map
-var terrainPlanClip
-var tilesetPlanClip
-var underground
-var terrainClip
-var eventTarget = new mars3d.BaseClass()
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.8503, lng: 117.101008, alt: 308, heading: 291, pitch: -30 },
-      baseColor: "rgba(0,0,0.0,0.5)",
-      globe: {
-        depthTestAgainstTerrain: true
-      },
-      highDynamicRange: true
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let terrainPlanClip
+let tilesetPlanClip
+let underground
+let terrainClip
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.8503, lng: 117.101008, alt: 308, heading: 291, pitch: -30 },
+    baseColor: "rgba(0,0,0.0,0.5)",
+    globe: {
+      depthTestAgainstTerrain: true
+    },
+    highDynamicRange: true
+  }
+}
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 加个模型
-  var tiles3dLayer = new mars3d.layer.TilesetLayer({
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
     id: 1987,
     name: "桥梁",
     url: "//data.mars3d.cn/3dtiles/bim-qiaoliang/tileset.json",
@@ -48,6 +57,20 @@ function initMap(options) {
     console.log("单击了3dtiles图层", event)
   })
 
+  addPlanClipThing(tiles3dLayer)
+
+  eventTarget.fire("loadOk")
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addPlanClipThing(tiles3dLayer) {
   // 模型裁剪
   tilesetPlanClip = new mars3d.thing.TilesetPlanClip({
     positions: [
@@ -71,11 +94,10 @@ function initMap(options) {
     ]
   })
   map.addThing(terrainPlanClip)
-  eventTarget.fire("loadOk")
 }
 
 // 是否开启地下模式
-function chkUnderground(val, alphaVal) {
+export function chkUnderground(val, alphaVal) {
   // 地下模式
   underground = new mars3d.thing.Underground({
     alpha: alphaVal,
@@ -87,7 +109,7 @@ function chkUnderground(val, alphaVal) {
 }
 
 // 透明度发生改变
-function alphaChange(value) {
+export function alphaChange(value) {
   if (underground) {
     underground.alpha = value
   }
@@ -95,12 +117,12 @@ function alphaChange(value) {
 
 //= =========================================
 // 是否开挖
-function chkClippingPlanes(val) {
+export function chkClippingPlanes(val) {
   terrainClip.enabled = val
   terrainPlanClip.enabled = val
 }
 
-function terrainClips(heightVal) {
+export function terrainClips(heightVal) {
   // 挖地区域
   terrainClip = new mars3d.thing.TerrainClip({
     positions: [
@@ -117,12 +139,12 @@ function terrainClips(heightVal) {
   map.addThing(terrainClip)
 }
 
-function heightChange(num) {
+export function heightChange(num) {
   terrainClip.height = num
 }
 
 // 绘制矩形
-function drawExtent() {
+export function drawExtent() {
   terrainClip.clear() // 清除挖地区域
   terrainPlanClip.clear()
 
@@ -135,7 +157,7 @@ function drawExtent() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.getOutlinePositions(false)
+      const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -148,7 +170,7 @@ function drawExtent() {
 }
 
 // 绘制多边形
-function drawPolygon() {
+export function drawPolygon() {
   terrainClip.clear() // 清除挖地区域
   terrainPlanClip.clear()
 
@@ -161,7 +183,7 @@ function drawPolygon() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -173,26 +195,26 @@ function drawPolygon() {
   })
 }
 
-function clearWJ() {
+export function clearWJ() {
   terrainClip.clear() // 清除挖地区域
   terrainPlanClip.clear()
 }
 
 //= ========================================
-function distanceChange(value) {
+export function distanceChange(value) {
   tilesetPlanClip.distance = value
 }
 
 // 切顶
-function clipTop() {
+export function clipTop() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.ZR
 }
 // 起点
-function clipBottom() {
+export function clipBottom() {
   tilesetPlanClip.type = mars3d.thing.TilesetPlanClip.Type.Z
 }
 // 切线
-function clipLine() {
+export function clipLine() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -205,7 +227,7 @@ function clipLine() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.positions = positions
@@ -214,7 +236,7 @@ function clipLine() {
 }
 
 // 内切
-function clipPoly() {
+export function clipPoly() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -225,7 +247,7 @@ function clipPoly() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
@@ -236,8 +258,7 @@ function clipPoly() {
 }
 
 // 外切
-
-function clipPoly2() {
+export function clipPoly2() {
   tilesetPlanClip.clear()
 
   map.graphicLayer.startDraw({
@@ -249,7 +270,7 @@ function clipPoly2() {
     },
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
       tilesetPlanClip.clipOutSide = true
@@ -257,6 +278,7 @@ function clipPoly2() {
     }
   })
 }
-function clearClip() {
+
+export function clearClip() {
   tilesetPlanClip.clear()
 }

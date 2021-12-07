@@ -1,31 +1,51 @@
-var map
-var roamLine
-var roamLineData = {}
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    control: {
-      animation: true, // 是否创建动画小器件，左下角仪表
-      timeline: true, // 是否显示时间线控件
-      compass: { top: "10px", left: "5px" }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let roamLine
+const roamLineData = {}
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { top: "10px", left: "5px" }
+  }
+}
+
+const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
+  const toolbar = document.querySelector(".cesium-viewer-toolbar")
+  toolbar.style.bottom = "60px"
 
+  addGraphicLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后单个路线的 保存JSON
-  var flydata = {
+  const flydata = {
     name: "贴地表表面漫游",
     speed: 160,
     positions: [
@@ -78,7 +98,7 @@ function initMap(options) {
   roamLine.on(mars3d.EventType.postRender, function (event) {
     const container = event.container // popup对应的DOM
 
-    var params = roamLine?.info
+    const params = roamLine?.info
     if (!params) {
       return
     }
@@ -140,14 +160,14 @@ function startFly() {
   addParticleSystem(roamLine)
 }
 
-/**  格式化时间     */
+//  格式化时间
 function formatTime(strtime) {
   strtime = Number(strtime) || 0
 
   if (strtime < 60) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
-    var miao = Math.floor(strtime % 60)
+    const miao = Math.floor(strtime % 60)
     return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
@@ -161,7 +181,7 @@ function showRealTimeInfo(params, _alltime) {
     return
   }
 
-  var val = Math.ceil((params.time * 100) / _alltime)
+  let val = Math.ceil((params.time * 100) / _alltime)
   if (val < 1) {
     val = 1
   }
@@ -193,7 +213,7 @@ function showRealTimeInfo(params, _alltime) {
 
 /// 添加尾气粒子效果
 function addParticleSystem(target) {
-  var particleSystem = new mars3d.graphic.ParticleSystem({
+  const particleSystem = new mars3d.graphic.ParticleSystem({
     modelMatrix: (time) => {
       return target.modelMatrix
     },

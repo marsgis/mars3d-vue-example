@@ -13,7 +13,7 @@ module.exports = {
     defineExpose: "readonly",
     withDefaults: "readonly",
     mars3d: "readonly",
-    mars2d:"readonly",
+    mars2d: "readonly",
     Cesium: "readonly",
     THREE: "readonly",
     turf: "readonly",
@@ -25,8 +25,13 @@ module.exports = {
     showLoading: "readonly",
     hideLoading: "readonly",
     TilesEditor: "readonly",
-    netcdfjs:"readonly",
-    eventTarget: "readonly"
+    netcdfjs: "readonly",
+    eventTarget: "readonly",
+    Terraformer: "readonly",
+    kgUtil: "readonly",
+    Ammo: "readonly",
+    map: "readonly",
+    AMap: "readonly"
   },
   rules: {
     //关闭ts
@@ -53,7 +58,7 @@ module.exports = {
     "no-trailing-spaces": "off",
     "comma-dangle": "error",
     // 强制使用有效的 JSDoc 注释
-    "valid-jsdoc": "off",
+    "valid-jsdoc": "error",
     // @fixable 禁止使用 var
     "no-var": "off",
     //不允许Object.prototype
@@ -62,6 +67,8 @@ module.exports = {
     eqeqeq: "off",
     //关闭${xxx}检测
     "no-template-curly-in-string": "off",
+    //关闭export必须return
+    "@typescript-eslint/explicit-module-boundary-types": "off",
 
     //不允许混用tab和空格
     "no-mixed-spaces-and-tabs": "error",
@@ -103,6 +110,8 @@ module.exports = {
     "no-const-assign": "error",
     // 禁止重复定义类
     "no-dupe-class-members": "error",
+    // 允许使用小写开头的变量名作为类名
+    "new-cap": "off",
     // 禁止重复 import 模块
     "no-duplicate-imports": "off",
     // 禁止出现没必要的 constructor，比如 constructor(value) { super(value) }
@@ -166,5 +175,14 @@ module.exports = {
     //"SwitchCase" (默认：0) 强制 switch 语句中的 case 子句的缩进水平
     // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
     "computed-property-spacing": ["error", "never"]
-  }
+  },
+  overrides: [
+    {
+      //在ts中还是继续监测export必须return
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
+      }
+    }
+  ]
 }

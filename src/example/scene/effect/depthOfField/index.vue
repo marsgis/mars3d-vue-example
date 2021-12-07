@@ -2,7 +2,7 @@
   <PannelBox class="infoView">
     <a-form>
       <a-form-item label="启用">
-      <a-switch v-model:checked="formState.chkShowEffect" @change="bindShowEffect" />
+        <a-switch v-model:checked="formState.chkShowEffect" @change="bindShowEffect" />
       </a-form-item>
 
       <a-form-item label="焦距">
@@ -17,7 +17,6 @@
       <a-form-item label="步长">
         <a-slider v-model:value="formState.txt_stepSize" @change="txt_stepSize" :min="0" :max="7" :step="0.01" />
       </a-form-item>
-
     </a-form>
   </PannelBox>
 </template>
@@ -25,9 +24,7 @@
 <script setup lang="ts">
 import { reactive } from "vue"
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-
-// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
-const mapWork = window.mapWork || {}
+import * as mapWork from "./map.js"
 
 const formState = reactive({
   chkShowEffect: true,
@@ -54,7 +51,7 @@ const txt_stepSize = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   width: 200px;
 }
 </style>

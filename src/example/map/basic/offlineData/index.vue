@@ -16,4 +16,3 @@
 <script lang="ts" setup>
 import PannelBox from "@comp/OperationPannel/PannelBox.vue"
 </script>
-<style scoped lang="less"></style>

@@ -1,21 +1,27 @@
+import * as mars3d from "mars3d"
 
-var map
-var particleGraphic
-var particlePosition
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      // 此处参数会覆盖config.json中的对应配置
-      center: { lat: 31.806029, lng: 117.222082, alt: 275, heading: 1, pitch: -12 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let particleGraphic
+let particlePosition
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.806029, lng: 117.222082, alt: 275, heading: 1, pitch: -12 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 创建Graphic图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 2.在layer上绑定监听事件
@@ -41,7 +47,7 @@ function initMap(options) {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
       callback: function (e) {
-        var primitive = e.graphic
+        const primitive = e.graphic
         if (primitive) {
           graphicLayer.removeGraphic(primitive)
         }
@@ -49,9 +55,18 @@ function initMap(options) {
     }
   ])
 
-  // 绑定UI处理
-  // initParamView()
+  addGraphics(graphicLayer)
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphics(graphicLayer) {
   particlePosition = Cesium.Cartesian3.fromDegrees(117.221844, 31.813857, 28.5)
 
   particleGraphic = new mars3d.graphic.ParticleSystem({
@@ -81,19 +96,19 @@ function initMap(options) {
   graphicLayer.addGraphic(particleGraphic)
 }
 
-var targetPosition
 // 发射的目标点
-function targetHeight(val) {
+let targetPosition
+export function txtTargetHeight(val) {
   if (targetPosition) {
     updateTarget(targetPosition, val)
   }
 }
-function btnSelectTarget(val) {
+export function btnSelectTarget(val) {
   map.graphicLayer.startDraw({
     type: "point",
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       targetPosition = positions[0]
       map.graphicLayer.clear()
 
@@ -103,12 +118,12 @@ function btnSelectTarget(val) {
 }
 
 // 图上选点
-function btnSelectPosition() {
+export function btnSelectPosition() {
   map.graphicLayer.startDraw({
     type: "point",
     success: function (graphic) {
       // 绘制成功后回调
-      var positions = graphic.positionsShow
+      const positions = graphic.positionsShow
       particlePosition = positions[0]
       map.graphicLayer.clear()
 
@@ -118,8 +133,7 @@ function btnSelectPosition() {
 }
 
 // UI绑定数据 处理
-function initParamView(data) {
-
+export function initParamView(data) {
   // 绑定事件
   if (data.emissionRate) {
     particleGraphic.czmObject.emissionRate = parseFloat(data.emissionRate)
@@ -150,11 +164,10 @@ function initParamView(data) {
   }
 }
 
-
 function updateTarget(position, val) {
   position = mars3d.PointUtil.addPositionsHeight(position, val)
 
-  var target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3())
+  const target = Cesium.Cartesian3.subtract(position, particlePosition, new Cesium.Cartesian3())
   Cesium.Cartesian3.multiplyByScalar(target, 0.01, target)
 
   console.log(`${target.x},${target.y},${target.z}`)

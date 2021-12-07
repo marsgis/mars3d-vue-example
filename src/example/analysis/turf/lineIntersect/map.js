@@ -1,18 +1,23 @@
-var map
-var lineLayer
-var pointLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
-    }
-  })
+let map // mars3d.Map三维地图对象
+let lineLayer
+let pointLayer
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 }
+  }
+}
 
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   // 添加线 矢量数据图层
   lineLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(lineLayer)
@@ -36,7 +41,15 @@ function initMap(options) {
   map.addLayer(pointLayer)
 }
 
-function drawLine() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawLine() {
   // 开始绘制
   lineLayer.startDraw({
     type: "polyline",
@@ -48,7 +61,7 @@ function drawLine() {
   })
 }
 
-function crossPoint() {
+export function crossPoint() {
   lineLayer.stopDraw()
   pointLayer.clear()
 
@@ -85,15 +98,15 @@ function crossPoint() {
   }
 }
 
-function clearAll() {
+export function clearAll() {
   pointLayer.clear()
   lineLayer.clear()
 }
 
 // 颜色
-var index = 0
-var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"]
+let index = 0
+const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"]
 function getColor() {
-  var i = index++ % colors.length
+  const i = index++ % colors.length
   return colors[i]
 }

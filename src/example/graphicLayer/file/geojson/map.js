@@ -1,24 +1,34 @@
-// 树控件
+import * as mars3d from "mars3d"
 
-var map
+let map // mars3d.Map三维地图对象
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 30.402686, lng: 116.303632, alt: 48692, heading: 3, pitch: -43 }
-    }
-  })
-
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
-
-  showDrawDemo()
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 30.402686, lng: 116.303632, alt: 48692, heading: 3, pitch: -43 }
+  }
 }
 
-var geoJsonLayer
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
+  showDraw()
+}
 
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+let geoJsonLayer
 function removeLayer() {
   if (geoJsonLayer) {
     map.removeLayer(geoJsonLayer, true)
@@ -26,8 +36,14 @@ function removeLayer() {
   }
 }
 
-// 示例：平台通过draw标绘后保存的geojosn数据（已经内置style了，无需配置symbol）
-function showDrawDemo(flyTo) {
+/**
+ * 平台通过draw标绘后保存的geojosn数据（已经内置style了，无需配置symbol）
+ *
+ * @export showDraw
+ * @param {boolean} isFlyTo 布尔值
+ * @returns {void}
+ */
+export function showDraw(isFlyTo) {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -47,22 +63,26 @@ function showDrawDemo(flyTo) {
         }
       }
     },
-    flyTo: flyTo
+    flyTo: isFlyTo
   })
   map.addLayer(geoJsonLayer)
 
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
 
-// 示例：显示点数据
-function showPointDemo() {
+/**
+ * 点数据
+ *
+ * @export showPoint
+ * @returns {void}
+ */
+export function showPoint() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -130,15 +150,19 @@ function showPointDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list, '项目名称')
   })
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
 
-// 示例：显示线数据
-function showChinaLineDemo() {
+/**
+ * 显示线数据
+ *
+ * @export showChinaLine
+ * @returns {void}
+ */
+export function showChinaLine() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -181,12 +205,16 @@ function showChinaLineDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
 }
 
-// 示例：显示面数据（规划面）
-function showGuihuaDemo() {
+/**
+ * 显示合肥区域面
+ *
+ * @export showRegion
+ * @returns {void}
+ */
+export function showRegion() {
   removeLayer()
 
   map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
@@ -236,11 +264,10 @@ function showGuihuaDemo() {
 
   // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
   // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-  var layerTest = map.getLayer(1987, "id")
+  const layerTest = map.getLayer(1987, "id")
   // 绑定事件
   layerTest.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list, '类型')
   })
 
   layerTest.on(mars3d.EventType.click, function (event) {
@@ -249,8 +276,13 @@ function showGuihuaDemo() {
   })
 }
 
-// 示例： 立体建筑物
-function showJianzhuwuDemo() {
+/**
+ * 立体建筑物
+ *
+ * @export showBuilding
+ * @returns {void}
+ */
+export function showBuilding() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -263,7 +295,7 @@ function showJianzhuwuDemo() {
         opacity: 0.8
       },
       callback: function (attr, styleOpt) {
-        var diffHeight = Number(attr.floors || 1) * Number(attr.flo_height)
+        const diffHeight = Number(attr.floors || 1) * Number(attr.flo_height)
         return { height: 0, diffHeight: diffHeight }
       }
     },
@@ -276,12 +308,16 @@ function showJianzhuwuDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
 }
 
-// 示例： 分层分户立体建筑物
-function showJianzhuwuFcDemo() {
+/**
+ *  分层分户立体建筑物
+ *
+ * @export showFloor
+ * @returns {void}
+ */
+export function showFloor() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -302,8 +338,8 @@ function showJianzhuwuFcDemo() {
         }
       },
       callback: function (attr, styleOpt) {
-        var flrH = attr.floorh || 0 // 底面高度
-        var lyrH = attr.layerh || 0 // 楼层高度
+        const flrH = attr.floorh || 0 // 底面高度
+        const lyrH = attr.layerh || 0 // 楼层高度
 
         return { height: flrH, diffHeight: lyrH }
       }
@@ -317,12 +353,16 @@ function showJianzhuwuFcDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
 }
 
-// 示例：显示面数据（安徽行政区划），鼠标高亮处理
-function showAnhuiDemo() {
+/**
+ * 显示面数据（安徽行政区划），鼠标高亮处理
+ *
+ * @export showPlanningSurface
+ * @returns {void}
+ */
+export function showPlanningSurface() {
   removeLayer()
 
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
@@ -384,15 +424,19 @@ function showAnhuiDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
 
-// 示例： 行政区划 ，转为wall显示
-function showAnhui2Demo() {
+/**
+ * 行政区划 ，转为wall显示
+ *
+ * @export  showBoundaryWall
+ * @returns {void}
+ */
+export function showBoundaryWall() {
   removeLayer()
 
   map.setCameraView({ lat: 30.561661, lng: 117.663884, alt: 113078, heading: 346, pitch: -43 })
@@ -427,16 +471,20 @@ function showAnhui2Demo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
 
-// 示例：显示特殊面数据（单体化）
-var tilesetLayer
-function showDantihuaDemo() {
+/**
+ * 显示特殊面数据（单体化）
+ *
+ * @export showMonomer
+ * @returns {void}
+ */
+let tilesetLayer
+export function showMonomer() {
   removeLayer()
 
   // 三维模型
@@ -484,12 +532,16 @@ function showDantihuaDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list, '房屋名称')
   })
 }
 
-// 示例：显示世界各国
-function showWorldDemo() {
+/**
+ * 显示世界各国
+ *
+ * @export showWorld
+ * @returns {void}
+ */
+export function showWorld() {
   removeLayer()
 
   map.setCameraView({ lat: 22.564341, lng: 89.44688, alt: 10817167, heading: 356, pitch: -87 })
@@ -524,7 +576,6 @@ function showWorldDemo() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    // initTree(event.list)
   })
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)

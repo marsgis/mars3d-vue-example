@@ -1,15 +1,23 @@
-var map
-var rainEffect
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.789209, lng: 117.214049, alt: 603, heading: 10, pitch: -11 }
-    }
-  })
+import * as mars3d from "mars3d"
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+let map // mars3d.Map三维地图对象
+let rainEffect
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.789209, lng: 117.214049, alt: 603, heading: 10, pitch: -11 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   // 大气层外光圈
   map.scene.skyAtmosphere.hueShift = -0.8
@@ -27,20 +35,31 @@ function initMap(options) {
   })
   map.addEffect(rainEffect)
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 // 是否开启特效
-function chkShowEffect(val) {
+export function chkShowEffect(val) {
   rainEffect.enabled = val
 }
+
 // 粒子速度
-function rainSpeed(value) {
+export function rainSpeed(value) {
   rainEffect.speed = value
 }
 
 // 粒子大小
-function rainSize(value) {
+export function rainSize(value) {
   rainEffect.size = value
 }
+
 // 粒子方向
-function rainDirection(value) {
+export function rainDirection(value) {
   rainEffect.direction = value
 }

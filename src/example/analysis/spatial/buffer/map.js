@@ -1,12 +1,16 @@
-var map
-var graphicLayer
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {})
+let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer({
     hasEdit: true,
@@ -17,12 +21,26 @@ function initMap(options) {
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
     updateBuffer(e.graphic)
   })
+
   graphicLayer.on(mars3d.EventType.editMovePoint, function (e) {
     updateBuffer(e.graphic)
   })
+
+  graphicLayer.on(mars3d.EventType.editRemovePoint, function (e) {
+    updateBuffer(e.graphic)
+  })
+
 }
 
-function drawPoint() {
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+export function drawPoint() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -34,7 +52,7 @@ function drawPoint() {
   })
 }
 
-function drawPolyline() {
+export function drawPolyline() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -45,9 +63,10 @@ function drawPolyline() {
       clampToGround: true
     }
   })
+
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -70,7 +89,7 @@ function deleteAll() {
 }
 
 let width
-function radiusChange(val) {
+export function radiusChange(val) {
   width = val * 1000 // km
   if (lastgeojson) {
     updateBuffer()

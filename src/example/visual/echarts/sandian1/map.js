@@ -1,26 +1,49 @@
-var map
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 28.348014, lng: 118.789746, alt: 840941, heading: 350, pitch: -66 }
-    }
-  })
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
+import * as mars3d from "mars3d"
+
+let map // mars3d.Map三维地图对象
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 28.348014, lng: 118.789746, alt: 840941, heading: 350, pitch: -66 }
+  }
+}
+
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录首次创建的map
 
   // 创建Echarts图层
   createEchartsLayer()
 }
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
 function createEchartsLayer() {
-  var options = getEchartsOption()
+  const options = getEchartsOption()
   options.clampToGround = true // 计算贴地高度
-  var echartsLayer = new mars3d.layer.EchartsLayer(options)
+  const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
 }
 
+/**
+ *echart图层
+ *
+ * @return {option} echart图表的数据
+ */
 function getEchartsOption() {
-  var data = [
+  const data = [
     {
       name: "六安市",
       value: 112,
@@ -135,8 +158,8 @@ function getEchartsOption() {
     }
   }
 
-  var sum = 0
-  var dataVals = []
+  let sum = 0
+  const dataVals = []
   for (let i = 0; i < data.length; i++) {
     sum += data[i].value
 
@@ -146,7 +169,7 @@ function getEchartsOption() {
     })
   }
 
-  var option = {
+  const option = {
     animation: false,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
 
@@ -163,7 +186,7 @@ function getEchartsOption() {
             return 8
           }
 
-          var num = (val[2] / sum) * 150
+          const num = (val[2] / sum) * 150
           return Math.max(num, 8)
         },
         showEffectOn: "render",

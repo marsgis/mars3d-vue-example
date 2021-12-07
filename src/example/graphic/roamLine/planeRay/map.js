@@ -1,30 +1,48 @@
-var map
-var roamLine
-var roamLineData = {}
-var eventTarget = new mars3d.BaseClass()
+import * as mars3d from "mars3d"
 
-function initMap(options) {
-  // 合并属性参数，可覆盖config.json中的对应配置
-  var mapOptions = mars3d.Util.merge(options, {
-    scene: {
-      center: { lat: 31.344715, lng: 115.783073, alt: 10056, heading: 158, pitch: -55 },
-      globe: {
-        // depthTestAgainstTerrain: true,
-      }
+let map // mars3d.Map三维地图对象
+let roamLine
+const roamLineData = {}
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.344715, lng: 115.783073, alt: 10056, heading: 158, pitch: -55 },
+    globe: {
+      // depthTestAgainstTerrain: true,
     }
-  })
+  }
+}
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
+/**
+ * 初始化地图业务，生命周期钩子函数（必须）
+ * 框架在地图初始化完成后自动调用该函数
+ * @param {mars3d.Map} mapInstance 地图对象
+ * @returns {void} 无
+ */
+export function onMounted(mapInstance) {
+  map = mapInstance // 记录map
   map.hasTerrain = false
 
+  addGraphicLayer()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addGraphicLayer() {
   // 创建矢量数据图层
-  var graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 该数据可以从 基础项目 飞行漫游功能界面操作后保存JSON
-  var flydata = {
+  const flydata = {
     speed: 200,
     positions: [
       [115.833866, 31.311451, 4000],
@@ -84,9 +102,10 @@ function initMap(options) {
   eventTarget.fire("loadOk")
 }
 
-function updateModel(isAuto, val) {
-  var pitch = val.slidePitchStep
-  var roll = val.slideRollStep
+
+export function updateModel(isAuto, val) {
+  const pitch = val.slidePitchStep
+  const roll = val.slideRollStep
 
   roamLine.updateAngle(isAuto, {
     pitch: pitch,
@@ -101,7 +120,7 @@ function formatTime(strtime) {
   if (strtime < 60) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
-    var miao = Math.floor(strtime % 60)
+    const miao = Math.floor(strtime % 60)
     return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
@@ -115,7 +134,7 @@ function showRealTimeInfo(params, _alltime) {
     return
   }
 
-  var val = Math.ceil((params.time * 100) / _alltime)
+  let val = Math.ceil((params.time * 100) / _alltime)
   if (val < 1) {
     val = 1
   }
@@ -145,14 +164,14 @@ function showRealTimeInfo(params, _alltime) {
   }
 }
 
-var groundLayer // 地面投影图层
+let groundLayer // 地面投影图层
 
 function testShading() {
   // 卫星朝向的中线地面点
   const line1 = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var pt1 = roamLine.position
-      var pt2 = centerPosion
+      const pt1 = roamLine.position
+      const pt2 = centerPosion
       if (!pt1 || !pt2) {
         return []
       }
@@ -170,7 +189,7 @@ function testShading() {
   // 卫星边线2点
   const graphicTriangle = new mars3d.graphic.PolylineEntity({
     positions: new Cesium.CallbackProperty(function (time) {
-      var positions = getFourShadingPosition({
+      const positions = getFourShadingPosition({
         angle: 2.4,
         angle2: 1.4
       })
@@ -197,55 +216,55 @@ function testShading() {
 }
 
 // 清除地面投影
-function btnClear() {
+export function btnClear() {
   groundLayer.clear()
 }
 
 // 获取地面的四棱台投影面
-var thisPositions
-var centerPosion
+let thisPositions
+let centerPosion
 
 function getFourShadingPosition(opts) {
   // 位置
-  var pt1 = roamLine.position
+  const pt1 = roamLine.position
   if (!pt1) {
     return
   }
 
-  var ellipsoid = map.scene.globe.ellipsoid
+  const ellipsoid = map.scene.globe.ellipsoid
 
   // 张角
-  var angle1 = Cesium.Math.toRadians(opts.angle) / 2
+  const angle1 = Cesium.Math.toRadians(opts.angle) / 2
 
-  var heading = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.heading))
-  var pitch = Cesium.Math.toRadians(Cesium.defaultValue(opts.pitch, roamLine.pitch))
-  var roll = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.roll))
+  const heading = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.heading))
+  const pitch = Cesium.Math.toRadians(Cesium.defaultValue(opts.pitch, roamLine.pitch))
+  const roll = Cesium.Math.toRadians(Cesium.defaultValue(opts.heading, roamLine.roll))
 
   // 张角
-  var angle2 = Cesium.Math.toRadians(opts.angle2) / 2
+  const angle2 = Cesium.Math.toRadians(opts.angle2) / 2
 
-  var ptLeft1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll + angle1), true, ellipsoid)
+  const ptLeft1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll + angle1), true, ellipsoid)
   if (!ptLeft1) {
     return
   }
 
-  var ptRight1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll - angle1), true, ellipsoid)
+  const ptRight1 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch + angle2, roll - angle1), true, ellipsoid)
   if (!ptRight1) {
     return
   }
 
-  var ptRight2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll - angle1), true, ellipsoid)
+  const ptRight2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll - angle1), true, ellipsoid)
   if (!ptRight2) {
     return
   }
 
-  var ptLeft2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll + angle1), true, ellipsoid)
+  const ptLeft2 = mars3d.PointUtil.getRayEarthPosition(pt1, new Cesium.HeadingPitchRoll(heading, pitch - angle2, roll + angle1), true, ellipsoid)
   if (!ptLeft2) {
     return
   }
 
-  var ptLeft = Cesium.Cartesian3.midpoint(ptLeft1, ptLeft2, new Cesium.Cartesian3())
-  var ptRight = Cesium.Cartesian3.midpoint(ptRight1, ptRight2, new Cesium.Cartesian3())
+  const ptLeft = Cesium.Cartesian3.midpoint(ptLeft1, ptLeft2, new Cesium.Cartesian3())
+  const ptRight = Cesium.Cartesian3.midpoint(ptRight1, ptRight2, new Cesium.Cartesian3())
   thisPositions = [ptLeft, ptRight]
 
   centerPosion = Cesium.Cartesian3.midpoint(ptLeft, ptRight, new Cesium.Cartesian3())
@@ -253,17 +272,17 @@ function getFourShadingPosition(opts) {
   return [ptLeft1, ptRight1, ptRight2, ptLeft2, ptLeft1]
 }
 
-var lastPositions
+let lastPositions
 
 function addPolygon() {
   if (lastPositions == null) {
     lastPositions = thisPositions
     return
   }
-  var positions = [lastPositions[0], lastPositions[1], thisPositions[1], thisPositions[0]]
+  const positions = [lastPositions[0], lastPositions[1], thisPositions[1], thisPositions[0]]
   lastPositions = thisPositions
 
-  var primitive = new mars3d.graphic.PolygonPrimitive({
+  const primitive = new mars3d.graphic.PolygonPrimitive({
     positions: positions,
     style: {
       color: "#ff0000",

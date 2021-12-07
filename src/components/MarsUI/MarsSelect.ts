@@ -11,12 +11,12 @@ import { App, defineComponent, h } from "vue"
 const MarsSesect = defineComponent({
   name: "mars-select",
   inheritAttrs: false,
-  setup (props, context) {
+  setup(props, context) {
     return () => h(Select, { ...context.attrs, ...props }, context.slots)
   }
 })
 
-export function install (app: App): App {
+export function install(app: App): App {
   app.component(MarsSesect.name, MarsSesect)
   return app
 }
