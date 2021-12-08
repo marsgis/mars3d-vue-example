@@ -38,6 +38,17 @@ export function createLayer(layers) {
   return mars3d.LayerUtil.create(layers) // 创建图层
 }
 
+// 添加矢量数据图层
+export function addLayer(layer) {
+  map.addLayer(layer)
+  layer.flyTo()
+}
+
+// 取消勾选移除图层
+export function removeLayer(layer) {
+  map.removeLayer(layer)
+}
+
 // 数据获取
 function queryTilesetData() {
   mars3d.Resource.fetchJson({ url: "config/tileset.json" })

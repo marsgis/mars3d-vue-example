@@ -7,6 +7,7 @@
     </ConfigProvider>
   </a-spin>
 </template>
+
 <script setup lang="ts">
 import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { ConfigProvider } from "ant-design-vue"
@@ -49,6 +50,7 @@ window.$showLoading = globalProperties.$showLoading = (type = "mask") => {
     loadingNum--
   }
 }
+
 window.$hideLoading = globalProperties.$hideLoading = (type = "mask") => {
   loadingNum = Math.max(0, --loadingNum)
   if (loadingNum === 0) {

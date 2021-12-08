@@ -205,10 +205,10 @@ function unionLabelChange(item: any) {
 }
 
 function showIt(item: any) {
-  return (!item.isImpact && item.type !== "hidden") || (item.isImpact && showImpacts.value.includes(item.name))
+  return item.type !== "hidden" && (!item.isImpact || (item.isImpact && showImpacts.value.includes(item.name)))
 }
 function labelShowIt(item: any) {
-  return (!item.isImpact && item.type !== "hidden") || (item.isImpact && showLabelImpacts.value.includes(item.name))
+  return item.type !== "hidden" && (!item.isImpact || (item.isImpact && showLabelImpacts.value.includes(item.name)))
 }
 </script>
 

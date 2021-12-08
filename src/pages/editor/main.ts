@@ -23,6 +23,10 @@ marsEditorInstall(app, {
   configSource: `${process.env.BASE_URL}config/example.json`
 })
 
+document.oncontextmenu = function (e) {
+  e.preventDefault()
+}
+
 // 设置自适应高度指令
 app.directive("auto-height", {
   mounted(el, binding) {
@@ -31,9 +35,6 @@ app.directive("auto-height", {
     let wapperHeight = container?.clientHeight || 0
     el.style.height = `${wapperHeight - loseHeight}px`
 
-    document.oncontextmenu = function (e) {
-      e.preventDefault()
-    }
     window.onresize = () => {
       wapperHeight = container?.clientHeight || 0
       const resizeHeight = wapperHeight - loseHeight

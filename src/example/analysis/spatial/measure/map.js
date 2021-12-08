@@ -3,11 +3,6 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let measure
 
-export const mapOptions = {
-  control: {
-    defaultContextMenu: false // 右键菜单
-  }
-}
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -17,7 +12,6 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   addMeasure()
 }
 
@@ -39,6 +33,8 @@ function addMeasure() {
     }
   })
   map.addThing(measure)
+
+
 
   measure.on(mars3d.EventType.start, function (e) {
     console.log("开始异步分析", e)

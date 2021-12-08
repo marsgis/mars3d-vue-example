@@ -27,24 +27,18 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   initTree()
 })
 
-const checkedChange = (keys: string[]) => {
-  Object.keys(layersObj).forEach((k) => {
-    const show = keys.indexOf(k) !== -1
-    const layer = layersObj[k]
+const checkedChange = (keys: string[], item: any) => {
+  const node = item.node
+  const layer = layersObj[node.key]
+  const isChildern = node.children
 
-    layer.show = show
+  if (isChildern.length === 0 && !node.checked) {
+    mapWork.addLayer(layer)
+  }
 
-    if (show) {
-      if (!layer.isAdded) {
-        window.mapWork.map.addLayer(layer)
-      }
-      layer.flyTo()
-    } else {
-      if (layer.isAdded) {
-        window.mapWork.map.removeLayer(layer)
-      }
-    }
-  })
+  if (isChildern.length === 0 && node.checked) {
+    mapWork.removeLayer(layer)
+  }
 }
 
 function initTree() {

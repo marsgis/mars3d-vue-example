@@ -15,7 +15,7 @@
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
     "lodash": "^4.17.21",
-    "mars-editor": "2.0.3",
+    "mars-editor": "^2.0.5",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",
     "split.js": "^1.6.4",
