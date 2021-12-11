@@ -1,14 +1,14 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-directory-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
     </a-directory-tree>
-  </PannelBox>
+  </pannel>
 </template>
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import { nextTick, ref } from "vue"
 import * as mapWork from "./map.js"
 

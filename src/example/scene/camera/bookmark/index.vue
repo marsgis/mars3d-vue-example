@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView infoview">
+  <pannel class="infoView infoview">
     <div class="f-mb">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
@@ -15,12 +15,12 @@
         </mars-button>
       </div>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

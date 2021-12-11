@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView" v-auto-height="100">
+  <pannel class="infoView" v-auto-height="100">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->
@@ -133,12 +133,12 @@
         </a-space>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
@@ -212,7 +212,7 @@ const modelOptions = [
 // 下拉列表切换事件
 const onSelectChange = (value: string, data: any) => {
   window.$message("您选择了：" + data.label)
-  console.log(data)
+  console.log("下拉列表切换事件", data)
 }
 
 // 日期切换事件
@@ -223,7 +223,7 @@ const onDateChange = (data: any, value: any) => {
 // 多选框勾选事件
 const onCheckboxChange = () => {
   window.$message("您勾选了：" + formState.checkboxVal)
-  console.log(formState.checkboxVal)
+  console.log("多选框勾选事件", formState.checkboxVal)
 }
 
 // 滑动条修改事件
@@ -339,7 +339,7 @@ onMounted(() => {
 // 勾选了表格列表的行
 const rowSelection: TableProps["rowSelection"] = {
   onSelect: (selectedRow: any, selectedRows: boolean) => {
-    console.log(selectedRow)
+    // console.log(selectedRow)
     if (selectedRows) {
       window.$message("勾选了行:" + selectedRow.name_cn)
     } else {
@@ -352,7 +352,7 @@ const rowSelection: TableProps["rowSelection"] = {
 const customTableRow = (selectedRow: any) => {
   return {
     onClick: (row: any) => {
-      console.log(selectedRow)
+      // console.log(selectedRow)
       window.$message("点击表格的行：" + selectedRow.name_cn)
     }
   }
@@ -386,7 +386,7 @@ onMounted(() => {
         expandedKeys.value.push(node.key)
       }
     }
-    console.log(treeData)
+    // console.log(treeData)
   })
 })
 
@@ -416,7 +416,6 @@ function findChild(parent: any, list: any[]) {
 
 // 勾选了树节点
 const onCheckTreeItem = (keys: string[]) => {
-  console.log(keys)
   Object.keys(layersObj).forEach((k) => {
     const show = keys.indexOf(k) !== -1
     const layer = layersObj[k]

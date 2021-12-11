@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <span class="item-label">属性机制演示：</span>
     </div>
@@ -16,11 +16,11 @@
       <mars-button @click="demoPropertyBag">PropertyBag</mars-button>
       <mars-button @click="demoVelocityVectorProperty">PropertyBag</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const demoSampleProperty = () => {

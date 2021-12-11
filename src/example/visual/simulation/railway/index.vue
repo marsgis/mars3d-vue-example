@@ -1,12 +1,12 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div id="chart-container" style="width: 400px; height: 250px"></div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { onMounted } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 

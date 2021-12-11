@@ -107,7 +107,7 @@ export function btnDraw() {
       const positions = graphic.positionsShow
       tilesetFlood.addArea(positions)
 
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
     }
   })
 }
@@ -139,5 +139,5 @@ export function begin(data) {
 }
 
 function onChangeHeight(height) {
-  // console.log("分析中，高度变化了", height)
+  console.log("分析中，高度变化了", height)
 }

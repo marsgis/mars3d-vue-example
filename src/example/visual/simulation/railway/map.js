@@ -89,7 +89,7 @@ function addLayer() {
     positions: positionsNew, // 需要计算的源路线坐标数组
     callback: function (raisedPositions, noHeight) {
       // raisedPositions为含高程信息的新坐标数组，noHeight为标识是否存在无地形数据。
-      console.log(raisedPositions)
+      console.log("含高程信息的新坐标数组", raisedPositions)
 
       inintRoad(positionsNew, raisedPositions)
     }

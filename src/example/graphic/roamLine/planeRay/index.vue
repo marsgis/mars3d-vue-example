@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView roamLinePanel">
+  <pannel class="infoView roamLinePanel">
     <a-form>
       <a-form-item>
         <a-row :gutter="[0, 10]">
@@ -34,14 +34,14 @@
       </div>
       <mars-button @click="btnClear"> 清除地面投影</mars-button>
     </a-form>
-  </PannelBox>
-  <roamLinePanel />
+  </pannel>
+  <roamline-panel />
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import roamLinePanel from "@comp/MarsSample/RoamLinePanel.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import roamLinePanel from "@/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
  import * as mapWork from "./map.js"
 

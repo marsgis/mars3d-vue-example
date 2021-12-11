@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -45,12 +45,12 @@
         </div>
       </a-collapse-panel>
     </a-collapse>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

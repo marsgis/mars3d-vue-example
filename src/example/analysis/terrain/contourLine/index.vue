@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-row :gutter="[1, 10]">
       <a-col :span="24">
         <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -61,7 +61,7 @@
       </a-col>
 
       <a-col :span="24">
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
+        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <mars-button type="link">
@@ -78,12 +78,12 @@
         </a-table>
       </a-col>
     </a-row>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -95,7 +95,6 @@ interface FormState {
   radio: string
   showElse: boolean
 }
-
 
 const labelCol = ref({ span: 5 })
 const labelAlign = ref("left")
@@ -126,7 +125,6 @@ const columns = ref([
 const dataSource = ref([])
 
 onMounted(() => {
-  dataSource.value = mapWork.table
   mapWork.eventTabel.on("tableObject", function (event: any) {
     dataSource.value = []
     nextTick(() => {
@@ -142,7 +140,8 @@ const flyto = (record: any) => {
 const deleted = (record: any) => {
   mapWork.deletedGraphic(record.graphicId)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
-  mapWork.table = dataSource.value
+
+  mapWork.changeTable(dataSource.value)
 }
 
 // 添加矩形

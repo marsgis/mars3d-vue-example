@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="f-mb">
-      <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
+      <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
             <a-space>
@@ -27,12 +27,12 @@
         </template>
       </a-table>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface TableItem {

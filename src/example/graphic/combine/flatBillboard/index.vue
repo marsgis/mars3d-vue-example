@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <span>间隔</span>
       <mars-input-number v-model:value="num" :min="1" :max="1000" step="1"></mars-input-number>米插值
@@ -7,12 +7,12 @@
       <mars-button @click="clearLayer">清除</mars-button>
       <mars-button @click="loadDemo">加载演示数据</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 // 生成大数据

@@ -22,6 +22,8 @@ fetch(configUrl)
     // 构建地图
     vueGlobal._map = initMap(json.map3d)
     vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
+
+    window.map = vueGlobal._map // 这句话 只是为了方便F12调试使用
   })
   .catch(function (error) {
     console.log("加载JSON出错", error)

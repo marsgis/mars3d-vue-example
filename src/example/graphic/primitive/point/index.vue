@@ -1,7 +1,7 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
-      <LayerState />
+      <layer-state />
     </div>
     <div>
       <a-space>
@@ -11,13 +11,13 @@
         <mars-button @click="clearLayer">清除</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 // 生成大数据

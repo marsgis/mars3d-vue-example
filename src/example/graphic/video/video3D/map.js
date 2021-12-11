@@ -261,7 +261,7 @@ export function printParameters() {
   }
 
   const params = JSON.stringify(selectedView.toJSON())
-  console.log(params)
+  console.log("Video3D构造参数为", params)
 }
 
 // 混合系数

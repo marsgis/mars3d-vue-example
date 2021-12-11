@@ -1,13 +1,13 @@
 <template>
-  <PannelBox class="infoView">
-    <LayerState />
+  <pannel class="infoView">
+    <layer-state />
     <mars-button href="editor.html?id=graphic/entity/dynamic3Dtiles" target="_blank">动态贴模型示例</mars-button>
-  </PannelBox>
-  <LocationTo />
+  </pannel>
+  <location-to />
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
 </script>

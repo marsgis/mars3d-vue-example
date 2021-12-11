@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
       <div class="f-mb">
         <a-space>
           <span class="pannel-item-label">状态:</span>
@@ -37,12 +37,12 @@
           <a-slider v-model:value="formState.txt_sigma" @change="txt_sigma" :min="1" :max="10" :step="0.01" />
         </a-space>
       </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

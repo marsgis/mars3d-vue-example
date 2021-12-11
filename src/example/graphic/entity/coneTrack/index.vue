@@ -1,11 +1,11 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <mars-button @click="onClickSelPoint">追踪目标点</mars-button>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const onClickSelPoint = () => {

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <span>建议：顺着道路方向选点，直线时多采集点</span>
     </div>
@@ -19,7 +19,7 @@
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">透明度:</span>
-        <a-slider @change="alphaChange" v-model:value="alphaValue" :min="0" :max="1" step="0.1" />当前值{{ alphaValue }}
+        <a-slider @change="alphaChange" v-model:value="alphaValue" :min="0" :max="1" :step="0.1" />当前值{{ alphaValue }}
       </a-space>
     </div>
 
@@ -29,23 +29,30 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 // 宽度
-const widthValue = ref<number>(280)
+const widthValue = ref<number>(20)
+
 const widthChange = () => {
+  if (!widthValue.value && widthValue.value !== 0) {
+    widthValue.value = 20
+  }
   mapWork.widthChange(widthValue.value)
 }
 
 // 高度
-const heightValue = ref<number>(30)
+const heightValue = ref<number>(1)
 const heightChange = () => {
+  if (!heightValue.value && heightValue.value !== 0) {
+    heightValue.value = 1
+  }
   mapWork.heightChange(heightValue.value)
 }
 

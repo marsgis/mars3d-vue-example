@@ -227,7 +227,7 @@ export function bindGraphicDemo2() {
                 <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button onclick="showXQ()">更多</button></td></tr>
               </table>`
   // 绑定Tooltip
-  graphic.bindTooltip(innerHtml, { offsetY: -30 }).openTooltip()
+  graphic.bindTooltip(innerHtml, { offsetY: -30, pointerEvents: true }).openTooltip()
 
   // 刷新局部DOM,不影响tooltip面板的其他控件操作
   graphic.on(mars3d.EventType.postRender, function (event) {

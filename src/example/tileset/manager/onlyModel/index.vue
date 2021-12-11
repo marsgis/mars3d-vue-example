@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="图层URL" name="url">
         <a-space>
@@ -12,12 +12,12 @@
       </a-form-item>
       <mars-button @click="flyTo">视角复位</mars-button>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const url = ref<any>()

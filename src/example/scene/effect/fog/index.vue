@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">启用:</span>
@@ -26,12 +26,12 @@
         <a-slider v-model:value="formState.fogByDistanceZ" @change="fogByDistanceZ" :min="100" :max="50000" :step="1" />
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

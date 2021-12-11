@@ -9,17 +9,17 @@
         "children": [
           {
             "name": "快速创建地球",
-            "main": "map/fastStart/createMap",
+            "main": "map/create/options",
             "date": "2021-11-20"
           },
           {
             "name": "根据配置文件创建地球",
-            "main": "map/fastStart/configFile",
+            "main": "map/create/json",
             "date": "2021-11-10"
           },
           {
             "name": "原生Cesium来创建地球(可与第3方SDK结合使用)",
-            "main": "map/fastStart/cesiumTo",
+            "main": "map/create/cesium",
             "date": "2021-11-02"
           },
           {
@@ -37,12 +37,12 @@
           {
             "name": "scene 场景参数",
             "date": "2021-11-10",
-            "main": "map/mapOptions/scene",
+            "main": "map/options/scene",
             "usePannel": true
           },
           {
             "name": "scene.center 默认视角",
-            "main": "map/mapOptions/sceneCenter",
+            "main": "map/options/scene-center",
             "usePannel": true,
             "date": "2021-11-10"
           },
@@ -54,17 +54,17 @@
           },
           {
             "name": "basemaps 瓦片底图",
-            "main": "map/mapOptions/basemaps",
+            "main": "map/options/basemaps",
             "date": "2021-11-10"
           },
           {
             "name": "layers 叠加图层",
-            "main": "map/mapOptions/overlayLayers",
+            "main": "map/options/layers",
             "date": "2021-11-10"
           },
           {
             "name": "control 控件",
-            "main": "map/mapOptions/control",
+            "main": "map/options/control",
             "date": "2021-11-10"
           }
         ]
@@ -74,7 +74,7 @@
         "children": [
           {
             "name": "map相关事件",
-            "main": "map/basic/mapEvent",
+            "main": "map/basic/event",
             "usePannel": true,
             "date": "2021-10-09"
           },
@@ -92,12 +92,12 @@
           },
           {
             "name": "蒙板遮盖",
-            "main": "map/basic/maskDiv",
+            "main": "map/basic/mask-div",
             "date": "2021-11-11"
           },
           {
             "name": "离线数据",
-            "main": "map/basic/offlineData",
+            "main": "map/basic/offline",
             "usePannel": true,
             "date": "2021-11-11"
           }
@@ -193,7 +193,7 @@
           },
           {
             "name": "ArcGIS Online",
-            "main": "tileLayer/online/arcgisOnline",
+            "main": "tileLayer/online/arcgis",
             "usePannel": true,
             "date": "2021-10-01"
           },
@@ -212,7 +212,7 @@
           },
           {
             "name": "实时交通态势图",
-            "main": "tileLayer/online/realtimeTraffic",
+            "main": "tileLayer/online/traffic-time",
             "usePannel": true,
             "date": "2021-11-10"
           }
@@ -224,58 +224,58 @@
         "children": [
           {
             "name": "本地单张图片",
-            "main": "tileLayer/basis/image",
+            "main": "tileLayer/type/image",
             "usePannel": true,
             "date": "2021-10-01"
           },
           {
             "name": "本地单张图片(区域影像)",
-            "main": "tileLayer/basis/image2",
+            "main": "tileLayer/type/image-rectangle",
             "date": "2021-11-10"
           },
           {
             "name": "xyz金字塔瓦片",
-            "main": "tileLayer/basis/xyz",
+            "main": "tileLayer/type/xyz",
             "usePannel": true,
             "date": "2021-10-01"
           },
           {
             "name": "xyz金字塔瓦片(区域影像)",
-            "main": "tileLayer/basis/xyzRegion",
+            "main": "tileLayer/type/xyz-rectangle",
             "date": "2021-11-10"
           },
           {
             "name": "arcgis格式瓦片",
-            "main": "tileLayer/basis/arcgisCache",
+            "main": "tileLayer/type/arcgisCache",
             "usePannel": true,
             "date": "2021-10-04"
           },
           {
             "name": "OGC WMS服务",
-            "main": "tileLayer/basis/wms",
+            "main": "tileLayer/type/wms",
             "usePannel": true,
             "date": "2021-10-01"
           },
           {
             "name": "OGC WMTS服务",
-            "main": "tileLayer/basis/wmts",
+            "main": "tileLayer/type/wmts",
             "usePannel": true,
             "date": "2021-10-01"
           },
           {
             "name": "ArcGIS Server服务",
-            "main": "tileLayer/basis/arcgis",
+            "main": "tileLayer/type/arcgis",
             "usePannel": true,
             "date": "2021-10-01"
           },
           {
             "name": "谷歌地球企业版【需部署私服】",
-            "main": "tileLayer/basis/gee",
+            "main": "tileLayer/type/gee",
             "date": "2021-11-10"
           },
           {
             "name": "EPSG4490坐标系",
-            "main": "tileLayer/basis/4490",
+            "main": "tileLayer/type/epsg4490",
             "usePannel": true,
             "date": "2021-10-09"
           }
@@ -287,7 +287,7 @@
           {
             "name": "图层管理",
             "date": "2021-11-10",
-            "main": "tileLayer/manage/manager",
+            "main": "tileLayer/manage/list",
             "usePannel": true
           },
           {
@@ -298,7 +298,7 @@
           },
           {
             "name": "色彩及透明度属性",
-            "main": "tileLayer/manage/colorOpacity",
+            "main": "tileLayer/manage/property",
             "usePannel": true,
             "date": "2021-10-03"
           },
@@ -310,13 +310,13 @@
           },
           {
             "name": "动态时序图片(雷达图)",
-            "main": "tileLayer/manage/dynamicPhoto",
+            "main": "tileLayer/manage/tile-alpha",
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "绘制反选遮罩层",
-            "main": "tileLayer/manage/mask",
+            "main": "tileLayer/manage/geojson-mask",
             "date": "2021-11-02"
           }
         ]
@@ -396,7 +396,7 @@
           },
           {
             "name": "自定义样式导航球",
-            "main": "control/basis/compassCustom",
+            "main": "control/basis/compass-custom",
             "resources": ["compassCustom.css"],
             "date": "2021-11-10"
           },
@@ -477,7 +477,7 @@
           },
           {
             "name": "DIV 图层",
-            "main": "graphicLayer/basis/divGraphic",
+            "main": "graphic/div/divGraphic",
             "usePannel": true,
             "resources": ["/temp/styles/divGraphic.css"],
             "date": "2021-10-07"
@@ -512,14 +512,14 @@
           },
           {
             "name": "立体建筑物GeoJson图层",
-            "main": "graphicLayer/file/geojsonBuildings",
+            "main": "graphicLayer/file/geojson-buildings",
             "libs": ["echarts", "mars3d"],
             "usePannel": true,
             "date": "2021-11-10"
           },
           {
             "name": "水域GeoJson图层",
-            "main": "graphicLayer/file/geojsonWater",
+            "main": "graphicLayer/file/geojson-water",
             "usePannel": true,
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
@@ -541,27 +541,22 @@
           },
           {
             "name": "矢量瓦片方式加载GeoJson",
-            "main": "graphicLayer/file/weiVectorTileGeojson",
+            "main": "graphicLayer/file/weiVectorTile-geojson",
             "libs": ["mars3d", "cesium-weiVectorTile"],
             "date": "2021-10-05"
           },
           {
             "name": "矢量瓦片方式加载Shp",
-            "main": "graphicLayer/file/weiVectorTileShp",
+            "main": "graphicLayer/file/weiVectorTile-shp",
             "libs": ["mars3d", "cesium-weiVectorTile"],
             "date": "2021-10-05"
           },
           {
             "name": "CZML图层",
             "main": "graphicLayer/file/czml",
+            "libs": ["mars3d", "cesium-sensorVolumes"],
             "usePannel": true,
             "date": "2021-10-02"
-          },
-          {
-            "name": "CzmGeoJson图层(Cesium原生加载)",
-            "main": "graphicLayer/file/czmGeojson",
-            "usePannel": true,
-            "date": "2021-11-01"
           },
           {
             "name": "KML图层(Cesium原生加载)",
@@ -576,23 +571,23 @@
         "children": [
           {
             "name": "WFS图层",
-            "main": "graphicLayer/wfs/ogc",
+            "main": "graphicLayer/wfs/geoserver",
             "date": "2021-11-10"
           },
           {
             "name": "ArcGIS Server动态图层",
-            "main": "graphicLayer/wfs/arcgisDynamic",
+            "main": "graphicLayer/wfs/arcgis",
             "usePannel": true,
             "date": "2021-11-02"
           },
           {
             "name": "ArcGIS WFS图层",
-            "main": "graphicLayer/wfs/arcgisWfs",
+            "main": "graphicLayer/wfs/arcgis-feature",
             "date": "2021-11-10"
           },
           {
             "name": "ArcGIS WFS图层贴模型",
-            "main": "graphicLayer/wfs/arcgisWfsSurface",
+            "main": "graphicLayer/wfs/arcgis-feature-surface",
             "date": "2021-11-10"
           }
         ]
@@ -612,14 +607,14 @@
           },
           {
             "name": "三维地名服务",
-            "main": "graphicLayer/other/tdtDmLayer",
+            "main": "graphicLayer/other/tdtDm",
             "libs": ["mars3d", "mars3d-tdt"],
             "date": "2021-11-01",
             "plugins": "tdt"
           },
           {
             "name": "经纬网图层",
-            "main": "graphicLayer/other/graticuleLayer",
+            "main": "graphicLayer/other/graticule",
             "date": "2021-11-10"
           }
         ]
@@ -675,7 +670,7 @@
             "name": "Div图片点",
             "main": "graphic/entity/divBillboard",
             "usePannel": true,
-            "resources": ["/temp/styles/divGraphic.css", "domToImage.js"],
+            "resources": ["/temp/styles/divGraphic.css", "/lib/dom2img/dom-to-image.js"],
             "date": "2021-11-10"
           },
           {
@@ -1012,19 +1007,19 @@
         "children": [
           {
             "name": "DIV 图层",
-            "main": "graphicLayer/basis/divGraphic",
+            "main": "graphic/div/divGraphic",
             "usePannel": true,
             "resources": ["/temp/styles/divGraphic.css"],
             "date": "2021-10-07"
           },
           {
             "name": "粒子效果",
-            "main": "graphic/other/particleSystem",
+            "main": "graphic/particle/particleSystem",
             "date": "2021-11-10"
           },
           {
             "name": "粒子效果参数调节",
-            "main": "graphic/other/particleSystemStyle",
+            "main": "graphic/particle/particleSystem-style",
             "usePannel": true,
             "date": "2021-11-10"
           }
@@ -1035,43 +1030,43 @@
         "children": [
           {
             "name": "图标点+文字(entity方式含聚合)",
-            "main": "graphic/point/billboardEntity",
+            "main": "graphic/entity/billboard-clustering",
             "usePannel": true,
             "date": "2021-10-04"
           },
           {
             "name": "图标点+文字(primitive方式)",
-            "main": "graphic/point/billboardPrimitive",
+            "main": "graphic/primitive/billboard-list",
             "date": "2021-10-08"
           },
           {
             "name": "AQI空气质量指数",
-            "main": "graphic/point/workerAqi",
+            "main": "graphic/apply/workerAqi",
             "date": "2021-10-05"
           },
           {
             "name": "动态效果点",
-            "main": "graphic/point/divGraphicDaxue",
+            "main": "graphic/div/divLightPoint",
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "油气站标注",
-            "main": "graphic/point/divGraphicHg",
+            "main": "graphic/div/divGraphicHg",
             "usePannel": true,
             "resources": ["/temp/styles/divGraphic.css"],
             "date": "2021-11-10"
           },
           {
             "name": "浮动监控点",
-            "main": "graphic/point/divGraphicCamera",
+            "main": "graphic/div/camera",
             "usePannel": true,
             "resources": ["camera.css", "/temp/styles/divGraphic.css"],
             "date": "2021-11-10"
           },
           {
             "name": "浮动监控点HLS",
-            "main": "graphic/point/divGraphicCameraHls",
+            "main": "graphic/div/cameraHls",
             "libs": ["hls", "mars3d"],
             "resources": ["camera.css", "/temp/styles/divGraphic.css"],
             "date": "2021-11-10",
@@ -1079,39 +1074,39 @@
           },
           {
             "name": "动态水球点",
-            "main": "graphic/point/liqiudfill",
+            "main": "graphic/div/echarts-liqiudfill",
             "libs": ["echarts-liquidfill", "mars3d"],
             "date": "2021-11-10"
           },
           {
             "name": "统计柱状图",
-            "main": "graphic/point/cylinderGdp",
+            "main": "graphic/apply/cylinderGdp",
             "libs": ["echarts-gl", "mars3d"],
             "resources": ["cylinderGdp.css"],
             "date": "2021-10-07"
           },
           {
             "name": "水闸放水效果",
-            "main": "graphic/point/particleSystemWater",
+            "main": "graphic/particle/water",
             "usePannel": true,
             "date": "2021-10-09",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "卫星正摄动画",
-            "main": "graphic/point/weixin",
+            "main": "graphic/primitive/cylinder-material",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "危化品扩散效果",
-            "main": "graphic/point/diffusion",
+            "main": "graphic/primitive/point-lot",
             "usePannel": true,
             "date": "2021-11-01"
           },
           {
             "name": "扫描效果",
-            "main": "graphic/point/scanCircle",
+            "main": "graphic/apply/scanCircle",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
           }
@@ -1122,137 +1117,137 @@
         "children": [
           {
             "name": "公交线",
-            "main": "graphic/line/busLine",
+            "main": "graphic/apply/busLine",
             "date": "2021-11-10"
           },
           {
             "name": "光晕线",
-            "main": "graphic/line/glowLine",
+            "main": "graphic/apply/glowLine",
             "date": "2021-10-02"
           },
           {
             "name": "柱状线",
-            "main": "graphic/line/vline",
+            "main": "graphic/apply/vline",
             "usePannel": true,
             "date": "2021-10-02"
           },
           {
             "name": "竖直飞线",
-            "main": "graphic/line/vlineFlow",
+            "main": "graphic/apply/vlineFlow",
             "date": "2021-11-10",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "一带一路",
-            "main": "graphic/line/oneBeltOneRoad",
+            "main": "graphic/apply/oneBeltOneRoad",
             "usePannel": true,
             "date": "2021-11-03"
           },
           {
             "name": "城市拓扑连线",
-            "main": "graphic/line/lineCity",
+            "main": "graphic/apply/lineCity",
             "date": "2021-11-10"
           },
           {
             "name": "迁徙效果",
-            "main": "graphic/line/lineQx",
+            "main": "graphic/apply/lineQx",
             "usePannel": true,
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "气象流动线",
-            "main": "graphic/line/lineWind",
+            "main": "graphic/apply/lineWind",
             "date": "2021-11-02",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "北京公交线(OD线)",
-            "main": "graphic/line/odLine",
+            "main": "graphic/apply/odLine",
             "date": "2021-11-03",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "民航航线(OD线)",
-            "main": "graphic/line/odLineFlights",
+            "main": "graphic/apply/odLineFlights",
             "date": "2021-11-10"
           },
           {
             "name": "高压电线(自动计算线)",
-            "main": "graphic/line/tower",
+            "main": "graphic/apply/tower",
             "usePannel": true,
             "libs": ["echarts", "mars3d"],
             "date": "2021-10-05"
           },
           {
             "name": "动态轨迹路线",
-            "main": "graphic/line/flypath",
+            "main": "graphic/apply/flypath",
             "usePannel": true,
             "date": "2021-10-06",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "飞机绕圈巡航",
-            "main": "graphic/line/flypath2",
+            "main": "graphic/apply/flypath2",
             "usePannel": true,
             "date": "2021-10-06",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "卫星成像过程",
-            "main": "graphic/line/statelliteFoot",
+            "main": "graphic/apply/statelliteFoot",
             "date": "2021-10-06",
             "thumbnail": "thumbnail.gif"
           },
           {
             "name": "渐变区域",
-            "main": "graphic/line/polyGradient",
+            "main": "graphic/apply/polyGradient",
             "date": "2021-11-10"
           },
           {
             "name": "行政区数据统计图",
-            "main": "graphic/line/quyuNum",
+            "main": "graphic/apply/quyuNum",
             "resources": ["/temp/styles/UnidreamLED.css"],
             "date": "2021-11-11"
           },
           {
             "name": "行政区突出展示",
-            "main": "graphic/line/district",
+            "main": "graphic/apply/district",
             "resources": ["district.css"],
             "date": "2021-11-10"
           },
           {
             "name": "行政区突出展示2",
-            "main": "graphic/line/district2",
+            "main": "graphic/apply/district2",
             "resources": ["district2.css"],
             "date": "2021-11-11"
           },
           {
             "name": "矿区岩层效果",
-            "main": "graphic/line/kuangqu",
+            "main": "graphic/apply/kuangqu",
             "date": "2021-11-01"
           },
           {
             "name": "立体户型图",
-            "main": "graphic/line/huxing",
+            "main": "graphic/apply/huxing",
             "resources": ["HuxingLayer.js"],
             "date": "2021-11-10"
           },
           {
             "name": "台风轨迹(综合案例)",
             "date": "2021-11-10",
-            "main": "graphic/line/typhoon",
+            "main": "graphic/apply/typhoon",
             "resources": ["Typhoon.js", "typhoon.css"],
             "usePannel": true
           },
           {
             "name": "智慧社区",
-            "main": "graphic/line/community",
+            "main": "graphic/apply/community",
             "date": "2021-11-11"
           },
           {
             "name": "数字城市",
-            "main": "graphic/line/digitalCity",
+            "main": "graphic/apply/digitalCity",
             "resources": ["city.css"],
             "date": "2021-11-11"
           }
@@ -1263,7 +1258,7 @@
         "children": [
           {
             "name": "视频点位",
-            "main": "graphic/point/divGraphicCamera",
+            "main": "graphic/div/camera",
             "usePannel": true,
             "resources": ["camera.css", "/temp/styles/divGraphic.css"],
             "date": "2021-11-10"
@@ -1277,7 +1272,7 @@
           {
             "name": "视频材质(HLS协议)",
             "date": "2021-10-06",
-            "main": "graphic/video/videoMaterialHls",
+            "main": "graphic/video/videoMaterial-hls",
             "libs": ["hls", "mars3d"],
             "usePannel": true
           },
@@ -1290,7 +1285,7 @@
           {
             "name": "视频2D投射(HLS协议)",
             "date": "2021-10-09",
-            "main": "graphic/video/video2DHls",
+            "main": "graphic/video/video2D-hls",
             "libs": ["hls", "mars3d"],
             "usePannel": true
           },
@@ -1303,7 +1298,7 @@
           {
             "name": "视频3D贴物投射(HLS协议)",
             "date": "2021-10-08",
-            "main": "graphic/video/video3DHls",
+            "main": "graphic/video/video3D-hls",
             "libs": ["hls", "mars3d"],
             "usePannel": true
           }
@@ -1330,7 +1325,7 @@
           {
             "name": "ConicSensor 圆椎体(固定竖立朝上)",
             "date": "2021-10-08",
-            "main": "graphic/space/conicSensorUp",
+            "main": "graphic/space/conicSensor-up",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "plugins": "space"
@@ -1345,7 +1340,7 @@
           },
           {
             "name": "ConicSensor 圆椎体动态展示",
-            "main": "graphic/space/conicSensorDynamic",
+            "main": "graphic/space/conicSensor-dynamic",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-10-08",
             "thumbnail": "thumbnail.gif",
@@ -1353,7 +1348,7 @@
           },
           {
             "name": "ConicSensor 圆椎体追踪目标",
-            "main": "graphic/space/conicSensorLookAt",
+            "main": "graphic/space/conicSensor-lookAt",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-10-08",
             "thumbnail": "thumbnail.gif",
@@ -1369,14 +1364,14 @@
           },
           {
             "name": "RectSensor 四棱椎体追踪目标",
-            "main": "graphic/space/rectSensorLookAt",
+            "main": "graphic/space/rectSensor-lookAt",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-10",
             "plugins": "space"
           },
           {
             "name": "RectSensor 大量四棱椎体",
-            "main": "graphic/space/rectSensorList",
+            "main": "graphic/space/rectSensor-list",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-10",
             "plugins": "space"
@@ -1392,7 +1387,7 @@
           {
             "name": "SatelliteSensor 卫星视锥体(多个)",
             "date": "2021-10-08",
-            "main": "graphic/space/satelliteSensorMulti",
+            "main": "graphic/space/satelliteSensor-multi",
             "usePannel": true,
             "hidden": true,
             "libs": ["mars3d", "mars3d-space"],
@@ -1400,7 +1395,7 @@
           },
           {
             "name": "SatelliteSensor 卫星视锥体动态展示",
-            "main": "graphic/space/satelliteSensorDynamic",
+            "main": "graphic/space/satelliteSensor-dynamic",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-10-08",
             "thumbnail": "thumbnail.gif",
@@ -1424,21 +1419,21 @@
           {
             "name": "Satellite TLE实时展示(多相机)",
             "date": "2021-10-09",
-            "main": "graphic/space/coneList",
+            "main": "graphic/space/satellite-coneList",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "plugins": "space"
           },
           {
             "name": "Satellite 自定义动态位置",
-            "main": "graphic/space/satellitePosition",
+            "main": "graphic/space/satellite-position",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-10-09",
             "plugins": "space"
           },
           {
             "name": "多卫星TLE实时展示",
-            "main": "graphic/space/satelliteList",
+            "main": "graphic/space/satellite-list",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01",
             "thumbnail": "thumbnail.gif",
@@ -1447,14 +1442,14 @@
           {
             "name": "卫星星下点计算",
             "date": "2021-11-10",
-            "main": "graphic/space/rayEarthPosition",
+            "main": "graphic/space/getRayEarthPosition",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "plugins": "space"
           },
           {
             "name": "卫星过境动态展示",
-            "main": "graphic/space/satelliteChange",
+            "main": "graphic/space/satellite-change",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01",
@@ -1464,14 +1459,14 @@
           {
             "name": "卫星过境分析",
             "date": "2021-10-09",
-            "main": "graphic/space/gjfx",
+            "main": "graphic/space/tle-getEcfPosition",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "plugins": "space"
           },
           {
             "name": "成像范围计算",
-            "main": "graphic/space/satelliteShading",
+            "main": "graphic/space/tle-getPoint",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-10-09",
@@ -1627,7 +1622,6 @@
             "name": "线面内插值计算",
             "main": "graphic/manage/interPoly",
             "usePannel": true,
-            "resources": ["showPolygonInter.js"],
             "date": "2021-11-01"
           },
           {
@@ -1685,13 +1679,13 @@
           {
             "name": "gltf模型库",
             "date": "2021-11-02",
-            "main": "gltf/manage/gltfList",
+            "main": "gltf/manage/draw-list",
             "usePannel": true
           },
           {
             "name": "gltf零部件控制(运载火箭)",
             "date": "2021-10-08",
-            "main": "gltf/manage/gltfRocket",
+            "main": "gltf/manage/articulations",
             "usePannel": true
           },
           {
@@ -1702,7 +1696,7 @@
           },
           {
             "name": "模型管理(楼栋分层控制)",
-            "main": "gltf/manage/floorGraphic",
+            "main": "gltf/manage/floor",
             "usePannel": true,
             "resources": ["FloorGraphic.js"],
             "date": "2021-11-11",
@@ -1723,7 +1717,7 @@
             "name": "3dtiles图层",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "tileset/type/layers"
+            "main": "tileset/type/list"
           },
           {
             "name": "县城城区（倾斜摄影）",
@@ -1743,14 +1737,14 @@
           {
             "name": "桥梁(BIM建模)",
             "date": "2021-11-01",
-            "main": "tileset/type/bim",
+            "main": "tileset/type/bim-qiaoliang",
             "usePannel": true
           },
           {
             "name": "教学楼(BIM建模)",
             "date": "2021-11-01",
             "usePannel": true,
-            "main": "tileset/type/shinei"
+            "main": "tileset/type/bim-daxue"
           },
           {
             "name": "石化厂（人工建模）",
@@ -1770,13 +1764,13 @@
             "name": "合肥市区（城市白模）",
             "date": "2021-10-09",
             "thumbnail": "thumbnail.gif",
-            "main": "tileset/type/jzwStyle",
+            "main": "tileset/type/jzw",
             "usePannel": true
           },
           {
             "name": "全球城市白膜(OSM在线)",
             "date": "2021-11-10",
-            "main": "tileset/type/osmBuildingsLayer"
+            "main": "tileset/type/osmBuildings"
           }
         ]
       },
@@ -1798,25 +1792,25 @@
             "name": "分栋矢量单体化(叠加矢量数据)",
             "date": "2021-10-06",
             "usePannel": true,
-            "main": "tileset/monomer/fd"
+            "main": "tileset/monomer/building"
           },
           {
             "name": "分栋矢量单体化编辑",
             "date": "2021-10-09",
             "usePannel": true,
-            "main": "tileset/monomer/fdEdit"
+            "main": "tileset/monomer/building-edit"
           },
           {
             "name": "分层矢量单体化",
             "date": "2021-11-11",
             "usePannel": true,
-            "main": "tileset/monomer/fc"
+            "main": "tileset/monomer/floor"
           },
           {
             "name": "分层分户矢量单体化",
             "date": "2021-11-11",
             "usePannel": true,
-            "main": "tileset/monomer/fcfh"
+            "main": "tileset/monomer/household"
           },
           {
             "name": "矢量单体化(叠加WFS服务)",
@@ -1832,18 +1826,18 @@
             "name": "建筑物样式",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "tileset/style/building"
+            "main": "tileset/style/jzw"
           },
           {
             "name": "单击查看分户",
             "date": "2021-11-10",
-            "main": "tileset/style/fh"
+            "main": "tileset/style/max-fcfh"
           },
           {
             "name": "BIM分层展示",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "tileset/style/fc"
+            "main": "tileset/style/bim-floor"
           },
           {
             "name": "自定义Shader",
@@ -1854,7 +1848,7 @@
           {
             "name": "自定义BIM属性及样式",
             "date": "2021-11-12",
-            "main": "tileset/style/custom"
+            "main": "tileset/style/custom-style"
           }
         ]
       },
@@ -1901,13 +1895,13 @@
             "name": "二维三维视图切换",
             "date": "2021-10-02",
             "usePannel": true,
-            "main": "scene/compa/sceneMode"
+            "main": "map/options/scene-sceneMode"
           },
           {
             "name": "双屏对比",
             "date": "2021-10-06",
             "resources": ["mapCompare.css"],
-            "main": "scene/compa/mapCompare"
+            "main": "scene/double/compare"
           },
           {
             "name": "二三维联动(与leaflet)",
@@ -1915,21 +1909,21 @@
             "libs": ["mars2d", "mars3d"],
             "resources": ["map.css"],
             "usePannel": true,
-            "main": "scene/compa/linkLeaflet"
+            "main": "scene/double/leaflet"
           },
           {
             "name": "二三维联动(与openlayers)",
             "date": "2021-11-11",
             "libs": ["olcesium", "mars3d"],
             "resources": ["ol.css"],
-            "main": "scene/compa/linkOl"
+            "main": "scene/double/openlayers"
           },
           {
             "name": "街景联动",
             "date": "2021-11-11",
             "usePannel": "effective",
             "resources": ["baidu.css"],
-            "main": "scene/compa/streetview"
+            "main": "scene/double/streetview"
           }
         ]
       },
@@ -1959,7 +1953,7 @@
             "name": "近地天空盒",
             "date": "2021-10-09",
             "usePannel": true,
-            "main": "scene/backgrand/nearground"
+            "main": "scene/backgrand/skybox-nearground"
           }
         ]
       },
@@ -1984,7 +1978,7 @@
             "date": "2021-10-02",
             "thumbnail": "thumbnail.gif",
             "usePannel": true,
-            "main": "scene/camera/rotate"
+            "main": "scene/camera/earth-rotate"
           },
           {
             "name": "绕点环绕飞行",
@@ -2009,7 +2003,7 @@
           {
             "name": "视点飞行",
             "date": "2021-11-10",
-            "main": "scene/camera/viewPoints"
+            "main": "scene/camera/setCameraViewList"
           },
           {
             "name": "视角历史记录",
@@ -2019,7 +2013,7 @@
           },
           {
             "name": "限定视角范围",
-            "main": "scene/camera/cameraHistoryLimit",
+            "main": "scene/camera/cameraHistory-limit",
             "usePannel": true,
             "date": "2021-11-01"
           }
@@ -2032,7 +2026,7 @@
             "name": "鼠标中右键互换(操作习惯)",
             "date": "2021-11-01",
             "usePannel": true,
-            "main": "scene/interaction/mourseType"
+            "main": "scene/interaction/changeMouseModel"
           },
           {
             "name": "街景操作习惯",
@@ -2078,7 +2072,7 @@
           {
             "name": "水面倒影 Demo",
             "date": "2021-10-09",
-            "main": "scene/effect/daoying"
+            "main": "scene/effect/inverted"
           },
           {
             "name": "对象描边",
@@ -2136,7 +2130,6 @@
             "name": "量算 (长度、面积、高度、角度)",
             "date": "2021-10-06",
             "usePannel": true,
-            "resources": ["showPolygonInter.js"],
             "main": "analysis/spatial/measure"
           },
           {
@@ -2149,7 +2142,6 @@
             "name": "方量分析(体积)",
             "date": "2021-10-08",
             "usePannel": true,
-            "resources": ["showPolygonInter.js"],
             "main": "analysis/spatial/measureVolume"
           },
           {
@@ -2259,7 +2251,7 @@
             "name": "3dtiles模型剖切(倾斜摄影)",
             "date": "2021-11-01",
             "usePannel": true,
-            "main": "analysis/model/tilesetPlanClip2"
+            "main": "analysis/model/tilesetPlanClip-qx"
           },
           {
             "name": "建筑物特效",
@@ -2397,7 +2389,7 @@
           },
           {
             "name": "高度热力图",
-            "main": "visual/simple/heatLayerHeight",
+            "main": "visual/simple/heatLayer-height",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-heatmap"],
             "date": "2021-11-10",
@@ -2405,7 +2397,7 @@
           },
           {
             "name": "立体曲面热力图",
-            "main": "visual/simple/heatLayerArc",
+            "main": "visual/simple/heatLayer-arc",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-heatmap"],
             "date": "2021-11-01",
@@ -2420,15 +2412,16 @@
           },
           {
             "name": "风向图",
-            "main": "visual/simple/windLayer",
-            "libs": ["datgui", "mars3d", "mars3d-wind"],
+            "main": "visual/simple/wind",
+            "usePannel": true,
+            "libs": ["mars3d", "mars3d-wind"],
             "date": "2021-10-07",
             "thumbnail": "thumbnail.gif",
             "plugins": "wind"
           },
           {
             "name": "风向图(canvas方式)",
-            "main": "visual/simple/canvasWindLayer",
+            "main": "visual/simple/canvasWind",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-wind"],
             "date": "2021-11-03",
@@ -2529,7 +2522,7 @@
           {
             "name": "饼形图标记",
             "date": "2021-11-11",
-            "main": "visual/echarts/divGraphicPie",
+            "main": "graphic/div/echarts-pie",
             "libs": ["mars3d", "echarts"]
           },
           {
@@ -2678,14 +2671,14 @@
           {
             "name": "动画脚本演示",
             "date": "2021-11-10",
-            "main": "visual/simulation/animation",
+            "main": "visual/simulation/steps",
             "resources": ["/temp/styles/divGraphic.css"],
             "usePannel": true
           },
           {
             "name": "无人机航拍过程",
             "date": "2021-11-01",
-            "main": "visual/simulation/wrjhp",
+            "main": "visual/simulation/plane",
             "thumbnail": "thumbnail.gif"
           },
           {
@@ -2699,6 +2692,7 @@
             "name": "船舶模拟",
             "date": "2021-10-03",
             "main": "graphicLayer/file/czml",
+            "libs": ["mars3d", "cesium-sensorVolumes"],
             "usePannel": true,
             "params": "data=chuanbo",
             "thumbnail": "thumbnail_chuanbo.gif"
@@ -2707,6 +2701,7 @@
             "name": "飞机模拟",
             "date": "2021-10-03",
             "main": "graphicLayer/file/czml",
+            "libs": ["mars3d", "cesium-sensorVolumes"],
             "usePannel": true,
             "params": "data=feiji",
             "thumbnail": "thumbnail_feiji.gif"
@@ -2715,13 +2710,15 @@
             "name": "火箭发射过程",
             "date": "2021-11-01",
             "thumbnail": "thumbnail.gif",
+            "libs": ["mars3d", "cesium-sensorVolumes"],
+
             "main": "graphicLayer/file/czml",
             "usePannel": true,
             "params": "data=huojian"
           },
           {
             "name": "多卫星TLE实时展示",
-            "main": "graphic/space/satelliteList",
+            "main": "graphic/space/satellite-list",
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01",
             "thumbnail": "thumbnail.gif",

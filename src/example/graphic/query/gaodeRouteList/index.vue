@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -34,17 +34,17 @@
           :columns="columns"
           :custom-row="customRow"
           size="small"
-          bordered="true"
+          bordered
           :scroll="{ y: 300 }"
         ></a-table>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {

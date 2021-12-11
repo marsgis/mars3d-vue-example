@@ -1,6 +1,6 @@
 <template>
   <!--查询条件面板-->
-  <PannelBox class="infoView" v-show="formState.viewContorUi === true">
+  <pannel class="infoView" v-show="formState.viewContorUi === true">
     <a-form>
       <a-form-item label="系列卫星">
         <mars-select v-model:value="formState.selXiLie" :options="selXiLieOptions" @change="selectSatellites"> </mars-select>
@@ -72,10 +72,10 @@
         <mars-button @click="reset">重置</mars-button>
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
 
   <!--卫星详情面板-->
-  <PannelBox class="infoView" v-show="formState.pointInfo === true">
+  <pannel class="infoView" v-show="formState.pointInfo === true">
     <mars-button @click="highlightSatellite"> 返回 </mars-button>
     <table class="mars-table tb-border">
       <tr v-for="(item, index) in weixinNameList" :key="item">
@@ -83,12 +83,12 @@
         <td id="td_name">{{ weixinValueList[index] }}</td>
       </tr>
     </table>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -69,12 +69,12 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

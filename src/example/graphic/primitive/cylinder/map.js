@@ -59,9 +59,6 @@ function addGraphic01(graphicLayer) {
 
   initGraphicManager(primitive)
 
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphic02(graphicLayer) {
@@ -287,81 +284,6 @@ function bindLayerContextMenu() {
           return
         }
         graphicLayer.removeGraphic(graphic)
-      }
-    },
-    {
-      text: "计算长度",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的长度为:" + strDis)
-      }
-    },
-    {
-      text: "计算周长",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的周长为:" + strDis)
-      }
-    },
-    {
-      text: "计算面积",
-      iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
-        globalAlert("该对象的面积为:" + strArea)
       }
     }
   ])

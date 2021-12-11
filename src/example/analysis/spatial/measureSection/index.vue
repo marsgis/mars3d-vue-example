@@ -1,26 +1,26 @@
 <template>
   <!-- UI面板 -->
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="measureSection">绘制线</mars-button>
       <mars-button @click="clear">清除</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 
   <!-- ecahrt图表 -->
-  <PannelBox class="echartsBox" v-show="isShow">
+  <pannel class="echartsBox" v-show="isShow">
     <div class="echatsView">
       <div id="echartsView1" style="width: 100%; height: 100%"></div>
     </div>
-  </PannelBox>
+  </pannel>
 
-  <LocationTo />
+  <location-to />
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 

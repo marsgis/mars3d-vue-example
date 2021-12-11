@@ -1,10 +1,10 @@
 <template>
-  <PannelBox class="infoView">
-    <LayerState />
-  </PannelBox>
+  <pannel class="infoView">
+    <layer-state />
+  </pannel>
 </template>
 
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
 </script>

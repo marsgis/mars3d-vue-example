@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <p class="f-mb">按坐标绘制</p>
     <div class="f-mb">
       <a-space>
@@ -39,12 +39,12 @@
       <a-slider @change="deviation" v-model:value="deviationValue" :min="-10" :max="10" />
       <mars-input-number @change="txtDeviation" v-model:value="deviationValue" :min="-10" :max="10" />米
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
  import * as mapWork from "./map.js"
 
 const distanceValue = ref<number>(0)

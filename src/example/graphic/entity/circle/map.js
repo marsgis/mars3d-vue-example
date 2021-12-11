@@ -390,33 +390,6 @@ function bindLayerContextMenu() {
       }
     },
     {
-      text: "计算长度",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的长度为:" + strDis)
-      }
-    },
-    {
       text: "计算周长",
       iconCls: "fa fa-medium",
       show: function (e) {
@@ -500,11 +473,11 @@ function impFile(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const strkml = this.result
-      // eslint-disable-next-line no-undef
-      kgUtil.toGeoJSON(strkml).then((geojoson) => {
-        console.log("kml2geojson", geojoson)
 
-        graphicLayer.loadGeoJSON(geojoson, {
+      kgUtil.toGeoJSON(strkml).then((geojson) => {
+        console.log("kml2geojson转换结果为", geojson)
+
+        graphicLayer.loadGeoJSON(geojson, {
           flyTo: true
           // symbol: function (attr, style, featue) {
           //   let geoType = featue.geometry?.type
@@ -535,11 +508,11 @@ function impFile(file) {
     }
   } else if (fileType == "kmz") {
     // 加载input文件控件的二进制流
-    // eslint-disable-next-line no-undef
-    kgUtil.toGeoJSON(file).then((geojoson) => {
-      console.log("kmz2geojson", geojoson)
 
-      graphicLayer.loadGeoJSON(geojoson, {
+    kgUtil.toGeoJSON(file).then((geojson) => {
+      console.log("kmz2geojson", geojson)
+
+      graphicLayer.loadGeoJSON(geojson, {
         flyTo: true
       })
     })

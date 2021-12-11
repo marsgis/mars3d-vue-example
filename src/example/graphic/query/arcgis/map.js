@@ -118,7 +118,7 @@ export function drawRectangle() {
     success: function (graphic) {
       drawGraphic = graphic
 
-      console.log("矩形：", drawGraphic.toGeoJSON({ outline: true }))
+      console.log("框选矩形：", drawGraphic.toGeoJSON({ outline: true }))
     }
   })
 }
@@ -137,7 +137,7 @@ export function drawCircle() {
     },
     success: function (graphic) {
       drawGraphic = graphic
-      console.log("圆：", drawGraphic.toGeoJSON({ outline: true }))
+      console.log("框选圆：", drawGraphic.toGeoJSON({ outline: true }))
     }
   })
 }
@@ -156,7 +156,7 @@ export function drawPolygon() {
     },
     success: function (graphic) {
       drawGraphic = graphic
-      console.log("多边行：", drawGraphic.toGeoJSON())
+      console.log("框选多边行：", drawGraphic.toGeoJSON())
     }
   })
 }

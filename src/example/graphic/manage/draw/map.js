@@ -293,10 +293,10 @@ export function saveGeoJSON() {
 }
 
 /**
- *打开geojson文件
+ * 打开geojson文件
  *
  * @export
- * @param {FileInfo} file 文件名称
+ * @param {FileInfo} file 文件
  * @returns {void} 无
  */
 export function openGeoJSON(file) {
@@ -307,8 +307,9 @@ export function openGeoJSON(file) {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      const json = this.result
-      graphicLayer.loadGeoJSON(json, {
+      let geojson = this.result
+      geojson = simplifyGeoJSON(geojson) // 简化geojson的点
+      graphicLayer.loadGeoJSON(geojson, {
         flyTo: true
       })
     }
@@ -317,26 +318,62 @@ export function openGeoJSON(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const strkml = this.result
-      kgUtil.toGeoJSON(strkml).then((geojoson) => {
-        console.log("kml2geojson", geojoson)
+      kgUtil.toGeoJSON(strkml).then((geojson) => {
+        geojson = simplifyGeoJSON(geojson) // 简化geojson的点
+        console.log("kml2geojson", geojson)
 
-        graphicLayer.loadGeoJSON(geojoson, {
+        graphicLayer.loadGeoJSON(geojson, {
           flyTo: true
+          // symbol: function (attr, style, featue) {
+          //   let geoType = featue.geometry?.type
+          //   if (geoType == 'Point') {
+          //     return {
+          //       image: 'img/marker/di3.png',
+          //       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          //       scale: 0.4,
+          //       label: {
+          //         text: attr.name,
+          //         font_size: 18,
+          //         color: '#ffffff',
+          //         outline: true,
+          //         outlineColor: '#000000',
+          //         pixelOffsetY: -50,
+          //         scaleByDistance: true,
+          //         scaleByDistance_far: 990000,
+          //         scaleByDistance_farValue: 0.3,
+          //         scaleByDistance_near: 10000,
+          //         scaleByDistance_nearValue: 1,
+          //       },
+          //     }
+          //   }
+          //   return style
+          // },
         })
       })
     }
   } else if (fileType == "kmz") {
     // 加载input文件控件的二进制流
-    kgUtil.toGeoJSON(file).then((geojoson) => {
-      console.log("kmz2geojson", geojoson)
+    kgUtil.toGeoJSON(file).then((geojson) => {
+      geojson = simplifyGeoJSON(geojson) // 简化geojson的点
+      console.log("kmz2geojson", geojson)
 
-      graphicLayer.loadGeoJSON(geojoson, {
+      graphicLayer.loadGeoJSON(geojson, {
         flyTo: true
       })
     })
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
   }
+}
+
+// 简化geojson的坐标
+function simplifyGeoJSON(geojson) {
+  try {
+    geojson = turf.simplify(geojson, { tolerance: 0.000001, highQuality: true, mutate: true })
+  } catch (e) {
+    //
+  }
+  return geojson
 }
 
 // 点击保存KML

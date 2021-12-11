@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item>
         <a-space>
@@ -19,14 +19,14 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
   <GraphicEditor ref="editor" />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import GraphicEditor from "@comp/graphic-editor/index.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

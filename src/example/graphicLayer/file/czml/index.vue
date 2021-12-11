@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView" v-show="isShow">
+  <pannel class="infoView" v-show="isShow">
     <a-space>
       <mars-button @click="showAircraft">飞机</mars-button>
       <mars-button @click="showShip">船舶</mars-button>
@@ -9,20 +9,20 @@
       <mars-button @click="showRocket">火箭发射</mars-button>
       <mars-button @click="showFireDrill">消防演练</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 
-  <PannelBox class="treeView">
+  <pannel class="treeView">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
       <template #title="{ title }">
         <span class="">{{ title }}</span>
       </template>
     </mars-tree>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import { getQueryString } from "@/utils/index"
 import * as mapWork from "./map.js"
 interface treeItem {

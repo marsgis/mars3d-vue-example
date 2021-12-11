@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span>原始数据:</span>
@@ -30,12 +30,12 @@
         <mars-button @click="zoomPolygons">缩放面</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const angleValue = ref<number>(45) // 旋转的角度

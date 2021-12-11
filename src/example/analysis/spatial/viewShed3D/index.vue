@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <span>提示：单击“添加可视域”后，图上左键绘制两点即可</span>
     </div>
@@ -35,12 +35,12 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const horizontalVal = ref<number>(120)

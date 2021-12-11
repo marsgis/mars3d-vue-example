@@ -153,10 +153,6 @@ function addGraphicDemo2(graphicLayer) {
     }
   })
   graphicLayer.addGraphic(primitive)
-
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphicDemo3(graphicLayer) {

@@ -6,7 +6,7 @@
 const jumpUrl = (item: any) => {
   let url = process.env.BASE_URL + "editor.html?id=" + encodeURI(item.main)
   if (item.params) {
-    url += `&${item.params}`
+    url += `&${item.params}&name=${item.fullName}`
   }
   window.open(url, "_blank")
 }

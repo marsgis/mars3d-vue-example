@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <mars-button @click="clear">清除</mars-button>
@@ -24,15 +24,15 @@
         <mars-button @click="measureAngle">方位角</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 
-  <LocationTo />
+  <location-to />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 const checked = ref(false)

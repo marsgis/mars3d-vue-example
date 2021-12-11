@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="插值数">
         <a-space>
@@ -19,12 +19,12 @@
         </a-radio-group>
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

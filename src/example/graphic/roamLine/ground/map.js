@@ -13,7 +13,7 @@ export const mapOptions = {
   }
 }
 
-const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -132,7 +132,8 @@ function addGraphicLayer() {
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信
     showRealTimeInfo(event, roamLine.alltimes)
-    eventTarget.fire("roamLineChange")
+    // 漫游组件
+    eventTarget.fire("roamLineChange", roamLineData)
   })
 
   // 不贴地时，直接开始

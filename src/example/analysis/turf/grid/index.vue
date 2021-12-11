@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <span>步长:</span>
       <mars-input-number v-model:value="value" :min="1" :max="10" />
@@ -9,12 +9,12 @@
       <mars-button @click="squareGrid">方格网</mars-button>
       <mars-button @click="hexGrid">蜂窝网</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 

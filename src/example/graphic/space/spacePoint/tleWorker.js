@@ -1,7 +1,7 @@
 
-// eslint-disable-next-line no-undef
+
 importScripts("/lib/mars3d/plugins/space/worker/mars3d-tle-worker.js")
-// eslint-disable-next-line no-undef
+
 const mars3d = mars3dTle
 
 self.onmessage = function (e) {

@@ -1,17 +1,17 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-table :pagination="false" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
-  </PannelBox>
-  <PannelBox class="msg">
+  </pannel>
+  <pannel class="msg">
     <div v-for="(msgList, index) in msg" :key="index">
       <p>{{ msgList }}</p>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {

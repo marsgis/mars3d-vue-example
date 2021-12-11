@@ -200,6 +200,10 @@ export function showQxShequDemo() {
   })
   map.addLayer(tiles3dLayer)
 
+  tiles3dLayer.readyPromise.then(function(layer) {
+    console.log("load完成", layer)
+  })
+
   // 加载的事件 只执行一次
   tiles3dLayer.on(mars3d.EventType.initialTilesLoaded, function (event) {
     console.log("触发initialTilesLoaded事件", event)

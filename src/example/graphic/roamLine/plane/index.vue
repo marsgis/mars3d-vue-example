@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView roamLinePanel">
+  <pannel class="infoView roamLinePanel">
     <div class="f-mb f-tac">
       <a-space>
         <mars-button @click="btnStart">开始</mars-button>
@@ -25,18 +25,18 @@
           <mars-input-number @change="changeFollowed" v-model:value="formState.followedZ" :step="1" />
         </a-col>
 
-        <a-col :span="8" title="偏离漫游对象的高度，单位：米">高度偏移值:</a-col>
-        <a-col :span="11">
+        <a-col  v-show="formState.select === 'dy'"  :span="8" title="偏离漫游对象的高度，单位：米">高度偏移值:</a-col>
+        <a-col  v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetZ" :step="1" />
         </a-col>
 
-        <a-col :span="8" title="偏离漫游对象的横向值，单位：米">横向偏移值:</a-col>
-        <a-col :span="11">
+        <a-col  v-show="formState.select === 'dy'" :span="8" title="偏离漫游对象的横向值，单位：米">横向偏移值:</a-col>
+        <a-col  v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetY" :step="1" />
         </a-col>
 
-        <a-col :span="8" title="偏离漫游对象的前后值，单位：米">前后偏移值:</a-col>
-        <a-col :span="11">
+        <a-col  v-show="formState.select === 'dy'"  :span="8" title="偏离漫游对象的前后值，单位：米">前后偏移值:</a-col>
+        <a-col  v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetX" :step="1" />
         </a-col>
       </a-row>
@@ -67,15 +67,15 @@
         </a-col>
       </a-row>
     </div>
-  </PannelBox>
+  </pannel>
 
-  <roamLinePanel />
+  <roamline-panel />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import roamLinePanel from "@comp/MarsSample/RoamLinePanel.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import roamLinePanel from "@/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

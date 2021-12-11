@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
       <a-space>
         <mars-button @click="shoRailway">铁路</mars-button>
         <mars-button @click="showExpressway">高速公路</mars-button>
@@ -7,21 +7,21 @@
         <mars-button @click="showGDP">国家GDP数据</mars-button>
         <mars-button @click="showSafetyNotice">海上安全通告</mars-button>
       </a-space>
-  </PannelBox>
+  </pannel>
 
 
-   <PannelBox class="treeView">
+   <pannel class="treeView">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
     </mars-tree>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
  import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([
@@ -67,7 +67,7 @@ const checkedChange = (keys: string[], checkedNodes: any) => {
 function initTree() {
 mapWork.treeEvent.on("tree", function (event: any) {
   const modelList = event.treeData
-  
+
   const tree = []
   const selects: string[] = []
   for (let i = 0; i < modelList.length; i++) {
@@ -84,7 +84,7 @@ mapWork.treeEvent.on("tree", function (event: any) {
     }
   }
   treeData.value[0].children = tree
-  
+
   nextTick(() => {
     selectedKeys.value = selects
   })

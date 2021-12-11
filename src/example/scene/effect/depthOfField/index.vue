@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="启用">
         <a-switch v-model:checked="formState.chkShowEffect" @change="bindShowEffect" />
@@ -18,12 +18,12 @@
         <a-slider v-model:value="formState.txt_stepSize" @change="txt_stepSize" :min="0" :max="7" :step="0.01" />
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

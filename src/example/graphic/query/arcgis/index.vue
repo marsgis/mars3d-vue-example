@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
      <div class="f-mb">
         <a-space>
@@ -27,27 +27,25 @@
 
       <div v-show="show">
        <div class="f-mb">
-          <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered="true" />
-       </div >
-       <div class="f-mb">
-          <div>找到{{ allLength }}条结果</div>
-          <div class="querybar-fr">
-            {{ nowPage }}/{{ allPage }}页
-            <a-space>
-              <mars-button class="button" @click="showFirstPage">首页</mars-button>
-              <mars-button class="button" @click="showPretPage">&lt;</mars-button>
-              <mars-button class="button" @click="showNextPage">&gt;</mars-button>
-            </a-space>
-          </div>
-       </div >
+          <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
+        </div>
+        <div class="f-mb querybar-fr">
+          <a-space>
+            <span>找到{{ allLength }}条结果</span>
+            第{{ nowPage }}/{{ allPage }}页
+            <mars-button class="button" @click="showFirstPage">首页</mars-button>
+            <mars-button class="button" @click="showPretPage">&lt;</mars-button>
+            <mars-button class="button" @click="showNextPage">&gt;</mars-button>
+          </a-space>
+        </div>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import any from "nprogress"
 import * as mapWork from "./map.js"
 
@@ -127,16 +125,19 @@ const drawPolygon = () => {
   show.value = false
   mapWork.drawPolygon()
 }
+
 // 查询数据
 const query = () => {
   show.value = false
   mapWork.query(serverName.value)
-  mapWork.eventTarget.on("result", (e: any) => {
-    allLength.value = e.result.allCount
-    allPage.value = e.result.allPag
-    nowPage.value = e.result.pageIndex
-  })
 }
+
+mapWork.eventTarget.on("result", (e: any) => {
+  allLength.value = e.result.allCount
+  allPage.value = e.result.allPage
+  nowPage.value = e.result.pageIndex
+})
+
 // 清除数据
 const removeAll = () => {
   show.value = false
@@ -163,8 +164,8 @@ const showNextPage = () => {
   width: 250px;
 }
 .querybar-fr {
-  position: absolute;
-  right: 5px;
-  top: -2px;
+  position: relative;
+  bottom: 3px;
+  right: -6px;
 }
 </style>

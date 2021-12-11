@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-tac">
       <a-space>
         <mars-button @click="createViewForVideo">视频投放</mars-button>
@@ -61,12 +61,12 @@
         <mars-button @click="printParameters">打印参数</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const checked = ref<boolean>(false)

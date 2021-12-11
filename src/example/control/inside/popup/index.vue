@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="onBindMapDemo">Map上直接弹出</mars-button>
       <mars-button @click="onBindLayerDemo">图层上绑定</mars-button>
@@ -9,15 +9,15 @@
       <mars-button @click="onBindGraphicDemo1">Graphic上绑定</mars-button>
       <mars-button @click="onBindGraphicDemo2">Graphic上局部刷新</mars-button>
     </a-space>
-  </PannelBox>
-  <PannelBox class="history-layer" type="model" title="查看历史" v-model:visible="showLayer">
+  </pannel>
+  <pannel class="history-layer" type="model" title="查看历史" v-model:visible="showLayer">
     <iframe src="http://marsgis.cn/" frameborder="0"></iframe>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const showLayer = ref()

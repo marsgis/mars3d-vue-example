@@ -92,9 +92,6 @@ function addGraphicDemo2() {
   })
   graphicLayer.addGraphic(primitive)
 
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphicDemo3() {
@@ -239,9 +236,6 @@ function addGraphicDemo8() {
   })
   graphicLayer.addGraphic(primitive)
 
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 // 显示合肥市边界

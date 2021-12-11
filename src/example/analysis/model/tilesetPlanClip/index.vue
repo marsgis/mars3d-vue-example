@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
       <a-collapse-panel key="1" header="绘制坐标">
         <!-- 自定义面板右侧图标 -->
@@ -55,12 +55,12 @@
       </a-collapse-panel>
     </a-collapse>
     <mars-button @click="clear">清除</mars-button>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
  import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="infoView-content">
       <a-form :label-col="labelCol">
         <a-collapse :activeKey="activeKey">
@@ -16,7 +16,7 @@
                 </mars-input>
               </a-col>
               <a-col :span="5">
-                <mars-button class="small-btn">加载模型</mars-button>
+                <mars-button class="small-btn" @click="showModel">加载模型</mars-button>
               </a-col>
             </a-row>
           </a-collapse-panel>
@@ -83,19 +83,20 @@
         </div>
       </a-form>
     </div>
-  </PannelBox>
-  <PannelBox class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
-    <mars-tree checkable :tree-data="treeData">
+  </pannel>
+  <pannel class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
+    <mars-button v-show="cancelTree" @click="checkedTree">取消选中</mars-button>
+    <mars-tree @select="compModelChange" :tree-data="treeData">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import { onMounted, reactive, ref } from "vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -149,12 +150,18 @@ const axisOptions = [
 const labelCol = { style: { width: "100px" } }
 
 // 初始化界面
+onMounted(() => {
+  setTimeout(() => {
+    mapWork.showModel(formState.txtModel)
+  }, 1000)
+})
 mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
   const tileset = event.data
   const tiles3dLayer = event.tiles3dLayer
 
   // 取模型中心点信息
   var locParams = tiles3dLayer.center
+
   if (locParams.alt < -1000 || locParams.alt > 10000) {
     locParams.alt = 0 // 高度异常数据，自动赋值高度为0
   }
@@ -175,23 +182,27 @@ mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
     mapWork.getDefined(formState)
   }
 
-  mapWork.eventTarget.on("tilesEditor", function (event: any) {
-    mapWork.editor(event.data, formState.txtZ)
-  })
-
-  // 根据改变的位置触发不同的事件
-  mapWork.eventTarget.on("changePoition", function (event: any) {
-    formState.txtX = event.point.lng
-    formState.txtY = event.point.lat
-    formState.txtZ = event.point.alt
-  })
-  mapWork.eventTarget.on("changeHeading", function (event: any) {
-    formState.rotationZ = event.tiles3dLayer.rotation_z
-  })
-
   mapWork.getConfig(formState)
 })
 
+mapWork.eventTarget.on("tilesEditor", function (event: any) {
+  mapWork.editor(event.data, formState.txtZ)
+})
+
+// 根据改变的位置触发不同的事件
+mapWork.eventTarget.on("changePoition", function (event: any) {
+  formState.txtX = event.point.lng
+  formState.txtY = event.point.lat
+  formState.txtZ = event.point.alt
+})
+
+mapWork.eventTarget.on("changeHeading", function (event: any) {
+  formState.rotationZ = event.tiles3dLayer.rotation_z
+})
+
+const showModel = () => {
+  mapWork.showModel(formState.txtModel)
+}
 const formStateChange = () => {
   mapWork.updateModel(formState)
 }
@@ -205,7 +216,7 @@ const saveBookmark = () => {
 }
 
 // 查看构件
-const treeData = ref<any[]>([])
+const treeData = ref<any[]>()
 
 const showCompModel = ref(false)
 const showCompTree = () => {
@@ -214,6 +225,7 @@ const showCompTree = () => {
 
   mapWork.eventTarget.on("compTree", function (event: any) {
     const data = event.data
+
     data.forEach((item: any, index: number) => {
       const childeren = isHaveChildren(item, index)
 
@@ -221,6 +233,8 @@ const showCompTree = () => {
         {
           title: item.name,
           key: index,
+          id: item.eleid,
+          sphere: item.sphere,
           children: childeren
         }
       ]
@@ -232,18 +246,35 @@ function isHaveChildren(arr: any, index: number) {
   if (!arr.children) {
     return
   }
+
   const childerens = arr.children
   const childeren: any[] = []
   childerens.forEach((item: any, i: number) => {
+    i++
     const childOne = isHaveChildren(item, i)
+
     childeren.push({
       title: item.name,
       key: index + "-" + i,
+      id: item.eleid,
+      sphere: item.sphere,
       children: childOne
     })
     return childeren
   })
   return childeren
+}
+
+// 选中节点
+const cancelTree = ref(false)
+const compModelChange = (selectedKeys: any, selected: any) => {
+  cancelTree.value = true
+  mapWork.compModelChange(selected.node.id, selected.node.sphere)
+}
+
+const checkedTree = () => {
+  cancelTree.value = false
+  mapWork.checkedTree()
 }
 </script>
 <style scoped lang="less">
@@ -251,11 +282,11 @@ function isHaveChildren(arr: any, index: number) {
   width: 360px;
 }
 .comp-model {
-  width: 300px;
+  min-width: 200px;
   padding-top: 0;
   top: 10px;
   left: 10px;
   height: 600px;
-  overflow-y: auto;
+  overflow-x: auto;
 }
 </style>

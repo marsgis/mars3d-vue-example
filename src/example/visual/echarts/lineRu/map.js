@@ -353,24 +353,7 @@ function getEchartsOption() {
     return res
   }
 
-  // let covertColor = function (data) {
-  //   data.map(function (dataItem) {
-  //     console.log(dataItem[0]);
-  //     let value = dataItem[0].value;
-  //     let color = "red";
 
-  //     if (value > 80) {
-  //       color = "red";
-  //     } else if (value > 60) {
-  //       color = "#56e88c";
-  //     } else if (value > 40) {
-  //       color = "#ffa022";
-  //     } else if (value > 20) {
-  //       color = "#46bee9";
-  //     }
-  //     return color;
-  //   });
-  // };
 
   const series = []
   ;[["北京", BJData]].forEach(function (item, i) {

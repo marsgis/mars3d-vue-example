@@ -81,7 +81,7 @@ export function btnDrawExtent(splitNum) {
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       contourLine.positions = positions
 
@@ -111,7 +111,7 @@ export function btnDraw(splitNum) {
       const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       contourLine.positions = positions
 

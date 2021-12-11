@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="show1">背景1</mars-button>
       <mars-button @click="show2">背景2</mars-button>
@@ -8,11 +8,11 @@
       <mars-button @click="show5">背景5</mars-button>
       <mars-button @click="show6">背景6</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const show1 = () => {

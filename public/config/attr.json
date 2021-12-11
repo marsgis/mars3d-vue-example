@@ -45,7 +45,7 @@
       { "name": "outline", "label": "是否衬色", "type": "radio", "defval": false, "impact": ["outlineColor", "outlineOpacity", "outlineWidth"] },
       { "name": "outlineColor", "isImpact": true, "label": "衬色颜色", "type": "color", "defval": "#000000" },
       { "name": "outlineOpacity", "isImpact": true, "label": "衬色透明度", "type": "slider", "defval": 0.6, "min": 0, "max": 1, "step": 0.01 },
-      { "name": "outlineWidth", "isImpact": true, "label": "衬色宽度", "type": "number", "step": 1, "defval": 3.0 },
+      { "name": "outlineWidth", "isImpact": true, "label": "衬色宽度", "type": "number", "min": 1, "max": 5, "step": 1, "defval": 3.0 },
 
       {
         "name": "background",
@@ -138,7 +138,7 @@
       {
         "name": "horizontalOrigin",
         "label": "横向对齐",
-        "type": "combobox",
+        "type": "hidden",
         "defval": 0,
         "data": [
           { "label": "左边", "value": 1 },
@@ -149,7 +149,8 @@
       {
         "name": "verticalOrigin",
         "label": "垂直对齐",
-        "type": "combobox",
+        "type": "hidden",
+
         "defval": 1,
         "data": [
           { "label": "顶部", "value": -1 },
@@ -344,7 +345,7 @@
     "name": "圆",
     "style": [
       { "name": "radius", "label": "半径", "type": "number", "step": 1, "defval": 0.0 },
-      { "name": "diffHeight", "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
+      { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
       {
@@ -371,8 +372,8 @@
       { "name": "lineCount", "isImpact": true, "label": "网格数量", "type": "number", "step": 1, "defval": 8.0 },
       { "name": "lineThickness", "isImpact": true, "label": "网格宽度", "type": "number", "step": 1, "defval": 2.0 },
       { "name": "cellAlpha", "isImpact": true, "label": "填充透明度", "type": "slider", "defval": 0.1, "min": 0, "max": 1, "step": 0.01 },
-      { "name": "evenColor", "isImpact": true, "label": "主色", "type": "color", "defval": "#000000" },
-      { "name": "oddColor", "isImpact": true, "label": "衬色", "type": "color", "defval": "#ffffff" },
+      { "name": "evenColor", "isImpact": true, "label": "主色", "type": "color", "defval": "#ffffff" },
+      { "name": "oddColor", "isImpact": true, "label": "衬色", "type": "color", "defval": "#000000" },
       { "name": "repeat", "isImpact": true, "label": "数量", "type": "number", "step": 1, "defval": 2 },
       { "name": "image", "isImpact": true, "label": "图片", "type": "label", "defval": "" },
 
@@ -408,7 +409,7 @@
     "style": [
       { "name": "semiMinorAxis", "label": "短半径", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "semiMajorAxis", "label": "长半径", "type": "number", "step": 1, "defval": 0.0 },
-      { "name": "diffHeight", "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
+      { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity", "stRotationDegree"] },
       {
@@ -887,18 +888,18 @@
     "name": "走廊",
     "style": [
       { "name": "height", "label": "高程", "type": "number", "step": 1, "defval": 0.0 },
-      { "name": "diffHeight", "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
+      { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
       { "name": "width", "label": "走廊宽度", "type": "number", "step": 1, "defval": 100.0 },
       {
         "name": "cornerType",
         "label": "顶点样式",
         "type": "combobox",
-        "defval": "ROUNDED",
+        "defval": 0,
         "data": [
-          { "label": "圆滑", "value": "ROUNDED" },
-          { "label": "斜接", "value": "MITERED" },
-          { "label": "斜切", "value": "BEVELED" }
+          { "text": "圆滑", "value": 0 },
+          { "text": "斜接", "value":1},
+          { "text": "斜切", "value": 2 }
         ]
       },
 
@@ -939,7 +940,16 @@
     "name": "矩形",
     "style": [
       { "name": "height", "label": "高程", "type": "number", "step": 1, "defval": 0.0 },
-      { "name": "diffHeight", "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
+      {
+        "name": "clampToGround",
+        "label": "是否贴地",
+        "type": "hidden",
+        "defval": false,
+        "data": [
+          { "label": "纯色", "value": false, "impact": ["diffHeight"] }
+        ]
+      },
+      { "name": "diffHeight", "isImpact": true, "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
 
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
       {
@@ -994,7 +1004,7 @@
   "polygon": {
     "name": "面",
     "style": [
-      { "name": "diffHeight", "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
+      { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
       { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
       {

@@ -1,16 +1,16 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="randomPoints">随机点</mars-button>
       <mars-button @click="randomPolylines">随机线</mars-button>
       <mars-button @click="randomPolygons">随机面</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 // 随机点

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-row :gutter="[5, 10]">
       <a-col :span="5">
         <a-form-item label="开挖区域"></a-form-item>
@@ -29,7 +29,7 @@
       </a-col>
 
       <a-col :span="24">
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
+        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <a-space>
@@ -48,12 +48,12 @@
         </a-table>
       </a-col>
     </a-row>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

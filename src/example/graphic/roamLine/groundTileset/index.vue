@@ -1,8 +1,8 @@
 <template>
-  <roamLinePanel/>
+  <roamline-panel/>
 </template>
 
 <script setup lang="ts">
-import roamLinePanel from "@comp/MarsSample/RoamLinePanel.vue"
+import roamLinePanel from "@/components/mars-sample/roamline-panel.vue"
 
 </script>

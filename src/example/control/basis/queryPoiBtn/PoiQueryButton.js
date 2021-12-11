@@ -91,7 +91,6 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       }
       cacheTarget = this.uuid
 
-      // console.log("mouseover");
       if (this.toolSearch.style.display !== "block") {
         this.toolSearchNoShow("block")
         this.toolActive()
@@ -103,7 +102,6 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     })
     this._container.addEventListener("mouseout", (e) => {
       cacheTarget = null
-      // console.log("mouseout");
       var queryVal = this.toolSearch.querySelector(".searchInput").value
       if (queryVal.length == 0) {
         this.clear()
@@ -202,7 +200,6 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       count: 10,
       page: this.showPages - 1,
       success: (result) => {
-        // console.log("文字搜索", result);
         var pois = result.list
         if (pois.length > 0) {
           result.list.forEach((item, index) => {
@@ -249,7 +246,6 @@ class PoiQueryButton extends mars3d.control.BaseControl {
             this.graphicLayer.addGraphic(graphic)
           })
           this.graphicLayer.flyTo()
-          console.log(result)
           this.showDifferentPagesResult(result)
         }
       }

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-row :gutter="[2, 10]">
       <a-col :span="24">
         <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -45,12 +45,12 @@
         <mars-button @click="begin">开始分析</mars-button>
       </a-col>
     </a-row>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

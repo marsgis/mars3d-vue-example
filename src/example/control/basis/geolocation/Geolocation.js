@@ -65,7 +65,7 @@ class Geolocation extends mars3d.control.ToolButton {
     this._map.flyToPoint(position, {
       radius: 2000,
       complete: function () {
-        console.log("complete")
+        console.log("飞行操作完成")
       }
     })
 

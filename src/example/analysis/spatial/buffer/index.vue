@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">缓冲半径:</span>
@@ -13,12 +13,12 @@
       <mars-button @click="drawPolyline">线</mars-button>
       <mars-button @click="drawPolygon">面</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const radiusVal = ref<number>(1)

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -28,18 +28,18 @@
             :columns="columns"
             :custom-row="customRow"
             size="small"
-            bordered="true"
+            bordered
             :scroll="{ y: 400 }"
           />
         </a-form-item>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import any from "nprogress"
 import * as mapWork from "./map.js"
 

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form ref="formRef" :model="formState" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="图层URL" name="url">
         <mars-input v-model:value="formState.url"></mars-input>
@@ -53,10 +53,10 @@
         </a-space>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 const formRef = ref()

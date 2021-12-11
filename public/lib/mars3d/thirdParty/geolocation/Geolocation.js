@@ -53,7 +53,7 @@
 
         function onError(data) {
           // 定位出错,参考：https://lbs.amap.com/faq/js-api/map-js-api/position-related
-          globalMsg(data.message, "定位失败");
+          mars3d.Util.msg(data.message, "定位失败");
         }
         AMap.event.addListener(this.geolocation, "complete", onComplete);
         AMap.event.addListener(this.geolocation, "error", onError);

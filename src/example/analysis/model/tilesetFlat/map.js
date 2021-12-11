@@ -84,7 +84,7 @@ export export function btnDrawExtent(chkShowLine) {
       map.graphicLayer.clear()
 
       addTestLine(chkShowLine, positions)
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const item = tilesetFlat.addArea(positions)
 
@@ -107,7 +107,7 @@ export export function btnDraw(chkShowLine) {
       map.graphicLayer.clear()
 
       addTestLine(chkShowLine, positions)
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const item = tilesetFlat.addArea(positions)
 

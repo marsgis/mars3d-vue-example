@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">视椎体状态:</span>
@@ -52,9 +52,9 @@
         <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 
-  <PannelBox class="messageShow">
+  <pannel class="messageShow">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -86,12 +86,12 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

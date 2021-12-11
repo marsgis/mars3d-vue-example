@@ -282,10 +282,10 @@ hideLoading(type) // 关闭loading
 最简模板如下:
 ```html
 <template>
-  <PannelBox class="infoView"> </PannelBox>
+  <pannel class="infoView"> </pannel>
 </template>
 <script lang="ts" setup>
-  import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+  import Pannel from "@comp/operation-pannel/pannel.vue"
   const mapWork = window.mapWork
 </script>
 <style scoped lang="less"></style>

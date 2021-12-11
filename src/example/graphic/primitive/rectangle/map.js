@@ -76,9 +76,6 @@ function addGraphicDemo2(graphicLayer) {
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphicDemo3(graphicLayer) {

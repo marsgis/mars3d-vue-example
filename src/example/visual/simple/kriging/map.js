@@ -20,7 +20,6 @@ export const mapOptions = {
 
   queryTemperatureData()
   .then(function (geojson) {
-    // eslint-disable-next-line no-undef
     const image = loadkriging(geojson.features, kriging_bounds, kriging_colors)
     const tileLayer = new mars3d.layer.ImageLayer({
       url: image,
@@ -35,7 +34,7 @@ export const mapOptions = {
     map.addLayer(tileLayer)
   })
   .otherwise(function(error) {
-    console.log(error)
+    console.log("构造出错了", error)
   })
 }
 
@@ -70,15 +69,15 @@ function loadkriging(tempture, bounds, colors) {
     y.push(tempture[i].geometry.coordinates[1]) // y
   }
   // 1.用克里金训练一个variogram对象
-  // eslint-disable-next-line no-undef
+
   const variogram = kriging.train(t, x, y, "exponential", 0, 100)
 
   // 2.使用刚才的variogram对象使polygons描述的地理位置内的格网元素具备不一样的预测值；
   // bounds:普通的geojson格式的面的格式的coordinates。
-  // eslint-disable-next-line no-undef
+
   const grid = kriging.grid(bounds, variogram, 0.05)
   // 3.将得到的格网预测值渲染到canvas画布上
-  // eslint-disable-next-line no-undef
+
   kriging.plot(canvas, grid, [73.4766, 135.088], [18.1055, 53.5693], colors)
 
   const image = canvas.toDataURL("image/png")

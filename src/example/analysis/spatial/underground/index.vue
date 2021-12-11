@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">状态:</span>
@@ -10,7 +10,7 @@
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">地表透明度:</span>
-        <a-slider @change="opacityChange" v-model:value="inputValue" :min="0" :max="1" step="0.1" />
+        <a-slider @change="opacityChange" v-model:value="inputValue" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
 
@@ -22,12 +22,12 @@
         <mars-button @click="centerAtDX3">地下视角2</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const inputValue = ref<number>(0.5)

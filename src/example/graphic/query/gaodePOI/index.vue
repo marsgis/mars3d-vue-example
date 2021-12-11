@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="radioFanwei">
@@ -42,18 +42,18 @@
             :columns="columns"
             :custom-row="customRow"
             size="small"
-            bordered="true"
+            bordered
             :scroll="{ y: 400 }"
           />
         </a-form-item>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
 

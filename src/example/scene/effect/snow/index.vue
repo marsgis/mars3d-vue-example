@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <a-checkbox @change="isSnowChecked" v-model:checked="snowchecked">下雪效果</a-checkbox>
@@ -17,15 +17,15 @@
     <div>
       <a-space>
         <span class="pannel-item-label">积雪程度:</span>
-        <a-slider @change="height" v-model:value="heightValue" :min="0" :max="1" step="0.1" />
+        <a-slider @change="height" v-model:value="heightValue" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 // 下雪速度

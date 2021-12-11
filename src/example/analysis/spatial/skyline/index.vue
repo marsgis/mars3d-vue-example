@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-checkbox @change="isVChecked" v-model:checked="checked">开启天际线</a-checkbox>
     </div>
@@ -9,12 +9,12 @@
       <mars-input-number @change="lineWidth" v-model:value="value" :min="1" :max="10" />
       <a-button @click="changeColor">换色</a-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const value = ref<number>(3)

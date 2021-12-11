@@ -153,8 +153,6 @@ function getEchartsOption() {
       if (ispy) {
         thisItem[1] -= 0.006 // 偏移纬度
       }
-
-      // console.log(data[i].name +','+thisItem.join(",")+','+ispy+','+offX+','+offY);
     }
   }
 

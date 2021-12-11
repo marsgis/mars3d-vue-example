@@ -1,7 +1,7 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
-      <LayerState />
+      <layer-state />
     </div>
     <div class="f-mb">
       <a-space>
@@ -10,15 +10,15 @@
         <mars-button @click="addPrimitiveData">生成</mars-button>
       </a-space>
     </div>
-    <DataManage />
-  </PannelBox>
+    <data-manage />
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
-import DataManage from "@comp/MarsSample/DataManage.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
+import DataManage from "@comp/mars-sample/data-manage.vue"
 import * as mapWork from "./map.js"
 
 // 生成大数据

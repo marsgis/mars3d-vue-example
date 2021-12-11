@@ -20,14 +20,13 @@ export const mapOptions = {
 
 export const eventTabel = new mars3d.BaseClass()
 
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
- export function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addContourLine()
@@ -90,7 +89,7 @@ export function btnDrawExtent() {
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const areaItem = contourLine.addArea(positions)
       addTableItem(areaItem)
@@ -112,7 +111,7 @@ export function btnDraw() {
       const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const areaItem = contourLine.addArea(positions)
       addTableItem(areaItem)
@@ -165,6 +164,9 @@ function addTableItem(item) {
   table.push({ key: item.id - 1, name: "区域" + item.id, graphicId: item.id })
 
   eventTabel.fire("tableObject", { table })
+}
+export function changeTable(data) {
+  table = data
 }
 
 // 表格操作

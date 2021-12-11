@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div>
       <a-row>
         <a-col :span="5">数据管理:</a-col>
@@ -101,16 +101,16 @@
         </a-col>
       </a-row>
     </div>
-  </PannelBox>
+  </pannel>
   <GraphicEditor ref="editor" />
-  <LocationTo />
+  <location-to />
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import GraphicEditor from "@comp/GraphicEditor/index.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import GraphicEditor from "@comp/graphic-editor/index.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import _ from "lodash"
 import * as mapWork from "./map.js"
 
@@ -185,14 +185,7 @@ const saveGeoJSON = () => {
 
 // 打开GeoJSON
 const openGeoJSON = (info: FileInfo) => {
-  const item = info.file
-  const fileName = item.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  console.log(item)
-  if (fileType != "json") {
-    alert("文件类型不合法,请选择json格式标注文件！")
-  }
-  mapWork.openGeoJSON(item)
+  mapWork.openGeoJSON(info.file)
 }
 
 // 点击保存KML

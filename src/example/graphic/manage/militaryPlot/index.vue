@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-row>
         <a-col :span="5">图层状态:</a-col>
@@ -31,10 +31,7 @@
               :beforeUpload="beforeUploade"
               @change="btnImpFile"
             >
-              <a-button>
-                <upload-outlined></upload-outlined>
-                打开GeoJSON
-              </a-button>
+              <a-button> 打开GeoJSON </a-button>
             </a-upload>
           </a-space>
         </a-col>
@@ -78,16 +75,16 @@
         </a-col>
       </a-row>
     </div>
-  </PannelBox>
+  </pannel>
   <GraphicEditor ref="editor" />
-  <LocationTo />
+  <location-to />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import GraphicEditor from "@comp/GraphicEditor/index.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import GraphicEditor from "@comp/graphic-editor/index.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 const editor = ref()

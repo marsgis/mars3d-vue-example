@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <span class="fontMsg">提示：插值数大时分析略慢，请耐心等待。</span>
     </div>
@@ -23,12 +23,12 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
 
     <div class="f-mb">
@@ -28,11 +28,11 @@
         </a-col>
       </a-row>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const typeArrPlot = ["point", "polyline", "polygon", "circle", "rectangle", "wall", "cylinder"]

@@ -1,8 +1,8 @@
 <template>
   <a-spin :spinning="loading" wrapperClassName="global-spin">
     <ConfigProvider :locale="locale">
-      <mars-editor ref="editorRef" :id="id">
-        <OperationPannel @childMounted="onChildMounted" />
+      <mars-editor ref="editorRef" :id="id" :full-name="name">
+        <operation-pannel @childMounted="onChildMounted" />
       </mars-editor>
     </ConfigProvider>
   </a-spin>
@@ -13,7 +13,7 @@ import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@/utils/index"
 import { getCurrentInstance, ref } from "vue"
-import OperationPannel from "@comp/OperationPannel/index.vue"
+import OperationPannel from "@comp/marsgis/operation.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
@@ -24,11 +24,11 @@ const locale = zhCN
 const loading = ref(false)
 
 const id = getQueryString("id")
-
+const name = getQueryString("name")
 
 const editorRef = ref()
 function onChildMounted() {
-  console.log("子组件加载完成了")
+  // console.log("子组件加载完成了")
   editorRef.value.setMap(window._map)
 }
 

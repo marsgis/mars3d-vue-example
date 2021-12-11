@@ -197,7 +197,8 @@ function addGraphicLayer() {
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息
     showRealTimeInfo(event, roamLine.alltimes)
-    eventTarget.fire("roamLineChange")
+    // 漫游组件
+    eventTarget.fire("roamLineChange", roamLineData)
   })
 }
 

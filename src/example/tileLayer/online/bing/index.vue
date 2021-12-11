@@ -1,16 +1,16 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="addLayer">叠加图层</mars-button>
       <mars-button @click="removeLayer">移除图层</mars-button>
     </a-space>
-  </PannelBox>
-  <InterestSearch :mapWork="mapWork"/>
+  </pannel>
+  <interest-search :mapWork="mapWork"/>
 </template>
 
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import InterestSearch from "@comp/MarsSample/InterestSearch.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import InterestSearch from "@comp/mars-sample/interest-search.vue"
 import * as mapWork from "./map.js"
 
 const addLayer = () => {

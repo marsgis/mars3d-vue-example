@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
   // 固定光照，避免gltf模型随时间存在亮度不一致。
   map.fixedLight = true
 
-  this.graphicLayer = new mars3d.layer.GraphicLayer({
+  graphicLayer = new mars3d.layer.GraphicLayer({
     hasEdit: true,
     isAutoEditing: true // 绘制完成后是否自动激活编辑
   })
@@ -115,30 +115,6 @@ export function openGeoJSON(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
-    const reader = new FileReader()
-    reader.readAsText(file, "UTF-8")
-    reader.onloadend = function (e) {
-      const strkml = this.result
-      // eslint-disable-next-line no-undef
-      kgUtil.toGeoJSON(strkml).then((geojoson) => {
-        console.log("kml2geojson", geojoson)
-
-        graphicLayer.loadGeoJSON(geojoson, {
-          flyTo: true
-        })
-      })
-    }
-  } else if (fileType == "kmz") {
-    // 加载input文件控件的二进制流
-    // eslint-disable-next-line no-undef
-    kgUtil.toGeoJSON(file).then((geojoson) => {
-      console.log("kmz2geojson", geojoson)
-
-      graphicLayer.loadGeoJSON(geojoson, {
-        flyTo: true
-      })
-    })
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
   }

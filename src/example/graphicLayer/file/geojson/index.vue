@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="showChinaLine">省界线</mars-button>
       <mars-button @click="showPlanningSurface">规划面</mars-button>
@@ -12,11 +12,11 @@
       <mars-button @click="showRegion">合肥区域面</mars-button>
       <mars-button @click="showFloor">分层分户楼栋</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const showDraw = () => {

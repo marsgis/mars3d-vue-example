@@ -3,7 +3,7 @@ import Application from "./App.vue"
 import { install as iconInstall } from "@icon-park/vue-next/es/all"
 import { getQueryString } from "@/utils/index"
 import marsEditorInstall from "mars-editor"
-import MarsUI from "@comp/MarsUI"
+import MarsUI from "@/components/mars-ui"
 
 // 加载全局样式
 import "@/styles/index.less"
@@ -19,7 +19,7 @@ marsEditorInstall(app, {
   code: getQueryString("code") || "0",
   fullScreen: getQueryString("full") || "0",
   configLibs: window.configLibs,
-  homepage: "http://mars3d.cn/example",
+  homepage: "http://mars3d.cn/example.html",
   configSource: `${process.env.BASE_URL}config/example.json`
 })
 

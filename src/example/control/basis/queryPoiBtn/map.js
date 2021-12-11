@@ -20,7 +20,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // eslint-disable-next-line no-undef
+
   const poiQueryButton = new PoiQueryButton({
     insertIndex: 0 // 插入的位置顺序
   })

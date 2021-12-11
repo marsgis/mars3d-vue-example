@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="infoView-content">
       <a-form>
         <a-collapse v-model:activeKey="activeKey">
@@ -23,7 +23,7 @@
             </div>
 
             <div class="f-mb">
-              <DataManage />
+              <data-manage />
             </div>
           </a-collapse-panel>
 
@@ -79,16 +79,16 @@
         </a-collapse>
       </a-form>
     </div>
-  </PannelBox>
-  <LocationTo />
+  </pannel>
+  <location-to />
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
-import DataManage from "@comp/MarsSample/DataManage.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import DataManage from "@comp/mars-sample/data-manage.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 interface FormState {

@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -28,7 +28,7 @@
                 :pagination="false"
                 :dataSource="dataSource"
                 :columns="columns"
-                size="small" bordered="true" />
+                size="small" bordered />
             </a-form-item>
           </a-tab-pane>
           <a-tab-pane key="2" tab="饼状图" :forceRender="true">
@@ -41,12 +41,12 @@
       </a-form-item>
 
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import any from "nprogress"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"

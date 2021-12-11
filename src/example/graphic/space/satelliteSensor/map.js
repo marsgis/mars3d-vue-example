@@ -182,7 +182,6 @@ export function getRegion() {
     globalMsg("当前与地球无成像区边")
     return
   }
-  console.log(coords)
   // 显示边界点，测试
   map.graphicLayer.clear()
 
@@ -201,8 +200,6 @@ export function getRegion() {
     map.graphicLayer.addGraphic(primitive)
   })
 
-  // 提示边界值，测试
-  console.log(JSON.stringify(coords))
 }
 
 export function getCenter() {

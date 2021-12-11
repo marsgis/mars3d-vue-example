@@ -16,7 +16,7 @@ export const mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -154,7 +154,8 @@ function startFly() {
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息
     showRealTimeInfo(event, roamLine.alltimes)
-    eventTarget.fire("roamLineChange")
+    // 漫游组件
+    eventTarget.fire("roamLineChange", roamLineData)
   })
 
   addParticleSystem(roamLine)

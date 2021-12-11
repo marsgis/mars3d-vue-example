@@ -4,8 +4,6 @@
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2021-11-26
  */
-
-//lib类库管理js
 window.configLibs = {
   //////////////////////////mars3d及其插件////////////////////////
   mars3d: [
@@ -16,6 +14,7 @@ window.configLibs = {
     "mars3d/mars3d.css", // mars3d
     "mars3d/mars3d.js"
   ],
+
   "mars3d-space": [
     // 卫星插件
     "mars3d/plugins/space/mars3d-space.js"
@@ -68,6 +67,20 @@ window.configLibs = {
     "ammo/ex/geometries/ConvexGeometry.js", //仅convexBreak使用
     "mars3d/thirdParty/meshVisualizer/CesiumMeshVisualizer.js"
   ],
+  "cesium-sensorVolumes": [
+    //支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
+    "mars3d/thirdParty/sensorVolumes/cesium-sensor-volumes.js"
+  ],
+
+  //////////////////////////mars2d及其插件////////////////////////
+
+  mars2d: [
+    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css", //leaflet
+    "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+    "https://cdn.jsdelivr.net/npm/mars2d@3.0.0/dist/mars2d.css", //mars2d
+    "https://cdn.jsdelivr.net/npm/mars2d@3.0.0/dist/mars2d.js",
+    "https://cdn.jsdelivr.net/npm/mars2d-esri@3.0.0/dist/mars2d-esri.js"
+  ],
 
   //////////////////////////其他地图渲染相关库////////////////////////
   echarts: ["echarts/echarts.min.js", "echarts/dark.js"],
@@ -81,6 +94,5 @@ window.configLibs = {
   kriging: ["kriging/kriging.min.js"],
   three: ["three/three.js"],
   olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
-  hls: ["video/hls/hls.js", "video/hls/hls.js.map"],
-  datgui: ["lib/datgui/dat.gui.min.js"]
+  hls: ["video/hls/hls.js"]
 }

@@ -68,9 +68,22 @@ export function showDraw(isFlyTo) {
   map.addLayer(geoJsonLayer)
 
   // 绑定事件
+
+  // load事件,必须在load完成前绑定才能监听
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
-    console.log("数据加载完成", event)
+    if (event.layer) {
+      console.log("数据加载完成", event)
+    }
   })
+
+  setTimeout(() => {
+    // readyPromise是可以load加载数据完成后去获取
+    geoJsonLayer.readyPromise.then(function (layer) {
+      console.log("readyPromise:数据加载完成", layer)
+    })
+  }, 5000)
+
+  // 单击事件
   geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })

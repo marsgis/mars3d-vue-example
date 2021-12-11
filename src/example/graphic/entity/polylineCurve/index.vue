@@ -1,7 +1,7 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
-      <LayerState />
+      <layer-state />
     </div>
 
     <div class="f-mb">
@@ -13,19 +13,19 @@
     </div>
 
     <div>
-      <dataManage />
+      <data-manage />
     </div>
-  </PannelBox>
-  <LocationTo />
+  </pannel>
+  <location-to />
   <GraphicEditor ref="editor" />
 </template>
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import dataManage from "@comp/MarsSample/DataManage.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
-import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import DataManage from "@comp/mars-sample/data-manage.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
+import GraphicEditor from "@comp/graphic-editor/index.vue"
 import * as mapWork from "./map.js"
 
 const onClickDrawModel = () => {

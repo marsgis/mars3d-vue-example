@@ -30,8 +30,6 @@ export function onMounted(mapInstance) {
     tilesEditor.enabled = true
     eventTarget.fire("tilesEditor", { data })
   })
-
-  setTimeout(showModel, 1000)
 }
 
 /**
@@ -64,20 +62,53 @@ export function showCompTree(model) {
       console.log("加载JSON出错", error)
     })
 }
+export function compModelChange(nodeid, nodesphere) {
+  if (nodesphere[3] <= 0) {
+    return
+  }
+  // 构件节点位置
+  var center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2])
 
-function showModel() {
+  // 获取构件节点位置，现对于原始矩阵变化后的新位置
+  center = tiles3dLayer.getPositionByOrginMatrix(center)
+
+  // 飞行过去
+  var sphere = new Cesium.BoundingSphere(center, nodesphere[3])
+  map.camera.flyToBoundingSphere(sphere, {
+    offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, nodesphere[3] * 1.5),
+    duration: 0.5
+  })
+
+  // 设置tileset的样式
+  tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
+    color: {
+      conditions: [
+        ["${id} ==='" + nodeid + "'", "rgb(255, 255, 255)"],
+        ["true", "rgba(255, 200, 200,0.2)"]
+      ]
+    }
+  })
+}
+export function checkedTree() {
+  tiles3dLayer.tileset.style = undefined
+}
+
+/**
+ *
+ *
+ * @param {string} url 面板中传入的url模型地址
+ * @return {*} 无
+ */
+export function showModel(url) {
   removeLayer()
 
-  // 获取参数
-  const params = getConfig()
-  delete params.center
-
-  if (!params.url) {
+  if (!url) {
     alert("请输入图层URL！")
     return
   }
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
+    url: url,
     // 高亮时的样式
     highlight: {
       type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
@@ -85,8 +116,7 @@ function showModel() {
       color: "#00FF00"
     },
     popup: "all",
-    flyTo: true,
-    ...params
+    flyTo: true
   })
   map.addLayer(tiles3dLayer)
 
@@ -101,6 +131,8 @@ function showModel() {
     } else {
       tilesEditor.enabled = false
     }
+
+    // 触发自定义事件，更改面板中的值
     eventTarget.fire("tiles3dLayerLoad", { data, tiles3dLayer })
   })
 }
@@ -144,7 +176,12 @@ export function editor(event, txtZ) {
     eventTarget.fire("changeHeading", { tiles3dLayer })
   }
 }
-
+/**
+ * 通过面板修改模型，将面板中的参数进行修改
+ *
+ * @param {object} pannelData 面板改变的值
+ * @return {object} params  模型的参数
+ */
 export function getConfig(pannelData) {
   let url, maximumScreenSpaceError
   let tf = false
@@ -163,7 +200,7 @@ export function getConfig(pannelData) {
     url: url,
     maximumScreenSpaceError: maximumScreenSpaceError, // 【重要】数值加大，能让最终成像变模糊
     maximumMemoryUsage: 1024, // 【重要】内存分配变小有利于倾斜摄影数据回收，提升性能体验
-    center: map.getCameraView(),
+    // center: map.getCameraView(),
     show: true
   }
   if (tf) {
@@ -231,6 +268,7 @@ export function getConfig(pannelData) {
 export function updateModel(pannelData) {
   // 获取参数
   const params = getConfig(pannelData)
+
   params.rotation = params.rotation || {}
   params.rotation.x = params.rotation.x || 0
   params.rotation.y = params.rotation.y || 0
@@ -267,7 +305,6 @@ export function saveBookmark(params) {
   if (params.axis == "") {
     delete params.axis
   }
-  console.log(params)
 
   mars3d.Util.downloadFile("3dtiles图层配置.json", JSON.stringify(params))
 }

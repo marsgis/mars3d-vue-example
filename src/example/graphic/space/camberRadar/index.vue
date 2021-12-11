@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
 
      <div class="f-mb">
         <a-space>
@@ -67,12 +67,12 @@
         </a-space>
      </div>
 
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
  import * as mapWork from "./map.js"
 
 const outerRadius = ref<number>(2000) // 外

@@ -78,7 +78,7 @@ function addTerrainClip() {
 }
 
 // 添加矩形
-export function btnDrawExtent() {
+export function btnDrawExtent(isShow) {
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -94,12 +94,12 @@ export function btnDrawExtent() {
 
       // 挖地区域
       const areaItem = terrainClip.addArea(positions)
-      addTableItem(areaItem)
+      addTableItem(areaItem, isShow)
     }
   })
 }
 // 添加多边形
-export function btnDraw() {
+export function btnDraw(isShow) {
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -115,10 +115,11 @@ export function btnDraw() {
       console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
 
       const areaItem = terrainClip.addArea(positions)
-      addTableItem(areaItem)
+      addTableItem(areaItem, isShow)
     }
   })
 }
+
 // 清除
 export function removeAll() {
   terrainClip.clear() // 清除挖地区域
@@ -151,6 +152,9 @@ function addTableItem(item) {
   table.push({ key: item.id - 1, name: "开挖区域" + item.id, graphicId: item.id })
 
   eventTabel.fire("tableObject", { table })
+}
+export function changeTable(data) {
+  table = data
 }
 
 // 表格操作

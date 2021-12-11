@@ -47,6 +47,7 @@ module.exports = {
     indent: "off",
     //不允许出现console语句
     "no-console": "off",
+    "no-debugger": "off",
     //强制驼峰命名规则
     camelcase: "off",
     //块内行首行尾是否空行

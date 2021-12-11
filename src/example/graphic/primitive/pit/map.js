@@ -43,7 +43,7 @@ export function onUnmounted() {
 }
 
 function addPit(graphicLayer, positions, height) {
-  console.log(JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 打印下边界
+  console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
   const primitive = new mars3d.graphic.Pit({
     positions: positions,
@@ -159,9 +159,6 @@ function addGraphicDemo2(graphicLayer) {
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphicDemo3(graphicLayer) {

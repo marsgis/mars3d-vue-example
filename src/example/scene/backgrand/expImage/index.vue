@@ -1,20 +1,20 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-space>
       <mars-button @click="showMapImg">查看场景出图</mars-button>
       <mars-button @click="downLoad">下载场景出图</mars-button>
       <mars-button @click="downLoad2">下载场景缩略图</mars-button>
     </a-space>
-  </PannelBox>
+  </pannel>
 
-  <PannelBox class="imgBox" type="model" title="场景出图" v-model:visible="showImg">
+  <pannel class="imgBox" type="model" title="场景出图" v-model:visible="showImg">
     <img :src="imges" style="width: 100%; height: 90%" />
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const showImg = ref<boolean>(false)

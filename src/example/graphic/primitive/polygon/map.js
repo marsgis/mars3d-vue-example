@@ -78,8 +78,6 @@ export function addPrimitiveData(count) {
   const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
   const usedTime = (endTime - startTime) / 1000
-  console.log(usedTime)
-
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
@@ -146,10 +144,6 @@ function addGraphicDemo2(graphicLayer) {
     }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
-
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log(geojson)
 }
 
 function addGraphicDemo3(graphicLayer) {
@@ -566,11 +560,11 @@ function impFile(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const strkml = this.result
-      // eslint-disable-next-line no-undef
-      kgUtil.toGeoJSON(strkml).then((geojoson) => {
-        console.log("kml2geojson", geojoson)
 
-        graphicLayer.loadGeoJSON(geojoson, {
+      kgUtil.toGeoJSON(strkml).then((geojson) => {
+        console.log("kml2geojson转换结果为", geojson)
+
+        graphicLayer.loadGeoJSON(geojson, {
           flyTo: true
           // symbol: function (attr, style, featue) {
           //   let geoType = featue.geometry?.type
@@ -601,11 +595,11 @@ function impFile(file) {
     }
   } else if (fileType == "kmz") {
     // 加载input文件控件的二进制流
-    // eslint-disable-next-line no-undef
-    kgUtil.toGeoJSON(file).then((geojoson) => {
-      console.log("kmz2geojson", geojoson)
 
-      graphicLayer.loadGeoJSON(geojoson, {
+    kgUtil.toGeoJSON(file).then((geojson) => {
+      console.log("kmz2geojson", geojson)
+
+      graphicLayer.loadGeoJSON(geojson, {
         flyTo: true
       })
     })

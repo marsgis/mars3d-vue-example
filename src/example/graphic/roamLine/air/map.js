@@ -5,7 +5,7 @@ let roamLine
 const roamLineData = {}
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -50,7 +50,8 @@ export function onMounted(mapInstance) {
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信
     showRealTimeInfo(event, roamLine.alltimes)
-    eventTarget.fire("roamLineChange")
+    // 漫游组件
+    eventTarget.fire("roamLineChange", roamLineData)
   })
 }
 

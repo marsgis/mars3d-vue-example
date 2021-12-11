@@ -123,7 +123,6 @@ export function begin(data) {
   const minValue = Number(data.minHeight)
   const maxValue = Number(data.maxHeight)
   const speed = Number(data.speed)
-  console.log(minValue, maxValue, speed)
 
   floodByGraphic.setOptions({
     minHeight: minValue,

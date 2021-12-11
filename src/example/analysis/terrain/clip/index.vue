@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-row :gutter="[10, 10]">
       <a-col :span="22">
         <a-form-item>
@@ -28,7 +28,7 @@
       </a-col>
 
       <a-col :span="22">
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered="true">
+        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <a-space>
@@ -47,12 +47,12 @@
         </a-table>
       </a-col>
     </a-row>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, reactive, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -62,8 +62,6 @@ interface FormState {
   enabledShendu: boolean
   txtHeight: number
 }
-
-
 
 const labelCol = ref({ span: 6 })
 const labelAlign = ref("left")
@@ -90,12 +88,10 @@ const columns = ref([
 ])
 const dataSource = ref([])
 
-mapWork.eventTabel.on("loadOk", (e:any) => {
+mapWork.eventTabel.on("loadOk", (e: any) => {
   e.terrainClip.diffHeight = formState.txtHeight
 
   window.$notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
-
-  dataSource.value = mapWork.table
 })
 mapWork.eventTabel.on("tableObject", function (event: any) {
   dataSource.value = []
@@ -111,7 +107,8 @@ const flyto = (record: any) => {
 const deleted = (record: any) => {
   mapWork.deletedGraphic(record.graphicId)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
-  mapWork.table = dataSource.value
+
+  mapWork.changeTable(dataSource.value)
 }
 
 // 是否挖地
@@ -127,21 +124,34 @@ const chkTestTerrain = () => {
   mapWork.chkTestTerrain(formState.enabledShendu)
 }
 
+// 重置矢量数据的设置
+function resetEnabled() {
+  // 是否挖地
+  formState.enabledWadi = true
+  mapWork.chkClippingPlanes(formState.enabledWadi)
+
+  // 是否外切割
+  formState.enabledWaiqiege = false
+  mapWork.chkUnionClippingRegions(formState.enabledWaiqiege)
+}
+
 // 添加矩形
 const btnDrawExtent = () => {
-  mapWork.btnDrawExtent()
+  resetEnabled()
+  mapWork.btnDrawExtent(formState.enabledWadi)
 }
 // 添加多边形
 const btnDraw = () => {
-  mapWork.btnDraw()
+  resetEnabled()
+
+  mapWork.btnDraw(formState.enabledWadi)
 }
 // 清除
 const removeAll = () => {
+  resetEnabled()
+
   mapWork.removeAll()
 
-  // 是否挖地和外切割
-  formState.enabledWaiqiege = false
-  formState.enabledWadi = true
   // 清除表格
   dataSource.value = []
 }
@@ -152,7 +162,7 @@ const changeClipHeight = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width:360px;
+  width: 360px;
 }
 .miFont {
   font-size: 15px;

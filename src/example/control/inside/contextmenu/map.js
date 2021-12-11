@@ -11,11 +11,28 @@ let map // mars3d.Map三维地图对象
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  map.on(mars3d.EventType.contextMenuOpen, function (event) {
+    console.log("打开了右键菜单")
+  })
+  map.on(mars3d.EventType.contextMenuClose, function (event) {
+    console.log("关闭了右键菜单")
+  })
+  map.on(mars3d.EventType.contextMenuClick, function (event) {
+    console.log("单击了右键菜单", event)
+
+    if (event.data.text == "绕此处环绕飞行") {
+      map.contextmenu.rotatePoint.on(mars3d.EventType.change, rotatePoint_onChangeHandler)
+    } else if (event.data.text == "关闭环绕飞行") {
+      map.contextmenu.rotatePoint.off(mars3d.EventType.change, rotatePoint_onChangeHandler)
+    }
+  })
+
   // 演示3种不同层次的绑定方式，可以按需使用
   bindMapDemo()
   bindLayerDemo()
   bindGraphicDemo()
 }
+
 
 /**
  * 释放当前地图业务的生命周期函数
@@ -24,6 +41,7 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
+
 
 // 1.在map地图上绑定右键菜单
 function bindMapDemo() {
@@ -107,6 +125,15 @@ function bindLayerDemo() {
     url: "//data.mars3d.cn/file/geojson/mars3d-draw.json"
   })
   map.addLayer(graphicLayer)
+
+  graphicLayer.on(mars3d.EventType.contextMenuOpen, function (event) {
+    event.stopPropagation()
+    console.log("打开了graphicLayer右键菜单")
+  })
+  graphicLayer.on(mars3d.EventType.contextMenuClose, function (event) {
+    event.stopPropagation()
+    console.log("关闭了graphicLayer右键菜单")
+  })
 
   // 在layer上绑定右键菜单
   graphicLayer.bindContextMenu([
@@ -210,4 +237,10 @@ function bindGraphicDemo() {
       }
     }
   ])
+}
+
+
+
+function rotatePoint_onChangeHandler(event) {
+  console.log("绕此处环绕飞行,变化了角度", event)
 }

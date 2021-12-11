@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-row class="f-mb">
       <a-col :span="3">单选:</a-col>
       <a-col :span="21">
@@ -25,12 +25,12 @@
         </a-space>
       </a-col>
     </a-row>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

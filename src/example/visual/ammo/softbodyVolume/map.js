@@ -469,7 +469,6 @@ function addDemo() {
 
         Cesium.Cartesian3.normalize(rayDir, rayDir)
         Cesium.Cartesian3.multiplyByScalar(rayDir, 30, rayDir)
-        // console.log(rayDir);
         ballBody.setLinearVelocity(new Ammo.btVector3(rayDir.x, rayDir.y, rayDir.z))
 
         clickRequest = false

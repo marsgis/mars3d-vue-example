@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item>
         <a-radio-group @change="shadingMaterials" v-model:value="value">
@@ -19,14 +19,14 @@
         </span>
       </a-form-item>
     </a-form>
-  </PannelBox>
-  <LocationTo />
+  </pannel>
+  <location-to />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 const value = ref<number>(1)

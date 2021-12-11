@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span>模型URl</span>
@@ -20,7 +20,7 @@
         <a-upload
           :multiple="false"
           name="file"
-          accept="json,geojson,kml,kmz"
+          accept="json,geojson"
           :showUploadList="false"
           @change="openGeoJSON"
           :beforeUpload="() => false"
@@ -31,14 +31,14 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
   <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
 import { getCurrentInstance, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import GraphicEditor from "@comp/GraphicEditor/index.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import GraphicEditor from "@comp/graphic-editor/index.vue"
 import * as mapWork from "./map.js"
 
 interface FileItem {

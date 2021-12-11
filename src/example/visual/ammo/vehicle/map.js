@@ -337,8 +337,6 @@ function creatDemo() {
       // Sync keybord actions and physics and graphics
       function sync(dt) {
         const speed = vehicle.getCurrentSpeedKmHour()
-        // console.log((speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h')
-        // speedometer.innerHTML = (speed < 0 ? '(R) ' : '') + Math.abs(speed).toFixed(1) + ' km/h';
 
         breakingForce = 0
         engineForce = 0

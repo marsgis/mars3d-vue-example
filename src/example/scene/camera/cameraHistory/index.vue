@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <p class="f-mb">当前共有{{ formState.allLength }}条视角记录，当前正在{{ formState.nowView }}条视角</p>
     <div class="f-mb">
       <mars-button @click="lastOneView">回到当前（最后一条）</mars-button>
@@ -10,12 +10,12 @@
         <mars-button @click="nextView">下一个视图</mars-button>
       </a-space>
     </div>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

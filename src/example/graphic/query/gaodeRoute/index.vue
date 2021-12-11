@@ -1,5 +1,5 @@
 <template>
-  <PannelBox class="infoView">
+  <pannel class="infoView">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -31,12 +31,12 @@
         <p style="color: #cad1d1">导航：{{ dh }}</p>
       </div>
     </a-form>
-  </PannelBox>
+  </pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")

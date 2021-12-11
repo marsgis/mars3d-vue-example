@@ -97,7 +97,6 @@ export function addCombineData(count) {
   const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
   const usedTime = (endTime - startTime) / 1000
-  console.log(usedTime)
 
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }

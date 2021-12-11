@@ -14,8 +14,11 @@ if (!Cesium.defineProperties) Cesium.defineProperties = Object.defineProperties;
 if (!Cesium.isArray) Cesium.isArray = Array.isArray;
 
 //兼容1.62（2019-10-01）改名的方法
-if (!Cesium.Matrix4.getMatrix3) Cesium.Matrix4.getMatrix3 = Cesium.Matrix4.getRotation;
-if (!Cesium.TileMapServiceImageryProvider) Cesium.TileMapServiceImageryProvider = Cesium.createTileMapServiceImageryProvider;
+if (!Cesium.Matrix4.getMatrix3)
+  Cesium.Matrix4.getMatrix3 = Cesium.Matrix4.getRotation;
+if (!Cesium.TileMapServiceImageryProvider)
+  Cesium.TileMapServiceImageryProvider =
+    Cesium.createTileMapServiceImageryProvider;
 
 if (!Cesium.createTileMapServiceImageryProvider) {
   Cesium.createTileMapServiceImageryProvider = function (options) {

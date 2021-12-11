@@ -1,12 +1,12 @@
 <template>
-  <PannelBox class="infoView">
-    <LayerState />
-  </PannelBox>
-  <LocationTo />
+  <pannel class="infoView">
+    <layer-state />
+  </pannel>
+  <location-to />
 </template>
 
 <script setup lang="ts">
-import PannelBox from "@comp/OperationPannel/PannelBox.vue"
-import LocationTo from "@comp/MarsSample/LocationTo.vue"
-import LayerState from "@comp/MarsSample/LayerState.vue"
+import Pannel from "@/components/marsgis/pannel.vue"
+import LocationTo from "@comp/mars-sample/location-to.vue"
+import LayerState from "@comp/mars-sample/layer-state.vue"
 </script>
