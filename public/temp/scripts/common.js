@@ -1,3 +1,5 @@
+"use script"
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 var vueGlobal = parent
 

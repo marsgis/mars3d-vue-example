@@ -8,6 +8,13 @@ import MarsUI from "@/components/mars-ui"
 // 加载全局样式
 import "@/styles/index.less"
 
+// https跳转处理
+var protocol = window.location.protocol
+if (protocol == "https:") {
+  window.location.href = window.location.href.replace("https", "http")
+}
+
+
 const app = createApp(Application)
 
 app.use(MarsUI)
