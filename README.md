@@ -189,7 +189,7 @@ mars3d-vue-example
   "thumbnail": "d10_geocoder.jpg"
 }
 ```
-同级目录下只需要配置文件名，不在同级目录的 需配置打包后文件位置的绝对路径如 `/example/graphic/line/typhoon/Typhoon.js`
+同级目录下只需要配置文件名，不在同级目录的 需配置打包后文件位置的绝对路径如 `/example/graphic/apply/typhoon/Typhoon.js`
 
 
 ## 单个示例的内部结构
