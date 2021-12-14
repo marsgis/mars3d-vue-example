@@ -27,3 +27,4 @@ yarn-error.log*
 Thumbs.db
 
 package-lock.json
+src/example/aaa/

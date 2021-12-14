@@ -83,7 +83,7 @@ export function bindLayerDemo() {
       //   }, 2000);
       // });
     },
-    { timeRender: true } // timeRender实时刷新
+    { timeRender: true, closeButton: false } // timeRender实时刷新
   )
 
   geoJsonLayer.on(mars3d.EventType.popupOpen, function (event) {

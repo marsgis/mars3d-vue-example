@@ -91,7 +91,6 @@ const heightVal = ref<number>(30)
 const distanceVal = ref<number>(0)
 
 mapWork.eventTarget.on("loadOk", () => {
-  // 创建Echarts图层
   mapWork.terrainClips(heightVal.value)
 })
 

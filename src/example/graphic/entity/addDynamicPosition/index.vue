@@ -1,7 +1,7 @@
 <template>
   <pannel class="infoView">
     <layer-state />
-    <mars-button href="editor.html?id=graphic/entity/dynamic3Dtiles" target="_blank">动态贴模型示例</mars-button>
+    <mars-button href="editor.html?id=graphic/entity/addDynamicPosition-tileset" target="_blank">动态贴模型示例</mars-button>
   </pannel>
   <location-to />
 </template>

@@ -85,7 +85,7 @@ function onMap_clockTick() {
 
 function startWorker(strBounds) {
   startTimestamp = endTimestamp = new Date().getTime()
-  worker = new Worker(`example/graphic/primitive/billboard-worker/aqiWorker.js`)
+  worker = new Worker(currentPath + `aqiWorker.js`) // currentPath为当前目录，内置在示例框架中
 
   // 主线程调用worker.postMessage()方法，向 Worker 发消息。
   worker.postMessage({

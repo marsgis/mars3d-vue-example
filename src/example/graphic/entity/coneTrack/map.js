@@ -191,7 +191,7 @@ function getSampledPositionProperty(points) {
   return property
 }
 
-//
+
 function addGraphic04(graphicLayer) {
   const model = new mars3d.graphic.ModelEntity({
     name: "地面站模型",

@@ -1,6 +1,6 @@
 <template>
   <pannel class="infoView">
-    <mars-button href="editor.html?id=graphic/point/cameraHls" target="_blank">
+    <mars-button href="editor.html?id=graphic/divGraphic/video-hls" target="_blank">
       加载HLS视频
     </mars-button>
   </pannel>

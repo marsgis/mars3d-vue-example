@@ -6,7 +6,7 @@
     <div class="f-mb">
       <a-space>
         <span class="pannel-item-label">井深度:</span>
-        <mars-input-number v-model:value="num" @change="onHeightChange" :min="-500" :max="999" step="1"></mars-input-number>米
+        <mars-input-number v-model:value="num" @change="onHeightChange" :min="-500" :max="999" :step="1"></mars-input-number>米
         <a-checkbox v-model:checked="chkTestTerrain" @change="onDepthTestChange">深度监测</a-checkbox>
       </a-space>
     </div>
@@ -33,7 +33,7 @@ const onDepthTestChange = () => {
   mapWork.onDepthTestChange(chkTestTerrain.value)
 }
 
-const num = ref<number>(30)
+const num = ref<number>(300)
 // 绘制矩形
 const drawExtent = () => {
   mapWork.drawExtent(num.value)

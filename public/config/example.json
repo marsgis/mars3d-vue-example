@@ -809,6 +809,7 @@
           {
             "name": "圆锥追踪体",
             "main": "graphic/entity/coneTrack",
+            "libs": ["mars3d","mars3d-space"],
             "usePannel": true,
             "date": "2021-11-10"
           },

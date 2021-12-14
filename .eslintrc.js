@@ -31,7 +31,8 @@ module.exports = {
     kgUtil: "readonly",
     Ammo: "readonly",
     map: "readonly",
-    AMap: "readonly"
+    AMap: "readonly",
+    currentPath:"readonly"
   },
   rules: {
     //关闭ts

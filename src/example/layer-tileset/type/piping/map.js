@@ -114,7 +114,7 @@ export function terrainClips(heightVal) {
 }
 
 export function heightChange(num) {
-  terrainPlanClip.height = num
+  terrainPlanClip.diffHeight = num
 }
 
 // 绘制矩形

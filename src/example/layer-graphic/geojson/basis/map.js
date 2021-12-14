@@ -230,61 +230,67 @@ export function showChinaLine() {
 export function showRegion() {
   removeLayer()
 
-  map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
-
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
-    id: 1987,
-    name: "用地规划",
-    url: "//data.mars3d.cn/file/geojson/guihua.json",
+    name: "合肥市",
+    url: "//data.mars3d.cn/file/geojson/areas/340100_full.json",
     symbol: {
-      type: "polygonCombine",
       styleOptions: {
-        opacity: 0.6,
-        color: "#0000FF"
-      },
-      styleField: "类型",
-      styleFieldOptions: {
-        一类居住用地: { color: "#FFDF7F" },
-        二类居住用地: { color: "#FFFF00" },
-        社区服务用地: { color: "#FF6A38" },
-        幼托用地: { color: "#FF6A38" },
-        商住混合用地: { color: "#FF850A" },
-        行政办公用地: { color: "#FF00FF" },
-        文化设施用地: { color: "#FF00FF" },
-        小学用地: { color: "#FF7FFF" },
-        初中用地: { color: "#FF7FFF" },
-        体育场用地: { color: "#00A57C" },
-        医院用地: { color: "#A5527C" },
-        社会福利用地: { color: "#FF7F9F" },
-        商业用地: { color: "#FF0000" },
-        商务用地: { color: "#7F0000" },
-        营业网点用地: { color: "#FF7F7F" },
-        一类工业用地: { color: "#A57C52" },
-        社会停车场用地: { color: "#C0C0C0" },
-        通信用地: { color: "#007CA5" },
-        排水用地: { color: "#00BFFF" },
-        公园绿地: { color: "#00FF00" },
-        防护绿地: { color: "#007F00" },
-        河流水域: { color: "#7FFFFF" },
-        配建停车场: { color: "#ffffff" },
-        道路用地: { color: "#ffffff" }
+        fill: true,
+        randomColor: true, // 随机色
+        opacity: 0.3,
+        outline: true,
+        outlineStyle: {
+          color: "#FED976",
+          width: 3,
+          opacity: 1
+        },
+        // 高亮时的样式
+        highlight: {
+          opacity: 0.9
+        },
+        label: {
+          // 面中心点，显示文字的配置
+          text: "{name}", // 对应的属性名称
+          opacity: 1,
+          font_size: 40,
+          color: "#ffffff",
+
+          font_family: "楷体",
+          outline: true,
+          outlineColor: "#000000",
+          outlineWidth: 3,
+
+          background: false,
+          backgroundColor: "#000000",
+          backgroundOpacity: 0.1,
+
+          font_weight: "normal",
+          font_style: "normal",
+
+          scaleByDistance: true,
+          scaleByDistance_far: 20000000,
+          scaleByDistance_farValue: 0.1,
+          scaleByDistance_near: 1000,
+          scaleByDistance_nearValue: 1,
+
+          distanceDisplayCondition: false,
+          distanceDisplayCondition_far: 10000,
+          distanceDisplayCondition_near: 0,
+          visibleDepth: false
+        }
       }
     },
-    popup: "类型:{类型}"
-    // flyTo: true,
+    popup: "{name}",
+    // "tooltip": "{name}",
+    flyTo: true
   })
   map.addLayer(geoJsonLayer)
 
-  // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
-  // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-  const layerTest = map.getLayer(1987, "id")
   // 绑定事件
-  layerTest.on(mars3d.EventType.load, function (event) {
+  geoJsonLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-
-  layerTest.on(mars3d.EventType.click, function (event) {
-    // 单击事件
+  geoJsonLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -378,67 +384,61 @@ export function showFloor() {
 export function showPlanningSurface() {
   removeLayer()
 
+  map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
+
   geoJsonLayer = new mars3d.layer.GeoJsonLayer({
-    name: "合肥市",
-    url: "//data.mars3d.cn/file/geojson/areas/340100_full.json",
+    id: 1987,
+    name: "用地规划",
+    url: "//data.mars3d.cn/file/geojson/guihua.json",
     symbol: {
+      type: "polygonCombine",
       styleOptions: {
-        fill: true,
-        randomColor: true, // 随机色
-        opacity: 0.3,
-        outline: true,
-        outlineStyle: {
-          color: "#FED976",
-          width: 3,
-          opacity: 1
-        },
-        // 高亮时的样式
-        highlight: {
-          opacity: 0.9
-        },
-        label: {
-          // 面中心点，显示文字的配置
-          text: "{name}", // 对应的属性名称
-          opacity: 1,
-          font_size: 40,
-          color: "#ffffff",
-
-          font_family: "楷体",
-          outline: true,
-          outlineColor: "#000000",
-          outlineWidth: 3,
-
-          background: false,
-          backgroundColor: "#000000",
-          backgroundOpacity: 0.1,
-
-          font_weight: "normal",
-          font_style: "normal",
-
-          scaleByDistance: true,
-          scaleByDistance_far: 20000000,
-          scaleByDistance_farValue: 0.1,
-          scaleByDistance_near: 1000,
-          scaleByDistance_nearValue: 1,
-
-          distanceDisplayCondition: false,
-          distanceDisplayCondition_far: 10000,
-          distanceDisplayCondition_near: 0,
-          visibleDepth: false
-        }
+        opacity: 0.6,
+        color: "#0000FF"
+      },
+      styleField: "类型",
+      styleFieldOptions: {
+        一类居住用地: { color: "#FFDF7F" },
+        二类居住用地: { color: "#FFFF00" },
+        社区服务用地: { color: "#FF6A38" },
+        幼托用地: { color: "#FF6A38" },
+        商住混合用地: { color: "#FF850A" },
+        行政办公用地: { color: "#FF00FF" },
+        文化设施用地: { color: "#FF00FF" },
+        小学用地: { color: "#FF7FFF" },
+        初中用地: { color: "#FF7FFF" },
+        体育场用地: { color: "#00A57C" },
+        医院用地: { color: "#A5527C" },
+        社会福利用地: { color: "#FF7F9F" },
+        商业用地: { color: "#FF0000" },
+        商务用地: { color: "#7F0000" },
+        营业网点用地: { color: "#FF7F7F" },
+        一类工业用地: { color: "#A57C52" },
+        社会停车场用地: { color: "#C0C0C0" },
+        通信用地: { color: "#007CA5" },
+        排水用地: { color: "#00BFFF" },
+        公园绿地: { color: "#00FF00" },
+        防护绿地: { color: "#007F00" },
+        河流水域: { color: "#7FFFFF" },
+        配建停车场: { color: "#ffffff" },
+        道路用地: { color: "#ffffff" }
       }
     },
-    popup: "{name}",
-    // "tooltip": "{name}",
-    flyTo: true
+    popup: "类型:{类型}"
+    // flyTo: true,
   })
   map.addLayer(geoJsonLayer)
 
+  // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
+  // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
+  const layerTest = map.getLayer(1987, "id")
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  layerTest.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+
+  layerTest.on(mars3d.EventType.click, function (event) {
+    // 单击事件
     console.log("单击了图层", event)
   })
 }

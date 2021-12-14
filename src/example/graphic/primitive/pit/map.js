@@ -9,7 +9,6 @@ export const mapOptions = {
     center: { lat: 31.78828, lng: 117.219198, alt: 6885, heading: 346, pitch: -62 }
   }
 }
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数

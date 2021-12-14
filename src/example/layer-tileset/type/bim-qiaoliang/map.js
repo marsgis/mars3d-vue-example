@@ -115,7 +115,7 @@ export function alphaChange(value) {
   }
 }
 
-//= =========================================
+// ==========================================
 // 是否开挖
 export function chkClippingPlanes(val) {
   terrainClip.enabled = val
@@ -140,7 +140,7 @@ export function terrainClips(heightVal) {
 }
 
 export function heightChange(num) {
-  terrainClip.height = num
+  terrainClip.diffHeight = num
 }
 
 // 绘制矩形
@@ -164,6 +164,7 @@ export function drawExtent() {
 
       // 挖地区域
       terrainClip.positions = positions
+
       terrainPlanClip.positions = positions
     }
   })

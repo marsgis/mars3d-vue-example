@@ -52,6 +52,15 @@ export function onMounted(mapInstance) {
     }
   })
 
+  // 访问后端接口，取数据
+  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle.json" })
+    .then(function (arr) {
+      initData(arr.list)
+    })
+    .otherwise(function () {
+      globalMsg("获取空间目标轨道数据异常！")
+    })
+
   // 单击地图空白处
   map.on(mars3d.EventType.clickMap, function (event) {
     if (lastSelectWX) {
@@ -59,15 +68,6 @@ export function onMounted(mapInstance) {
       lastSelectWX.remove()
       lastSelectWX = null
     }
-
-    queryTleApiData()
-      .then(function (arr) {
-        initData(arr.list)
-      })
-      .otherwise(function () {
-        globalMsg("获取空间目标轨道数据异常！")
-      })
-
     eventTarget.fire("clickMap")
   })
 }
@@ -78,11 +78,6 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-}
-
-// 访问后端接口，取数据
-function queryTleApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle.json" })
 }
 
 function initData(arr) {
@@ -199,7 +194,7 @@ function initData(arr) {
 // 采用多线程来计算卫星位置
 let worker
 function initWorker(arr) {
-  worker = new Worker("example/graphic/space/spacePoint/tleWorker.js")
+  worker = new Worker(currentPath + "tleWorker.js") // currentPath为当前目录，内置在示例框架中
 
   worker.onmessage = function (event) {
     const time = event.data.time

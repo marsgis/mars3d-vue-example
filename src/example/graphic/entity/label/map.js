@@ -202,6 +202,7 @@ function addGraphic03(graphicLayer) {
     position: new mars3d.LatLngPoint(116.340026, 30.873948, 383.31),
     style: {
       text: "中国安徽合肥",
+      font_size: 20,
       color: "#00ff00",
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1)
