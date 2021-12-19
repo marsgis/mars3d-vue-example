@@ -75,7 +75,7 @@ function addFeature(arr) {
   const pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"]
 
   // 创建DIV数据图层
-  const graphicLayer = new mars3d.layer.DivLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件

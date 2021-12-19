@@ -114,7 +114,7 @@ function showRealTimeInfo(params, _alltime) {
 
 function addDivPoint(position) {
   // 创建DIV数据图层
-  const divLayer = new mars3d.layer.DivLayer()
+  const divLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(divLayer)
 
   const graphic = new mars3d.graphic.DivGraphic({

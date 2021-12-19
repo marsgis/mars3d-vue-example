@@ -2158,8 +2158,9 @@
           },
           {
             "name": "全球城市白膜(OSM在线)",
+            "main": "layer-tileset/type/osmBuildings",
             "date": "2021-11-10",
-            "main": "layer-tileset/type/osmBuildings"
+            "usePannel": true
           }
         ]
       },

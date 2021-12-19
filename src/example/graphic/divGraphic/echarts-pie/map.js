@@ -20,7 +20,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建div图层
-  graphicLayer = new mars3d.layer.DivLayer()
+  graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   const arrData = [

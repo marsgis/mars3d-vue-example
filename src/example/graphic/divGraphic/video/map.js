@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 创建DIV数据图层
-  const graphicLayer = new mars3d.layer.DivLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   graphicLayer.on(mars3d.EventType.click, function (event) {

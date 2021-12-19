@@ -24,7 +24,7 @@ export function onMounted(mapInstance) {
   })
 
   // 创建DIV数据图层
-  graphicLayer = new mars3d.layer.DivLayer()
+  graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件

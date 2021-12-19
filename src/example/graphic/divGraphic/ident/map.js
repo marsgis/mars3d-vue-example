@@ -41,7 +41,7 @@ export function onMounted(mapInstance) {
   map.addLayer(tiles3dLayer)
 
   // 创建DIV数据图层
-  graphicLayer = new mars3d.layer.DivLayer()
+  graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 初始加载
