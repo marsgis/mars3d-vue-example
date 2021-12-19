@@ -2,7 +2,7 @@
   <div class="pannel fadeInRight" :class="{ 'pannel-model': props.type === 'model' }" ref="pannelBox" v-show="props.type === 'pannel' || visible">
     <div v-if="props.type === 'model'" ref="modelHeader" class="pannel-model__header" @mousedown="mousedown">
       <span class="title">{{ title }}</span>
-      <icon-close @click="closeModel" class="close-btn" />
+      <close @click="closeModel" class="close-btn" />
     </div>
     <slot></slot>
   </div>
@@ -15,6 +15,7 @@
  * @author 木遥 2021-11-01
  */
 import { ref } from "vue"
+import { Close } from "@icon-park/vue-next"
 
 const props = defineProps({
   type: {

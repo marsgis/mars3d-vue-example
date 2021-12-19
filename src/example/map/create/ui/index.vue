@@ -4,12 +4,12 @@
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->
         <template #expandIcon>
-          <icon-down-c />
+          <down-c />
         </template>
         <a-collapse-panel key="1" header="表单控件">
           <!-- 自定义面板右侧图标 -->
           <template #extra>
-            <icon-config theme="outline" />
+            <config theme="outline" />
           </template>
 
           <a-form-item label="简单文本" name="url">
@@ -78,15 +78,15 @@
           <div class="f-tac">
             <a-space>
               <mars-button size="middle" @click="onClickMessage">
-                <template #icon><icon-alarm /></template>
+                <template #icon><alarm /></template>
                 消息
               </mars-button>
               <mars-button size="middle" @click="onClickNotify">
-                <template #icon><icon-download-one /></template>
+                <template #icon><download-one /></template>
                 提示
               </mars-button>
               <mars-button size="middle" @click="onClickAlert">
-                <template #icon><icon-download-one /></template>
+                <template #icon><download-one /></template>
                 弹窗
               </mars-button>
             </a-space>
@@ -123,11 +123,11 @@
       <div class="f-tac">
         <a-space>
           <mars-button size="middle" @click="onClickLoading">
-            <template #icon><icon-find /></template>
+            <template #icon><find /></template>
             进度条1
           </mars-button>
           <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><icon-planet /></template>
+            <template #icon><planet /></template>
             进度条2
           </mars-button>
         </a-space>
@@ -140,6 +140,7 @@
 import { onMounted, reactive, ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
+import { Alarm, Config, DownC, DownloadOne, Find, Planet } from "@icon-park/vue-next"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import * as mapWork from "./map.js"

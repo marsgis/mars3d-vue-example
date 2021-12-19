@@ -9,28 +9,23 @@ if (!mars3d.Util.webglreport()) {
 }
 
 // 读取 config.json 配置文件
-const configUrl = "config/config.json"
-fetch(configUrl)
-  .then(function (response) {
-    if (!response.ok) {
-      const error = new Error(response.statusText)
-      error.response = response
-      throw error
-    } else {
-      return response.json()
-    }
-  })
-  .then((json) => {
+// 读取 config.json 配置文件
+mars3d.Resource.fetchJson({ url: "config/config.json" })
+  .then(function (json) {
+    console.log("读取 config.json 配置文件完成", json) // 打印测试信息
+
     // 构建地图
     vueGlobal._map = initMap(json.map3d)
     vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
 
     window.map = vueGlobal._map // 这句话 只是为了方便F12调试使用
   })
-  .catch(function (error) {
+  .otherwise(function (error) {
     console.log("加载JSON出错", error)
     globalAlert(error?.message)
   })
+
+
 
 // 构造地图主方法【必须】
 function initMap(options) {

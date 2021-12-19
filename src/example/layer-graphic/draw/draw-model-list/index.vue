@@ -9,9 +9,9 @@
 
     <div class="f-mb infoView-content">
       <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-        <icon-folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开" />
+        <folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开" />
       </a-upload>
-      <icon-disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
+      <disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
     </div>
 
     <div class="f-mb">
@@ -39,6 +39,7 @@
 import { ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
 import GraphicEditor from "@comp/graphic-editor/index.vue"
+import { Disk, FolderUpload } from "@icon-park/vue-next"
 import * as mapWork from "./map.js"
 
 interface FileItem {

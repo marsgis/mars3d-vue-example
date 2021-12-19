@@ -2,9 +2,9 @@
   <pannel class="attr-editor-model" v-auto-height="50" type="model" title="矢量数据属性" v-model:visible="visible">
     <div class="top-handle-bar">
       <a-space>
-        <icon-send fill="#FFF" @click="flyToGraphic" title="飞行定位" />
-        <icon-delete fill="#FFF" @click="deleteEntity"  title="删除" />
-        <icon-save fill="#FFF" @click="getGeoJson" title="导出geojson"  />
+        <send fill="#FFF" @click="flyToGraphic" title="飞行定位" />
+        <delete-o fill="#FFF" @click="deleteEntity" title="删除" />
+        <save fill="#FFF" @click="getGeoJson" title="导出geojson" />
       </a-space>
     </div>
     <div v-if="visible" class="attr-editor-main">
@@ -33,6 +33,7 @@ import Pannel from "@/components/marsgis/pannel.vue"
 import attrEditor from "./attr.vue"
 import coordEditor from "./coord.vue"
 import styleEditor from "./style.vue"
+import { Delete as DeleteO, Save, Send } from "@icon-park/vue-next"
 
 const mapWork = window.mapWork
 
@@ -88,12 +89,12 @@ function setValue(gp: any) {
     setTimeout(() => {
       if (graphicAttr && gp.isEditing) {
         graphic = gp
+        const op = graphic.toJSON()
+        style.value = _.cloneDeep(op.style)
+        lonlats.value = _.cloneDeep(graphic.coordinates)
+        attrs.value = _.cloneDeep(op.attr)
 
-        style.value = _.cloneDeep(graphic.options.style)
-        lonlats.value = _.cloneDeep(graphic.coordinates || graphic.options.positions)
-        attrs.value = _.cloneDeep(graphic.options.attr)
-
-        const config = graphicAttr[graphic.attr.edittype || graphic.options.edittype || graphic.type] || {}
+        const config = graphicAttr[op.edittype || op.type] || {}
         styleConfig.value = _.cloneDeep(config)
         resolve(true)
       } else {
@@ -146,7 +147,7 @@ function styleChange(style: any) {
 
 <style lang="less" scoped>
 .attr-editor-model {
-  left: 10px;/*遮盖了toolbar按钮没有关系，按钮使用频次不高 */
+  left: 10px; /*遮盖了toolbar按钮没有关系，按钮使用频次不高 */
   top: 10px;
   width: 260px;
   .top-handle-bar {

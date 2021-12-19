@@ -67,7 +67,6 @@ export function showDraw(isFlyTo) {
   })
   map.addLayer(geoJsonLayer)
 
-  // 绑定事件
 
   // load事件,必须在load完成前绑定才能监听
   geoJsonLayer.on(mars3d.EventType.load, function (event) {

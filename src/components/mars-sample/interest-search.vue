@@ -13,7 +13,7 @@
       <a-input-search size="large" placeholder="搜索 地点" @search="searchPoint">
         <template #enterButton>
           <a-button>
-            <icon-search size="20" fill="#FFF" />
+            <search size="20" fill="#FFF" />
           </a-button>
         </template>
       </a-input-search>
@@ -42,6 +42,7 @@
  */
 import { ref } from "vue"
 import { isLonLat } from "@/utils/index"
+import { Search } from "@icon-park/vue-next"
 
 const props = defineProps({
   mapWork: {

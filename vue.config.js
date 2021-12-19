@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
+const isProd = process.env.NODE_ENV === "production"
 
 module.exports = {
   publicPath: process.env.BASE_URL,
@@ -61,6 +62,20 @@ module.exports = {
             to: path.join(__dirname, "dist"),
             transformPath(targetPath) {
               return path.join("example", targetPath.split("example")[1])
+            },
+            transform(source, path) {
+              if (!isProd && path.endsWith("map.js") && process.env.VUE_APP_SOURCE_FILE) {
+                let fileContent = source.toString()
+                fileContent = fileContent.replace(/export let /g, "var ")
+                fileContent = fileContent.replace(/export const /g, "var ")
+                fileContent = fileContent.replace(/export /g, "")
+                fileContent = fileContent.replace('import * as mars3d from "mars3d"', "")
+                fileContent = fileContent.replace(/import/g, "// import")
+                fileContent = fileContent.replace("const Cesium = mars3d.Cesium", "")
+                return Buffer.from(fileContent)
+              } else {
+                return source
+              }
             }
           },
           {

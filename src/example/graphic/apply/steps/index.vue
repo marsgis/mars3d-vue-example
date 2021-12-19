@@ -2,15 +2,15 @@
   <pannel class="animation-pannel" v-auto-height="300">
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
-        <icon-play />
+        <play-a />
         <span>{{ isPause ? "继续" : "开始" }}</span>
       </mars-button>
       <mars-button v-if="isPlay && !isPause" @click="pause">
-        <icon-pause-one />
+        <pause-one />
         <span>暂停</span>
       </mars-button>
       <mars-button v-if="isPlay" @click="stop">
-        <icon-power />
+        <power />
         <span>停止</span>
       </mars-button>
     </a-space>
@@ -28,6 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
+import { PauseOne, Play as PlayA, Power } from "@icon-park/vue-next"
 import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 

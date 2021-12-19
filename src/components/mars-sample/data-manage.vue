@@ -1,26 +1,27 @@
 <template>
-      <a-space>
-        <span class="pannel-item-label">数据管理:</span>
-        <mars-button @click="btnClear">清除</mars-button>
-        <mars-button @click="btnExpFile"  title="保存GeoJSON">
-           <icon-save />
-        保存</mars-button>
-        <a-upload
-          :multiple="false"
-          name="file"
-          accept="json,geojson"
-          :file-list="fileList"
-          :showUploadList="false"
-          :supportServerRender="true"
-          :beforeUpload="beforeUploade"
-          @change="btnImpFile"
-        >
-          <a-button title="打开GeoJSON">
-            <icon-upload-one />
-            打开
-          </a-button>
-        </a-upload>
-      </a-space>
+  <a-space>
+    <span class="pannel-item-label">数据管理:</span>
+    <mars-button @click="btnClear">清除</mars-button>
+    <mars-button @click="btnExpFile" title="保存GeoJSON">
+      <save />
+      保存
+    </mars-button>
+    <a-upload
+      :multiple="false"
+      name="file"
+      accept="json,geojson"
+      :file-list="fileList"
+      :showUploadList="false"
+      :supportServerRender="true"
+      :beforeUpload="beforeUploade"
+      @change="btnImpFile"
+    >
+      <a-button title="打开GeoJSON">
+        <upload-one />
+        打开
+      </a-button>
+    </a-upload>
+  </a-space>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +33,7 @@
 import { ref } from "vue"
 import { message } from "ant-design-vue"
 import { UploadOutlined } from "@ant-design/icons-vue"
+import { Save, UploadOne } from "@icon-park/vue-next"
 
 interface FileItem {
   uid: string

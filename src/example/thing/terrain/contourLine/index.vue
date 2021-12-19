@@ -65,10 +65,10 @@
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <mars-button type="link">
-                <icon-move-one fill="#FFF" @click="flyto(record)" />
+                <move-one fill="#FFF" @click="flyto(record)" />
               </mars-button>
               <mars-button type="link">
-                <icon-delete fill="#FFF" @click="deleted(record)" />
+                <delete-o fill="#FFF" @click="deleted(record)" />
               </mars-button>
             </template>
             <template v-else>
@@ -84,6 +84,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
+import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

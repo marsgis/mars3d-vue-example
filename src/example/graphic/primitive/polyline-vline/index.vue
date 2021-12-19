@@ -37,11 +37,11 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <div class="male">
-          <icon-boy-two theme="outline" size="35" fill="#00f6ff" />
+          <boy-two theme="outline" size="35" fill="#00f6ff" />
           <span>男性</span>
         </div>
         <div class="female">
-          <icon-girl theme="outline" size="35" fill="#ff6ac4" />
+          <girl theme="outline" size="35" fill="#ff6ac4" />
           <span>女性</span>
         </div>
         <div id="structure" class="structure"></div>
@@ -54,17 +54,17 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <span class="man_icon">
-          <icon-boy-two theme="outline" size="35" fill="#00f6ff" />
+          <boy-two theme="outline" size="35" fill="#00f6ff" />
         </span>
         <span class="woman_icon">
-          <icon-girl theme="outline" size="35" fill="#ff6ac4" />
+          <girl theme="outline" size="35" fill="#ff6ac4" />
         </span>
         <div class="man_display">
-          <icon-boy-two theme="outline" fill="#00f6ff" />
+          <boy-two theme="outline" fill="#00f6ff" />
           <span>38.53%</span>
         </div>
         <div class="woman_display">
-          <icon-girl theme="outline" fill="#ff6ac4" />
+          <girl theme="outline" fill="#ff6ac4" />
           <span>61.49%</span>
         </div>
 
@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue"
+import { BoyTwo, Girl } from "@icon-park/vue-next"
 import Pannel from "@/components/marsgis/pannel.vue"
 import * as echarts from "echarts"
 

@@ -30,9 +30,6 @@ export const eventTarget = new mars3d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions)
-
   // 构造bloom效果 用于滑动条测试
   bloomEffect = new mars3d.effect.BloomEffect()
   map.addEffect(bloomEffect)

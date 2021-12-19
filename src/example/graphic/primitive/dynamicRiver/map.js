@@ -140,12 +140,18 @@ export function speedChange(value) {
   dynamicRiver.speed = value
 }
 
+let onOff = true
 // 升高30米动画
 export function addHeight() {
   if (!dynamicRiver) {
     return
   }
+  if (!onOff) {
+    globalMsg("上次操作未完成")
+    return
+  }
   dynamicRiver.offsetHeight(30, 5) // 5秒内抬高30米
+  throttle()
 }
 
 // 下降30米动画
@@ -153,9 +159,21 @@ export function lowerHeight() {
   if (!dynamicRiver) {
     return
   }
+  if (!onOff) {
+    globalMsg("上次操作未完成")
+    return
+  }
   dynamicRiver.offsetHeight(-30, 5) // 5秒内降低30米
+  throttle()
 }
 
+function throttle() {
+  setTimeout(() => {
+    onOff = true
+  }, 2000)
+
+  onOff = false
+}
 // 清除
 export function clear() {
   graphicLayer.clear()

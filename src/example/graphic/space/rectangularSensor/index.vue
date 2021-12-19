@@ -5,7 +5,7 @@
         <a-collapse v-model:activeKey="activeKey">
           <!-- 自定义切换图标 -->
           <template #expandIcon>
-            <icon-down-c />
+            <down-c />
           </template>
           <!-- 数据处理面板 -->
           <a-collapse-panel key="1" header="数据处理">
@@ -89,6 +89,7 @@ import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import DataManage from "@comp/mars-sample/data-manage.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"
+import { DownC } from "@icon-park/vue-next"
 import * as mapWork from "./map.js"
 
 interface FormState {

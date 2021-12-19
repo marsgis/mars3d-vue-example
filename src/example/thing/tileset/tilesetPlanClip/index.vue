@@ -4,7 +4,7 @@
       <a-collapse-panel key="1" header="绘制坐标">
         <!-- 自定义面板右侧图标 -->
         <template #extra>
-          <icon-config theme="outline" />
+          <config-o theme="outline" />
         </template>
         <div class="f-mb">
           <a-space>
@@ -19,7 +19,7 @@
       <a-collapse-panel key="2" header="按正方向">
         <!-- 自定义面板右侧图标 -->
         <template #extra>
-          <icon-config theme="outline" />
+          <config-o theme="outline" />
         </template>
         <div class="f-mb">
           <a-space>
@@ -41,7 +41,7 @@
       <a-collapse-panel key="3" header="裁剪距离">
         <!-- 自定义面板右侧图标 -->
         <template #extra>
-          <icon-config theme="outline" />
+          <config-o theme="outline" />
         </template>
         <a-space> <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }} </a-space>
       </a-collapse-panel>
@@ -49,7 +49,7 @@
       <a-collapse-panel key="4" header="斜切偏移量">
         <!-- 自定义面板右侧图标 -->
         <template #extra>
-          <icon-config theme="outline" />
+          <config-o theme="outline" />
         </template>
         <a-space> <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
       </a-collapse-panel>
@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
+import { Config as ConfigO } from "@icon-park/vue-next"
  import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])
