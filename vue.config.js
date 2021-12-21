@@ -1,7 +1,8 @@
 const path = require("path")
 const { getThemeVariables } = require("ant-design-vue/dist/theme")
-const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
+const MonacoLocalesPlugin = require("monaco-editor-locales-plugin")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -11,7 +12,7 @@ const isProd = process.env.NODE_ENV === "production"
 module.exports = {
   publicPath: process.env.BASE_URL,
   outputDir: "dist/",
-  assetsDir: "static",
+  assetsDir: "example/static",
   productionSourceMap: false,
   lintOnSave: true,
   devServer: {
@@ -86,6 +87,16 @@ module.exports = {
             }
           }
         ]
+      }),
+      new MonacoLocalesPlugin({
+        // 设置支持的语言
+        languages: ["es", "zh-cn"],
+        // 默认语言
+        defaultLanguage: "zh-cn",
+        // 打印不匹配的文本
+        logUnmatched: false,
+        // 自定义文本翻译
+        mapLanguages: { "zh-cn": { "Peek References": "查找引用", "Go to Symbol...": "跳到变量位置", "Command Palette": "命令面板" } }
       })
     ]
   },

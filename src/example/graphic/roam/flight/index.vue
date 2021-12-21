@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
-import roamLinePanel from "@/components/mars-sample/roamline-panel.vue"
+import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

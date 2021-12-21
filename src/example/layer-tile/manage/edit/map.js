@@ -9,10 +9,26 @@ export const mapOptions = {
     center: { lat: 24.336939, lng: 108.949729, alt: 14990362, heading: 0, pitch: -90 }
   },
   control: {
-    baseLayerPicker: false,
+    // baseLayerPicker: false,
     infoBox: false
   },
   basemaps: [
+    {
+      name: "天地图影像",
+      icon: "img/basemaps/tdt_img.png",
+      type: "tdt",
+      layer: "img_d",
+      key: ["9ae78c51a0a28f06444d541148496e36"]
+    },
+    {
+      name: "天地图电子",
+      icon: "img/basemaps/tdt_vec.png",
+      type: "group",
+      layers: [
+        { name: "底图", type: "tdt", layer: "vec_d", key: ["9ae78c51a0a28f06444d541148496e36"] },
+        { name: "注记", type: "tdt", layer: "vec_z", key: ["9ae78c51a0a28f06444d541148496e36"] }
+      ]
+    },
     {
       name: "单张图片",
       icon: "img/basemaps/bingmap.png",

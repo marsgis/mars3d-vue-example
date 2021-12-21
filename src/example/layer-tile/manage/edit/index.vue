@@ -67,7 +67,7 @@ const formState = reactive({
   txtLayer: "",
   txtTileFormat: "png",
   CRS: "",
-  chinaCRS: "BAIDU",
+  chinaCRS: "WGS84",
   minLoadLevel: 0,
   maxLoadLevel: 21,
   minShowLevel: 0,

@@ -15,7 +15,7 @@
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
     "lodash": "^4.17.21",
-    "mars-editor": "^2.0.16",
+    "mars-editor": "^2.1.5",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",
     "split.js": "^1.6.4",
@@ -23,7 +23,6 @@
     "vue-color-kit": "^1.0.5"
   },
   "devDependencies": {
-    "mars3d": "^3.1.16",
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
@@ -46,6 +45,8 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "lint-staged": "^11.2.6",
+    "mars3d": "^3.1.16",
+    "monaco-editor-locales-plugin": "0.0.3",
     "monaco-editor-webpack-plugin": "^5.0.0",
     "prettier": "^2.2.1",
     "typescript": "^4.1.5"
