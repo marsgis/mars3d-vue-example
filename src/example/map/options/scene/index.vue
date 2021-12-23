@@ -69,7 +69,7 @@ const data = ref([
     name: "场景Scene",
     describe: "高动态渲染",
     operation: "checked",
-    value: 2,
+    value: "2",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("highDynamicRange", true)
@@ -83,7 +83,7 @@ const data = ref([
     name: "场景Scene",
     describe: "快速抗锯齿",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("fxaa", true)
@@ -97,7 +97,7 @@ const data = ref([
     name: "场景Scene",
     describe: "显示太阳",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("showSun", true)
@@ -111,7 +111,7 @@ const data = ref([
     name: "场景Scene",
     describe: "显示月亮",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("showMoon", true)
@@ -125,7 +125,7 @@ const data = ref([
     name: "场景Scene",
     describe: "显示天空盒子",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("showSkyBox", true)
@@ -149,7 +149,7 @@ const data = ref([
     name: "场景Scene",
     describe: "大气外光圈",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("showSkyAtmosphere", true)
@@ -163,7 +163,7 @@ const data = ref([
     name: "场景Scene",
     describe: "雾化效果",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneOptions("fog", true)
@@ -190,7 +190,7 @@ const data = ref([
     name: "地球Globe",
     describe: "昼夜区域",
     operation: "checked",
-    value: 2,
+    value: "2",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneGlobeOptions("enableLighting", true)
@@ -204,7 +204,7 @@ const data = ref([
     name: "地球Globe",
     describe: "绘制地面大气",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneGlobeOptions("showGroundAtmosphere", true)
@@ -218,7 +218,7 @@ const data = ref([
     name: "地球Globe",
     describe: "深度监测",
     operation: "checked",
-    value: 2,
+    value: "2",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneGlobeOptions("depthTestAgainstTerrain", true)
@@ -232,7 +232,7 @@ const data = ref([
     name: "地球Globe",
     describe: "显示底图",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       mapWork.showBaseMap(data.value[index].value)
     }
@@ -252,7 +252,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "缩放地图",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("enableZoom", true)
@@ -266,7 +266,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "倾斜相机",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("enableTilt", true)
@@ -280,7 +280,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "旋转转换位置",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("enableRotate", true)
@@ -294,7 +294,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "平移地图",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("enableTranslate", true)
@@ -308,7 +308,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "可操作南北极",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("constrainedAxis", false)
@@ -322,7 +322,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "是否进入地下",
     operation: "checked",
-    value: 1,
+    value: "1",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("enableCollisionDetection", true)

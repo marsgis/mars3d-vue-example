@@ -2,7 +2,7 @@
 <img src="https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars3d.cn/logo.png" width="300px" />
 </p>
 
-<p align="center">基于 Vue3.x 的 Mars3D🌎功能示例 </p>
+<p align="center">基于 Vue3.x 的 Mars3D🌎功能示例项目 </p>
 
 
 <p align="center">

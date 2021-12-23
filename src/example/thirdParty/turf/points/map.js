@@ -36,7 +36,6 @@ export function onUnmounted() {
   map = null
 }
 
-
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 // 生成50个随机点
 export function randomPoints() {
@@ -68,6 +67,11 @@ export function convexPolygon() {
 
   const points = pointsLayer.toGeoJSON()
 
+  if (points.features.length === 0) {
+    globalMsg("请先创建原始数据")
+    return
+  }
+
   const hull = turf.convex(points)
 
   const convexPoints = hull.geometry.coordinates
@@ -88,6 +92,11 @@ export function voronoiPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
+
+  if (points.features.length === 0) {
+    globalMsg("请先创建原始数据")
+    return
+  }
 
   const options = {
     bbox: bbox
@@ -115,6 +124,12 @@ export function tinPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
+
+  if (points.features.length === 0) {
+    globalMsg("请先创建原始数据")
+    return
+  }
+
   for (let i = 0; i < points.features.length; i++) {
     points.features[i].properties.z = ~~(Math.random() * 9)
   }

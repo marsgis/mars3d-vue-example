@@ -33,7 +33,7 @@ export default defineComponent({
     // 定位至模型
     const centerAtModel = () => {
       mapWork.centerAtModel()
-      mapWork.map.setCameraView({ lat: 33.590452, lng: 119.032184, alt: 185, heading: 359, pitch: -34 })
+      mapWork.map.setCameraView({ lng: 114.019768, lat: 22.627935, alt: 80.6, heading: 359, pitch: -34 })
     }
 
     return {

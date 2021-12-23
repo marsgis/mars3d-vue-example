@@ -141,7 +141,7 @@ let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
+      url: "https://streetmodel.smartfacade.com.cn/3dtilesa_model/longhuaqv/minzhijiedao2(20210708)/Scene/3dtilesa.json",
       position: { alt: 80.6 },
       maximumScreenSpaceError: 1,
       maximumMemoryUsage: 1024,

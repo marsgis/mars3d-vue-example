@@ -77,6 +77,13 @@ const columns = [
 
 const startTime = ref<Dayjs>(dayjs())
 const endTime = ref<Dayjs>(dayjs().add(60, "minute"))
+const data = ref([])
+
+mapWork.eventTarget.on("dataList", (e: any) => {
+  console.log(e.tableList)
+
+  data.value = e.tableList
+})
 
 // 框选查询 矩形
 const drawRectangle = () => {
@@ -96,19 +103,13 @@ const drawClear = () => {
 }
 
 const clearResult = () => {
+  data.value = []
   mapWork.clearResult()
 }
-
-const data = ref([])
 
 const startFX = () => {
   const startTimes = dayjs(startTime.value).valueOf()
   const endTimes = dayjs(endTime.value).valueOf()
-
   mapWork.startFX(startTimes, endTimes)
-
-  mapWork.eventTarget.on("dataList", (e: any) => {
-    data.value = e.tableList
-  })
 }
 </script>

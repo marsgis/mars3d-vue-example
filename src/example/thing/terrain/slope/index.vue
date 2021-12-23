@@ -11,7 +11,7 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item label="插值数">
+      <a-form-item label="地表渲染">
         <a-radio-group v-model:value="formState.radio" @change="changeShadingType">
           <a-radio value="none">无阴影</a-radio>
           <a-radio value="slope">坡度</a-radio>
@@ -32,8 +32,6 @@ interface FormState {
   radio: string
   txtSplitNum: number
 }
-
-
 
 const formState: UnwrapRef<FormState> = reactive({
   radio: "none",

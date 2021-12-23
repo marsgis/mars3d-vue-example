@@ -2,7 +2,7 @@
   <pannel class="infoView">
     <a-form ref="formRef" :model="formState" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="图层URL" name="url">
-        <mars-input v-model:value="formState.url"></mars-input>
+        <mars-input @change="onCheckedoutUrl" v-model:value="formState.url"></mars-input>
       </a-form-item>
       <a-form-item label="类型" name="type">
         <mars-select placeholder="请选择类型" v-model:value="formState.type" :options="selectOptions"> </mars-select>
@@ -77,6 +77,21 @@ const formState = reactive({
   brightness: 1,
   chkProxy: false
 })
+
+const onCheckedoutUrl = () => {
+  const url = formState.url.toLowerCase()
+  if (url.indexOf("wms") != -1) {
+    formState.type = "wms"
+  } else if (url.indexOf("wmts") != -1) {
+    formState.type = "wmts"
+  } else if (url.indexOf("_alllayers") != -1) {
+    formState.type = "arcgis_cache"
+  } else if (url.indexOf("arcgis") != -1) {
+    formState.type = "arcgis"
+  } else if (url.indexOf("{x}") != -1 && url.indexOf("{z}") != -1) {
+    formState.type = "xyz"
+  }
+}
 
 const loadCoverage = async () => {
   // 加载图层

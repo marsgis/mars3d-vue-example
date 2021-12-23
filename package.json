@@ -45,7 +45,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "lint-staged": "^11.2.6",
-    "mars3d": "^3.1.16",
+    "mars3d": "^3.1.17",
     "monaco-editor-locales-plugin": "0.0.3",
     "monaco-editor-webpack-plugin": "^5.0.0",
     "prettier": "^2.2.1",

@@ -111,7 +111,7 @@ export function drawClear() {
 // 清除效果
 export function clearResult() {
   tableList = []
-  graphicLayer.clear()
+  map.graphicLayer.clear()
 }
 
 //= ===============卫星过境===================================
@@ -126,7 +126,7 @@ const pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7)
  * @returns {void}
  */
 export function startFX(startTimes, endTimes) {
-  clearResult()
+  // clearResult()
 
   if (!drawGraphic) {
     globalMsg("请先在图上绘制区域")
@@ -186,7 +186,7 @@ function fxOneSatellite(item, options) {
       attr: item
       // tooltip: `编号：${item.norad} <br />卫星：${item.name} <br />时间：${timeStr}`
     })
-    graphicLayer.addGraphic(primitive)
+    map.graphicLayer.addGraphic(primitive)
 
     // 判断是卫星否在缓冲区内
     const isInPoly = graphic.isInPoly(position)
@@ -271,7 +271,7 @@ function showResult(newSatelliteArr) {
           positions.push(outAttr.position)
           outTime = mars3d.Util.formatDate(new Date(outAttr.time), "yyyy-M-d HH:mm:ss")
         }
-        if (positions.length > 1) {
+        if (positions.length > 0) {
           const data = {
             positions: positions,
             name: item.name,
@@ -319,7 +319,7 @@ function showCorridor(data) {
       color: "#00ff00"
     }
   })
-  graphicLayer.addGraphic(primitive)
+  map.graphicLayer.addGraphic(primitive)
 
   const inthtml =
     '<table style="width:280px;">' +
