@@ -1,5 +1,6 @@
 node_modules
 lib/CesiumUnminified/
+dist/
 mars3d-*src.*
 
 # local env files
