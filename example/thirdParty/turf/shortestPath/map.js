@@ -3,7 +3,7 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let pointAndLine
-
+let endPointLayer
 export const mapOptions = {
   scene: {
     center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
@@ -26,6 +26,9 @@ export function onMounted(mapInstance) {
   //  点、线矢量数据图层
   pointAndLine = new mars3d.layer.GraphicLayer()
   map.addLayer(pointAndLine)
+
+  endPointLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(endPointLayer)
 }
 
 /**
@@ -72,7 +75,8 @@ export function startPoint() {
 
 // 绘制终点
 export function endPoint() {
-  pointAndLine.startDraw({
+  endPointLayer.clear()
+  endPointLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 10,
@@ -90,22 +94,27 @@ export function endPoint() {
 }
 
 // 计算最短路径
- export function shortestPath() {
+let polyonLine
+export function shortestPath() {
+  if (polyonLine) {
+    polyonLine.remove()
+  }
   const polygonLayer = graphicLayer.getGraphics()
-  const allPoint = pointAndLine.getGraphics()
+  const startPointLayers = pointAndLine.getGraphics()
+  const endPointLayers = endPointLayer.getGraphics()
 
   if (polygonLayer.length < 1) {
     globalMsg("请绘制面")
     return
   }
 
-  if (allPoint.length < 2) {
+  if (startPointLayers.length === 0 || endPointLayers.length === 0) {
     globalMsg("请绘起点和终点")
     return
   }
   const polygon = polygonLayer[0].toGeoJSON() // 障碍面
-  const startPoint = allPoint[0].toGeoJSON() // 起点
-  const endPoint = allPoint[1].toGeoJSON() // 终点
+  const startPoint = startPointLayers[0].toGeoJSON() // 起点
+  const endPoint = endPointLayers[0].toGeoJSON() // 终点
 
   const options = {
     obstacles: polygon
@@ -113,7 +122,7 @@ export function endPoint() {
   const path = turf.shortestPath(startPoint, endPoint, options)
 
   const positions = path.geometry.coordinates
-  const polyonLine = new mars3d.graphic.PolylineEntity({
+  polyonLine = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       color: " #55ff33"
@@ -125,4 +134,5 @@ export function endPoint() {
 export function clearLayer() {
   graphicLayer.clear()
   pointAndLine.clear()
+  endPointLayer.clear()
 }

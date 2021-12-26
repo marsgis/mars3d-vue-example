@@ -1,1 +1,412 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2830cf6e"],{"4e4b":function(e,t,n){"use strict";n("e64d")},7544:function(e,t,n){"use strict";var c=n("246f"),o=n("7a23"),a={class:"title"},l=Object(o["defineComponent"])({props:{type:{type:String,default:"pannel"},warpper:{type:String,default:"sanbox-warpper"},title:{type:String,default:""},visible:{type:Boolean,default:!1}},emits:["update:visible"],setup:function(e,t){var n=t.emit,l=e,r=Object(o["ref"])(),u=function(){n("update:visible",!1)};function d(e){var t=e.clientX,n=e.clientY;function c(e){var c=r.value,a=e.clientX-t,l=e.clientY-n;o(c,c.offsetLeft+a,c.offsetTop+l,e)}function o(e,c,o,a){var r=document.getElementById(l.warpper);c>0&&c+e.offsetWidth<r.offsetWidth&&(e.style.left=c+"px",t=a.clientX),o>0&&o+e.offsetHeight<r.offsetHeight&&(e.style.top=o+"px",n=a.clientY)}window.onmousemove=function(e){e.preventDefault(),c(e)},window.onmouseup=function(e){c(e),window.onmousemove=null,window.onmouseup=null}}return function(t,n){return Object(o["withDirectives"])((Object(o["openBlock"])(),Object(o["createElementBlock"])("div",{class:Object(o["normalizeClass"])(["pannel fadeInRight",{"pannel-model":"model"===l.type}]),ref_key:"pannelBox",ref:r},["model"===l.type?(Object(o["openBlock"])(),Object(o["createElementBlock"])("div",{key:0,ref:"modelHeader",class:"pannel-model__header",onMousedown:d},[Object(o["createElementVNode"])("span",a,Object(o["toDisplayString"])(e.title),1),Object(o["createVNode"])(Object(o["unref"])(c["a"]),{onClick:u,class:"close-btn"})],544)):Object(o["createCommentVNode"])("",!0),Object(o["renderSlot"])(t.$slots,"default")],2)),[[o["vShow"],"pannel"===l.type||e.visible]])}}}),r=(n("4e4b"),n("6b0d")),u=n.n(r);const d=u()(l,[["__scopeId","data-v-b885d716"]]);t["a"]=d},"892a":function(e,t,n){"use strict";n.r(t);var c=n("7a23"),o=n("7544"),a=function(e){return Object(c["pushScopeId"])("data-v-72301b7c"),e=e(),Object(c["popScopeId"])(),e},l={class:"f-mb"},r=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"圆锥体:",-1)})),u=Object(c["createTextVNode"])("显示/隐藏"),d={class:"f-mb"},i=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"半径:",-1)})),s={class:"f-mb"},b=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"夹角:",-1)})),f={class:"f-mb"},p=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"顶盖:",-1)})),O=Object(c["createTextVNode"])("是否显示"),j={class:"f-mb"},m=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"地面投影:",-1)})),v=Object(c["createTextVNode"])("是否显示"),h=Object(c["defineComponent"])({setup:function(e){var t=window.mapWork,n=Object(c["ref"])(25),a=Object(c["ref"])(3e5),h=Object(c["reactive"])({enabledShowHide:!0,enabledShowModelTop:!0,enabledModelArea:!1});t.eventTarget.on("loadOk",(function(e){t.addConicSensor(n.value,a.value)}));var w=function(){t.sensorShowHide(h.enabledShowHide)},N=function(){t.sensorRadius(a.value)},V=function(){t.angle(n.value)},k=function(){t.sensorTop(h.enabledShowModelTop)},C=function(){t.sensorArea(h.enabledModelArea)};return function(e,t){var x=Object(c["resolveComponent"])("a-checkbox"),S=Object(c["resolveComponent"])("a-space"),_=Object(c["resolveComponent"])("mars-input-number"),g=Object(c["resolveComponent"])("a-slider");return Object(c["openBlock"])(),Object(c["createBlock"])(o["a"],{class:"infoView"},{default:Object(c["withCtx"])((function(){return[Object(c["createElementVNode"])("div",l,[Object(c["createVNode"])(S,null,{default:Object(c["withCtx"])((function(){return[r,Object(c["createVNode"])(x,{checked:Object(c["unref"])(h).enabledShowHide,"onUpdate:checked":t[0]||(t[0]=function(e){return Object(c["unref"])(h).enabledShowHide=e}),onChange:w},{default:Object(c["withCtx"])((function(){return[u]})),_:1},8,["checked"])]})),_:1})]),Object(c["createElementVNode"])("div",d,[Object(c["createVNode"])(S,null,{default:Object(c["withCtx"])((function(){return[i,Object(c["createVNode"])(_,{class:"inputNum",onChange:N,value:a.value,"onUpdate:value":t[1]||(t[1]=function(e){return a.value=e}),min:1,max:999999999,step:1},null,8,["value","step"])]})),_:1})]),Object(c["createElementVNode"])("div",s,[Object(c["createVNode"])(S,null,{default:Object(c["withCtx"])((function(){return[b,Object(c["createVNode"])(g,{onChange:V,value:n.value,"onUpdate:value":t[2]||(t[2]=function(e){return n.value=e}),min:1,max:89,step:.01},null,8,["value","step"])]})),_:1})]),Object(c["createElementVNode"])("div",f,[Object(c["createVNode"])(S,null,{default:Object(c["withCtx"])((function(){return[p,Object(c["createVNode"])(x,{onChange:k,checked:Object(c["unref"])(h).enabledShowModelTop,"onUpdate:checked":t[3]||(t[3]=function(e){return Object(c["unref"])(h).enabledShowModelTop=e})},{default:Object(c["withCtx"])((function(){return[O]})),_:1},8,["checked"])]})),_:1})]),Object(c["createElementVNode"])("div",j,[Object(c["createVNode"])(S,null,{default:Object(c["withCtx"])((function(){return[m,Object(c["createVNode"])(x,{onChange:C,checked:Object(c["unref"])(h).enabledModelArea,"onUpdate:checked":t[4]||(t[4]=function(e){return Object(c["unref"])(h).enabledModelArea=e})},{default:Object(c["withCtx"])((function(){return[v]})),_:1},8,["checked"])]})),_:1})])]})),_:1})}}}),w=(n("add9"),n("6b0d")),N=n.n(w);const V=N()(h,[["__scopeId","data-v-72301b7c"]]);t["default"]=V},add9:function(e,t,n){"use strict";n("d516")},d516:function(e,t,n){},e64d:function(e,t,n){}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["chunk-2830cf6e"],{
+
+/***/ "4e4b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e64d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "7544":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@icon-park/vue-next/es/icons/Close.js
+var Close = __webpack_require__("246f");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+var pannelvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-b885d716"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "title"
+};
+
+/* harmony default export */ var pannelvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  props: {
+    type: {
+      type: String,
+      default: "pannel"
+    },
+    warpper: {
+      type: String,
+      default: "sanbox-warpper"
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ["update:visible"],
+  setup: function setup(__props, _ref) {
+    var emits = _ref.emit;
+    var props = __props;
+    /**
+     * 操作公共容器
+     * @copyright 火星科技 mars3d.cn
+     * @author 木遥 2021-11-01
+     */
+
+    var pannelBox = Object(vue_runtime_esm_bundler["ref"])();
+
+    var closeModel = function closeModel() {
+      emits("update:visible", false);
+    };
+
+    function mousedown(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+
+      window.onmousemove = function (ev) {
+        ev.preventDefault();
+        toPointerPosition(ev);
+      };
+
+      window.onmouseup = function (ev) {
+        toPointerPosition(ev);
+        window.onmousemove = null;
+        window.onmouseup = null;
+      };
+
+      function toPointerPosition(ev) {
+        var pb = pannelBox.value;
+        var distanceX = ev.clientX - x;
+        var distanceY = ev.clientY - y;
+        toPosition(pb, pb.offsetLeft + distanceX, pb.offsetTop + distanceY, ev);
+      }
+
+      function toPosition(dom, left, top, e) {
+        var warpper = document.getElementById(props.warpper);
+
+        if (left > 0 && left + dom.offsetWidth < warpper.offsetWidth) {
+          dom.style.left = left + "px";
+          x = e.clientX;
+        }
+
+        if (top > 0 && top + dom.offsetHeight < warpper.offsetHeight) {
+          dom.style.top = top + "px";
+          y = e.clientY;
+        }
+      }
+    }
+
+    return function (_ctx, _cache) {
+      return Object(vue_runtime_esm_bundler["withDirectives"])((Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        class: Object(vue_runtime_esm_bundler["normalizeClass"])(["pannel fadeInRight", {
+          'pannel-model': props.type === 'model'
+        }]),
+        ref_key: "pannelBox",
+        ref: pannelBox
+      }, [props.type === 'model' ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        key: 0,
+        ref: "modelHeader",
+        class: "pannel-model__header",
+        onMousedown: mousedown
+      }, [Object(vue_runtime_esm_bundler["createElementVNode"])("span", _hoisted_1, Object(vue_runtime_esm_bundler["toDisplayString"])(__props.title), 1), Object(vue_runtime_esm_bundler["createVNode"])(Object(vue_runtime_esm_bundler["unref"])(Close["a" /* default */]), {
+        onClick: closeModel,
+        class: "close-btn"
+      })], 544)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), Object(vue_runtime_esm_bundler["renderSlot"])(_ctx.$slots, "default")], 2)), [[vue_runtime_esm_bundler["vShow"], props.type === 'pannel' || __props.visible]]);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue?vue&type=style&index=0&id=b885d716&lang=less&scoped=true
+var pannelvue_type_style_index_0_id_b885d716_lang_less_scoped_true = __webpack_require__("4e4b");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(pannelvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-b885d716"]])
+
+/* harmony default export */ var pannel = __webpack_exports__["a"] = (__exports__);
+
+/***/ }),
+
+/***/ "892a":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue + 2 modules
+var pannel = __webpack_require__("7544");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/example/graphic/space/conicSensor-up/index.vue?vue&type=script&lang=ts&setup=true
+
+
+
+var conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-72301b7c"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "f-mb"
+};
+
+var _hoisted_2 = /*#__PURE__*/conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "圆锥体:", -1);
+});
+
+var _hoisted_3 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("显示/隐藏");
+
+var _hoisted_4 = {
+  class: "f-mb"
+};
+
+var _hoisted_5 = /*#__PURE__*/conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "半径:", -1);
+});
+
+var _hoisted_6 = {
+  class: "f-mb"
+};
+
+var _hoisted_7 = /*#__PURE__*/conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "夹角:", -1);
+});
+
+var _hoisted_8 = {
+  class: "f-mb"
+};
+
+var _hoisted_9 = /*#__PURE__*/conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "顶盖:", -1);
+});
+
+var _hoisted_10 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("是否显示");
+
+var _hoisted_11 = {
+  class: "f-mb"
+};
+
+var _hoisted_12 = /*#__PURE__*/conicSensor_upvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "地面投影:", -1);
+});
+
+var _hoisted_13 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("是否显示");
+
+
+
+/* harmony default export */ var conicSensor_upvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  setup: function setup(__props) {
+    var mapWork = window.mapWork;
+    var angleValue = Object(vue_runtime_esm_bundler["ref"])(25);
+    var radiusValue = Object(vue_runtime_esm_bundler["ref"])(300000);
+    var formState = Object(vue_runtime_esm_bundler["reactive"])({
+      enabledShowHide: true,
+      enabledShowModelTop: true,
+      enabledModelArea: false
+    });
+    mapWork.eventTarget.on("loadOk", function (event) {
+      mapWork.addConicSensor(angleValue.value, radiusValue.value);
+    }); // 显示/隐藏
+
+    var sensorShowHide = function sensorShowHide() {
+      mapWork.sensorShowHide(formState.enabledShowHide);
+    }; // 半径
+
+
+    var sensorRadius = function sensorRadius() {
+      mapWork.sensorRadius(radiusValue.value);
+    }; // 角度
+
+
+    var angle = function angle() {
+      mapWork.angle(angleValue.value);
+    }; // 顶部显示隐藏
+
+
+    var sensorTop = function sensorTop() {
+      mapWork.sensorTop(formState.enabledShowModelTop);
+    }; // 地面阴影
+
+
+    var sensorArea = function sensorArea() {
+      mapWork.sensorArea(formState.enabledModelArea);
+    };
+
+    return function (_ctx, _cache) {
+      var _component_a_checkbox = Object(vue_runtime_esm_bundler["resolveComponent"])("a-checkbox");
+
+      var _component_a_space = Object(vue_runtime_esm_bundler["resolveComponent"])("a-space");
+
+      var _component_mars_input_number = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-input-number");
+
+      var _component_a_slider = Object(vue_runtime_esm_bundler["resolveComponent"])("a-slider");
+
+      return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createBlock"])(pannel["a" /* default */], {
+        class: "infoView"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_1, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_2, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                checked: Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowHide,
+                "onUpdate:checked": _cache[0] || (_cache[0] = function ($event) {
+                  return Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowHide = $event;
+                }),
+                onChange: sensorShowHide
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_3];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_4, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_5, Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_input_number, {
+                class: "inputNum",
+                onChange: sensorRadius,
+                value: radiusValue.value,
+                "onUpdate:value": _cache[1] || (_cache[1] = function ($event) {
+                  return radiusValue.value = $event;
+                }),
+                min: 1,
+                max: 999999999,
+                step: 1.0
+              }, null, 8, ["value", "step"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_6, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_7, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: angle,
+                value: angleValue.value,
+                "onUpdate:value": _cache[2] || (_cache[2] = function ($event) {
+                  return angleValue.value = $event;
+                }),
+                min: 1,
+                max: 89,
+                step: 0.01
+              }, null, 8, ["value", "step"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_8, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_9, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: sensorTop,
+                checked: Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowModelTop,
+                "onUpdate:checked": _cache[3] || (_cache[3] = function ($event) {
+                  return Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowModelTop = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_10];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_11, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_12, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: sensorArea,
+                checked: Object(vue_runtime_esm_bundler["unref"])(formState).enabledModelArea,
+                "onUpdate:checked": _cache[4] || (_cache[4] = function ($event) {
+                  return Object(vue_runtime_esm_bundler["unref"])(formState).enabledModelArea = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_13];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })])];
+        }),
+        _: 1
+      });
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/example/graphic/space/conicSensor-up/index.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/example/graphic/space/conicSensor-up/index.vue?vue&type=style&index=0&id=72301b7c&scoped=true&lang=less
+var conicSensor_upvue_type_style_index_0_id_72301b7c_scoped_true_lang_less = __webpack_require__("add9");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/example/graphic/space/conicSensor-up/index.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(conicSensor_upvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-72301b7c"]])
+
+/* harmony default export */ var conicSensor_up = __webpack_exports__["default"] = (__exports__);
+
+/***/ }),
+
+/***/ "add9":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_72301b7c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d516");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_72301b7c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_72301b7c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "d516":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "e64d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+}]);

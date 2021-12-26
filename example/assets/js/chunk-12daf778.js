@@ -1,1 +1,332 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-12daf778"],{"4e4b":function(e,t,n){"use strict";n("e64d")},7544:function(e,t,n){"use strict";var c=n("246f"),o=n("7a23"),i={class:"title"},r=Object(o["defineComponent"])({props:{type:{type:String,default:"pannel"},warpper:{type:String,default:"sanbox-warpper"},title:{type:String,default:""},visible:{type:Boolean,default:!1}},emits:["update:visible"],setup:function(e,t){var n=t.emit,r=e,u=Object(o["ref"])(),a=function(){n("update:visible",!1)};function l(e){var t=e.clientX,n=e.clientY;function c(e){var c=u.value,i=e.clientX-t,r=e.clientY-n;o(c,c.offsetLeft+i,c.offsetTop+r,e)}function o(e,c,o,i){var u=document.getElementById(r.warpper);c>0&&c+e.offsetWidth<u.offsetWidth&&(e.style.left=c+"px",t=i.clientX),o>0&&o+e.offsetHeight<u.offsetHeight&&(e.style.top=o+"px",n=i.clientY)}window.onmousemove=function(e){e.preventDefault(),c(e)},window.onmouseup=function(e){c(e),window.onmousemove=null,window.onmouseup=null}}return function(t,n){return Object(o["withDirectives"])((Object(o["openBlock"])(),Object(o["createElementBlock"])("div",{class:Object(o["normalizeClass"])(["pannel fadeInRight",{"pannel-model":"model"===r.type}]),ref_key:"pannelBox",ref:u},["model"===r.type?(Object(o["openBlock"])(),Object(o["createElementBlock"])("div",{key:0,ref:"modelHeader",class:"pannel-model__header",onMousedown:l},[Object(o["createElementVNode"])("span",i,Object(o["toDisplayString"])(e.title),1),Object(o["createVNode"])(Object(o["unref"])(c["a"]),{onClick:a,class:"close-btn"})],544)):Object(o["createCommentVNode"])("",!0),Object(o["renderSlot"])(t.$slots,"default")],2)),[[o["vShow"],"pannel"===r.type||e.visible]])}}}),u=(n("4e4b"),n("6b0d")),a=n.n(u);const l=a()(r,[["__scopeId","data-v-b885d716"]]);t["a"]=l},"9e55":function(e,t,n){},b681:function(e,t,n){"use strict";n("9e55")},d789:function(e,t,n){"use strict";n.r(t);var c=n("7a23"),o=n("7544"),i=Object(c["createTextVNode"])("5F"),r=Object(c["createTextVNode"])("4F"),u=Object(c["createTextVNode"])("3F"),a=Object(c["createTextVNode"])("2F"),l=Object(c["createTextVNode"])("1F"),f=Object(c["createTextVNode"])("-1F"),d=Object(c["createTextVNode"])("整体"),s=Object(c["defineComponent"])({setup:function(e){var t=window.mapWork,n=function(){t.minusOne()},s=function(){t.showAll()},b=function(e){t.show(e)};return function(e,t){var p=Object(c["resolveComponent"])("mars-button"),O=Object(c["resolveComponent"])("a-space");return Object(c["openBlock"])(),Object(c["createBlock"])(o["a"],{class:"infoView"},{default:Object(c["withCtx"])((function(){return[Object(c["createVNode"])(O,null,{default:Object(c["withCtx"])((function(){return[Object(c["createVNode"])(p,{onClick:t[0]||(t[0]=function(e){return b(5)})},{default:Object(c["withCtx"])((function(){return[i]})),_:1}),Object(c["createVNode"])(p,{onClick:t[1]||(t[1]=function(e){return b(4)})},{default:Object(c["withCtx"])((function(){return[r]})),_:1}),Object(c["createVNode"])(p,{onClick:t[2]||(t[2]=function(e){return b(3)})},{default:Object(c["withCtx"])((function(){return[u]})),_:1}),Object(c["createVNode"])(p,{onClick:t[3]||(t[3]=function(e){return b(2)})},{default:Object(c["withCtx"])((function(){return[a]})),_:1}),Object(c["createVNode"])(p,{onClick:t[4]||(t[4]=function(e){return b(1)})},{default:Object(c["withCtx"])((function(){return[l]})),_:1}),Object(c["createVNode"])(p,{onClick:t[5]||(t[5]=function(e){return n()})},{default:Object(c["withCtx"])((function(){return[f]})),_:1}),Object(c["createVNode"])(p,{onClick:s},{default:Object(c["withCtx"])((function(){return[d]})),_:1})]})),_:1})]})),_:1})}}}),b=(n("b681"),n("6b0d")),p=n.n(b);const O=p()(s,[["__scopeId","data-v-5baab1c1"]]);t["default"]=O},e64d:function(e,t,n){}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["chunk-12daf778"],{
+
+/***/ "4e4b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e64d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "7544":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@icon-park/vue-next/es/icons/Close.js
+var Close = __webpack_require__("246f");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+var pannelvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-b885d716"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "title"
+};
+
+/* harmony default export */ var pannelvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  props: {
+    type: {
+      type: String,
+      default: "pannel"
+    },
+    warpper: {
+      type: String,
+      default: "sanbox-warpper"
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ["update:visible"],
+  setup: function setup(__props, _ref) {
+    var emits = _ref.emit;
+    var props = __props;
+    /**
+     * 操作公共容器
+     * @copyright 火星科技 mars3d.cn
+     * @author 木遥 2021-11-01
+     */
+
+    var pannelBox = Object(vue_runtime_esm_bundler["ref"])();
+
+    var closeModel = function closeModel() {
+      emits("update:visible", false);
+    };
+
+    function mousedown(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+
+      window.onmousemove = function (ev) {
+        ev.preventDefault();
+        toPointerPosition(ev);
+      };
+
+      window.onmouseup = function (ev) {
+        toPointerPosition(ev);
+        window.onmousemove = null;
+        window.onmouseup = null;
+      };
+
+      function toPointerPosition(ev) {
+        var pb = pannelBox.value;
+        var distanceX = ev.clientX - x;
+        var distanceY = ev.clientY - y;
+        toPosition(pb, pb.offsetLeft + distanceX, pb.offsetTop + distanceY, ev);
+      }
+
+      function toPosition(dom, left, top, e) {
+        var warpper = document.getElementById(props.warpper);
+
+        if (left > 0 && left + dom.offsetWidth < warpper.offsetWidth) {
+          dom.style.left = left + "px";
+          x = e.clientX;
+        }
+
+        if (top > 0 && top + dom.offsetHeight < warpper.offsetHeight) {
+          dom.style.top = top + "px";
+          y = e.clientY;
+        }
+      }
+    }
+
+    return function (_ctx, _cache) {
+      return Object(vue_runtime_esm_bundler["withDirectives"])((Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        class: Object(vue_runtime_esm_bundler["normalizeClass"])(["pannel fadeInRight", {
+          'pannel-model': props.type === 'model'
+        }]),
+        ref_key: "pannelBox",
+        ref: pannelBox
+      }, [props.type === 'model' ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        key: 0,
+        ref: "modelHeader",
+        class: "pannel-model__header",
+        onMousedown: mousedown
+      }, [Object(vue_runtime_esm_bundler["createElementVNode"])("span", _hoisted_1, Object(vue_runtime_esm_bundler["toDisplayString"])(__props.title), 1), Object(vue_runtime_esm_bundler["createVNode"])(Object(vue_runtime_esm_bundler["unref"])(Close["a" /* default */]), {
+        onClick: closeModel,
+        class: "close-btn"
+      })], 544)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), Object(vue_runtime_esm_bundler["renderSlot"])(_ctx.$slots, "default")], 2)), [[vue_runtime_esm_bundler["vShow"], props.type === 'pannel' || __props.visible]]);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue?vue&type=style&index=0&id=b885d716&lang=less&scoped=true
+var pannelvue_type_style_index_0_id_b885d716_lang_less_scoped_true = __webpack_require__("4e4b");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(pannelvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-b885d716"]])
+
+/* harmony default export */ var pannel = __webpack_exports__["a"] = (__exports__);
+
+/***/ }),
+
+/***/ "9e55":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "b681":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_5baab1c1_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9e55");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_5baab1c1_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_5baab1c1_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "d789":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue + 2 modules
+var pannel = __webpack_require__("7544");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/example/layer-tileset/style/bim-floor/index.vue?vue&type=script&setup=true&lang=ts
+
+
+
+var bim_floorvue_type_script_setup_true_lang_ts_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-5baab1c1"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("5F");
+
+var _hoisted_2 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("4F");
+
+var _hoisted_3 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("3F");
+
+var _hoisted_4 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("2F");
+
+var _hoisted_5 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("1F");
+
+var _hoisted_6 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("-1F");
+
+var _hoisted_7 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("整体");
+
+
+/* harmony default export */ var bim_floorvue_type_script_setup_true_lang_ts = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  setup: function setup(__props) {
+    var mapWork = window.mapWork; // 负一层
+
+    var minusOne = function minusOne() {
+      mapWork.minusOne();
+    };
+
+    var showAll = function showAll() {
+      mapWork.showAll();
+    };
+
+    var show = function show(item) {
+      mapWork.show(item);
+    };
+
+    return function (_ctx, _cache) {
+      var _component_mars_button = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-button");
+
+      var _component_a_space = Object(vue_runtime_esm_bundler["resolveComponent"])("a-space");
+
+      return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createBlock"])(pannel["a" /* default */], {
+        class: "infoView"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[0] || (_cache[0] = function ($event) {
+                  return show(5);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_1];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[1] || (_cache[1] = function ($event) {
+                  return show(4);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_2];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[2] || (_cache[2] = function ($event) {
+                  return show(3);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_3];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[3] || (_cache[3] = function ($event) {
+                  return show(2);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_4];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[4] || (_cache[4] = function ($event) {
+                  return show(1);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_5];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[5] || (_cache[5] = function ($event) {
+                  return minusOne();
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_6];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: showAll
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_7];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })];
+        }),
+        _: 1
+      });
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/example/layer-tileset/style/bim-floor/index.vue?vue&type=script&setup=true&lang=ts
+ 
+// EXTERNAL MODULE: ./src/example/layer-tileset/style/bim-floor/index.vue?vue&type=style&index=0&id=5baab1c1&scoped=true&lang=less
+var bim_floorvue_type_style_index_0_id_5baab1c1_scoped_true_lang_less = __webpack_require__("b681");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/example/layer-tileset/style/bim-floor/index.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(bim_floorvue_type_script_setup_true_lang_ts, [['__scopeId',"data-v-5baab1c1"]])
+
+/* harmony default export */ var bim_floor = __webpack_exports__["default"] = (__exports__);
+
+/***/ }),
+
+/***/ "e64d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+}]);

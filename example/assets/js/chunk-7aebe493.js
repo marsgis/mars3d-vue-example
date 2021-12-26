@@ -1,1 +1,567 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-7aebe493"],{"0752":function(e,t,n){"use strict";n("924b")},3132:function(e,t,n){"use strict";n.r(t);var c=n("7a23"),a=n("7544"),o=function(e){return Object(c["pushScopeId"])("data-v-ca444c2c"),e=e(),Object(c["popScopeId"])(),e},l={class:"f-tac"},u=Object(c["createTextVNode"])("投射视频"),r=Object(c["createTextVNode"])("投射图片"),i=Object(c["createTextVNode"])("清除"),d={class:"f-mb"},b=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视角水平张角:",-1)})),f={class:"f-mb"},s=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视角宽高比例:",-1)})),O={class:"f-mb"},j=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视角距离:",-1)})),p={class:"f-mb"},v=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视频位置:",-1)})),m=Object(c["createTextVNode"])("图上选点:"),V={class:"f-mb"},N=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"键盘微调:",-1)})),h=Object(c["createTextVNode"])("相机跟随"),w={class:"f-mb"},x=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视频角度:",-1)})),C={class:"f-mb"},k=o((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视椎框线:",-1)})),_=Object(c["createTextVNode"])("是否显示"),E={class:"f-tac"},g=Object(c["createTextVNode"])("播放暂停"),y=Object(c["createTextVNode"])("定位至视频位置"),T=Object(c["createTextVNode"])("打印参数"),S=Object(c["defineComponent"])({setup:function(e){var t=window.mapWork,n=Object(c["ref"])(!1),o=Object(c["ref"])(!0),S=Object(c["ref"])(.5),B=Object(c["ref"])(50),D=Object(c["ref"])(2),I=Object(c["ref"])(70),U=Object(c["ref"])(0);Object(c["onMounted"])((function(){t.bindEvnet(S.value)}));var H=function(){t.updateParams(B.value,D.value,I.value)},W=function(){t.cameraFollow(n.value)},X=function(){t.addVideo(I.value)},Y=function(){t.addImg(I.value)},F=function(){t.clear()},J=function(){t.locate()},M=function(){t.printParameters()},P=function(){t.playOrpause()},z=function(){t.selCamera()},L=function(){t.showFrustum(o.value)},R=function(){t.rotateDeg(U.value)};return function(e,t){var $=Object(c["resolveComponent"])("mars-button"),q=Object(c["resolveComponent"])("a-space"),A=Object(c["resolveComponent"])("a-slider"),G=Object(c["resolveComponent"])("mars-input-number"),K=Object(c["resolveComponent"])("a-checkbox");return Object(c["openBlock"])(),Object(c["createBlock"])(a["a"],{class:"infoView"},{default:Object(c["withCtx"])((function(){return[Object(c["createElementVNode"])("div",l,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[Object(c["createVNode"])($,{onClick:X},{default:Object(c["withCtx"])((function(){return[u]})),_:1}),Object(c["createVNode"])($,{onClick:Y},{default:Object(c["withCtx"])((function(){return[r]})),_:1}),Object(c["createVNode"])($,{onClick:F},{default:Object(c["withCtx"])((function(){return[i]})),_:1})]})),_:1})]),Object(c["createElementVNode"])("div",d,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[b,Object(c["createVNode"])(A,{onChange:H,value:B.value,"onUpdate:value":t[0]||(t[0]=function(e){return B.value=e}),min:1,max:179,step:1},null,8,["value"]),Object(c["createTextVNode"])("当前值："+Object(c["toDisplayString"])(B.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",f,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[s,Object(c["createVNode"])(A,{onChange:H,value:D.value,"onUpdate:value":t[1]||(t[1]=function(e){return D.value=e}),min:1,max:3,step:.2},null,8,["value","max","step"]),Object(c["createTextVNode"])("当前值："+Object(c["toDisplayString"])(D.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",O,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[j,Object(c["createVNode"])(A,{onChange:H,value:I.value,"onUpdate:value":t[2]||(t[2]=function(e){return I.value=e}),min:1,max:200,step:1},null,8,["value"]),Object(c["createTextVNode"])("当前值："+Object(c["toDisplayString"])(I.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",p,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[v,Object(c["createVNode"])($,{onClick:z},{default:Object(c["withCtx"])((function(){return[m]})),_:1})]})),_:1})]),Object(c["createElementVNode"])("div",V,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[N,Object(c["createVNode"])(G,{min:.001,max:2,step:.001,value:S.value,"onUpdate:value":t[3]||(t[3]=function(e){return S.value=e})},null,8,["min","step","value"]),Object(c["createVNode"])(K,{onChange:W,checked:n.value,"onUpdate:checked":t[4]||(t[4]=function(e){return n.value=e})},{default:Object(c["withCtx"])((function(){return[h]})),_:1},8,["checked"])]})),_:1})]),Object(c["createElementVNode"])("div",w,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[x,Object(c["createVNode"])(A,{onChange:R,value:U.value,"onUpdate:value":t[5]||(t[5]=function(e){return U.value=e}),min:0,max:360,step:1},null,8,["value"]),Object(c["createTextVNode"])("当前值："+Object(c["toDisplayString"])(U.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",C,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[k,Object(c["createVNode"])(K,{onChange:L,checked:o.value,"onUpdate:checked":t[6]||(t[6]=function(e){return o.value=e})},{default:Object(c["withCtx"])((function(){return[_]})),_:1},8,["checked"])]})),_:1})]),Object(c["createElementVNode"])("div",E,[Object(c["createVNode"])(q,null,{default:Object(c["withCtx"])((function(){return[Object(c["createVNode"])($,{onClick:P},{default:Object(c["withCtx"])((function(){return[g]})),_:1}),Object(c["createVNode"])($,{onClick:J},{default:Object(c["withCtx"])((function(){return[y]})),_:1}),Object(c["createVNode"])($,{onClick:M},{default:Object(c["withCtx"])((function(){return[T]})),_:1})]})),_:1})])]})),_:1})}}}),B=(n("0752"),n("6b0d")),D=n.n(B);const I=D()(S,[["__scopeId","data-v-ca444c2c"]]);t["default"]=I},"4e4b":function(e,t,n){"use strict";n("e64d")},7544:function(e,t,n){"use strict";var c=n("246f"),a=n("7a23"),o={class:"title"},l=Object(a["defineComponent"])({props:{type:{type:String,default:"pannel"},warpper:{type:String,default:"sanbox-warpper"},title:{type:String,default:""},visible:{type:Boolean,default:!1}},emits:["update:visible"],setup:function(e,t){var n=t.emit,l=e,u=Object(a["ref"])(),r=function(){n("update:visible",!1)};function i(e){var t=e.clientX,n=e.clientY;function c(e){var c=u.value,o=e.clientX-t,l=e.clientY-n;a(c,c.offsetLeft+o,c.offsetTop+l,e)}function a(e,c,a,o){var u=document.getElementById(l.warpper);c>0&&c+e.offsetWidth<u.offsetWidth&&(e.style.left=c+"px",t=o.clientX),a>0&&a+e.offsetHeight<u.offsetHeight&&(e.style.top=a+"px",n=o.clientY)}window.onmousemove=function(e){e.preventDefault(),c(e)},window.onmouseup=function(e){c(e),window.onmousemove=null,window.onmouseup=null}}return function(t,n){return Object(a["withDirectives"])((Object(a["openBlock"])(),Object(a["createElementBlock"])("div",{class:Object(a["normalizeClass"])(["pannel fadeInRight",{"pannel-model":"model"===l.type}]),ref_key:"pannelBox",ref:u},["model"===l.type?(Object(a["openBlock"])(),Object(a["createElementBlock"])("div",{key:0,ref:"modelHeader",class:"pannel-model__header",onMousedown:i},[Object(a["createElementVNode"])("span",o,Object(a["toDisplayString"])(e.title),1),Object(a["createVNode"])(Object(a["unref"])(c["a"]),{onClick:r,class:"close-btn"})],544)):Object(a["createCommentVNode"])("",!0),Object(a["renderSlot"])(t.$slots,"default")],2)),[[a["vShow"],"pannel"===l.type||e.visible]])}}}),u=(n("4e4b"),n("6b0d")),r=n.n(u);const i=r()(l,[["__scopeId","data-v-b885d716"]]);t["a"]=i},"924b":function(e,t,n){},e64d:function(e,t,n){}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["chunk-7aebe493"],{
+
+/***/ "0752":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_ca444c2c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("924b");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_ca444c2c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_ca444c2c_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "3132":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue + 2 modules
+var pannel = __webpack_require__("7544");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/example/graphic/video/video2D/index.vue?vue&type=script&lang=ts&setup=true
+
+
+
+var video2Dvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-ca444c2c"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "f-tac"
+};
+
+var _hoisted_2 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("投射视频");
+
+var _hoisted_3 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("投射图片");
+
+var _hoisted_4 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("清除");
+
+var _hoisted_5 = {
+  class: "f-mb"
+};
+
+var _hoisted_6 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视角水平张角:", -1);
+});
+
+var _hoisted_7 = {
+  class: "f-mb"
+};
+
+var _hoisted_8 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视角宽高比例:", -1);
+});
+
+var _hoisted_9 = {
+  class: "f-mb"
+};
+
+var _hoisted_10 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视角距离:", -1);
+});
+
+var _hoisted_11 = {
+  class: "f-mb"
+};
+
+var _hoisted_12 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视频位置:", -1);
+});
+
+var _hoisted_13 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("图上选点:");
+
+var _hoisted_14 = {
+  class: "f-mb"
+};
+
+var _hoisted_15 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "键盘微调:", -1);
+});
+
+var _hoisted_16 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("相机跟随");
+
+var _hoisted_17 = {
+  class: "f-mb"
+};
+
+var _hoisted_18 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视频角度:", -1);
+});
+
+var _hoisted_19 = {
+  class: "f-mb"
+};
+
+var _hoisted_20 = /*#__PURE__*/video2Dvue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视椎框线:", -1);
+});
+
+var _hoisted_21 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("是否显示");
+
+var _hoisted_22 = {
+  class: "f-tac"
+};
+
+var _hoisted_23 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("播放暂停");
+
+var _hoisted_24 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("定位至视频位置");
+
+var _hoisted_25 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("打印参数");
+
+
+
+/* harmony default export */ var video2Dvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  setup: function setup(__props) {
+    var mapWork = window.mapWork;
+    var checked = Object(vue_runtime_esm_bundler["ref"])(false);
+    var ckdFrustum = Object(vue_runtime_esm_bundler["ref"])(true);
+    var adjustVal = Object(vue_runtime_esm_bundler["ref"])(0.5);
+    var angleValue = Object(vue_runtime_esm_bundler["ref"])(50);
+    var scaleValue = Object(vue_runtime_esm_bundler["ref"])(2);
+    var distanceValue = Object(vue_runtime_esm_bundler["ref"])(70);
+    var videoRotate = Object(vue_runtime_esm_bundler["ref"])(0);
+    Object(vue_runtime_esm_bundler["onMounted"])(function () {
+      mapWork.bindEvnet(adjustVal.value);
+    }); // 参数更新
+
+    var updateParams = function updateParams() {
+      mapWork.updateParams(angleValue.value, scaleValue.value, distanceValue.value);
+    }; // 相机是否跟随
+
+
+    var cameraFollow = function cameraFollow() {
+      mapWork.cameraFollow(checked.value);
+    }; // 投射视频
+
+
+    var addVideo = function addVideo() {
+      mapWork.addVideo(distanceValue.value);
+    }; // 投射图片
+
+
+    var addImg = function addImg() {
+      mapWork.addImg(distanceValue.value);
+    }; // 清除
+
+
+    var clear = function clear() {
+      mapWork.clear();
+    }; // 定位至视频位置
+
+
+    var locate = function locate() {
+      mapWork.locate();
+    }; // 打印参数
+
+
+    var printParameters = function printParameters() {
+      mapWork.printParameters();
+    }; // 播放暂停
+
+
+    var playOrpause = function playOrpause() {
+      mapWork.playOrpause();
+    }; // 视频位置
+
+
+    var selCamera = function selCamera() {
+      mapWork.selCamera();
+    }; // 线框是否显示
+
+
+    var showFrustum = function showFrustum() {
+      mapWork.showFrustum(ckdFrustum.value);
+    }; // 视频角度
+
+
+    var rotateDeg = function rotateDeg() {
+      mapWork.rotateDeg(videoRotate.value);
+    };
+
+    return function (_ctx, _cache) {
+      var _component_mars_button = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-button");
+
+      var _component_a_space = Object(vue_runtime_esm_bundler["resolveComponent"])("a-space");
+
+      var _component_a_slider = Object(vue_runtime_esm_bundler["resolveComponent"])("a-slider");
+
+      var _component_mars_input_number = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-input-number");
+
+      var _component_a_checkbox = Object(vue_runtime_esm_bundler["resolveComponent"])("a-checkbox");
+
+      return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createBlock"])(pannel["a" /* default */], {
+        class: "infoView"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_1, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: addVideo
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_2];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: addImg
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_3];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: clear
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_4];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_5, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_6, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: updateParams,
+                value: angleValue.value,
+                "onUpdate:value": _cache[0] || (_cache[0] = function ($event) {
+                  return angleValue.value = $event;
+                }),
+                min: 1,
+                max: 179,
+                step: 1
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createTextVNode"])("当前值：" + Object(vue_runtime_esm_bundler["toDisplayString"])(angleValue.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_7, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_8, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: updateParams,
+                value: scaleValue.value,
+                "onUpdate:value": _cache[1] || (_cache[1] = function ($event) {
+                  return scaleValue.value = $event;
+                }),
+                min: 1,
+                max: 3.0,
+                step: 0.2
+              }, null, 8, ["value", "max", "step"]), Object(vue_runtime_esm_bundler["createTextVNode"])("当前值：" + Object(vue_runtime_esm_bundler["toDisplayString"])(scaleValue.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_9, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_10, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: updateParams,
+                value: distanceValue.value,
+                "onUpdate:value": _cache[2] || (_cache[2] = function ($event) {
+                  return distanceValue.value = $event;
+                }),
+                min: 1,
+                max: 200,
+                step: 1
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createTextVNode"])("当前值：" + Object(vue_runtime_esm_bundler["toDisplayString"])(distanceValue.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_11, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_12, Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: selCamera
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_13];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_14, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_15, Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_input_number, {
+                min: 0.001,
+                max: 2,
+                step: 0.001,
+                value: adjustVal.value,
+                "onUpdate:value": _cache[3] || (_cache[3] = function ($event) {
+                  return adjustVal.value = $event;
+                })
+              }, null, 8, ["min", "step", "value"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: cameraFollow,
+                checked: checked.value,
+                "onUpdate:checked": _cache[4] || (_cache[4] = function ($event) {
+                  return checked.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_16];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_17, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_18, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: rotateDeg,
+                value: videoRotate.value,
+                "onUpdate:value": _cache[5] || (_cache[5] = function ($event) {
+                  return videoRotate.value = $event;
+                }),
+                min: 0,
+                max: 360,
+                step: 1
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createTextVNode"])("当前值：" + Object(vue_runtime_esm_bundler["toDisplayString"])(videoRotate.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_19, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_20, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: showFrustum,
+                checked: ckdFrustum.value,
+                "onUpdate:checked": _cache[6] || (_cache[6] = function ($event) {
+                  return ckdFrustum.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_21];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_22, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: playOrpause
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_23];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: locate
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_24];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: printParameters
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_25];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })])];
+        }),
+        _: 1
+      });
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/example/graphic/video/video2D/index.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/example/graphic/video/video2D/index.vue?vue&type=style&index=0&id=ca444c2c&scoped=true&lang=less
+var video2Dvue_type_style_index_0_id_ca444c2c_scoped_true_lang_less = __webpack_require__("0752");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/example/graphic/video/video2D/index.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(video2Dvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-ca444c2c"]])
+
+/* harmony default export */ var video2D = __webpack_exports__["default"] = (__exports__);
+
+/***/ }),
+
+/***/ "4e4b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e64d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "7544":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@icon-park/vue-next/es/icons/Close.js
+var Close = __webpack_require__("246f");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+var pannelvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-b885d716"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "title"
+};
+
+/* harmony default export */ var pannelvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  props: {
+    type: {
+      type: String,
+      default: "pannel"
+    },
+    warpper: {
+      type: String,
+      default: "sanbox-warpper"
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ["update:visible"],
+  setup: function setup(__props, _ref) {
+    var emits = _ref.emit;
+    var props = __props;
+    /**
+     * 操作公共容器
+     * @copyright 火星科技 mars3d.cn
+     * @author 木遥 2021-11-01
+     */
+
+    var pannelBox = Object(vue_runtime_esm_bundler["ref"])();
+
+    var closeModel = function closeModel() {
+      emits("update:visible", false);
+    };
+
+    function mousedown(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+
+      window.onmousemove = function (ev) {
+        ev.preventDefault();
+        toPointerPosition(ev);
+      };
+
+      window.onmouseup = function (ev) {
+        toPointerPosition(ev);
+        window.onmousemove = null;
+        window.onmouseup = null;
+      };
+
+      function toPointerPosition(ev) {
+        var pb = pannelBox.value;
+        var distanceX = ev.clientX - x;
+        var distanceY = ev.clientY - y;
+        toPosition(pb, pb.offsetLeft + distanceX, pb.offsetTop + distanceY, ev);
+      }
+
+      function toPosition(dom, left, top, e) {
+        var warpper = document.getElementById(props.warpper);
+
+        if (left > 0 && left + dom.offsetWidth < warpper.offsetWidth) {
+          dom.style.left = left + "px";
+          x = e.clientX;
+        }
+
+        if (top > 0 && top + dom.offsetHeight < warpper.offsetHeight) {
+          dom.style.top = top + "px";
+          y = e.clientY;
+        }
+      }
+    }
+
+    return function (_ctx, _cache) {
+      return Object(vue_runtime_esm_bundler["withDirectives"])((Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        class: Object(vue_runtime_esm_bundler["normalizeClass"])(["pannel fadeInRight", {
+          'pannel-model': props.type === 'model'
+        }]),
+        ref_key: "pannelBox",
+        ref: pannelBox
+      }, [props.type === 'model' ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        key: 0,
+        ref: "modelHeader",
+        class: "pannel-model__header",
+        onMousedown: mousedown
+      }, [Object(vue_runtime_esm_bundler["createElementVNode"])("span", _hoisted_1, Object(vue_runtime_esm_bundler["toDisplayString"])(__props.title), 1), Object(vue_runtime_esm_bundler["createVNode"])(Object(vue_runtime_esm_bundler["unref"])(Close["a" /* default */]), {
+        onClick: closeModel,
+        class: "close-btn"
+      })], 544)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), Object(vue_runtime_esm_bundler["renderSlot"])(_ctx.$slots, "default")], 2)), [[vue_runtime_esm_bundler["vShow"], props.type === 'pannel' || __props.visible]]);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue?vue&type=style&index=0&id=b885d716&lang=less&scoped=true
+var pannelvue_type_style_index_0_id_b885d716_lang_less_scoped_true = __webpack_require__("4e4b");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(pannelvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-b885d716"]])
+
+/* harmony default export */ var pannel = __webpack_exports__["a"] = (__exports__);
+
+/***/ }),
+
+/***/ "924b":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "e64d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+}]);

@@ -92,21 +92,22 @@ let tileLayer
 export function addLayer() {
   removeLayer()
 
-  map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 360, pitch: -67 })
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
-  tileLayer = new mars3d.layer.XyzLayer({
-    url: "//server.mars3d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@png/{z}/{x}/{reverseY}.png",
-    rectangle: { xmin: 116.850438, xmax: 117.635666, ymin: 31.5375784, ymax: 32.16236297 },
-    crs: "EPSG:3857",
-    queryParameters: {
-      // 可以传自定义url参数，如token等
-      token: "mars3d"
+  tileLayer = new mars3d.layer.ArcGisLayer({
+    url: "//server.mars3d.cn/arcgis/rest/services/crs/ssjzw4490/MapServer", // 大地2000地理坐标系
+    highlight: {
+      clampToGround: true,
+      fill: true,
+      color: "#2deaf7",
+      opacity: 0.6,
+      outline: true,
+      outlineWidth: 3,
+      outlineColor: "#e000d9",
+      outlineOpacity: 1.0
     },
-    minimumLevel: 0,
-    maximumLevel: 18,
-    minimumTerrainLevel: 0,
-    maximumTerrainLevel: 18
+    popup: "all",
+    flyTo: true
   })
   map.addLayer(tileLayer)
 }

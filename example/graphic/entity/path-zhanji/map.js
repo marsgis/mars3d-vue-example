@@ -31,28 +31,6 @@ export function onUnmounted() {
   map = null
 }
 
-export function viewSeeTop() {
-  // 顶视图
-  map.trackedEntity = undefined
-  map.flyToPositions(linePositions, { pitch: -90 })
-}
-export function viewSeeCe() {
-  // 侧视图
-  map.trackedEntity = graphicPath.entity
-  graphicPath.flyToPoint({
-    radius: 50000,
-    heading: 0
-  })
-}
-export function viewSeeHome() {
-  // 主视图
-  map.trackedEntity = graphicPath.entity
-  graphicPath.flyToPoint({
-    radius: 50000,
-    heading: 90
-  })
-}
-
 function addGraphics() {
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
@@ -79,7 +57,7 @@ function addGraphics() {
     radius: 500000,
     count: 60 // 共返回count*4个点
   })
-  linePositions = mars3d.PointUtil.setPositionsHeight(linePositions, 100000)
+  linePositions = mars3d.PointUtil.setPositionsHeight(linePositions, 20000)
   linePositions.push(linePositions[0]) // 闭合圆
 
   // 圆圈线
@@ -147,4 +125,33 @@ function addGraphics() {
   map.clock.clockRange = Cesium.ClockRange.LOOP_STOP // 到达终止时间后循环
   map.clock.multiplier = 1
   map.clock.shouldAnimate = true
+}
+
+
+
+// 顶视图
+export function viewSeeTop() {
+  map.trackedEntity = undefined
+
+  map.flyToPositions(linePositions, { pitch: -90 })
+}
+// 侧视图
+export function viewSeeCe() {
+  map.trackedEntity = graphicPath
+
+  graphicPath.flyToPoint({
+    radius: 5000,
+    heading: 0,
+    duration: 0
+  })
+}
+// 主视图
+export function viewSeeHome() {
+  map.trackedEntity = graphicPath
+
+  graphicPath.flyToPoint({
+    radius: 5000,
+    heading: 90,
+    duration: 0
+  })
 }

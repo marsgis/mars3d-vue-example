@@ -1,1 +1,341 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0dd46f"],{8166:function(e,t,n){"use strict";n.r(t);var c=n("1da1"),r=(n("96cf"),n("b0c0"),n("7a23")),a=n("7544"),o=n("37f1"),u={class:"f-mb"},i=Object(r["createElementVNode"])("span",null,"模型URl",-1),l=Object(r["createTextVNode"])("代理"),d=Object(r["createTextVNode"])("标绘"),f={class:"f-mb"},b=Object(r["createTextVNode"])("地形"),s=Object(r["createTextVNode"])("深度检测"),j=Object(r["createTextVNode"])("仅在3dtiles上标绘"),O=Object(r["createTextVNode"])(" 打开... "),h=Object(r["createTextVNode"])("保存"),p=Object(r["createTextVNode"])("清除"),v=Object(r["defineComponent"])({setup:function(e){var t=window.mapWork,n=Object(r["ref"])("//data.mars3d.cn/gltf/mars/feiji.glb"),v=Object(r["ref"])(!1),w=function(){t.drawModel(n.value,v.value)},m=Object(r["ref"])(!0),V=function(){t.chkHasTerrain(m.value)},k=Object(r["ref"])(!1),x=function(){t.chkTestTerrain(k.value)},C=Object(r["ref"])(!1),N=function(){t.onlyPickModelPosition(C.value)},g=function(){t.deleteAll()},T=(Object(r["getCurrentInstance"])().appContext.config.globalProperties,function(e){var n=e.file,c=n.name,r=null===c||void 0===c?void 0:c.substring(c.lastIndexOf(".")+1,c.length).toLowerCase();"json"!=r&&alert("文件类型不合法,请选择json格式标注文件！"),t.openGeoJSON(n)}),_=function(){t.saveGeoJSON()},U=Object(r["ref"])();return t.eventTarget.on("editorUI-draw",function(){var e=Object(c["a"])(regeneratorRuntime.mark((function e(t){var n;return regeneratorRuntime.wrap((function(e){while(1)switch(e.prev=e.next){case 0:return e.next=2,U.value.setValue(t.graphic);case 2:n=e.sent,n&&U.value.showEditor();case 4:case"end":return e.stop()}}),e)})));return function(t){return e.apply(this,arguments)}}()),t.eventTarget.on("editorUI-SMR",function(){var e=Object(c["a"])(regeneratorRuntime.mark((function e(t){var n;return regeneratorRuntime.wrap((function(e){while(1)switch(e.prev=e.next){case 0:return e.next=2,U.value.setValue(t.graphic);case 2:n=e.sent,n&&U.value.showEditor();case 4:case"end":return e.stop()}}),e)})));return function(t){return e.apply(this,arguments)}}()),t.eventTarget.on("editorUI-stop",function(){var e=Object(c["a"])(regeneratorRuntime.mark((function e(t){return regeneratorRuntime.wrap((function(e){while(1)switch(e.prev=e.next){case 0:U.value.hideEditor();case 1:case"end":return e.stop()}}),e)})));return function(t){return e.apply(this,arguments)}}()),function(e,t){var c=Object(r["resolveComponent"])("mars-input"),E=Object(r["resolveComponent"])("a-checkbox"),R=Object(r["resolveComponent"])("mars-button"),y=Object(r["resolveComponent"])("a-space"),I=Object(r["resolveComponent"])("a-upload");return Object(r["openBlock"])(),Object(r["createElementBlock"])(r["Fragment"],null,[Object(r["createVNode"])(a["a"],{class:"infoView"},{default:Object(r["withCtx"])((function(){return[Object(r["createElementVNode"])("div",u,[Object(r["createVNode"])(y,null,{default:Object(r["withCtx"])((function(){return[i,Object(r["createVNode"])(c,{value:n.value,"onUpdate:value":t[0]||(t[0]=function(e){return n.value=e})},null,8,["value"]),Object(r["createVNode"])(E,{checked:v.value,"onUpdate:checked":t[1]||(t[1]=function(e){return v.value=e})},{default:Object(r["withCtx"])((function(){return[l]})),_:1},8,["checked"]),Object(r["createVNode"])(R,{onClick:w},{default:Object(r["withCtx"])((function(){return[d]})),_:1})]})),_:1})]),Object(r["createElementVNode"])("div",f,[Object(r["createVNode"])(y,null,{default:Object(r["withCtx"])((function(){return[Object(r["createVNode"])(E,{onChange:V,checked:m.value,"onUpdate:checked":t[2]||(t[2]=function(e){return m.value=e})},{default:Object(r["withCtx"])((function(){return[b]})),_:1},8,["checked"]),Object(r["createVNode"])(E,{onChange:x,checked:k.value,"onUpdate:checked":t[3]||(t[3]=function(e){return k.value=e})},{default:Object(r["withCtx"])((function(){return[s]})),_:1},8,["checked"]),Object(r["createVNode"])(E,{onChange:N,checked:C.value,"onUpdate:checked":t[4]||(t[4]=function(e){return C.value=e})},{default:Object(r["withCtx"])((function(){return[j]})),_:1},8,["checked"])]})),_:1})]),Object(r["createElementVNode"])("div",null,[Object(r["createVNode"])(y,null,{default:Object(r["withCtx"])((function(){return[Object(r["createVNode"])(I,{multiple:!1,name:"file",accept:"json,geojson",showUploadList:!1,onChange:T,beforeUpload:function(){return!1}},{default:Object(r["withCtx"])((function(){return[Object(r["createVNode"])(R,null,{default:Object(r["withCtx"])((function(){return[O]})),_:1})]})),_:1},8,["beforeUpload"]),Object(r["createVNode"])(R,{onClick:_},{default:Object(r["withCtx"])((function(){return[h]})),_:1}),Object(r["createVNode"])(R,{onClick:g},{default:Object(r["withCtx"])((function(){return[p]})),_:1})]})),_:1})])]})),_:1}),Object(r["createVNode"])(o["a"],{ref_key:"editor",ref:U},null,512)],64)}}});const w=v;t["default"]=w}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["chunk-2d0dd46f"],{
+
+/***/ "8166":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
+var asyncToGenerator = __webpack_require__("1da1");
+
+// EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
+var runtime = __webpack_require__("96cf");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue + 2 modules
+var pannel = __webpack_require__("7544");
+
+// EXTERNAL MODULE: ./src/components/graphic-editor/index.vue + 14 modules
+var graphic_editor = __webpack_require__("37f1");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/example/layer-graphic/draw/draw-model/index.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+
+var _hoisted_1 = {
+  class: "f-mb"
+};
+
+var _hoisted_2 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", null, "模型URl", -1);
+
+var _hoisted_3 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("代理");
+
+var _hoisted_4 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("标绘");
+
+var _hoisted_5 = {
+  class: "f-mb"
+};
+
+var _hoisted_6 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("地形");
+
+var _hoisted_7 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("深度检测");
+
+var _hoisted_8 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("仅在3dtiles上标绘");
+
+var _hoisted_9 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])(" 打开... ");
+
+var _hoisted_10 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("保存");
+
+var _hoisted_11 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("清除");
+
+
+
+
+/* harmony default export */ var draw_modelvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  setup: function setup(__props) {
+    var mapWork = window.mapWork;
+    var modelUrl = Object(vue_runtime_esm_bundler["ref"])("//data.mars3d.cn/gltf/mars/feiji.glb"); // 代理
+
+    var isProxy = Object(vue_runtime_esm_bundler["ref"])(false);
+
+    var drawModel = function drawModel() {
+      mapWork.drawModel(modelUrl.value, isProxy.value);
+    }; // 地形
+
+
+    var isHasTerrain = Object(vue_runtime_esm_bundler["ref"])(true);
+
+    var chkHasTerrain = function chkHasTerrain() {
+      mapWork.chkHasTerrain(isHasTerrain.value);
+    }; // 深度检测
+
+
+    var isTestTerrain = Object(vue_runtime_esm_bundler["ref"])(false);
+
+    var chkTestTerrain = function chkTestTerrain() {
+      mapWork.chkTestTerrain(isTestTerrain.value);
+    }; // 仅在3dmodel上绘制
+
+
+    var isonlyModel = Object(vue_runtime_esm_bundler["ref"])(false);
+
+    var onlyPickModelPosition = function onlyPickModelPosition() {
+      mapWork.onlyPickModelPosition(isonlyModel.value);
+    };
+
+    var clear = function clear() {
+      mapWork.deleteAll();
+    }; // *****************************JSON文件***************************//
+
+
+    var globalProperties = Object(vue_runtime_esm_bundler["getCurrentInstance"])().appContext.config.globalProperties; // 打开JSON
+
+    var openGeoJSON = function openGeoJSON(info) {
+      var item = info.file;
+      var fileName = item.name;
+      var fileType = fileName === null || fileName === void 0 ? void 0 : fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+
+      if (fileType != "json") {
+        alert("文件类型不合法,请选择json格式标注文件！");
+      }
+
+      mapWork.openGeoJSON(item);
+    }; // 点击保存GeoJSON
+
+
+    var saveGeoJSON = function saveGeoJSON() {
+      mapWork.saveGeoJSON();
+    }; // *****************************属性面板***************************//
+
+
+    var editor = Object(vue_runtime_esm_bundler["ref"])();
+    mapWork.eventTarget.on("editorUI-draw", /*#__PURE__*/function () {
+      var _ref = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+        var result;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return editor.value.setValue(e.graphic);
+
+              case 2:
+                result = _context.sent;
+
+                if (result) {
+                  editor.value.showEditor();
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }()); // 编辑修改了模型
+
+    mapWork.eventTarget.on("editorUI-SMR", /*#__PURE__*/function () {
+      var _ref2 = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
+        var result;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return editor.value.setValue(e.graphic);
+
+              case 2:
+                result = _context2.sent;
+
+                if (result) {
+                  editor.value.showEditor();
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
+      };
+    }()); // 停止编辑修改模型
+
+    mapWork.eventTarget.on("editorUI-stop", /*#__PURE__*/function () {
+      var _ref3 = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(e) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                editor.value.hideEditor();
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function (_x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }());
+    return function (_ctx, _cache) {
+      var _component_mars_input = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-input");
+
+      var _component_a_checkbox = Object(vue_runtime_esm_bundler["resolveComponent"])("a-checkbox");
+
+      var _component_mars_button = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-button");
+
+      var _component_a_space = Object(vue_runtime_esm_bundler["resolveComponent"])("a-space");
+
+      var _component_a_upload = Object(vue_runtime_esm_bundler["resolveComponent"])("a-upload");
+
+      return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])(vue_runtime_esm_bundler["Fragment"], null, [Object(vue_runtime_esm_bundler["createVNode"])(pannel["a" /* default */], {
+        class: "infoView"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_1, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_2, Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_input, {
+                value: modelUrl.value,
+                "onUpdate:value": _cache[0] || (_cache[0] = function ($event) {
+                  return modelUrl.value = $event;
+                })
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                checked: isProxy.value,
+                "onUpdate:checked": _cache[1] || (_cache[1] = function ($event) {
+                  return isProxy.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_3];
+                }),
+                _: 1
+              }, 8, ["checked"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: drawModel
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_4];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_5, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: chkHasTerrain,
+                checked: isHasTerrain.value,
+                "onUpdate:checked": _cache[2] || (_cache[2] = function ($event) {
+                  return isHasTerrain.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_6];
+                }),
+                _: 1
+              }, 8, ["checked"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: chkTestTerrain,
+                checked: isTestTerrain.value,
+                "onUpdate:checked": _cache[3] || (_cache[3] = function ($event) {
+                  return isTestTerrain.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_7];
+                }),
+                _: 1
+              }, 8, ["checked"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                onChange: onlyPickModelPosition,
+                checked: isonlyModel.value,
+                "onUpdate:checked": _cache[4] || (_cache[4] = function ($event) {
+                  return isonlyModel.value = $event;
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_8];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", null, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_upload, {
+                multiple: false,
+                name: "file",
+                accept: "json,geojson",
+                showUploadList: false,
+                onChange: openGeoJSON,
+                beforeUpload: function beforeUpload() {
+                  return false;
+                }
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, null, {
+                    default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                      return [_hoisted_9];
+                    }),
+                    _: 1
+                  })];
+                }),
+                _: 1
+              }, 8, ["beforeUpload"]), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: saveGeoJSON
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_10];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: clear
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_11];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })])];
+        }),
+        _: 1
+      }), Object(vue_runtime_esm_bundler["createVNode"])(graphic_editor["a" /* default */], {
+        ref_key: "editor",
+        ref: editor
+      }, null, 512)], 64);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/example/layer-graphic/draw/draw-model/index.vue?vue&type=script&lang=ts&setup=true
+ 
+// CONCATENATED MODULE: ./src/example/layer-graphic/draw/draw-model/index.vue
+
+
+
+const __exports__ = draw_modelvue_type_script_lang_ts_setup_true;
+
+/* harmony default export */ var draw_model = __webpack_exports__["default"] = (__exports__);
+
+/***/ })
+
+}]);

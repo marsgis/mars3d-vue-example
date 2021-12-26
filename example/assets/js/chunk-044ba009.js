@@ -1,1 +1,977 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-044ba009"],{1148:function(e,t,n){"use strict";var c=n("da84"),r=n("5926"),a=n("577e"),o=n("1d80"),l=c.RangeError;e.exports=function(e){var t=a(o(this)),n="",c=r(e);if(c<0||c==1/0)throw l("Wrong number of repetitions");for(;c>0;(c>>>=1)&&(t+=t))1&c&&(n+=t);return n}},"2ee0":function(e,t,n){"use strict";n("597a")},"408a":function(e,t,n){var c=n("e330");e.exports=c(1..valueOf)},"4e4b":function(e,t,n){"use strict";n("e64d")},5899:function(e,t){e.exports="\t\n\v\f\r                　\u2028\u2029\ufeff"},"58a8":function(e,t,n){var c=n("e330"),r=n("1d80"),a=n("577e"),o=n("5899"),l=c("".replace),u="["+o+"]",i=RegExp("^"+u+u+"*"),d=RegExp(u+u+"*$"),b=function(e){return function(t){var n=a(r(t));return 1&e&&(n=l(n,i,"")),2&e&&(n=l(n,d,"")),n}};e.exports={start:b(1),end:b(2),trim:b(3)}},"597a":function(e,t,n){},7156:function(e,t,n){var c=n("1626"),r=n("861d"),a=n("d2bb");e.exports=function(e,t,n){var o,l;return a&&c(o=t.constructor)&&o!==n&&r(l=o.prototype)&&l!==n.prototype&&a(e,l),e}},7544:function(e,t,n){"use strict";var c=n("246f"),r=n("7a23"),a={class:"title"},o=Object(r["defineComponent"])({props:{type:{type:String,default:"pannel"},warpper:{type:String,default:"sanbox-warpper"},title:{type:String,default:""},visible:{type:Boolean,default:!1}},emits:["update:visible"],setup:function(e,t){var n=t.emit,o=e,l=Object(r["ref"])(),u=function(){n("update:visible",!1)};function i(e){var t=e.clientX,n=e.clientY;function c(e){var c=l.value,a=e.clientX-t,o=e.clientY-n;r(c,c.offsetLeft+a,c.offsetTop+o,e)}function r(e,c,r,a){var l=document.getElementById(o.warpper);c>0&&c+e.offsetWidth<l.offsetWidth&&(e.style.left=c+"px",t=a.clientX),r>0&&r+e.offsetHeight<l.offsetHeight&&(e.style.top=r+"px",n=a.clientY)}window.onmousemove=function(e){e.preventDefault(),c(e)},window.onmouseup=function(e){c(e),window.onmousemove=null,window.onmouseup=null}}return function(t,n){return Object(r["withDirectives"])((Object(r["openBlock"])(),Object(r["createElementBlock"])("div",{class:Object(r["normalizeClass"])(["pannel fadeInRight",{"pannel-model":"model"===o.type}]),ref_key:"pannelBox",ref:l},["model"===o.type?(Object(r["openBlock"])(),Object(r["createElementBlock"])("div",{key:0,ref:"modelHeader",class:"pannel-model__header",onMousedown:i},[Object(r["createElementVNode"])("span",a,Object(r["toDisplayString"])(e.title),1),Object(r["createVNode"])(Object(r["unref"])(c["a"]),{onClick:u,class:"close-btn"})],544)):Object(r["createCommentVNode"])("",!0),Object(r["renderSlot"])(t.$slots,"default")],2)),[[r["vShow"],"pannel"===o.type||e.visible]])}}}),l=(n("4e4b"),n("6b0d")),u=n.n(l);const i=u()(o,[["__scopeId","data-v-b885d716"]]);t["a"]=i},"873b":function(e,t,n){"use strict";n.r(t);n("b0c0"),n("a9e3"),n("b680");var c=n("7a23"),r=n("7544"),a=function(e){return Object(c["pushScopeId"])("data-v-16fcced7"),e=e(),Object(c["popScopeId"])(),e},o={class:"f-mb"},l=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"视椎体状态:",-1)})),u=Object(c["createTextVNode"])("定位至卫星"),i={class:"f-mb"},d=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"类型:",-1)})),b=Object(c["createTextVNode"])("圆锥体"),f=Object(c["createTextVNode"])("四棱锥体"),s={class:"f-mb"},j=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"前后侧摆:",-1)})),O={class:"f-mb"},p=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"左右侧摆:",-1)})),m={class:"f-mb"},v=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"夹角1:",-1)})),N={key:0,class:"f-mb"},V=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"夹角2:",-1)})),h={class:"f-mb"},w=a((function(){return Object(c["createElementVNode"])("span",{class:"pannel-item-label"},"参考系轴:",-1)})),E=Object(c["createTextVNode"])("显示/隐藏"),g={class:"mars-table tb-border"},x=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"名称",-1)})),_={id:"td_name"},C=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"TLE1",-1)})),S={id:"td_tle1"},y=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"TLE2",-1)})),k={id:"td_tle2"},I=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"时间",-1)})),T={id:"td_time"},D=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"经度",-1)})),M={id:"td_jd"},B=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"经度",-1)})),F={id:"td_wd"},A=a((function(){return Object(c["createElementVNode"])("td",{class:"nametd"},"高程",-1)})),U={id:"td_gd"},R=Object(c["defineComponent"])({setup:function(e){var t=window.mapWork,n=Object(c["ref"])("2"),a=Object(c["ref"])(30),R=Object(c["ref"])(20),L=Object(c["ref"])(0),X=Object(c["ref"])(0),Y=Object(c["reactive"])({enabledShowMatrix:!1,enabledSee:!1,name:"",tle1:"",tle2:"",time:"",td_jd:0,td_wd:0,td_gd:"0米"});function G(e){if(null==e)return"";e=Number(e);var t=(.001*e).toFixed(2)+"公里";return t}Object(c["onMounted"])((function(){t.eventTarget.on("loadOk",(function(e){var t=e.weixinData,n=G(t.td_gd);Y.name=t.name,Y.tle1=t.tle1,Y.tle2=t.tle2,Y.time=t.time,Y.td_jd=t.td_jd,Y.td_wd=t.td_wd,Y.td_gd=n}))}));var P=function(){t.pitchChange(L.value)},W=function(){t.rollChange(X.value)},H=function(){t.angle1(a.value)},J=function(){t.angle2(R.value)},$=function(){t.locate()},z=function(e){Y.enabledSee=!e,e||t.selPoint(),t.selPoint()},q=function(){t.chkShowModelMatrix(Y.enabledShowMatrix)},K=function(){t.chkSensorType(n.value)};return function(e,t){var G=Object(c["resolveComponent"])("mars-button"),Q=Object(c["resolveComponent"])("a-space"),Z=Object(c["resolveComponent"])("a-radio"),ee=Object(c["resolveComponent"])("a-radio-group"),te=Object(c["resolveComponent"])("a-slider"),ne=Object(c["resolveComponent"])("a-checkbox");return Object(c["openBlock"])(),Object(c["createElementBlock"])(c["Fragment"],null,[Object(c["createVNode"])(r["a"],{class:"infoView"},{default:Object(c["withCtx"])((function(){return[Object(c["createElementVNode"])("div",o,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[l,Object(c["createVNode"])(G,{onClick:$},{default:Object(c["withCtx"])((function(){return[u]})),_:1}),Object(c["createVNode"])(G,{onClick:t[0]||(t[0]=function(e){return z(Object(c["unref"])(Y).enabledSee)})},{default:Object(c["withCtx"])((function(){return[Object(c["createTextVNode"])(Object(c["toDisplayString"])(Object(c["unref"])(Y).enabledSee?"取消凝视":"凝视"),1)]})),_:1})]})),_:1})]),Object(c["createElementVNode"])("div",i,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[d,Object(c["createVNode"])(ee,{value:n.value,"onUpdate:value":t[1]||(t[1]=function(e){return n.value=e}),name:"radioGroup",onChange:K},{default:Object(c["withCtx"])((function(){return[Object(c["createVNode"])(Z,{value:"1"},{default:Object(c["withCtx"])((function(){return[b]})),_:1}),Object(c["createVNode"])(Z,{value:"2"},{default:Object(c["withCtx"])((function(){return[f]})),_:1})]})),_:1},8,["value"])]})),_:1})]),Object(c["createElementVNode"])("div",s,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[j,Object(c["createVNode"])(te,{onChange:P,value:L.value,"onUpdate:value":t[2]||(t[2]=function(e){return L.value=e}),min:-180,max:180,step:1},null,8,["value"]),Object(c["createTextVNode"])("值"+Object(c["toDisplayString"])(L.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",O,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[p,Object(c["createVNode"])(te,{onChange:W,value:X.value,"onUpdate:value":t[3]||(t[3]=function(e){return X.value=e}),min:-180,max:180,step:1},null,8,["value"]),Object(c["createTextVNode"])("值"+Object(c["toDisplayString"])(X.value),1)]})),_:1})]),Object(c["createElementVNode"])("div",m,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[v,Object(c["createVNode"])(te,{onChange:H,value:a.value,"onUpdate:value":t[4]||(t[4]=function(e){return a.value=e}),min:1,max:89,step:.01},null,8,["value","step"]),Object(c["createTextVNode"])("值"+Object(c["toDisplayString"])(a.value),1)]})),_:1})]),"2"===n.value?(Object(c["openBlock"])(),Object(c["createElementBlock"])("div",N,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[V,Object(c["createVNode"])(te,{onChange:J,value:R.value,"onUpdate:value":t[5]||(t[5]=function(e){return R.value=e}),min:1,max:89,step:.01},null,8,["value","step"]),Object(c["createTextVNode"])("值"+Object(c["toDisplayString"])(R.value),1)]})),_:1})])):Object(c["createCommentVNode"])("",!0),Object(c["createElementVNode"])("div",h,[Object(c["createVNode"])(Q,null,{default:Object(c["withCtx"])((function(){return[w,Object(c["createVNode"])(ne,{checked:Object(c["unref"])(Y).enabledShowMatrix,"onUpdate:checked":t[6]||(t[6]=function(e){return Object(c["unref"])(Y).enabledShowMatrix=e}),onChange:q},{default:Object(c["withCtx"])((function(){return[E]})),_:1},8,["checked"])]})),_:1})])]})),_:1}),Object(c["createVNode"])(r["a"],{class:"messageShow"},{default:Object(c["withCtx"])((function(){return[Object(c["createElementVNode"])("table",g,[Object(c["createElementVNode"])("tr",null,[x,Object(c["createElementVNode"])("td",_,Object(c["toDisplayString"])(Object(c["unref"])(Y).name),1)]),Object(c["createElementVNode"])("tr",null,[C,Object(c["createElementVNode"])("td",S,Object(c["toDisplayString"])(Object(c["unref"])(Y).tle1),1)]),Object(c["createElementVNode"])("tr",null,[y,Object(c["createElementVNode"])("td",k,Object(c["toDisplayString"])(Object(c["unref"])(Y).tle2),1)]),Object(c["createElementVNode"])("tr",null,[I,Object(c["createElementVNode"])("td",T,Object(c["toDisplayString"])(Object(c["unref"])(Y).time),1)]),Object(c["createElementVNode"])("tr",null,[D,Object(c["createElementVNode"])("td",M,Object(c["toDisplayString"])(Object(c["unref"])(Y).td_jd),1)]),Object(c["createElementVNode"])("tr",null,[B,Object(c["createElementVNode"])("td",F,Object(c["toDisplayString"])(Object(c["unref"])(Y).td_wd),1)]),Object(c["createElementVNode"])("tr",null,[A,Object(c["createElementVNode"])("td",U,Object(c["toDisplayString"])(Object(c["unref"])(Y).td_gd),1)])])]})),_:1})],64)}}}),L=(n("2ee0"),n("6b0d")),X=n.n(L);const Y=X()(R,[["__scopeId","data-v-16fcced7"]]);t["default"]=Y},a9e3:function(e,t,n){"use strict";var c=n("83ab"),r=n("da84"),a=n("e330"),o=n("94ca"),l=n("6eeb"),u=n("1a2d"),i=n("7156"),d=n("3a9b"),b=n("d9b5"),f=n("c04e"),s=n("d039"),j=n("241c").f,O=n("06cf").f,p=n("9bf2").f,m=n("408a"),v=n("58a8").trim,N="Number",V=r[N],h=V.prototype,w=r.TypeError,E=a("".slice),g=a("".charCodeAt),x=function(e){var t=f(e,"number");return"bigint"==typeof t?t:_(t)},_=function(e){var t,n,c,r,a,o,l,u,i=f(e,"number");if(b(i))throw w("Cannot convert a Symbol value to a number");if("string"==typeof i&&i.length>2)if(i=v(i),t=g(i,0),43===t||45===t){if(n=g(i,2),88===n||120===n)return NaN}else if(48===t){switch(g(i,1)){case 66:case 98:c=2,r=49;break;case 79:case 111:c=8,r=55;break;default:return+i}for(a=E(i,2),o=a.length,l=0;l<o;l++)if(u=g(a,l),u<48||u>r)return NaN;return parseInt(a,c)}return+i};if(o(N,!V(" 0o1")||!V("0b1")||V("+0x1"))){for(var C,S=function(e){var t=arguments.length<1?0:V(x(e)),n=this;return d(h,n)&&s((function(){m(n)}))?i(Object(t),n,S):t},y=c?j(V):"MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,EPSILON,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,isFinite,isInteger,isNaN,isSafeInteger,parseFloat,parseInt,fromString,range".split(","),k=0;y.length>k;k++)u(V,C=y[k])&&!u(S,C)&&p(S,C,O(V,C));S.prototype=h,h.constructor=S,l(r,N,S)}},b680:function(e,t,n){"use strict";var c=n("23e7"),r=n("da84"),a=n("e330"),o=n("5926"),l=n("408a"),u=n("1148"),i=n("d039"),d=r.RangeError,b=r.String,f=Math.floor,s=a(u),j=a("".slice),O=a(1..toFixed),p=function(e,t,n){return 0===t?n:t%2===1?p(e,t-1,n*e):p(e*e,t/2,n)},m=function(e){var t=0,n=e;while(n>=4096)t+=12,n/=4096;while(n>=2)t+=1,n/=2;return t},v=function(e,t,n){var c=-1,r=n;while(++c<6)r+=t*e[c],e[c]=r%1e7,r=f(r/1e7)},N=function(e,t){var n=6,c=0;while(--n>=0)c+=e[n],e[n]=f(c/t),c=c%t*1e7},V=function(e){var t=6,n="";while(--t>=0)if(""!==n||0===t||0!==e[t]){var c=b(e[t]);n=""===n?c:n+s("0",7-c.length)+c}return n},h=i((function(){return"0.000"!==O(8e-5,3)||"1"!==O(.9,0)||"1.25"!==O(1.255,2)||"1000000000000000128"!==O(0xde0b6b3a7640080,0)}))||!i((function(){O({})}));c({target:"Number",proto:!0,forced:h},{toFixed:function(e){var t,n,c,r,a=l(this),u=o(e),i=[0,0,0,0,0,0],f="",O="0";if(u<0||u>20)throw d("Incorrect fraction digits");if(a!=a)return"NaN";if(a<=-1e21||a>=1e21)return b(a);if(a<0&&(f="-",a=-a),a>1e-21)if(t=m(a*p(2,69,1))-69,n=t<0?a*p(2,-t,1):a/p(2,t,1),n*=4503599627370496,t=52-t,t>0){v(i,0,n),c=u;while(c>=7)v(i,1e7,0),c-=7;v(i,p(10,c,1),0),c=t-1;while(c>=23)N(i,1<<23),c-=23;N(i,1<<c),v(i,1,1),N(i,2),O=V(i)}else v(i,0,n),v(i,1<<-t,0),O=V(i)+s("0",u);return u>0?(r=O.length,O=f+(r<=u?"0."+s("0",u-r)+O:j(O,0,r-u)+"."+j(O,r-u))):O=f+O,O}})},e64d:function(e,t,n){}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["chunk-044ba009"],{
+
+/***/ "1148":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var global = __webpack_require__("da84");
+var toIntegerOrInfinity = __webpack_require__("5926");
+var toString = __webpack_require__("577e");
+var requireObjectCoercible = __webpack_require__("1d80");
+
+var RangeError = global.RangeError;
+
+// `String.prototype.repeat` method implementation
+// https://tc39.es/ecma262/#sec-string.prototype.repeat
+module.exports = function repeat(count) {
+  var str = toString(requireObjectCoercible(this));
+  var result = '';
+  var n = toIntegerOrInfinity(count);
+  if (n < 0 || n == Infinity) throw RangeError('Wrong number of repetitions');
+  for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
+  return result;
+};
+
+
+/***/ }),
+
+/***/ "2ee0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_16fcced7_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("597a");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_16fcced7_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_index_vue_vue_type_style_index_0_id_16fcced7_scoped_true_lang_less__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "408a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var uncurryThis = __webpack_require__("e330");
+
+// `thisNumberValue` abstract operation
+// https://tc39.es/ecma262/#sec-thisnumbervalue
+module.exports = uncurryThis(1.0.valueOf);
+
+
+/***/ }),
+
+/***/ "4e4b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e64d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_v16_dist_index_js_ref_1_1_build_example_vue_loader_js_pannel_vue_vue_type_style_index_0_id_b885d716_lang_less_scoped_true__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "5899":
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
+  '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+
+/***/ "58a8":
+/***/ (function(module, exports, __webpack_require__) {
+
+var uncurryThis = __webpack_require__("e330");
+var requireObjectCoercible = __webpack_require__("1d80");
+var toString = __webpack_require__("577e");
+var whitespaces = __webpack_require__("5899");
+
+var replace = uncurryThis(''.replace);
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = toString(requireObjectCoercible($this));
+    if (TYPE & 1) string = replace(string, ltrim, '');
+    if (TYPE & 2) string = replace(string, rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.es/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.es/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+
+/***/ "597a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "7156":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isCallable = __webpack_require__("1626");
+var isObject = __webpack_require__("861d");
+var setPrototypeOf = __webpack_require__("d2bb");
+
+// makes subclassing work correct for wrapped built-ins
+module.exports = function ($this, dummy, Wrapper) {
+  var NewTarget, NewTargetPrototype;
+  if (
+    // it can work only with native `setPrototypeOf`
+    setPrototypeOf &&
+    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+    isCallable(NewTarget = dummy.constructor) &&
+    NewTarget !== Wrapper &&
+    isObject(NewTargetPrototype = NewTarget.prototype) &&
+    NewTargetPrototype !== Wrapper.prototype
+  ) setPrototypeOf($this, NewTargetPrototype);
+  return $this;
+};
+
+
+/***/ }),
+
+/***/ "7544":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@icon-park/vue-next/es/icons/Close.js
+var Close = __webpack_require__("246f");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+var pannelvue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-b885d716"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "title"
+};
+
+/* harmony default export */ var pannelvue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  props: {
+    type: {
+      type: String,
+      default: "pannel"
+    },
+    warpper: {
+      type: String,
+      default: "sanbox-warpper"
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ["update:visible"],
+  setup: function setup(__props, _ref) {
+    var emits = _ref.emit;
+    var props = __props;
+    /**
+     * 操作公共容器
+     * @copyright 火星科技 mars3d.cn
+     * @author 木遥 2021-11-01
+     */
+
+    var pannelBox = Object(vue_runtime_esm_bundler["ref"])();
+
+    var closeModel = function closeModel() {
+      emits("update:visible", false);
+    };
+
+    function mousedown(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+
+      window.onmousemove = function (ev) {
+        ev.preventDefault();
+        toPointerPosition(ev);
+      };
+
+      window.onmouseup = function (ev) {
+        toPointerPosition(ev);
+        window.onmousemove = null;
+        window.onmouseup = null;
+      };
+
+      function toPointerPosition(ev) {
+        var pb = pannelBox.value;
+        var distanceX = ev.clientX - x;
+        var distanceY = ev.clientY - y;
+        toPosition(pb, pb.offsetLeft + distanceX, pb.offsetTop + distanceY, ev);
+      }
+
+      function toPosition(dom, left, top, e) {
+        var warpper = document.getElementById(props.warpper);
+
+        if (left > 0 && left + dom.offsetWidth < warpper.offsetWidth) {
+          dom.style.left = left + "px";
+          x = e.clientX;
+        }
+
+        if (top > 0 && top + dom.offsetHeight < warpper.offsetHeight) {
+          dom.style.top = top + "px";
+          y = e.clientY;
+        }
+      }
+    }
+
+    return function (_ctx, _cache) {
+      return Object(vue_runtime_esm_bundler["withDirectives"])((Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        class: Object(vue_runtime_esm_bundler["normalizeClass"])(["pannel fadeInRight", {
+          'pannel-model': props.type === 'model'
+        }]),
+        ref_key: "pannelBox",
+        ref: pannelBox
+      }, [props.type === 'model' ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", {
+        key: 0,
+        ref: "modelHeader",
+        class: "pannel-model__header",
+        onMousedown: mousedown
+      }, [Object(vue_runtime_esm_bundler["createElementVNode"])("span", _hoisted_1, Object(vue_runtime_esm_bundler["toDisplayString"])(__props.title), 1), Object(vue_runtime_esm_bundler["createVNode"])(Object(vue_runtime_esm_bundler["unref"])(Close["a" /* default */]), {
+        onClick: closeModel,
+        class: "close-btn"
+      })], 544)) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), Object(vue_runtime_esm_bundler["renderSlot"])(_ctx.$slots, "default")], 2)), [[vue_runtime_esm_bundler["vShow"], props.type === 'pannel' || __props.visible]]);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue?vue&type=style&index=0&id=b885d716&lang=less&scoped=true
+var pannelvue_type_style_index_0_id_b885d716_lang_less_scoped_true = __webpack_require__("4e4b");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/components/marsgis/pannel.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(pannelvue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-b885d716"]])
+
+/* harmony default export */ var pannel = __webpack_exports__["a"] = (__exports__);
+
+/***/ }),
+
+/***/ "873b":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
+var es_number_constructor = __webpack_require__("a9e3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.to-fixed.js
+var es_number_to_fixed = __webpack_require__("b680");
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm-bundler.js + 3 modules
+var vue_runtime_esm_bundler = __webpack_require__("7a23");
+
+// EXTERNAL MODULE: ./src/components/marsgis/pannel.vue + 2 modules
+var pannel = __webpack_require__("7544");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--15-3!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader-v16/dist??ref--1-1!./build/example-vue-loader.js!./src/example/graphic/space/satellite/index.vue?vue&type=script&lang=ts&setup=true
+
+
+
+
+
+
+var satellitevue_type_script_lang_ts_setup_true_withScopeId = function _withScopeId(n) {
+  return Object(vue_runtime_esm_bundler["pushScopeId"])("data-v-16fcced7"), n = n(), Object(vue_runtime_esm_bundler["popScopeId"])(), n;
+};
+
+var _hoisted_1 = {
+  class: "f-mb"
+};
+
+var _hoisted_2 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "视椎体状态:", -1);
+});
+
+var _hoisted_3 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("定位至卫星");
+
+var _hoisted_4 = {
+  class: "f-mb"
+};
+
+var _hoisted_5 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "类型:", -1);
+});
+
+var _hoisted_6 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("圆锥体");
+
+var _hoisted_7 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("四棱锥体");
+
+var _hoisted_8 = {
+  class: "f-mb"
+};
+
+var _hoisted_9 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "前后侧摆:", -1);
+});
+
+var _hoisted_10 = {
+  class: "f-mb"
+};
+
+var _hoisted_11 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "左右侧摆:", -1);
+});
+
+var _hoisted_12 = {
+  class: "f-mb"
+};
+
+var _hoisted_13 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "夹角1:", -1);
+});
+
+var _hoisted_14 = {
+  key: 0,
+  class: "f-mb"
+};
+
+var _hoisted_15 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "夹角2:", -1);
+});
+
+var _hoisted_16 = {
+  class: "f-mb"
+};
+
+var _hoisted_17 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("span", {
+    class: "pannel-item-label"
+  }, "参考系轴:", -1);
+});
+
+var _hoisted_18 = /*#__PURE__*/Object(vue_runtime_esm_bundler["createTextVNode"])("显示/隐藏");
+
+var _hoisted_19 = {
+  class: "mars-table tb-border"
+};
+
+var _hoisted_20 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "名称", -1);
+});
+
+var _hoisted_21 = {
+  id: "td_name"
+};
+
+var _hoisted_22 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "TLE1", -1);
+});
+
+var _hoisted_23 = {
+  id: "td_tle1"
+};
+
+var _hoisted_24 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "TLE2", -1);
+});
+
+var _hoisted_25 = {
+  id: "td_tle2"
+};
+
+var _hoisted_26 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "时间", -1);
+});
+
+var _hoisted_27 = {
+  id: "td_time"
+};
+
+var _hoisted_28 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "经度", -1);
+});
+
+var _hoisted_29 = {
+  id: "td_jd"
+};
+
+var _hoisted_30 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "经度", -1);
+});
+
+var _hoisted_31 = {
+  id: "td_wd"
+};
+
+var _hoisted_32 = /*#__PURE__*/satellitevue_type_script_lang_ts_setup_true_withScopeId(function () {
+  return /*#__PURE__*/Object(vue_runtime_esm_bundler["createElementVNode"])("td", {
+    class: "nametd"
+  }, "高程", -1);
+});
+
+var _hoisted_33 = {
+  id: "td_gd"
+};
+
+
+/* harmony default export */ var satellitevue_type_script_lang_ts_setup_true = (/*#__PURE__*/Object(vue_runtime_esm_bundler["defineComponent"])({
+  setup: function setup(__props) {
+    var mapWork = window.mapWork;
+    var value = Object(vue_runtime_esm_bundler["ref"])("2");
+    var angleValue1 = Object(vue_runtime_esm_bundler["ref"])(30);
+    var angleValue2 = Object(vue_runtime_esm_bundler["ref"])(20);
+    var pitchValue = Object(vue_runtime_esm_bundler["ref"])(0); // 仰角
+
+    var rollValue = Object(vue_runtime_esm_bundler["ref"])(0); // 左右
+
+    var formState = Object(vue_runtime_esm_bundler["reactive"])({
+      enabledShowMatrix: false,
+      enabledSee: false,
+      name: "",
+      tle1: "",
+      tle2: "",
+      time: "",
+      td_jd: 0,
+      td_wd: 0,
+      td_gd: "0米"
+    });
+    Object(vue_runtime_esm_bundler["onMounted"])(function () {
+      mapWork.eventTarget.on("loadOk", function (event) {
+        var nowData = event.weixinData;
+        var height = formatLength(nowData.td_gd);
+        formState.name = nowData.name;
+        formState.tle1 = nowData.tle1;
+        formState.tle2 = nowData.tle2;
+        formState.time = nowData.time;
+        formState.td_jd = nowData.td_jd;
+        formState.td_wd = nowData.td_wd;
+        formState.td_gd = height;
+      });
+    }); // 数据处理
+
+    function formatLength(val) {
+      if (val == null) {
+        return "";
+      }
+
+      val = Number(val);
+      var valstr = (val * 0.001).toFixed(2) + "公里";
+      return valstr;
+    } // 俯仰角
+
+
+    var pitchChange = function pitchChange() {
+      mapWork.pitchChange(pitchValue.value);
+    }; // 左右角
+
+
+    var rollChange = function rollChange() {
+      mapWork.rollChange(rollValue.value);
+    }; // 夹角
+
+
+    var angle1 = function angle1() {
+      mapWork.angle1(angleValue1.value);
+    };
+
+    var angle2 = function angle2() {
+      mapWork.angle2(angleValue2.value);
+    }; // 定位至卫星
+
+
+    var locate = function locate() {
+      mapWork.locate();
+    }; // 凝视目标
+
+
+    var selPoint = function selPoint(texShow) {
+      formState.enabledSee = !texShow;
+
+      if (!texShow) {
+        mapWork.selPoint();
+      }
+
+      mapWork.selPoint();
+    }; // 参考轴系显示与隐藏
+
+
+    var chkShowModelMatrix = function chkShowModelMatrix() {
+      mapWork.chkShowModelMatrix(formState.enabledShowMatrix);
+    }; // 类型选择
+
+
+    var chkSensorType = function chkSensorType() {
+      mapWork.chkSensorType(value.value);
+    };
+
+    return function (_ctx, _cache) {
+      var _component_mars_button = Object(vue_runtime_esm_bundler["resolveComponent"])("mars-button");
+
+      var _component_a_space = Object(vue_runtime_esm_bundler["resolveComponent"])("a-space");
+
+      var _component_a_radio = Object(vue_runtime_esm_bundler["resolveComponent"])("a-radio");
+
+      var _component_a_radio_group = Object(vue_runtime_esm_bundler["resolveComponent"])("a-radio-group");
+
+      var _component_a_slider = Object(vue_runtime_esm_bundler["resolveComponent"])("a-slider");
+
+      var _component_a_checkbox = Object(vue_runtime_esm_bundler["resolveComponent"])("a-checkbox");
+
+      return Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])(vue_runtime_esm_bundler["Fragment"], null, [Object(vue_runtime_esm_bundler["createVNode"])(pannel["a" /* default */], {
+        class: "infoView"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_1, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_2, Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: locate
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_3];
+                }),
+                _: 1
+              }), Object(vue_runtime_esm_bundler["createVNode"])(_component_mars_button, {
+                onClick: _cache[0] || (_cache[0] = function ($event) {
+                  return selPoint(Object(vue_runtime_esm_bundler["unref"])(formState).enabledSee);
+                })
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [Object(vue_runtime_esm_bundler["createTextVNode"])(Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).enabledSee ? "取消凝视" : "凝视"), 1)];
+                }),
+                _: 1
+              })];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_4, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_5, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_radio_group, {
+                value: value.value,
+                "onUpdate:value": _cache[1] || (_cache[1] = function ($event) {
+                  return value.value = $event;
+                }),
+                name: "radioGroup",
+                onChange: chkSensorType
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_radio, {
+                    value: "1"
+                  }, {
+                    default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                      return [_hoisted_6];
+                    }),
+                    _: 1
+                  }), Object(vue_runtime_esm_bundler["createVNode"])(_component_a_radio, {
+                    value: "2"
+                  }, {
+                    default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                      return [_hoisted_7];
+                    }),
+                    _: 1
+                  })];
+                }),
+                _: 1
+              }, 8, ["value"])];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_8, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_9, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: pitchChange,
+                value: pitchValue.value,
+                "onUpdate:value": _cache[2] || (_cache[2] = function ($event) {
+                  return pitchValue.value = $event;
+                }),
+                min: -180,
+                max: 180,
+                step: 1
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createTextVNode"])("值" + Object(vue_runtime_esm_bundler["toDisplayString"])(pitchValue.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_10, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_11, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: rollChange,
+                value: rollValue.value,
+                "onUpdate:value": _cache[3] || (_cache[3] = function ($event) {
+                  return rollValue.value = $event;
+                }),
+                min: -180,
+                max: 180,
+                step: 1
+              }, null, 8, ["value"]), Object(vue_runtime_esm_bundler["createTextVNode"])("值" + Object(vue_runtime_esm_bundler["toDisplayString"])(rollValue.value), 1)];
+            }),
+            _: 1
+          })]), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_12, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_13, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: angle1,
+                value: angleValue1.value,
+                "onUpdate:value": _cache[4] || (_cache[4] = function ($event) {
+                  return angleValue1.value = $event;
+                }),
+                min: 1,
+                max: 89,
+                step: 0.01
+              }, null, 8, ["value", "step"]), Object(vue_runtime_esm_bundler["createTextVNode"])("值" + Object(vue_runtime_esm_bundler["toDisplayString"])(angleValue1.value), 1)];
+            }),
+            _: 1
+          })]), value.value === '2' ? (Object(vue_runtime_esm_bundler["openBlock"])(), Object(vue_runtime_esm_bundler["createElementBlock"])("div", _hoisted_14, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_15, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_slider, {
+                onChange: angle2,
+                value: angleValue2.value,
+                "onUpdate:value": _cache[5] || (_cache[5] = function ($event) {
+                  return angleValue2.value = $event;
+                }),
+                min: 1,
+                max: 89,
+                step: 0.01
+              }, null, 8, ["value", "step"]), Object(vue_runtime_esm_bundler["createTextVNode"])("值" + Object(vue_runtime_esm_bundler["toDisplayString"])(angleValue2.value), 1)];
+            }),
+            _: 1
+          })])) : Object(vue_runtime_esm_bundler["createCommentVNode"])("", true), Object(vue_runtime_esm_bundler["createElementVNode"])("div", _hoisted_16, [Object(vue_runtime_esm_bundler["createVNode"])(_component_a_space, null, {
+            default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+              return [_hoisted_17, Object(vue_runtime_esm_bundler["createVNode"])(_component_a_checkbox, {
+                checked: Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowMatrix,
+                "onUpdate:checked": _cache[6] || (_cache[6] = function ($event) {
+                  return Object(vue_runtime_esm_bundler["unref"])(formState).enabledShowMatrix = $event;
+                }),
+                onChange: chkShowModelMatrix
+              }, {
+                default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+                  return [_hoisted_18];
+                }),
+                _: 1
+              }, 8, ["checked"])];
+            }),
+            _: 1
+          })])];
+        }),
+        _: 1
+      }), Object(vue_runtime_esm_bundler["createVNode"])(pannel["a" /* default */], {
+        class: "messageShow"
+      }, {
+        default: Object(vue_runtime_esm_bundler["withCtx"])(function () {
+          return [Object(vue_runtime_esm_bundler["createElementVNode"])("table", _hoisted_19, [Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_20, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_21, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).name), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_22, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_23, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).tle1), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_24, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_25, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).tle2), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_26, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_27, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).time), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_28, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_29, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).td_jd), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_30, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_31, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).td_wd), 1)]), Object(vue_runtime_esm_bundler["createElementVNode"])("tr", null, [_hoisted_32, Object(vue_runtime_esm_bundler["createElementVNode"])("td", _hoisted_33, Object(vue_runtime_esm_bundler["toDisplayString"])(Object(vue_runtime_esm_bundler["unref"])(formState).td_gd), 1)])])];
+        }),
+        _: 1
+      })], 64);
+    };
+  }
+}));
+// CONCATENATED MODULE: ./src/example/graphic/space/satellite/index.vue?vue&type=script&lang=ts&setup=true
+ 
+// EXTERNAL MODULE: ./src/example/graphic/space/satellite/index.vue?vue&type=style&index=0&id=16fcced7&scoped=true&lang=less
+var satellitevue_type_style_index_0_id_16fcced7_scoped_true_lang_less = __webpack_require__("2ee0");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
+var exportHelper = __webpack_require__("6b0d");
+var exportHelper_default = /*#__PURE__*/__webpack_require__.n(exportHelper);
+
+// CONCATENATED MODULE: ./src/example/graphic/space/satellite/index.vue
+
+
+
+
+
+
+const __exports__ = /*#__PURE__*/exportHelper_default()(satellitevue_type_script_lang_ts_setup_true, [['__scopeId',"data-v-16fcced7"]])
+
+/* harmony default export */ var satellite = __webpack_exports__["default"] = (__exports__);
+
+/***/ }),
+
+/***/ "a9e3":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__("83ab");
+var global = __webpack_require__("da84");
+var uncurryThis = __webpack_require__("e330");
+var isForced = __webpack_require__("94ca");
+var redefine = __webpack_require__("6eeb");
+var hasOwn = __webpack_require__("1a2d");
+var inheritIfRequired = __webpack_require__("7156");
+var isPrototypeOf = __webpack_require__("3a9b");
+var isSymbol = __webpack_require__("d9b5");
+var toPrimitive = __webpack_require__("c04e");
+var fails = __webpack_require__("d039");
+var getOwnPropertyNames = __webpack_require__("241c").f;
+var getOwnPropertyDescriptor = __webpack_require__("06cf").f;
+var defineProperty = __webpack_require__("9bf2").f;
+var thisNumberValue = __webpack_require__("408a");
+var trim = __webpack_require__("58a8").trim;
+
+var NUMBER = 'Number';
+var NativeNumber = global[NUMBER];
+var NumberPrototype = NativeNumber.prototype;
+var TypeError = global.TypeError;
+var arraySlice = uncurryThis(''.slice);
+var charCodeAt = uncurryThis(''.charCodeAt);
+
+// `ToNumeric` abstract operation
+// https://tc39.es/ecma262/#sec-tonumeric
+var toNumeric = function (value) {
+  var primValue = toPrimitive(value, 'number');
+  return typeof primValue == 'bigint' ? primValue : toNumber(primValue);
+};
+
+// `ToNumber` abstract operation
+// https://tc39.es/ecma262/#sec-tonumber
+var toNumber = function (argument) {
+  var it = toPrimitive(argument, 'number');
+  var first, third, radix, maxCode, digits, length, index, code;
+  if (isSymbol(it)) throw TypeError('Cannot convert a Symbol value to a number');
+  if (typeof it == 'string' && it.length > 2) {
+    it = trim(it);
+    first = charCodeAt(it, 0);
+    if (first === 43 || first === 45) {
+      third = charCodeAt(it, 2);
+      if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
+    } else if (first === 48) {
+      switch (charCodeAt(it, 1)) {
+        case 66: case 98: radix = 2; maxCode = 49; break; // fast equal of /^0b[01]+$/i
+        case 79: case 111: radix = 8; maxCode = 55; break; // fast equal of /^0o[0-7]+$/i
+        default: return +it;
+      }
+      digits = arraySlice(it, 2);
+      length = digits.length;
+      for (index = 0; index < length; index++) {
+        code = charCodeAt(digits, index);
+        // parseInt parses a string to a first unavailable symbol
+        // but ToNumber should return NaN if a string contains unavailable symbols
+        if (code < 48 || code > maxCode) return NaN;
+      } return parseInt(digits, radix);
+    }
+  } return +it;
+};
+
+// `Number` constructor
+// https://tc39.es/ecma262/#sec-number-constructor
+if (isForced(NUMBER, !NativeNumber(' 0o1') || !NativeNumber('0b1') || NativeNumber('+0x1'))) {
+  var NumberWrapper = function Number(value) {
+    var n = arguments.length < 1 ? 0 : NativeNumber(toNumeric(value));
+    var dummy = this;
+    // check on 1..constructor(foo) case
+    return isPrototypeOf(NumberPrototype, dummy) && fails(function () { thisNumberValue(dummy); })
+      ? inheritIfRequired(Object(n), dummy, NumberWrapper) : n;
+  };
+  for (var keys = DESCRIPTORS ? getOwnPropertyNames(NativeNumber) : (
+    // ES3:
+    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
+    // ES2015 (in case, if modules with ES2015 Number statics required before):
+    'EPSILON,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,isFinite,isInteger,isNaN,isSafeInteger,parseFloat,parseInt,' +
+    // ESNext
+    'fromString,range'
+  ).split(','), j = 0, key; keys.length > j; j++) {
+    if (hasOwn(NativeNumber, key = keys[j]) && !hasOwn(NumberWrapper, key)) {
+      defineProperty(NumberWrapper, key, getOwnPropertyDescriptor(NativeNumber, key));
+    }
+  }
+  NumberWrapper.prototype = NumberPrototype;
+  NumberPrototype.constructor = NumberWrapper;
+  redefine(global, NUMBER, NumberWrapper);
+}
+
+
+/***/ }),
+
+/***/ "b680":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var global = __webpack_require__("da84");
+var uncurryThis = __webpack_require__("e330");
+var toIntegerOrInfinity = __webpack_require__("5926");
+var thisNumberValue = __webpack_require__("408a");
+var $repeat = __webpack_require__("1148");
+var fails = __webpack_require__("d039");
+
+var RangeError = global.RangeError;
+var String = global.String;
+var floor = Math.floor;
+var repeat = uncurryThis($repeat);
+var stringSlice = uncurryThis(''.slice);
+var un$ToFixed = uncurryThis(1.0.toFixed);
+
+var pow = function (x, n, acc) {
+  return n === 0 ? acc : n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc);
+};
+
+var log = function (x) {
+  var n = 0;
+  var x2 = x;
+  while (x2 >= 4096) {
+    n += 12;
+    x2 /= 4096;
+  }
+  while (x2 >= 2) {
+    n += 1;
+    x2 /= 2;
+  } return n;
+};
+
+var multiply = function (data, n, c) {
+  var index = -1;
+  var c2 = c;
+  while (++index < 6) {
+    c2 += n * data[index];
+    data[index] = c2 % 1e7;
+    c2 = floor(c2 / 1e7);
+  }
+};
+
+var divide = function (data, n) {
+  var index = 6;
+  var c = 0;
+  while (--index >= 0) {
+    c += data[index];
+    data[index] = floor(c / n);
+    c = (c % n) * 1e7;
+  }
+};
+
+var dataToString = function (data) {
+  var index = 6;
+  var s = '';
+  while (--index >= 0) {
+    if (s !== '' || index === 0 || data[index] !== 0) {
+      var t = String(data[index]);
+      s = s === '' ? t : s + repeat('0', 7 - t.length) + t;
+    }
+  } return s;
+};
+
+var FORCED = fails(function () {
+  return un$ToFixed(0.00008, 3) !== '0.000' ||
+    un$ToFixed(0.9, 0) !== '1' ||
+    un$ToFixed(1.255, 2) !== '1.25' ||
+    un$ToFixed(1000000000000000128.0, 0) !== '1000000000000000128';
+}) || !fails(function () {
+  // V8 ~ Android 4.3-
+  un$ToFixed({});
+});
+
+// `Number.prototype.toFixed` method
+// https://tc39.es/ecma262/#sec-number.prototype.tofixed
+$({ target: 'Number', proto: true, forced: FORCED }, {
+  toFixed: function toFixed(fractionDigits) {
+    var number = thisNumberValue(this);
+    var fractDigits = toIntegerOrInfinity(fractionDigits);
+    var data = [0, 0, 0, 0, 0, 0];
+    var sign = '';
+    var result = '0';
+    var e, z, j, k;
+
+    // TODO: ES2018 increased the maximum number of fraction digits to 100, need to improve the implementation
+    if (fractDigits < 0 || fractDigits > 20) throw RangeError('Incorrect fraction digits');
+    // eslint-disable-next-line no-self-compare -- NaN check
+    if (number != number) return 'NaN';
+    if (number <= -1e21 || number >= 1e21) return String(number);
+    if (number < 0) {
+      sign = '-';
+      number = -number;
+    }
+    if (number > 1e-21) {
+      e = log(number * pow(2, 69, 1)) - 69;
+      z = e < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1);
+      z *= 0x10000000000000;
+      e = 52 - e;
+      if (e > 0) {
+        multiply(data, 0, z);
+        j = fractDigits;
+        while (j >= 7) {
+          multiply(data, 1e7, 0);
+          j -= 7;
+        }
+        multiply(data, pow(10, j, 1), 0);
+        j = e - 1;
+        while (j >= 23) {
+          divide(data, 1 << 23);
+          j -= 23;
+        }
+        divide(data, 1 << j);
+        multiply(data, 1, 1);
+        divide(data, 2);
+        result = dataToString(data);
+      } else {
+        multiply(data, 0, z);
+        multiply(data, 1 << -e, 0);
+        result = dataToString(data) + repeat('0', fractDigits);
+      }
+    }
+    if (fractDigits > 0) {
+      k = result.length;
+      result = sign + (k <= fractDigits
+        ? '0.' + repeat('0', fractDigits - k) + result
+        : stringSlice(result, 0, k - fractDigits) + '.' + stringSlice(result, k - fractDigits));
+    } else {
+      result = sign + result;
+    } return result;
+  }
+});
+
+
+/***/ }),
+
+/***/ "e64d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+}]);

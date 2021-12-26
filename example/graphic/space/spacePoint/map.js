@@ -281,6 +281,10 @@ function weixingStyle(item) {
 // 重置
 export function resetUI() {
   // 循环所有卫星
+  if (!graphicLayer) {
+    globalMsg("当前数据正在加载")
+    return
+  }
   graphicLayer.eachGraphic(function (graphic) {
     if (graphic.selected) {
       graphic.setStyle({

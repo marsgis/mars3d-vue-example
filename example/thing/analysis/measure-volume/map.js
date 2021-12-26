@@ -60,13 +60,9 @@ function addMeasure() {
 
   measure.on(mars3d.EventType.start, function (event) {
     console.log("开始分析", event)
-
-
     clearInterResult()
     showLoading()
-
-
-    console.log("坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(event.positions)))// 方便测试拷贝坐标
+    console.log("坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(event.positions))) // 方便测试拷贝坐标
   })
 
   measure.on(mars3d.EventType.end, function (event) {
@@ -105,16 +101,14 @@ export function analysisMeasure() {
 // 清除
 export function clear() {
   measure.clear()
-
+  measureVolume = null
   clearInterResult()
 }
 
 export function showResult(reslut) {
-  if (reslut) {
-
+  if (reslut && measureVolume) {
     showInterResult(measureVolume.interPolygonObj.list)
   } else {
-
     clearInterResult()
   }
 }
@@ -150,10 +144,12 @@ export function txtMaxHeight(num) {
 }
 
 export function selHeight() {
-  measureVolume.selecteHeight(showHeightVal)
+  if (!measureVolume || !measure) {
+    globalMsg("请先开始方量分析")
+    return
+  }
+  measureVolume.selecteHeight(showHeightVal())
 }
-
-
 
 // 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比
 
