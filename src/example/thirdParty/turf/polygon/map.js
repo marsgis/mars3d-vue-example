@@ -56,9 +56,6 @@ export function onUnmounted() {
 
 // 绘制面
 export function drawPolygon() {
-  graphicLayer.clear()
-  polygonsLayer.clear()
-
   // 开始绘制
   graphicLayer.startDraw({
     type: "polygon",
@@ -68,14 +65,18 @@ export function drawPolygon() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#ffffff"
+    },
+    success: (graphic) => {
+      graphicLayer.clear()
+      polygonsLayer.clear()
+      graphicLayer.addGraphic(graphic)
     }
   })
 }
 
 // 旋转面
 export function spinPolygons(angle) {
-  polygonsLayer.clear()
-  graphicLayer.endDraw()
+  clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
   const poly = graphic.toGeoJSON({ closure: true })
@@ -99,8 +100,7 @@ export function spinPolygons(angle) {
 
 // 平移面
 export function translationPolygons(offset) {
-  polygonsLayer.clear()
-  graphicLayer.endDraw()
+  clearGraphic()
 
   const graphic = graphicLayer.getGraphics()[0]
   const poly = graphic.toGeoJSON({ closure: true })
@@ -122,8 +122,7 @@ export function translationPolygons(offset) {
 
 // 缩放面
 export function zoomPolygons(scale) {
-  polygonsLayer.clear()
-  graphicLayer.endDraw()
+  clearGraphic()
 
   if (scale === 0) {
     return
@@ -147,6 +146,10 @@ export function zoomPolygons(scale) {
   polygonsLayer.addGraphic(spinGraphic)
 }
 
+function clearGraphic() {
+  polygonsLayer.clear()
+  graphicLayer.endDraw()
+}
 // 颜色
 let index = 0
 const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]

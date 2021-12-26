@@ -808,13 +808,13 @@
         ]
       },
       { "name": "speed", "isImpact": true, "label": "速度", "type": "number", "step": 1, "defval": 10.0 },
-      { "name": "image", "isImpact": true, "label": "图片", "type": "text", "defval": "img/textures/fence.png" },
+      { "name": "image", "isImpact": true, "label": "图片", "type": "label", "defval": "img/textures/fence.png" },
       { "name": "repeat_x", "isImpact": true, "label": "X重复数量", "type": "number", "step": 1, "defval": 1.0 },
       { "name": "repeat_y", "isImpact": true, "label": "Y重复数量", "type": "number", "step": 1, "defval": 1.0 },
       { "name": "axisY", "isImpact": true, "label": "竖直方向", "type": "radio", "defval": false },
       { "name": "count", "isImpact": true, "label": "数量", "type": "number", "step": 1, "defval": 1.0 },
 
-      { "name": "text", "isImpact": true, "label": "文本内容", "type": "text", "defval": "文字" },
+      { "name": "text", "isImpact": true, "label": "文本内容", "type": "label", "defval": "文字" },
       {
         "name": "font_family",
         "isImpact": true,

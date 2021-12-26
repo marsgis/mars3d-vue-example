@@ -65,6 +65,8 @@ let tileLayer
 export function addLayer() {
   removeLayer()
 
+  map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 360, pitch: -67 })
+
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.WmtsLayer({
     url: "//server.mars3d.cn/geoserver/gwc/service/wmts",

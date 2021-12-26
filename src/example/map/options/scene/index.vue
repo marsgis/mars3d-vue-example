@@ -308,7 +308,7 @@ const data = ref([
     name: "鼠标交互",
     describe: "可操作南北极",
     operation: "checked",
-    value: "1",
+    value: "2",
     change(index: number) {
       if (Number(data.value[index].value) == 1) {
         mapWork.setSceneCameraControllerOptions("constrainedAxis", false)

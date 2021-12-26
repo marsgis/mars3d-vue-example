@@ -12,7 +12,7 @@ const isProd = process.env.NODE_ENV === "production"
 module.exports = {
   publicPath: process.env.BASE_URL,
   outputDir: "dist/",
-  assetsDir: "example/static",
+  assetsDir: "example/assets",
   productionSourceMap: false,
   lintOnSave: true,
   devServer: {
@@ -22,6 +22,7 @@ module.exports = {
     https: false, // https:{type:Boolean}
     open: true // 配置自动启动浏览器
   },
+  filenameHashing: false,
   pages: {
     index: {
       entry: "src/pages/index/main.ts",

@@ -94,6 +94,8 @@ function setValue(gp: any) {
         lonlats.value = _.cloneDeep(graphic.coordinates)
         attrs.value = _.cloneDeep(op.attr)
 
+        console.log("开始编辑，原始对象为=>", op)
+
         const config = graphicAttr[op.edittype || op.type] || {}
         styleConfig.value = _.cloneDeep(config)
         resolve(true)

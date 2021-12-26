@@ -1319,6 +1319,12 @@
             "thumbnail": "thumbnail.gif"
           },
           {
+            "name": "圆锥追踪体P",
+            "main": "graphic/primitive/coneTrack",
+            "usePannel": true,
+            "date": "2021-12-24"
+          },
+          {
             "name": "Frustum 四棱锥体",
             "date": "2021-11-10",
             "usePannel": true,

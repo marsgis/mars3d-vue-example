@@ -144,7 +144,7 @@ const options = ref<Option[]>([])
 
 // 读取JSON数据
 function fetchAttrJson() {
-  return axios.get(`${process.env.BASE_URL}config/city.json`)
+  return axios.get(`//data.mars3d.cn/file/geojson/areas/config.json`)
 }
 
 onBeforeMount(async () => {

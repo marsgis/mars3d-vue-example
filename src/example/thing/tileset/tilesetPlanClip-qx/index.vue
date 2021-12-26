@@ -26,10 +26,12 @@ const drawExtent2 = () => {
 }
 // 绘制面
 const drawPoly = () => {
+  window.$message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
   mapWork.drawPoly()
 }
 // 绘制面（外）
 const drawPoly2 = () => {
+  window.$message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
   mapWork.drawPoly2()
 }
 // 清除

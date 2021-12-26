@@ -26,9 +26,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const zoom = new mars3d.control.Zoom({
-    insertIndex: 1, // 插入的位置顺序
-    zoomInIcon: "img/icon/zoom-in.svg",
-    zoomOutIcon: "img/icon/zoom-out.svg"
+    insertIndex: 1 // 插入的位置顺序
   })
   map.addControl(zoom)
 }

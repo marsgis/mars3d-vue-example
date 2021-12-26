@@ -24,7 +24,7 @@
     <div class="f-mb">
       <a-space>
         <mars-button @click="sePoint">设置摄像头位置</mars-button>
-        <mars-button @click="getCenter">计算与地面焦点</mars-button>
+        <mars-button @click="getCenter">计算与地面交点</mars-button>
         <a-checkbox @change="testTerrain" v-model:checked="isChecked">深度检测</a-checkbox>
       </a-space>
     </div>
