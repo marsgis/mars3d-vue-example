@@ -75,6 +75,8 @@ function addGraphics() {
 
   // 飞机path路径
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
   const start = map.clock.currentTime
   let alltimes = 0
   for (let i = 0, len = linePositions.length; i < len; i++) {

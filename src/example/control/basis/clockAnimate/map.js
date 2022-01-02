@@ -23,4 +23,10 @@ function initMap(options) {
     format: "yyyy-MM-dd HH:mm:ss"
   })
   map.addControl(clockAnimate)
+
+  clockAnimate.on(mars3d.EventType.click, function (event) {
+    if (event.targetType == "label") {
+      console.log("单击了时间文本区域", event)
+    }
+  })
 }

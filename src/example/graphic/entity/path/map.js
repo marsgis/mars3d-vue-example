@@ -81,6 +81,8 @@ function centerAtModel() {
 
 function addGraphicDemo1(graphicLayer) {
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
   let tempTime
 
   // 起点

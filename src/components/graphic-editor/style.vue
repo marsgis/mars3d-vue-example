@@ -127,9 +127,13 @@ function getLabelConfig() {
 
 function setDefault() {
   if (props.styleConfig.style) {
+    console.log("yangshi", styleValue.value)
     props.styleConfig.style.forEach((item: any) => {
       if (!styleValue.value[item.name] && styleValue.value[item.name] !== 0 && styleValue.value[item.name] !== false) {
         styleValue.value[item.name] = item.defval
+      }
+      if (typeof styleValue.value[item.name] === "object" && styleValue.value[item.name] !== null) {
+        item.type = "label"
       }
     })
   }
@@ -180,9 +184,25 @@ function setLabelImpacts() {
 }
 
 function updateStyle(item: any) {
-  emit("styleChange", {
+  const data: Record<string, any> = {
     [item.name]: styleValue.value[item.name]
-  })
+  }
+  if (item.impact) {
+    item.impact.forEach((im: string) => {
+      data[im] = styleValue.value[im]
+    })
+  }
+  if (item.data && Array.isArray(item.data)) {
+    item.data.forEach((it: any) => {
+      if (it.impact) {
+        it.impact.forEach((im: string) => {
+          data[im] = styleValue.value[im]
+        })
+      }
+    })
+  }
+  console.log("更新的数据为：", data)
+  emit("styleChange", data)
 }
 
 function unionChange(item: any) {

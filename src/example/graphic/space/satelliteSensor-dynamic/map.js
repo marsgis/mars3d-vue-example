@@ -195,6 +195,7 @@ function getDynamicProperty() {
   ]
 
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
   for (let z = 0; z < wxdata.length; z++) {
     const item = wxdata[z]
 

@@ -42,7 +42,10 @@
       </a-col>
 
       <a-col :span="21">
-        <mars-button @click="begin">开始分析</mars-button>
+        <a-space>
+          <mars-button @click="begin">开始分析</mars-button>
+          <mars-button @click="stop">结束分析</mars-button>
+        </a-space>
       </a-col>
     </a-row>
   </pannel>
@@ -97,6 +100,9 @@ const btnDraw = () => {
 // 开始淹没
 const begin = () => {
   mapWork.begin(formState)
+}
+const stop = () => {
+  mapWork.stop()
 }
 </script>
 <style scoped lang="less">

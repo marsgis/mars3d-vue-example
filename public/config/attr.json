@@ -320,7 +320,7 @@
         "defval": false,
         "impact": ["silhouetteColor", "silhouetteSize", "silhouetteAlpha"]
       },
-      { "name": "silhouetteColor", "isImpact": true, "label": "轮廓颜色", "type": "color", "defval": "#ffffff" },
+      { "name": "silhouetteColor", "isImpact": true, "label": "轮廓颜色", "type": "color", "defval": "#dd1511" },
       { "name": "silhouetteSize", "isImpact": true, "label": "轮廓宽度", "type": "number", "step": 1, "defval": 2.0 },
       { "name": "silhouetteAlpha", "isImpact": true, "label": "轮廓透明度", "type": "slider", "defval": 0.8, "min": 0, "max": 1, "step": 0.01 },
 

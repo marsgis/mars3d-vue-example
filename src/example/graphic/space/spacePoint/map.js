@@ -315,6 +315,7 @@ export function selectSatellites(data) {
     return
   }
 
+  const name = data.name
   const xilie = data.selXiLie // 系列卫星
   const country = data.selCountry // 所属国家
   const type = data.selType // 对象类型
@@ -357,6 +358,15 @@ export function selectSatellites(data) {
     }
 
     const attr = graphic.attr // 卫星的属性
+
+    // 名称
+    if (name) {
+      if ((attr.name && attr.name.indexOf(name) !== -1) || (attr.id && attr.id == name) || (attr.cospar && attr.cospar.indexOf(name) !== -1)) {
+        //
+      } else {
+        return
+      }
+    }
 
     // 系列卫星时
     if (xilie) {

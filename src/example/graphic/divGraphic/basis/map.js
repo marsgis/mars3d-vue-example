@@ -44,7 +44,6 @@ export function onMounted(mapInstance) {
   // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
   bindLayerContextMenu()
 
-
   // 加一些演示数据
   addGraphic01(graphicLayer)
   addGraphic02(graphicLayer)
@@ -82,7 +81,6 @@ export function btnDrawModel() {
     }
   })
 }
-
 
 // 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
 function bindShowHide(val) {
@@ -134,6 +132,7 @@ function addGraphic01(graphicLayer) {
       horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
       verticalOrigin: Cesium.VerticalOrigin.CENTER,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 400000), // 按视距距离显示
+      clampToGround: true,
 
       // 高亮时的样式
       highlight: {
@@ -464,6 +463,8 @@ function movePoint(graphic) {
 
   // 动画移动
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
   const time = 20 // 移动的时长 ，秒
   let tempTime
 
@@ -487,10 +488,6 @@ function movePoint(graphic) {
   tempTime = Cesium.JulianDate.addSeconds(tempTime, time, new Cesium.JulianDate())
   property.addSample(tempTime, point3)
 
-  // 为了保证到结束时间了，一直停留在那，所以加个很远的时间
-  tempTime = Cesium.JulianDate.addDays(tempTime, 365, new Cesium.JulianDate())
-  property.addSample(tempTime, point3)
-
   graphic.position = property
 }
 
@@ -507,7 +504,6 @@ function centerAtModel() {
     map.addLayer(modelTest)
   }
 }
-
 
 // 绑定图层的弹窗
 function bindLayerPopup() {
@@ -579,6 +575,7 @@ function bindLayerContextMenu() {
         if (!graphic) {
           return
         }
+        graphicLayer.stopEditing(graphic)
         graphicLayer.removeGraphic(graphic)
       }
     },

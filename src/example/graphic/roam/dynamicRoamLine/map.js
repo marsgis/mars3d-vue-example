@@ -255,7 +255,7 @@ function addLog(log) {
   eventTarget.fire("showMsg", { log })
 }
 
-export function onSelece(data, selected) {
+export function onSelect(data, selected) {
   const car = graphicLayer.getGraphicById(data.key)
   if (!car) {
     return
@@ -268,11 +268,23 @@ export function onSelece(data, selected) {
   }
 }
 
-function onChange(data) {
+export function onChange(data) {
   data.forEach((item) => {
     const car = graphicLayer.getGraphicById(item)
     if (car) {
       car.flyToPoint({ radius: 900 })
     }
   })
+}
+
+// 点击行
+export function flyToModel(data) {
+  const car = graphicLayer.getGraphicById(data.key)
+  if (!car) {
+    return
+  }
+
+  if (car) {
+    car.flyToPoint({ radius: 900 })
+  }
 }

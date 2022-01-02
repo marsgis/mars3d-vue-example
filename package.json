@@ -45,7 +45,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "lint-staged": "^11.2.6",
-    "mars3d": "^3.1.18",
+    "mars3d": "^3.1.19",
     "monaco-editor-locales-plugin": "0.0.3",
     "monaco-editor-webpack-plugin": "^5.0.0",
     "prettier": "^2.2.1",
@@ -64,7 +64,7 @@
     "mars3d",
     "cesium",
     "vue",
-    "vue2",
+    "vue3",
     "gis",
     "webgis"
   ],

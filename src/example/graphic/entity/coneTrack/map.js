@@ -169,9 +169,13 @@ function addGraphic03(graphicLayer) {
     targetPosition: propertyQC,
     style: {
       // length: 4000, //targetPosition存在时无需传
-      angle: 1, // 半场角度
-      color: "#00ffff",
-      opacity: 0.4
+      angle: 3, // 半场角度
+      // 自定义扩散波纹纹理
+      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CylinderWave, {
+        color: "#ffff00",
+        repeat: 30.0,
+        thickness: 0.2
+      })
     }
   })
   graphicLayer.addGraphic(coneTrack)
@@ -180,6 +184,7 @@ function addGraphic03(graphicLayer) {
 // 计算演示的SampledPositionProperty轨迹
 function getSampledPositionProperty(points) {
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   const start = map.clock.currentTime
   const positions = mars3d.LatLngArray.toCartesians(points)
@@ -190,7 +195,6 @@ function getSampledPositionProperty(points) {
   }
   return property
 }
-
 
 function addGraphic04(graphicLayer) {
   const model = new mars3d.graphic.ModelEntity({

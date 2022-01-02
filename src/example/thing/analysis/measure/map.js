@@ -3,7 +3,6 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let measure
 
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -34,8 +33,6 @@ function addMeasure() {
   })
   map.addThing(measure)
 
-
-
   measure.on(mars3d.EventType.start, function (e) {
     console.log("开始异步分析", e)
     showLoading()
@@ -50,7 +47,6 @@ function addMeasure() {
   })
   // 任意一个矢量数据被移出，贴地面积中的插值计算点都会被移除
   measure.on(mars3d.EventType.remove, function (e) {
-
     clearInterResult()
   })
 }
@@ -141,17 +137,14 @@ let modelTest
 function centerAtModel() {
   if (!modelTest) {
     modelTest = new mars3d.layer.TilesetLayer({
-      url: "https://streetmodel.smartfacade.com.cn/3dtilesa_model/longhuaqv/minzhijiedao2(20210708)/Scene/3dtilesa.json",
+      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
       position: { alt: 80.6 },
       maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
+      maximumMemoryUsage: 1024
     })
     map.addLayer(modelTest)
   }
 }
-
-
 
 // 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比
 

@@ -102,6 +102,8 @@ module.exports = {
     ]
   },
   chainWebpack: (config) => {
+    // config.optimization.minimize(false)
+
     config.resolve.alias.set("@", resolve("src")).set("@comp", resolve("src/components")).set("@exmp", resolve("src/example"))
 
     config.plugin("monaco-editor").use(MonacoWebpackPlugin)

@@ -71,6 +71,10 @@ export function bindVR(val) {
 export function bindHelpButton(val) {
   document.getElementsByClassName("cesium-navigationHelpButton-wrapper")[0].style.display = val ? "block" : "none"
 }
+export function bindZoom(val) {
+  map.controls.zoom.show = val
+}
+
 
 // 面板：
 // 信息状态栏

@@ -1,6 +1,6 @@
 <template>
   <pannel class="infoView">
-    <a-table :pagination="false" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
+    <a-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
   </pannel>
   <pannel class="msg">
     <div v-for="(msgList, index) in msg" :key="index">
@@ -80,9 +80,18 @@ const rowSelection = ref({
   },
   onSelect: (record: DataItem, selected: boolean) => {
     // 对车子进行的操作
-    mapWork.onSelece(record, selected)
+    mapWork.onSelect(record, selected)
   }
 })
+
+// 点击行事件
+const rowClick = (recode: any) => {
+  return {
+    onClick: () => {
+      mapWork.flyToModel(recode)
+    }
+  }
+}
 </script>
 
 <style scoped lang="less">

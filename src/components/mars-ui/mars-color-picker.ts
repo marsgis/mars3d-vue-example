@@ -40,10 +40,21 @@ const MarsColorPicker = defineComponent({
     }
 
     const Buttons = [
-      h(MarsButton, { size: "small", onClick: choose }, "确定"),
-      h(MarsButton, { size: "small", class: "ml5", onClick: cancel }, "取消")
+      h(
+        MarsButton,
+        { size: "small", onClick: choose },
+        {
+          default: () => "确定"
+        }
+      ),
+      h(
+        MarsButton,
+        { size: "small", class: "ml5", onClick: cancel },
+        {
+          default: () => "取消"
+        }
+      )
     ]
-
     const content = [h(ColorPicker, { suckerHide: false, color: pointColor, onChangeColor: changeColor }), h("div", { class: "f-tac" }, Buttons)]
 
     return () =>

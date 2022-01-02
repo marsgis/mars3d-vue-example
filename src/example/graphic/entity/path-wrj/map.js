@@ -77,6 +77,7 @@ export function viewSide() {
 
 function initPath(data) {
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   let start
   let stop

@@ -28,6 +28,7 @@
                 :pagination="false"
                 :dataSource="dataSource"
                 :columns="columns"
+                :scroll="{ y: tableScrollHeight }"
                 size="small" bordered />
             </a-form-item>
           </a-tab-pane>
@@ -45,16 +46,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
 import any from "nprogress"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
+import { setAutoHeight } from "@/utils/index"
 
 const serverName = ref("")
-
 const show = ref<boolean>(false)
-
 const activeKey = ref("1")
 
 // 表格数据
@@ -134,6 +134,15 @@ const removeAll = () => {
   show.value = false
   mapWork.clearAll()
 }
+
+const tableScrollHeight = ref(0)
+
+onMounted(() => {
+  tableScrollHeight.value = setAutoHeight((height) => {
+    tableScrollHeight.value = height
+  }, 400)
+})
+
 </script>
 <style scoped lang="less">
 .infoView{

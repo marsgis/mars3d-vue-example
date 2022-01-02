@@ -36,14 +36,11 @@ mapWork.eventTarget.on("loadOk", () => {
   }, 1000)
 })
 
-const changeColor = () => {
-  mapWork.changeColor(color.value)
-}
+const changeColor = () => mapWork.changeColor(color.value)
+
 const showModel = () => {
   mapWork.showModel(url.value)
   localStorage.setItem("onlyModel", url.value)
 }
-const flyTo = () => {
-  mapWork.flyTo()
-}
+const flyTo = () => mapWork.flyTo()
 </script>

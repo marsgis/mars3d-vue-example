@@ -10,6 +10,7 @@
         <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏切换</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledVR" @change="onBindVR">VR模式</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledHelpButton" @change="onBindHelpButton">帮助</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledZoom" @change="onBindZoom">地图缩放</a-checkbox>
       </a-space>
     </div>
     <div class="f-mb">
@@ -55,6 +56,7 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledFullScreen: true,
   enabledVR: true,
   enabledHelpButton: true,
+  enabledZoom: true,
 
   enabledLocation: true,
   enabledClock: true,
@@ -85,6 +87,10 @@ const onBindVR = () => {
 const onBindHelpButton = () => {
   mapWork.bindHelpButton(formState.enabledHelpButton)
 }
+const onBindZoom = () => {
+  mapWork.bindZoom(formState.enabledZoom)
+}
+
 
 // 面板
 const onBindLocation = () => {

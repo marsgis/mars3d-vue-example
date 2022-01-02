@@ -56,11 +56,6 @@ function multilingual() {
   const toolbar = document.querySelector(".cesium-viewer-toolbar")
   toolbar.style.bottom = "60px"
 
-  const zoom = new mars3d.control.Zoom({
-    insertIndex: 1 // 插入的位置顺序
-  })
-  map.addControl(zoom)
-
   // 涉及到多语言的模块：标绘提示
   drawLayer = new mars3d.layer.GraphicLayer({
     hasEdit: true,

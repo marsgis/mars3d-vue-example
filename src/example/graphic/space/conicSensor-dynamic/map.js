@@ -111,6 +111,8 @@ function getDynamicProperty() {
   ]
 
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
   for (let z = 0; z < wxkjx.length; z++) {
     const item = wxkjx[z]
     const thisTime = Cesium.JulianDate.fromIso8601(item.time)

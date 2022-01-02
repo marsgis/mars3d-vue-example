@@ -274,6 +274,7 @@ function addGraphic04(graphicLayer) {
 // 计算演示的SampledPositionProperty轨迹
 function getSampledPositionProperty(points) {
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   const start = map.clock.currentTime
   const positions = mars3d.LatLngArray.toCartesians(points)

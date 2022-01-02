@@ -57,7 +57,7 @@ function addLayer() {
     console.log("开始分析", e)
   })
   tilesetFlood.on(mars3d.EventType.change, function (e) {
-    onChangeHeight(e.height)
+    // onChangeHeight(e.height)
   })
   tilesetFlood.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -113,7 +113,13 @@ export function btnDraw() {
 }
 
 // 开始分析
+let tf = false
 export function begin(data) {
+  if (tf) {
+    globalMsg("请先结束当前分析")
+    return
+  }
+
   if (!tilesetFlood.floodAll && tilesetFlood.length == 0) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -126,6 +132,10 @@ export function begin(data) {
   if (minValue <= 1800) {
     globalMsg("最低海拔过低，请耐心等候几秒")
   }
+  if (minValue > maxValue) {
+    globalMsg("当前最低海拔高于最高海拔")
+    return
+  }
 
   console.log("当前参数", { minHeight: minValue, maxHeight: maxValue })
 
@@ -136,8 +146,10 @@ export function begin(data) {
   })
 
   tilesetFlood.start()
+  tf = true
 }
 
-function onChangeHeight(height) {
-  console.log("分析中，高度变化了", height)
+export function stop() {
+  tf = false
+  tilesetFlood.clear()
 }

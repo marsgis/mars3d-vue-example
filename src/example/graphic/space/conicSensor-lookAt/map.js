@@ -156,6 +156,7 @@ function getDynamicProperty(callback) {
   const arr = dataWork.getTestData(Cesium.JulianDate.toIso8601(map.clock.currentTime), 2 * 60)
 
   const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 

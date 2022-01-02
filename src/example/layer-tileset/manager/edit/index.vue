@@ -4,21 +4,23 @@
       <a-form :label-col="labelCol">
         <a-collapse :activeKey="activeKey">
           <a-collapse-panel key="1" header="模型URL地址">
-            <a-row :gutter="10">
-              <a-col :span="19">
+            <div class="f-mb">
+              <a-space>
+                <span class="pannel-item-label">模型URL:</span>
                 <mars-input :allowClear="false" v-model:value="formState.txtModel">
-                  <template #addonAfter>
-                    <a-space>
-                      <a-checkbox class="f-vam" v-model:checked="formState.chkProxy" />
-                      <span class="f-vam">代理</span>
-                    </a-space>
-                  </template>
+                  <template #addonAfter> </template>
                 </mars-input>
-              </a-col>
-              <a-col :span="5">
-                <mars-button class="small-btn" @click="showModel">加载模型</mars-button>
-              </a-col>
-            </a-row>
+              </a-space>
+            </div>
+
+            <div class="f-mb">
+              <a-space>
+                <span class="pannel-item-label">加载模型:</span>
+                <span >代理</span>
+                <a-checkbox  v-model:checked="formState.chkProxy" />
+                <mars-button @click="showModel">加载模型</mars-button>
+              </a-space>
+            </div>
           </a-collapse-panel>
 
           <a-collapse-panel key="2" header="位置方向">
@@ -278,8 +280,10 @@ const checkedTree = () => {
 }
 </script>
 <style scoped lang="less">
+
 .infoView-content {
-  width: 360px;
+  width: 345px;
+  max-height: 720px;
 }
 .comp-model {
   min-width: 200px;
@@ -288,5 +292,8 @@ const checkedTree = () => {
   left: 10px;
   height: 600px;
   overflow-x: auto;
+}
+.ant-input{
+  width: 240px;
 }
 </style>

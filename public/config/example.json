@@ -1313,12 +1313,6 @@
             "date": "2021-10-07"
           },
           {
-            "name": "卫星正摄动画(Cylinder材质)",
-            "main": "graphic/primitive/cylinder-material",
-            "date": "2021-11-10",
-            "thumbnail": "thumbnail.gif"
-          },
-          {
             "name": "圆锥追踪体P",
             "main": "graphic/primitive/coneTrack",
             "usePannel": true,
@@ -1930,7 +1924,7 @@
             "date": "2021-11-11"
           },
           {
-            "name": "台风轨迹(综合案例)",
+            "name": "台风轨迹",
             "date": "2021-11-10",
             "main": "graphic/apply/typhoon",
             "resources": ["Typhoon.js", "typhoon.css"],

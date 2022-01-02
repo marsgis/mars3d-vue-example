@@ -129,10 +129,60 @@ export function onClickSelPoint() {
 }
 
 // 动态的位置
+// 动态的位置
 function addGraphic03(graphicLayer) {
+  const propertyFJ = getSampledPositionProperty([
+    [116.364307, 31.03778, 5000],
+    [116.42794, 31.064786, 5000],
+    [116.474002, 31.003825, 5000],
+    [116.432393, 30.951142, 5000],
+    [116.368497, 30.969006, 5000],
+    [116.364307, 31.03778, 5000]
+  ])
+
+  // 飞机
+  var graphicModel = new mars3d.graphic.ModelEntity({
+    position: propertyFJ,
+    orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
+    style: {
+      url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
+      scale: 0.3,
+      minimumPixelSize: 30
+    }
+  })
+  graphicLayer.addGraphic(graphicModel)
+
+  // 汽车
+  const propertyQC = getSampledPositionProperty([
+    [116.391268, 30.956038, 827.2],
+    [116.37934, 30.980835, 898.1],
+    [116.382514, 30.999031, 921.5],
+    [116.40338, 31.009258, 1214],
+    [116.412254, 31.021635, 1224.1],
+    [116.432328, 31.045508, 804.3]
+  ])
+  var graphicQC = new mars3d.graphic.PathEntity({
+    position: propertyQC,
+    orientation: new Cesium.VelocityOrientationProperty(propertyQC),
+    style: {
+      width: 1,
+      color: "#ffff00",
+      opacity: 0.4,
+      leadTime: 0
+    },
+    model: {
+      url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
+      scale: 0.5,
+      minimumPixelSize: 50
+    }
+  })
+  graphicLayer.addGraphic(graphicQC)
+
+  // 圆锥追踪体（动态position=>动态targetPosition）
   var coneTrack = new mars3d.graphic.ConeTrackPrimitive({
-    position: [116.364307, 31.03778, 5000],
-    targetPosition: [116.417326, 31.046258, 841.2],
+    position: propertyFJ,
+    // targetPosition: [116.417326, 31.046258, 841.2],
+    targetPosition: propertyQC,
     style: {
       // length: 4000, //targetPosition存在时无需传
       angle: 5, // 半场角度
@@ -142,10 +192,37 @@ function addGraphic03(graphicLayer) {
         repeat: 30.0
       }),
       faceForward: false, // 当绘制的三角面片法向不能朝向视点时，自动翻转法向，从而避免法向计算后发黑等问题
-      closed: true // 是否为封闭体，实际上执行的是 是否进行背面裁剪
+      closed: true, // 是否为封闭体，实际上执行的是 是否进行背面裁剪
+      renderState: Cesium.RenderState.fromCache({
+        blending: Cesium.BlendingState.ALPHA_BLEND,
+        depthTest: {
+          enabled: false,
+          func: Cesium.DepthFunction.LESS
+        },
+        cull: {
+          enabled: true,
+          face: Cesium.CullFace.BACK
+        },
+        depthMask: false
+      })
     }
   })
   graphicLayer.addGraphic(coneTrack)
+}
+
+// 计算演示的SampledPositionProperty轨迹
+function getSampledPositionProperty(points) {
+  const property = new Cesium.SampledPositionProperty()
+  property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
+  const start = map.clock.currentTime
+  const positions = mars3d.LatLngArray.toCartesians(points)
+  for (let i = 0; i < positions.length; i++) {
+    const time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
+    const position = positions[i]
+    property.addSample(time, position)
+  }
+  return property
 }
 
 // 绑定图层的弹窗

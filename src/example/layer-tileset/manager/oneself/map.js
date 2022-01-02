@@ -75,14 +75,7 @@ export function changeColor(color) {
   map.scene.backgroundColor = clr // 空间背景色
   map.scene.globe.baseColor = clr // 地表背景色
 
-  // map.setSceneOptions({
-  //   backgroundColor: color, //天空背景色
-  //   globe: {
-  //     baseColor: color, //地球地面背景色
-  //   },
-  // })
-
-  document.getElementById("body").css("background", color)
+  document.body.style.backgroundColor = color
 }
 
 function removeLayer() {

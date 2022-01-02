@@ -2,6 +2,9 @@
   <!--查询条件面板-->
   <pannel class="infoView" v-show="formState.viewContorUi === true">
     <a-form>
+      <a-form-item label="名称">
+        <mars-input v-model:value="formState.name" :allowClear="true" @change="selectSatellites" />
+      </a-form-item>
       <a-form-item label="系列卫星">
         <mars-select v-model:value="formState.selXiLie" :options="selXiLieOptions" @change="selectSatellites"> </mars-select>
       </a-form-item>
@@ -93,6 +96,7 @@ import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
+  name: string
   selXiLie: string
   selCountry: string
   selType: string
@@ -315,6 +319,7 @@ const selectSatellites = () => {
 
 // 重置参数
 const reset = () => {
+  formState.name = ""
   formState.selXiLie = ""
   formState.selCountry = ""
   formState.selType = ""
