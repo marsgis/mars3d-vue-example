@@ -19,7 +19,6 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  Cesium.ExperimentalFeatures.enableModelExperimental = true
 
   map.basemap = 2017 // 蓝色底图
 
@@ -43,6 +42,7 @@ export function onUnmounted() {
 
 export function setStyleDef() {
   tiles3dLayer.customShader = undefined
+  tiles3dLayer.reload()
 }
 
 export function setStyle1() {
@@ -57,6 +57,7 @@ export function setStyle1() {
         material.diffuse.g = -fsInput.attributes.positionEC.z / 1.0e4;
       } `
   })
+  tiles3dLayer.reload()
 }
 
 export function setStyle2() {
@@ -89,4 +90,5 @@ export function setStyle2() {
         material.diffuse += material.diffuse * (1.0 - mars_diff);
       } `
   })
+  tiles3dLayer.reload()
 }

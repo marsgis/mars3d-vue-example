@@ -55,7 +55,7 @@ export function onMounted(mapInstance) {
   const a = document.getElementsByClassName("mars3d-container")[0]
   a.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
   a.style.backgroundRepeat = "no-repeat"
-  a.style.backgroundSize = "100%"
+  a.style.backgroundSize = "100% 100%"
   eventTarget.fire("loadOk")
 }
 

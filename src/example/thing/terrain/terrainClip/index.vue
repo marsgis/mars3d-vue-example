@@ -28,7 +28,7 @@
       </a-col>
 
       <a-col :span="22">
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
+        <a-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <a-space>
@@ -63,6 +63,10 @@ interface FormState {
   enabledShendu: boolean
   txtHeight: number
 }
+interface TableItem {
+  key: number
+  name: string
+}
 
 const labelCol = ref({ span: 6 })
 const labelAlign = ref("left")
@@ -89,6 +93,24 @@ const columns = ref([
 ])
 const dataSource = ref([])
 
+const rowKeys = ref<string[]>([])
+
+const rowSelection = ref({
+  hideSelectAll: true,
+  hideDefaultSelections: true,
+  selectedRowKeys: rowKeys,
+  onChange: (selectedRowKeys: string[]) => {
+    // 使得点击之后选项改变
+    rowKeys.value = selectedRowKeys
+  },
+  onSelect: (record: TableItem, selected: boolean) => {
+    // console.log(record.key, selected)
+    mapWork.showHideArea(record.key, selected)
+  }
+})
+
+
+
 mapWork.eventTabel.on("loadOk", (e: any) => {
   e.terrainClip.diffHeight = formState.txtHeight
 
@@ -98,15 +120,16 @@ mapWork.eventTabel.on("tableObject", function (event: any) {
   dataSource.value = []
   nextTick(() => {
     dataSource.value = event.table
+    rowKeys.value = event.table.map((item: any) => item.key)
   })
 })
 
 // 表格的操作
 const flyto = (record: any) => {
-  mapWork.flyToGraphic(record.graphicId)
+  mapWork.flyToGraphic(record.key)
 }
 const deleted = (record: any) => {
-  mapWork.deletedGraphic(record.graphicId)
+  mapWork.deletedGraphic(record.key)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
 
   mapWork.changeTable(dataSource.value)

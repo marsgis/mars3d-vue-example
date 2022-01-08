@@ -75,3 +75,7 @@ export function getLocalStorage() {
     }
   } catch (err) {}
 }
+
+export function removeLocalStorage() {
+  localStorage.removeItem("bookmark")
+}

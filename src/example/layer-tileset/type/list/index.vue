@@ -85,3 +85,11 @@ function findChild(parent: any, list: any[]) {
     })
 }
 </script>
+
+<style lang="less" scoped>
+.infoView {
+  max-height: 646px;
+  bottom: 40px;
+  overflow: scroll;
+}
+</style>

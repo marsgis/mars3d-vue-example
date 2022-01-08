@@ -64,8 +64,8 @@ function addGraphic(position, attr) {
 
     const liquidfillchartChart = echarts.init(dom)
 
-    // 参考API：https://github.com/ecomfe/echarts-liquidfill
-    // 参考示例：https://www.makeapie.com/explore.html#tags=liquidFill~sort=rank~timeframe=all~author=all
+    // // 参考API：https://github.com/ecomfe/echarts-liquidfill
+    // // 参考示例：https://www.makeapie.com/explore.html#tags=liquidFill~sort=rank~timeframe=all~author=all
     const option = {
       series: [
         {
@@ -75,11 +75,9 @@ function addGraphic(position, attr) {
           color: [attr.color],
           data: [attr.value],
           label: {
-            normal: {
-              color: "#294D99",
-              insideColor: "#fff",
-              fontSize: 20
-            }
+            color: "#294D99",
+            insideColor: "#fff",
+            fontSize: 20
           }
         }
       ]

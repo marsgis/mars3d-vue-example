@@ -1,6 +1,6 @@
 <template>
   <pannel class="infoView">
-    <a-directory-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+    <a-directory-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
@@ -22,12 +22,13 @@ const treeData = ref<any[]>([
 ])
 
 const checkedKeys = ref<string[]>([])
-
+const expandedKeys = ref<any[]>([])
+expandedKeys.value.push(0)
 let layersObj: any = {}
 
-  mapWork.treeEvent.on("tree", function (event: any) {
-    initTree(event.data)
-  })
+mapWork.treeEvent.on("tree", function (event: any) {
+  initTree(event.data)
+})
 
 const checkedChange = (keys: string[], checkedNodes: any) => {
   const show = checkedNodes.checked
@@ -49,14 +50,13 @@ const checkedChange = (keys: string[], checkedNodes: any) => {
   }
 }
 
-function initTree(dataItems:any) {
+function initTree(dataItems: any) {
   // 重置上一次的树状数据
   treeData.value[0].children = []
   layersObj = {}
 
   const children: any[] = []
   const dataKeys: any = []
-  // const dataItems = event.data
 
   // 遍历出所有的树状数据
   for (let i = 0; i < dataItems.length; i++) {
@@ -90,5 +90,10 @@ function initTree(dataItems:any) {
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+.infoView {
+  max-height: 686px;
+  bottom: 40px;
+  overflow: scroll;
 }
 </style>

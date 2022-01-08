@@ -1,5 +1,5 @@
 <template>
-  <div class="pannel fadeInRight" :class="{ 'pannel-model': props.type === 'model' }" ref="pannelBox" v-show="props.type === 'pannel' || visible">
+  <div class="pannel" :class="[props.type === 'model' ? 'pannel-model': '', animateClassName]" ref="pannelBox" v-show="props.type === 'pannel' || visible">
     <div v-if="props.type === 'model'" ref="modelHeader" class="pannel-model__header" @mousedown="mousedown">
       <span class="title">{{ title }}</span>
       <close @click="closeModel" class="close-btn" />
@@ -33,6 +33,10 @@ const props = defineProps({
   visible: {
     type: Boolean,
     default: false
+  },
+  animateClassName: {
+    type: String,
+    default: "fadeInRight"
   }
 })
 
@@ -84,6 +88,8 @@ function mousedown(event: any) {
   padding: 10px 10px;
   border-radius: 4px;
   z-index: 1000;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
 
   border: 1px solid #4db3ff70;
   background: linear-gradient(to left, #4db3ff, #4db3ff) left top no-repeat, linear-gradient(to bottom, #4db3ff, #4db3ff) left top no-repeat,
@@ -139,7 +145,6 @@ function mousedown(event: any) {
     transform: none;
   }
 }
-
 .fadeInRight {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -148,4 +153,119 @@ function mousedown(event: any) {
   -webkit-animation-name: fadeInRight;
   animation-name: fadeInRight;
 }
+
+
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInLeft {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+
+
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInDown {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
 </style>

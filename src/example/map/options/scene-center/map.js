@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map
+let graphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -18,12 +19,36 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 2也可以通过下面方法获取center参数
-  const center = map.getCameraView()
-  console.log("center参数为", JSON.stringify(center))
+  const graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
-  // 可以通过centerAt切换视角
-  map.setCameraView(center)
+  graphic = new mars3d.graphic.EllipsoidEntity({
+    position: [107.39956, 29.719738, 100.9],
+    style: {
+      radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
+      maximumConeDegree: 90, // 半球
+      fill: false,
+      subdivisions: 64,
+      stackPartitions: 32,
+      slicePartitions: 32,
+      outline: true,
+      outlineColor: Cesium.Color.YELLOW,
+
+      // 高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+      highlight: {
+        outlineColor: Cesium.Color.RED
+      }
+    },
+    // 添加扫描面
+    scanPlane: {
+      step: 0.5, // 步长
+      style: {
+        color: "#ffff00",
+        opacity: 0.4
+      }
+    }
+  })
+  graphicLayer.addGraphic(graphic)
 }
 
 /**
@@ -35,6 +60,7 @@ export function onUnmounted() {
   map = null
 }
 
+// **************************** 景点视角演示********************** //
 export function changeView1() {
   map.setCameraView({ lat: 39.904128, lng: 116.391643, alt: 1054, heading: 356, pitch: -39 })
 }
@@ -49,4 +75,45 @@ export function changeView3() {
 
 export function changeView4() {
   map.setCameraView({ lat: 30.83463, lng: 115.86774, alt: 710, heading: 303, pitch: -7 })
+}
+
+// **************************** 相机和视角控制********************** //
+export function mapGetCameraView() {
+  const camera = map.getCameraView()
+  globalAlert(JSON.stringify(camera), "当前视角参数")
+}
+export function mapSetCameraView() {
+  map.setCameraView({ lat: 26.8764, lng: 91.148781, alt: 223798, heading: 356, pitch: -45 })
+}
+export function mapSetCameraViewList() {
+  // stop设置停留在该视角的时间
+  map.setCameraViewList([
+    { lat: 34.560444, lng: 110.047344, alt: 1402, heading: 166, pitch: 0, stop: 3 },
+    { lat: 34.54241, lng: 109.838031, alt: 3227, heading: 127, pitch: -9 },
+    { lat: 34.264647, lng: 109.842337, alt: 2722, heading: 49, pitch: -17, stop: 5 },
+    { lat: 34.291811, lng: 109.960799, alt: 2156, heading: 355, pitch: -12 }
+  ])
+}
+export function mapFlyHome() {
+  map.flyHome()
+}
+export function mapFlyToGraphic() {
+  map.flyToGraphic(graphic, { radius: 10000 })
+}
+export function mapFlyToExtent() {
+  map.flyToExtent({ xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 })
+}
+export function mapFlyToPositions() {
+  map.flyToPositions([
+    [114.031965, 36.098482, 332.8],
+    [114.038309, 36.089496, 267.6],
+    [114.048026, 36.093311, 255.7],
+    [114.041602, 36.102055, 377.5]
+  ])
+}
+export function mapFlyToPoint() {
+  map.flyToPoint([113.939351, 36.068144, 350.9])
+}
+export function mapCancelFlyTo() {
+  map.cancelFlyTo()
 }

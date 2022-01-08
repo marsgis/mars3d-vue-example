@@ -4,8 +4,8 @@
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.1.19，
- * 编译日期：2022-01-02 13:34:22
+ * 版本信息：v3.1.21，
+ * 编译日期：2022-01-08 18:29:19
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
@@ -1683,6 +1683,45 @@ export class OverviewMap extends BaseControl {
     _removedHook(): void;
 }
 
+/**
+ * 时间线 控件
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.style] - 可以CSS样式，如:
+ * @param [options.style.top] - css定位top位置, 如 top: '10px'
+ * @param [options.style.bottom = 0] - css定位bottom位置
+ * @param [options.style.left = 0] - css定位left位置
+ * @param [options.style.right = 0] - css定位right位置
+ * @param [options.id = uuid()] - 对象的id标识
+ * @param [options.enabled = true] - 对象的启用状态
+ * @param [options.parentContainer] - 控件加入的父容器，默认为map所在的DOM map.container
+ * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
+ * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
+ */
+export class Timeline extends BaseControl {
+    constructor(options?: {
+        style?: {
+            top?: string;
+            bottom?: string;
+            left?: string;
+            right?: string;
+        };
+        id?: string | number;
+        enabled?: boolean;
+        parentContainer?: HTMLElement;
+        insertIndex?: number;
+        insertBefore?: HTMLElement;
+    });
+    /**
+     * @param startTime - 开始时间
+     * @param stopTime - 结束时间
+     */
+    zoomTo(startTime: Cesium.JulianDate, stopTime: Cesium.JulianDate): void;
+    /**
+     * 父容器DOM对象
+     */
+    readonly parentContainer: HTMLElement;
+}
+
 export namespace ToolButton {
     /**
      * 当前类支持的{@link EventType}事件类型
@@ -2412,7 +2451,7 @@ export class OutlineEffect extends BaseEffect {
     /**
      * 选中对象
      */
-    selected: any | array | undefined;
+    selected: any | any | undefined;
     /**
      * 轮廓线 颜色
      */
@@ -2528,6 +2567,33 @@ export class SnowEffect extends BaseEffect {
      * 速度
      */
     speed: number;
+}
+
+/**
+ * 全局JsDoc变量 (只是注释使用，非mars3d变量)
+ */
+namespace Globe {
+    /**
+     * Popup或Tooltip配置的数组方式对象
+     * @property field - 字段名称
+     * @property name - 显示的对应自定义名称
+     * @property [type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
+     * @property [callback] - 当type为'button'按钮时，单击后触发的事件。
+     * @property [html] - 当type为'html'时，对于拼接的html内容。
+     * @property [format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
+     * @property [unit] - 追加的计量单位值。
+     * @property [className] - 自定义样式名称
+     */
+    type getTemplateHtml_template = {
+        field: string;
+        name: string;
+        type?: string;
+        callback?: string;
+        html?: string;
+        format?: string | ((...params: any[]) => any);
+        unit?: string;
+        className?: string;
+    };
 }
 
 export namespace BaseGraphic {
@@ -2846,7 +2912,7 @@ export class BaseGraphic extends BaseClass {
      * @param [hasLayer = true] - 是获取图层上的右键菜单
      * @returns 右键菜单数组
      */
-    getContextMenu(hasLayer?: boolean): array;
+    getContextMenu(hasLayer?: boolean): any;
     /**
      * 绑定右键菜单
      * @example
@@ -2878,7 +2944,7 @@ export class BaseGraphic extends BaseClass {
         iconCls?: string;
         show?: ((...params: any[]) => any) | boolean;
         callback?: (...params: any[]) => any;
-        children?: array;
+        children?: any;
     }[], options?: {
         offsetX?: number;
         offsetY?: number;
@@ -2931,7 +2997,7 @@ export class BaseCombine extends BasePrimitive {
     /**
      * 数据集合数组
      */
-    instances: array;
+    instances: any;
     /**
      * 根据 pickId 获取对应绑定的数据据对象
      * @param pickId - 单个对象的pickid
@@ -3558,7 +3624,7 @@ export namespace DivGraphic {
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      */
     type StyleOptions = {
-        html: string | Element | ((...params: any[]) => any);
+        html: string | HTMLDivElement | ((...params: any[]) => any);
         horizontalOrigin?: Cesium.HorizontalOrigin;
         verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
@@ -3732,7 +3798,7 @@ export class DivGraphic extends BaseGraphic {
     /**
      * 对应的DOM元素
      */
-    readonly container: Element;
+    readonly container: HTMLDivElement;
     /**
      * 对应的DOM元素的id
      */
@@ -3740,7 +3806,7 @@ export class DivGraphic extends BaseGraphic {
     /**
      * 设置或获取当前对象对应的Html
      */
-    html: string | Element;
+    html: string | HTMLDivElement;
     /**
      * 更新刷新下DIV的位置，可以外部主动驱动来更新。
      * @returns 当前对象本身，可以链式调用
@@ -4029,6 +4095,12 @@ export class DivUpLabel extends DivGraphic {
     static fromDraw(layer: GraphicLayer, options: any): DivGraphic;
 }
 
+/**
+ * DivGraphic对象 标绘处理对应的编辑类
+ */
+export class EditDivGraphic extends EditBase {
+}
+
 export namespace ParticleSystem {
     /**
      * 粒子效果 支持的样式信息
@@ -4062,7 +4134,7 @@ export namespace ParticleSystem {
      */
     type StyleOptions = {
         image?: string;
-        emitter?: ParticleEmitter;
+        emitter?: Cesium.ParticleEmitter;
         emissionRate?: number;
         bursts?: Cesium.ParticleBurst[];
         loop?: boolean;
@@ -4180,6 +4252,9 @@ export namespace Popup {
      * @property [css_transform_origin = 'left bottom 0'] - DIV的 transform-origin css值
      * @property [timeRender] - 是否实时刷新全部HTML，此时需要绑定html需传入回调方法。
      * @property [autoCenter] - 当气泡窗口有部分在地图之外时是否自动进行居中 （目前仅俯视时准确定位）
+     * @property [maxWidth = 700] - 弹窗的最大宽度，单位为像素
+     * @property [minWidth = 50] - 弹窗的最小宽度，单位为像素
+     * @property [maxHeight = 550] - 如果设置，如果内容超过此高度时，则在弹出窗口中显示滚动条。
      */
     type StyleOptions = {
         html?: string;
@@ -4200,6 +4275,9 @@ export namespace Popup {
         css_transform_origin?: string;
         timeRender?: boolean;
         autoCenter?: boolean;
+        maxWidth?: number;
+        minWidth?: number;
+        maxHeight?: number;
     };
 }
 
@@ -4209,12 +4287,13 @@ export namespace Popup {
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.className] - 自定义的样式名
+ * @param [options.animation = true] - 是否执行打开时的动画效果
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
  * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
- * @param [options.animation = true] - 是否执行打开时的动画效果
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -4224,12 +4303,13 @@ export class Popup extends DivGraphic {
         position: LatLngPoint | Cesium.Cartesian3;
         style: Popup.StyleOptions;
         attr?: any;
+        className?: string;
+        animation?: boolean;
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
         depthTest?: boolean;
         hasCache?: boolean;
-        animation?: boolean;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -4744,7 +4824,7 @@ export class BaseEntity extends BaseGraphic {
  */
 export class BasePointEntity extends BaseEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         orientation?: Cesium.Property;
         style: any;
         attr?: any;
@@ -4831,7 +4911,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities 等
      */
-    readonly objectsToExclude: array | undefined;
+    readonly objectsToExclude: any | undefined;
     /**
      * 更新 三维空间中的Quaternion旋转对象。
      * @returns 更新后的Quaternion旋转对象
@@ -4859,7 +4939,7 @@ export class BasePointEntity extends BaseEntity {
      */
     clampToGround(options?: {
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         callback: getSurfaceHeight_callback;
     }): BasePointEntity;
     /**
@@ -4873,11 +4953,6 @@ export class BasePointEntity extends BaseEntity {
      * @param position - 坐标
      */
     setCallbackPosition(position: Cesium.Cartesian3): void;
-    /**
-     * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
-     * @param positions - 坐标数组
-     */
-    static BasePolyEntity#setCallbackPositions(positions: Cesium.Cartesian3[]): void;
     /**
      * 显示隐藏状态
      */
@@ -4895,11 +4970,12 @@ export class BasePointEntity extends BaseEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -4920,11 +4996,12 @@ export class BasePolyEntity extends BaseEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
         hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -4935,6 +5012,14 @@ export class BasePolyEntity extends BaseEntity {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+    /**
+     * 编辑时，是否可以整体平移
+     */
+    readonly hasMoveEdit: boolean;
+    /**
+     * 编辑时，当有diffHeight时，是否可以编辑高度
+     */
+    readonly hasHeightEdit: boolean;
     /**
      * 编辑处理类
      */
@@ -5003,10 +5088,15 @@ export class BasePolyEntity extends BaseEntity {
      */
     clampToGround(options?: {
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         offset?: number;
         callback: surfaceLineWork_callback;
     }): BasePolyEntity;
+    /**
+     * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
+     * @param positions - 坐标数组
+     */
+    setCallbackPositions(positions: Cesium.Cartesian3[]): void;
 }
 
 export namespace BillboardEntity {
@@ -5062,7 +5152,7 @@ export namespace BillboardEntity {
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Cesium.Cartesian2 | number[];
+        pixelOffset?: Cesium.Cartesian2 | Number[];
         scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -5114,7 +5204,7 @@ export namespace BillboardEntity {
  */
 export class BillboardEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: BillboardEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -5265,7 +5355,7 @@ export namespace BoxEntity {
  */
 export class BoxEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: BoxEntity.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -5405,7 +5495,7 @@ export namespace CircleEntity {
  */
 export class CircleEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: CircleEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -5637,7 +5727,7 @@ export namespace ConeTrack {
  */
 export class ConeTrack extends CylinderEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         targetPosition?: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty;
         style: ConeTrack.StyleOptions;
         attr?: any;
@@ -5776,10 +5866,12 @@ export namespace CorridorEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -5800,10 +5892,12 @@ export class CorridorEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -5846,10 +5940,12 @@ export class CorridorEntity extends BasePolyEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -5870,10 +5966,12 @@ export class CurveEntity extends PolylineEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -5983,7 +6081,7 @@ export namespace CylinderEntity {
  */
 export class CylinderEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: CylinderEntity.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -6078,7 +6176,7 @@ export namespace DivBillboardEntity {
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Cesium.Cartesian2 | number[];
+        pixelOffset?: Cesium.Cartesian2 | Number[];
         scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -6131,7 +6229,7 @@ export namespace DivBillboardEntity {
  */
 export class DivBillboardEntity extends BillboardEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: DivBillboardEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -6366,7 +6464,7 @@ export namespace EllipseEntity {
  */
 export class EllipseEntity extends CircleEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: EllipseEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -6528,7 +6626,7 @@ export namespace EllipsoidEntity {
  */
 export class EllipsoidEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: EllipsoidEntity.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -6644,7 +6742,7 @@ export namespace FontBillboardEntity {
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Cesium.Cartesian2 | number[];
+        pixelOffset?: Cesium.Cartesian2 | Number[];
         scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -6696,7 +6794,7 @@ export namespace FontBillboardEntity {
  */
 export class FontBillboardEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: FontBillboardEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -6794,7 +6892,7 @@ export namespace LabelEntity {
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Cesium.Cartesian2 | number[];
+        pixelOffset?: Cesium.Cartesian2 | Number[];
         pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
         eyeOffset?: Cesium.Cartesian3;
         scaleByDistance?: boolean | Cesium.NearFarScalar;
@@ -6840,7 +6938,7 @@ export namespace LabelEntity {
  */
 export class LabelEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: LabelEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -7054,7 +7152,7 @@ export namespace ModelEntity {
  */
 export class ModelEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: ModelEntity.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -7426,7 +7524,7 @@ export namespace PlaneEntity {
  */
 export class PlaneEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: PlaneEntity.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -7545,7 +7643,7 @@ export namespace PointEntity {
  */
 export class PointEntity extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: PointEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -7655,8 +7753,8 @@ export namespace PolygonEntity {
         classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         buffer?: number;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolygonEntity.StyleOptions;
         label?: {
             position?: string | LatLngPoint;
@@ -7676,10 +7774,12 @@ export namespace PolygonEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -7700,10 +7800,12 @@ export class PolygonEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -7827,8 +7929,8 @@ export namespace PolylineEntity {
         clampToGround?: boolean;
         classificationType?: Cesium.ClassificationType;
         zIndex?: number;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolylineEntity.StyleOptions;
         label?: {
             position?: string | LatLngPoint;
@@ -7848,10 +7950,12 @@ export namespace PolylineEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -7872,10 +7976,12 @@ export class PolylineEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -7946,8 +8052,8 @@ export namespace PolylineVolumeEntity {
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
         shadows?: Cesium.ShadowMode;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolylineVolumeEntity.StyleOptions;
         label?: LabelEntity.StyleOptions;
     };
@@ -7964,10 +8070,12 @@ export namespace PolylineVolumeEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -7988,10 +8096,12 @@ export class PolylineVolumeEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -8109,10 +8219,12 @@ export namespace RectangleEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -8134,10 +8246,12 @@ export class RectangleEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -8373,7 +8487,7 @@ export namespace RectangularSensor {
  */
 export class RectangularSensor extends BasePointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: RectangularSensor.StyleOptions;
         attr?: any;
         orientation?: Cesium.Property;
@@ -8513,7 +8627,7 @@ export namespace Video2D {
  */
 export class Video2D extends PolygonEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         dom: HTMLElement;
         style: Video2D.StyleOptions;
         attr?: any;
@@ -8671,10 +8785,12 @@ export namespace WallEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -8695,10 +8811,12 @@ export class WallEntity extends BasePolyEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -8998,6 +9116,18 @@ export class DoubleArrow extends PolygonEntity {
      * @returns 矢量对象
      */
     static fromDraw(layer: GraphicLayer, options: any): DoubleArrow;
+}
+
+/**
+ * Regular对象 标绘处理对应的编辑类
+ */
+export class EditRegular extends EditPolygon {
+}
+
+/**
+ * Sector对象 标绘处理对应的编辑类
+ */
+export class EditSector extends EditPolygon {
 }
 
 /**
@@ -9475,10 +9605,12 @@ export class StraightArrow extends PolygonEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9500,10 +9632,12 @@ export class AngleMeasure extends PolylineEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9546,10 +9680,12 @@ export class AngleMeasure extends PolylineEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9571,10 +9707,12 @@ export class AreaMeasure extends PolygonEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9623,10 +9761,12 @@ export class AreaMeasure extends PolygonEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9648,10 +9788,12 @@ export class AreaSurfaceMeasure extends AreaMeasure {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9684,10 +9826,12 @@ export class AreaSurfaceMeasure extends AreaMeasure {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9709,10 +9853,12 @@ export class DistanceMeasure extends PolylineEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9755,10 +9901,12 @@ export class DistanceMeasure extends PolylineEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9780,10 +9928,12 @@ export class DistanceSurfaceMeasure extends DistanceMeasure {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9816,10 +9966,12 @@ export class DistanceSurfaceMeasure extends DistanceMeasure {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9841,10 +9993,12 @@ export class HeightMeasure extends PolylineEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9887,10 +10041,12 @@ export class HeightMeasure extends PolylineEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -9912,10 +10068,12 @@ export class HeightTriangleMeasure extends HeightMeasure {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -9967,7 +10125,7 @@ export class HeightTriangleMeasure extends HeightMeasure {
  */
 export class PointMeasure extends PointEntity {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: PointEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -10009,10 +10167,12 @@ export class PointMeasure extends PointEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
- * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
+ * @param [options.hasEdit = true] - 是否允许编辑
+ * @param [options.hasMoveEdit = true] - 编辑时，是否可以整体平移
+ * @param [options.hasHeightEdit = true] - 编辑时，当有diffHeight时，是否可以编辑高度
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -10034,10 +10194,12 @@ export class SectionMeasure extends DistanceMeasure {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
-        hasMoveEdit?: boolean;
         minPointNum?: number;
         maxPointNum?: number;
         addHeight?: number;
+        hasEdit?: boolean;
+        hasMoveEdit?: boolean;
+        hasHeightEdit?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -10257,7 +10419,7 @@ export class BasePointPrimitive extends BasePrimitive {
      */
     clampToGround(options?: {
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         callback: getSurfaceHeight_callback;
     }): BasePointPrimitive;
     /**
@@ -10386,7 +10548,7 @@ export class BasePolyPrimitive extends BasePrimitive {
      */
     clampToGround(options?: {
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         offset?: number;
         callback: surfaceLineWork_callback;
     }): BasePolyPrimitive;
@@ -10528,6 +10690,11 @@ export class BasePrimitive extends BaseGraphic {
      */
     readonly label: Cesium.Label;
     /**
+     * 重新渲染
+     * @returns 当前对象本身
+     */
+    redraw(): BasePrimitive;
+    /**
      * 高亮对象。
      * @param [highlightStyle] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
      * @param [closeLast = true] - 是否清除地图上上一次的高亮对象
@@ -10539,20 +10706,6 @@ export class BasePrimitive extends BaseGraphic {
      * @returns 无
      */
     closeHighlight(): void;
-}
-
-export namespace BillboardPrimitive {
-    /**
-     * 图标点 Primitive矢量数据 支持的样式信息
-     * @property [所有] - 与 BillboardEntity 相同
-     * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
-     * @property [label] - 支持附带文字的显示
-     */
-    type StyleOptions = {
-        所有?: BillboardEntity.StyleOptions;
-        highlight?: BillboardPrimitive.StyleOptions;
-        label?: LabelEntity.StyleOptions;
-    };
 }
 
 /**
@@ -10574,7 +10727,7 @@ export namespace BillboardPrimitive {
 export class BillboardPrimitive extends BasePointPrimitive {
     constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3;
-        style: BillboardPrimitive.StyleOptions;
+        style: BillboardEntity.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
@@ -10936,9 +11089,6 @@ export namespace ConeTrackPrimitive {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度），没有指定targetPosition时有效
      * @property [roll = 0] - 翻滚角（度数值，0-360度），没有指定targetPosition时有效
      * @property [fill = true] - 是否填充
-     * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
-     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
@@ -10967,9 +11117,6 @@ export namespace ConeTrackPrimitive {
         pitch?: number;
         roll?: number;
         fill?: boolean;
-        materialType?: string;
-        material材质参数?: any;
-        material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
@@ -11022,7 +11169,7 @@ export namespace ConeTrackPrimitive {
  */
 export class ConeTrackPrimitive extends CylinderPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3y;
+        position: LatLngPoint | Cesium.Cartesian3;
         targetPosition?: LatLngPoint | Cesium.Cartesian3;
         style: ConeTrackPrimitive.StyleOptions;
         attr?: any;
@@ -12448,8 +12595,8 @@ export namespace PolygonPrimitive {
         fragmentShaderSource?: string;
         renderState?: any;
         buffer?: number;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolygonPrimitive.StyleOptions;
         label?: {
             position?: string | LatLngPoint;
@@ -12572,8 +12719,8 @@ export namespace PolylinePrimitive {
         shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
         classificationType?: Cesium.ClassificationType;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolylinePrimitive.StyleOptions;
         label?: {
             position?: string | LatLngPoint;
@@ -12740,8 +12887,8 @@ export namespace PolylineVolumePrimitive {
         vertexShaderSource?: string;
         fragmentShaderSource?: string;
         renderState?: any;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         label?: LabelPrimitive.StyleOptions;
     };
 }
@@ -13227,8 +13374,8 @@ export namespace Water {
         vertexShaderSource?: string;
         fragmentShaderSource?: string;
         renderState?: any;
-        setHeight?: number | number[];
-        addHeight?: number | number[];
+        setHeight?: number | Number[];
+        addHeight?: number | Number[];
         highlight?: PolygonPrimitive.StyleOptions;
         label?: {
             position?: string | LatLngPoint;
@@ -13369,7 +13516,7 @@ export class BaseRoamLine extends BaseGraphic {
     /**
      * 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities 等
      */
-    readonly objectsToExclude: array | undefined;
+    readonly objectsToExclude: any | undefined;
     /**
      * 中心点坐标（笛卡尔坐标）,popup/tooltip等功能会使用
      */
@@ -13762,7 +13909,7 @@ export class DynamicRoamLine extends BaseRoamLine {
         fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         clampToTileset?: boolean;
         frameRate?: number;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         shadow?: {
             wall?: BaseRoamLine.WallShadingOptions;
             cylinder?: BaseRoamLine.CylinderShadingOptions;
@@ -13816,7 +13963,7 @@ export class DynamicRoamLine extends BaseRoamLine {
      * @param [options.getPosition] - 构造单条数据内的构造坐标点的回调方法，如果points数据中已有position或lat\lng\alt字段也可以不传回调方法。
      * @returns 无
      */
-    updatePath(points: array, options?: {
+    updatePath(points: any, options?: {
         timeColumn?: any;
         getPosition?: (...params: any[]) => any;
     }): void;
@@ -13972,7 +14119,7 @@ export class RoamLine extends BaseRoamLine {
         offset?: number;
         clampToTileset?: boolean;
         frameRate?: number;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         shadow?: {
             wall?: BaseRoamLine.WallShadingOptions;
             cylinder?: BaseRoamLine.CylinderShadingOptions;
@@ -14139,13 +14286,13 @@ export namespace BaseGraphicLayer {
  */
 export class BaseGraphicLayer extends BaseLayer {
     constructor(options?: {
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -14255,7 +14402,7 @@ export class BaseGraphicLayer extends BaseLayer {
      * 获取绑定的右键菜单数组
      * @returns 右键菜单数组
      */
-    getContextMenu(): array;
+    getContextMenu(): any;
     /**
      * 绑定右键菜单
      * @example
@@ -14301,7 +14448,7 @@ export class BaseGraphicLayer extends BaseLayer {
         iconCls?: string;
         show?: ((...params: any[]) => any) | boolean;
         callback?: (...params: any[]) => any;
-        children?: array;
+        children?: any;
     }[], options?: {
         offsetX?: number;
         offsetY?: number;
@@ -14623,13 +14770,13 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -14810,13 +14957,13 @@ export class CzmlLayer extends CzmGeoJsonLayer {
         data?: any;
         format?: (...params: any[]) => any;
         zIndex?: number;
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -14927,13 +15074,13 @@ export class KmlLayer extends CzmGeoJsonLayer {
             styleFieldOptions?: any;
             callback?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -15073,12 +15220,12 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         debuggerTileInfo: boolean;
         opacity?: number;
         zIndex?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -15100,13 +15247,13 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
             color?: string;
             colorIn?: string;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -15205,13 +15352,13 @@ export class ArcGisWfsSingleLayer extends GeoJsonLayer {
             cloumn?: string;
             height?: string | number;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -15320,7 +15467,7 @@ export class GeodePoiLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         debuggerTileInfo: boolean;
         zIndex?: number;
         opacity?: number;
@@ -15506,7 +15653,7 @@ export class GeoJsonLayer extends GraphicLayer {
         opacity?: number;
         zIndex?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -15522,13 +15669,13 @@ export class GeoJsonLayer extends GraphicLayer {
         templateValues?: any;
         queryParameters?: any;
         headers?: any;
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -15814,7 +15961,7 @@ export namespace GraphicLayer {
  * @param [options.data = null] - 需要自动加载的数据，内部自动生成Graphic对象。{@link GraphicUtil#.create}
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
- * @param [options.isContinued = false] - 是否连续标绘
+ * @param [options.isContinued = false] - 是否连续标绘,联系标绘状态下无法编辑已有对象。
  * @param [options.isRestorePositions = false] - 在标绘和编辑结束时，是否将坐标还原为普通值，true: 停止编辑时会有闪烁，但效率要好些。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
@@ -15868,14 +16015,14 @@ export namespace GraphicLayer {
  */
 export class GraphicLayer extends BaseGraphicLayer {
     constructor(options?: {
-        data?: any | array;
+        data?: any | any;
         hasEdit?: boolean;
         isAutoEditing?: boolean;
         isContinued?: boolean;
         isRestorePositions?: boolean;
         zIndex?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -15894,13 +16041,13 @@ export class GraphicLayer extends BaseGraphicLayer {
             borderOpacity?: number;
             getImage?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -15930,6 +16077,14 @@ export class GraphicLayer extends BaseGraphicLayer {
         flyTo?: boolean;
     });
     /**
+     * 完成标绘时是否自动启动编辑(需要hasEdit:true时)
+     */
+    isAutoEditing: boolean;
+    /**
+     * 是否连续标绘
+     */
+    isContinued: boolean;
+    /**
      * 是否聚合(点数据时)
      */
     clustering: boolean;
@@ -15944,7 +16099,7 @@ export class GraphicLayer extends BaseGraphicLayer {
     /**
      * 当加载 DivGraphic 数据的内部DOM容器 {@link DivGraphic}
      */
-    readonly container: Element;
+    readonly container: HTMLDivElement;
     /**
      * 当加载 DivGraphic 数据的DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
      */
@@ -16008,7 +16163,7 @@ export class GraphicLayer extends BaseGraphicLayer {
     loadGeoJSON(geojson: string | any, options?: {
         clear?: boolean;
         flyTo?: boolean;
-        type?: GraphicType;
+        type?: GraphicType | string;
         style?: any;
         crs?: string;
     }): BaseGraphic[];
@@ -16074,7 +16229,7 @@ export class GraphicLayer extends BaseGraphicLayer {
      */
     clampToGround(options?: {
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         callback: (...params: any[]) => any;
         endItem: (...params: any[]) => any;
     }): GraphicLayer;
@@ -16313,7 +16468,7 @@ export class LodGraphicLayer extends GraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         debuggerTileInfo: boolean;
         opacity?: number;
         zIndex?: number;
@@ -16334,13 +16489,13 @@ export class LodGraphicLayer extends GraphicLayer {
             color?: string;
             colorIn?: string;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -16526,7 +16681,7 @@ export class ModelLayer extends GraphicLayer {
         isRestorePositions?: boolean;
         zIndex?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -16545,13 +16700,13 @@ export class ModelLayer extends GraphicLayer {
             borderOpacity?: number;
             getImage?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -16645,13 +16800,13 @@ export class OsmBuildingsLayer extends TilesetLayer {
             outlineEffect?: boolean;
             filter?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -16884,13 +17039,13 @@ export class TilesetLayer extends BaseGraphicLayer {
         backFaceCulling?: boolean;
         debugHeatmapTilePropertyName?: string;
         pickPrimitive?: any;
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -16944,7 +17099,7 @@ export class TilesetLayer extends BaseGraphicLayer {
     style: any | Cesium.Cesium3DTileStyle | ((...params: any[]) => any);
     /**
      * 自定义shader效果, <br/>
-     * 如果默认无customShader，加载模型后动态修改customShader值，需要在模型创建前设置 Cesium.ExperimentalFeatures.enableModelExperimental = true;
+     * 如果默认无customShader，加载模型后动态修改customShader值
      */
     customShader: Cesium.CustomShader;
     /**
@@ -16996,6 +17151,10 @@ export class TilesetLayer extends BaseGraphicLayer {
      */
     scale: number;
     /**
+     * 重新加载模型
+     */
+    reload(): void;
+    /**
      * 模型原始矩阵
      */
     readonly orginMatrix: Cesium.Matrix4;
@@ -17034,7 +17193,7 @@ export class TilesetLayer extends BaseGraphicLayer {
      * @param properties - 属性值数组
      * @returns 当前图层本身图层
      */
-    setProperties(idField: string, properties: array): TilesetLayer;
+    setProperties(idField: string, properties: any): TilesetLayer;
     /**
      * 高亮对象。
      * @param [highlightStyle] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
@@ -17178,11 +17337,11 @@ export class WfsLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         debuggerTileInfo: boolean;
         zIndex?: number;
         symbol?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
             styleOptions: any;
             styleField?: string;
             styleFieldOptions?: any;
@@ -17207,13 +17366,13 @@ export class WfsLayer extends LodGraphicLayer {
             borderOpacity?: number;
             getImage?: (...params: any[]) => any;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
             noTitle?: string;
         };
-        tooltip?: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         tooltipOptions?: {
             title?: string;
             titleField?: string;
@@ -17264,7 +17423,7 @@ export class WfsLayer extends LodGraphicLayer {
  */
 export class GroupLayer extends BaseGraphicLayer {
     constructor(options?: {
-        layers?: array;
+        layers?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -17395,7 +17554,7 @@ export class TerrainLayer extends BaseLayer {
 }
 
 /**
- * AraGIS生成的金字塔瓦片数据
+ * ArcGIS生成的金字塔瓦片数据
  * @example
  * let tileLayer = new mars3d.layer.ArcGisCacheLayer({
  *   url: 'http://data.mars3d.cn/tile/hf/guihua/_alllayers/{z}/{y}/{x}.png',
@@ -17482,7 +17641,7 @@ export class ArcGisCacheLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -17649,16 +17808,16 @@ export class ArcGisLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
         enablePickFeatures?: boolean;
         maxLength?: number;
         highlight?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
@@ -17718,7 +17877,7 @@ export class ArcGisLayer extends BaseTileLayer {
 }
 
 /**
- * AraGIS瓦片服务（使用XYZ瓦片方式请求读取），可用于ArcGisLayer读取异常时。
+ * ArcGIS瓦片服务（使用XYZ瓦片方式请求读取），可用于ArcGisLayer读取异常时。
  * @example
  * let tileLayer = new mars3d.layer.ArcGisTileLayer({
  *   url: 'http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer',
@@ -17797,7 +17956,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -17933,7 +18092,7 @@ export class BaiduLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -18092,7 +18251,7 @@ export class BaseTileLayer extends BaseLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18340,7 +18499,7 @@ export class BingLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18448,7 +18607,7 @@ export class EmptyTileLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -18563,7 +18722,7 @@ export class GaodeLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -18688,7 +18847,7 @@ export class GeeLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18822,7 +18981,7 @@ export class GoogleLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18948,7 +19107,7 @@ export class GridLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19058,7 +19217,7 @@ export class ImageLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19185,7 +19344,7 @@ export class IonLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19321,7 +19480,7 @@ export class MapboxLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19443,7 +19602,7 @@ export class OsmLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         proxy?: string;
         templateValues?: any;
@@ -19573,7 +19732,7 @@ export class TdtLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19704,7 +19863,7 @@ export class TencentLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -19815,7 +19974,7 @@ export class TileInfoLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
@@ -19930,7 +20089,7 @@ export class TmsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -20064,9 +20223,9 @@ export class WmsLayer extends BaseTileLayer {
         enablePickFeatures?: boolean;
         maxLength?: number;
         highlight?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
         };
-        popup?: string | getTemplateHtml_template[] | ((...params: any[]) => any);
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
             titleField?: string;
@@ -20082,7 +20241,7 @@ export class WmsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         opacity?: number;
@@ -20226,7 +20385,7 @@ export class WmtsLayer extends BaseTileLayer {
         pickFeaturesUrl?: Cesium.Resource | string;
         pickFeatures?: (...params: any[]) => any;
         highlight?: {
-            type?: GraphicType;
+            type?: GraphicType | string;
         };
         minimumLevel?: number;
         maximumLevel?: number;
@@ -20238,7 +20397,7 @@ export class WmtsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -20414,7 +20573,7 @@ export class XyzLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -21026,7 +21185,7 @@ export class Map extends BaseClass {
     /**
      * 获取地图DOM容器。
      */
-    readonly container: Element;
+    readonly container: HTMLDivElement;
     /**
      * 获取Canvas画布
      */
@@ -21135,7 +21294,7 @@ export class Map extends BaseClass {
      * 获取平台内置的右键菜单
      * @returns 右键菜单
      */
-    getDefaultContextMenu(): array;
+    getDefaultContextMenu(): any;
     /**
      * 取地图屏幕中心点坐标
      * @returns 屏幕中心点坐标
@@ -21179,11 +21338,11 @@ export class Map extends BaseClass {
         callback?: (...params: any[]) => any;
     }): void;
     /**
-     * 设置鼠标状态为“+”号效果，比如标绘时切换
-     * @param val - 是否“+”号效果
+     * 设置鼠标的默认状态样式
+     * @param [val] - cursor样式
      * @returns 无
      */
-    setCursor(val: boolean): void;
+    setCursor(val?: string): void;
     /**
      * 获取坐标位置的3dtiles模型对象
      * @param positions - 坐标  或 坐标数组
@@ -21802,7 +21961,7 @@ export class Map extends BaseClass {
      * 获取绑定的右键菜单数组
      * @returns 右键菜单数组
      */
-    getContextMenu(): array;
+    getContextMenu(): any;
     /**
      * 绑定地图的默认右键菜单
      * @example
@@ -21825,7 +21984,7 @@ export class Map extends BaseClass {
         iconCls?: string;
         show?: ((...params: any[]) => any) | boolean;
         callback?: (...params: any[]) => any;
-        children?: array;
+        children?: any;
     }[], options?: {
         offsetX?: number;
         offsetY?: number;
@@ -22245,6 +22404,7 @@ export class LineFlowColorMaterialProperty extends BaseMaterialProperty {
  * @param [options.repeat = new Cesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
  * @param [options.axisY = false] - 是否Y轴朝上
  * @param [options.speed = 10] - 速度，建议取值范围1-100
+ * @param [options.duration] - 播放总时长，单位：秒 （会覆盖speed参数）
  * @param [options.hasImage2 = false] - 是否有2张图片的混合模式
  * @param [options.image2] - 第2张背景图片URL地址
  * @param [options.color2 = new Cesium.Color(1, 1, 1)] - 第2张背景图片颜色
@@ -22256,6 +22416,7 @@ export class LineFlowMaterialProperty extends BaseMaterialProperty {
         repeat?: Cesium.Cartesian2;
         axisY?: boolean;
         speed?: number;
+        duration?: number;
         hasImage2?: boolean;
         image2?: string;
         color2?: string | Cesium.Color;
@@ -22833,8 +22994,8 @@ export namespace CanvasWindLayer {
         xmax?: number;
         ymin?: number;
         ymax?: number;
-        udata?: number[] | any[][];
-        vdata?: number[] | any[][];
+        udata?: Number[] | any[][];
+        vdata?: Number[] | any[][];
     };
 }
 
@@ -22894,6 +23055,10 @@ export class CanvasWindLayer extends BaseLayer {
         flyTo?: boolean;
     });
     /**
+     * 图层对应的Canvas对象
+     */
+    readonly canvas: HTMLCanvasElement;
+    /**
      * 线颜色
      */
     color: string;
@@ -22909,10 +23074,6 @@ export class CanvasWindLayer extends BaseLayer {
      * 是否翻转纬度数组顺序，正常数据是从北往南的（纬度从大到小），如果反向时请传reverseY为true
      */
     reverseY: boolean;
-    /**
-     * 图层对应的Canvas对象
-     */
-    readonly canvas: HTMLCanvasElement;
     /**
      * 图层对应的Canvas对象
      */
@@ -23074,7 +23235,7 @@ export class EchartsLayer extends BaseLayer {
 /**
  * 热力图图层，基于heatmap.js库渲染。
  * 【需要引入 heatmap.js 库 和 mars3d-heatmap 插件库】
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param [options.positions] - 坐标位置数组，有热力值时，传入LatLngPoint数组，热力值为value字段。示例:[{lat:31.123,lng:103.568,value:1.2},{lat:31.233,lng:103.938,value:2.3}]
  * @param [options.heatStyle] - heatmap热力图本身configObject参数，详情也可查阅 [heatmap文档]{@link https://www.patrick-wied.at/static/heatmapjs/docs.html}
  * @param [options.heatStyle.maxOpacity = 0.8] - 最大不透明度，取值范围0.0-1.0。
@@ -23106,7 +23267,7 @@ export class EchartsLayer extends BaseLayer {
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class HeatLayer extends BaseLayer {
-    constructor(options?: {
+    constructor(options: {
         positions?: LatLngPoint[] | any[][] | string[] | Cesium.Cartesian3[];
         heatStyle?: {
             maxOpacity?: number;
@@ -23565,7 +23726,7 @@ export namespace CamberRadar {
 /**
  * 双曲面拱形雷达,
  * 【需要引入  mars3d-space 插件库】
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
@@ -23575,7 +23736,7 @@ export namespace CamberRadar {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
 export class CamberRadar extends BasePointPrimitive {
-    constructor(options?: {
+    constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3;
         style: CamberRadar.StyleOptions;
         attr?: any;
@@ -23663,7 +23824,7 @@ export namespace ConicSensor {
 /**
  * 圆锥体（单目标雷达）,
  * 【需要引入  mars3d-space 插件库】
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
@@ -23675,7 +23836,7 @@ export namespace ConicSensor {
  * @param [options.show = true] - 矢量数据是否显示
  */
 export class ConicSensor extends BasePointPrimitive {
-    constructor(options?: {
+    constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3;
         style: ConicSensor.StyleOptions;
         attr?: any;
@@ -23764,12 +23925,6 @@ export class ConicSensor extends BasePointPrimitive {
      * @returns 坐标数组
      */
     getRayEarthPositions(): Cesium.Cartesian3[];
-    /**
-     * 销毁当前对象
-     * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
-     * @returns 无
-     */
-    destroy(noDel?: boolean): void;
 }
 
 export namespace RectSensor {
@@ -23829,7 +23984,7 @@ export namespace RectSensor {
 /**
  * 四棱锥体,
  * 【需要引入  mars3d-space 插件库】
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
@@ -23841,7 +23996,7 @@ export namespace RectSensor {
  * @param [options.show = true] - 矢量数据是否显示
  */
 export class RectSensor extends BasePointPrimitive {
-    constructor(options?: {
+    constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3;
         style: RectSensor.StyleOptions;
         attr?: any;
@@ -23934,12 +24089,6 @@ export class RectSensor extends BasePointPrimitive {
      * @returns 坐标数组
      */
     getRayEarthPositions(): Cesium.Cartesian3[];
-    /**
-     * 销毁当前对象
-     * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
-     * @returns 无
-     */
-    destroy(noDel?: boolean): void;
 }
 
 export namespace Satellite {
@@ -23960,7 +24109,7 @@ export namespace Satellite {
 /**
  * 卫星综合体 对象类【统一管理卫星模型、轨道、视锥体】,
  * 【需要引入  mars3d-space 插件库】
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.tle1 - 卫星两行轨道数（TLE） 的tle1, 示例：'1 39150U 13018A   18309.20646405  .00000034  00000-0  12253-4 0  9993'
  * @param options.tle2 - 卫星两行轨道数（TLE） 的tle2, 示例：'2 39150  97.9189  29.2064 0018076 220.9170 139.0692 14.76532215297913'
  * @param [options.period] - 卫星运行周期（单位：分钟）, 未传值时自动在tle2中解析
@@ -23982,7 +24131,7 @@ export namespace Satellite {
  * @param [options.show = true] - 矢量数据是否显示
  */
 export class Satellite extends BaseGraphic {
-    constructor(options?: {
+    constructor(options: {
         tle1: string;
         tle2: string;
         period?: number;
@@ -24077,7 +24226,7 @@ export class Satellite extends BaseGraphic {
      * @param [arr] - 轨迹的原始数组，默认为内部记录的轨迹
      * @returns 对应的时间
      */
-    getPointTime(position: Cesium.Cartesian3, arr?: array): Date;
+    getPointTime(position: Cesium.Cartesian3, arr?: any): Date;
     /**
      * 更新角度
      * @param [newangle] - 新角度值
@@ -24279,12 +24428,6 @@ export class SatelliteSensor extends BasePointPrimitive {
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
     position: Cesium.Cartesian3;
-    /**
-     * 销毁当前对象
-     * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
-     * @returns 无
-     */
-    destroy(noDel?: boolean): void;
 }
 
 /**
@@ -24338,7 +24481,7 @@ export class S3MLayer extends BaseLayer {
     /**
      * 模型对应的Cesium.S3MTilesLayer图层组
      */
-    readonly layer: array;
+    readonly layer: any;
     /**
      * 设置S3M图层本身支持的参数
      */
@@ -24463,7 +24606,7 @@ export class SmImgLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: number[];
+        bbox: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -24833,7 +24976,7 @@ export class BaseWidget extends BaseClass {
      * 为空时表示当前模块无关联的view页面，
      * 其中url地址规则，参考resources说明
      */
-    readonly view: any | array;
+    readonly view: any | any;
     /**
      * 激活widget，同 mars3d.widget.activate方法
      * @returns 无
@@ -25301,7 +25444,7 @@ export class BaiduPOI {
      * @returns 当前对象本身，可以链式调用
      */
     getAddress(queryOptions: {
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): BaiduPOI;
@@ -25309,8 +25452,8 @@ export class BaiduPOI {
      * 搜索提示查询
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 输入建议关键字（支持拼音）
-     * @param [queryOptions.location = null] - 传入location参数后，返回结果将以距离进行排序
-     * @param [queryOptions.city = null] - 可以重新限定查询的区域，默认为类构造时传入的city
+     * @param [queryOptions.location] - 传入location参数后，返回结果将以距离进行排序
+     * @param [queryOptions.city] - 可以重新限定查询的区域，默认为类构造时传入的city
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -25318,7 +25461,7 @@ export class BaiduPOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         city?: string;
         citylimit?: boolean;
         success?: (...params: any[]) => any;
@@ -25363,7 +25506,7 @@ export class BaiduPOI {
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param [queryOptions.location = null] - 圆形区域检索中心点，取值范围:0-50000。规则：大于50000按默认值，单位：米
+     * @param [queryOptions.location] - 圆形区域检索中心点，取值范围:0-50000。规则：大于50000按默认值，单位：米
      * @param [queryOptions.radius = 3000] - 圆形区域检索半径，单位为米。（增加区域内数据召回权重，如需严格限制召回数据在区域内，请搭配使用radiuslimit参数），当半径过大，超过中心点所在城市边界时，会变为城市范围检索，检索范围为中心点所在城市
      * @param [queryOptions.limit = false] - 是否严格限定召回结果在设置检索半径范围内。true（是），false（否）。设置为true时会影响返回结果中total准确性及每页召回poi数量， 设置为false时可能会召回检索半径外的poi。
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
@@ -25375,7 +25518,7 @@ export class BaiduPOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         radius?: number;
         limit?: boolean;
         count?: number;
@@ -25416,7 +25559,7 @@ export class GaodePOI {
      * @returns 当前对象本身，可以链式调用
      */
     getAddress(queryOptions: {
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): GaodePOI;
@@ -25433,7 +25576,7 @@ export class GaodePOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         city?: string;
         citylimit?: boolean;
         success?: (...params: any[]) => any;
@@ -25502,7 +25645,7 @@ export class GaodePOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: LatLngPoint;
+        location?: LatLngPoint | Cesium.Cartesian3 | string | any[] | any;
         radius?: number;
         limit?: boolean;
         count?: number;
@@ -25595,7 +25738,7 @@ export class GaodeRoute {
      * @param data - queryArr返回的结果数组
      * @returns 返回路线数据和index顺序
      */
-    getShortestPath(data: array): any;
+    getShortestPath(data: any): any;
     /**
      * 步行路径规划 (单个查询)
      * @param queryOptions - 查询参数
@@ -25673,20 +25816,34 @@ export namespace QueryArcServer {
 
 /**
  * ArcGIS WFS矢量服务查询类
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37', *
  * @param [options.pageSize = 10] - 每页条数 *
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
- * @param [options.图层参数] - layer属性获取的图层对应的构造参数，参考{@link GeoJsonLayer}
+ *
+ * //以下是GeoJsonLayer图层参数
+ * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 赋予给layer图层，图层名称
+ * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
+ * @param [options.graphicOptions] - 赋予给layer图层，图层默认的graphic的构造参数，参考{@link GeoJsonLayer}
+ * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
+ * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
 export class QueryArcServer extends BaseClass {
-    constructor(options?: {
+    constructor(options: {
         url: string;
         pageSize?: number;
         headers?: any;
         proxy?: Cesium.Proxy;
-        图层参数?: any;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        symbol?: any | ((...params: any[]) => any);
+        graphicOptions?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
     });
     /**
      * ArcGIS服务地址
@@ -25769,18 +25926,32 @@ export class QueryArcServer extends BaseClass {
 
 /**
  * GeoServer WFS服务查询类
- * @param [options] - 参数对象，包括以下：
+ * @param options - 参数对象，包括以下：
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
- * @param [options.图层参数] - layer属性获取的图层对应的构造参数，参考{@link GeoJsonLayer}
+ *
+ * //以下是GeoJsonLayer图层参数
+ * @param [options.id = uuid()] - 赋予给layer图层，图层id标识
+ * @param [options.pid = -1] - 赋予给layer图层，图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 赋予给layer图层，图层名称
+ * @param [options.symbol] - 赋予给layer图层，图层矢量数据的style样式，参考{@link GeoJsonLayer}
+ * @param [options.graphicOptions] - 赋予给layer图层，图层默认的graphic的构造参数，参考{@link GeoJsonLayer}
+ * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
+ * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
 export class QueryGeoServer extends BaseClass {
-    constructor(options?: {
+    constructor(options: {
         layer: string;
         headers?: any;
         proxy?: Cesium.Proxy;
-        图层参数?: any;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        symbol?: any | ((...params: any[]) => any);
+        graphicOptions?: any;
+        popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
+        tooltip?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
     });
     /**
      * 用于显示查询结果的GeoJsonLayer图层，图层参数在当前类构造方法中传入
@@ -25943,7 +26114,7 @@ export class Measure extends BaseThing {
         maxPointNum?: number;
         addHeight?: number;
         showAddText?: boolean;
-    }): MeasureDistance;
+    }): DistanceMeasure;
     /**
      * 测量 贴地长度
      * @param [options] - 控制参数
@@ -25964,7 +26135,7 @@ export class Measure extends BaseThing {
         showAddText?: boolean;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): MeasureDistanceSurface;
+    }): DistanceSurfaceMeasure;
     /**
      * 剖面分析，测量线插值点的高程数据
      * @param [options] - 控制参数
@@ -25983,7 +26154,7 @@ export class Measure extends BaseThing {
         addHeight?: number;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): MeasureDistanceSection;
+    }): SectionMeasure;
     /**
      * 面积测量（水平面）
      * @param [options] - 控制参数
@@ -25994,7 +26165,7 @@ export class Measure extends BaseThing {
     area(options?: {
         style?: PolygonEntity.StyleOptions;
         unit?: string;
-    }): MeasureArea;
+    }): AreaMeasure;
     /**
      * 贴地面积测量
      * @param [options] - 控制参数
@@ -26009,7 +26180,7 @@ export class Measure extends BaseThing {
         unit?: string;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): MeasureArea;
+    }): AreaSurfaceMeasure;
     /**
      * 体积测量（方量分析）
      * @param [options] - 控制参数
@@ -26040,7 +26211,7 @@ export class Measure extends BaseThing {
         polygon?: PolygonEntity.StyleOptions;
         polygonJzmStyle?: PolygonEntity.StyleOptions;
         labelHeight?: LabelEntity.StyleOptions;
-    }): MeasureVolume;
+    }): VolumeMeasure;
     /**
      * 高度测量
      * @param [options] - 控制参数
@@ -26051,7 +26222,7 @@ export class Measure extends BaseThing {
     height(options?: {
         style?: PolylineEntity.StyleOptions;
         unit?: string;
-    }): MeasureHeight;
+    }): HeightMeasure;
     /**
      * 三角高度测量，
      * 包括水平距离、空间距离、高度差。
@@ -26063,7 +26234,7 @@ export class Measure extends BaseThing {
     heightTriangle(options?: {
         style?: PolylineEntity.StyleOptions;
         unit?: string;
-    }): MeasureHeightTriangle;
+    }): HeightTriangleMeasure;
     /**
      * 角度测量
      * @param [options] - 控制参数
@@ -26072,7 +26243,7 @@ export class Measure extends BaseThing {
      */
     angle(options?: {
         style?: PolylineEntity.StyleOptions;
-    }): MeasureAngle;
+    }): AngleMeasure;
     /**
      * 坐标测量
      * @param [options] - 控制参数
@@ -26081,7 +26252,7 @@ export class Measure extends BaseThing {
      */
     point(options?: {
         style?: PointEntity.StyleOptions;
-    }): MeasurePoint;
+    }): PointMeasure;
     /**
      * 取消并停止绘制，如有未完成的绘制会自动删除
      * @returns 当前对象本身,可以链式调用
@@ -27080,7 +27251,7 @@ export class TerrainEditBase extends BaseThing {
     /**
      * 区域 列表
      */
-    readonly list: array;
+    readonly list: any;
     /**
      * 是否显示区域外的地图
      */
@@ -27236,7 +27407,7 @@ export class ModelPlanClip extends TilesetPlanClip {
         graphic: ModelEntity;
         positions?: any[][] | string[] | LatLngPoint[] | Cesium.Cartesian3[];
         height?: number;
-        type?: TilesetPlanClip.Type;
+        type?: ClipType;
         distance?: number;
         clipOutSide?: boolean;
         edgeWidth?: number;
@@ -27255,7 +27426,7 @@ export class ModelPlanClip extends TilesetPlanClip {
 
 export namespace ModelPlanClip {
     /**
-     * 裁剪模型 类型 枚举 同{@link TilesetPlanClip.Type}
+     * 裁剪模型 类型 枚举 同{@link ClipType}
      */
     enum Type {
     }
@@ -27302,7 +27473,7 @@ export class TilesetEditBase extends BaseThing {
     /**
      * 区域 列表
      */
-    readonly list: array;
+    readonly list: any;
     /**
      * 需要分析的模型（3dtiles图层）
      */
@@ -27528,7 +27699,7 @@ export class TilesetPlanClip extends BaseThing {
     /**
      * 裁剪类型（按方向类型正方向单面裁剪）
      */
-    type: TilesetPlanClip.Type;
+    type: ClipType;
     /**
      * 裁剪区域坐标数组(按面或线裁剪)
      */
@@ -28329,7 +28500,7 @@ namespace LayerUtil {
      * @param arrLayer - basemaps配置
      * @returns 转换后的 imageryProviderViewModels数组 和 显示图层的index(selectedIndex)
      */
-    function getImageryProviderViewModels(arrLayer: array): any;
+    function getImageryProviderViewModels(arrLayer: any): any;
     /**
      * 创建 无地形的 标准椭球体对象
      * @returns 无地形 标准椭球体对象
@@ -28475,7 +28646,7 @@ namespace MeasureUtil {
         index: number;
         positions: Cesium.Cartesian3[];
         distance: number;
-        arrDistance: number[];
+        arrDistance: Number[];
         all_distance: number;
     }) => void;
     /**
@@ -28676,7 +28847,7 @@ namespace PointTrans {
      * @param [toProjParams = 'EPSG:4326'] - 转为返回的结果坐标系
      * @returns 返回结果坐标系的对应坐标,示例：[115.866936, 35.062583]
      */
-    function proj4Trans(arrdata: number[], fromProjParams: string | CRS, toProjParams?: string | CRS): number[];
+    function proj4Trans(arrdata: Number[], fromProjParams: string | CRS, toProjParams?: string | CRS): Number[];
     /**
      * 使用proj4转换坐标数组（支持任意坐标系），
      * 坐标系 可以在 {@link http://epsg.io }进行查询，已经内置支持 EPSG:4326、EPSG:3857、EPSG:4490、EPSG:4491至4554
@@ -28685,7 +28856,7 @@ namespace PointTrans {
      * @param [toProjParams = 'EPSG:4326'] - 转为返回的结果坐标系
      * @returns 返回结果坐标系的对应坐标数组,示例：[[115.866936, 35.062583],[115.866923, 35.062565]]
      */
-    function proj4TransArr(coords: number[], fromProjParams: string, toProjParams?: string): number[];
+    function proj4TransArr(coords: Number[], fromProjParams: string, toProjParams?: string): Number[];
     /**
      * Cesium笛卡尔空间坐标 转 经纬度坐标
      * 常用于转换geojson
@@ -28693,7 +28864,7 @@ namespace PointTrans {
      * @param [noAlt] - 是否包含高度值
      * @returns 经纬度坐标,示例：[123.123456,32.654321,198.7]
      */
-    function cartesian2lonlat(cartesian: Cesium.Cartesian3, noAlt?: boolean): number[];
+    function cartesian2lonlat(cartesian: Cesium.Cartesian3, noAlt?: boolean): Number[];
     /**
      * Cesium笛卡尔空间坐标数组 转 经纬度坐标数组
      * 常用于转换geojson
@@ -28707,7 +28878,7 @@ namespace PointTrans {
      * @param position - Cesium笛卡尔空间xyz坐标
      * @returns 墨卡托投影平面坐标,示例：[13048882,3741659,20.1]
      */
-    function cartesian2mercator(position: Cesium.Cartesian3): number[];
+    function cartesian2mercator(position: Cesium.Cartesian3): Number[];
     /**
      * Cesium笛卡尔空间坐标数组 转 WebMercator投影平面坐标数组
      * @param positions - Cesium笛卡尔空间xyz坐标数组
@@ -28733,7 +28904,7 @@ namespace PointTrans {
      * @param lnglat - 经纬度坐标,示例：[123.123456,32.654321,20.1]
      * @returns WebMercator投影平面坐标,示例：[13048882,3741659,20.1]
      */
-    function lonlat2mercator(lnglat: number[]): number[];
+    function lonlat2mercator(lnglat: Number[]): Number[];
     /**
      * 经纬度地理坐标数组 转 投影平面坐标数组
      * @param arr - 经纬度坐标数组,示例：[ [123.123456,32.654321,20.1], [111.123456,22.654321,21.2] ]
@@ -28746,20 +28917,20 @@ namespace PointTrans {
      * @param [height] - 赋值高度
      * @returns Cesium笛卡尔空间xyz坐标
      */
-    function mercator2cartesian(point: number[], height?: number): Cesium.Cartesian3;
+    function mercator2cartesian(point: Number[], height?: number): Cesium.Cartesian3;
     /**
      * 投影平面坐标数组 转 Cesium笛卡尔空间xyz坐标数组
      * @param arr - WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
      * @param [height] - 赋值高度
      * @returns Cesium笛卡尔空间xyz坐标数组
      */
-    function mercators2cartesians(arr: number[], height?: number): Cesium.Cartesian3;
+    function mercators2cartesians(arr: Number[], height?: number): Cesium.Cartesian3;
     /**
      * 投影平面坐标 转 经纬度地理坐标
      * @param point - WebMercator投影平面坐标,示例：[13048882,3741659,20.1]
      * @returns 经纬度坐标,示例：[123.123456,32.654321,20.1]
      */
-    function mercator2lonlat(point: number[]): number[];
+    function mercator2lonlat(point: Number[]): Number[];
     /**
      * 投影平面坐标数组 转 经纬度地理坐标数组
      * @param arr - WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
@@ -28772,53 +28943,53 @@ namespace PointTrans {
      * @param arrdata - 百度坐标 (BD09)坐标数据，示例：[117.225590,31.832916]
      * @returns 国测局坐标 (GCJ02)坐标数据，示例：[:117.22559,31.832917]
      */
-    function bd2gcj(arrdata: number[]): number[];
+    function bd2gcj(arrdata: Number[]): Number[];
     /**
      * 经纬度坐标转换，
      * 国测局坐标 (GCJ02) 转换为 百度坐标 (BD09)
      * @param arrdata - 高德谷歌等国测局坐标 (GCJ02) 坐标数据，示例：[117.225590,31.832916]
      * @returns 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      */
-    function gcj2bd(arrdata: number[]): number[];
+    function gcj2bd(arrdata: Number[]): Number[];
     /**
      * 经纬度坐标转换，
      * 标准无偏坐标（WGS84） 转为 国测局坐标 (GCJ02)
      * @param arrdata - 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      * @returns 国测局坐标 (GCJ02)坐标数据，示例：[117.225590,31.832916]
      */
-    function wgs2gcj(arrdata: number[]): number[];
+    function wgs2gcj(arrdata: Number[]): Number[];
     /**
      * 经纬度坐标转换，
      * 国测局坐标 (GCJ02)  转换为 标准无偏坐标（WGS84）
      * @param arrdata - 国测局坐标 (GCJ02)坐标数据，示例：[117.225590,31.832916]
      * @returns 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      */
-    function gcj2wgs(arrdata: number[]): number[];
+    function gcj2wgs(arrdata: Number[]): Number[];
     /**
      * 经纬度坐标转换，
      * 百度坐标 (BD09) 转 标准无偏坐标（WGS84）
      * @param arrdata - 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      * @returns 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      */
-    function bd2wgs(arrdata: number[]): number[];
+    function bd2wgs(arrdata: Number[]): Number[];
     /**
      * 标准无偏坐标（WGS84）  转 百度坐标 (BD09)
      * @param arrdata - 标准无偏坐标（WGS84）坐标数据，示例：[117.220102, 31.834912]
      * @returns 百度坐标 (BD09)坐标数据，示例：[117.232039,31.839177]
      */
-    function wgs2bd(arrdata: number[]): number[];
+    function wgs2bd(arrdata: Number[]): Number[];
     /**
      * 【方式2】经纬度地理坐标 转 投影平面坐标
      * @param arrdata - 经纬度坐标,示例：[117.220101,31.834907]
      * @returns WebMercator投影平面坐标,示例：[13048882.06,3741659.72]
      */
-    function jwd2mct(arrdata: number[]): number[];
+    function jwd2mct(arrdata: Number[]): Number[];
     /**
      * 【方式2】投影平面坐标 转 经纬度地理坐标
      * @param arrdata - WebMercator投影平面坐标，示例：[13048882.06,3741659.72]
      * @returns 经纬度坐标数据，示例：[117.220101,31.834907]
      */
-    function mct2jwd(arrdata: number[]): number[];
+    function mct2jwd(arrdata: Number[]): Number[];
 }
 
 /**
@@ -28900,7 +29071,7 @@ namespace PointUtil {
     function getSurfaceHeight(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         asyn: boolean;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         callback: getSurfaceHeight_callback;
     }): number | void;
     /**
@@ -28915,7 +29086,7 @@ namespace PointUtil {
      */
     function getSurface3DTilesHeight(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         asyn: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         callback: getSurfaceHeight_callback;
     }): number | void;
     /**
@@ -28956,7 +29127,7 @@ namespace PointUtil {
         relativeHeight?: boolean;
         maxHeight?: number;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
     }): Cesium.Cartesian3;
     /**
      * 获取 屏幕XY坐标 对应的 笛卡尔三维坐标
@@ -29122,7 +29293,7 @@ namespace PolyUtil {
         granularity: number;
         maxHeight: number;
         minHeight: number;
-        list: array;
+        list: any;
     }) => void;
     /**
      * 面内进行贴地(或贴模型)插值, 返回三角网等计算结果
@@ -29144,7 +29315,7 @@ namespace PolyUtil {
         splitNum?: number;
         asyn?: boolean;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         onlyPoint?: boolean;
     }): any | void;
     /**
@@ -29160,7 +29331,7 @@ namespace PolyUtil {
     function getHeightRange(positions: Cesium.Cartesian3[], scene: Cesium.Scene, options?: {
         splitNum?: number;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
     }): any;
     /**
      * 体积计算
@@ -29181,7 +29352,7 @@ namespace PolyUtil {
         splitNum?: number;
         asyn?: boolean;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
     }): VolumeResult | void;
     /**
      * 面内进行贴地(或贴模型)插值, 返回三角网等计算结果 的回调方法
@@ -29199,7 +29370,7 @@ namespace PolyUtil {
         granularity: number;
         maxHeight: number;
         minHeight: number;
-        list: array;
+        list: any;
         totalArea: number;
         totalVolume: number;
         digVolume: number;
@@ -29368,7 +29539,7 @@ namespace PolyUtil {
         splitNum?: number;
         minDistance?: number;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         offset?: number;
         callback: surfaceLineWork_callback;
     }): void;
@@ -29387,7 +29558,7 @@ namespace PolyUtil {
         scene: Cesium.Scene;
         positions: Cesium.Cartesian3;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         offset?: number;
         callback: surfaceLineWork_callback;
     }): void;
@@ -29424,7 +29595,7 @@ namespace PolyUtil {
         splitNum?: number;
         minDistance?: number;
         has3dtiles?: boolean;
-        objectsToExclude?: array;
+        objectsToExclude?: any;
         offset?: number;
         endItem: computeStepSurfaceLine_endItem;
         end: computeStepSurfaceLine_end;
@@ -29555,29 +29726,22 @@ namespace Util {
      */
     let lastId: number;
     /**
-     * 返回对象的唯一ID，如果该对象没有唯一ID，则赋值给该对象。
-     * @param obj - 对象
-     * @returns 唯一ID
+     * 获取最新的全局唯一ID
+     * @returns 全局唯一ID （ ++lastId ）
      */
-    function stamp(obj: any): number;
+    function getGlobalId(): number;
+    /**
+     * 标记对象，给对象赋予对象的全局唯一ID（_mars3d_id值）
+     * @param obj - 对象
+     * @returns 全局唯一ID （ ++lastId ）
+     */
+    function stampGlobalId(obj: any): number;
     /**
      * 获取随机唯一uuid字符串,包含数字、大写字母、小写字母
      * @param [prefix = 'M'] - 前缀
      * @returns 字符串
      */
     function uuid(prefix?: string): string;
-    /**
-     * 异步计算贴地距离中，每计算完成2个点之间的距离后 的回调方法
-     * @param field - 字段名称
-     * @param name - 显示的对应自定义名称
-     * @param [type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
-     * @param [callback] - 当type为'button'按钮时，单击后触发的事件。
-     * @param [html] - 当type为'html'时，对于拼接的html内容。
-     * @param [format] - 使用window上有效的格式化js方法名称或function回调方法，来格式化字符串值。
-     * @param [unit] - 追加的计量单位值。
-     * @param [className] - 自定义样式名称
-     */
-    type getTemplateHtml_template = (field: string, name: string, type?: string, callback?: string, html?: string, format?: string | ((...params: any[]) => any), unit?: string, className?: string) => void;
     /**
      * 获取Popup或Tooltip格式化Html字符串
      * @example
@@ -29615,7 +29779,7 @@ namespace Util {
      */
     function getTemplateHtml(options?: {
         attr: any;
-        template: string | getTemplateHtml_template[] | ((...params: any[]) => any) | any;
+        template: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any) | any;
         title: string;
         edit?: boolean;
         width?: number;
@@ -29726,38 +29890,40 @@ namespace Util {
      * @param geojson - geojson对象
      * @returns features数组集合
      */
-    function getGeoJsonFeatures(geojson: any): array;
+    function getGeoJsonFeatures(geojson: any): any;
     /**
      * GeoJSON 转为 Graphic构造参数数组（用于创建{@link BaseGraphic}）
      * style有3种方式控制: 1.传type及style参数；2.传symbol参数；3.数据本身的feature.properties.style；
      * 优先级为：1>2>3
      * @param geojson - geojson对象
      * @param [options = {}] - 控制参数
-     * @param [option.type] - 转为指定的类型
+     * @param [options.type] - 转为指定的类型
      * @param [options.style = {}] - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
-     * @param [symbol] - symbol配置，与style二选一
-     * @param [symbol.type] - 标识数据类型
-     * @param [symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并，仅适用symbol配置。
-     * @param symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
-     * @param [symbol.styleField] - 按 styleField 属性设置不同样式。
-     * @param [symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
-     * @param [symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
+     * @param [options.symbol] - symbol配置，与style二选一
+     * @param [options.symbol.type] - 标识数据类型
+     * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并，仅适用symbol配置。
+     * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
+     * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
+     * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+     * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
      * @param [options.hasEdit] - 当需要编辑时可以传true值,指定为Entity类型
      * @returns Graphic构造参数数组（用于创建{@link BaseGraphic}）
      */
     function geoJsonToGraphics(geojson: any, options?: {
+        type?: GraphicType | string;
         style?: any;
+        symbol?: {
+            type?: GraphicType | string;
+            merge?: boolean;
+            styleOptions: any;
+            styleField?: string;
+            styleFieldOptions?: any;
+            callback?: (...params: any[]) => any;
+        };
         crs?: string;
         hasEdit?: boolean;
-    }, symbol?: {
-        type?: GraphicType;
-        merge?: boolean;
-        styleOptions: any;
-        styleField?: string;
-        styleFieldOptions?: any;
-        callback?: (...params: any[]) => any;
-    }): array;
+    }): any;
     /**
      * GeoJSON格式的Feature单个对象转为 Graphic构造参数（用于创建{@link BaseGraphic}）
      * @param feature - geojson单个Feature对象
@@ -29769,7 +29935,7 @@ namespace Util {
      * @returns Graphic构造参数（用于创建{@link BaseGraphic}）
      */
     function featureToGraphic(feature: any, options?: {
-        type?: GraphicType;
+        type?: GraphicType | string;
         style?: any;
         crs?: string;
         hasEdit?: boolean;

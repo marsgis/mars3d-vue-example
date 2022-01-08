@@ -61,7 +61,7 @@
       </a-col>
 
       <a-col :span="24">
-        <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
+        <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <mars-button type="link">
@@ -97,6 +97,11 @@ interface FormState {
   showElse: boolean
 }
 
+interface TableItem {
+  key: number
+  name: string
+}
+
 const labelCol = ref({ span: 5 })
 const labelAlign = ref("left")
 
@@ -124,22 +129,35 @@ const columns = ref([
   }
 ])
 const dataSource = ref([])
+const rowKeys = ref<number[]>([])
 
-onMounted(() => {
-  mapWork.eventTabel.on("tableObject", function (event: any) {
-    dataSource.value = []
-    nextTick(() => {
-      dataSource.value = event.table
-    })
+const rowSelection = ref({
+  hideSelectAll: true,
+  hideDefaultSelections: true,
+  selectedRowKeys: rowKeys,
+  onChange: (selectedRowKeys: number[]) => {
+    // 使得点击之后选项改变
+    rowKeys.value = selectedRowKeys
+  },
+  onSelect: (record: TableItem, selected: boolean) => {
+    mapWork.showHideArea(record.key, selected)
+  }
+})
+
+mapWork.eventTabel.on("tableObject", function (event: any) {
+  dataSource.value = []
+  nextTick(() => {
+    dataSource.value = event.table
+    rowKeys.value = event.table.map((item: any) => item.key)
   })
 })
 
 // 定位和删除
 const flyto = (record: any) => {
-  mapWork.flyToGraphic(record.graphicId)
+  mapWork.flyToGraphic(record.key)
 }
 const deleted = (record: any) => {
-  mapWork.deletedGraphic(record.graphicId)
+  mapWork.deletedGraphic(record.key)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
 
   mapWork.changeTable(dataSource.value)

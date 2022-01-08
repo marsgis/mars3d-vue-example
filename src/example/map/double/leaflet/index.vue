@@ -13,13 +13,13 @@ import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
 const viewTo23D = () => {
-  mapWork.mapManager.viewTo23D()
+  mapWork.viewTo23D()
 }
 
 const viewTo2d = () => {
-  mapWork.mapManager.viewTo2d()
+  mapWork.viewTo2d()
 }
 const viewTo3d = () => {
-  mapWork.mapManager.viewTo3d()
+  mapWork.viewTo3d()
 }
 </script>

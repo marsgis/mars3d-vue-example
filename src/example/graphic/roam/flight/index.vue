@@ -25,18 +25,18 @@
           <mars-input-number @change="changeFollowed" v-model:value="formState.followedZ" :step="1" />
         </a-col>
 
-        <a-col  v-show="formState.select === 'dy'"  :span="8" title="偏离漫游对象的高度，单位：米">高度偏移值:</a-col>
-        <a-col  v-show="formState.select === 'dy'" :span="11">
+        <a-col v-show="formState.select === 'dy'" :span="8" title="偏离漫游对象的高度，单位：米">高度偏移值:</a-col>
+        <a-col v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetZ" :step="1" />
         </a-col>
 
-        <a-col  v-show="formState.select === 'dy'" :span="8" title="偏离漫游对象的横向值，单位：米">横向偏移值:</a-col>
-        <a-col  v-show="formState.select === 'dy'" :span="11">
+        <a-col v-show="formState.select === 'dy'" :span="8" title="偏离漫游对象的横向值，单位：米">横向偏移值:</a-col>
+        <a-col v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetY" :step="1" />
         </a-col>
 
-        <a-col  v-show="formState.select === 'dy'"  :span="8" title="偏离漫游对象的前后值，单位：米">前后偏移值:</a-col>
-        <a-col  v-show="formState.select === 'dy'" :span="11">
+        <a-col v-show="formState.select === 'dy'" :span="8" title="偏离漫游对象的前后值，单位：米">前后偏移值:</a-col>
+        <a-col v-show="formState.select === 'dy'" :span="11">
           <mars-input-number @change="changeFollowed" v-model:value="formState.offsetX" :step="1" />
         </a-col>
       </a-row>

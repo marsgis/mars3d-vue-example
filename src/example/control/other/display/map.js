@@ -87,7 +87,8 @@ export function bindClock(val) {
 }
 // 时间刻度线
 export function bindTimeLine(val) {
-  map.viewer.timeline.container.style.display = val ? "block" : "none"
+  if (map.controls.timeline) { map.controls.timeline.show = val }
+  if (map.viewer.timeline) { map.viewer.timeline.container.style.display = val ? "block" : "none" }
 
   if (val) {
     map.controls.locationBar.setStyle({

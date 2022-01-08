@@ -57,22 +57,6 @@ import Pannel from "@/components/marsgis/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
-interface FormState {
-  radio: string
-  minHeight: any
-  maxHeight: any
-  speed: number
-}
-
-const labelCol = ref({ span: 8 })
-const labelAlign = ref("left")
-
-const formState: UnwrapRef<FormState> = reactive({
-  radio: "2",
-  minHeight: "1894",
-  maxHeight: "2000",
-  speed: 10
-})
 onMounted(() => {
   window.$notify(
     "已知问题提示",
@@ -82,6 +66,22 @@ onMounted(() => {
       duration: null
     }
   )
+})
+interface FormState {
+  radio: string
+  minHeight: any
+  maxHeight: any
+  speed: number
+}
+
+const labelCol = { span: 8 }
+const labelAlign = "left"
+
+const formState: UnwrapRef<FormState> = reactive({
+  radio: "2",
+  minHeight: "1894",
+  maxHeight: "2000",
+  speed: 10
 })
 // 修改分析方式
 const changeFloodType = () => {

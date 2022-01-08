@@ -75,7 +75,7 @@ export function changeFloodType(val) {
 
 // 绘制矩形
 export function btnDrawExtent() {
-  tilesetFlood.clear()
+  stop()
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -93,7 +93,7 @@ export function btnDrawExtent() {
 }
 // 绘制多边形
 export function btnDraw() {
-  tilesetFlood.clear()
+  stop()
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",

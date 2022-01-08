@@ -149,7 +149,7 @@ export function chkTestTerrain(val) {
 let table = []
 // 区域表格添加一行记录
 function addTableItem(item) {
-  table.push({ key: item.id - 1, name: "开挖区域" + item.id, graphicId: item.id })
+  table.push({ key: item.id, name: "开挖区域" + item.id })
 
   eventTabel.fire("tableObject", { table })
 }
@@ -166,4 +166,12 @@ export function flyToGraphic(item) {
 export function deletedGraphic(item) {
   const graphic = terrainClip.getAreaById(item)
   terrainClip.removeArea(graphic)
+}
+
+export function showHideArea(id, selected) {
+  if (selected) {
+    terrainClip.showArea(id)
+  } else {
+    terrainClip.hideArea(id)
+  }
 }

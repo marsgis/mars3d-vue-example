@@ -77,9 +77,9 @@ window.configLibs = {
   mars2d: [
     "https://unpkg.com/leaflet/dist/leaflet.css", //leaflet
     "https://unpkg.com/leaflet/dist/leaflet.js",
-    "https://unpkg.com/mars2d/dist/mars2d.css", //mars2d
-    "https://unpkg.com/mars2d/dist/mars2d.js",
-    "https://unpkg.com/mars2d-esri/dist/mars2d-esri.js"
+    "http://mars2d.cn/lib/mars2d/mars2d.css", //mars2d
+    "http://mars2d.cn/lib/mars2d/mars2d.js",
+    "http://mars2d.cn/lib/mars2d/plugins/esri/mars2d-esri.js"
   ],
 
   //////////////////////////其他地图渲染相关库////////////////////////

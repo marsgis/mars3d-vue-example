@@ -128,3 +128,11 @@ export function deletedGraphic(item) {
   const graphic = tilesetClip.getAreaById(item)
   tilesetClip.removeArea(graphic)
 }
+
+export function showHideArea(id, selected) {
+  if (selected) {
+    tilesetClip.showArea(id)
+  } else {
+    tilesetClip.hideArea(id)
+  }
+}

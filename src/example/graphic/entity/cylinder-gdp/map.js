@@ -236,6 +236,7 @@ function bindHaihuaiPopup() {
     if (!option) {
       return
     }
+
     gdpCharts = echarts.init(container.querySelector("#gdpCharts"))
     gdpCharts.setOption(option)
   })
@@ -252,7 +253,6 @@ function getCityChartsOptions(attr) {
   const code = attr.code.slice(0, 4)
   const arrGDPvalues = objCity[code]
   if (!arrGDPvalues) {
-
     globalMsg(attr.Name + " 无经济数据")
     return
   }
@@ -275,21 +275,17 @@ function getCityChartsOptions(attr) {
       text: attr.Name + "   近五年GDP（亿元）",
       top: "10",
       left: "5",
-      textStyle: {
-        color: "white",
-        fontSize: "17",
-        fontWidth: "normal"
-      }
+      color: "white",
+      fontSize: "17",
+      fontWidth: "normal"
     },
     tooltip: {
       show: "true",
       trigger: "item",
       showContent: "true",
       position: "top",
-      textStyle: {
-        fontSize: "12",
-        color: "black"
-      },
+      fontSize: "12",
+      color: "black",
       formatter: function formatter(params) {
         return "GDP:" + params.data[2]
       }
@@ -345,10 +341,8 @@ function getCityChartsOptions(attr) {
         center: [-20, 0, 0]
       },
       axisLabel: {
-        textStyle: {
-          color: "white",
-          fontSize: 15
-        }
+        color: "white",
+        fontSize: 15
       },
       axisPointer: {
         // 坐标轴指示线，就是鼠标移入时，指向x轴，y轴的线
@@ -367,10 +361,8 @@ function getCityChartsOptions(attr) {
         },
         emphasis: {
           label: {
-            textStyle: {
-              color: "white",
-              fontSize: "18"
-            }
+            color: "white",
+            fontSize: "18"
           }
         }
       }

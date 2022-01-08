@@ -12,7 +12,8 @@ export const mapOptions = {
     navigationHelpButton: false, // 是否显示帮助信息控件
     fullscreenButton: false, // 右下角全屏按钮
     geocoder: false,
-    sceneModePicker: false
+    sceneModePicker: false,
+    zoom: false
   }
 }
 

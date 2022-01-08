@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let osmBuildingsLayer
+let tiles3dLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -19,15 +19,14 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-
-  osmBuildingsLayer = new mars3d.layer.OsmBuildingsLayer({
+  tiles3dLayer = new mars3d.layer.tiles3dLayer({
     highlight: {
       type: "click",
       color: "#00FF00"
     },
     popup: "all"
   })
-  map.addLayer(osmBuildingsLayer)
+  map.addLayer(tiles3dLayer)
 }
 
 /**
@@ -39,28 +38,11 @@ export function onUnmounted() {
 }
 
 export function setStyle1() {
-  if (osmBuildingsLayer) {
-    osmBuildingsLayer.destroy()
-  }
-
-
-  Cesium.ExperimentalFeatures.enableModelExperimental = false;
-
-  osmBuildingsLayer = new mars3d.layer.OsmBuildingsLayer({
-    highlight: {
-      type: "click",
-      color: "#00FF00"
-    },
-    popup: "all"
-  })
-  map.addLayer(osmBuildingsLayer)
+  tiles3dLayer.customShader = undefined
+  tiles3dLayer.reload()
 }
 
 export function setStyle2() {
-  if (osmBuildingsLayer) {
-    osmBuildingsLayer.destroy()
-  }
-
   const fsShader = `
   void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
   {
@@ -86,22 +68,15 @@ export function setStyle2() {
     material.diffuse += material.diffuse * (1.0 - mars_diff);
   } `
 
-  osmBuildingsLayer = new mars3d.layer.OsmBuildingsLayer({
-    customShader: new Cesium.CustomShader({
-      lightingModel: Cesium.LightingModel.UNLIT,
-      fragmentShaderText: fsShader
-    }),
-    highlight: {
-      type: "click",
-      color: "#00FF00"
-    },
-    popup: "all"
+  tiles3dLayer.customShader = new Cesium.CustomShader({
+    lightingModel: Cesium.LightingModel.UNLIT,
+    fragmentShaderText: fsShader
   })
-  map.addLayer(osmBuildingsLayer)
+  tiles3dLayer.reload()
 }
 
 export function selectColor(col) {
-  osmBuildingsLayer.style = new Cesium.Cesium3DTileStyle({
+  tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
     color: {
       conditions: [["true", `color("${col}")`]]
     }

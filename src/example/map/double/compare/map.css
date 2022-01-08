@@ -1,12 +1,18 @@
-#centerDiv2D {
+#centerDiv {
   position: absolute;
-  top: 0;
-  left: 0;
+  width: 50%;
   height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
+
+#centerDivEx {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 50%;
+}
+
 
 
 /* 兼容屏幕大小 美观显示状态栏信息 */

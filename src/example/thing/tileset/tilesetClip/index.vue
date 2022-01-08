@@ -9,15 +9,15 @@
     </div>
 
     <div class="f-mb">
-      <a-table :pagination="false" :dataSource="dataSource" :columns="columns" size="small" bordered>
+      <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
             <a-space>
               <mars-button type="link">
-                  <move-one fill="#FFF" @click="flyto(record)" />
-                </mars-button>
-                <mars-button type="link">
-                  <delete-o fill="#FFF" @click="deleted(record)" />
+                <move-one fill="#FFF" @click="flyto(record)" />
+              </mars-button>
+              <mars-button type="link">
+                <delete-o fill="#FFF" @click="deleted(record)" />
               </mars-button>
             </a-space>
           </template>
@@ -36,14 +36,22 @@ import Pannel from "@/components/marsgis/pannel.vue"
 import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
 import * as mapWork from "./map.js"
 
+onMounted(() => {
+  window.$notify(
+    "已知问题提示",
+    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
+  （2）目前不支持所有3dtile数据，请替换url进行自测`,
+    { duration: null }
+  )
+})
+
 interface TableItem {
   key: number
   name: string
-  graphicId: string
 }
 
 // 表格数据
-const columns = ref([
+const columns = [
   {
     title: "裁剪区",
     dataIndex: "name",
@@ -55,32 +63,41 @@ const columns = ref([
     key: "caozuo",
     width: 80
   }
-])
+]
 const dataSource = ref<TableItem[]>([])
+// 默认的选项
+const rowKeys = ref<string[]>([])
 
-onMounted(() => {
-  window.$notify(
-    "已知问题提示",
-    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
-  （2）目前不支持所有3dtile数据，请替换url进行自测`,
-    { duration: null }
-  )
+const rowSelection = {
+  hideSelectAll: true,
+  hideDefaultSelections: true,
+  selectedRowKeys: rowKeys,
+  onChange: (selectedRowKeys: string[]) => {
+    // 使得点击之后选项改变
+    rowKeys.value = selectedRowKeys
+  },
+  onSelect: (record: TableItem, selected: boolean) => {
+    // console.log(record.key, selected)
+    mapWork.showHideArea(record.key, selected)
+  }
+}
 
-  mapWork.eventTarget.on("dataLoaded", function (event: any) {
-    dataSource.value = event.list.map((item: any) => ({ key: item.id - 1, name: "裁剪区" + item.id, graphicId: item.id }))
-  })
-  mapWork.eventTarget.on("addItem", function (event: any) {
-    const item = event.item
-    dataSource.value.push({ key: item.id - 1, name: "裁剪区" + item.id, graphicId: item.id })
-  })
+mapWork.eventTarget.on("dataLoaded", function (event: any) {
+  dataSource.value = event.list.map((item: any) => ({ key: item.id, name: "裁剪区" + item.id }))
+  rowKeys.value = event.list.map((item: any) => item.id)
+})
+mapWork.eventTarget.on("addItem", function (event: any) {
+  const item = event.item
+  dataSource.value.push({ key: item.id, name: "裁剪区" + item.id })
+  rowKeys.value.push(item.id)
 })
 
 // 表格的操作
 const flyto = (record: TableItem) => {
-  mapWork.flyToGraphic(record.graphicId)
+  mapWork.flyToGraphic(record.key)
 }
 const deleted = (record: TableItem) => {
-  mapWork.deletedGraphic(record.graphicId)
+  mapWork.deletedGraphic(record.key)
 
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
 }

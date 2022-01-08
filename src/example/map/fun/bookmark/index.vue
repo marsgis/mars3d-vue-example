@@ -101,6 +101,8 @@ const butDeleteTxtName = (index: number) => {
     formState.imgObject = [{ id: 0, name: "没有匹配的值", img: "", center: "" }]
     formState.noFound = false
     formState.found = true
+    mapWork.removeLocalStorage()
+    return
   }
   mapWork.setLocalStorage(formState.imgObject)
 }

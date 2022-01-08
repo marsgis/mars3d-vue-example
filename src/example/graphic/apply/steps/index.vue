@@ -1,5 +1,5 @@
 <template>
-  <pannel class="animation-pannel" v-auto-height="300">
+  <pannel class="infoView" >
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
         <play-a />
@@ -238,10 +238,9 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.animation-pannel {
-  top: 10px;
-  right: 10px;
-  width: 240px;
-  overflow-y: auto;
+.infoView {
+  bottom: 40px;
+  max-height: 600px;
+  overflow:scroll;
 }
 </style>

@@ -21,6 +21,7 @@ import {
   Checkbox,
   Col,
   Collapse,
+  DatePicker,
   Dropdown,
   Form,
   Input,
@@ -62,6 +63,7 @@ export default {
     app.use(Input)
     app.use(InputNumber)
     app.use(Checkbox)
+    app.use(DatePicker)
     app.use(Radio)
     app.use(Switch)
     app.use(Space)

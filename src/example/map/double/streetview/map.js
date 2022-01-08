@@ -8,9 +8,6 @@ let graphicLayer
 export const mapOptions = {
   scene: {
     center: { lat: 31.676218, lng: 117.251248, alt: 27740, heading: 1, pitch: -63 }
-  },
-  control: {
-    compass: { bottom: "320px", right: "5px" }
   }
 }
 
@@ -87,7 +84,7 @@ export function chooseStree() {
 
 function creatDom() {
   const divDom = mars3d.DomUtil.create("div", "", document.body)
-  divDom.setAttribute("id", "centerDiv")
+  divDom.setAttribute("id", "centerDivJJ")
 
   const iframDom = mars3d.DomUtil.create("iframe", "stree", divDom)
   iframDom.setAttribute("id", "streeScape")
@@ -98,7 +95,7 @@ let typeView = 0
 // 3d显示
 export function viewTo3d() {
   typeView = 0
-  const dom2d = document.getElementById("centerDiv")
+  const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "block"
   dom3d.style.width = "100%"
@@ -110,7 +107,7 @@ export function viewTo3d() {
 // // 街景显示
 export function streetscape() {
   typeView = 1
-  const dom2d = document.getElementById("centerDiv")
+  const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
   dom3d.style.display = "none"
   dom2d.style.width = "100%"
@@ -120,7 +117,7 @@ export function streetscape() {
 // 分屏显示
 export function splitScreen() {
   typeView = 2
-  const dom2d = document.getElementById("centerDiv")
+  const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv3D")
 
   dom2d.style.width = "50%"

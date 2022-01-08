@@ -26,9 +26,8 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
- export function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
 
   // 创建矢量数据图层
   routeLayer = new mars3d.layer.GraphicLayer()
@@ -89,6 +88,7 @@ export function stratPoint() {
     startGraphic.remove()
     startGraphic = null
   }
+  routeLayer.clear()
 
   map.graphicLayer.startDraw({
     type: "billboard",
@@ -110,6 +110,10 @@ export function stratPoint() {
 // 终点
 export function endPoint() {
   showLoading()
+  routeLayer.clear()
+  poiLayer.clear()
+  endPointArr = null
+
   const extent = map.getExtent() // 当前视域内
 
   queryGaodePOI.queryPolygon({
@@ -138,7 +142,7 @@ export function endPoint() {
 }
 
 // 开始分析
-export function btnAnalyse() {
+export function btnAnalyse(count) {
   if (!startGraphic || !endPointArr || endPointArr.length == 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -274,6 +278,7 @@ export function removeAll() {
   }
   routeLayer.clear()
   poiLayer.clear()
+  endPointArr = null
 }
 
 // 格式化时间

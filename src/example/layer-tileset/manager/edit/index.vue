@@ -285,13 +285,19 @@ const checkedTree = () => {
   width: 345px;
   max-height: 720px;
 }
+.infoView {
+  max-height: 760px;
+  bottom: 60px;
+  overflow: scroll;
+}
 .comp-model {
   min-width: 200px;
-  padding-top: 0;
   top: 10px;
+  bottom: 60px;
   left: 10px;
-  height: 600px;
+  max-height: 600px;
   overflow-x: auto;
+
 }
 .ant-input{
   width: 240px;

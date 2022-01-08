@@ -39,9 +39,10 @@ const downLoad2 = () => {
 </script>
 <style scoped lang="less">
 .imgBox {
+  position: absolute;
   top: 30%;
   left: 25%;
-  width: 800px;
-  height: 400px;
+  width: 50%;
+  height: 50%;
 }
 </style>

@@ -29,6 +29,7 @@
       <h6>分资金来源统计</h6>
       <div id="ul_ZJLY" class="chartTwo_ulzjly"></div>
     </div>
+
     <div class="chartThree" id="chartThree">
       <h6>分年度统计</h6>
       <button @click="btnNDTJ_xms(chartsData.ndtj)">项目数</button>
@@ -288,9 +289,9 @@ function histogram(arr: any, Word: string) {
 .chartOne,
 .chartTwo,
 .chartThree {
-  width: 440px;
+  width: 390px;
   height: 30%;
-  margin-bottom: 20px;
+  margin-bottom: 6px;
   position: relative;
   border: 1px solid #17366c;
   background: linear-gradient(to left, #3897cf, #3897cf) left top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left top no-repeat,
@@ -299,6 +300,7 @@ function histogram(arr: any, Word: string) {
     linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat, linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat;
   background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
   background-color: rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
 }
 .chart h6 {
   padding: 4px;
@@ -306,8 +308,8 @@ function histogram(arr: any, Word: string) {
   margin-left: 5%;
   float: left;
   margin-top: 3%;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 16px;
   text-align: center;
 }
 .chartOne h6::before {
@@ -354,7 +356,7 @@ function histogram(arr: any, Word: string) {
   margin-right: 10px;
 }
 .chartOne .chartList li {
-  height: 50%;
+  height: 40px;
   width: 95%;
   margin-left: 23px;
   border-bottom: white 0.5px dashed;
@@ -384,7 +386,7 @@ function histogram(arr: any, Word: string) {
   background: none;
   border: 0.06px solid rgb(0, 174, 255);
   z-index: 1000;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .chartThree button:nth-child(2) {
   position: absolute;

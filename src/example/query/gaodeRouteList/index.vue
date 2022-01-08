@@ -6,7 +6,7 @@
       </a-form-item>
 
       <a-form-item label="起点">
-        <a-space >
+        <a-space>
           <mars-input class="inputWidth" v-model:value="strat"></mars-input>
           <mars-button @click="stratPoint">选点</mars-button>
         </a-space>
@@ -14,7 +14,8 @@
       <a-form-item label="终点">
         <a-space>
           <p class="inputWidth">
-           共<span style="color: red">{{ count }}</span>条POI点
+            共<span style="color: red">{{ count }}</span
+            >条POI点
           </p>
           <mars-button @click="endPoint">查询</mars-button>
         </a-space>
@@ -56,7 +57,6 @@ interface DataItem {
   graphic: any
 }
 
-
 const strat = ref("")
 const count = ref(0)
 const selectWay = ref("1")
@@ -64,7 +64,7 @@ const wayShow = ref(false)
 
 // 表格数据
 const dataSource = ref<any[]>([])
-const columns = ref([
+const columns = [
   {
     title: "序号",
     dataIndex: "index",
@@ -86,7 +86,7 @@ const columns = ref([
     dataIndex: "time",
     key: "time"
   }
-])
+]
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
@@ -110,39 +110,37 @@ const selectWayOptions = ref([
 // 起点
 const stratPoint = () => {
   mapWork.stratPoint()
-
-  mapWork.eventTarget.on("star", function (event: any) {
-    strat.value = event.point.lng + "," + event.point.lat
-  })
 }
+mapWork.eventTarget.on("star", function (event: any) {
+  strat.value = event.point.lng + "," + event.point.lat
+})
 // 终点POI
 const endPoint = () => {
   mapWork.endPoint()
-
-  mapWork.eventTarget.on("end", function (event: any) {
-    count.value = event.count
-  })
+  wayShow.value = false
 }
+mapWork.eventTarget.on("end", function (event: any) {
+  count.value = event.count
+})
 // 开始分析
 const btnAnalyse = () => {
   wayShow.value = false
   dataSource.value = []
 
-  mapWork.btnAnalyse()
-
-  mapWork.eventTarget.on("analyse", function (event: any) {
-    wayShow.value = true
-
-    dataSource.value.push({
-      key: event.i,
-      index: event.i + 1,
-      name: event.name,
-      length: event.distance,
-      time: event.time,
-      graphic: event.id
-    })
-  })
+  mapWork.btnAnalyse(count.value)
 }
+mapWork.eventTarget.on("analyse", function (event: any) {
+  wayShow.value = true
+
+  dataSource.value.push({
+    key: event.i,
+    index: event.i + 1,
+    name: event.name,
+    length: event.distance,
+    time: event.time,
+    graphic: event.id
+  })
+})
 
 // 清除数据
 const removeAll = () => {
@@ -156,10 +154,10 @@ const removeAll = () => {
 .infoView {
   width: 280px;
 }
-.selectWidth{
+.selectWidth {
   width: 210px;
 }
-.inputWidth{
+.inputWidth {
   width: 150px;
 }
 </style>

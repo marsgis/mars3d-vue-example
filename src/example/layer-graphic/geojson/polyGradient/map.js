@@ -63,7 +63,7 @@ function addGraphics() {
         }
       }
     },
-    popup: "{name} : {gdp}亿元  "
+    popup: "{name}"
   })
   map.addLayer(geoJsonLayer)
 

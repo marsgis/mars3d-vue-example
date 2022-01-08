@@ -68,8 +68,10 @@ function addLayer() {
   })
 }
 
+
+
 // 添加矩形
-export export function btnDrawExtent(chkShowLine) {
+export function btnDrawExtent(chkShowLine) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -93,7 +95,7 @@ export export function btnDrawExtent(chkShowLine) {
   })
 }
 // 绘制多边形
-export export function btnDraw(chkShowLine) {
+export function btnDraw(chkShowLine) {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -155,6 +157,16 @@ function addTestLine(chkShowLine, positions) {
 function addTableItem(item) {
   eventTarget.fire("addItem", { item })
 }
+
+
+export function showHideArea(id, selected) {
+  if (selected) {
+    tilesetFlat.showArea(id)
+  } else {
+    tilesetFlat.hideArea(id)
+  }
+}
+
 // 定位至模型
 export function flyToGraphic(item) {
   const graphic = tilesetFlat.getAreaById(item)

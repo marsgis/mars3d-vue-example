@@ -161,7 +161,7 @@ export function changeShadingType(val) {
 let table = []
 // 区域表格添加一行记录
 function addTableItem(item) {
-  table.push({ key: item.id - 1, name: "区域" + item.id, graphicId: item.id })
+  table.push({ key: item.id, name: "区域" + item.id })
 
   eventTabel.fire("tableObject", { table })
 }
@@ -178,4 +178,12 @@ export function flyToGraphic(item) {
 export function deletedGraphic(item) {
   const graphic = contourLine.getAreaById(item)
   contourLine.removeArea(graphic)
+}
+
+export function showHideArea(id, selected) {
+  if (selected) {
+    contourLine.showArea(id)
+  } else {
+    contourLine.hideArea(id)
+  }
 }

@@ -177,7 +177,8 @@ function addGraphicDemo1(graphicLayer) {
       highlight: {
         color: "#ff0000"
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -208,7 +209,8 @@ function addGraphicDemo2(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -245,7 +247,8 @@ function addGraphicDemo3(graphicLayer) {
       material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.PolylineArrow, {
         color: Cesium.Color.YELLOW
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -264,7 +267,8 @@ function addGraphicDemo4(graphicLayer) {
         color: Cesium.Color.CYAN,
         dashLength: 8.0
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -284,7 +288,8 @@ function addGraphicDemo5(graphicLayer) {
         gapColor: Cesium.Color.YELLOW,
         dashPattern: parseInt("1111000000", 2)
       })
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -302,7 +307,8 @@ function addGraphicDemo6(graphicLayer) {
         image: "img/textures/LinkPulse.png",
         speed: 3
       })
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -323,7 +329,8 @@ function addGraphicDemo7(graphicLayer) {
         image: "img/textures/line.png",
         speed: 25
       })
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -344,7 +351,8 @@ function addGraphicDemo8(graphicLayer) {
         speed: 20,
         repeat: new Cesium.Cartesian2(5, 1)
       })
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -365,7 +373,8 @@ function addGraphicDemo9(graphicLayer) {
         percent: 0.15,
         alpha: 0.2
       })
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -383,7 +392,8 @@ function addGraphicDemo10(graphicLayer) {
         image: "img/textures/lineClr2.png",
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -402,7 +412,8 @@ function addGraphicDemo11(graphicLayer) {
         repeat: new Cesium.Cartesian2(20, 1),
         speed: 30
       })
-    }
+    },
+    attr: { remark: "示例11" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -421,7 +432,8 @@ function addGraphicDemo12(graphicLayer) {
         image: "img/textures/arrow_1.png",
         speed: 20
       })
-    }
+    },
+    attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -440,7 +452,8 @@ function addGraphicDemo13(graphicLayer) {
         image: "img/textures/lineClr.png",
         speed: 25
       })
-    }
+    },
+    attr: { remark: "示例13" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -459,7 +472,8 @@ function addGraphicDemo14(graphicLayer) {
         image: "img/textures/LineDataTrans.png",
         speed: 8
       })
-    }
+    },
+    attr: { remark: "示例14" }
   })
   graphicLayer.addGraphic(graphic)
 }

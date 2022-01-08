@@ -451,6 +451,7 @@
           {
             "name": "时钟控制",
             "main": "control/basis/clockAnimate",
+            "usePannel": true,
             "date": "2021-12-03"
           },
           {
@@ -805,7 +806,6 @@
                 "url": "/vue/graphic-editor/style.vue"
               }
             ]
-
           },
           {
             "name": "图标点+文字(含聚合)",
@@ -2339,7 +2339,7 @@
           {
             "name": "双屏对比",
             "date": "2021-10-06",
-            "resources": ["mapCompare.css"],
+            "resources": ["map.css"],
             "main": "map/double/compare"
           },
           {
@@ -2354,14 +2354,14 @@
             "name": "二三维联动(与openlayers)",
             "date": "2021-11-11",
             "libs": ["olcesium", "mars3d"],
-            "resources": ["ol.css"],
+            "resources": ["map.css"],
             "main": "map/double/openlayers"
           },
           {
             "name": "街景联动",
             "date": "2021-11-11",
             "usePannel": true,
-            "resources": ["baidu.css"],
+            "resources": ["map.css"],
             "main": "map/double/streetview"
           }
         ]
