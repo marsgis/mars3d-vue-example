@@ -1,10 +1,10 @@
 <template>
   <pannel class="infoView manager-pannel">
-    <a-directory-tree checkable :expandedKeys="expandedKeys" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+    <mars-tree checkable :expandedKeys="expandedKeys" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
-    </a-directory-tree>
+    </mars-tree>
   </pannel>
 </template>
 

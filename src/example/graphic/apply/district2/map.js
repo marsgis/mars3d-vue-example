@@ -60,7 +60,7 @@ function addAnhui() {
     url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
     minimumLevel: 0,
     maximumLevel: 12,
-    rectangle: { xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 }
+    rectangle: { xmin: 114.883371, xmax: 119.649144, ymin: 29.395253, ymax: 34.650809 }
   })
   map.addLayer(tileLayer)
 
@@ -68,40 +68,62 @@ function addAnhui() {
   const anhuiWall = new mars3d.layer.GeoJsonLayer({
     name: "安徽省边界墙",
     url: "//data.mars3d.cn/file/geojson/areas/340000.json",
-    symbol: {
-      type: "wallP",
-      styleOptions: {
-        setHeight: -15000,
-        diffHeight: 15000, // 墙高
-        materialType: mars3d.MaterialType.Image2,
-        image: "./img/textures/grawall.png",
-        color: "rgba(0,255,255,0.6)",
-        renderState: Cesium.RenderState.fromCache({
-          blending: Cesium.BlendingState.ALPHA_BLEND,
-          depthTest: {
-            enabled: true,
-            func: Cesium.DepthFunction.LESS
-          },
-          cull: {
-            enabled: true,
-            face: Cesium.CullFace.BACK
-          },
-          depthMask: true
-        })
-      }
+    // 自定义解析数据
+    onCreateGraphic: function (options) {
+      const points = options.positions[0] // 坐标
+      const attr = options.attr // 属性信息
+
+      console.log("边界墙原始坐标", points)
+
+      mars3d.PolyUtil.computeSurfaceLine({
+        map: map,
+        positions: points,
+        has3dtiles: false,
+        splitNum: 300,
+        callback: (raisedPositions, noHeight) => {
+          console.log("边界墙插值计算完成坐标", raisedPositions)
+
+          const primitive = new mars3d.graphic.WallPrimitive({
+            positions: raisedPositions,
+            style: {
+              addHeight: -15000,
+              diffHeight: 15000, // 墙高
+              materialType: mars3d.MaterialType.Image2,
+              image: "./img/textures/grawall.png",
+              color: "rgba(0,255,255,0.6)"
+              // renderState: Cesium.RenderState.fromCache({
+              //   blending: Cesium.BlendingState.ALPHA_BLEND,
+              //   depthTest: {
+              //     enabled: true,
+              //     func: Cesium.DepthFunction.LESS
+              //   },
+              //   cull: {
+              //     enabled: true,
+              //     face: Cesium.CullFace.BACK
+              //   },
+              //   depthMask: true
+              // })
+            },
+            attr: attr
+          })
+          anhuiWall.addGraphic(primitive)
+        }
+      })
     }
   })
   map.addLayer(anhuiWall)
+
 
   // 安徽各市边界线和名称
   const shiLayer = new mars3d.layer.GeoJsonLayer({
     name: "安徽各市边界线",
     url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
     symbol: {
-      type: "polyline",
+      type: "polylineCombine",
       styleOptions: {
         color: "rgba(255,255,255,0.3)",
         width: 2,
+        clampToGround: true,
         label: {
           text: "{name}",
           position: "center",

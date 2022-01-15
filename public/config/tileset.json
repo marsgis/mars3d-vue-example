@@ -46,6 +46,30 @@
       ],
       "center": { "lat": 31.257341, "lng": 121.466139, "alt": 2170.8, "heading": 122.2, "pitch": -31.8 }
     },
+
+    { "id": 2050, "pid": 20, "name": "点云", "type": "group" },
+    {
+      "pid": 2050,
+      "type": "3dtiles",
+      "name": "高压线塔杆",
+      "url": "//data.mars3d.cn/3dtiles/pnts-ganta/tileset.json",
+      "maximumScreenSpaceError": 1,
+      "position": { "alt": 31 },
+      "style": {
+        "color": {
+          "conditions": [
+            ["(${Classification} >= 4) && (${Classification} < 5) ", "color('#DC143C')"],
+            ["(${Classification} >= 7) && (${Classification} < 8)  ", "color('#7B68EE')"],
+            ["(${Classification} >= 16) && (${Classification} < 17)  ", "color('#00CED1')"],
+            ["(${Classification} >= 17) && (${Classification} < 18)  ", "color('#3CB371')"],
+            ["(${Classification} >= 18) && (${Classification} < 19)  ", "color('#FFFF00')"],
+            ["(${Classification} >= 19) && (${Classification} < 20)  ", "color('#FFA500')"],
+            ["(${Classification} >= 20) && (${Classification} < 21)  ", "color('#FF6347')"]
+          ]
+        }
+      }
+    },
+
     { "id": 2060, "pid": 20, "name": "BIM模型", "type": "group" },
     {
       "pid": 2060,

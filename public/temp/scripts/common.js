@@ -22,10 +22,8 @@ mars3d.Resource.fetchJson({ url: "config/config.json" })
   })
   .otherwise(function (error) {
     console.log("加载JSON出错", error)
-    globalAlert(error?.message)
+    globalAlert(error ? error.message : "加载JSON出错")
   })
-
-
 
 // 构造地图主方法【必须】
 function initMap(options) {

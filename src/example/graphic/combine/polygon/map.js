@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
   })
 
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr
+    const attr = event.graphic.attr
     if (!attr) {
       return false
     }

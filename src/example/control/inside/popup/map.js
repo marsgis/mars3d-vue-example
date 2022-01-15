@@ -73,7 +73,7 @@ export function bindLayerDemo() {
   // 在layer上绑定Popup单击弹窗
   geoJsonLayer.bindPopup(
     function (event) {
-      const attr = event.graphic?.attr
+      const attr = event.graphic.attr
       return attr.type + " 我是layer上绑定的Popup" + new Date().toLocaleTimeString()
 
       // return new Promise((resolve) => {
@@ -135,7 +135,7 @@ export function bindLayerTemplateDemo() {
   // 在layer上绑定Popup单击弹窗
   geoJsonLayer.bindPopup(
     function (event) {
-      const attr = event.graphic?.attr
+      const attr = event.graphic.attr
       return "我是layer上绑定的自定义模版Popup<br />" + attr.type
     },
     {

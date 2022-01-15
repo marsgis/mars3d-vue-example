@@ -18,7 +18,7 @@ export const mapOptions = {
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true, // 是否显示时间线控件
-    compass: { bottom: "353px", left: "5px" }
+    compass: { bottom: "380px", left: "5px" }
   }
 }
 

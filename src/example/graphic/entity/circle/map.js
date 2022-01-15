@@ -33,6 +33,9 @@ export function onMounted(mapInstance) {
   addGraphic04(graphicLayer)
   addGraphic05(graphicLayer)
   addGraphic06(graphicLayer)
+  addGraphic07(graphicLayer)
+  addGraphic08(graphicLayer)
+  addGraphic09(graphicLayer)
 
   // 触发自定义事件
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
@@ -296,6 +299,114 @@ function addGraphic06(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
+
+
+function addGraphic07(graphicLayer) {
+  let currentRadius = 1
+  const duration = 5000 // 毫秒
+  const maxRadius = 2000 // 米
+
+  var graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LatLngPoint(116.271298, 30.831822, 634),
+    style: {
+      semiMajorAxis: new Cesium.CallbackProperty(function (event) {
+        currentRadius += (1000 / duration) * 50
+        if (currentRadius > maxRadius) {
+          currentRadius = 1
+        }
+        return currentRadius
+      }, false),
+      semiMinorAxis: new Cesium.CallbackProperty(function (event) {
+        return currentRadius
+      }, false),
+      // 扫描材质
+      material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleScan, {
+        image: "img/textures/hexagon.png",
+        color: "#ff0000",
+        opacity: 1.0
+      })
+    }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+
+function addGraphic08(graphicLayer) {
+  const canvasCollection = document.createElement("canvas")
+  canvasCollection.setAttribute("width", "800px")
+  canvasCollection.setAttribute("height", "800px")
+
+  let rotation = 0
+  const step = -0.02
+
+  var graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LatLngPoint(116.326672, 30.811903, 605),
+    style: {
+      radius: 2000,
+      rotation: new Cesium.CallbackProperty(() => {
+        rotation -= step
+        return rotation
+      }, false),
+      stRotation: new Cesium.CallbackProperty(() => {
+        rotation -= step
+        return rotation
+      }, false),
+      material: new Cesium.ImageMaterialProperty({
+        image: new Cesium.CallbackProperty(() => {
+          const context = canvasCollection.getContext("2d")
+          context.clearRect(0, 0, canvasCollection.width, canvasCollection.height) // 清空画布
+
+          const scanColor0 = "rgba(0,255,255,1)"
+          const scanColorTmp = scanColor0.split(",")
+          scanColorTmp[3] = "0)"
+          const scanColor1 = scanColorTmp.join()
+
+          const grd = context.createLinearGradient(175, 100, canvasCollection.width, canvasCollection.height / 2)
+          grd.addColorStop(0, scanColor0)
+          grd.addColorStop(1, scanColor1)
+          context.fillStyle = grd
+          context.beginPath()
+          context.moveTo(400, 400)
+          context.arc(400, 400, 400, (-30 / 180) * Math.PI, (0 / 180) * Math.PI)
+          context.fill()
+
+          const newImg = new Image(canvasCollection.width, canvasCollection.height)
+          newImg.src = canvasCollection.toDataURL("image/png")
+
+          return newImg
+        }, false),
+        transparent: true
+      })
+    }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+
+function addGraphic09(graphicLayer) {
+  let lastPosition
+  let lastHeight = 0
+
+  var circleEntity = new mars3d.graphic.CircleEntity({
+    position: new Cesium.CallbackProperty(function (time) {
+      const center = map.getCenter()
+      if (center) {
+        lastHeight = center.alt + 10
+        lastPosition = center.toCartesian()
+      }
+      return lastPosition
+    }, false),
+    height: new Cesium.CallbackProperty(function (time) {
+      return lastHeight
+    }, false),
+    style: {
+      material: "img/tietu/bagua.png",
+      radius: 500,
+      clampToGround: true
+    }
+  })
+  graphicLayer.addGraphic(circleEntity)
+}
+
+
 // 在图层级处理一些事物
 function initLayerManager() {
   // 在layer上绑定监听事件
@@ -319,7 +430,7 @@ function initLayerManager() {
 // 绑定图层的弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr || {}
+    const attr = event.graphic.attr || {}
     attr.test1 = "测试属性"
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
 

@@ -28,7 +28,6 @@ const name = getQueryString("name")
 
 const editorRef = ref()
 function onChildMounted() {
-  // console.log("子组件加载完成了")
   editorRef.value.setMap(window._map)
 }
 

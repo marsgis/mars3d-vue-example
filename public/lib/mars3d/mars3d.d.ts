@@ -1,11 +1,14 @@
 
+/* eslint-disable import/export */
+/* eslint-disable no-use-before-define */
+
 /* eslint-disable */
 
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.1.21，
- * 编译日期：2022-01-08 18:29:19
+ * 版本信息：v3.1.22，
+ * 编译日期：2022-01-15 15:10:01
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
@@ -2138,13 +2141,6 @@ export class LatLngPoint {
      */
     static parse(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): LatLngPoint;
     /**
-     * 根据传入的各种对象数据，转换返回Cartesian3对象
-     * @param position - 坐标位置
-     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
-     * @returns 转换返回的Cartesian3对象
-     */
-    static parseCartesian3(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
-    /**
      * 根据数组数据，转换返回LatLngPoint对象
      * 示例：[113.123456,31.123456,30.1]
      * @param arr - 坐标位置
@@ -2171,6 +2167,20 @@ export class LatLngPoint {
      * @returns 转换返回的LatLngPoint对象
      */
     static fromCartographic(cartographic: Cesium.Cartographic): LatLngPoint;
+    /**
+     * 根据传入的各种对象数据，转换返回Cartesian3对象
+     * @param position - 坐标位置
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @returns 转换返回的Cartesian3对象
+     */
+    static toCartesian(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
+    /**
+     * 根据传入的各种对象数据，转换返回Cartographic对象
+     * @param position - 坐标位置
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @returns 转换返回的Cartographic对象
+     */
+    static toCartographic(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartographic;
     /**
      * 经度纬度的格式化时的长度，默认为6
      */
@@ -2647,6 +2657,7 @@ export namespace BaseGraphic {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡
+ * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
 export class BaseGraphic extends BaseClass {
     constructor(options: {
@@ -2663,6 +2674,7 @@ export class BaseGraphic extends BaseClass {
         name?: string;
         show?: boolean;
         eventParent?: BaseClass | boolean;
+        allowDrillPick?: boolean | ((...params: any[]) => any);
     });
     /**
      * 矢量数据类型
@@ -2689,6 +2701,10 @@ export class BaseGraphic extends BaseClass {
      */
     readonly isDestroy: boolean;
     /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
+    /**
      * 显示隐藏状态
      */
     show: boolean;
@@ -2704,6 +2720,10 @@ export class BaseGraphic extends BaseClass {
      * 样式信息
      */
     style: any;
+    /**
+     * 是否允许鼠标穿透拾取
+     */
+    allowDrillPick: boolean | ((...params: any[]) => any);
     /**
      * 中心点坐标（笛卡尔坐标）
      */
@@ -4789,6 +4809,10 @@ export class BaseEntity extends BaseGraphic {
      * @returns 无
      */
     stopEditing(): void;
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 /**
@@ -5277,7 +5301,7 @@ export namespace BoxEntity {
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -5307,7 +5331,7 @@ export namespace BoxEntity {
         roll?: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -5404,7 +5428,7 @@ export namespace CircleEntity {
      * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -5440,9 +5464,9 @@ export namespace CircleEntity {
         extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
@@ -5650,7 +5674,7 @@ export namespace ConeTrack {
      * @property [roll = 0] - 翻滚角（度数值，0-360度），没有指定targetPosition时有效
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -5680,9 +5704,9 @@ export namespace ConeTrack {
         roll?: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
@@ -5799,7 +5823,7 @@ export namespace CorridorEntity {
      * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充。
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -5831,7 +5855,7 @@ export namespace CorridorEntity {
         extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -6002,7 +6026,7 @@ export namespace CylinderEntity {
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -6032,9 +6056,9 @@ export namespace CylinderEntity {
         roll?: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
@@ -6373,7 +6397,7 @@ export namespace EllipseEntity {
      * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -6410,9 +6434,9 @@ export namespace EllipseEntity {
         extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
@@ -6517,7 +6541,7 @@ export namespace EllipsoidEntity {
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -6561,9 +6585,9 @@ export namespace EllipsoidEntity {
         roll?: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
@@ -6879,7 +6903,7 @@ export namespace LabelEntity {
         font_style?: string;
         font?: string;
         fill?: boolean;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
@@ -7305,7 +7329,7 @@ export namespace PathEntity {
      */
     type StyleOptions = {
         width?: number;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         material?: Cesium.MaterialProperty | Cesium.Color;
         leadTime?: number;
@@ -7446,7 +7470,7 @@ export namespace PlaneEntity {
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [randomColor = false] - 是否随机颜色
      * @property [color = "#00FF00"] - 颜色
@@ -7477,10 +7501,10 @@ export namespace PlaneEntity {
         roll?: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         randomColor?: boolean;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
@@ -7681,7 +7705,7 @@ export namespace PolygonEntity {
      * 面 支持的样式信息
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -7722,7 +7746,7 @@ export namespace PolygonEntity {
     type StyleOptions = {
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -7866,20 +7890,25 @@ export class PolygonEntity extends BasePolyEntity {
      * 中心点坐标 （笛卡尔坐标）
      */
     readonly center: Cesium.Cartesian3;
+    /**
+     * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
+     * @param positions - 坐标数组
+     */
+    setCallbackPositions(positions: Cesium.Cartesian3[]): void;
 }
 
 export namespace PolylineEntity {
     /**
      * 线 支持的样式信息
      * @property [materialType = "Color"] - 线型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [width = 4] - 线宽
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [randomColor = false] - 是否随机颜色
      * @property [depthFailMaterial] - 指定当折线位于地形之下时用于绘制折线的材质。
-     * @property [closure = false] - 是否闭合
+     * @property [closure = false] - 是否闭合, 在positions是属性机制的回调对象时无效
      * @property [outline = false] - 是否衬色
      * @property [outlineColor = "#ffffff"] - 衬色颜色
      * @property [outlineWidth = 2] - 衬色宽度
@@ -7905,7 +7934,7 @@ export namespace PolylineEntity {
      */
     type StyleOptions = {
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         width?: number;
         color?: string | Cesium.Color;
@@ -8038,7 +8067,7 @@ export namespace PolylineVolumeEntity {
         radius?: number;
         shape?: string | Cesium.Cartesian2[];
         fill?: boolean;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         material?: Cesium.MaterialProperty | Cesium.Color;
         outline?: boolean;
@@ -8138,7 +8167,7 @@ export namespace RectangleEntity {
      * 矩形 支持的样式信息
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -8173,7 +8202,7 @@ export namespace RectangleEntity {
     type StyleOptions = {
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -8433,7 +8462,7 @@ export namespace RectangularSensor {
         xHalfAngleDegree?: number;
         yHalfAngle?: number;
         yHalfAngleDegree?: number;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         material?: Cesium.MaterialProperty | Cesium.Color;
         lineColor?: string | Cesium.Color;
@@ -8538,7 +8567,7 @@ export namespace Video2D {
      * @property aspectRatio - 相机视野的宽高比例（垂直张角）
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -8571,7 +8600,7 @@ export namespace Video2D {
         aspectRatio: number;
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -8609,7 +8638,7 @@ export namespace Video2D {
  * 视频融合（投射2D平面）,
  * 根据相机位置、方向等参数，在相机前面生成一个PolygonEntity面，然后贴视频纹理
  * @param options - 参数对象，包括以下：
- * @param options.position - 坐标位置
+ * @param options.position - 相机坐标位置
  * @param options.dom - 视频对应的video标签
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
@@ -8721,11 +8750,11 @@ export namespace WallEntity {
      * @property [maximumHeights] - 没有指定diffHeight时，可以指定用于墙顶的高度数组，而不是每个位置的高度。
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
-     * @property [closure = false] - 是否闭合
+     * @property [closure = false] - 是否闭合, 在positions是属性机制的回调对象时无效
      * @property [outline = false] - 是否边框
      * @property [outlineWidth = 1] - 边框宽度
      * @property [outlineColor = "#ffffff"] - 边框颜色
@@ -8749,9 +8778,9 @@ export namespace WallEntity {
         maximumHeights?: number[];
         fill?: boolean;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string;
+        color?: string | Cesium.Color;
         opacity?: number;
         closure?: boolean;
         outline?: boolean;
@@ -10665,7 +10694,7 @@ export class BasePrimitive extends BaseGraphic {
     /**
      * 矢量数据对应的 Cesium内部对象
      */
-    readonly primitive: Cesium.Primitive;
+    readonly primitive: Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
     /**
      * 返回实例可修改的属性。{@link Cesium.GeometryInstance}
      * @example
@@ -10691,9 +10720,10 @@ export class BasePrimitive extends BaseGraphic {
     readonly label: Cesium.Label;
     /**
      * 重新渲染
+     * @param [style] - 新的样式信息
      * @returns 当前对象本身
      */
-    redraw(): BasePrimitive;
+    redraw(style?: any): BasePrimitive;
     /**
      * 高亮对象。
      * @param [highlightStyle] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
@@ -10706,6 +10736,10 @@ export class BasePrimitive extends BaseGraphic {
      * @returns 无
      */
     closeHighlight(): void;
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 /**
@@ -10760,7 +10794,7 @@ export namespace BoxPrimitive {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -10791,7 +10825,7 @@ export namespace BoxPrimitive {
         pitch?: number;
         roll?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -10881,7 +10915,7 @@ export namespace CirclePrimitive {
      * @property [stRotationDegree = 0] - 椭圆纹理的角度（度数值，0-360度），与stRotation二选一
      * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -10915,7 +10949,7 @@ export namespace CirclePrimitive {
         stRotationDegree?: number;
         granularity?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -11092,7 +11126,7 @@ export namespace ConeTrackPrimitive {
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
@@ -11120,7 +11154,7 @@ export namespace ConeTrackPrimitive {
         color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
@@ -11215,7 +11249,7 @@ export namespace CorridorPrimitive {
      * @property [width = 100] - 走廊宽度，指定走廊边缘之间的距离。
      * @property [cornerType] - 指定边角的样式。
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -11248,7 +11282,7 @@ export namespace CorridorPrimitive {
         width?: number;
         cornerType?: string | Cesium.CornerType;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -11346,7 +11380,7 @@ export namespace CylinderPrimitive {
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
@@ -11373,7 +11407,7 @@ export namespace CylinderPrimitive {
         color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
@@ -11509,6 +11543,10 @@ export class DiffuseWall extends BasePolyPrimitive {
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
     positions: Cesium.Cartesian3[];
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 export namespace DynamicRiver {
@@ -11595,6 +11633,10 @@ export class DynamicRiver extends BasePolyPrimitive {
      * @returns 无
      */
     offsetHeight(height: number, time: number): void;
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 export namespace EllipsoidPrimitive {
@@ -11621,7 +11663,7 @@ export namespace EllipsoidPrimitive {
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [outline = false] - 是否边框
@@ -11661,7 +11703,7 @@ export namespace EllipsoidPrimitive {
         color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         outline?: boolean;
@@ -11748,7 +11790,7 @@ export namespace FrustumPrimitive {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度），没有指定targetPosition时有效
      * @property [roll = 0] - 翻滚角（度数值，0-360度），没有指定targetPosition时有效
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -11774,7 +11816,7 @@ export namespace FrustumPrimitive {
         pitch?: number;
         roll?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -11992,6 +12034,10 @@ export class LightCone extends BasePointPrimitive {
      * 颜色
      */
     color: Cesium.Color;
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 export namespace ModelPrimitive {
@@ -12321,7 +12367,7 @@ export namespace PlanePrimitive {
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [outline = false] - 是否边框
@@ -12350,7 +12396,7 @@ export namespace PlanePrimitive {
         color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         outline?: boolean;
@@ -12522,7 +12568,7 @@ export namespace PolygonPrimitive {
     /**
      * 面   Primitive图元 支持的样式信息
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -12564,7 +12610,7 @@ export namespace PolygonPrimitive {
      */
     type StyleOptions = {
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -12675,7 +12721,7 @@ export namespace PolylinePrimitive {
      * 线 Primitive图元 支持的样式信息
      * @property [width = 4] - 线宽
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -12702,7 +12748,7 @@ export namespace PolylinePrimitive {
     type StyleOptions = {
         width?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -12846,9 +12892,10 @@ export class PolylineSimplePrimitive extends BasePolyPrimitive {
 export namespace PolylineVolumePrimitive {
     /**
      * 管道线 Primitive图元 支持的样式信息
+     * @property [radius = 10] - 半径
      * @property [shape = "pipeline"] - 形状类型 或 定义要挤压的形状。类型可选项：pipeline (解释：空心管),circle (解释：实心管),star (解释：星状管),
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -12870,9 +12917,10 @@ export namespace PolylineVolumePrimitive {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
+        radius?: number;
         shape?: string | Cesium.Cartesian2[];
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -12954,7 +13002,7 @@ export namespace RectanglePrimitive {
     /**
      * 矩形   Primitive图元 支持的样式信息
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -12980,7 +13028,7 @@ export namespace RectanglePrimitive {
      */
     type StyleOptions = {
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -13180,6 +13228,10 @@ export class ScrollWall extends BasePolyPrimitive {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 export namespace WallPrimitive {
@@ -13187,7 +13239,7 @@ export namespace WallPrimitive {
      * 墙  Primitive图元 支持的样式信息
      * @property [diffHeight = 100] - 墙高
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
-     * @property [material材质参数] - 根据具体{@link MaterialType}来确定
+     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -13213,7 +13265,7 @@ export namespace WallPrimitive {
     type StyleOptions = {
         diffHeight?: number;
         materialType?: string;
-        material材质参数?: any;
+        material的多个参数?: any;
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -13791,6 +13843,10 @@ export class BaseRoamLine extends BaseGraphic {
      */
     toCZML(): any;
     /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
+    /**
      * 显示隐藏状态
      */
     show: boolean;
@@ -14323,12 +14379,14 @@ export class BaseGraphicLayer extends BaseLayer {
     });
     /**
      * 绑定鼠标移入或单击后的 对象高亮
-     * @param [options] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
-     * @param [options.type] - 事件类型，默认为鼠标移入高亮，也可以指定'click'单击高亮.
+     * @param [options] - 参数：
+     * @param [options.type = 'mouseOver'] - 事件类型，默认为鼠标移入高亮，也可以指定'click'单击高亮。
+     * @param [options.多个参数] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
      * @returns 无
      */
     bindHighlight(options?: {
         type?: string;
+        多个参数?: string;
     }): void;
     /**
      * 解绑鼠标移入或单击后的高亮处理
@@ -14813,6 +14871,14 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
      * Entity矢量数据 集合
      */
     readonly entities: Cesium.EntityCollection;
+    /**
+     * 数据加载完成后抛出,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
+     * @example
+     * geojsonLayer.readyPromise.then(function(layer) {
+     *     console.log("load完成", layer)
+     *   })
+     */
+    readonly readyPromise: Promise<CzmGeoJsonLayer | any>;
     /**
      * 当存在 文字primitive 数据的内部Cesium容器
      */
@@ -15711,7 +15777,7 @@ export class GeoJsonLayer extends GraphicLayer {
      *     console.log("load完成", layer)
      *   })
      */
-    readonly readyPromise: Promise<GeoJsonLayer | object>;
+    readonly readyPromise: Promise<GeoJsonLayer | any>;
     /**
      * 加载新数据 或 刷新数据
      * @param [newOptions] - 新设定的参数，会与类的构造参数合并。
@@ -15963,6 +16029,7 @@ export namespace GraphicLayer {
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续标绘,联系标绘状态下无法编辑已有对象。
  * @param [options.isRestorePositions = false] - 在标绘和编辑结束时，是否将坐标还原为普通值，true: 停止编辑时会有闪烁，但效率要好些。
+ * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
@@ -16020,6 +16087,7 @@ export class GraphicLayer extends BaseGraphicLayer {
         isAutoEditing?: boolean;
         isContinued?: boolean;
         isRestorePositions?: boolean;
+        allowDrillPick?: boolean | ((...params: any[]) => any);
         zIndex?: number;
         symbol?: {
             type?: GraphicType | string;
@@ -16128,6 +16196,10 @@ export class GraphicLayer extends BaseGraphicLayer {
      * 是否正在编辑状态
      */
     readonly isEditing: boolean;
+    /**
+     * 是否允许鼠标穿透拾取
+     */
+    allowDrillPick: boolean | ((...params: any[]) => any);
     /**
      * 对象从地图上移除的创建钩子方法，
      * 每次remove时都会调用
@@ -16755,6 +16827,7 @@ export class ModelLayer extends GraphicLayer {
  * @param [options.highlight.color = '#FFFF00'] - 颜色，支持rgba字符串
  * @param [options.highlight.outlineEffect = false] - 默认为修改矢量对象本身的style高亮，true时采用{@link OutlineEffect}方式高亮。
  * @param [options.highlight.filter] - 可以设置筛选排除一些构件, 排除的构件在filter方法内返回false
+ * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数,还包括：
  * @param [options.popupOptions.title] - 固定的标题名称
@@ -16800,6 +16873,7 @@ export class OsmBuildingsLayer extends TilesetLayer {
             outlineEffect?: boolean;
             filter?: (...params: any[]) => any;
         };
+        allowDrillPick?: boolean | ((...params: any[]) => any);
         popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
@@ -16913,6 +16987,7 @@ export namespace TilesetLayer {
  * @param [options.highlight.color = '#FFFF00'] - 颜色，支持rgba字符串
  * @param [options.highlight.outlineEffect = false] - 默认为修改矢量对象本身的style高亮，true时采用{@link OutlineEffect}方式高亮。
  * @param [options.highlight.filter] - 可以设置筛选排除一些构件, 排除的构件在filter方法内返回false
+ * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  * @param [options.clampToGround] - 是否贴地,true时自动调用贴地计算，但此属性只适合标准的与地形数据匹配的模型，并不精确，建议通过模型编辑页面调试给具体高度值。
  * @param [options.chinaCRS] - 标识模型的国内坐标系（用于自动纠偏或加偏）
  * @param [options.shadows = ShadowMode.ENABLED] - 确定tileset是否投射或接收来自光源的阴影。
@@ -17003,6 +17078,7 @@ export class TilesetLayer extends BaseGraphicLayer {
             outlineEffect?: boolean;
             filter?: (...params: any[]) => any;
         };
+        allowDrillPick?: boolean | ((...params: any[]) => any);
         clampToGround?: boolean;
         chinaCRS?: ChinaCRS;
         shadows?: Cesium.ShadowMode;
@@ -17083,7 +17159,7 @@ export class TilesetLayer extends BaseGraphicLayer {
      *     console.log("load完成", layer)
      *   })
      */
-    readonly readyPromise: Promise<TilesetLayer | object>;
+    readonly readyPromise: Promise<TilesetLayer | any>;
     /**
      * 鼠标移入或单击(type:'click')后的对应高亮的部分样式,空值时不高亮
      */
@@ -17151,6 +17227,10 @@ export class TilesetLayer extends BaseGraphicLayer {
      */
     scale: number;
     /**
+     * 是否允许鼠标穿透拾取
+     */
+    allowDrillPick: boolean | ((...params: any[]) => any);
+    /**
      * 重新加载模型
      */
     reload(): void;
@@ -17198,14 +17278,20 @@ export class TilesetLayer extends BaseGraphicLayer {
      * 高亮对象。
      * @param [highlightStyle] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
      * @param [closeLast = true] - 是否清除地图上上一次的高亮对象
+     * @param [feature] - 需要高亮的构件, 如果是mars3d的相关事件内时，可以取 event.pickedObject
      * @returns 无
      */
-    openHighlight(highlightStyle?: any, closeLast?: boolean): void;
+    openHighlight(highlightStyle?: any, closeLast?: boolean, feature?: Cesium.Cesium3DTileFeature): void;
     /**
      * 清除已选中的高亮
      * @returns 无
      */
     closeHighlight(): void;
+    /**
+     * 是否存在Popup绑定
+     * @returns 是否存在Popup绑定
+     */
+    hasPopup(): boolean;
     /**
      * 绑定鼠标单击对象后的弹窗。
      * @param content - 弹窗内容html字符串，或者回调方法。
@@ -17213,6 +17299,16 @@ export class TilesetLayer extends BaseGraphicLayer {
      * @returns 当前对象本身，可以链式调用
      */
     bindPopup(content: string | any[] | ((...params: any[]) => any), options?: Popup.StyleOptions): TilesetLayer;
+    /**
+     * 解除绑定的鼠标单击对象后的弹窗。
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindPopup(): BaseGraphicLayer;
+    /**
+     * 关闭弹窗
+     * @returns 当前对象本身，可以链式调用
+     */
+    closePopup(): BaseGraphicLayer;
     /**
      * 飞行定位至图层数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -17856,12 +17952,27 @@ export class ArcGisLayer extends BaseTileLayer {
         flyTo?: boolean;
     });
     /**
+     * 是否存在Popup绑定
+     * @returns 是否存在Popup绑定
+     */
+    hasPopup(): boolean;
+    /**
      * 绑定鼠标单击对象后的弹窗。
      * @param content - 弹窗内容html字符串，或者回调方法。
      * @param [options] - 控制参数
      * @returns 当前对象本身，可以链式调用
      */
     bindPopup(content: string | ((...params: any[]) => any), options?: Popup.StyleOptions): ArcGisLayer;
+    /**
+     * 解除绑定的鼠标单击对象后的弹窗。
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindPopup(): BaseGraphicLayer;
+    /**
+     * 关闭弹窗
+     * @returns 当前对象本身，可以链式调用
+     */
+    closePopup(): BaseGraphicLayer;
     /**
      * 创建用于图层的 ImageryProvider对象
      * @param options - Provider参数，同图层构造参数。
@@ -20151,7 +20262,14 @@ export class TmsLayer extends BaseTileLayer {
  * @param options.url - WMS服务的URL。
  * @param [options.subdomains] - URL模板中用于 {s} 占位符的子域。 如果此参数是单个字符串，则字符串中的每个字符都是一个子域。如果是 一个数组，数组中的每个元素都是一个子域。
  * @param options.layers - 要包含的图层，用逗号分隔。
- * @param [options.parameters = Cesium.WebMapServiceImageryProvider.DefaultParameters] - 要在URL中 传递给WMS服务GetMap请求的其他参数。
+ * @param [options.parameters = Cesium.WebMapServiceImageryProvider.DefaultParameters] - 要在URL中 传递给[WMS服务]{@link https://docs.geoserver.org/stable/en/user/services/wms/index.html}GetMap请求的其他参数。
+ * @param [options.parameters.format = 'image/jpeg'] - 瓦片格式
+ * @param [options.parameters.transparent] - 是否透明
+ * @param [options.parameters.cql_filter] - 筛选服务数据的SQL语句
+ * @param [options.parameters.service = 'WMS'] - 服务类型
+ * @param [options.parameters.version = '1.1.1'] - 服务版本
+ * @param [options.parameters.request = 'GetMap'] - 请求方法
+ * @param [options.parameters.styles = ''] - 样式
  * @param [options.crs = 'EPSG:3857'] - 瓦片数据的坐标系信息，默认为墨卡托投影，CRS规范，用于WMS规范>= 1.3.0。
  * @param [options.srs] - SRS规范，与WMS规范1.1.0或1.1.1一起使用
  * @param [options.getCapabilities = true] - 是否通过服务本身的GetCapabilities来读取一些参数，减少options配置项
@@ -20214,7 +20332,15 @@ export class WmsLayer extends BaseTileLayer {
         url: Cesium.Resource | string;
         subdomains?: string | string[];
         layers: string;
-        parameters?: any;
+        parameters?: {
+            format?: string;
+            transparent?: boolean;
+            cql_filter?: boolean;
+            service?: string;
+            version?: string;
+            request?: string;
+            styles?: string;
+        };
         crs?: string | CRS;
         srs?: string;
         getCapabilities?: boolean;
@@ -20277,12 +20403,27 @@ export class WmsLayer extends BaseTileLayer {
         flyTo?: boolean;
     });
     /**
+     * 是否存在Popup绑定
+     * @returns 是否存在Popup绑定
+     */
+    hasPopup(): boolean;
+    /**
      * 绑定鼠标单击对象后的弹窗。
      * @param content - 弹窗内容html字符串，或者回调方法。
      * @param [options] - 控制参数
      * @returns 当前对象本身，可以链式调用
      */
     bindPopup(content: string | ((...params: any[]) => any), options?: Popup.StyleOptions): WmsLayer;
+    /**
+     * 解除绑定的鼠标单击对象后的弹窗。
+     * @returns 当前对象本身，可以链式调用
+     */
+    unbindPopup(): BaseGraphicLayer;
+    /**
+     * 关闭弹窗
+     * @returns 当前对象本身，可以链式调用
+     */
+    closePopup(): BaseGraphicLayer;
     /**
      * 创建用于图层的 ImageryProvider对象
      * @param options - Provider参数，同图层构造参数。
@@ -20733,9 +20874,12 @@ export class KeyboardRoam extends BaseControl {
 }
 
 /**
- * 地图鼠标事件 统一管理类
+ * 地图鼠标事件 统一管理类，由Map内部创建
+ * @param map - 地图对象
+ * @param options - 控制参数
  */
 export class MouseEvent {
+    constructor(map: Map, options: Map.mouseOptions);
     /**
      * 鼠标移动事件的延迟毫秒数
      */
@@ -20965,6 +21109,21 @@ export namespace Map {
         showRenderLoopErrors?: boolean;
     };
     /**
+     * 鼠标操作相关配置 参数
+     * @property [enabledMoveTarget = true] - 是否开启鼠标移动事件的拾取矢量数据
+     * @property [moveDelay = 50] - 鼠标移动事件的延迟毫秒数
+     * @property [pickWidth = 4] - 拾取时所选矩形的宽度，单位：像素
+     * @property [pickHeight = 4] - 拾取时所选矩形的高度，单位：像素
+     * @property [pickLimit = 9] - 在允许allowDrillPick传统拾取时，限制拾取的对象个数。
+     */
+    type mouseOptions = {
+        enabledMoveTarget?: boolean;
+        moveDelay?: number;
+        pickWidth?: number;
+        pickHeight?: number;
+        pickLimit?: number;
+    };
+    /**
      * 添加到地图的特效 参数
      * @property [blackAndWhite] - 黑白效果,对应{@link BlackAndWhiteEffect }构造参数
      * @property [bloom] - 泛光效果,对应{@link BloomEffect }构造参数
@@ -21013,11 +21172,11 @@ export namespace Map {
     /**
      * 底图图层配置
      * @property type - 图层类型
-     * @property [其他参数] - 每种不同type都有自己的不同属性，具体参考{@link LayerType}找到type对应的BaseTileLayer子类图层类,查看其构造参数
+     * @property [多个参数] - 每种不同type都有自己的不同属性，具体参考{@link LayerType}找到type对应的BaseTileLayer子类图层类,查看其构造参数
      */
     type basemapOptions = {
         type: string;
-        其他参数?: any;
+        多个参数?: any;
     };
     /**
      * 可以叠加显示的图层配置，
@@ -21031,7 +21190,7 @@ export namespace Map {
      * @property [popupOptions] - popup弹窗时的配置参数
      * @property [tooltip] - 当图层支持tooltip弹窗时，绑定的值
      * @property [tooltipOptions] - tooltip弹窗时的配置参数
-     * @property [其他参数] - 每种type都有自己的不同属性，具体参考{@link LayerType}找到type对应的图层类,查看其构造参数
+     * @property [多个参数] - 每种type都有自己的不同属性，具体参考{@link LayerType}找到type对应的图层类,查看其构造参数
      */
     type layerOptions = {
         type: string;
@@ -21044,7 +21203,7 @@ export namespace Map {
         popupOptions?: Popup.StyleOptions;
         tooltip?: any;
         tooltipOptions?: Tooltip.StyleOptions;
-        其他参数?: any;
+        多个参数?: any;
     };
     /**
      * Map支持的{@link EventType}事件类型
@@ -21152,27 +21311,29 @@ export namespace Map {
  * 地图类 ，这是构造三维地球的一切的开始起点。
  * @param id - 地图div容器的id 或 已构造好的Viewer对象
  * @param [options = {}] - 参数对象:
- * @param options.scene - 场景参数
- * @param options.control - 添加的控件
- * @param options.effect - 添加的特效
- * @param options.terrain - 地形服务配置
- * @param options.basemaps - 底图图层配置
- * @param options.layers - 可以叠加显示的图层配置
- * @param [options.templateValues] - 图层中统一的url模版，。比如可以将服务url前缀统一使用模板，方便修改或动态配置。
+ * @param [options.scene] - 场景参数
+ * @param [options.control] - 添加的控件
+ * @param [options.mouse] - 鼠标操作相关配置参数
+ * @param [options.effect] - 添加的特效
+ * @param [options.terrain] - 地形服务配置
+ * @param [options.basemaps] - 底图图层配置
+ * @param [options.layers] - 可以叠加显示的图层配置
  * @param [options.chinaCRS = ChinaCRS.WGS84] - 标识当前三维场景的国内坐标系（用于部分图层内对比判断来自动纠偏或加偏）
  * @param [options.lang] - 使用的语言（如中文、英文等）。
+ * @param [options.templateValues] - 图层中统一的url模版，比如可以将服务url前缀统一使用模板，方便修改或动态配置。
  */
 export class Map extends BaseClass {
     constructor(id: string | Cesium.Viewer, options?: {
-        scene: Map.sceneOptions;
-        control: Map.controlOptions;
-        effect: Map.effectOptions;
-        terrain: Map.terrainOptions;
-        basemaps: Map.basemapOptions[];
-        layers: Map.layerOptions[];
-        templateValues?: any;
+        scene?: Map.sceneOptions;
+        control?: Map.controlOptions;
+        mouse?: Map.mouseOptions;
+        effect?: Map.effectOptions;
+        terrain?: Map.terrainOptions;
+        basemaps?: Map.basemapOptions[];
+        layers?: Map.layerOptions[];
         chinaCRS?: ChinaCRS;
         lang?: LangType;
+        templateValues?: any;
     });
     /**
      * 当前类的构造参数
@@ -24278,6 +24439,10 @@ export class Satellite extends BaseGraphic {
      */
     id: string | number;
     /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
+    /**
      * 当前类的构造参数
      */
     readonly options: any;
@@ -24677,7 +24842,7 @@ export class SmImgLayer extends BaseTileLayer {
  * @param [options.canvasWidth] - 用来绘制矢量的纹理边长。默认是512，越大越精细，越小性能越高。
  * @param [options.format = 'mvt'] - 适用于第三方发布的WMTS服务。
  * @param [options.mapboxStyle] - 使用的mapBox风格。
- * @param [options.其他] - 参考[supermap官方API]{@link http://support.supermap.com.cn:8090/webgl/docs/Documentation/Scene.html#addVectorTilesLayer}
+ * @param [options.多个参数] - 参考[supermap官方API]{@link http://support.supermap.com.cn:8090/webgl/docs/Documentation/Scene.html#addVectorTilesLayer}
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -24699,7 +24864,7 @@ export class SmMvtLayer extends BaseLayer {
         canvasWidth?: number;
         format?: string;
         mapboxStyle?: any;
-        其他?: any;
+        多个参数?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -24859,7 +25024,7 @@ export namespace BaseWidget {
      * @property [style] - 添加到widget的view中的class样式名
      * @property [css] - 添加到widget的css值
      * @property [show = true] - 激活后是否显示弹窗，false时激活后自动隐藏弹窗。
-     * @property [其他] - 传入数据等，定义的任意参数在widget内部方法中都可以通过this.config获取到
+     * @property [多个参数] - 传入数据等，定义的任意参数在widget内部方法中都可以通过this.config获取到
      */
     type widgetOptions = {
         name: string;
@@ -24891,7 +25056,7 @@ export namespace BaseWidget {
         style?: string;
         css?: any;
         show?: boolean;
-        其他?: any;
+        多个参数?: any;
     };
 }
 
@@ -24970,9 +25135,9 @@ export class BaseWidget extends BaseClass {
     readonly resources: string[];
     /**
      * 定义关联的view弹窗或页面配置信息，目前支持3种类型，
-     * （1）type:'window'，iframe模式弹窗	,参考_example示例，	独立的html子页面，比较自由，简单粗暴、无任何限制；可以每个页面用不同的UI和第三方插件不用考虑冲突问题；任何水平的开发人员均容易快速开发。
-     * （2）type:'divwindow'，div元素模式弹窗	参考_example_divwin示例，可直接互相访问，这种模式弊端是易引起模块间id命名冲突，在css和html中命名时需注意。
-     * （3）type:'append'，任意html元素	参考_example_append示例，任意div节点，比较自由。
+     * （1）type:'window'，iframe模式弹窗 ,参考_example示例， 独立的html子页面，比较自由，简单粗暴、无任何限制；可以每个页面用不同的UI和第三方插件不用考虑冲突问题；任何水平的开发人员均容易快速开发。
+     * （2）type:'divwindow'，div元素模式弹窗 参考_example_divwin示例，可直接互相访问，这种模式弊端是易引起模块间id命名冲突，在css和html中命名时需注意。
+     * （3）type:'append'，任意html元素 参考_example_append示例，任意div节点，比较自由。
      * 为空时表示当前模块无关联的view页面，
      * 其中url地址规则，参考resources说明
      */
@@ -25710,7 +25875,7 @@ export class GaodeRoute {
      * @returns 当前对象本身，可以链式调用
      */
     query(queryOptions: {
-        type: GaodeRoute.RouteType;
+        type: GaodeRoute.RouteType | number;
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
@@ -25817,7 +25982,7 @@ export namespace QueryArcServer {
 /**
  * ArcGIS WFS矢量服务查询类
  * @param options - 参数对象，包括以下：
- * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37', *
+ * @param options.url - ArcGIS服务地址, 示例：'http://server.mars3d.cn/arcgis/rest/services/mars/hefei/MapServer/37'
  * @param [options.pageSize = 10] - 每页条数 *
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
@@ -25927,6 +26092,7 @@ export class QueryArcServer extends BaseClass {
 /**
  * GeoServer WFS服务查询类
  * @param options - 参数对象，包括以下：
+ * @param options.url - GeoServer服务地址, 示例：'http://server.mars3d.cn/geoserver/mars/wfs'
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
@@ -25942,6 +26108,7 @@ export class QueryArcServer extends BaseClass {
  */
 export class QueryGeoServer extends BaseClass {
     constructor(options: {
+        url: string;
         layer: string;
         headers?: any;
         proxy?: Cesium.Proxy;
@@ -29535,7 +29702,7 @@ namespace PolyUtil {
      */
     function computeSurfaceLine(options?: {
         scene: Cesium.Scene;
-        positions: Cesium.Cartesian3;
+        positions: Cesium.Cartesian3[] | LatLngPoint[];
         splitNum?: number;
         minDistance?: number;
         has3dtiles?: boolean;
@@ -29556,7 +29723,7 @@ namespace PolyUtil {
      */
     function computeSurfacePoints(options?: {
         scene: Cesium.Scene;
-        positions: Cesium.Cartesian3;
+        positions: Cesium.Cartesian3[] | LatLngPoint[];
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
@@ -30128,6 +30295,7 @@ namespace Util {
     export { MapSplit }
     export { OverviewMap }
     export { ClockAnimate }
+    export { Timeline }
   }
 
   /**

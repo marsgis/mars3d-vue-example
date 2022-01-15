@@ -36,6 +36,9 @@ export function onMounted(mapInstance) {
   addGraphicDemo8(graphicLayer)
   addGraphicDemo9(graphicLayer)
   addGraphicDemo10(graphicLayer)
+  addGraphicDemo11(graphicLayer)
+  addGraphicDemo12(graphicLayer)
+  addGraphicDemo13(graphicLayer)
 }
 
 /**
@@ -315,6 +318,93 @@ function addGraphicDemo10(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
+function createMaterial() {
+  // 自定义材质 -  注册材质
+  Cesium.Material.LineSpriteType = "LineSprite"
+  Cesium.Material._materialCache.addMaterial(Cesium.Material.LineSpriteType, {
+    fabric: {
+      type: Cesium.Material.LineSpriteType,
+      uniforms: {
+        image: Cesium.Material.DefaultImageId,
+        speed: 20
+      },
+      source: ` czm_material czm_getMaterial(czm_materialInput materialInput)
+      {
+        czm_material material = czm_getDefaultMaterial(materialInput);
+        vec2 st = materialInput.st;
+        vec4 colorImage = texture2D(image, vec2(fract(st.s - speed*czm_frameNumber/1000.0), st.t));
+        material.alpha = colorImage.a;
+        material.diffuse = colorImage.rgb * 1.5 ;
+        return material;
+      }  `
+    },
+    translucent: true
+  })
+}
+createMaterial()
+
+function addGraphicDemo11(graphicLayer) {
+  const graphic = new mars3d.graphic.PolylinePrimitive({
+    positions: [
+      [117.261209, 31.919032, 20.7],
+      [117.279865, 31.893017, 15.3],
+      [117.26716, 31.874204, 19.3]
+    ],
+    style: {
+      width: 1.7,
+      // 使用自定义材质
+      material: Cesium.Material.fromType(Cesium.Material.LineSpriteType, {
+        image: "./img/textures/spriteline1.png",
+        speed: 10
+      })
+    },
+    attr: { remark: "示例11" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addGraphicDemo12(graphicLayer) {
+  const graphic = new mars3d.graphic.PolylinePrimitive({
+    positions: [
+      [117.281001, 31.923691, 15.6],
+      [117.296594, 31.89781, 12.3],
+      [117.28622, 31.877348, 14.2]
+    ],
+    style: {
+      width: 2,
+      // 使用自定义材质
+      material: Cesium.Material.fromType(Cesium.Material.LineSpriteType, {
+        image: "./img/textures/spriteline2.png",
+        speed: 10
+      })
+    },
+    attr: { remark: "示例12" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addGraphicDemo13(graphicLayer) {
+  const graphic = new mars3d.graphic.PolylinePrimitive({
+    positions: [
+      [117.299877, 31.929951, 18.1],
+      [117.318114, 31.900197, 18.9],
+      [117.302505, 31.874097, 14.4]
+    ],
+    style: {
+      width: 1.6,
+      // 使用自定义材质
+      material: Cesium.Material.fromType(Cesium.Material.LineSpriteType, {
+        image: "./img/textures/spriteline3.png",
+        speed: 10
+      })
+    },
+    attr: { remark: "示例13" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+
+
 // 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
 function bindShowHide(val) {
   graphicLayer.show = val
@@ -365,7 +455,7 @@ function initLayerManager() {
 // 绑定图层的弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr || {}
+    const attr = event.graphic.attr || {}
     attr.test1 = "测试属性"
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
 

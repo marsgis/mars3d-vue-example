@@ -94,6 +94,11 @@ function setValue(gp: any) {
         lonlats.value = _.cloneDeep(graphic.coordinates)
         attrs.value = _.cloneDeep(op.attr)
 
+        if (!graphic._hasEditedTag) {
+          graphic.setStyle(op.style) // 首次编辑时，将复杂style对象 转为 简单json格式
+          graphic._hasEditedTag = true // 标识是否编辑过一次
+        }
+
         console.log("开始编辑，原始对象为=>", op)
 
         const config = graphicAttr[op.edittype || op.type] || {}

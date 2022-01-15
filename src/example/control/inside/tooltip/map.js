@@ -73,7 +73,7 @@ export function bindLayerDemo() {
 
   // 在layer上绑定Tooltip单击弹窗
   geoJsonLayer.bindTooltip(function (event) {
-    const attr = event.graphic?.attr
+    const attr = event.graphic.attr
     return attr.type + " 我是layer上绑定的Tooltip"
 
     // return new Promise((resolve) => {
@@ -127,7 +127,7 @@ export function bindLayerTemplateDemo() {
   // 在layer上绑定Tooltip单击弹窗
   geoJsonLayer.bindTooltip(
     function (event) {
-      const attr = event.graphic?.attr
+      const attr = event.graphic.attr
       return "我是layer上绑定的自定义模版Tooltip<br />" + attr.type
     },
     {

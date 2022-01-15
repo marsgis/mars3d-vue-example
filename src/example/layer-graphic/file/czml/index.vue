@@ -13,9 +13,6 @@
 
   <pannel class="treeView">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
-      <template #title="{ title }">
-        <span class="">{{ title }}</span>
-      </template>
     </mars-tree>
   </pannel>
 </template>
@@ -73,28 +70,27 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   nextTick(() => {
     selectedKeys.value = selects
   })
+  console.log(treeData.value)
 })
 
 const checkedChange = (keys: any, item: any) => {
   const node = item.node
-  if (!node.children && node.checked) {
-    layersObj[node.key].show = false
-  }
-
-  if (!node.children && !node.checked) {
-    layersObj[node.key].show = true
-  }
-
-  if (node.children && node.checked) {
-    node.children.forEach((element: any) => {
-      layersObj[element.key].show = false
-    })
-  }
-
-  if (node.children && !node.checked) {
-    node.children.forEach((element: any) => {
-      layersObj[element.key].show = true
-    })
+  if (!node.children) {
+    if (!node.checked) {
+      layersObj[node.key].show = true
+    } else {
+      layersObj[node.key].show = false
+    }
+  } else {
+    if (!node.checked) {
+      node.children.forEach((element: any) => {
+        layersObj[element.key].show = true
+      })
+    } else {
+      node.children.forEach((element: any) => {
+        layersObj[element.key].show = false
+      })
+    }
   }
 }
 

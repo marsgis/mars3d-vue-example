@@ -127,7 +127,7 @@ function getLabelConfig() {
 
 function setDefault() {
   if (props.styleConfig.style) {
-    console.log("yangshi", styleValue.value)
+    // console.log("yangshi", styleValue.value)
     props.styleConfig.style.forEach((item: any) => {
       if (!styleValue.value[item.name] && styleValue.value[item.name] !== 0 && styleValue.value[item.name] !== false) {
         styleValue.value[item.name] = item.defval
@@ -201,7 +201,6 @@ function updateStyle(item: any) {
       }
     })
   }
-  console.log("更新的数据为：", data)
   emit("styleChange", data)
 }
 

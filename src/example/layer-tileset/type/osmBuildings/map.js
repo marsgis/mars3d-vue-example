@@ -19,7 +19,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  tiles3dLayer = new mars3d.layer.tiles3dLayer({
+  tiles3dLayer = new mars3d.layer.OsmBuildingsLayer({
     highlight: {
       type: "click",
       color: "#00FF00"
@@ -72,7 +72,6 @@ export function setStyle2() {
     lightingModel: Cesium.LightingModel.UNLIT,
     fragmentShaderText: fsShader
   })
-  tiles3dLayer.reload()
 }
 
 export function selectColor(col) {

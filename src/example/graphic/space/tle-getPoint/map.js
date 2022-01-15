@@ -53,7 +53,7 @@ export function onUnmounted() {
 
 function addSatellite() {
   graphicLayer.bindPopup(function (event) {
-    const points = event.graphic?.attr?.points
+    const points = event.graphic.attr?.points
     if (!points) {
       return
     }

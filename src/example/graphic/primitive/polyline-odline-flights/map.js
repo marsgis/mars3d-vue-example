@@ -75,7 +75,7 @@ function initPath(routePaths) {
   map.addLayer(graphicLayer)
 
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr
+    const attr = event.graphic.attr
     if (!attr) {
       return false
     }

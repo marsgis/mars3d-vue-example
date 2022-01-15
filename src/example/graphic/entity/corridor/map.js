@@ -240,7 +240,7 @@ function initLayerManager() {
 // 绑定图层的弹窗
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr || {}
+    const attr = event.graphic.attr || {}
     attr.test1 = "测试属性"
     // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
 

@@ -340,7 +340,6 @@ onMounted(() => {
 // 勾选了表格列表的行
 const rowSelection: TableProps["rowSelection"] = {
   onSelect: (selectedRow: any, selectedRows: boolean) => {
-    // console.log(selectedRow)
     if (selectedRows) {
       window.$message("勾选了行:" + selectedRow.name_cn)
     } else {
@@ -353,7 +352,6 @@ const rowSelection: TableProps["rowSelection"] = {
 const customTableRow = (selectedRow: any) => {
   return {
     onClick: (row: any) => {
-      // console.log(selectedRow)
       window.$message("点击表格的行：" + selectedRow.name_cn)
     }
   }
@@ -387,7 +385,6 @@ onMounted(() => {
         expandedKeys.value.push(node.key)
       }
     }
-    // console.log(treeData)
   })
 })
 

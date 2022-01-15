@@ -30,19 +30,14 @@ export function onUnmounted() {
 }
 
 function addDemo() {
-  const MeshVisualizer = Cesium.MeshVisualizer
-  const Mesh = Cesium.Mesh
-  const MeshMaterial = Cesium.MeshMaterial
-  const FramebufferTexture = Cesium.FramebufferTexture
   const GeometryUtils = Cesium.GeometryUtils
   const MeshPhongMaterial = Cesium.MeshPhongMaterial
   const BasicMeshMaterial = Cesium.BasicMeshMaterial
-  const LOD = Cesium.LOD
 
   const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
   const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
 
-  const meshVisualizer = new MeshVisualizer({
+  const meshVisualizer = new Cesium.MeshVisualizer({
     modelMatrix: modelMatrix,
     up: { y: 1 },
     referenceAxisParameter: {
@@ -61,7 +56,7 @@ function addDemo() {
   function createMaterial() {
     return new MeshPhongMaterial({
       defaultColor: createRandomColor(),
-      side: MeshMaterial.Sides.DOUBLE,
+      side: Cesium.MeshMaterial.Sides.DOUBLE,
       translucent: false
     })
   }
@@ -102,10 +97,10 @@ function addDemo() {
     const rigidBodies = []
     const softBodies = []
     const margin = 0.05
-    let hinge
+    // let hinge
     const transformAux1 = new Ammo.btTransform()
     const softBodyHelpers = new Ammo.btSoftBodyHelpers()
-    const armMovement = 0
+    // const armMovement = 0
     const ray = new Cesium.Ray()
     let softBodySolver
 
@@ -135,7 +130,7 @@ function addDemo() {
         quat,
         new MeshPhongMaterial({
           defaultColor: "rgb(200,200,200)",
-          side: MeshMaterial.Sides.DOUBLE,
+          side: Cesium.MeshMaterial.Sides.DOUBLE,
           translucent: false
         })
       )
@@ -164,7 +159,7 @@ function addDemo() {
         quat,
         new MeshPhongMaterial({
           defaultColor: "rgb(28,28,28)",
-          side: MeshMaterial.Sides.DOUBLE,
+          side: Cesium.MeshMaterial.Sides.DOUBLE,
           translucent: false
         })
       )
@@ -176,7 +171,7 @@ function addDemo() {
       const geometry = new THREE.Geometry().fromBufferGeometry(bufGeometry)
 
       // Merge the vertices so the triangle soup is converted to indexed triangles
-      const vertsDiff = geometry.mergeVertices()
+      // const vertsDiff = geometry.mergeVertices()
 
       // Convert again to BufferGeometry, indexed
       const indexedBufferGeom = createIndexedBufferGeometryFromGeometry(geometry)
@@ -256,7 +251,7 @@ function addDemo() {
     function createSoftVolume(bufferGeom, mass, pressure) {
       processGeometry(bufferGeom)
 
-      const volume = new Mesh(
+      const volume = new Cesium.Mesh(
         bufferGeom,
         new BasicMeshMaterial({
           uniforms: {
@@ -314,7 +309,7 @@ function addDemo() {
           normal: true
         })
       })
-      const threeObject = new Mesh(box, material)
+      const threeObject = new Cesium.Mesh(box, material)
 
       const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
       shape.setMargin(margin)
@@ -430,12 +425,12 @@ function addDemo() {
     let init = false
     let startTime = new Date()
     const rayDir = new Cesium.Cartesian3()
-    const maxDistance = 100 // 发射点与射线和局部场景的交点的距离不能太远，过远会撕碎软体进而碎片过多时导致ammo物理引擎崩溃
+    // const maxDistance = 100 // 发射点与射线和局部场景的交点的距离不能太远，过远会撕碎软体进而碎片过多时导致ammo物理引擎崩溃
 
     function initInput() {
       const scene = map.scene
       const handler = new Cesium.ScreenSpaceEventHandler(scene.canvas)
-      const lastMesh = null
+      // const lastMesh = null
       handler.setInputAction(function (movement) {
         if (!clickRequest) {
           Cesium.Cartesian2.clone(movement.position, mouseCoords)
@@ -455,7 +450,7 @@ function addDemo() {
         const ballMass = 3
         const ballRadius = 0.4
 
-        const ball = new Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial)
+        const ball = new Cesium.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial)
 
         const ballShape = new Ammo.btSphereShape(ballRadius)
         ballShape.setMargin(margin)

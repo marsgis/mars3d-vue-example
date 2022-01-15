@@ -347,7 +347,7 @@
       { "name": "radius", "label": "半径", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -411,7 +411,7 @@
       { "name": "semiMajorAxis", "label": "长半径", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity", "stRotationDegree"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType","opacity", "stRotationDegree"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -535,7 +535,7 @@
       { "name": "pitch", "label": "俯仰角", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "roll", "label": "翻滚角", "type": "number", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -603,7 +603,7 @@
       { "name": "pitch", "label": "俯仰角", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "roll", "label": "翻滚角", "type": "number", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -657,7 +657,7 @@
       { "name": "pitch", "label": "俯仰角", "type": "number", "step": 1, "defval": 0.0 },
       { "name": "roll", "label": "翻滚角", "type": "number", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -790,7 +790,7 @@
     "style": [
       { "name": "diffHeight", "label": "墙高", "type": "number", "step": 1, "defval": 100.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType",  "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -951,7 +951,7 @@
       },
       { "name": "diffHeight", "isImpact": true, "label": "立体高度", "type": "number", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,
@@ -1006,7 +1006,7 @@
     "style": [
       { "name": "diffHeight", "label": "立体高度", "type": "hidden", "step": 1, "defval": 0.0 },
 
-      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "color", "opacity"] },
+      { "name": "fill", "label": "是否填充", "type": "radio", "defval": true, "impact": ["materialType", "opacity"] },
       {
         "name": "materialType",
         "isImpact": true,

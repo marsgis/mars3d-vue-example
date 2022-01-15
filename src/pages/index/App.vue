@@ -96,4 +96,15 @@ strike {
   -khtml-user-select: none;
   user-select: none;
 }
+.i-icon-right{
+  color: #fff;
+  opacity: .6;
+}
+.download {
+  color: #d5e5f8;
+  a {
+    color: #91adc6;
+  }
+}
+
 </style>

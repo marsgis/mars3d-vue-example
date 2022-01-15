@@ -80,8 +80,6 @@ const endTime = ref<Dayjs>(dayjs().add(60, "minute"))
 const data = ref([])
 
 mapWork.eventTarget.on("dataList", (e: any) => {
-  console.log(e.tableList)
-
   data.value = e.tableList
 })
 

@@ -58,7 +58,7 @@ export function onMounted(mapInstance) {
 
   // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr
+    const attr = event.graphic.attr
     if (!attr) {
       return false
     }

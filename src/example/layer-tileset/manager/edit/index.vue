@@ -16,8 +16,8 @@
             <div class="f-mb">
               <a-space>
                 <span class="pannel-item-label">加载模型:</span>
-                <span >代理</span>
-                <a-checkbox  v-model:checked="formState.chkProxy" />
+                <span>代理</span>
+                <a-checkbox v-model:checked="formState.chkProxy" />
                 <mars-button @click="showModel">加载模型</mars-button>
               </a-space>
             </div>
@@ -224,25 +224,24 @@ const showCompModel = ref(false)
 const showCompTree = () => {
   showCompModel.value = true
   mapWork.showCompTree(formState.txtModel)
-
-  mapWork.eventTarget.on("compTree", function (event: any) {
-    const data = event.data
-
-    data.forEach((item: any, index: number) => {
-      const childeren = isHaveChildren(item, index)
-
-      treeData.value = [
-        {
-          title: item.name,
-          key: index,
-          id: item.eleid,
-          sphere: item.sphere,
-          children: childeren
-        }
-      ]
-    })
-  })
 }
+mapWork.eventTarget.on("compTree", function (event: any) {
+  const data = event.data
+
+  data.forEach((item: any, index: number) => {
+    const childeren = isHaveChildren(item, index)
+
+    treeData.value = [
+      {
+        title: item.name,
+        key: index,
+        id: item.eleid,
+        sphere: item.sphere,
+        children: childeren
+      }
+    ]
+  })
+})
 
 function isHaveChildren(arr: any, index: number) {
   if (!arr.children) {
@@ -280,7 +279,6 @@ const checkedTree = () => {
 }
 </script>
 <style scoped lang="less">
-
 .infoView-content {
   width: 345px;
   max-height: 720px;
@@ -297,9 +295,8 @@ const checkedTree = () => {
   left: 10px;
   max-height: 600px;
   overflow-x: auto;
-
 }
-.ant-input{
+.ant-input {
   width: 240px;
 }
 </style>

@@ -1,12 +1,6 @@
 <template>
   <pannel class="infoView manager-pannel" v-auto-height="100">
-    <mars-tree
-      checkable
-      :tree-data="treeData"
-      v-model:expandedKeys="expandedKeys"
-      v-model:checkedKeys="checkedKeys"
-      @check="checkedChange"
-    >
+    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
@@ -15,6 +9,7 @@
 </template>
 <script lang="ts" setup>
 import Pannel from "@/components/marsgis/pannel.vue"
+import { GameConsoleOne } from "@icon-park/vue-next"
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -77,7 +72,7 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .map((item: any) => {
-      if ((item.pid = parent.id)) {
+      if (item.pid === parent.id) {
         const node: any = {
           title: item.name,
           key: item.uuid,

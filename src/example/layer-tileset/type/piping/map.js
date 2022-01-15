@@ -26,6 +26,20 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  // 地面模型 （测试 穿透拾取）
+  // let qxLayer = new mars3d.layer.TilesetLayer({
+  //   url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
+  //   maximumScreenSpaceError: 8,
+  //   maximumMemoryUsage: 1024,
+  //   position: { lng: 117.21345, lat: 31.840615, alt: -1822 },
+  //   rotation: { z: 66.9 },
+  //   opacity: 0.5,
+  //   scale: 1,
+  //   allowDrillPick: true, //允许穿透拾取
+  // });
+  // map.addLayer(qxLayer);
+
+
   // 加个模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",

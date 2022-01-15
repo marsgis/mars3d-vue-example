@@ -31,7 +31,7 @@ export function onMounted(mapInstance) {
     // tiles3dLayer.tileset._selectedTiles[0].transform = Cesium.Matrix4.fromTranslation(new Cesium.Cartesian3(100, 0, 0))
     // Cesium.Matrix4.multiply(temp1.transform, Cesium.Matrix4.fromTranslation(new Cesium.Cartesian3(100, 0, 0)), temp1.transform)
 
-    const attr = event.graphic?.attr
+    const attr = event.graphic.attr
     if (attr) {
       tiles3dLayer.style = new Cesium.Cesium3DTileStyle({
         color: {

@@ -86,6 +86,9 @@ export function onMounted(mapInstance) {
     case "bim-ditiezhan":
       showBimDitiezhanDemo()
       break
+    case "pnts-ganta":
+      showPntsGantaDemo()
+      break
   }
 
   // showQxShequDemo()
@@ -200,7 +203,7 @@ export function showQxShequDemo() {
   })
   map.addLayer(tiles3dLayer)
 
-  tiles3dLayer.readyPromise.then(function(layer) {
+  tiles3dLayer.readyPromise.then(function (layer) {
     console.log("load完成", layer)
   })
 
@@ -267,8 +270,6 @@ export function showQxSimiaoDemo() {
 
 /**
  * 城市白膜建筑物 合肥市区
- *
- * @export showJzwHefeiDemo 城市白膜
  * @returns {void}
  */
 export function showJzwHefeiDemo() {
@@ -294,6 +295,39 @@ export function showJzwHefeiDemo() {
       color: "#FFFF00",
       width: 4
     },
+    flyTo: true
+  })
+  map.addLayer(tiles3dLayer)
+
+  // 单击事件
+  tiles3dLayer.on(mars3d.EventType.click, function (event) {
+    console.log("单击了3dtiles图层", event)
+  })
+}
+
+// 示例：点云数据 塔杆
+export function showPntsGantaDemo() {
+  removeLayer()
+
+  tiles3dLayer = new mars3d.layer.TilesetLayer({
+    name: "高压线塔杆",
+    url: "//data.mars3d.cn/3dtiles/pnts-ganta/tileset.json",
+    maximumScreenSpaceError: 1,
+    position: { alt: 31 },
+    style: {
+      color: {
+        conditions: [
+          ["(${Classification} >= 4) && (${Classification} < 5) ", "color('#DC143C')"],
+          ["(${Classification} >= 7) && (${Classification} < 8)  ", "color('#7B68EE')"],
+          ["(${Classification} >= 16) && (${Classification} < 17)  ", "color('#00CED1')"],
+          ["(${Classification} >= 17) && (${Classification} < 18)  ", "color('#3CB371')"],
+          ["(${Classification} >= 18) && (${Classification} < 19)  ", "color('#FFFF00')"],
+          ["(${Classification} >= 19) && (${Classification} < 20)  ", "color('#FFA500')"],
+          ["(${Classification} >= 20) && (${Classification} < 21)  ", "color('#FF6347')"]
+        ]
+      }
+    },
+    popup: "all",
     flyTo: true
   })
   map.addLayer(tiles3dLayer)

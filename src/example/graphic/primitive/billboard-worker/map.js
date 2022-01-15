@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
 
   // 在layer上绑定Popup单击弹窗
   graphicLayer.bindPopup(function (event, callback) {
-    const item = event.graphic?.attr
+    const item = event.graphic.attr
     if (!item) {
       return false
     }

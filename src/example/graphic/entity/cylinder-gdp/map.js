@@ -232,7 +232,7 @@ function bindHaihuaiPopup() {
     const container = event.container // popup对应的DOM
     console.log("图层上打开了popup", container)
 
-    const option = getCityChartsOptions(event.graphic?.attr)
+    const option = getCityChartsOptions(event.graphic.attr)
     if (!option) {
       return
     }

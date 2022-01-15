@@ -2,8 +2,12 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
-let pointAndLine
-let endPointLayer
+let shortestPathLayer
+
+let polygonZAM
+let pointQD
+let pointZD
+
 export const mapOptions = {
   scene: {
     center: { lat: 31.871794, lng: 116.800468, alt: 57020, heading: 0, pitch: -90 }
@@ -23,12 +27,8 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  //  点、线矢量数据图层
-  pointAndLine = new mars3d.layer.GraphicLayer()
-  map.addLayer(pointAndLine)
-
-  endPointLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(endPointLayer)
+  shortestPathLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(shortestPathLayer)
 }
 
 /**
@@ -41,7 +41,10 @@ export function onUnmounted() {
 
 // 绘制障碍面
 export function drawPolygon() {
-  clearLayer()
+  if (polygonZAM) {
+    polygonZAM.remove()
+    polygonZAM = null
+  }
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -50,13 +53,19 @@ export function drawPolygon() {
       outline: true,
       outlineWidth: 1,
       outlineColor: "#ffffff"
+    },
+    success: (graphic) => {
+      polygonZAM = graphic
     }
   })
 }
 // 绘制起点
 export function startPoint() {
-  pointAndLine.clear()
-  pointAndLine.startDraw({
+  if (pointQD) {
+    pointQD.remove()
+    pointQD = null
+  }
+  graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 10,
@@ -69,14 +78,20 @@ export function startPoint() {
         outlineColor: "#000000",
         pixelOffsetY: -20
       }
+    },
+    success: (graphic) => {
+      pointQD = graphic
     }
   })
 }
 
 // 绘制终点
 export function endPoint() {
-  endPointLayer.clear()
-  endPointLayer.startDraw({
+  if (pointZD) {
+    pointZD.remove()
+    pointZD = null
+  }
+  graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 10,
@@ -89,32 +104,33 @@ export function endPoint() {
         outlineColor: "#000000",
         pixelOffsetY: -20
       }
+    },
+    success: (graphic) => {
+      pointZD = graphic
     }
   })
 }
 
 // 计算最短路径
-let polyonLine
 export function shortestPath() {
-  if (polyonLine) {
-    polyonLine.remove()
+  if (!polygonZAM) {
+    globalMsg("请绘制障碍面")
+    return
   }
-  const polygonLayer = graphicLayer.getGraphics()
-  const startPointLayers = pointAndLine.getGraphics()
-  const endPointLayers = endPointLayer.getGraphics()
-
-  if (polygonLayer.length < 1) {
-    globalMsg("请绘制面")
+  if (!pointQD) {
+    globalMsg("请绘制起点")
+    return
+  }
+  if (!pointZD) {
+    globalMsg("请绘制终点")
     return
   }
 
-  if (startPointLayers.length === 0 || endPointLayers.length === 0) {
-    globalMsg("请绘起点和终点")
-    return
-  }
-  const polygon = polygonLayer[0].toGeoJSON() // 障碍面
-  const startPoint = startPointLayers[0].toGeoJSON() // 起点
-  const endPoint = endPointLayers[0].toGeoJSON() // 终点
+  shortestPathLayer.clear()
+
+  const polygon = polygonZAM.toGeoJSON() // 障碍面
+  const startPoint = pointQD.toGeoJSON() // 起点
+  const endPoint = pointZD.toGeoJSON() // 终点
 
   const options = {
     obstacles: polygon
@@ -122,17 +138,20 @@ export function shortestPath() {
   const path = turf.shortestPath(startPoint, endPoint, options)
 
   const positions = path.geometry.coordinates
-  polyonLine = new mars3d.graphic.PolylineEntity({
+  const polyonLine = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
       color: " #55ff33"
     }
   })
-  pointAndLine.addGraphic(polyonLine)
+  shortestPathLayer.addGraphic(polyonLine)
 }
 
 export function clearLayer() {
+  polygonZAM = null
+  pointQD = null
+  pointZD = null
+
   graphicLayer.clear()
-  pointAndLine.clear()
-  endPointLayer.clear()
+  shortestPathLayer.clear()
 }

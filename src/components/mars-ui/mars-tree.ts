@@ -12,12 +12,12 @@ const MarsTree = defineComponent({
   inheritAttrs: false,
   setup(props, context) {
     const icon = (isLeaf: boolean, expanded: boolean) => {
-      if (!isLeaf && expanded) {
+      if (isLeaf) {
+        return [h(FullSelection, { theme: "multi-color", size: "14", fill: ["#FFFFFF", "#4db3ff", "#4db3ff", "#4db3ff"] })]
+      } else if (expanded) {
         return [h(FolderOpen, { theme: "filled", size: "14", fill: "#db9829" })]
       } else if (!expanded) {
         return [h(FolderClose, { theme: "multi-color", size: "14", fill: ["#db9829", "#af7920", "#1c222b", "#af7920"] })]
-      } else if (isLeaf) {
-        return [h(FullSelection, { theme: "multi-color", size: "14", fill: ["#FFFFFF", "#4db3ff", "#4db3ff", "#4db3ff"] })]
       }
     }
     return () =>

@@ -46,6 +46,8 @@ interface FormState {
   enabledTimeLine: boolean
   enabledNav: boolean
   enabledLegend: boolean
+  enabledZoom: boolean,
+
 }
 
 const formState: UnwrapRef<FormState> = reactive({

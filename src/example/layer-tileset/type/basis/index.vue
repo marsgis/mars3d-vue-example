@@ -11,6 +11,7 @@
             <mars-button @click="showQxShequDemo">倾斜摄像(某县城)</mars-button>
             <mars-button @click="showQxSimiaoDemo">倾斜摄像（某景区）</mars-button>
             <mars-button @click="showJzwHefeiDemo">城市白膜（合肥）</mars-button>
+            <mars-button @click="showPntsGantaDemo">高压线塔杆(点云)</mars-button>
           </a-space>
         </div>
 
@@ -86,6 +87,9 @@ const showQxSimiaoDemo = () => {
 }
 const showJzwHefeiDemo = () => {
   mapWork.showJzwHefeiDemo()
+}
+const showPntsGantaDemo = () => {
+  mapWork.showPntsGantaDemo()
 }
 const showMaxShihuaDemo = () => {
   mapWork.showMaxShihuaDemo()

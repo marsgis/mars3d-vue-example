@@ -7,13 +7,13 @@
 
       <a-form-item label="起点">
         <a-space>
-          <mars-input v-model:value="strat"></mars-input>
+          <mars-input v-model:value="strat" disabled></mars-input>
           <mars-button @click="startPoint">选点</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="终点">
         <a-space>
-          <mars-input v-model:value="end"></mars-input>
+          <mars-input v-model:value="end" disabled></mars-input>
           <mars-button @click="endPoint">选点</mars-button>
         </a-space>
       </a-form-item>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 import Pannel from "@/components/marsgis/pannel.vue"
 import * as mapWork from "./map.js"
 
@@ -60,34 +60,30 @@ const selectWayOptions = ref([
   }
 ])
 
-onMounted(() => {
-  mapWork.eventTarget.on("analyse", function (event: any) {
-    wayShow.value = true
+mapWork.eventTarget.on("analyse", function (event: any) {
+  wayShow.value = true
 
-    useTime.value = event.allTime
-    allDiatance.value = event.allDistance
-    dh.value = event.dhHtml
-  })
+  useTime.value = event.allTime
+  allDiatance.value = event.allDistance
+  dh.value = event.dhHtml
 })
 
 // 起点
 const startPoint = () => {
   mapWork.startPoint(selectWay.value)
-
-  mapWork.eventTarget.on("start", function (event: any) {
-    strat.value = event.point.lng + "," + event.point.lat
-    wayShow.value = false
-  })
 }
+mapWork.eventTarget.on("start", function (event: any) {
+  strat.value = event.point.lng + "," + event.point.lat
+  wayShow.value = false
+})
 // 终点
 const endPoint = () => {
   mapWork.endPoint(selectWay.value)
-
-  mapWork.eventTarget.on("end", function (event: any) {
-    end.value = event.point.lng + "," + event.point.lat
-    wayShow.value = false
-  })
 }
+mapWork.eventTarget.on("end", function (event: any) {
+  end.value = event.point.lng + "," + event.point.lat
+  wayShow.value = false
+})
 
 // 开始分析
 const btnAnalyse = () => {

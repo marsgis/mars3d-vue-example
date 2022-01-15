@@ -103,21 +103,26 @@ function multilingual() {
 }
 
 export function distance() {
+  drawLayer.stopDraw()
   measure.distance()
 }
 
 export function area() {
+  drawLayer.stopDraw()
   measure.area()
 }
 
 export function height() {
+  drawLayer.stopDraw()
   measure.heightTriangle()
 }
 
 export function coordinate() {
+  drawLayer.stopDraw()
   measure.point()
 }
 export function angle() {
+  drawLayer.stopDraw()
   measure.angle()
 }
 
@@ -129,6 +134,7 @@ export function angle() {
  * @returns {void} 无
  */
 export function startDraw(type) {
+  measure.stopDraw()
   drawLayer.startDraw({
     type: type,
     style: {

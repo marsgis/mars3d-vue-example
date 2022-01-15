@@ -29,7 +29,16 @@ export const mapOptions = function (option) {
       cameraController: {
         zoomFactor: 1.5,
         minimumZoomDistance: 0.1,
-        maximumZoomDistance: 200000
+        maximumZoomDistance: 200000,
+        enableCollisionDetection: false
+      }
+    },
+    control: {
+      baseLayerPicker: false,
+      sceneModePicker: false,
+      locationBar: {
+        fps: true,
+        template: "<div>经度:{lng}</div> <div>纬度:{lat}</div><div>方向：{heading}°</div> <div>俯仰角：{pitch}°</div>"
       }
     },
     layers: [
@@ -43,7 +52,6 @@ export const mapOptions = function (option) {
       }
     ]
   }
-  delete option.control
   delete option.terrain
   delete option.basemaps
 

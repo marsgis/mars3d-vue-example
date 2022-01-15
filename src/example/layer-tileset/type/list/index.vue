@@ -65,7 +65,7 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .map((item: any) => {
-      if ((item.pid = parent.id)) {
+      if (item.pid === parent.id) {
         const node: any = {
           title: item.name,
           key: item.id,

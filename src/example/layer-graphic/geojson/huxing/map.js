@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   // layer.bindPopup(function (event) {
-  //   let item = event.graphic?.attr;
+  //   let item = event.graphic.attr;
   //   if (!item) {
   //     return false;
   //   }

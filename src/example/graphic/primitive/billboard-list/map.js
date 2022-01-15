@@ -42,7 +42,7 @@ export function onUnmounted() {
 
 function managerEntry(graphicLayer, arr) {
   graphicLayer.bindPopup(function (event) {
-    const item = event.graphic?.attr
+    const item = event.graphic.attr
     if (!item) {
       return false
     }

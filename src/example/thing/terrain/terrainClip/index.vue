@@ -104,7 +104,6 @@ const rowSelection = ref({
     rowKeys.value = selectedRowKeys
   },
   onSelect: (record: TableItem, selected: boolean) => {
-    // console.log(record.key, selected)
     mapWork.showHideArea(record.key, selected)
   }
 })

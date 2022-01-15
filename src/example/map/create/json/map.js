@@ -1,7 +1,6 @@
 import * as mars3d from "mars3d"
 
 function initMap(options) {
-
   // 读取 config.json 配置文件
   mars3d.Resource.fetchJson({ url: "config/config.json" })
     .then(function (json) {
@@ -17,7 +16,6 @@ function initMap(options) {
     })
     .otherwise(function (error) {
       console.log("加载JSON出错", error)
-      globalAlert(error?.message)
+      globalAlert(error ? error.message : "加载JSON出错")
     })
-
 }

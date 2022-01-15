@@ -2124,6 +2124,14 @@
             "date": "2021-10-05"
           },
           {
+            "name": "高压线塔杆（点云）",
+            "main": "layer-tileset/type/basis",
+            "usePannel": true,
+            "params": "pnts-ganta",
+            "thumbnail": "thumbnail_ganta.jpg",
+            "date": "2022-1-1"
+          },
+          {
             "name": "桥梁(BIM建模)",
             "main": "layer-tileset/type/bim-qiaoliang",
             "usePannel": true,
