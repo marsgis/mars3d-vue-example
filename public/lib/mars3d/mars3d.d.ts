@@ -7,12 +7,12 @@
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.1.22，
- * 编译日期：2022-01-15 15:10:01
+ * 版本信息：v3.2.0-beta.2，
+ * 编译日期：2022-01-20 12:50:51
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
- * 使用单位：免费公开版 ，2021-8-18
+ * 使用单位：免费公开版 ，2022-2-1
  */
 declare module "mars3d" {
   import * as Cesium from "mars3d-cesium";
@@ -534,7 +534,7 @@ export const enum GraphicType {
     billboardP,
     model,
     modelP,
-    modelCombine,
+    modelC,
     plane,
     planeP,
     box,
@@ -552,7 +552,7 @@ export const enum GraphicType {
     curve,
     polylineP,
     polylineSP,
-    polylineCombine,
+    polylineC,
     polylineVolume,
     polylineVolumeP,
     path,
@@ -564,12 +564,12 @@ export const enum GraphicType {
     wallP,
     polygon,
     polygonP,
-    polygonCombine,
+    polygonC,
     rectangle,
     rectangleP,
     frustum,
     water,
-    waterCombine,
+    waterC,
     div,
     divLightPoint,
     divUpLabel,
@@ -585,6 +585,7 @@ export const enum GraphicType {
     road,
     rectangularSensor,
     pit,
+    tetrahedron,
     distanceMeasure,
     distanceSurfaceMeasure,
     sectionMeasure,
@@ -2661,8 +2662,8 @@ export namespace BaseGraphic {
  */
 export class BaseGraphic extends BaseClass {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -2769,6 +2770,12 @@ export class BaseGraphic extends BaseClass {
      * @returns 无
      */
     _removedHook(): void;
+    /**
+     * 启用或禁用所有内部控件（含tooltip、popup、contextmenu）
+     * @param value - 是否启用
+     * @returns 无
+     */
+    enableControl(value: boolean): void;
     /**
      * 重新赋值参数，同构造方法参数一致。
      * @param options - 参数,与类的构造方法参数相同
@@ -2884,7 +2891,7 @@ export class BaseGraphic extends BaseClass {
      * @param [event] - 用于抛出事件时的相关额外属性
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(position?: LatLngPoint | Cesium.Cartesian3, event?: any): BaseGraphic | any;
+    openPopup(position?: LatLngPoint | Cesium.Cartesian3 | Number[], event?: any): BaseGraphic | any;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2915,7 +2922,7 @@ export class BaseGraphic extends BaseClass {
      * @param [event] - 用于抛出事件时的相关额外属性
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(position?: LatLngPoint | Cesium.Cartesian3, event?: any): BaseGraphic | any;
+    openTooltip(position?: LatLngPoint | Cesium.Cartesian3 | Number[], event?: any): BaseGraphic | any;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -3082,7 +3089,7 @@ export class BaseCombine extends BasePrimitive {
 export class BasePolyCombine extends BaseCombine {
     constructor(options: {
         instances?: {
-            positions: LatLngPoint[] | Cesium.Cartesian3[];
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3128,6 +3135,336 @@ export class BasePolyCombine extends BaseCombine {
      * @returns 无
      */
     closeHighlight(): void;
+}
+
+/**
+ * 大数据 盒子 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class BoxCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: BoxPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: BoxPrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
+}
+
+/**
+ * 大数据圆集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class CircleCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: CirclePrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: CirclePrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
+}
+
+/**
+ * 大数据 走廊 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 线信息 数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有线的公共样式信息
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class CorridorCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: CorridorPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: CorridorPrimitive.StyleOptions;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+}
+
+/**
+ * 大数据圆锥、圆柱集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class CylinderCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: CylinderPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: CylinderPrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
+}
+
+/**
+ * 大数据 球体 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class EllipsoidCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: EllipsoidPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: EllipsoidPrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
 }
 
 export namespace FlatBillboard {
@@ -3185,6 +3522,73 @@ export class FlatBillboard extends BaseCombine {
      * @returns 无
      */
     clear(): void;
+}
+
+/**
+ * 大数据 四棱锥体 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class FrustumCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: FrustumPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: FrustumPrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
 }
 
 export namespace ModelCombine {
@@ -3279,7 +3683,7 @@ export class ModelCombine extends BaseCombine {
     constructor(options: {
         url?: Cesium.Resource | string;
         instances?: {
-            position: LatLngPoint | Cesium.Cartesian3;
+            position: LatLngPoint | Cesium.Cartesian3 | Number[];
             style?: ModelPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3311,6 +3715,73 @@ export class ModelCombine extends BaseCombine {
         name?: string;
         show?: boolean;
         eventParent?: BaseClass | boolean;
+    });
+}
+
+/**
+ * 大数据 平面 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class PlaneCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: PlanePrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: PlanePrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
     });
 }
 
@@ -3349,7 +3820,7 @@ export class ModelCombine extends BaseCombine {
 export class PolygonCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LatLngPoint[] | Cesium.Cartesian3[];
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3414,11 +3885,202 @@ export class PolygonCombine extends BasePolyCombine {
 export class PolylineCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LatLngPoint[] | Cesium.Cartesian3[];
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolylinePrimitive.StyleOptions;
             attr?: any;
         }[];
         style?: PolylinePrimitive.StyleOptions;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+}
+
+/**
+ * 大数据线集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 线信息 数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有线的公共样式信息
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class PolylineVolumeCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: PolylineVolumePrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: PolylineVolumePrimitive.StyleOptions;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+}
+
+/**
+ * 大数据矩形集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 面信息数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有面的公共样式信息
+ * @param [options.highlight] - 鼠标移入或单击后的对应高亮的部分样式
+ * @param [options.highlight.type] - 触发高亮的方式，默认鼠标移入，可以指定为type:'click'为单击后高亮
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class RectangleCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: RectanglePrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: RectanglePrimitive.StyleOptions;
+        highlight?: {
+            type?: string;
+        };
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
+        vertexCacheOptimize?: boolean;
+        interleave?: boolean;
+        compressVertices?: boolean;
+        releaseGeometryInstances?: boolean;
+        allowPicking?: boolean;
+        cull?: boolean;
+        asynchronous?: boolean;
+        debugShowBoundingVolume?: boolean;
+        debugShowShadowVolume?: boolean;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
+}
+
+/**
+ * 大数据 墙 集合 (合并渲染) Primitive图元 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param [options.instances] - 线信息 数组，单个对象包括：
+ * @param options.instances.positions - 坐标位置
+ * @param [options.instances.style] - 样式信息
+ * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.style] - 所有线的公共样式信息
+ * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
+ * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
+ * @param [options.vertexCacheOptimize = false] - 当true，几何顶点优化前和后顶点着色缓存。
+ * @param [options.interleave = false] - 当true时，几何顶点属性被交叉，这可以略微提高渲染性能，但会增加加载时间。
+ * @param [options.compressVertices = true] - 当true时，几何顶点被压缩，这将节省内存。提升效率。
+ * @param [options.releaseGeometryInstances = true] - 当true时，图元不保留对输入geometryInstances的引用以节省内存。
+ * @param [options.allowPicking = true] - 当true时，每个几何图形实例只能通过{@link Scene#pick}进行挑选。当false时，保存GPU内存。
+ * @param [options.cull = true] - 当true时，渲染器会根据图元的边界体积来剔除它们的截锥和地平线。设置为false，如果你手动剔除图元，可以获得较小的性能提升。
+ * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
+ * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
+ * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数，也支持如pointerEvents等{@link Tooltip}构造参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class WallCombine extends BasePolyCombine {
+    constructor(options: {
+        instances?: {
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+            style?: WallPrimitive.StyleOptions;
+            attr?: any;
+        }[];
+        style?: WallPrimitive.StyleOptions;
         appearance?: Cesium.Appearance;
         attributes?: Cesium.Appearance;
         depthFailAppearance?: Cesium.Appearance;
@@ -3478,7 +4140,7 @@ export class PolylineCombine extends BasePolyCombine {
 export class WaterCombine extends PolygonCombine {
     constructor(options: {
         instances?: {
-            positions: LatLngPoint[] | Cesium.Cartesian3[];
+            positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3508,6 +4170,448 @@ export class WaterCombine extends PolygonCombine {
         show?: boolean;
         eventParent?: BaseClass | boolean;
     });
+}
+
+export namespace ArcFrustum {
+    /**
+     * 弧形平截头体 支持的样式信息
+     * @property [angle] - 四棱锥体张角（角度值，取值范围 0.01-89.99）
+     * @property [angle2 = angle] - 四棱锥体张角2，（角度值，取值范围 0.01-89.99）
+     * @property distance - 投射距离，单位：米
+     * @property [heading = 0] - 方向角 （度数值，0-360度）
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
+     * @property [roll = 0] - 翻滚角（度数值，0-360度）
+     * @property [color = Cesium.Color.WHITE] - 颜色
+     */
+    type StyleOptions = {
+        angle?: number;
+        angle2?: number;
+        distance: number;
+        heading?: number;
+        pitch?: number;
+        roll?: number;
+        color?: Cesium.Color;
+    };
+}
+
+/**
+ * 弧形截头体,
+ * 目前用于视频投射、可视域分析中
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 坐标位置
+ * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性。
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class ArcFrustum extends BasePointPrimitive {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        modelMatrix?: Cesium.Matrix4;
+        style: ArcFrustum.StyleOptions;
+        attr?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 颜色
+     */
+    color: Cesium.Color;
+    /**
+     * 夹角，半场角度，取值范围 0.01-89.99
+     */
+    angle: number;
+    /**
+     * 夹角2，半场角度，取值范围 0.01-89.99
+     */
+    angle2: number;
+    /**
+     * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
+     */
+    readonly modelMatrix: Cesium.Matrix4;
+}
+
+export namespace ParticleSystem {
+    /**
+     * 粒子效果 支持的样式信息
+     * @property [image] - 粒子的图片URL
+     * @property [emitter = new CircleEmitter(2.0)] - 系统的粒子发射器。
+     * @property [emissionRate = 5] - 每秒发射的粒子数。
+     * @property [bursts] - {@link ParticleBurst}的数组，周期性地发射粒子爆发。
+     * @property [loop = true] - 粒子系统完成后是否应该循环爆发。
+     * @property [particleSize = 25] - 粒子图片的Size大小（单位：像素）
+     * @property [imageSize = new Cartesian2(1.0, 1.0)] - 粒子图片的Size大小（单位：像素），与particleSize二选一。
+     * @property [minimumImageSize] - 设置最小边界，宽度和高度，在此之上随机缩放粒子图像的像素尺寸。
+     * @property [maximumImageSize] - 设置最大边界，宽度和高度，在其以下随机缩放粒子图像的像素尺寸。
+     * @property [sizeInMeters] - 设置粒子的大小是米还是像素。true以米为单位设置粒子的大小;否则，大小以像素为单位。
+     * @property [scale = 1.0] - 设置在粒子生命周期内应用于粒子图像的比例。
+     * @property [startScale] - 粒子在出生时的比例（单位：相对于imageSize大小的倍数）
+     * @property [endScale] - 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）
+     * @property [color = Color.WHITE] - 设置一个粒子在其生命周期内的颜色。
+     * @property [startColor] - 粒子出生时的颜色
+     * @property [endColor] - 当粒子死亡时的颜色
+     * @property [speed = 1.0] - 如果设置，则使用此值覆盖最小速度和最大速度输入。
+     * @property [minimumSpeed] - 设定以每秒米为单位的最小范围，超过这个范围粒子的实际速度将被随机选择。
+     * @property [maximumSpeed] - 设定以每秒米为单位的最大范围，低于这个范围粒子的实际速度将被随机选择。
+     * @property [lifetime = Number.MAX_VALUE] - 粒子系统释放粒子的时间，单位是秒。
+     * @property [particleLife = 5.0] - 如果设置了这个值，将覆盖minimumParticleLife和maximumParticleLife输入。
+     * @property [minimumParticleLife] - 设定一个粒子生命可能持续时间的最小界限(以秒为单位)，在此之上一个粒子的实际生命将被随机选择。
+     * @property [maximumParticleLife] - 设置一个粒子生命可能持续时间的最大界限(以秒为单位)，低于这个时间的粒子的实际生命将被随机选择。
+     * @property [mass = 1.0] - 设定粒子的最小和最大质量，单位为千克。
+     * @property [minimumMass] - 设定粒子质量的最小边界，单位为千克。一个粒子的实际质量将被选为高于这个值的随机数量。
+     * @property [maximumMass] - 设置粒子的最大质量，单位为千克。一个粒子的实际质量将被选为低于这个值的随机数量。
+     * @property [updateCallback] - 每一帧调用一个回调函数来更新一个粒子。
+     */
+    type StyleOptions = {
+        image?: string;
+        emitter?: Cesium.ParticleEmitter;
+        emissionRate?: number;
+        bursts?: Cesium.ParticleBurst[];
+        loop?: boolean;
+        particleSize?: number;
+        imageSize?: Cesium.Cartesian2;
+        minimumImageSize?: Cesium.Cartesian2;
+        maximumImageSize?: Cesium.Cartesian2;
+        sizeInMeters?: boolean;
+        scale?: number;
+        startScale?: number;
+        endScale?: number;
+        color?: Cesium.Color;
+        startColor?: Cesium.Color;
+        endColor?: Cesium.Color;
+        speed?: number;
+        minimumSpeed?: number;
+        maximumSpeed?: number;
+        lifetime?: number;
+        particleLife?: number;
+        minimumParticleLife?: number;
+        maximumParticleLife?: number;
+        mass?: number;
+        minimumMass?: number;
+        maximumMass?: number;
+        updateCallback?: Cesium.ParticleSystem.updateCallback;
+    };
+}
+
+/**
+ * 粒子效果 对象
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 坐标位置
+ * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.gravity = 0] - 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
+ * @param [options.target] - 粒子的方向，粒子喷射的目标方向。
+ * @param [options.transZ = 0] - 离地高度，Z轴方向上的偏离距离（单位：米）
+ * @param [options.transX = 0] - X轴方向上的偏离距离（单位：米）
+ * @param [options.transY = 0] - Y轴方向上的偏离距离（单位：米）
+ * @param [options.maxHeight = 5000] - 最大视角高度（单位：米），超出该高度不显示粒子效果
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class ParticleSystem extends BasePointPrimitive {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        modelMatrix?: Cesium.Matrix4;
+        style: ParticleSystem.StyleOptions;
+        attr?: any;
+        gravity?: number;
+        target?: Cesium.Cartesian3;
+        transZ?: number;
+        transX?: number;
+        transY?: number;
+        maxHeight?: number;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 最大视角高度（单位：米），超出该高度不显示粒子效果
+     */
+    maxHeight: number;
+    /**
+     * 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
+     */
+    gravity: number;
+    /**
+     * X轴方向上的偏离距离（单位：米）
+     */
+    transX: number;
+    /**
+     * Y轴方向上的偏离距离（单位：米）
+     */
+    transY: number;
+    /**
+     * 离地高度，Z轴方向上的偏离距离（单位：米）
+     */
+    transZ: number;
+    /**
+     * 粒子的方向，粒子喷射的目标方向。
+     */
+    target: Cesium.Cartesian3;
+    /**
+     * 粒子图片的Size大小（单位：像素）
+     */
+    particleSize: number;
+}
+
+export namespace Tetrahedron {
+    /**
+     * 四面体（顶部正方形+倒立的三角椎体） 支持的样式信息
+     * @property [width = 20] - 顶部正方形长宽，单位：米
+     * @property [height = 30] - 倒立的三角椎体部分高度，单位：米
+     * @property [color = new Cesium.Color(0.8, 0.8, 0, 0.8)] - 颜色
+     * @property [animation = true] - 是否动画
+     * @property [moveHeight = 30] - 动画时，上下移动的单程总高度，单位：米
+     * @property [moveDuration = 2] - 动画时，上下移动的单程总时长，单位：秒
+     * @property [rotationAngle = 1] - 动画时，每帧旋转的角度值，单位：度
+     */
+    type StyleOptions = {
+        width?: number;
+        height?: number;
+        color?: string | Cesium.Color;
+        animation?: boolean;
+        moveHeight?: number;
+        moveDuration?: number;
+        rotationAngle?: number;
+    };
+}
+
+/**
+ * 四面体（顶部正方形+倒立的三角椎体）
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 坐标位置
+ * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性。
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class Tetrahedron extends BasePointPrimitive {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        modelMatrix?: Cesium.Matrix4;
+        style: Tetrahedron.StyleOptions;
+        attr?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 颜色
+     */
+    color: Cesium.Color;
+    /**
+     * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
+     */
+    readonly modelMatrix: Cesium.Matrix4;
+}
+
+export namespace Video3D {
+    /**
+     * 视频融合（投射3D，贴物体表面） 支持的样式信息
+     * @property [container] - video视频DOM容器
+     * @property [url] - 视频的URL路径,与DOM二选一
+     * @property [maskImage] - 遮盖融合的图片url地址，可以用于视频的四周羽化效果。
+     * @property angle - 水平张角(度数)
+     * @property angle2 - 垂直张角(度数)
+     * @property [distance] - 投射最远距离，单位：米
+     * @property [heading = 0] - 方向角 （度数值，0-360度）
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
+     * @property [roll = 0] - 翻滚角（度数值，0-360度）
+     * @property [opacity = 1.0] - 透明度 0.0 - 1.0
+     * @property [hiddenAreaColor = new Cesium.Color(0, 0, 0, 0.5)] - 无视频投影区域的颜色
+     * @property [showFrustum = false] - 是否显示视椎体框线
+     */
+    type StyleOptions = {
+        container?: HTMLVideoElement;
+        url?: string;
+        maskImage?: string;
+        angle: number;
+        angle2: number;
+        distance?: number;
+        heading?: number;
+        pitch?: number;
+        roll?: number;
+        opacity?: number;
+        hiddenAreaColor?: Cesium.Color | string;
+        showFrustum?: boolean;
+    };
+}
+
+/**
+ * 视频融合（投射3D，贴物体表面）
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 相机位置
+ * @param [options.targetPosition] - 目标视点位置,可以替代style中的相机heading\pitch\roll方向和distance距离参数
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class Video3D extends ViewShed {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Number[];
+        style: Video3D.StyleOptions;
+        attr?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 对应的视频DOM元素
+     */
+    readonly container: HTMLVideoElement;
+    /**
+     * 最远投射距离，单位：米
+     */
+    distance: number;
+    /**
+     * 暂停或播放 视频
+     */
+    play: boolean;
+    /**
+     * 通过标绘 来创建矢量对象
+     * @param layer - 图层
+     * @param options - 矢量对象的构造参数
+     * @returns 矢量对象
+     */
+    static fromDraw(layer: GraphicLayer, options: any): Video3D;
+}
+
+export namespace ViewShed {
+    /**
+     * 可视域矢量对象 支持的样式信息
+     * @property [angle = 60] - 水平张角(度数)，取值范围 0-60
+     * @property [angle2 = 45] - 垂直张角(度数)，取值范围 0-45
+     * @property [distance] - 投射最远距离，单位：米
+     * @property [heading = 0] - 方向角 （度数值，0-360度）
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
+     * @property [roll = 0] - 翻滚角（度数值，0-360度）
+     * @property [opacity = 0.6] - 透明度 0.0 - 1.0
+     * @property [visibleAreaColor = new Cesium.Color(0, 1, 0)] - 可视区域颜色
+     * @property [hiddenAreaColor = new Cesium.Color(1, 0, 0)] - 不可视区域颜色
+     * @property [addHeight] - 在坐标点增加的高度值，规避遮挡，效果更友好
+     * @property [showFrustum = false] - 是否显示视椎体框线
+     */
+    type StyleOptions = {
+        angle?: number;
+        angle2?: number;
+        distance?: number;
+        heading?: number;
+        pitch?: number;
+        roll?: number;
+        opacity?: number;
+        visibleAreaColor?: Cesium.Color | string;
+        hiddenAreaColor?: Cesium.Color | string;
+        addHeight?: number;
+        showFrustum?: boolean;
+    };
+}
+
+/**
+ * 可视域 矢量对象
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 相机位置
+ * @param [options.targetPosition] - 目标视点位置,可以替代style中的相机heading\pitch\roll方向和distance距离参数
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.terrain = true] - 是否启用地形的阴影效果，在平原地区或无地形时可以关闭
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
+ */
+export class ViewShed extends BasePointPrimitive {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Number[];
+        style: ViewShed.StyleOptions;
+        attr?: any;
+        terrain?: boolean;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 水平张角，半场角度
+     */
+    angle: number;
+    /**
+     * 垂直张角，半场角度
+     */
+    angle2: number;
+    /**
+     * 可视区域颜色
+     */
+    visibleAreaColor: Cesium.Color;
+    /**
+     * 不可视区域颜色
+     */
+    hiddenAreaColor: Cesium.Color;
+    /**
+     * 混合系数0-1
+     */
+    opacity: number;
+    /**
+     * 是否显示视椎体框线
+     */
+    showFrustum: boolean;
+    /**
+     * 距离，单位：米
+     */
+    distance: number;
+    /**
+     * 相机对象
+     */
+    readonly camera: Cesium.Camera;
+    /**
+     * 目标点位置(笛卡尔坐标)
+     */
+    targetPosition: Cesium.Cartesian3;
+    /**
+     * 定位至相机的第一视角
+     * @returns 无
+     */
+    setView(): void;
+    /**
+     * 开始绘制矢量数据，绘制的数据会加载在layer图层。
+     * @param layer - 图层
+     * @returns 无
+     */
+    startDraw(layer: GraphicLayer): void;
+    /**
+     * 停止绘制
+     * @returns 无
+     */
+    stopDraw(): void;
+    /**
+     * 通过标绘 来创建矢量对象
+     * @param layer - 图层
+     * @param options - 矢量对象的构造参数
+     * @returns 矢量对象
+     */
+    static fromDraw(layer: GraphicLayer, options: any): ViewShed;
+    /**
+     * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
+     */
+    position: Cesium.Cartesian3;
 }
 
 export namespace DivBoderLabel {
@@ -3592,7 +4696,7 @@ export namespace DivBoderLabel {
  */
 export class DivBoderLabel extends DivGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: DivBoderLabel.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -3628,6 +4732,8 @@ export namespace DivGraphic {
      * @property [verticalOrigin] - 垂直方向的定位
      * @property [offsetX] - 用于非规则div时，横向偏移的px像素值
      * @property [offsetY] - 用于非规则div时，垂直方向偏移的px像素值
+     * @property [className] - 自定义的样式名
+     * @property [editClassName = "mars3d-divGraphic-edit"] - 编辑状态下的的样式名
      * @property [scaleByDistance = false] - 是否按视距缩放
      * @property [scaleByDistance_far = 1000000] - 上限
      * @property [scaleByDistance_farValue = 0.1] - 比例值
@@ -3649,6 +4755,8 @@ export namespace DivGraphic {
         verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
+        className?: string;
+        editClassName?: string;
         scaleByDistance?: boolean;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -3730,7 +4838,6 @@ export namespace DivGraphic {
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.className] - 自定义的样式名
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
@@ -3750,10 +4857,9 @@ export namespace DivGraphic {
  */
 export class DivGraphic extends BaseGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: DivGraphic.StyleOptions;
         attr?: any;
-        className?: string;
         hasEdit?: boolean;
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
@@ -3843,7 +4949,7 @@ export class DivGraphic extends BaseGraphic {
      * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为Number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3, currTime?: Cesium.JulianDate | Date | string | number): DivGraphic;
+    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3 | Number[], currTime?: Cesium.JulianDate | Date | string | number): DivGraphic;
     /**
      * 位置坐标(数组对象)，示例[113.123456,31.123456,30.1]
      * @param noAlt - true时不导出高度值
@@ -3979,7 +5085,7 @@ export namespace DivLightPoint {
  */
 export class DivLightPoint extends DivGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: DivLightPoint.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -4087,7 +5193,7 @@ export namespace DivUpLabel {
  */
 export class DivUpLabel extends DivGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: DivUpLabel.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -4116,136 +5222,23 @@ export class DivUpLabel extends DivGraphic {
 }
 
 /**
- * DivGraphic对象 标绘处理对应的编辑类
+ * DivGraphic对象，标绘处理对应的编辑类
  */
 export class EditDivGraphic extends EditBase {
-}
-
-export namespace ParticleSystem {
     /**
-     * 粒子效果 支持的样式信息
-     * @property [image] - 粒子的图片URL
-     * @property [emitter = new CircleEmitter(2.0)] - 系统的粒子发射器。
-     * @property [emissionRate = 5] - 每秒发射的粒子数。
-     * @property [bursts] - {@link ParticleBurst}的数组，周期性地发射粒子爆发。
-     * @property [loop = true] - 粒子系统完成后是否应该循环爆发。
-     * @property [particleSize = 25] - 粒子图片的Size大小（单位：像素）
-     * @property [imageSize = new Cartesian2(1.0, 1.0)] - 粒子图片的Size大小（单位：像素），与particleSize二选一。
-     * @property [minimumImageSize] - 设置最小边界，宽度和高度，在此之上随机缩放粒子图像的像素尺寸。
-     * @property [maximumImageSize] - 设置最大边界，宽度和高度，在其以下随机缩放粒子图像的像素尺寸。
-     * @property [sizeInMeters] - 设置粒子的大小是米还是像素。true以米为单位设置粒子的大小;否则，大小以像素为单位。
-     * @property [scale = 1.0] - 设置在粒子生命周期内应用于粒子图像的比例。
-     * @property [startScale] - 粒子在出生时的比例（单位：相对于imageSize大小的倍数）
-     * @property [endScale] - 粒子在死亡时的比例（单位：相对于imageSize大小的倍数）
-     * @property [color = Color.WHITE] - 设置一个粒子在其生命周期内的颜色。
-     * @property [startColor] - 粒子出生时的颜色
-     * @property [endColor] - 当粒子死亡时的颜色
-     * @property [speed = 1.0] - 如果设置，则使用此值覆盖最小速度和最大速度输入。
-     * @property [minimumSpeed] - 设定以每秒米为单位的最小范围，超过这个范围粒子的实际速度将被随机选择。
-     * @property [maximumSpeed] - 设定以每秒米为单位的最大范围，低于这个范围粒子的实际速度将被随机选择。
-     * @property [lifetime = Number.MAX_VALUE] - 粒子系统释放粒子的时间，单位是秒。
-     * @property [particleLife = 5.0] - 如果设置了这个值，将覆盖minimumParticleLife和maximumParticleLife输入。
-     * @property [minimumParticleLife] - 设定一个粒子生命可能持续时间的最小界限(以秒为单位)，在此之上一个粒子的实际生命将被随机选择。
-     * @property [maximumParticleLife] - 设置一个粒子生命可能持续时间的最大界限(以秒为单位)，低于这个时间的粒子的实际生命将被随机选择。
-     * @property [mass = 1.0] - 设定粒子的最小和最大质量，单位为千克。
-     * @property [minimumMass] - 设定粒子质量的最小边界，单位为千克。一个粒子的实际质量将被选为高于这个值的随机数量。
-     * @property [maximumMass] - 设置粒子的最大质量，单位为千克。一个粒子的实际质量将被选为低于这个值的随机数量。
-     * @property [updateCallback] - 每一帧调用一个回调函数来更新一个粒子。
+     * 对应的DOM元素
      */
-    type StyleOptions = {
-        image?: string;
-        emitter?: Cesium.ParticleEmitter;
-        emissionRate?: number;
-        bursts?: Cesium.ParticleBurst[];
-        loop?: boolean;
-        particleSize?: number;
-        imageSize?: Cesium.Cartesian2;
-        minimumImageSize?: Cesium.Cartesian2;
-        maximumImageSize?: Cesium.Cartesian2;
-        sizeInMeters?: boolean;
-        scale?: number;
-        startScale?: number;
-        endScale?: number;
-        color?: Cesium.Color;
-        startColor?: Cesium.Color;
-        endColor?: Cesium.Color;
-        speed?: number;
-        minimumSpeed?: number;
-        maximumSpeed?: number;
-        lifetime?: number;
-        particleLife?: number;
-        minimumParticleLife?: number;
-        maximumParticleLife?: number;
-        mass?: number;
-        minimumMass?: number;
-        maximumMass?: number;
-        updateCallback?: Cesium.ParticleSystem.updateCallback;
-    };
-}
-
-/**
- * 粒子效果 对象
- * @param options - 参数对象，包括以下：
- * @param options.position - 坐标位置
- * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
- * @param options.style - 样式信息
- * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.gravity = 0] - 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
- * @param [options.target] - 粒子的方向，粒子喷射的目标方向。
- * @param [options.transZ = 0] - 离地高度，Z轴方向上的偏离距离（单位：米）
- * @param [options.transX = 0] - X轴方向上的偏离距离（单位：米）
- * @param [options.transY = 0] - Y轴方向上的偏离距离（单位：米）
- * @param [options.maxHeight = 5000] - 最大视角高度（单位：米），超出该高度不显示粒子效果
- * @param [options.id = uuid()] - 矢量数据id标识
- * @param [options.name = ''] - 矢量数据名称
- * @param [options.show = true] - 矢量数据是否显示
- * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
- */
-export class ParticleSystem extends BasePointPrimitive {
-    constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        modelMatrix?: Cesium.Matrix4;
-        style: ParticleSystem.StyleOptions;
-        attr?: any;
-        gravity?: number;
-        target?: Cesium.Cartesian3;
-        transZ?: number;
-        transX?: number;
-        transY?: number;
-        maxHeight?: number;
-        id?: string | number;
-        name?: string;
-        show?: boolean;
-        eventParent?: BaseClass | boolean;
-    });
+    readonly container: Element;
     /**
-     * 最大视角高度（单位：米），超出该高度不显示粒子效果
+     * 激活绘制
+     * @returns 当前对象本身，可以链式调用
      */
-    maxHeight: number;
+    activate(): EditBase;
     /**
-     * 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
+     * 释放绘制
+     * @returns 当前对象本身，可以链式调用
      */
-    gravity: number;
-    /**
-     * X轴方向上的偏离距离（单位：米）
-     */
-    transX: number;
-    /**
-     * Y轴方向上的偏离距离（单位：米）
-     */
-    transY: number;
-    /**
-     * 离地高度，Z轴方向上的偏离距离（单位：米）
-     */
-    transZ: number;
-    /**
-     * 粒子的方向，粒子喷射的目标方向。
-     */
-    target: Cesium.Cartesian3;
-    /**
-     * 粒子图片的Size大小（单位：像素）
-     */
-    particleSize: number;
+    disable(): EditBase;
 }
 
 export namespace Popup {
@@ -4260,6 +5253,7 @@ export namespace Popup {
      * @property [verticalOrigin] - 垂直方向的定位
      * @property [offsetX] - 用于非规则div时，横向偏移的px像素值
      * @property [offsetY] - 用于非规则div时，垂直方向偏移的px像素值
+     * @property [className] - 自定义的样式名
      * @property [scaleByDistance = false] - 是否按视距缩放
      * @property [scaleByDistance_far = 1000000] - 上限
      * @property [scaleByDistance_farValue = 0.1] - 比例值
@@ -4283,6 +5277,7 @@ export namespace Popup {
         verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
+        className?: string;
         scaleByDistance?: boolean;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -4307,7 +5302,6 @@ export namespace Popup {
  * @param options.position - 坐标位置
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.className] - 自定义的样式名
  * @param [options.animation = true] - 是否执行打开时的动画效果
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
@@ -4320,10 +5314,9 @@ export namespace Popup {
  */
 export class Popup extends DivGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: Popup.StyleOptions;
         attr?: any;
-        className?: string;
         animation?: boolean;
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
@@ -4357,6 +5350,7 @@ export namespace Tooltip {
      * @property [verticalOrigin] - 垂直方向的定位
      * @property [offsetX] - 用于非规则div时，横向偏移的px像素值
      * @property [offsetY] - 用于非规则div时，垂直方向偏移的px像素值
+     * @property [className] - 自定义的样式名
      * @property [scaleByDistance = false] - 是否按视距缩放
      * @property [scaleByDistance_far = 1000000] - 上限
      * @property [scaleByDistance_farValue = 0.1] - 比例值
@@ -4377,6 +5371,7 @@ export namespace Tooltip {
         verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
+        className?: string;
         scaleByDistance?: boolean;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -4408,7 +5403,7 @@ export namespace Tooltip {
  */
 export class Tooltip extends Popup {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: Tooltip.StyleOptions;
         attr?: any;
         testPoint?: PointEntity.StyleOptions;
@@ -4427,176 +5422,6 @@ export class Tooltip extends Popup {
      * @returns DIV点对象
      */
     static fromDraw(layer: GraphicLayer, options: any): Tooltip;
-}
-
-export namespace Video3D {
-    /**
-     * 视频融合（投射3D，贴物体表面） 支持的样式信息
-     * @property opacity - 混合系数 0.0 - 1.0
-     * @property camera - 相机方向参数
-     * @property camera.direction - direction方向
-     * @property camera.up - up方向
-     * @property camera.right - right方向
-     * @property aspectRatio - 相机视野的宽高比例（垂直张角）
-     * @property fov - 张角(弧度值)
-     * @property fovDegree - 张角(角度值，0-180度)
-     * @property [hiddenAreaColor = new Cesium.Color(0, 0, 0, 0.5)] - 无视频投影区域的颜色
-     * @property [color] - 当type为颜色时的，投射的颜色值
-     * @property [text] - 当为text文本时的，传入的文本内容
-     * @property [textStyles] - 当为text文本时的，文本样式，包括:
-     * @property [textStyles.font = '23px 楷体'] - 使用的CSS字体。
-     * @property [textStyles.textBaseline = 'top'] - 文本的基线。
-     * @property [textStyles.fill = true] - 是否填充文本。
-     * @property [textStyles.stroke = true] - 是否描边文本。
-     * @property [textStyles.fillColor = new Cesium.Color(1.0, 1.0, 0.0, 1.0)] - 填充颜色。
-     * @property [textStyles.strokeColor = new Cesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
-     * @property [textStyles.strokeWidth = 2] - 描边的宽度。
-     * @property [textStyles.backgroundColor = new Cesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
-     * @property [textStyles.padding = 10] - 要在文本周围添加的填充的像素大小。
-     */
-    type StyleOptions = {
-        opacity: number;
-        camera: {
-            direction: Cesium.Cartesian3;
-            up: Cesium.Cartesian3;
-            right: Cesium.Cartesian3;
-        };
-        aspectRatio: number;
-        fov: number;
-        fovDegree: number;
-        hiddenAreaColor?: Cesium.Color;
-        color?: Cesium.Color;
-        text?: string;
-        textStyles?: {
-            font?: string;
-            textBaseline?: string;
-            fill?: boolean;
-            stroke?: boolean;
-            fillColor?: Cesium.Color;
-            strokeColor?: Cesium.Color;
-            strokeWidth?: number;
-            backgroundColor?: Cesium.Color;
-            padding?: number;
-        };
-    };
-    /**
-     * 类型
-     */
-    enum Type {
-        Video,
-        Image,
-        Color,
-        Text
-    }
-    /**
-     * 旋转的方向
-     */
-    enum RatateDirection {
-        LEFT,
-        RIGHT,
-        TOP,
-        BOTTOM,
-        ALONG,
-        INVERSE
-    }
-}
-
-/**
- * 视频融合（投射3D，贴物体表面）
- * @param options - 参数对象，包括以下：
- * @param options.position - 视点位置
- * @param options.cameraPosition - 相机位置
- * @param options.type - 投射的类型
- * @param options.style - 样式信息
- * @param [options.url] - 当为图片或视频类型时，传入的图片或视频的路径
- * @param [options.dom] - 当为视频类型时，传入了视频容器DOM，与url二选一
- * @param [options.showFrustum = true] - 是否显示视椎体框线
- * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.id = uuid()] - 矢量数据id标识
- * @param [options.name = ''] - 矢量数据名称
- * @param [options.show = true] - 矢量数据是否显示
- * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
- */
-export class Video3D extends BasePointPrimitive {
-    constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        cameraPosition: LatLngPoint | Cesium.Cartesian3;
-        type: Video3D.Type;
-        style: Video3D.StyleOptions;
-        url?: string;
-        dom?: HTMLElement | any;
-        showFrustum?: boolean;
-        attr?: any;
-        id?: string | number;
-        name?: string;
-        show?: boolean;
-        eventParent?: BaseClass | boolean;
-    });
-    /**
-     * 相机位置(笛卡尔坐标)
-     */
-    cameraPosition: Cesium.Cartesian3;
-    /**
-     * 相机位置
-     */
-    cameraPoint: LatLngPoint;
-    /**
-     * 相机位置 (数组对象)，示例[113.123456,31.123456,30.1]
-     */
-    cameraCoordinate: LatLngPoint;
-    /**
-     * 混合系数0-1
-     */
-    opacity: number;
-    /**
-     * 相机视野的宽高比例（垂直张角）
-     */
-    aspectRatio: number;
-    /**
-     * 相机水平张角 (弧度值)
-     */
-    fov: number;
-    /**
-     * 相机水平张角(角度值，0-180度)
-     */
-    fovDegree: number;
-    /**
-     * 是否显示视椎体框线
-     */
-    showFrustum: boolean;
-    /**
-     * 暂停或播放 视频
-     */
-    play: boolean;
-    /**
-     * 无视频投影区域的颜色
-     */
-    hiddenAreaColor: Cesium.Color;
-    /**
-     * 当type为颜色时的，投射的颜色值
-     */
-    color: Cesium.Color;
-    /**
-     * 相机
-     */
-    readonly camera: Cesium.Color;
-    /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
-     */
-    toJSON(): any;
-    /**
-     * 旋转相机
-     * @param axis - 旋转的方向
-     * @param [rotateDegree = 0.5] - 旋转的角度
-     * @returns 无
-     */
-    rotateCamera(axis: Video3D.RatateDirection, rotateDegree?: number): void;
-    /**
-     * 定位至相机的第一视角
-     * @returns 无
-     */
-    flyTo(): void;
 }
 
 export namespace BaseEntity {
@@ -4694,8 +5519,8 @@ export namespace BaseEntity {
  */
 export class BaseEntity extends BaseGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -4793,12 +5618,6 @@ export class BaseEntity extends BaseGraphic {
      * @returns 无
      */
     endDraw(): void;
-    /**
-     * 启用或禁用所有内部控件（含tooltip、popup、contextmenu）
-     * @param value - 是否启用
-     * @returns 无
-     */
-    enableControl(value: boolean): void;
     /**
      * 开始编辑对象
      * @returns 无
@@ -4952,7 +5771,7 @@ export class BasePointEntity extends BaseEntity {
      * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为Number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3, currTime?: Cesium.JulianDate | Date | string | number): BasePointEntity;
+    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3 | Number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointEntity;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -5012,7 +5831,7 @@ export class BasePointEntity extends BaseEntity {
  */
 export class BasePolyEntity extends BaseEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: any;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -5080,7 +5899,7 @@ export class BasePolyEntity extends BaseEntity {
     /**
      * 位置坐标数组
      */
-    readonly points: LatLngPoint[];
+    readonly points: LatLngPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -5322,7 +6141,7 @@ export namespace BoxEntity {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        dimensions?: Cesium.Cartesian3;
+        dimensions?: Cesium.Cartesian3 | Cesium.Property;
         dimensions_x?: number;
         dimensions_y?: number;
         dimensions_z?: number;
@@ -5332,7 +6151,7 @@ export namespace BoxEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -5465,7 +6284,7 @@ export namespace CircleEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -5473,9 +6292,9 @@ export namespace CircleEntity {
         outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
-        rotation?: number;
+        rotation?: number | Cesium.Property;
         rotationDegree?: number;
-        stRotation?: number;
+        stRotation?: number | Cesium.Property;
         stRotationDegree?: number;
         distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
@@ -5705,7 +6524,7 @@ export namespace ConeTrack {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -5752,7 +6571,7 @@ export namespace ConeTrack {
 export class ConeTrack extends CylinderEntity {
     constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
-        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty;
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
         style: ConeTrack.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -5848,7 +6667,7 @@ export namespace CorridorEntity {
     type StyleOptions = {
         width?: number;
         cornerType?: string | Cesium.CornerType;
-        height?: number;
+        height?: number | Cesium.Property;
         heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
@@ -5856,7 +6675,7 @@ export namespace CorridorEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -5908,7 +6727,7 @@ export namespace CorridorEntity {
  */
 export class CorridorEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: CorridorEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -5982,7 +6801,7 @@ export class CorridorEntity extends BasePolyEntity {
  */
 export class CurveEntity extends PolylineEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -6057,7 +6876,7 @@ export namespace CylinderEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -6425,8 +7244,8 @@ export namespace EllipseEntity {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        semiMinorAxis?: number;
-        semiMajorAxis?: number;
+        semiMinorAxis?: number | Cesium.Property;
+        semiMajorAxis?: number | Cesium.Property;
         height?: number;
         heightReference?: Cesium.HeightReference;
         diffHeight?: number;
@@ -6435,7 +7254,7 @@ export namespace EllipseEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -6586,7 +7405,7 @@ export namespace EllipsoidEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -7246,7 +8065,7 @@ export class ModelEntity extends BasePointEntity {
      * @returns 无
      */
     moveTo(options?: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         time?: number;
         onEnd?: (...params: any[]) => any;
     }): void;
@@ -7331,7 +8150,7 @@ export namespace PathEntity {
         width?: number;
         color?: string | Cesium.Color;
         opacity?: number;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         leadTime?: number;
         trailTime?: number;
         resolution?: number;
@@ -7502,7 +8321,7 @@ export namespace PlaneEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         randomColor?: boolean;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -7747,7 +8566,7 @@ export namespace PolygonEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
@@ -7816,7 +8635,7 @@ export namespace PolygonEntity {
  */
 export class PolygonEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -7935,7 +8754,7 @@ export namespace PolylineEntity {
     type StyleOptions = {
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         width?: number;
         color?: string | Cesium.Color;
         opacity?: number;
@@ -7997,7 +8816,7 @@ export namespace PolylineEntity {
  */
 export class PolylineEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -8069,7 +8888,7 @@ export namespace PolylineVolumeEntity {
         fill?: boolean;
         color?: string | Cesium.Color;
         opacity?: number;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         outline?: boolean;
         outlineWidth?: number;
         outlineColor?: string | Cesium.Color;
@@ -8117,7 +8936,7 @@ export namespace PolylineVolumeEntity {
  */
 export class PolylineVolumeEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineVolumeEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -8203,7 +9022,7 @@ export namespace RectangleEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
@@ -8239,8 +9058,8 @@ export namespace RectangleEntity {
 /**
  * 矩形  Entity矢量数据
  * @param options - 参数对象，包括以下：
- * @param options.positions - 坐标位置
- * @param options.rectangle - 矩形范围，与positions二选一。
+ * @param [options.positions] - 坐标位置
+ * @param [options.rectangle] - 矩形范围，与positions二选一。
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.availability] - 与该对象关联的可用性(如果有的话)。
@@ -8266,8 +9085,8 @@ export namespace RectangleEntity {
  */
 export class RectangleEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
-        rectangle: Cesium.Rectangle | Cesium.PositionProperty;
+        positions?: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
+        rectangle?: Cesium.Rectangle | Cesium.PositionProperty;
         style: RectangleEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -8378,7 +9197,7 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 位置坐标数组
      */
-    readonly points: LatLngPoint[];
+    readonly points: LatLngPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 飞行定位至 数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -8464,7 +9283,7 @@ export namespace RectangularSensor {
         yHalfAngleDegree?: number;
         color?: string | Cesium.Color;
         opacity?: number;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         lineColor?: string | Cesium.Color;
         lineOpacity?: number;
         heading?: number;
@@ -8557,21 +9376,15 @@ export class RectangularSensor extends BasePointEntity {
 export namespace Video2D {
     /**
      * 视频融合（投射2D平面） 支持的样式信息
-     * @property camera - 相机方向参数
-     * @property camera.direction - direction方向
-     * @property camera.up - up方向
-     * @property camera.right - right方向
-     * @property dis - 投射距离
-     * @property fov - 张角(弧度值)
-     * @property fovDegree - 张角(角度值，0-180度)
-     * @property aspectRatio - 相机视野的宽高比例（垂直张角）
-     * @property [fill = true] - 是否填充
-     * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
-     * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
-     * @property [color = "#3388ff"] - 颜色
-     * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
-     * @property [randomColor = false] - 是否随机颜色
+     * @property options.container - 视频对应的video标签
+     * @property angle - 水平张角(度数)
+     * @property angle2 - 垂直张角(度数)
+     * @property distance - 投射距离
+     * @property [heading = 0] - 方向角 （度数值，0-360度）
+     * @property [pitch = 0] - 俯仰角（度数值，0-360度）
+     * @property [roll = 0] - 翻滚角（度数值，0-360度）
+     * @property [opacity = 1.0] - 透明度
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后。
      * @property [stRotation = 0] - 多边形纹理的角度（弧度值），正北为0，逆时针旋转
      * @property [stRotationDegree = 0] - 多边形纹理的角度（度数值，0-360度），与stRotation二选一
      * @property [outline = false] - 是否边框
@@ -8582,29 +9395,19 @@ export namespace Video2D {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
-     * @property [arcType = Cesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
      * @property [hasShadows = false] - 是否阴影
      * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定多边形是投射还是接收来自光源的阴影。
-     * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
+     * @property [showFrustum = false] - 是否显示视椎体框线
      */
     type StyleOptions = {
-        camera: {
-            direction: Cesium.Cartesian3;
-            up: Cesium.Cartesian3;
-            right: Cesium.Cartesian3;
-        };
-        dis: number;
-        fov: number;
-        fovDegree: number;
-        aspectRatio: number;
-        fill?: boolean;
-        materialType?: string;
-        material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
-        color?: string | Cesium.Color;
+        angle: number;
+        angle2: number;
+        distance: number;
+        heading?: number;
+        pitch?: number;
+        roll?: number;
         opacity?: number;
-        randomColor?: boolean;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         stRotation?: number;
         stRotationDegree?: number;
         outline?: boolean;
@@ -8615,23 +9418,10 @@ export namespace Video2D {
         distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
-        granularity?: number;
-        arcType?: Cesium.ArcType;
         hasShadows?: boolean;
         shadows?: Cesium.ShadowMode;
-        highlight?: PolygonEntity.StyleOptions;
+        showFrustum?: boolean;
     };
-    /**
-     * 旋转的方向
-     */
-    enum RatateDirection {
-        LEFT,
-        RIGHT,
-        TOP,
-        BOTTOM,
-        ALONG,
-        INVERSE
-    }
 }
 
 /**
@@ -8639,11 +9429,9 @@ export namespace Video2D {
  * 根据相机位置、方向等参数，在相机前面生成一个PolygonEntity面，然后贴视频纹理
  * @param options - 参数对象，包括以下：
  * @param options.position - 相机坐标位置
- * @param options.dom - 视频对应的video标签
+ * @param [options.targetPosition] - 目标视点位置,可以替代style中的相机heading\pitch\roll方向和distance距离参数
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
- * @param [options.showFrustum = true] - 是否显示视椎体框线
- * @param [options.reverse = false] - 是否反转计算得到的坐标
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -8657,11 +9445,9 @@ export namespace Video2D {
 export class Video2D extends PolygonEntity {
     constructor(options: {
         position: LatLngPoint | Cesium.Cartesian3 | Cesium.PositionProperty | Number[] | string;
-        dom: HTMLElement;
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: Video2D.StyleOptions;
         attr?: any;
-        showFrustum?: boolean;
-        reverse?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -8685,50 +9471,64 @@ export class Video2D extends PolygonEntity {
      */
     readonly coordinate: any[];
     /**
-     * 暂停或播放 视频
+     * 目标点位置(笛卡尔坐标)
      */
-    play: boolean;
+    targetPosition: Cesium.Cartesian3;
     /**
-     * 多边形纹理的角度（弧度值），正北为0，逆时针旋转
+     * 四周方向角，0-360度角度值
+     * <br/>提示：父类属性，非所有子类都具备
      */
-    stRotation: number;
+    heading: number;
     /**
-     * 相机水平张角 (弧度值)
+     * 俯仰角，上下摇摆的角度，0-360度角度值
+     * <br/>提示：父类属性，非所有子类都具备
      */
-    fov: number;
+    pitch: number;
     /**
-     * 相机水平张角(角度值，0-180度)
+     * 滚转角，左右搬动的角度，0-360度角度值
+     * <br/>提示：父类属性，非所有子类都具备
      */
-    fovDegree: number;
+    roll: number;
     /**
-     * 相机视野的宽高比例（垂直张角）
+     * 水平张角，半场角度
      */
-    aspectRatio: number;
+    angle: number;
+    /**
+     * 垂直张角，半场角度
+     */
+    angle2: number;
     /**
      * 投射距离（单位：米）
      */
-    dis: number;
+    distance: number;
+    /**
+     * 混合系数0-1
+     */
+    opacity: number;
     /**
      * 是否显示视椎体框线
      */
     showFrustum: boolean;
     /**
-     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
-     * @returns 导出的坐标、样式及属性等信息
+     * 暂停或播放 视频
      */
-    toJSON(): any;
+    play: boolean;
     /**
      * 定位至相机的第一视角
      * @returns 无
      */
-    flyTo(): void;
+    setView(): void;
     /**
-     * 旋转相机
-     * @param axis - 旋转的方向
-     * @param [rotateDegree = 0.05] - 旋转的角度
+     * 开始绘制矢量数据，绘制的数据会加载在layer图层。
+     * @param layer - 图层
      * @returns 无
      */
-    rotateCamera(axis: Video2D.RatateDirection, rotateDegree?: number): void;
+    startDraw(layer: GraphicLayer): void;
+    /**
+     * 停止绘制
+     * @returns 无
+     */
+    stopDraw(): void;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -8736,10 +9536,6 @@ export class Video2D extends PolygonEntity {
      * @returns 矢量对象
      */
     static fromDraw(layer: GraphicLayer, options: any): Video2D;
-    /**
-     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Cesium.PolygonHierarchy
-     */
-    positions: Cesium.Cartesian3[];
 }
 
 export namespace WallEntity {
@@ -8779,7 +9575,7 @@ export namespace WallEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         color?: string | Cesium.Color;
         opacity?: number;
         closure?: boolean;
@@ -8832,7 +9628,7 @@ export namespace WallEntity {
  */
 export class WallEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: WallEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -8902,7 +9698,7 @@ export class WallEntity extends BasePolyEntity {
  */
 export class AttackArrow extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -8956,7 +9752,7 @@ export class AttackArrow extends PolygonEntity {
  */
 export class AttackArrowPW extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9010,7 +9806,7 @@ export class AttackArrowPW extends PolygonEntity {
  */
 export class AttackArrowYW extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9064,7 +9860,7 @@ export class AttackArrowYW extends PolygonEntity {
  */
 export class CloseVurve extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9118,7 +9914,7 @@ export class CloseVurve extends PolygonEntity {
  */
 export class DoubleArrow extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9184,7 +9980,7 @@ export class EditSector extends EditPolygon {
  */
 export class FineArrow extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9238,7 +10034,7 @@ export class FineArrow extends PolygonEntity {
  */
 export class FineArrowYW extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9292,7 +10088,7 @@ export class FineArrowYW extends PolygonEntity {
  */
 export class GatheringPlace extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9346,7 +10142,7 @@ export class GatheringPlace extends PolygonEntity {
  */
 export class IsosTriangle extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9400,7 +10196,7 @@ export class IsosTriangle extends PolygonEntity {
  */
 export class Lune extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9457,7 +10253,7 @@ export class Lune extends PolygonEntity {
  */
 export class Regular extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: {
             border?: number;
             radius: number;
@@ -9526,7 +10322,7 @@ export class Regular extends PolygonEntity {
  */
 export class Sector extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: {
             radius: number;
             startAngle: number;
@@ -9592,7 +10388,7 @@ export class Sector extends PolygonEntity {
  */
 export class StraightArrow extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         availability?: Cesium.TimeIntervalCollection;
@@ -9652,7 +10448,7 @@ export class StraightArrow extends PolygonEntity {
  */
 export class AngleMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -9727,7 +10523,7 @@ export class AngleMeasure extends PolylineEntity {
  */
 export class AreaMeasure extends PolygonEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -9808,7 +10604,7 @@ export class AreaMeasure extends PolygonEntity {
  */
 export class AreaSurfaceMeasure extends AreaMeasure {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -9873,7 +10669,7 @@ export class AreaSurfaceMeasure extends AreaMeasure {
  */
 export class DistanceMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -9948,7 +10744,7 @@ export class DistanceMeasure extends PolylineEntity {
  */
 export class DistanceSurfaceMeasure extends DistanceMeasure {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -10013,7 +10809,7 @@ export class DistanceSurfaceMeasure extends DistanceMeasure {
  */
 export class HeightMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -10088,7 +10884,7 @@ export class HeightMeasure extends PolylineEntity {
  */
 export class HeightTriangleMeasure extends HeightMeasure {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -10214,7 +11010,7 @@ export class PointMeasure extends PointEntity {
  */
 export class SectionMeasure extends DistanceMeasure {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty;
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
@@ -10353,7 +11149,7 @@ export class VolumeMeasure extends AreaMeasure {
  */
 export class BasePointPrimitive extends BasePrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: any;
         attr?: any;
@@ -10437,7 +11233,7 @@ export class BasePointPrimitive extends BasePrimitive {
      * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为Number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3, currTime?: Cesium.JulianDate | Date | string | number): BasePointPrimitive;
+    addDynamicPosition(point: LatLngPoint | Cesium.Cartesian3 | Number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointPrimitive;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -10489,7 +11285,7 @@ export class BasePointPrimitive extends BasePrimitive {
  */
 export class BasePolyPrimitive extends BasePrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -10545,7 +11341,7 @@ export class BasePolyPrimitive extends BasePrimitive {
     /**
      * 位置坐标数组
      */
-    readonly points: LatLngPoint[];
+    readonly points: LatLngPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -10661,8 +11457,8 @@ export namespace BasePrimitive {
  */
 export class BasePrimitive extends BaseGraphic {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -10760,7 +11556,7 @@ export class BasePrimitive extends BaseGraphic {
  */
 export class BillboardPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: BillboardEntity.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -10877,7 +11673,7 @@ export namespace BoxPrimitive {
  */
 export class BoxPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: BoxPrimitive.StyleOptions;
         attr?: any;
@@ -11005,7 +11801,7 @@ export namespace CirclePrimitive {
  */
 export class CirclePrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: CirclePrimitive.StyleOptions;
         attr?: any;
@@ -11112,6 +11908,161 @@ export class CirclePrimitive extends BasePointPrimitive {
     }): BaseGraphic | any;
 }
 
+export namespace CloudPrimitive {
+    /**
+     * 积云 Primitive矢量数据 支持的样式信息
+     * @property scale - 积云的比例（以米为单位）。该scale属性会影响广告牌的大小，但不会影响云的实际外观。
+     * @property maximumSize - 积云的最大尺寸。这定义了云可以出现的最大椭球体积。这不是保证特定的大小，而是指定了云出现的边界，改变它可以影响云的形状。
+     * @property slice - 云的“切片”，即为广告牌外观选择的云的特定横截面。给定一个介于 0 和 1 之间的值，切片根据其在 z 方向上的最大尺寸指定与云相交的深度。
+     * @property [brightness = 1.0] - 亮度
+     */
+    type StyleOptions = {
+        scale: Cesium.Cartesian2;
+        maximumSize: Cesium.Cartesian3;
+        slice: number;
+        brightness?: number;
+    };
+}
+
+/**
+ * 积云 Primitive矢量数据
+ * <br />
+ * <div align='center'>
+ * <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.png' width='400' height='300' />
+ * </div>
+ * @param options - 参数对象，包括以下：
+ * @param options.position - 坐标位置
+ * @param options.style - 样式信息
+ * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
+ * @param [options.popupOptions] - popup弹窗时的配置参数
+ * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
+ * @param [options.tooltipOptions] - tooltip弹窗时的配置参数
+ * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
+ * @param [options.id = uuid()] - 矢量数据id标识
+ * @param [options.name = ''] - 矢量数据名称
+ * @param [options.show = true] - 矢量数据是否显示
+ * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
+ */
+export class CloudPrimitive extends BasePointPrimitive {
+    constructor(options: {
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        style: CloudPrimitive.StyleOptions;
+        attr?: any;
+        popup?: string | any[] | ((...params: any[]) => any);
+        popupOptions?: Popup.StyleOptions;
+        tooltip?: string | any[] | ((...params: any[]) => any);
+        tooltipOptions?: Tooltip.StyleOptions;
+        contextmenuItems?: any;
+        id?: string | number;
+        name?: string;
+        show?: boolean;
+        stopPropagation?: boolean;
+    });
+    /**
+     * 当加载primitive数据的内部Cesium容器
+     */
+    readonly primitiveCollection: Cesium.CloudCollection;
+    /**
+     * 积云的最大大小。这定义了云可以出现在的最大椭球体体积。这不是保证一个特定的大小，而是指定了云出现的边界，改变它可能会影响云的形状。
+     * 改变maximumSize的z值对云的外观有最显著的影响，因为它改变了云的深度，从而改变了云形状纹理采样的位置。
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'>
+     * <tr>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize = new Cesium.Cartesian3(14, 9, 10);</code><br/>
+     *     <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.maximumSizex14y9z10.png' width='250' height='158' />
+     *   </td>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.x = 25;</code><br/>
+     *     <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.maximumSizex25.png' width='250' height='158' />
+     *   </td>
+     * </tr>
+     * <tr>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.y = 5;</code><br/>
+     *     <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.maximumSizey5.png' width='250' height='158' />
+     *   </td>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.z = 17;</code><br/>
+     *     <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.maximumSizez17.png' width='250' height='158' />
+     *   </td>
+     * </tr>
+     * </table>
+     * </div>
+     *
+     * <p>To modify the billboard's actual size, modify the cloud's <code>scale</code> property.</p>
+     */
+    maximumSize: Cesium.Cartesian3;
+    /**
+     * 积云广告牌的规模(以米为单位)。缩放属性会影响广告牌的大小，但不会影响云的实际外观。
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *   <code>cloud.scale = new Cesium.Cartesian2(12, 8);</code><br/>
+     *   <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.scalex12y8.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>cloud.scale = new Cesium.Cartesian2(24, 10);</code><br/>
+     *   <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.scalex24y10.png' width='250' height='158' />
+     * </td>
+     * </tr></table>
+     * </div>
+     *
+     * <p>To modify the cloud's appearance, modify its <code>maximumSize</code>
+     * and <code>slice</code> properties.</p>
+     */
+    scale: Cesium.Cartesian2;
+    /**
+     * 在广告牌上渲染的云的“切片”，即为广告牌的外观选择的云的特定横截面。给定一个介于0和1之间的值，切片根据它在z方向上的最大大小指定与云相交的深度。
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.slice = 0.32;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice0.32.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.5;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice0.5.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.6;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice0.6.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     *
+     * <br />
+     *
+     * 由于计算这个切片的性质，低于0.2的值可能导致横截面太小，从而可以看到椭球体的边缘。同样，大于0.7的值会使云看起来更小。应该完全避免超出范围[0.1,0.9]的值，因为它们不会产生理想的结果。
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.slice = 0.08;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice0.08.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.8;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice0.8.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     *
+     * 如果slice设置为负数，云将不会渲染一个横截面。相反，它将渲染椭球的外部是可见的。对于具有“maximumSize”小值的云。，这可以产生好看的结果，但对于较大的云，这可能导致云扭曲到不希望的椭球体体积。
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *  <code>cloud.slice = -1.0;<br/>cloud.maximumSize.z = 18;</code><br/>
+     *  <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice-1z18.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>cloud.slice = -1.0;<br/>cloud.maximumSize.z = 30;</code><br/>
+     *   <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.slice-1z30.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     */
+    slice: number;
+    /**
+     * 云的亮度。这可以用来给云一个更暗、更灰的外观。
+     * <br /><br />
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.brightness = 1.0;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.brightness1.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.brightness = 0.6;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.brightness0.6.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.brightness = 0.0;</code><br/><img src='//mars3d.cn/api/cesium/Images/CumulusCloud.brightness0.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     */
+    brightness: number;
+}
+
 export namespace ConeTrackPrimitive {
     /**
      * 圆锥追踪体 Primitive图元矢量对象 支持的样式信息
@@ -11203,8 +12154,8 @@ export namespace ConeTrackPrimitive {
  */
 export class ConeTrackPrimitive extends CylinderPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        targetPosition?: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: ConeTrackPrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -11340,7 +12291,7 @@ export namespace CorridorPrimitive {
  */
 export class CorridorPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: CorridorPrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -11456,7 +12407,7 @@ export namespace CylinderPrimitive {
  */
 export class CylinderPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: CylinderPrimitive.StyleOptions;
         attr?: any;
@@ -11505,9 +12456,9 @@ export namespace DiffuseWall {
 /**
  * 立体面(或圆)散射效果 矢量对象
  * @param options - 参数对象，包括以下：
- * @param options.positions - 坐标位置数组（多边形时）
- * @param options.position - 坐标位置数组（圆形时），与positions二选一
- * @param options.style - 样式信息
+ * @param [options.positions] - 坐标位置数组（多边形时）
+ * @param [options.position] - 坐标位置数组（圆形时），与positions二选一
+ * @param [options.style] - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
@@ -11521,9 +12472,9 @@ export namespace DiffuseWall {
  */
 export class DiffuseWall extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
-        position: LatLngPoint | Cesium.Cartesian3;
-        style: DiffuseWall.StyleOptions;
+        positions?: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+        position?: LatLngPoint | Cesium.Cartesian3 | Number[];
+        style?: DiffuseWall.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
@@ -11586,7 +12537,7 @@ export namespace DynamicRiver {
  */
 export class DynamicRiver extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: DynamicRiver.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -11752,7 +12703,7 @@ export namespace EllipsoidPrimitive {
  */
 export class EllipsoidPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: EllipsoidPrimitive.StyleOptions;
         attr?: any;
@@ -11867,8 +12818,8 @@ export namespace FrustumPrimitive {
  */
 export class FrustumPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
-        targetPosition?: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
+        targetPosition?: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: FrustumPrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -11963,7 +12914,7 @@ export namespace LabelPrimitive {
  */
 export class LabelPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: LabelPrimitive.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -12017,7 +12968,7 @@ export namespace LightCone {
  */
 export class LightCone extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: LightCone.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -12232,7 +13183,7 @@ export namespace ModelPrimitive {
  */
 export class ModelPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: ModelPrimitive.StyleOptions;
         attr?: any;
@@ -12319,7 +13270,7 @@ export namespace Pit {
  */
 export class Pit extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: Pit.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -12445,7 +13396,7 @@ export namespace PlanePrimitive {
  */
 export class PlanePrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         modelMatrix?: Cesium.Matrix4;
         style: PlanePrimitive.StyleOptions;
         attr?: any;
@@ -12545,7 +13496,7 @@ export namespace PointPrimitive {
  */
 export class PointPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: PointPrimitive.StyleOptions;
         attr?: any;
         frameRate?: number;
@@ -12681,7 +13632,7 @@ export namespace PolygonPrimitive {
  */
 export class PolygonPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: PolygonPrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -12805,7 +13756,7 @@ export namespace PolylinePrimitive {
  */
 export class PolylinePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylinePrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -12862,7 +13813,7 @@ export class PolylinePrimitive extends BasePolyPrimitive {
  */
 export class PolylineSimplePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylinePrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -12971,7 +13922,7 @@ export namespace PolylineVolumePrimitive {
  */
 export class PolylineVolumePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylineVolumePrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -13057,8 +14008,8 @@ export namespace RectanglePrimitive {
 /**
  * 矩形  Primitive图元 矢量对象
  * @param options - 参数对象，包括以下：
- * @param options.positions - 坐标位置
- * @param options.rectangle - 矩形范围，与positions二选一。
+ * @param [options.positions] - 坐标位置
+ * @param [options.rectangle] - 矩形范围，与positions二选一。
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
@@ -13085,8 +14036,8 @@ export namespace RectanglePrimitive {
  */
 export class RectanglePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
-        rectangle: Cesium.Rectangle | Cesium.PositionProperty;
+        positions?: LatLngPoint[] | Cesium.Cartesian3[] | any[];
+        rectangle?: Cesium.Rectangle | Cesium.PositionProperty;
         style: RectanglePrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -13165,7 +14116,7 @@ export namespace Road {
  */
 export class Road extends DynamicRiver {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: Road.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -13215,7 +14166,7 @@ export namespace ScrollWall {
  */
 export class ScrollWall extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: ScrollWall.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -13243,6 +14194,7 @@ export namespace WallPrimitive {
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
+     * @property [closure = false] - 是否闭合
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
@@ -13269,6 +14221,7 @@ export namespace WallPrimitive {
         material?: Cesium.Material;
         color?: string | Cesium.Color;
         opacity?: number;
+        closure?: boolean;
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
@@ -13319,7 +14272,7 @@ export namespace WallPrimitive {
  */
 export class WallPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: WallPrimitive.StyleOptions;
         attr?: any;
         appearance?: Cesium.Appearance;
@@ -13463,7 +14416,7 @@ export namespace Water {
  */
 export class Water extends PolygonPrimitive {
     constructor(options: {
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         style: Water.StyleOptions;
         attr?: any;
         vertexCacheOptimize?: boolean;
@@ -13525,7 +14478,7 @@ export namespace BaseRoamLine {
      *  【历史】走过的轨迹线，可以替代本身的path来设置贴地线的效果
      * @property [type = 'polyline'] - 类型
      * @property [通用参数] - 线对象支持的所有参数
-     * @property [maxDistance] - 设置保留的轨迹长度值（单位：米），不设置时保留所有的轨迹
+     * @property [maxDistance] - 设置保留的轨迹长度值（单位：米），不设置时保留所有的轨迹(maxCacheCount限定的坐标数量)
      */
     type PolylineShadingOptions = {
         type?: string;
@@ -13915,7 +14868,7 @@ export namespace DynamicRoamLine {
  * @param [options.circle] - 设置是否显示 圆对象 和对应的样式
  * @param [options.attr] - 矢量数据的 属性信息，可以任意附加属性。
  * @param [options.hasCache = true] - 是否记录缓存，提高效率
- * @param [options.maxCacheCount = 50] - 保留的坐标点数量
+ * @param [options.maxCacheCount = 50] - 保留的坐标点数量,当为-1时保留所有
  * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
@@ -14328,10 +15281,10 @@ export namespace BaseGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -14363,10 +15316,10 @@ export class BaseGraphicLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -14552,10 +15505,10 @@ export class BaseGraphicLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -14574,10 +15527,10 @@ export class BaseLayer extends BaseClass {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -14803,10 +15756,10 @@ export namespace CzmGeoJsonLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -14849,10 +15802,10 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15005,10 +15958,10 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -15044,10 +15997,10 @@ export class CzmlLayer extends CzmGeoJsonLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15115,10 +16068,10 @@ export class CzmlLayer extends CzmGeoJsonLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -15161,10 +16114,10 @@ export class KmlLayer extends CzmGeoJsonLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15219,7 +16172,7 @@ export class KmlLayer extends CzmGeoJsonLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param options.debuggerTileInfo - 是否开启测试显示瓦片信息
  * @param [options.opacity = 1.0] - 透明度（部分图层），取值范围：0.0-1.0
  * @param [options.zIndex] - 控制图层的叠加层次（部分图层），默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
@@ -15262,10 +16215,10 @@ export class KmlLayer extends CzmGeoJsonLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class ArcGisWfsLayer extends LodGraphicLayer {
@@ -15286,7 +16239,7 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         debuggerTileInfo: boolean;
         opacity?: number;
         zIndex?: number;
@@ -15334,10 +16287,10 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -15387,10 +16340,10 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -15439,10 +16392,10 @@ export class ArcGisWfsSingleLayer extends GeoJsonLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15485,7 +16438,7 @@ export class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param options.debuggerTileInfo - 是否开启测试显示瓦片信息
  * @param [options.zIndex] - 控制图层的叠加层次（部分图层），默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.opacity = 1.0] - 透明度（部分图层），取值范围：0.0-1.0
@@ -15510,10 +16463,10 @@ export class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -15533,7 +16486,7 @@ export class GeodePoiLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         debuggerTileInfo: boolean;
         zIndex?: number;
         opacity?: number;
@@ -15560,10 +16513,10 @@ export class GeodePoiLayer extends LodGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15695,10 +16648,10 @@ export namespace GeoJsonLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -15756,10 +16709,10 @@ export class GeoJsonLayer extends GraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -15810,10 +16763,10 @@ export class GeoJsonLayer extends GraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GraphicGroupLayer extends GroupLayer {
@@ -15832,10 +16785,10 @@ export class GraphicGroupLayer extends GroupLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -16068,10 +17021,10 @@ export namespace GraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16130,10 +17083,10 @@ export class GraphicLayer extends BaseGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -16374,10 +17327,10 @@ export class GraphicLayer extends BaseGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16399,10 +17352,10 @@ export class GraticuleLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -16476,7 +17429,7 @@ export namespace LodGraphicLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param options.debuggerTileInfo - 是否开启测试显示瓦片信息
  * @param [options.opacity = 1.0] - 透明度（部分图层），取值范围：0.0-1.0
  * @param [options.zIndex] - 控制图层的叠加层次（部分图层），默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
@@ -16514,10 +17467,10 @@ export namespace LodGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16540,7 +17493,7 @@ export class LodGraphicLayer extends GraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         debuggerTileInfo: boolean;
         opacity?: number;
         zIndex?: number;
@@ -16582,10 +17535,10 @@ export class LodGraphicLayer extends GraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -16724,10 +17677,10 @@ export class LodGraphicLayer extends GraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16739,14 +17692,14 @@ export class LodGraphicLayer extends GraphicLayer {
 export class ModelLayer extends GraphicLayer {
     constructor(options?: {
         url: string;
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: any;
         data: {
             url: string;
-            position: LatLngPoint | Cesium.Cartesian3;
+            position: LatLngPoint | Cesium.Cartesian3 | Number[];
             style: any;
         }[];
-        positions: LatLngPoint[] | Cesium.Cartesian3[];
+        positions: LatLngPoint[] | Cesium.Cartesian3[] | any[];
         hasEdit?: boolean;
         isAutoEditing?: boolean;
         isContinued?: boolean;
@@ -16793,10 +17746,10 @@ export class ModelLayer extends GraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -16847,10 +17800,10 @@ export class ModelLayer extends GraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -16895,10 +17848,10 @@ export class OsmBuildingsLayer extends TilesetLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -17043,10 +17996,10 @@ export namespace TilesetLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TilesetLayer extends BaseGraphicLayer {
@@ -17136,10 +18089,10 @@ export class TilesetLayer extends BaseGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -17359,7 +18312,7 @@ export class TilesetLayer extends BaseGraphicLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param options.debuggerTileInfo - 是否开启测试显示瓦片信息
  * @param [options.zIndex] - 控制图层的叠加层次（部分图层），默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
@@ -17404,10 +18357,10 @@ export class TilesetLayer extends BaseGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.extent] - 图层自定义定位的矩形区域，与center二选一即可。 {@link Map#flyToExtent}
  * @param options.extent.xmin - 最小经度值, -180 至 180
  * @param options.extent.xmax - 最大经度值, -180 至 180
@@ -17433,7 +18386,7 @@ export class WfsLayer extends LodGraphicLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         debuggerTileInfo: boolean;
         zIndex?: number;
         symbol?: {
@@ -17483,10 +18436,10 @@ export class WfsLayer extends LodGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         extent?: {
             xmin: number;
@@ -17511,10 +18464,10 @@ export class WfsLayer extends LodGraphicLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GroupLayer extends BaseGraphicLayer {
@@ -17528,10 +18481,10 @@ export class GroupLayer extends BaseGraphicLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -17680,7 +18633,7 @@ export class TerrainLayer extends BaseLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -17700,6 +18653,8 @@ export class TerrainLayer extends BaseLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -17716,10 +18671,10 @@ export class TerrainLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class ArcGisCacheLayer extends BaseTileLayer {
@@ -17737,7 +18692,7 @@ export class ArcGisCacheLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -17756,6 +18711,8 @@ export class ArcGisCacheLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -17772,10 +18729,10 @@ export class ArcGisCacheLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -17835,7 +18792,7 @@ export namespace ArcGisLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -17857,6 +18814,8 @@ export namespace ArcGisLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -17873,10 +18832,10 @@ export namespace ArcGisLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class ArcGisLayer extends BaseTileLayer {
@@ -17904,7 +18863,7 @@ export class ArcGisLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -17928,6 +18887,8 @@ export class ArcGisLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -17944,10 +18905,10 @@ export class ArcGisLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18011,7 +18972,7 @@ export class ArcGisLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -18031,6 +18992,8 @@ export class ArcGisLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18047,10 +19010,10 @@ export class ArcGisLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class ArcGisTileLayer extends BaseTileLayer {
@@ -18067,7 +19030,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18086,6 +19049,8 @@ export class ArcGisTileLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18102,10 +19067,10 @@ export class ArcGisTileLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18148,7 +19113,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.chinaCRS = ChinaCRS.BAIDU] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.proxy] - 加载资源时要使用的代理服务url。
@@ -18164,6 +19129,8 @@ export class ArcGisTileLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18180,10 +19147,10 @@ export class ArcGisTileLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class BaiduLayer extends BaseTileLayer {
@@ -18203,7 +19170,7 @@ export class BaiduLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -18219,6 +19186,8 @@ export class BaiduLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18235,10 +19204,10 @@ export class BaiduLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18307,7 +19276,7 @@ export namespace BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -18328,6 +19297,8 @@ export namespace BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18344,10 +19315,10 @@ export namespace BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class BaseTileLayer extends BaseLayer {
@@ -18362,7 +19333,7 @@ export class BaseTileLayer extends BaseLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18382,6 +19353,8 @@ export class BaseTileLayer extends BaseLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18398,10 +19371,10 @@ export class BaseTileLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18553,7 +19526,7 @@ export class BaseTileLayer extends BaseLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -18574,6 +19547,8 @@ export class BaseTileLayer extends BaseLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18590,10 +19565,10 @@ export class BaseTileLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class BingLayer extends BaseTileLayer {
@@ -18610,7 +19585,7 @@ export class BingLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18630,6 +19605,8 @@ export class BingLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18646,10 +19623,10 @@ export class BingLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18691,7 +19668,7 @@ export class BingLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -18700,10 +19677,10 @@ export class BingLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class EmptyTileLayer extends BaseTileLayer {
@@ -18718,7 +19695,7 @@ export class EmptyTileLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -18727,10 +19704,10 @@ export class EmptyTileLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18776,7 +19753,7 @@ export class EmptyTileLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.chinaCRS = ChinaCRS.GCJ02] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.proxy] - 加载资源时要使用的代理服务url。
@@ -18795,6 +19772,8 @@ export class EmptyTileLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18811,10 +19790,10 @@ export class EmptyTileLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GaodeLayer extends BaseTileLayer {
@@ -18833,7 +19812,7 @@ export class GaodeLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -18851,6 +19830,8 @@ export class GaodeLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18867,10 +19848,10 @@ export class GaodeLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -18902,7 +19883,7 @@ export class GaodeLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -18922,6 +19903,8 @@ export class GaodeLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -18938,10 +19921,10 @@ export class GaodeLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GeeLayer extends BaseTileLayer {
@@ -18958,7 +19941,7 @@ export class GeeLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -18977,6 +19960,8 @@ export class GeeLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -18993,10 +19978,10 @@ export class GeeLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19035,7 +20020,7 @@ export class GeeLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS = 'GCJ02'] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19055,6 +20040,8 @@ export class GeeLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19071,10 +20058,10 @@ export class GeeLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GoogleLayer extends BaseTileLayer {
@@ -19092,7 +20079,7 @@ export class GoogleLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19111,6 +20098,8 @@ export class GoogleLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19127,10 +20116,10 @@ export class GoogleLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19166,7 +20155,7 @@ export class GoogleLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19179,6 +20168,8 @@ export class GoogleLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19194,10 +20185,10 @@ export class GoogleLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class GridLayer extends BaseTileLayer {
@@ -19218,7 +20209,7 @@ export class GridLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19231,6 +20222,8 @@ export class GridLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19246,10 +20239,10 @@ export class GridLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19275,7 +20268,7 @@ export class GridLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19292,6 +20285,8 @@ export class GridLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19308,10 +20303,10 @@ export class GridLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class ImageLayer extends BaseTileLayer {
@@ -19328,7 +20323,7 @@ export class ImageLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19345,6 +20340,8 @@ export class ImageLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19361,10 +20358,10 @@ export class ImageLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19397,7 +20394,7 @@ export class ImageLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19418,6 +20415,8 @@ export class ImageLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19434,10 +20433,10 @@ export class ImageLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class IonLayer extends BaseTileLayer {
@@ -19455,7 +20454,7 @@ export class IonLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19475,6 +20474,8 @@ export class IonLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19491,10 +20492,10 @@ export class IonLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19530,7 +20531,7 @@ export class IonLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19551,6 +20552,8 @@ export class IonLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19567,10 +20570,10 @@ export class IonLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class MapboxLayer extends BaseTileLayer {
@@ -19591,7 +20594,7 @@ export class MapboxLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19611,6 +20614,8 @@ export class MapboxLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19627,10 +20632,10 @@ export class MapboxLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19662,7 +20667,7 @@ export class MapboxLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.proxy] - 加载资源时要使用的代理服务url。
  * @param [options.templateValues] - 一个对象，用于替换Url中的模板值的键/值对
@@ -19677,6 +20682,8 @@ export class MapboxLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19693,10 +20700,10 @@ export class MapboxLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class OsmLayer extends BaseTileLayer {
@@ -19713,7 +20720,7 @@ export class OsmLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         proxy?: string;
         templateValues?: any;
@@ -19728,6 +20735,8 @@ export class OsmLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19744,10 +20753,10 @@ export class OsmLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19789,7 +20798,7 @@ export class OsmLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影,也支持传入EPSG4490坐标系
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -19807,6 +20816,8 @@ export class OsmLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19823,10 +20834,10 @@ export class OsmLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TdtLayer extends BaseTileLayer {
@@ -19843,7 +20854,7 @@ export class TdtLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -19861,6 +20872,8 @@ export class TdtLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -19877,10 +20890,10 @@ export class TdtLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -19920,7 +20933,7 @@ export class TdtLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.chinaCRS = ChinaCRS.GCJ02] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.proxy] - 加载资源时要使用的代理服务url。
@@ -19936,6 +20949,8 @@ export class TdtLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -19952,10 +20967,10 @@ export class TdtLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TencentLayer extends BaseTileLayer {
@@ -19974,7 +20989,7 @@ export class TencentLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         proxy?: string;
@@ -19990,6 +21005,8 @@ export class TencentLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20006,10 +21023,10 @@ export class TencentLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -20040,7 +21057,7 @@ export class TencentLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.opacity = 1.0] - 透明度，取值范围：0.0-1.0。
  * @param [options.alpha = 1.0] - 同opacity。
@@ -20051,6 +21068,8 @@ export class TencentLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -20066,10 +21085,10 @@ export class TencentLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TileInfoLayer extends BaseTileLayer {
@@ -20085,7 +21104,7 @@ export class TileInfoLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
@@ -20096,6 +21115,8 @@ export class TileInfoLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20111,10 +21132,10 @@ export class TileInfoLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -20142,7 +21163,7 @@ export class TileInfoLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -20162,6 +21183,8 @@ export class TileInfoLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -20178,10 +21201,10 @@ export class TileInfoLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TmsLayer extends BaseTileLayer {
@@ -20200,7 +21223,7 @@ export class TmsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -20219,6 +21242,8 @@ export class TmsLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20235,10 +21260,10 @@ export class TmsLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -20293,7 +21318,7 @@ export class TmsLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.opacity = 1.0] - 透明度，取值范围：0.0-1.0。
@@ -20305,6 +21330,8 @@ export class TmsLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -20321,10 +21348,10 @@ export class TmsLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class WmsLayer extends BaseTileLayer {
@@ -20367,7 +21394,7 @@ export class WmsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         chinaCRS?: ChinaCRS;
         opacity?: number;
@@ -20379,6 +21406,8 @@ export class WmsLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20395,10 +21424,10 @@ export class WmsLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -20471,7 +21500,7 @@ export class WmsLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -20488,6 +21517,8 @@ export class WmsLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -20504,10 +21535,10 @@ export class WmsLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class WmtsLayer extends BaseTileLayer {
@@ -20538,7 +21569,7 @@ export class WmtsLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -20555,6 +21586,8 @@ export class WmtsLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20571,10 +21604,10 @@ export class WmtsLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -20642,7 +21675,7 @@ export class WmtsLayer extends BaseTileLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -20676,6 +21709,8 @@ export class WmtsLayer extends BaseTileLayer {
  * @param [options.hue = 0.0] - 色调。 0.0 时未修改的图像颜色。
  * @param [options.saturation = 1.0] - 饱和度。 1.0使用未修改的图像颜色，小于1.0会降低饱和度，而大于1.0则会增加饱和度。
  * @param [options.gamma = 1.0] - 伽马校正值。 1.0使用未修改的图像颜色。
+ * @param [options.invertColor] - 是否反向颜色，内部计算规则: color.r = 1.0 - color.r
+ * @param [options.filterColor] - 滤镜颜色，内部计算规则: color.r = color.r * filterColor.r
  * @param [options.maximumAnisotropy = maximum supported] - 使用的最大各向异性水平 用于纹理过滤。如果未指定此参数，则支持最大各向异性 将使用WebGL堆栈。较大的值可使影像在水平方向上看起来更好 视图。
  * @param [options.cutoutRectangle] - 制图矩形，用于裁剪此ImageryLayer的一部分。
  * @param [options.colorToAlpha] - 用作Alpha的颜色。
@@ -20692,10 +21727,10 @@ export class WmtsLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class XyzLayer extends BaseTileLayer {
@@ -20714,7 +21749,7 @@ export class XyzLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -20734,6 +21769,8 @@ export class XyzLayer extends BaseTileLayer {
         hue?: number | ((...params: any[]) => any);
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
+        invertColor?: boolean;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
         cutoutRectangle?: Cesium.Rectangle;
         colorToAlpha?: Cesium.Color;
@@ -20750,10 +21787,10 @@ export class XyzLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -21376,6 +22413,10 @@ export class Map extends BaseClass {
      */
     readonly clock: Cesium.Clock;
     /**
+     * 当前时间
+     */
+    currentTime: Cesium.JulianDate;
+    /**
      * 获取 CesiumWidget
      */
     readonly cesiumWidget: Cesium.CesiumWidget;
@@ -21694,15 +22735,15 @@ export class Map extends BaseClass {
     /**
      * 放大地图
      * @param [relativeAmount = 2] - 相对量
-     * @returns 当前对象本身，可以链式调用
+     * @returns 是否有移动位置
      */
-    zoomIn(relativeAmount?: number): Map;
+    zoomIn(relativeAmount?: number): boolean;
     /**
      * 缩小地图
      * @param [relativeAmount = 2] - 相对量
-     * @returns 当前对象本身，可以链式调用
+     * @returns 是否有移动位置
      */
-    zoomOut(relativeAmount?: number): Map;
+    zoomOut(relativeAmount?: number): boolean;
     /**
      * 设置鼠标操作习惯方式。
      * 默认为中键旋转，右键拉伸远近。传`rightTilt:true`可以设置为右键旋转，中键拉伸远近。
@@ -22033,7 +23074,7 @@ export class Map extends BaseClass {
      * @param [options.easingFunction] - 控制在飞行过程中如何插值时间。
      * @returns 无
      */
-    flyToPoint(point: LatLngPoint | Cesium.Cartesian3, options?: {
+    flyToPoint(point: LatLngPoint | Cesium.Cartesian3 | Number[], options?: {
         radius?: number;
         heading?: number;
         pitch?: number;
@@ -22099,7 +23140,7 @@ export class Map extends BaseClass {
      * @param [options] - 配置参数
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(position: LatLngPoint | Cesium.Cartesian3, content: string | ((...params: any[]) => any) | BaseGraphic | BaseGraphicLayer, options?: Popup.StyleOptions): Map;
+    openPopup(position: LatLngPoint | Cesium.Cartesian3 | Number[], content: string | ((...params: any[]) => any) | BaseGraphic | BaseGraphicLayer, options?: Popup.StyleOptions): Map;
     /**
      * 关闭Popup弹窗
      * @returns 当前对象本身，可以链式调用
@@ -22112,7 +23153,7 @@ export class Map extends BaseClass {
      * @param [options] - 配置参数
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(position: LatLngPoint | Cesium.Cartesian3, content: string | ((...params: any[]) => any), options?: Tooltip.StyleOptions): Map;
+    openTooltip(position: LatLngPoint | Cesium.Cartesian3 | Number[], content: string | ((...params: any[]) => any), options?: Tooltip.StyleOptions): Map;
     /**
      * 关闭Tooltip弹窗
      * @returns 当前对象本身，可以链式调用
@@ -23182,10 +24223,10 @@ export namespace CanvasWindLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class CanvasWindLayer extends BaseLayer {
@@ -23208,10 +24249,10 @@ export class CanvasWindLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -23330,10 +24371,10 @@ namespace WindUtil {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class EchartsLayer extends BaseLayer {
@@ -23351,10 +24392,10 @@ export class EchartsLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -23405,11 +24446,12 @@ export class EchartsLayer extends BaseLayer {
  * @param [options.heatStyle.radius = 25] - 每个数据点将具有的半径（如果未在数据点本身上指定）
  * @param [options.heatStyle.gradient] - 色带，表示渐变的对象，示例：{ 0.4: 'blue', 0.6: 'green',0.8: 'yellow',0.9: 'red' }
  * @param [options.style] - 矢量对象样式参数，还包括：
- * @param [options.style.矩形] - rectangle矩形支持的样式
  * @param [options.style.opacity = 1] - 透明度
  * @param [options.style.arc = false] - 是否显示曲面热力图
  * @param [options.style.arcRadiusScale = 1.5] - 曲面热力图时，radius扩大比例
  * @param [options.style.arcBlurScale = 1.5] - 曲面热力图时，blur扩大比例
+ * @param [options.style.height = 0] - 高度，相对于椭球面的高度。
+ * @param [options.style.多个参数] - rectangle矩形支持的样式
  * @param [options.maxCanvasSize = 5000] - Canvas最大尺寸（单位：像素），调大精度更高，但过大容易内存溢出
  * @param [options.minCanvasSize = 700] - Canvas最小尺寸（单位：像素）
  * @param [options.delayTime = 2] - 显示数据时的过渡动画时长（单位：秒）
@@ -23421,15 +24463,15 @@ export class EchartsLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class HeatLayer extends BaseLayer {
     constructor(options: {
-        positions?: LatLngPoint[] | any[][] | string[] | Cesium.Cartesian3[];
+        positions?: LatLngPoint[] | Cesium.Cartesian3[] | any;
         heatStyle?: {
             maxOpacity?: number;
             minOpacity?: number;
@@ -23438,11 +24480,12 @@ export class HeatLayer extends BaseLayer {
             gradient?: any;
         };
         style?: {
-            矩形?: RectanglePrimitive.StyleOptions;
             opacity?: boolean;
             arc?: boolean;
             arcRadiusScale?: boolean;
             arcBlurScale?: boolean;
+            height?: number;
+            多个参数?: RectanglePrimitive.StyleOptions;
         };
         maxCanvasSize?: number;
         minCanvasSize?: number;
@@ -23455,10 +24498,10 @@ export class HeatLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -23512,11 +24555,11 @@ export class HeatLayer extends BaseLayer {
  * MapV图层
  * 【需要引入 heatmap.js 库 和 mars3d-heatmap 插件库】
  * @param options - 图层参数，包括：
- * @param [options.mapV本身] - 支持mapv本身所有drawOptions图层样式参数，具体查阅 [mapv库drawOptions文档]{@link https://github.com/huiyan-fe/mapv/wiki/%E7%B1%BB%E5%8F%82%E8%80%83} ，也可以 [在线编辑图层样式]{@link https://mapv.baidu.com/editor/}
  * @param [options.depthTest = true] - 是否进行计算深度判断，在地球背面或被遮挡时不显示（大数据时，需要关闭）
  * @param [options.fixedHeight = 0] - 点的固定的海拔高度
  * @param [options.clampToGround = false] - 点是否贴地
  * @param [options.pointerEvents = false] - 图层是否可以进行鼠标交互，为false时可以穿透操作及缩放地图
+ * @param [options.多个参数] - 支持mapv本身所有drawOptions图层样式参数，具体查阅 [mapv库drawOptions文档]{@link https://github.com/huiyan-fe/mapv/wiki/%E7%B1%BB%E5%8F%82%E8%80%83} ，也可以 [在线编辑图层样式]{@link https://mapv.baidu.com/editor/}
  * @param [options.id = uuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -23525,20 +24568,20 @@ export class HeatLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  * @param dataSet - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
  */
 export class MapVLayer extends BaseLayer {
     constructor(options: {
-        mapV本身?: any;
         depthTest?: boolean;
         fixedHeight?: number;
         clampToGround?: boolean;
         pointerEvents?: boolean;
+        多个参数?: any;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -23547,13 +24590,13 @@ export class MapVLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
-    }, dataSet: any);
+    }|any, dataSet: any);
     /**
      * 图层对应的Canvas对象
      */
@@ -23898,7 +24941,7 @@ export namespace CamberRadar {
  */
 export class CamberRadar extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: CamberRadar.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -23998,7 +25041,7 @@ export namespace ConicSensor {
  */
 export class ConicSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: ConicSensor.StyleOptions;
         attr?: any;
         lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
@@ -24158,7 +25201,7 @@ export namespace RectSensor {
  */
 export class RectSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: RectSensor.StyleOptions;
         attr?: any;
         lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
@@ -24507,7 +25550,7 @@ export namespace SatelliteSensor {
  */
 export class SatelliteSensor extends BasePointPrimitive {
     constructor(options?: {
-        position: LatLngPoint | Cesium.Cartesian3;
+        position: LatLngPoint | Cesium.Cartesian3 | Number[];
         style: SatelliteSensor.StyleOptions;
         attr?: any;
         lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
@@ -24613,10 +25656,10 @@ export class SatelliteSensor extends BasePointPrimitive {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class S3MLayer extends BaseLayer {
@@ -24636,10 +25679,10 @@ export class S3MLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -24710,7 +25753,7 @@ export class S3MLayer extends BaseLayer {
  * @param options.rectangle.xmax - 最大纬度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
  * @param options.rectangle.ymax - 最大纬度值, -90 至 90
- * @param options.bbox - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
+ * @param [options.bbox] - bbox规范的瓦片数据的矩形区域范围,与rectangle二选一即可。
  * @param [options.zIndex] - 控制图层的叠加层次，默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
@@ -24746,10 +25789,10 @@ export class S3MLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class SmImgLayer extends BaseTileLayer {
@@ -24771,7 +25814,7 @@ export class SmImgLayer extends BaseTileLayer {
             ymin: number;
             ymax: number;
         };
-        bbox: Number[];
+        bbox?: Number[];
         zIndex?: number;
         crs?: CRS;
         chinaCRS?: ChinaCRS;
@@ -24806,10 +25849,10 @@ export class SmImgLayer extends BaseTileLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -24851,10 +25894,10 @@ export class SmImgLayer extends BaseTileLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class SmMvtLayer extends BaseLayer {
@@ -24873,10 +25916,10 @@ export class SmMvtLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -24938,10 +25981,10 @@ export class SmMvtLayer extends BaseLayer {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class TdtDmLayer extends BaseLayer {
@@ -24957,10 +26000,10 @@ export class TdtDmLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -25319,7 +26362,7 @@ namespace widget {
      * 初始化widget管理器，在构造完成map后调用一次即可。
      * @example
      * let widgetCfg ={
-     *   "version": "20210803",
+     *   "version": "20220120",
      *   "defaultOptions": {
      *     "style": "dark",
      *     "windowOptions": {
@@ -25528,10 +26571,10 @@ namespace widget {
  * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
  * @param options.center.lng - 经度值, 180 - 180
  * @param options.center.lat - 纬度值, -90 - 90
- * @param options.center.alt - 高度值
- * @param options.center.heading - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param options.center.pitch - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param options.center.roll - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
 export class WindLayer extends BaseLayer {
@@ -25551,10 +26594,10 @@ export class WindLayer extends BaseLayer {
         center?: {
             lng: number;
             lat: number;
-            alt: number;
-            heading: number;
-            pitch: number;
-            roll: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
         };
         flyTo?: boolean;
     });
@@ -25578,7 +26621,7 @@ export class WindLayer extends BaseLayer {
 
 /**
  * 百度 POI查询 工具类 ，
- * 参考文档： https://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi
+ * 参考文档： {@link https://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi}
  * @param [options] - 参数对象，包括以下：
  * @param [options.key = mars3d.Token.baiduArr] - 百度KEY,实际项目中请使用自己申请的百度KEY，因为我们的key不保证长期有效。
  * @param [options.city = '全国'] - 限定查询的区域，支持城市及对应百度编码（Citycode）（指定的区域的返回结果加权，可能返回其他城市高权重结果。若要对返回结果区域严格限制，请使用city_limit参数）
@@ -25695,7 +26738,7 @@ export class BaiduPOI {
 
 /**
  * 高德 POI查询 工具类，
- * 参考文档： https://lbs.amap.com/api/webservice/guide/api/search
+ * 参考文档：{@link https://lbs.amap.com/api/webservice/guide/api/search}
  * @param [options] - 参数对象，包括以下：
  * @param [options.key = mars3d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
@@ -25845,7 +26888,7 @@ export class GaodePOI {
 
 /**
  * 高德 路径规划  工具类，
- * 参考文档：https://lbs.amap.com/api/webservice/guide/api/direction
+ * 参考文档：{@link https://lbs.amap.com/api/webservice/guide/api/direction}
  * @param [options] - 参数对象，包括以下：
  * @param [options.key = mars3d.Token.gaodeArr] - 百度KEY,在实际项目中请使用自己申请的高德KEY，因为我们的key不保证长期有效。
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
@@ -26674,106 +27717,6 @@ export class Underground extends BaseThing {
     colorAlphaByDistance: Cesium.NearFarScalar;
 }
 
-export namespace ViewShed3D {
-    /**
-     * 当前类支持的{@link EventType}事件类型
-     * @example
-     * //绑定监听事件
-     * thing.on(mars3d.EventType.end, function (event) {
-     *   console.log('分析完成', event)
-     * })
-     * @property drawStart - 开始绘制
-     * @property drawAddPoint - 绘制过程中增加了点
-     * @property drawMouseMove - 正在移动鼠标中，绘制过程中鼠标移动了点
-     * @property drawCreated - 完成绘制
-     * @property end - 完成分析
-     */
-    type EventType = {
-        drawStart: string;
-        drawAddPoint: string;
-        drawMouseMove: string;
-        drawCreated: string;
-        end: string;
-    };
-}
-
-/**
- * 可视域分析
- * @param [options] - 参数对象，包括以下：
- * @param [options.id = uuid()] - 对象的id标识
- * @param [options.enabled = true] - 对象的启用状态
- * @param [options.position] - 视点位置，未传入值时自动激活鼠标绘制
- * @param [options.cameraPosition] - 相机位置
- * @param [options.horizontalAngle = 120] - 水平张角(度数)，取值范围 0-120
- * @param [options.verticalAngle = 90] - 垂直张角(度数)，取值范围 0-90
- * @param [options.visibleAreaColor = new Cesium.Color(0, 1, 0, 1)] - 可视区域颜色
- * @param [options.hiddenAreaColor = new Cesium.Color(1, 0, 0, 1)] - 不可视区域颜色
- * @param [options.alpha = 0.5] - 混合系数 0.0-1.0
- * @param [options.offsetHeight = 1.5] - 在起点增加的高度值，比如加上人的身高
- * @param [options.showFrustum = true] - 是否显示视椎体框线
- * @param [options.terrain = true] - 是否启用地形的阴影效果，在平原地区或无地形时可以关闭
- */
-export class ViewShed3D extends BaseThing {
-    constructor(options?: {
-        id?: string | number;
-        enabled?: boolean;
-        position?: LatLngPoint | Cesium.Cartesian3;
-        cameraPosition?: LatLngPoint | Cesium.Cartesian3;
-        horizontalAngle?: number;
-        verticalAngle?: number;
-        visibleAreaColor?: Cesium.Color;
-        hiddenAreaColor?: Cesium.Color;
-        alpha?: number;
-        offsetHeight?: number;
-        showFrustum?: boolean;
-        terrain?: boolean;
-    });
-    /**
-     * 水平张角(度数)，取值范围 0-120
-     */
-    horizontalAngle: number;
-    /**
-     * 垂直张角(度数)，取值范围 0-90
-     */
-    verticalAngle: number;
-    /**
-     * 可视距离（单位：米）
-     */
-    distance: number;
-    /**
-     * 可视区域颜色
-     */
-    visibleAreaColor: Cesium.Color;
-    /**
-     * 不可视区域颜色
-     */
-    hiddenAreaColor: Cesium.Color;
-    /**
-     * 混合系数 0-1
-     */
-    alpha: number;
-    /**
-     * 是否显示视椎体框线
-     */
-    showFrustum: boolean;
-    /**
-     * 相机位置(笛卡尔坐标)
-     */
-    readonly cameraPosition: Cesium.Cartesian3;
-    /**
-     * 相机位置
-     */
-    cameraPoint: LatLngPoint;
-    /**
-     * 视点位置 （笛卡尔坐标）
-     */
-    readonly position: Cesium.Cartesian3;
-    /**
-     * 视点位置
-     */
-    readonly point: LatLngPoint;
-}
-
 export namespace CameraHistory {
     /**
      * 当前类支持的{@link EventType}事件类型
@@ -26984,7 +27927,7 @@ export class RotatePoint extends BaseThing {
      * @param point - 旋转的中心点
      * @returns 无
      */
-    start(point: LatLngPoint | Cesium.Cartesian3): void;
+    start(point: LatLngPoint | Cesium.Cartesian3 | Number[]): void;
     /**
      * 停止旋转
      * @returns 无
@@ -28045,6 +28988,28 @@ export class CircleStyleConver extends BaseStyleConver {
 }
 
 /**
+ * Cloud 矢量数据style转换处理类
+ * @param [options] - 控制参数
+ */
+export class CloudStyleConver extends BaseStyleConver {
+    constructor(options?: any);
+    /**
+     * 转换style到Cesium对象需要的格式
+     * @param style - 样式配置
+     * @param [czmVal = {}] - Cesium属性值
+     * @returns Cesium属性值
+     */
+    static toCesiumVal(style: any, czmVal?: any): any;
+    /**
+     * 导出Cesium的样式对象到json可以保存的格式
+     * @param czmVal - Cesium属性值
+     * @param [style = {}] - json简单对象
+     * @returns json简单对象
+     */
+    static toJSON(czmVal: any, style?: any): any;
+}
+
+/**
  * Corridor 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
@@ -28396,11 +29361,11 @@ namespace DomUtil {
     /**
      * 创建一个tagName的HTML元素，将其class设置为className，并可选择将其添加到container元素中
      * @param tagName - 元素类型，比如 div
-     * @param className - 附加的class样式名
+     * @param [className] - 附加的class样式名
      * @param [container] - 添加到指定的父节点(可选)
      * @returns 创建好的DOM元素
      */
-    function create(tagName: string, className: string, container?: HTMLElement | HTMLDivElement | null): HTMLElement | HTMLDivElement | any;
+    function create(tagName: string, className?: string, container?: HTMLElement | HTMLDivElement | null): HTMLElement | HTMLDivElement | any;
     /**
      * 创建svg元素
      * @param width - 宽度
@@ -28413,12 +29378,12 @@ namespace DomUtil {
     /**
      * 创建Video元素
      * @param url - url地址
-     * @param type - 视频类型
-     * @param className - 样式名称
-     * @param container - 添加到指定的父节点(可选)
+     * @param [type] - 视频类型
+     * @param [className] - 样式名称
+     * @param [container] - 添加到指定的父节点(可选)
      * @returns 创建的Video元素
      */
-    function createVideo(url: string, type: string, className: string, container: HTMLElement): HTMLElement;
+    function createVideo(url: string, type?: string, className?: string, container?: HTMLElement): HTMLVideoElement;
     /**
      * 返回给定DOM id的元素，或者返回元素本身
      * @param id - dom的id
@@ -29440,7 +30405,7 @@ namespace PolyUtil {
      * @param [steps = 8] - 缓冲步幅
      * @returns 缓冲后的新坐标数组
      */
-    function bufferPoints(points: LatLngPoint[], width: number, steps?: number): LatLngPoint[];
+    function bufferPoints(points: LatLngPoint[] | Cesium.Cartesian3[] | any[], width: number, steps?: number): LatLngPoint[];
     /**
      * 求坐标数组的矩形范围内 按 splitNum网格数插值的 granularity值
      * @param positions - 坐标数组
@@ -29558,21 +30523,21 @@ namespace PolyUtil {
     function updateVolume(resultInter: VolumeResult, cutHeight: number): VolumeResult;
     /**
      * 获取 圆（或椭圆）边线上的坐标点数组
-     * @param [options] - 参数对象:
+     * @param options - 参数对象:
      * @param options.position - 圆的中心坐标
-     * @param options.radius - 如是圆时，半径（单位：米）
-     * @param options.semiMajorAxis - 椭圆时的 长半轴半径（单位：米）
-     * @param options.semiMinorAxis - 椭圆时的 短半轴半径（单位：米）
+     * @param [options.radius] - 如是圆时，半径（单位：米）
+     * @param [options.semiMajorAxis] - 椭圆时的 长半轴半径（单位：米）
+     * @param [options.semiMinorAxis] - 椭圆时的 短半轴半径（单位：米）
      * @param [options.count = 1] - 象限内点的数量，返回的总数为 count*4
      * @param [options.granularity] - granularity值,与count二选一
      * @param [options.rotation = 0] - 旋转的角度
      * @returns 边线上的坐标点数组
      */
-    function getEllipseOuterPositions(options?: {
+    function getEllipseOuterPositions(options: {
         position: Cesium.Cartesian3 | LatLngPoint;
-        radius: number;
-        semiMajorAxis: number;
-        semiMinorAxis: number;
+        radius?: number;
+        semiMajorAxis?: number;
+        semiMinorAxis?: number;
         count?: number;
         granularity?: number;
         rotation?: number;

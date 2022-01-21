@@ -145,15 +145,17 @@ function queryRoute(type) {
     points: [startGraphic.coordinate, endGraphic.coordinate],
     success: function (data) {
       hideLoading()
-      const lineFirst = data.paths[0]
-      const points = lineFirst.points
+      const firstItem = data.paths[0]
+      const points = firstItem.points
       if (!points || points.length < 1) {
         return
       }
 
-      const time = formatTime(lineFirst.allDuration)
-      const distance = mars3d.MeasureUtil.formatDistance(lineFirst.allDistance)
+      const time = formatTime(firstItem.allDuration)
+      const distance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
       const html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
+
+
 
       const graphic = new mars3d.graphic.PolylineEntity({
         positions: points,
@@ -162,16 +164,17 @@ function queryRoute(type) {
           material: Cesium.Color.AQUA.withAlpha(0.8),
           width: 5
         },
+        attr: firstItem,
         popup: html
       })
       routeLayer.addGraphic(graphic)
 
-      const allTime = formatTime(data.paths[0].allDuration)
-      const allDistance = mars3d.MeasureUtil.formatDistance(data.paths[0].allDistance)
 
+      const allTime = formatTime(firstItem.allDuration)
+      const allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
       let dhHtml = ""
-      for (let i = 0; i < data.paths[0].steps.length; i++) {
-        const item = data.paths[0].steps[i]
+      for (let i = 0; i < firstItem.steps.length; i++) {
+        const item = firstItem.steps[i]
         dhHtml += item.instruction + "；"
       }
 
@@ -182,6 +185,16 @@ function queryRoute(type) {
       globalAlert(msg)
     }
   })
+}
+
+// 点击保存GeoJSON
+export function saveGeoJSON() {
+  if (routeLayer.length === 0) {
+    globalMsg("当前没有标注任何数据，无需保存！")
+    return
+  }
+  const geojson = routeLayer.toGeoJSON()
+  mars3d.Util.downloadFile("导航路径.json", JSON.stringify(geojson))
 }
 
 // 格式化时间

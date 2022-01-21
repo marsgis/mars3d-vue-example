@@ -61,7 +61,7 @@ class ThreeLayer extends BaseLayer {
       this._map.container.appendChild(this._container)
     }
 
-    this._map.useDefaultRenderLoop = false // 关闭自动渲染
+    this._map.viewer.useDefaultRenderLoop = false // 关闭自动渲染
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
@@ -82,7 +82,7 @@ class ThreeLayer extends BaseLayer {
     window.cancelAnimationFrame(this._animateFrame)
     delete this._animateFrame
 
-    this._map.useDefaultRenderLoop = true
+    this._map.viewer.useDefaultRenderLoop = true
 
     if (this._container) {
       this._map.container.removeChild(this._container)

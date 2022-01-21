@@ -22,6 +22,7 @@
         <a-space>
           <mars-button @click="btnAnalyse">开始分析</mars-button>
           <mars-button @click="removeAll">清除</mars-button>
+          <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
         </a-space>
       </div>
 
@@ -96,6 +97,11 @@ const removeAll = () => {
   wayShow.value = false
   strat.value = ""
   end.value = ""
+}
+
+// 保存GeoJSON
+const saveGeoJSON = () => {
+  mapWork.saveGeoJSON()
 }
 </script>
 <style scoped lang="less">

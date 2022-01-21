@@ -79,6 +79,9 @@ li {
   box-sizing: border-box;
 }
 
+.mars3d-divGraphic:hover{
+  z-index: 999 !important;
+}
 
 /*滚动条*/
 body,
