@@ -4,8 +4,8 @@
   "scripts": {
     "serve": "vite",
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:dev": "vite build",
+    "build": "vite build",
+    "build-tsc": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint ./src/**/*.{js,jsx,vue,ts,tsx} --fix"
   },
