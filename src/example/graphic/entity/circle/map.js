@@ -221,7 +221,7 @@ function addGeoJson(geojson, graphicLayer) {
 
 function addGraphic03(graphicLayer) {
   const graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
+    position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
     style: {
       radius: 1500.0,
       diffHeight: 1000.0,
@@ -241,7 +241,7 @@ function addGraphic03(graphicLayer) {
 
 function addGraphic04(graphicLayer) {
   const graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
+    position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       radius: 1500.0,
       material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
@@ -258,7 +258,7 @@ function addGraphic05(graphicLayer) {
   let _rotation = Math.random()
 
   const graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.37617, 30.847384, 396.12),
+    position: new mars3d.LngLatPoint(116.37617, 30.847384, 396.12),
     style: {
       radius: 1500.0,
       clampToGround: false,
@@ -281,7 +281,7 @@ function addGraphic05(graphicLayer) {
 function addGraphic06(graphicLayer) {
   let _rotation = Math.random()
   const graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.326329, 30.84786, 421.7),
+    position: new mars3d.LngLatPoint(116.326329, 30.84786, 421.7),
     style: {
       radius: 1000.0,
       // 扫描材质
@@ -306,8 +306,8 @@ function addGraphic07(graphicLayer) {
   const duration = 5000 // 毫秒
   const maxRadius = 2000 // 米
 
-  var graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.271298, 30.831822, 634),
+  const graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LngLatPoint(116.271298, 30.831822, 634),
     style: {
       semiMajorAxis: new Cesium.CallbackProperty(function (event) {
         currentRadius += (1000 / duration) * 50
@@ -338,8 +338,8 @@ function addGraphic08(graphicLayer) {
   let rotation = 0
   const step = -0.02
 
-  var graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(116.326672, 30.811903, 605),
+  const graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LngLatPoint(116.326672, 30.811903, 605),
     style: {
       radius: 2000,
       rotation: new Cesium.CallbackProperty(() => {
@@ -385,7 +385,7 @@ function addGraphic09(graphicLayer) {
   let lastPosition
   let lastHeight = 0
 
-  var circleEntity = new mars3d.graphic.CircleEntity({
+  const circleEntity = new mars3d.graphic.CircleEntity({
     position: new Cesium.CallbackProperty(function (time) {
       const center = map.getCenter()
       if (center) {
@@ -565,12 +565,12 @@ function expFile() {
 function impFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     globalMsg("文件类型不合法,请选择json格式标注文件！")
     return
   }
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -579,7 +579,7 @@ function impFile(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -617,7 +617,7 @@ function impFile(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
     kgUtil.toGeoJSON(file).then((geojson) => {

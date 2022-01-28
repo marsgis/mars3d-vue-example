@@ -55,19 +55,14 @@ function addMeasure() {
   measureObj.on(mars3d.EventType.end, function (e) {
     console.log("分析结束", e)
     // 分析完成后回调(异步)
-
+    hideLoading()
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
       eventTarget.fire("end", { e })
     }
-    hideLoading()
-
-
-
   })
 
   measureObj.on(mars3d.EventType.click, function (e) {
     console.log("单击了对象", e)
-    // mars3d.graphic.SectionMeasure.type
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
       eventTarget.fire("click", { e })
     }

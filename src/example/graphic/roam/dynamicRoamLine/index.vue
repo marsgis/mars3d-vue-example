@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -39,7 +39,7 @@ onMounted(() => {
         key: item.id,
         num: index + 1,
         carNumber: item.name,
-        type: item.type == "1" ? "土方车" : "挖掘机"
+        type: item.type === "1" ? "土方车" : "挖掘机"
       })
       arrKey.push(item.id)
     })
@@ -97,7 +97,9 @@ const rowClick = (recode: any) => {
 <style scoped lang="less">
 .msg {
   top: 300px;
+  max-height: 200px;
   right: 10px;
+  overflow: auto;
 }
 .infoView {
   width: 306px;

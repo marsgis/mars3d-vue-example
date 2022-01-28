@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue"
 import { BoyTwo, Girl } from "@icon-park/vue-next"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as echarts from "echarts"
 
 onMounted(() => {
@@ -93,7 +93,7 @@ onMounted(() => {
 // 实有人口
 function initRealPopulation(dom: any) {
   const realEcharts = echarts.init(dom)
-  var realPopulationOption = {
+  const realPopulationOption = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -161,7 +161,7 @@ function initRealPopulation(dom: any) {
 // 人口结构
 function initPopulationStructure(dom: any) {
   const structureEcharts = echarts.init(dom)
-  var structureOption = {
+  const structureOption = {
     tooltip: {
       trigger: "item"
     },
@@ -244,7 +244,7 @@ function initPopulationStructure(dom: any) {
 // 人口老龄化分析
 function initAging(dom: any) {
   const agingEcharts = echarts.init(dom)
-  var agingOption = {
+  const agingOption = {
     tooltip: {
       trigger: "axis",
       axisPointer: {

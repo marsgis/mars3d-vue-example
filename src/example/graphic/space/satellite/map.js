@@ -18,7 +18,7 @@ export const mapOptions = {
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true, // 是否显示时间线控件
-    compass: { bottom: "350px", left: "5px" }
+    compass: { top: "10px", left: "5px" }
   }
 }
 
@@ -124,7 +124,7 @@ function addGraphicLayer() {
     const date = Cesium.JulianDate.toDate(map.clock.currentTime)
     weixinData.time = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
     if (weixin.position) {
-      const point = mars3d.LatLngPoint.fromCartesian(weixin.position)
+      const point = mars3d.LngLatPoint.fromCartesian(weixin.position)
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = point.alt

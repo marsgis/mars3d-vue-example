@@ -81,7 +81,7 @@ export function spinPolygons(angle) {
   const graphic = graphicLayer.getGraphics()[0]
   const poly = graphic.toGeoJSON({ closure: true })
 
-  const centerPoint = mars3d.LatLngPoint.fromCartesian(graphic.center).toArray() // 围绕执行旋转的点
+  const centerPoint = mars3d.LngLatPoint.fromCartesian(graphic.center).toArray() // 围绕执行旋转的点
 
   // truf旋转操作
   const rotatedPoly = turf.transformRotate(poly, angle, { pivot: centerPoint })

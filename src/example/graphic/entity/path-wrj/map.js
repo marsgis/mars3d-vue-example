@@ -100,9 +100,9 @@ function initPath(data) {
       property.addSample(juliaDate, position)
     }
 
-    if (i == 0) {
+    if (i === 0) {
       start = juliaDate
-    } else if (i == len - 1) {
+    } else if (i === len - 1) {
       stop = juliaDate
     }
 

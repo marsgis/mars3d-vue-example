@@ -38,7 +38,7 @@ function addGraphics() {
 
   // 半球
   const graphicQiu = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(117.276726, 31.864175, -10000.0),
+    position: new mars3d.LngLatPoint(117.276726, 31.864175, -10000.0),
     style: {
       radii: new Cesium.Cartesian3(200000.0, 200000.0, 200000.0),
       maximumConeDegree: 90,

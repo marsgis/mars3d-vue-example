@@ -361,7 +361,7 @@ export function selectSatellites(data) {
 
     // 名称
     if (name) {
-      if ((attr.name && attr.name.indexOf(name) !== -1) || (attr.id && attr.id == name) || (attr.cospar && attr.cospar.indexOf(name) !== -1)) {
+      if ((attr.name && attr.name.indexOf(name) !== -1) || (attr.id && attr.id === name) || (attr.cospar && attr.cospar.indexOf(name) !== -1)) {
         //
       } else {
         return

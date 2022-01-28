@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const floorModel = ["一楼", "二楼", "三楼", "四楼", "五楼", "六楼", "七楼", "八楼", "九楼", "顶楼"]

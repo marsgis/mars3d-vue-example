@@ -109,6 +109,9 @@ export function btnDraw(callback) {
 export function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
+  if (floodByGraphic) {
+    floodByGraphic.remove()
+  }
 }
 
 // 开始分析

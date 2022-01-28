@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"
  import * as mapWork from "./map.js"
 

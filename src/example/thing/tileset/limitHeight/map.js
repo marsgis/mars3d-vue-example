@@ -45,7 +45,7 @@ export function onMounted(mapInstance) {
 
   // 自动读取模型的高度，但不一定准确。
   // tilesetLayer.on(mars3d.EventType.load, function (event) {
-  //   limitHeight.bottomHeight = mars3d.LatLngPoint.fromCartesian(tilesetLayer.boundingSphere.center).alt
+  //   limitHeight.bottomHeight = mars3d.LngLatPoint.fromCartesian(tilesetLayer.boundingSphere.center).alt
   // })
 }
 

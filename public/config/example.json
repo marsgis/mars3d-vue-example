@@ -346,6 +346,12 @@
             "date": "2021-10-03"
           },
           {
+            "name": "瓦片颜色滤镜",
+            "main": "layer-tile/manage/filter-color",
+            "usePannel": true,
+            "date": "2022-1-21"
+          },
+          {
             "name": "瓦片加载事件",
             "main": "layer-tile/manage/event",
             "usePannel": true,
@@ -528,15 +534,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -749,15 +755,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -775,15 +781,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -795,15 +801,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -828,15 +834,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -849,15 +855,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -869,15 +875,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -889,15 +895,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -909,15 +915,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -929,15 +935,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -949,15 +955,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -976,15 +982,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1002,15 +1008,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1057,15 +1063,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1077,15 +1083,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1097,15 +1103,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1117,15 +1123,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1137,15 +1143,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1157,15 +1163,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1177,15 +1183,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1197,15 +1203,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1217,15 +1223,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1479,6 +1485,12 @@
             "main": "graphic/primitive/pit"
           },
           {
+            "name": "四面体",
+            "main": "graphic/primitive/tetraheadron",
+            "usePannel": false,
+            "date": "2022-1-21"
+          },
+          {
             "name": "矿区岩层效果(井与开挖的实际应用)",
             "main": "thing/terrain/terrainClip-image",
             "date": "2021-11-01"
@@ -1490,16 +1502,52 @@
         "details": "适用于大数据的加载场景。Primitive合并渲染是支持大数据的加载方式。",
         "children": [
           {
-            "name": "ModelCombine 大量模型",
-            "date": "2021-11-10",
-            "usePannel": true,
-            "main": "graphic/combine/model"
-          },
-          {
             "name": "FlatBillboard 平面图标",
             "date": "2021-11-02",
             "usePannel": true,
             "main": "graphic/combine/flatBillboard"
+          },
+          {
+            "name": "PlaneCombine 平面",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/plane"
+          },
+          {
+            "name": "BoxCombine 盒子",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/box"
+          },
+          {
+            "name": "CircleCombine 圆、椭圆、圆柱",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/circle"
+          },
+          {
+            "name": "CylinderCombine 圆锥、圆柱",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/cylinder"
+          },
+          {
+            "name": "FrustumCombine  四棱锥体",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/frustum"
+          },
+          {
+            "name": "EllipsoidCombine  球、半球、椭球",
+            "date": "2022-1-21",
+            "usePannel": true,
+            "main": "graphic/combine/ellipsoid"
+          },
+          {
+            "name": "ModelCombine 大量模型",
+            "date": "2021-11-10",
+            "usePannel": true,
+            "main": "graphic/combine/model"
           },
           {
             "name": "PolylineCombine 大量线",
@@ -1512,6 +1560,34 @@
             "main": "graphic/combine/polyline-lineFlow-wind",
             "date": "2021-11-02",
             "thumbnail": "thumbnail.gif"
+          },
+          {
+            "name": "PolylineVolumeCombine 管道线",
+            "main": "graphic/combine/polyline-volume-combine",
+            "date": "2022-01-24",
+            "usePannel": true,
+            "thumbnail": "thumbnail.jpg"
+          },
+          {
+            "name": "CorridorCombine 走廊",
+            "main": "graphic/combine/corridor-combine",
+            "date": "2022-01-24",
+            "usePannel": true,
+            "thumbnail": "thumbnail.jpg"
+          },
+          {
+            "name": "WallCombine 墙",
+            "main": "graphic/combine/wall-combine",
+            "date": "2022-01-24",
+            "usePannel": true,
+            "thumbnail": "thumbnail.jpg"
+          },
+          {
+            "name": "RectangleCombine 矩形",
+            "main": "graphic/combine/rectangle-combine",
+            "date": "2022-01-24",
+            "usePannel": true,
+            "thumbnail": "thumbnail.jpg"
           },
           {
             "name": "PolygonCombine 大量面",
@@ -1582,6 +1658,12 @@
       {
         "name": "粒子效果对象",
         "children": [
+          {
+            "name": "积云",
+            "main": "graphic/particleSystem/cloud",
+            "usePannel": true,
+            "date": "2022-1-21"
+          },
           {
             "name": "粒子效果",
             "main": "graphic/particleSystem/basis",
@@ -1956,15 +2038,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -1982,15 +2064,15 @@
             "vueFiles": [
               {
                 "name": "attr.vue",
-                "url": "/vue/graphic-editor/attr.vue"
+                "url": "/vue/mars-sample/graphic-editor/attr.vue"
               },
               {
                 "name": "coord.vue",
-                "url": "/vue/graphic-editor/coord.vue"
+                "url": "/vue/mars-sample/graphic-editor/coord.vue"
               },
               {
                 "name": "style.vue",
-                "url": "/vue/graphic-editor/style.vue"
+                "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
           },
@@ -2572,11 +2654,11 @@
     ]
   },
   {
-    "name": "其他分析",
+    "name": "空间分析",
     "icon": "fa-futbol-o",
     "children": [
       {
-        "name": "空间分析",
+        "name": "综合空间分析",
         "children": [
           {
             "name": "量算 (长度、面积、高度、角度)",
@@ -2617,7 +2699,7 @@
           },
           {
             "name": "可视域分析",
-            "main": "thing/analysis/viewShed3D",
+            "main": "graphic/custom/viewShed",
             "date": "2021-10-08",
             "usePannel": true
           },
@@ -2650,7 +2732,7 @@
         ]
       },
       {
-        "name": "客户端GIS分析",
+        "name": "GIS客户端分析",
         "children": [
           {
             "name": "生成随机数据(点线面)",

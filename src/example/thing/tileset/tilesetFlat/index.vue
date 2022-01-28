@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
 import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

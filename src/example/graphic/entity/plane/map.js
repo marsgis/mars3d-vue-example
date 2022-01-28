@@ -144,7 +144,7 @@ function addGraphic01(graphicLayer) {
 //
 function addGraphic02(graphicLayer) {
   const graphic = new mars3d.graphic.PlaneEntity({
-    position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
+    position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
       dimensions: new Cesium.Cartesian2(1000.0, 1000.0),
@@ -163,7 +163,7 @@ function addGraphic02(graphicLayer) {
 //
 function addGraphic03(graphicLayer) {
   const graphic = new mars3d.graphic.PlaneEntity({
-    position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
+    position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
     style: {
       plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
       dimensions: new Cesium.Cartesian2(1000.0, 1000.0),
@@ -330,12 +330,12 @@ function expFile() {
 function impFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     globalMsg("文件类型不合法,请选择json格式标注文件！")
     return
   }
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -344,7 +344,7 @@ function impFile(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -382,7 +382,7 @@ function impFile(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
     kgUtil.toGeoJSON(file).then((geojson) => {

@@ -2,14 +2,14 @@
   <pannel class="infoView">
     <a-row :gutter="5">
       <a-col :span="24">
-        <a-form-item label="maxParticles" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.maxParticles" @change="onParticleSystemOptionsChange" :min="1" :max="256 * 256" :step="1" />
+        <a-form-item label="particlesNumber" :labelCol="labelCol" :labelAlign="labelAlign">
+          <a-slider v-model:value="formState.particlesNumber" @change="onParticleSystemOptionsChange" :min="1" :max="256 * 256" :step="1" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
-        <a-form-item label="particleHeight" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.particleHeight" @change="onParticleSystemOptionsChange" :min="1" :max="10000" :step="1" />
+        <a-form-item label="fixedHeight" :labelCol="labelCol" :labelAlign="labelAlign">
+          <a-slider v-model:value="formState.fixedHeight" @change="onParticleSystemOptionsChange" :min="1" :max="10000" :step="1" />
         </a-form-item>
       </a-col>
 
@@ -48,13 +48,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
-  maxParticles: number
-  particleHeight: number
+  particlesNumber: number
+  fixedHeight: number
   fadeOpacity: number
   dropRate: number
   dropRateBump: number
@@ -66,8 +66,8 @@ const labelCol = ref({ span: 8 })
 const labelAlign = ref("left")
 
 const formState: UnwrapRef<FormState> = reactive({
-  maxParticles: 9000,
-  particleHeight: 1.0,
+  particlesNumber: 9000,
+  fixedHeight: 0.0,
   fadeOpacity: 0.996,
   dropRate: 0.003,
   dropRateBump: 0.01,

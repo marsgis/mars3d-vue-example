@@ -303,7 +303,7 @@ export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -313,7 +313,7 @@ export function openGeoJSON(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -351,7 +351,7 @@ export function openGeoJSON(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
     kgUtil.toGeoJSON(file).then((geojson) => {
       geojson = simplifyGeoJSON(geojson) // 简化geojson的点

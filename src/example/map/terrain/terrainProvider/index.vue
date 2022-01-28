@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -53,6 +53,8 @@ const onShowTerrain = () => {
   mapWork.enabledTerrain(formState.enabledTerrain)
 }
 const onChangeRadioTerrain = () => {
+  formState.enabledTerrain = true
+  formState.enabledTerrainSJW = false
   mapWork.radioTerrain(formState.radio)
 }
 </script>

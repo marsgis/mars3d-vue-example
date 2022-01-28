@@ -68,7 +68,7 @@ export function onUnmounted() {
 
 function addFeature(graphicLayer, arr) {
   graphicLayer.bindPopup(function (event) {
-    const item = event.graphic.attr
+    const item = event.graphic?.attr
     if (!item) {
       return false
     }
@@ -106,7 +106,7 @@ function addFeature(graphicLayer, arr) {
 
     if (map.camera.positionCartographic.height > 90000) {
       const graphic = event.graphic
-      // graphic.closePopup();
+      // graphic.closePopup()
       if (graphic) {
         // 单击了具体的点对象
         const position = graphic.positionShow
@@ -115,7 +115,7 @@ function addFeature(graphicLayer, arr) {
           duration: 4,
           complete: function (e) {
             // 飞行完成回调方法
-            // graphic.openPopup();
+            // graphic.openPopup()
           }
         })
       } else {
@@ -130,7 +130,7 @@ function addFeature(graphicLayer, arr) {
     const item = arr[i]
 
     const graphic = new mars3d.graphic.BillboardEntity({
-      position: new mars3d.LatLngPoint(item.lng, item.lat, item.z || 0),
+      position: new mars3d.LngLatPoint(item.lng, item.lat, item.z || 0),
       style: {
         image: "img/marker/mark3.png",
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -159,7 +159,6 @@ function addFeature(graphicLayer, arr) {
 // 计算贴地高度示例代码，可以将获取到的高度更新到数据库内，后续不用重复计算。
 function getDataSurfaceHeight() {
   if (!arrData) {
-
     globalMsg("数据尚未加载成功！")
     return
   }
@@ -194,7 +193,7 @@ function getDataSurfaceHeight() {
 
       for (let i = 0, len = arrData.length; i < len; i++) {
         const item = arrData[i]
-        const point = mars3d.LatLngPoint.fromCartesian(raisedPositions[i])
+        const point = mars3d.LngLatPoint.fromCartesian(raisedPositions[i])
 
         item[lonCol] = point.lng
         item[latCol] = point.lat

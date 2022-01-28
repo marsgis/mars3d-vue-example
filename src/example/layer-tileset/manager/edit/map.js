@@ -62,18 +62,19 @@ export function showCompTree(model) {
       console.log("加载JSON出错", error)
     })
 }
+
 export function compModelChange(nodeid, nodesphere) {
   if (nodesphere[3] <= 0) {
     return
   }
   // 构件节点位置
-  var center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2])
+  let center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2])
 
   // 获取构件节点位置，现对于原始矩阵变化后的新位置
   center = tiles3dLayer.getPositionByOrginMatrix(center)
 
   // 飞行过去
-  var sphere = new Cesium.BoundingSphere(center, nodesphere[3])
+  const sphere = new Cesium.BoundingSphere(center, nodesphere[3])
   map.camera.flyToBoundingSphere(sphere, {
     offset: new Cesium.HeadingPitchRange(map.camera.heading, map.camera.pitch, nodesphere[3] * 1.5),
     duration: 0.5
@@ -169,7 +170,7 @@ export function editor(event, txtZ) {
     tilesEditor.position = position
     tiles3dLayer.center = position
 
-    const point = mars3d.LatLngPoint.fromCartesian(position)
+    const point = mars3d.LngLatPoint.fromCartesian(position)
     eventTarget.fire("changePoition", { point })
   } else if (Cesium.defined(event.heading)) {
     tiles3dLayer.rotation_z = event.heading
@@ -302,7 +303,7 @@ export function locate() {
 
 // 保存GeoJSON
 export function saveBookmark(params) {
-  if (params.axis == "") {
+  if (params.axis === "") {
     delete params.axis
   }
 
@@ -331,7 +332,7 @@ function name2text(o) {
   o.eleid = o.id
   o.id = undefined
 
-  if ((!o.text || o.text.trim() == "") && o.type) {
+  if ((!o.text || o.text.trim() === "") && o.type) {
     o.text = o.type
   }
 

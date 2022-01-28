@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -169,17 +169,6 @@ const yChange = () => {
 }
 const zChange = () => {
   mapWork.updatePosition(model_x.value, model_y.value, model_z.value)
-}
-
-const clear = () => {
-  mapWork.clearAll()
-}
-const getRegion = () => {
-  mapWork.getRegion()
-}
-
-const getCenter = () => {
-  mapWork.getCenter()
 }
 
 // 参考轴系显示与隐藏

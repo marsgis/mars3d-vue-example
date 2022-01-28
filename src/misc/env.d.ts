@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * 统一定义ts模块类型
  * @copyright 火星科技 mars3d.cn
@@ -12,14 +13,6 @@ declare module "*.vue" {
 }
 
 declare module "nprogress" {
-  export default any
-}
-
-declare module "*.less" {
-  const classes: { readonly [key: string]: string }
-  export default classes
-}
-
-declare module "mars-editor" {
-  export default any
+  const nprogress: any
+  export default nprogress
 }

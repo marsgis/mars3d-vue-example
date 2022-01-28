@@ -146,7 +146,7 @@ export function startFX(startTimes, endTimes) {
     const item = tleArr[ind]
     const arr = fxOneSatellite(item, options)
 
-    if (arr.length == 0) {
+    if (arr.length === 0) {
       continue
     }
 
@@ -251,7 +251,7 @@ function showResult(newSatelliteArr) {
     }
 
     let index = 0
-    if (inAreaPath[0].inOrOut == "out") {
+    if (inAreaPath[0].inOrOut === "out") {
       // 保证从进入 开始计算
       index = 1
     }
@@ -260,7 +260,7 @@ function showResult(newSatelliteArr) {
       const positions = []
       let inTime
       let outTime
-      if (inAreaPath[i].inOrOut == "in" && inAreaPath[i + 1].inOrOut == "out") {
+      if (inAreaPath[i].inOrOut === "in" && inAreaPath[i + 1].inOrOut === "out") {
         const inAttr = inAreaPath[i]
         const outAttr = inAreaPath[i + 1]
         if (inAttr?.lastPosition) {
@@ -301,7 +301,7 @@ function formatTime(strtime) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
     const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
+    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
     return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"

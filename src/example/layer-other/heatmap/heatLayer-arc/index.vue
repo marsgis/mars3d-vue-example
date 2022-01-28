@@ -4,13 +4,13 @@
     <a-switch v-model:checked="enabledUnderground" @change="chkUnderground" />
   </pannel>
   <div class="divPanel">
-    <img src="img/legend/heatmap.png" />
+    <img src="/img/legend/heatmap.png" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const enabledUnderground = ref(false)

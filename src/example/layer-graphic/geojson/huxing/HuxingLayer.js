@@ -54,7 +54,7 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
     if (this.options.url) {
       Cesium.Resource.fetchJson(this.options)
         .then((data) => {
-          if (this._state == mars3d.State.REMOVED) {
+          if (this._state === mars3d.State.REMOVED) {
             return
           }
           this._load_data(data)
@@ -87,14 +87,14 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
   }
 
   addHuxing(positions, attr) {
-    if (!positions || positions.length == 0) {
+    if (!positions || positions.length === 0) {
       return
     }
 
-    var flrH = attr.floorh || 0 // 底面高度
-    var lyrH = attr.layerh || 0 // 楼层高度
+    const flrH = attr.floorh || 0 // 底面高度
+    const lyrH = attr.layerh || 0 // 楼层高度
 
-    var primitiveBian = new mars3d.graphic.CorridorPrimitive({
+    const primitiveBian = new mars3d.graphic.CorridorPrimitive({
       positions: positions,
       style: {
         height: flrH,
@@ -107,7 +107,7 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
     })
     this.addGraphic(primitiveBian)
 
-    var primitiveDi = new mars3d.graphic.PolygonEntity({
+    const primitiveDi = new mars3d.graphic.PolygonEntity({
       positions: positions,
       style: {
         height: flrH,
@@ -122,8 +122,8 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
     this.addGraphic(primitiveDi)
 
     // 记录到缓存中
-    var loudongHao = attr.LDH // 楼栋号
-    var cengHao = attr.CH // 层号
+    const loudongHao = attr.LDH // 楼栋号
+    const cengHao = attr.CH // 层号
 
     this._cache_huxin[loudongHao] = this._cache_huxin[loudongHao] || {}
     this._cache_huxin[loudongHao][cengHao] = this._cache_huxin[loudongHao][cengHao] || []
@@ -136,10 +136,10 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
     // 将上次隐藏的层，恢复下
     this._map_clickHandler()
 
-    var attr = event.graphic.attr
+    const attr = event.graphic.attr
 
-    var loudongHao = attr.LDH // 楼栋号
-    var cengHao = attr.CH // 层号
+    const loudongHao = attr.LDH // 楼栋号
+    const cengHao = attr.CH // 层号
 
     const loudongGraphics = this._cache_huxin[loudongHao]
     Object.keys(loudongGraphics).forEach((ceng) => {
@@ -166,7 +166,7 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
   }
 
   _graphic_mouseOverHandler(event) {
-    var graphic = event.graphic
+    const graphic = event.graphic
     this.openSmallTooltip(event.windowPosition, graphic.attr.WZ)
   }
 

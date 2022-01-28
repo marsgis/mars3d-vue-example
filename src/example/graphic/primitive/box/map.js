@@ -63,7 +63,7 @@ function addGraphicDemo1(graphicLayer) {
 
 function addGraphicDemo2(graphicLayer) {
   const primitive = new mars3d.graphic.BoxPrimitive({
-    position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
+    position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       dimensions: new Cesium.Cartesian3(900.0, 600.0, 900.0),
       color: "#ff0000",
@@ -89,7 +89,7 @@ function addGraphicDemo3(graphicLayer) {
 
 function addGraphicDemo4(graphicLayer) {
   const primitive = new mars3d.graphic.BoxPrimitive({
-    position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
+    position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
     style: {
       dimensions: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       color: "#ffff00",

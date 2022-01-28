@@ -36,9 +36,6 @@ export function onMounted(mapInstance) {
   const type = mars3d.Util.getRequestByName("data")
 
   switch (type) {
-    default:
-      showAircraft()
-      break
     case "feiji":
       showAircraft()
       break
@@ -47,6 +44,9 @@ export function onMounted(mapInstance) {
       break
     case "huojian":
       showRocket()
+      break
+    default:
+      showAircraft()
       break
   }
 }

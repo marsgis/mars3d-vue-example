@@ -168,7 +168,7 @@ function addGeoJson(geojson, graphicLayer) {
 function addGraphic02(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "根据视距缩放点",
-    position: new mars3d.LatLngPoint(116.301798, 30.835848, 915),
+    position: new mars3d.LngLatPoint(116.301798, 30.835848, 915),
     style: {
       color: "#00ff00",
       pixelSize: 32,
@@ -181,7 +181,7 @@ function addGraphic02(graphicLayer) {
 function addGraphic03(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "贴地点",
-    position: new mars3d.LatLngPoint(116.39224, 30.902853),
+    position: new mars3d.LngLatPoint(116.39224, 30.902853),
     style: {
       color: "#ffff00",
       pixelSize: 10,
@@ -203,7 +203,7 @@ function addGraphic03(graphicLayer) {
 function addGraphic04(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "根据视距显示点",
-    position: new mars3d.LatLngPoint(116.329102, 30.977955, 1548.6),
+    position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
     style: {
       color: "#0000ff",
       pixelSize: 20,
@@ -400,21 +400,21 @@ function expFile() {
 function impFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     globalMsg("文件类型不合法,请选择json格式标注文件！")
     return
   }
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
-    reader.onloadend = function (e) {
+    reader.onloadend = function () {
       const json = this.result
       graphicLayer.loadGeoJSON(json, {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -452,7 +452,7 @@ function impFile(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
     kgUtil.toGeoJSON(file).then((geojson) => {

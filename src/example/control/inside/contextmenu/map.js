@@ -20,9 +20,9 @@ export function onMounted(mapInstance) {
   map.on(mars3d.EventType.contextMenuClick, function (event) {
     console.log("单击了右键菜单", event)
 
-    if (event.data.text == "绕此处环绕飞行") {
+    if (event.data.text === "绕此处环绕飞行") {
       map.contextmenu.rotatePoint.on(mars3d.EventType.change, rotatePoint_onChangeHandler)
-    } else if (event.data.text == "关闭环绕飞行") {
+    } else if (event.data.text === "关闭环绕飞行") {
       map.contextmenu.rotatePoint.off(mars3d.EventType.change, rotatePoint_onChangeHandler)
     }
   })
@@ -61,7 +61,7 @@ function bindMapDemo() {
         return Cesium.defined(e.cartesian)
       },
       callback: function (e) {
-        const mpt = mars3d.LatLngPoint.fromCartesian(e.cartesian)
+        const mpt = mars3d.LngLatPoint.fromCartesian(e.cartesian)
         globalAlert(mpt.toString(), "位置信息")
       }
     },
@@ -202,7 +202,7 @@ function bindGraphicDemo() {
   map.addLayer(graphicLayer)
 
   const graphic = new mars3d.graphic.BoxEntity({
-    position: new mars3d.LatLngPoint(116.336525, 31.196721, 323.35),
+    position: new mars3d.LngLatPoint(116.336525, 31.196721, 323.35),
     style: {
       dimensions: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       fill: true,

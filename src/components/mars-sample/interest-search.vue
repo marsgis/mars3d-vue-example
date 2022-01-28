@@ -80,7 +80,7 @@ graphicLayer.bindPopup(function (event: any) {
   }
   let inHtml = `<div class="mars-popup-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars-popup-content" >`
 
-  if (item.tel != "") {
+  if (item.tel !== "") {
     inHtml += "<div><label>电话</label>" + item.tel + "</div>"
   }
 
@@ -89,7 +89,7 @@ graphicLayer.bindPopup(function (event: any) {
   }
   if (item.type) {
     const fl = item.type
-    if (fl != "") {
+    if (fl !== "") {
       inHtml += "<div><label>类别</label>" + fl + "</div>"
     }
   }
@@ -289,7 +289,7 @@ function flyTo(item: any) {
  */
 function centerAtLonLat(text: any) {
   const arr = text.split(",")
-  if (arr.length != 2) {
+  if (arr.length !== 2) {
     return
   }
 

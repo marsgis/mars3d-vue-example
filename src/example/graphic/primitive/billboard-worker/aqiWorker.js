@@ -1,7 +1,7 @@
 "use script" // 开发环境建议开启严格模式
 
-var url = "https://api.waqi.info/mapq/bounds/?bounds={RECTANGLE}&inc=placeholders&k={KEY}&_={DATA}"
-var table = [
+const url = "https://api.waqi.info/mapq/bounds/?bounds={RECTANGLE}&inc=placeholders&k={KEY}&_={DATA}"
+const table = [
   {
  level: "一级（优）",
   influence: "空气质量令人满意，基本无空气污染",
@@ -34,16 +34,16 @@ var table = [
   }
 ]
 
-var xmlHttpRequest
-var nWidth = 500
-var currTime
+let xmlHttpRequest
+const nWidth = 500
+let currTime
 
 onmessage = function (e) {
   const bounds = e.data.bounds
   currTime = new Date().getTime()
 
-  var strKey = jskey()
-  var nowUrl = url.replace("{RECTANGLE}", bounds).replace("{KEY}", strKey).replace("{DATA}", currTime)
+  const strKey = jskey()
+  const nowUrl = url.replace("{RECTANGLE}", bounds).replace("{KEY}", strKey).replace("{DATA}", currTime)
 
   xmlHttpRequest = new XMLHttpRequest()
 
@@ -58,18 +58,18 @@ onmessage = function (e) {
 }
 
 function callback() {
-  if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 200) {
-    var entityTable = []
+  if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 200) {
+    const entityTable = []
     /// /////////////////////////////////////////////////
-    var currentData = JSON.parse(xmlHttpRequest.responseText)
-    for (var i = currentData.length - 1; i >= 0; i--) {
-      var item = currentData[i]
-      var aqi = parseInt(item.aqi)
+    const currentData = JSON.parse(xmlHttpRequest.responseText)
+    for (let i = currentData.length - 1; i >= 0; i--) {
+      const item = currentData[i]
+      let aqi = parseInt(item.aqi)
       if (!isNumber(aqi)) {
         continue
       }
 
-      var level = 0
+      let level = 0
       if (aqi > nWidth) {
         level = 5
         aqi = nWidth - 1
@@ -87,7 +87,7 @@ function callback() {
         }
       }
 
-      var newItem = {
+      const newItem = {
         ...item,
         aqi: aqi,
         level: table[level].level,
@@ -100,7 +100,7 @@ function callback() {
     // self代表子线程自身
     self.postMessage({ currTime: currTime, entityTable: entityTable })
     self.close()
-  } else if (xmlHttpRequest.readyState == 4 && xmlHttpRequest.status == 0) {
+  } else if (xmlHttpRequest.readyState === 4 && xmlHttpRequest.status === 0) {
     self.postMessage({ currTime: currTime, entityTable: [] })
     self.close()
   }
@@ -112,7 +112,7 @@ function isNumber(obj) {
 
 function jskey() {
   return (function () {
-    var u = ""
+    let u = ""
     decodeURIComponent("%603Z3F%7BWS%3A3BSBdIRlJTySXYnmecFR%2CF%7BeSGHhkMh%3E%3E")
       .split("")
       .forEach(function (c) {

@@ -14,7 +14,7 @@
  * @author 木遥 2021-11-01
  */
 import { defineComponent, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 
 export default defineComponent({
   components: {
@@ -45,6 +45,7 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .localBtn {
+  top: auto;
   bottom: 40px;
   right: 10px;
 }

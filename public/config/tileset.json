@@ -67,7 +67,8 @@
             ["(${Classification} >= 20) && (${Classification} < 21)  ", "color('#FF6347')"]
           ]
         }
-      }
+      },
+      "center": { "lat": 31.504746, "lng": 118.264278, "alt": 580, "heading": 29, "pitch": -49 }
     },
 
     { "id": 2060, "pid": 20, "name": "BIM模型", "type": "group" },
@@ -235,7 +236,7 @@
               "classification": true,
               "buffer": 1,
               "highlight": {
-                "type":"click",
+                "type": "click",
                 "color": "rgba(255,255,0,0.4)"
               }
             }
@@ -251,7 +252,7 @@
           "type": "3dtiles",
           "name": "校园",
           "url": "//data.mars3d.cn/3dtiles/qx-xuexiao/tileset.json",
-          "position": {"alt": 15.8 },
+          "position": { "alt": 15.8 },
           "maximumScreenSpaceError": 1,
           "maximumMemoryUsage": 1024
         }

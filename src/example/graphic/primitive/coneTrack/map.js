@@ -141,7 +141,7 @@ function addGraphic03(graphicLayer) {
   ])
 
   // 飞机
-  var graphicModel = new mars3d.graphic.ModelEntity({
+  const graphicModel = new mars3d.graphic.ModelEntity({
     position: propertyFJ,
     orientation: new Cesium.VelocityOrientationProperty(propertyFJ),
     style: {
@@ -161,7 +161,7 @@ function addGraphic03(graphicLayer) {
     [116.412254, 31.021635, 1224.1],
     [116.432328, 31.045508, 804.3]
   ])
-  var graphicQC = new mars3d.graphic.PathEntity({
+  const graphicQC = new mars3d.graphic.PathEntity({
     position: propertyQC,
     orientation: new Cesium.VelocityOrientationProperty(propertyQC),
     style: {
@@ -179,7 +179,7 @@ function addGraphic03(graphicLayer) {
   graphicLayer.addGraphic(graphicQC)
 
   // 圆锥追踪体（动态position=>动态targetPosition）
-  var coneTrack = new mars3d.graphic.ConeTrackPrimitive({
+  const coneTrack = new mars3d.graphic.ConeTrackPrimitive({
     position: propertyFJ,
     // targetPosition: [116.417326, 31.046258, 841.2],
     targetPosition: propertyQC,
@@ -216,7 +216,7 @@ function getSampledPositionProperty(points) {
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   const start = map.clock.currentTime
-  const positions = mars3d.LatLngArray.toCartesians(points)
+  const positions = mars3d.LngLatArray.toCartesians(points)
   for (let i = 0; i < positions.length; i++) {
     const time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
     const position = positions[i]

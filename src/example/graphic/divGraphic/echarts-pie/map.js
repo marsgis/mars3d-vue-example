@@ -112,7 +112,7 @@ function showDivGraphic(arr) {
     const cityName = arr[i].PortName // 城市名字
     const points = [arr[i].X, arr[i].Y] // 位置
 
-    const point = mars3d.LatLngPoint.fromCartesian(points) // 经纬度坐标
+    const point = mars3d.LngLatPoint.fromCartesian(points) // 经纬度坐标
     const divPostion = point._position
 
     // 白色背景

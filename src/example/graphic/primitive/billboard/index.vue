@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import LayerState from "@comp/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 

@@ -62,7 +62,7 @@ function addGraphicDemo1(graphicLayer) {
 
 function addGraphicDemo2(graphicLayer) {
   const primitive = new mars3d.graphic.PlanePrimitive({
-    position: new mars3d.LatLngPoint(116.294498, 30.892548, 432.93),
+    position: new mars3d.LngLatPoint(116.294498, 30.892548, 432.93),
     style: {
       plane_normal: Cesium.Cartesian3.UNIT_Y,
       dimensions_x: 2000.0,

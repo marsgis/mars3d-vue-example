@@ -39,7 +39,7 @@ export function query(text) {
     text: text,
     graphic: drawGraphic,
     success: (result) => {
-      if (result.count == 0) {
+      if (result.count === 0) {
         globalMsg("未查询到相关记录！")
         return
       } else {

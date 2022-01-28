@@ -39,22 +39,16 @@ class Geolocation extends mars3d.control.ToolButton {
         })
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      var that = this
       this.geolocation.getCurrentPosition()
-
-      function onComplete(data) {
+      AMap.event.addListener(this.geolocation, "complete", (data) => {
         // data是具体的定位信息
-        var wgsPoint = mars3d.PointTrans.gcj2wgs([data.position.lng, data.position.lat])
-        that.flyToLocation({ lng: wgsPoint[0], lat: wgsPoint[1] })
-      }
-
-      function onError(data) {
+        const wgsPoint = mars3d.PointTrans.gcj2wgs([data.position.lng, data.position.lat])
+        this.flyToLocation({ lng: wgsPoint[0], lat: wgsPoint[1] })
+      })
+      AMap.event.addListener(this.geolocation, "error", (data) => {
         // 定位出错,参考：https://lbs.amap.com/faq/js-api/map-js-api/position-related
         globalMsg(data.message, "定位失败")
-      }
-      AMap.event.addListener(this.geolocation, "complete", onComplete)
-      AMap.event.addListener(this.geolocation, "error", onError)
+      })
     })
   }
 
@@ -70,7 +64,7 @@ class Geolocation extends mars3d.control.ToolButton {
     })
 
     this.clearLocationPoint()
-    var graphic = new mars3d.graphic.DivLightPoint({
+    const graphic = new mars3d.graphic.DivLightPoint({
       position: position,
       style: {
         color: "#ffff00",

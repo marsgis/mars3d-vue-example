@@ -5,6 +5,9 @@
 <script lang="ts" setup>
 const jumpUrl = (item: any) => {
   let url = process.env.BASE_URL + "editor.html?id=" + encodeURI(item.main)
+  if (process.env.EXAMPLE_MODE === "readonly") {
+    url = process.env.BASE_URL + "read.html?id=" + encodeURI(item.main)
+  }
   if (item.params) {
     url += `&${item.params}&name=${item.fullName}`
   }
@@ -12,8 +15,8 @@ const jumpUrl = (item: any) => {
 }
 </script>
 
-<style lang="less" >
-body{
+<style lang="less">
+body {
   background-color: #fff;
 }
 * {
@@ -96,9 +99,9 @@ strike {
   -khtml-user-select: none;
   user-select: none;
 }
-.i-icon-right{
+.i-icon-right {
   color: #fff;
-  opacity: .6;
+  opacity: 0.6;
 }
 .download {
   color: #d5e5f8;
@@ -106,5 +109,4 @@ strike {
     color: #91adc6;
   }
 }
-
 </style>

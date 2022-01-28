@@ -34,7 +34,7 @@
 import { ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import { Close as CloseI } from "@icon-park/vue-next"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const showClockAnimate = ref<boolean>(false)

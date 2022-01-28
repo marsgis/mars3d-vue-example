@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
 import { PauseOne, Play as PlayA, Power } from "@icon-park/vue-next"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const isPlay = ref(false)

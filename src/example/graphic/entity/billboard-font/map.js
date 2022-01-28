@@ -125,7 +125,7 @@ function centerAtModel() {
 
 function addGraphicDemo1(graphicLayer) {
   const graphic = new mars3d.graphic.FontBillboardEntity({
-    position: new mars3d.LatLngPoint(116.301798, 30.835848, 915),
+    position: new mars3d.LngLatPoint(116.301798, 30.835848, 915),
     style: {
       iconClass: "fa fa-street-view",
       iconSize: 50,

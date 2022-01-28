@@ -91,7 +91,7 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -193,15 +193,15 @@ const chkSensorType = () => {
 }
 </script>
 <style scoped lang="less">
-
 .infoView {
   width: 280px;
 }
 
 .messageShow {
-  right: 10px;
-  bottom: 50px;
-  padding: 0;
+  right: 10px !important;
+  top: 60% !important;
+  bottom: 54px;
+  padding: 0 !important;
 }
 
 th.column-money,

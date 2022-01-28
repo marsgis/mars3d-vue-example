@@ -10,7 +10,7 @@ export const mapOptions = {
   }
 }
 
-export var eventTarget = new mars3d.BaseClass()
+export const eventTarget = new mars3d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
   // 加载车辆
   queryCarListApiData()
     .then(function (res) {
-      var tableData = res.data
+      const tableData = res.data
       eventTarget.fire("loadOk", { tableData })
       showCarList(tableData)
     })
@@ -44,7 +44,7 @@ export function onUnmounted() {
   map = null
 }
 
-var colors = [
+const colors = [
   "rgb(40, 40, 255)",
   "rgb(0, 88, 176)",
   "rgb(0, 128, 255)",
@@ -78,7 +78,7 @@ function showCarList(arr) {
 
   // 鼠标移入提示信息
   graphicLayer.bindTooltip(function (event) {
-    var data = event.graphic.options
+    const data = event.graphic.options
     return "车辆编号：" + data.id + "<br />车牌号码：" + data.name
   })
 
@@ -92,7 +92,7 @@ function showCarList(arr) {
 
   // 绑定点击事件
   graphicLayer.on(mars3d.EventType.click, (event, position) => {
-    var car = event.graphic
+    const car = event.graphic
     console.log("单击了车辆", car)
 
     if (lastClickCar) {
@@ -120,16 +120,15 @@ function showCarList(arr) {
     // car.flyToPoint({ radius: 1000 })
   })
 
-  var lastClickCar
+  let lastClickCar
 
-  for (var i = 0; i < arr.length; i++) {
-    var item = arr[i]
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
 
     item.show = true
 
-    var modelParam
+    let modelParam
     switch (item.type) {
-      default:
       case 1:
         modelParam = {
           scale: 2,
@@ -142,6 +141,7 @@ function showCarList(arr) {
           url: "//data.mars3d.cn/gltf/mars/car/wajueji.glb"
         }
         break
+      default:
     }
 
     const car = new mars3d.graphic.DynamicRoamLine({
@@ -171,13 +171,13 @@ function showCarList(arr) {
 }
 
 // 取轨迹数据的时间间隔（单位：秒）
-var timeStep = 10
-var lastTime
+const timeStep = 10
+let lastTime
 // 首次获取并创建轨迹
 function createPath() {
   // 取数据的时间范围，结束时间
-  var date = Cesium.JulianDate.toDate(map.clock.currentTime)
-  var endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const date = Cesium.JulianDate.toDate(map.clock.currentTime)
+  const endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   // 修改当前时间回退一分钟，因为数据永远是当前时间之前的。
   date.setSeconds(date.getSeconds() - 60)
@@ -185,7 +185,7 @@ function createPath() {
 
   // 取数据的时间范围，开始时间
   date.setMinutes(date.getMinutes() - 10) // 初次取一定时间内的数据
-  var beginTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const beginTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   // 记录最后一次读取数据的时间
   lastTime = endTime
@@ -201,11 +201,11 @@ function createPath() {
 
 // 后续更新轨迹
 function updatePath() {
-  var beginTime = lastTime
+  const beginTime = lastTime
 
-  var date = new Date(beginTime)
+  const date = new Date(beginTime)
   date.setSeconds(date.getSeconds() + timeStep)
-  var endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
+  const endTime = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
 
   lastTime = endTime
 
@@ -217,13 +217,13 @@ function updatePath() {
 function getPathList(beginTime, endTime) {
   queryCarPathApiData()
     .then((res) => {
-      var listALL = res.data || []
+      const listALL = res.data || []
       // 因为读取静态json，为了演示动态，筛选数据内符合时间范围内的数据。
       // 真实接口中可以注释下面代码。
       const d_beginTime = new Date(beginTime)
       const d_endTime = new Date(endTime)
       const list = listALL.filter((item) => {
-        var thistime = new Date(item.time)
+        const thistime = new Date(item.time)
         return thistime >= d_beginTime && thistime <= d_endTime
       })
 
@@ -231,7 +231,7 @@ function getPathList(beginTime, endTime) {
       // 循环车辆
       graphicLayer.eachGraphic((car) => {
         // 取出对应车辆的轨迹列表
-        var path = list.filter((item) => {
+        const path = list.filter((item) => {
           return item.id === car.id
         })
 

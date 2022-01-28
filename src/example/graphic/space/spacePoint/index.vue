@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -111,6 +111,7 @@ interface FormState {
   viewContorUi: boolean
 }
 const formState: UnwrapRef<FormState> = reactive({
+  name: "",
   selXiLie: "",
   selCountry: "",
   selType: "",
@@ -290,8 +291,6 @@ const GEOSYNCHRONOUS_ORBIT = 35786
 
 const selectSatellites = () => {
   switch (formState.selGuidao) {
-    default:
-      break
     case "low":
       formState.sliApogee = [0, LOW_ORBIT]
       formState.sliPerigee = [0, LOW_ORBIT]
@@ -312,6 +311,8 @@ const selectSatellites = () => {
     case "high":
       formState.sliApogee = [GEOSYNCHRONOUS_ORBIT * 1.02, 600000]
       formState.sliPerigee = [GEOSYNCHRONOUS_ORBIT * 1.02, 500000]
+      break
+    default:
       break
   }
   mapWork.selectSatellites(formState)

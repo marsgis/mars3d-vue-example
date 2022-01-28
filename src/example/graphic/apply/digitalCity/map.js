@@ -288,7 +288,7 @@ function addCityGraphics() {
 function randomPoint() {
   const jd = random(121.500525 * 1000, 121.518298 * 1000) / 1000
   const wd = random(31.231515 * 1000, 31.24228 * 1000) / 1000
-  return new mars3d.LatLngPoint(jd, wd, 50)
+  return new mars3d.LngLatPoint(jd, wd, 50)
 }
 
 // 取随机数字

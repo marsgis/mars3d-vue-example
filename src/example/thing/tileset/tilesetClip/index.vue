@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
 import * as mapWork from "./map.js"
 

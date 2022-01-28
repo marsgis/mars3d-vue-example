@@ -128,7 +128,7 @@ function addGraphicDemo3(graphicLayer) {
 
 function addGraphicDemo4(graphicLayer) {
   const primitive = new mars3d.graphic.LabelPrimitive({
-    position: new mars3d.LatLngPoint(116.329102, 30.977955, 1548.6),
+    position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
     style: {
       text: "火星科技Mars3D平台",
       font_size: 25,
@@ -331,7 +331,7 @@ function randomPoint() {
   const jd = random(116.1 * 1000, 116.6 * 1000) / 1000
   const wd = random(30.8 * 1000, 31.1 * 1000) / 1000
   const height = random(1000, 9000)
-  return new mars3d.LatLngPoint(jd, wd, height)
+  return new mars3d.LngLatPoint(jd, wd, height)
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)

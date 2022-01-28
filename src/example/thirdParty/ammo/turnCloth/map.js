@@ -140,7 +140,7 @@ function creatDemo() {
       quat.w = 1
 
       for (let j = 0; j < numBricksHeight; j++) {
-        const oddRow = j % 2 == 1
+        const oddRow = j % 2 === 1
 
         pos.z = z0
 
@@ -152,14 +152,14 @@ function creatDemo() {
         for (let i = 0; i < nRow; i++) {
           let brickLengthCurrent = brickLength
           let brickMassCurrent = brickMass
-          if (oddRow && (i == 0 || i == nRow - 1)) {
+          if (oddRow && (i === 0 || i === nRow - 1)) {
             brickLengthCurrent *= 0.5
             brickMassCurrent *= 0.5
           }
 
           const brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
 
-          if (oddRow && (i == 0 || i == nRow - 2)) {
+          if (oddRow && (i === 0 || i === nRow - 2)) {
             pos.z += 0.75 * brickLength
           } else {
             pos.z += brickLength
@@ -342,7 +342,7 @@ function creatDemo() {
       }
 
       cloth.geometry.attributes.position.needsUpdate = true
-      if (cloth.geometry.primitiveType == Cesium.PrimitiveType.TRIANGLES) {
+      if (cloth.geometry.primitiveType === Cesium.PrimitiveType.TRIANGLES) {
         // Cesium.GeometryPipeline.computeNormal(cloth.geometry);
         GeometryUtils.computeVertexNormals(cloth.geometry)
       }

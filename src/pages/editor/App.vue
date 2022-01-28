@@ -1,25 +1,19 @@
 <template>
   <a-spin :spinning="loading" wrapperClassName="global-spin">
-    <ConfigProvider :locale="locale">
-      <mars-editor ref="editorRef" :id="id" :full-name="name">
-        <operation-pannel @childMounted="onChildMounted" />
-      </mars-editor>
-    </ConfigProvider>
+    <mars-editor ref="editorRef" :id="id" :full-name="name">
+      <operation-pannel @childMounted="onChildMounted" />
+    </mars-editor>
   </a-spin>
 </template>
 
 <script setup lang="ts">
-import zhCN from "ant-design-vue/es/locale/zh_CN"
-import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@/utils/index"
 import { getCurrentInstance, ref } from "vue"
-import OperationPannel from "@comp/marsgis/operation.vue"
+import OperationPannel from "@comp/mars-work/operation.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
 const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
-
-const locale = zhCN
 
 const loading = ref(false)
 

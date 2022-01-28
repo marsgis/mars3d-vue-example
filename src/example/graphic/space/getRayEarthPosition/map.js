@@ -119,7 +119,7 @@ function addSatellite() {
     const date = Cesium.JulianDate.toDate(map.clock.currentTime)
     weixinData.time = mars3d.Util.formatDate(date, "yyyy-MM-dd HH:mm:ss")
     if (weixin.position) {
-      const point = mars3d.LatLngPoint.fromCartesian(weixin.position)
+      const point = mars3d.LngLatPoint.fromCartesian(weixin.position)
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = mars3d.MeasureUtil.formatDistance(point.alt)

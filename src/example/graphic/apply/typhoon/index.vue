@@ -36,9 +36,7 @@
       rowKey="id"
     >
       <template #bodyCell="{ text }">
-        <template v-if="columnsPath.dataIndex === 'name'">
-          <a>{{ text }}</a>
-        </template>
+        <a>{{ text }}</a>
       </template>
     </a-table>
   </pannel>
@@ -46,7 +44,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import { setAutoHeight } from "@/utils/index"
 import * as mapWork from "./map.js"
@@ -58,7 +56,7 @@ interface typhoon {
   typnumber: string
   state: string
 }
-const columns: TableColumnType = [
+const columns: TableColumnType[] = [
   {
     title: "台风编号",
     dataIndex: "typnumber",
@@ -74,7 +72,7 @@ const columns: TableColumnType = [
   }
 ]
 
-const columnsPath: TableColumnType = [
+const columnsPath: TableColumnType[] = [
   {
     title: "时间",
     dataIndex: "time_str",

@@ -9,7 +9,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])
@@ -27,10 +27,14 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   initTree()
 })
 
-const checkedChange = (keys: string[], item: any) => {
+const checkedChange = (_keys: string[], item: any) => {
   const node = item.node
   const layer = layersObj[node.key]
   const isChildern = node.children
+
+  if (layer && !layer.show) {
+    layer.show = true
+  }
 
   if (isChildern.length === 0 && !node.checked) {
     mapWork.addLayer(layer)
@@ -65,23 +69,21 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .map((item: any) => {
-      if (item.pid === parent.id) {
-        const node: any = {
-          title: item.name,
-          key: item.id,
-          id: item.id,
-          pId: item.pid,
-          uuid: item.uuid
-        }
-        const nodeLayer = mapWork.createLayer(item) // 创建图层
-        layersObj[item.id] = nodeLayer
-        node.children = findChild(node, list)
-        expandedKeys.value.push(node.key)
-        if (item.isAdded && item.show) {
-          checkedKeys.value.push(node.key)
-        }
-        return node
+      const node: any = {
+        title: item.name,
+        key: item.id,
+        id: item.id,
+        pId: item.pid,
+        uuid: item.uuid
       }
+      const nodeLayer = mapWork.createLayer(item) // 创建图层
+      layersObj[item.id] = nodeLayer
+      node.children = findChild(node, list)
+      expandedKeys.value.push(node.key)
+      if (item.isAdded && item.show) {
+        checkedKeys.value.push(node.key)
+      }
+      return node
     })
 }
 </script>

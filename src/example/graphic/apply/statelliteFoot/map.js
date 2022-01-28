@@ -74,7 +74,7 @@ const satelliteFoot = {
     const intervalBetweenFootPrints = 40 * secondMultiplier // setInterval间隔脚印的时长
     const numberOfFootPrintsAtAtime = parseInt(90 / Math.ceil(secondMultiplier)) * 5 // 保持足迹的数量个数
 
-    const point = mars3d.LatLngPoint.fromCartesian(entity.position, map.clock.currentTime)
+    const point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
     this.drawOneFoot(point, instrumentFOV)
 
     let timeLast = map.clock.currentTime.secondsOfDay + intervalBetweenFootPrints
@@ -89,7 +89,7 @@ const satelliteFoot = {
           graphicLayer.clear()
         }
 
-        const point = mars3d.LatLngPoint.fromCartesian(entity.position, map.clock.currentTime)
+        const point = mars3d.LngLatPoint.fromCartesian(entity.position, map.clock.currentTime)
         this.drawOneFoot(point, instrumentFOV)
       }
     })

@@ -78,7 +78,7 @@ function addGraphicDemo1(graphicLayer) {
 function addGraphicDemo2(graphicLayer) {
   // 立体围墙扩散效果,圆状
   const circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
-    position: new mars3d.LatLngPoint(121.481165, 31.278668, 44.3), // 圆中心点
+    position: new mars3d.LngLatPoint(121.481165, 31.278668, 44.3), // 圆中心点
     style: {
       diffHeight: 2000, // 高度
       radius: 600, // 半径
@@ -130,7 +130,7 @@ function addGraphicDemo4(graphicLayer) {
 function addGraphicDemo5(graphicLayer) {
   let _rotation = Math.random()
   const graphic = new mars3d.graphic.CircleEntity({
-    position: new mars3d.LatLngPoint(121.526215, 31.245237, 123.5),
+    position: new mars3d.LngLatPoint(121.526215, 31.245237, 123.5),
     style: {
       radius: 700.0,
       material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleScan, {

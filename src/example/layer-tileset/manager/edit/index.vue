@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -162,7 +162,7 @@ mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
   const tiles3dLayer = event.tiles3dLayer
 
   // 取模型中心点信息
-  var locParams = tiles3dLayer.center
+  const locParams = tiles3dLayer.center
 
   if (locParams.alt < -1000 || locParams.alt > 10000) {
     locParams.alt = 0 // 高度异常数据，自动赋值高度为0
@@ -268,7 +268,7 @@ function isHaveChildren(arr: any, index: number) {
 
 // 选中节点
 const cancelTree = ref(false)
-const compModelChange = (selectedKeys: any, selected: any) => {
+const compModelChange = (_selectedKeys: any, selected: any) => {
   cancelTree.value = true
   mapWork.compModelChange(selected.node.id, selected.node.sphere)
 }
@@ -289,11 +289,12 @@ const checkedTree = () => {
   overflow: scroll;
 }
 .comp-model {
+  width: 350px;
   min-width: 200px;
   top: 10px;
   bottom: 60px;
   left: 10px;
-  max-height: 600px;
+  max-height: 700px;
   overflow-x: auto;
 }
 .ant-input {

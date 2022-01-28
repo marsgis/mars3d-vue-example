@@ -85,7 +85,7 @@ function showGeoJsonVectorTile(geojson) {
         style.fontSize = 23
       }
 
-      if (feature.properties && feature.properties.name && feature.properties.name == "合肥市") {
+      if (feature.properties && feature.properties.name && feature.properties.name === "合肥市") {
         style.fillColor = Cesium.Color.YELLOW.withAlpha(0.2)
       }
       return style

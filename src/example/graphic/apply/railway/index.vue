@@ -6,13 +6,12 @@
 
 <script lang="ts" setup>
 import { onMounted } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
 
 let myChart: any = null
-
 let option: any = null
 
 onMounted(() => {

@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
@@ -40,17 +40,16 @@ onMounted(() => {
 
 mapWork.eventTarget.on("end", function (event: any) {
   data.value = event.e
-  isShow.value = true
   nextTick(() => {
     setEchartsData(data.value)
   })
+  isShow.value = true
 })
 
 mapWork.eventTarget.on("click", function (event: any) {
   const e = event.e
   data.value = e.graphic?.measured
   if (data.value) {
-    isShow.value = true
     nextTick(() => {
       setEchartsData(data.value)
     })
@@ -64,6 +63,7 @@ const measureSection = () => {
 const clear = () => {
   mapWork.removeAll()
   isShow.value = false
+  myChart1.clear()
 }
 
 function setEchartsData(data: any) {
@@ -172,13 +172,13 @@ function setEchartsData(data: any) {
   myChart1.resize()
 
   function getMinZ(arr: any) {
-    var minz = "dataMin"
+    let minz = "dataMin"
     if (arr == null || arr.length === 0) {
       return minz
     }
 
     minz = arr[0].alt
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i].alt < minz) {
         minz = arr[i].alt
       }
@@ -189,7 +189,7 @@ function setEchartsData(data: any) {
 </script>
 <style scoped lang="less">
 .echartsBox {
-  top: auto;
+  top: auto !important;
   left: 50px;
   width: calc(100% - 60px);
   bottom: 40px;

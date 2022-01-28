@@ -8,10 +8,15 @@
     </div>
 
     <div class="f-mb infoView-content">
-      <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-        <folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开" />
-      </a-upload>
-      <disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
+      <a-space>
+        <span>文件打开/保存:</span>
+
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+          <folder-upload theme="outline" size="18" fill="#ffffff" title="打开" />
+        </a-upload>
+
+        <disk theme="outline" size="18" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
+      </a-space>
     </div>
 
     <div class="f-mb">
@@ -37,8 +42,8 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
-import GraphicEditor from "@comp/graphic-editor/index.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
+import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
 import { Disk, FolderUpload } from "@icon-park/vue-next"
 import * as mapWork from "./map.js"
 
@@ -108,7 +113,7 @@ const openGeoJSON = (info: FileInfo) => {
   const item = info.file
   const fileName = item.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     alert("文件类型不合法,请选择json格式标注文件！")
   }
   mapWork.openGeoJSON(item)
@@ -140,13 +145,13 @@ mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
 </script>
 <style scoped lang="less">
 .infoView-content {
-  top: 10px;
+  height: 20px;
   width: 210px;
+  line-height: 20px;
   background-color: rgba(32, 42, 68, 0.5);
+  overflow: hidden;
 }
-.icon {
-  margin-left: 10px;
-}
+
 .model-View {
   right: 10px;
   width: 240px;
@@ -171,5 +176,8 @@ mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   width: 100px;
   height: 90px;
   border: 1.5px solid white;
+}
+.ant-upload {
+  line-height: 0 !important;
 }
 </style>

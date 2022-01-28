@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

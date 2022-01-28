@@ -63,7 +63,7 @@ function addGraphic01(graphicLayer) {
 
 function addGraphic02(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
-    position: new mars3d.LatLngPoint(116.22457, 30.883148, 1035.2),
+    position: new mars3d.LngLatPoint(116.22457, 30.883148, 1035.2),
     style: {
       length: 2000.0,
       topRadius: 0.0,
@@ -134,7 +134,7 @@ function addGraphic05(graphicLayer) {
 
 function addGraphic06(graphicLayer) {
   // 添加卫星1
-  const point = new mars3d.LatLngPoint(116.148832, 30.920609, 9000)
+  const point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
 
   // 添加模型
   const graphicModel = new mars3d.graphic.ModelPrimitive({

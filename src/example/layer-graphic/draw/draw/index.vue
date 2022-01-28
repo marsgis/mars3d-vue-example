@@ -108,8 +108,8 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
-import GraphicEditor from "@comp/graphic-editor/index.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
+import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"
 import _ from "lodash"
 import * as mapWork from "./map.js"

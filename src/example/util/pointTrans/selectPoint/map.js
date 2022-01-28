@@ -57,7 +57,7 @@ export function bindMourseClick() {
   map.once(mars3d.EventType.click, function (event) {
     map.setCursor(false)
     const cartesian = event.cartesian
-    const point = mars3d.LatLngPoint.fromCartesian(cartesian)
+    const point = mars3d.LngLatPoint.fromCartesian(cartesian)
     point.format() // 经度、纬度、高度
 
     eventTarget.fire("clickMap", { point })

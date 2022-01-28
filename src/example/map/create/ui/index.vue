@@ -138,7 +138,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
 import { Alarm, Config, DownC, DownloadOne, Find, Planet } from "@icon-park/vue-next"
 import axios from "axios"
@@ -264,7 +264,7 @@ const onClickNotify = async () => {
 // 显示遮罩提示窗，需要手动关闭
 const onClickAlert = async () => {
   // window.$alert 返回一个Promise
-  await window.$alert(`该窗口会出现在后需要单击按钮进行关闭，会遮罩影响地图交互操作。`, "Alert提示窗")
+  await window.$alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
 
   window.$message("点击了确定按钮") // 异步单击确定后提示
 }
@@ -298,7 +298,7 @@ const onClickTopLoading = () => {
 // ========================= 表格控件相关处理============================
 
 // 表格列头
-const columns: TableColumnType = [
+const columns: TableColumnType[] = [
   {
     title: "台风编号",
     dataIndex: "typnumber",
@@ -369,7 +369,7 @@ onMounted(() => {
   const url = "/config/tileset.json"
   axios.get(url).then(function (res: any) {
     const data = res.data
-    var layers = data.layers
+    const layers = data.layers
     for (let i = layers.length - 1; i >= 0; i--) {
       const layer = mapWork.createLayer(layers[i]) // 创建图层
       if (layer && layer.pid === 20) {
@@ -392,30 +392,31 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .map((item: any) => {
-      if ((item.pid = parent.id)) {
-        const node: any = {
-          title: item.name,
-          key: item.id,
-          id: item.id,
-          pId: item.pid,
-          uuid: item.uuid
-        }
-        const nodeLayer = mapWork.createLayer(item) // 创建图层
-        layersObj[item.id] = nodeLayer
-        node.children = findChild(node, list)
-        expandedKeys.value.push(node.key)
-        if (item.isAdded && item.show) {
-          checkedKeys.value.push(node.key)
-        }
-        return node
+      const node: any = {
+        title: item.name,
+        key: item.id,
+        id: item.id,
+        pId: item.pid,
+        uuid: item.uuid
       }
+      const nodeLayer = mapWork.createLayer(item) // 创建图层
+      layersObj[item.id] = nodeLayer
+      node.children = findChild(node, list)
+      expandedKeys.value.push(node.key)
+      if (item.isAdded && item.show) {
+        checkedKeys.value.push(node.key)
+      }
+      return node
     })
 }
 
 // 勾选了树节点
 const onCheckTreeItem = (keys: string[]) => {
   Object.keys(layersObj).forEach((k) => {
-    const show = keys.indexOf(k) !== -1
+    const newKeys = keys.map((item) => {
+      return String(item)
+    })
+    const show = newKeys.indexOf(k) !== -1
     const layer = layersObj[k]
     layer.show = show
     if (show) {

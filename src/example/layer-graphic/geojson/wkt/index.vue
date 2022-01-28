@@ -8,7 +8,7 @@
   </pannel>
 </template>
 <script lang="ts" setup>
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { nextTick, ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -30,7 +30,7 @@ mapWork.treeEvent.on("tree", function (event: any) {
   initTree(event.data)
 })
 
-const checkedChange = (keys: string[], checkedNodes: any) => {
+const checkedChange = (_keys: string[], checkedNodes: any) => {
   const show = checkedNodes.checked
   const entity = layersObj[checkedNodes.node.uuid]
 

@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
- export function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
 
@@ -86,7 +86,7 @@ export function loadEarthData() {
   canvasWindLayer.speedRate = 50
   canvasWindLayer.reverseY = false // false时表示 纬度顺序从大到小
 
-  queryWindyuvApiData()
+  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windyuv.json" })
     .then(function (res) {
       if (earthWindData) {
         canvasWindLayer.data = earthWindData
@@ -113,7 +113,8 @@ export function loadDongnanData() {
   canvasWindLayer.speedRate = 85
   canvasWindLayer.reverseY = true // true时表示 纬度顺序从小到到大
 
-  queryWindpointApiData()
+  // 访问windpoint.json后端接口，取数据
+  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
     .then(function (res) {
       if (dongnanWindData) {
         canvasWindLayer.data = dongnanWindData
@@ -125,16 +126,6 @@ export function loadDongnanData() {
     .otherwise(function () {
       globalMsg("实时查询气象信息失败，请稍候再试")
     })
-}
-
-// 访问windyuv.json后端接口，取数据
-function queryWindyuvApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windyuv.json" })
-  // }
-}
-// 访问windpoint.json后端接口，取数据
-function queryWindpointApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
 }
 
 // 将数据转换为需要的格式:风向转UV

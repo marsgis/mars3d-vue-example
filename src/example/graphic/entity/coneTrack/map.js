@@ -187,7 +187,7 @@ function getSampledPositionProperty(points) {
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
 
   const start = map.clock.currentTime
-  const positions = mars3d.LatLngArray.toCartesians(points)
+  const positions = mars3d.LngLatArray.toCartesians(points)
   for (let i = 0; i < positions.length; i++) {
     const time = Cesium.JulianDate.addSeconds(start, i * 20, new Cesium.JulianDate())
     const position = positions[i]

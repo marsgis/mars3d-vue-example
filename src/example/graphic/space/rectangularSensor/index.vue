@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import DataManage from "@comp/mars-sample/data-manage.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"

@@ -29,10 +29,10 @@ export function onMounted(mapInstance) {
     layer: tilesetLayer,
     clipOutSide: false,
     edgeColor: Cesium.Color.GREY,
-    edgeWidth: 2.0
+    edgeWidth: 2.0,
+    showPlane: true
   })
   map.addThing(tilesetPlanClip)
-
 }
 
 /**

@@ -190,7 +190,7 @@ function addDemo() {
       pos.set(0, brickHeight * 0.5, z0)
       quat.set(0, 0, 0, 1)
       for (let j = 0; j < numBricksHeight; j++) {
-        const oddRow = j % 2 == 1
+        const oddRow = j % 2 === 1
 
         pos.z = z0
 
@@ -202,14 +202,14 @@ function addDemo() {
         for (let i = 0; i < nRow; i++) {
           let brickLengthCurrent = brickLength
           let brickMassCurrent = brickMass
-          if (oddRow && (i == 0 || i == nRow - 1)) {
+          if (oddRow && (i === 0 || i === nRow - 1)) {
             brickLengthCurrent *= 0.5
             brickMassCurrent *= 0.5
           }
 
           const brick = createParalellepiped(brickDepth, brickHeight, brickLengthCurrent, brickMassCurrent, pos, quat, createMaterial())
 
-          if (oddRow && (i == 0 || i == nRow - 2)) {
+          if (oddRow && (i === 0 || i === nRow - 2)) {
             pos.z += 0.75 * brickLength
           } else {
             pos.z += brickLength

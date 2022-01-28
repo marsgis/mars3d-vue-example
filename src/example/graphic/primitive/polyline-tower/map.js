@@ -157,9 +157,7 @@ function drawGuideLine(positions, color) {
     positions: positions,
     style: {
       width: 4,
-      material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.Color, {
-        color: color || "#ffff00"
-      })
+      color: color
     }
   })
   graphicLayer.addGraphic(primitive)

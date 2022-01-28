@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import dayjs from "dayjs"
 import * as mapWork from "./map.js"
 
@@ -53,7 +53,7 @@ mapWork.eventTarget.on("loadOk", (event: any) => {
   timeVal.value = currTime.value
 })
 
-mapWork.eventTarget.on("shadows", (event: any) => {
+mapWork.eventTarget.on("shadows", () => {
   timeChange()
 })
 

@@ -39,7 +39,7 @@
 import { reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import type { UnwrapRef } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
  import * as mapWork from "./map.js"
 
 interface FormState {

@@ -42,7 +42,7 @@ function addGraphics() {
 
     // let busLines = [].concat.apply([], data.map(function (busLine, idx) {
     const busLines = []
-    data.map(function (busLine, idx) {
+    data.forEach(function (busLine, idx) {
       let prevPt
       const points = []
       for (let i = 0; i < busLine.length; i += 2) {

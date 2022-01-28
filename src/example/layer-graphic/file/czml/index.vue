@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { nextTick, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { getQueryString } from "@/utils/index"
 import * as mapWork from "./map.js"
 interface treeItem {
@@ -70,7 +70,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   nextTick(() => {
     selectedKeys.value = selects
   })
-  console.log(treeData.value)
+  // console.log(treeData.value)
 })
 
 const checkedChange = (keys: any, item: any) => {
@@ -130,10 +130,10 @@ const showFireDrill = () => {
 </script>
 <style scoped lang="less">
 .treeView {
-  right: 10px;
-  top: 80px;
+  right: 10px !important;
+  top: 80px !important;
   width: 200px;
-  max-height: calc(100% - 160px);
-  overflow-y: auto;
+  max-height: calc(100% - 160px) !important;
+  overflow-y: auto !important;
 }
 </style>

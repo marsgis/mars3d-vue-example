@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as echarts from "echarts"
 
 const ring = ref()
@@ -84,8 +84,8 @@ onMounted(() => {
 
 function initEcharts() {
   // 饼形图
-  var myChart = echarts.init(ring.value)
-  var option = {
+  const myChart = echarts.init(ring.value)
+  const option = {
     backgroundColor: "transparent",
     legend: {
       show: false,
@@ -198,8 +198,8 @@ function initEcharts() {
   myChart.setOption(option)
 
   // 柱状图
-  var myChart2 = echarts.init(bar.value, "dark")
-  var option2 = {
+  const myChart2 = echarts.init(bar.value, "dark")
+  const option2 = {
     backgroundColor: "transparent",
 
     tooltip: {
@@ -332,7 +332,7 @@ function initEcharts() {
 
   // 折线图
   const myChart3 = echarts.init(line.value, "dark")
-  var option3 = {
+  const option3 = {
     backgroundColor: "transparent",
 
     tooltip: {

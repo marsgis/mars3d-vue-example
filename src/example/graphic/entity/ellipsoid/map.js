@@ -158,7 +158,7 @@ function addGraphic01(graphicLayer) {
 //
 function addGraphic02(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.2, 31.0, 1000),
+    position: new mars3d.LngLatPoint(116.2, 31.0, 1000),
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2500.0, 1000.0),
       color: Cesium.Color.RED.withAlpha(0.5),
@@ -171,7 +171,7 @@ function addGraphic02(graphicLayer) {
 
 function addGraphic03(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.307258, 30.999546, 1239.2),
+    position: new mars3d.LngLatPoint(116.307258, 30.999546, 1239.2),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       maximumConeDegree: 90,
@@ -255,7 +255,7 @@ function addGraphic05(graphicLayer) {
 // 半圆顶球体
 function addGraphic06(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.2, 30.9, 1000),
+    position: new mars3d.LngLatPoint(116.2, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       maximumConeDegree: 90,
@@ -269,7 +269,7 @@ function addGraphic06(graphicLayer) {
 // 含内半径 半圆顶球体
 function addGraphic07(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.3, 30.9, 1000),
+    position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2500.0, 2000.0, 1500.0),
       innerRadii: new Cesium.Cartesian3(1000.0, 800.0, 600.0),
@@ -284,7 +284,7 @@ function addGraphic07(graphicLayer) {
 // 被切开的含内半径 半圆顶球体
 function addGraphic08(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.4, 30.9, 1000),
+    position: new mars3d.LngLatPoint(116.4, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       innerRadii: new Cesium.Cartesian3(1000.0, 1000.0, 1000.0),
@@ -300,7 +300,7 @@ function addGraphic08(graphicLayer) {
 // 顶部和底部切出的桶形体
 function addGraphic09(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.5, 30.9, 1000),
+    position: new mars3d.LngLatPoint(116.5, 30.9, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       innerRadii: new Cesium.Cartesian3(1000.0, 1000.0, 1000.0),
@@ -316,7 +316,7 @@ function addGraphic09(graphicLayer) {
 // 碗行体
 function addGraphic10(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.1, 30.8, 1000),
+    position: new mars3d.LngLatPoint(116.1, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       innerRadii: new Cesium.Cartesian3(1800.0, 1800.0, 1800.0),
@@ -331,7 +331,7 @@ function addGraphic10(graphicLayer) {
 // 时钟开孔
 function addGraphic11(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.2, 30.8, 1000),
+    position: new mars3d.LngLatPoint(116.2, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       innerRadii: new Cesium.Cartesian3(1500.0, 1500.0, 1500.0),
@@ -349,7 +349,7 @@ function addGraphic11(graphicLayer) {
 // 局部圆顶
 function addGraphic12(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.3, 30.8, 1000),
+    position: new mars3d.LngLatPoint(116.3, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       minimumClockDegree: -90.0,
@@ -365,7 +365,7 @@ function addGraphic12(graphicLayer) {
 // 部分椭圆体
 function addGraphic13(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
-    position: new mars3d.LatLngPoint(116.4, 30.8, 1000),
+    position: new mars3d.LngLatPoint(116.4, 30.8, 1000),
     style: {
       radii: new Cesium.Cartesian3(3000.0, 3000.0, 3000.0),
       innerRadii: new Cesium.Cartesian3(700.0, 700.0, 700.0),
@@ -381,7 +381,7 @@ function addGraphic13(graphicLayer) {
 
 // 土星综合对象
 function addGraphic14(graphicLayer) {
-  const position = new mars3d.LatLngPoint(116.5, 30.8, 1000)
+  const position = new mars3d.LngLatPoint(116.5, 30.8, 1000)
   const graphic = new mars3d.graphic.EllipsoidEntity({
     name: "土星",
     position: position,
@@ -608,12 +608,12 @@ function expFile() {
 function impFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     globalMsg("文件类型不合法,请选择json格式标注文件！")
     return
   }
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -622,7 +622,7 @@ function impFile(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -660,7 +660,7 @@ function impFile(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
     kgUtil.toGeoJSON(file).then((geojson) => {

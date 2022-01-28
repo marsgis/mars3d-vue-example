@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
  import * as mapWork from "./map.js"
 
 
@@ -41,7 +41,7 @@ onMounted(() => {
   initTree()
 })
 
-const checkedChange = (keys: string[], checkedNodes: any) => {
+const checkedChange = (_keys: string[], checkedNodes: any) => {
   const show = checkedNodes.checked
   const entity = layersObj[checkedNodes.node.id]
 
@@ -129,11 +129,11 @@ const showSafetyNotice = () => {
 </script>
 <style scoped lang="less">
 .manager-pannel {
-  top: 100px;
-  right: 10px;
+  top: 100px !important;
+  right: 10px !important;
   width: 220px;
-  max-height: calc(100% - 138px);
-  overflow-y: auto;
+  max-height: calc(100% - 138px) !important;
+  overflow-y: auto !important;
 }
 :deep(.ant-form-item) {
   margin-bottom: 10px;

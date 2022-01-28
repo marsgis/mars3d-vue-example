@@ -69,10 +69,10 @@ export function onUnmounted() {
 
 function onMap_clockTick() {
   endTimestamp = new Date().getTime()
-  if (bWorking == false) {
+  if (bWorking === false) {
     const extent = map.getExtent()
     const bbox = extent.ymin + "," + extent.xmin + "," + extent.ymax + "," + extent.xmax
-    if (bbox != lastExtent) {
+    if (bbox !== lastExtent) {
       startWorker(bbox)
       lastExtent = bbox
     }
@@ -97,7 +97,7 @@ function startWorker(strBounds) {
     // Worker返回的结果。
     currentData = event.data.entityTable
     const currTime = event.data.currTime
-    if (currentData.length != 0 && currTime > startTimestamp) {
+    if (currentData.length !== 0 && currTime > startTimestamp) {
       createGraphics(currentData)
     }
 

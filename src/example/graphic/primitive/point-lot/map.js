@@ -67,7 +67,7 @@ function creteaPointPrimitive(graphicLayer, rs) {
   for (let i = 1, len = rs.length; i < len; i++) {
     const item = rs[i]
 
-    if (item[2] != 2) { continue } // 只展示一层
+    if (item[2] !== 2) { continue } // 只展示一层
 
 
     const val = item[3]

@@ -83,7 +83,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"

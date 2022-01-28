@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { DownC } from "@icon-park/vue-next"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"

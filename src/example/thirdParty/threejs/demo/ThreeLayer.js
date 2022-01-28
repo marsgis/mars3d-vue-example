@@ -100,8 +100,8 @@ class ThreeLayer extends BaseLayer {
   }
 
   renderThreeObj () {
-    var width = this._container.clientWidth
-    var height = this._container.clientHeight
+    const width = this._container.clientWidth
+    const height = this._container.clientHeight
     this.renderer.setSize(width, height)
     this.renderer.render(this.scene, this.camera)
   }
@@ -118,8 +118,8 @@ class ThreeLayer extends BaseLayer {
 
     this.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    var cvm = this._map.camera.viewMatrix
-    var civm = this._map.camera.inverseViewMatrix
+    const cvm = this._map.camera.viewMatrix
+    const civm = this._map.camera.inverseViewMatrix
 
     this.camera.matrixWorld.set(
       civm[0],
@@ -159,8 +159,8 @@ class ThreeLayer extends BaseLayer {
       cvm[15]
     )
 
-    var width = this._map.scene.canvas.clientWidth
-    var height = this._map.scene.canvas.clientHeight
+    const width = this._map.scene.canvas.clientWidth
+    const height = this._map.scene.canvas.clientHeight
     this.camera.aspect = width / height
     this.renderer.setSize(width, height)
     this.camera.updateProjectionMatrix()

@@ -79,7 +79,7 @@ function addGraphics() {
 function randomPoint() {
   const jd = random(117.208056 * 1000, 117.25548 * 1000) / 1000
   const wd = random(31.816617 * 1000, 31.855756 * 1000) / 1000
-  return new mars3d.LatLngPoint(jd, wd, 100)
+  return new mars3d.LngLatPoint(jd, wd, 100)
 }
 
 // 取随机数字

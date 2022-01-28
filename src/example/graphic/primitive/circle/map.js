@@ -69,7 +69,7 @@ function addGraphicDemo1(graphicLayer) {
 
 function addGraphicDemo2(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
-    position: new mars3d.LatLngPoint(116.329199, 30.881595, 390.3),
+    position: new mars3d.LngLatPoint(116.329199, 30.881595, 390.3),
     style: {
       radius: 1500.0,
       image: "img/textures/excavate_bottom_min.jpg"
@@ -80,7 +80,7 @@ function addGraphicDemo2(graphicLayer) {
 
 function addGraphicDemo3(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
-    position: new mars3d.LatLngPoint(116.392526, 30.903729, 933.55),
+    position: new mars3d.LngLatPoint(116.392526, 30.903729, 933.55),
     style: {
       radius: 1500.0,
       material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.CircleWave, {
@@ -109,7 +109,7 @@ function addGraphicDemo4(graphicLayer) {
 
 function addGraphicDemo5(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
-    position: new mars3d.LatLngPoint(116.37617, 30.847384, 396.12),
+    position: new mars3d.LngLatPoint(116.37617, 30.847384, 396.12),
     style: {
       radius: 900.0,
       material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.CircleWave, {
@@ -125,7 +125,7 @@ function addGraphicDemo5(graphicLayer) {
 
 function addGraphicDemo6(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
-    position: new mars3d.LatLngPoint(116.258301, 30.979046, 1483.7),
+    position: new mars3d.LngLatPoint(116.258301, 30.979046, 1483.7),
     style: {
       radius: 1200.0,
       clampToGround: true,
@@ -140,7 +140,7 @@ function addGraphicDemo6(graphicLayer) {
 
 function addGraphicDemo7(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
-    position: new mars3d.LatLngPoint(116.318342, 30.972578, 1431.9),
+    position: new mars3d.LngLatPoint(116.318342, 30.972578, 1431.9),
     style: {
       radius: 1200.0,
       clampToGround: true,

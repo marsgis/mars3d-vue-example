@@ -143,7 +143,7 @@ export function endPoint() {
 
 // 开始分析
 export function btnAnalyse(count) {
-  if (!startGraphic || !endPointArr || endPointArr.length == 0) {
+  if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
   }
@@ -289,7 +289,7 @@ function formatTime(strtime) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
     const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
+    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
     return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"

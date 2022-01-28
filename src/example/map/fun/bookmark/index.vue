@@ -11,7 +11,7 @@
         <img class="markImg" :src="value.img" @click="flytoView(value)" v-show="formState.noFound == true" />
         <p>{{ value.name }}</p>
         <mars-button class="deleteImg" @click="butDeleteTxtName(index)" v-show="formState.noFound == true">
-          <img src="img/icon/delete.svg" />
+          <img src="/img/icon/delete.svg" />
         </mars-button>
       </div>
     </div>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({
@@ -64,8 +64,8 @@ const butAddTxtName = () => {
 
   // 不能使用相同名称
   if (name) {
-    for (var i = 0; i < imgObject.length; i++) {
-      if (imgObject[i].name == name) {
+    for (let i = 0; i < imgObject.length; i++) {
+      if (imgObject[i].name === name) {
         window.$message(name + " 已存在，请更换名称!")
         return
       }
@@ -97,7 +97,7 @@ const flytoView = (val: any) => {
 const butDeleteTxtName = (index: number) => {
   formState.imgObject.splice(index, 1)
 
-  if (formState.imgObject.length == 0) {
+  if (formState.imgObject.length === 0) {
     formState.imgObject = [{ id: 0, name: "没有匹配的值", img: "", center: "" }]
     formState.noFound = false
     formState.found = true

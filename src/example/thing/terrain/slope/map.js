@@ -27,21 +27,14 @@ export function onUnmounted() {
 function addSlope() {
   // 剖度坡向
   slope = new mars3d.thing.Slope({
-    point: {
-      show: true,
-      pixelSize: 9,
-      color: Cesium.Color.RED.withAlpha(0.5)
-      // disableDepthTestDistance: Number.POSITIVE_INFINITY,
-    },
     arrow: {
-      show: true,
       scale: 0.3, // 箭头长度的比例（范围0.1-0.9）
+      color: Cesium.Color.YELLOW,
       width: 15, // 箭头宽度
-      color: Cesium.Color.YELLOW
+      show: true
     },
     tooltip: function (event) {
-      // 自定义显示内容
-      const attr = event.czmObject.attr
+      const attr = event.graphic?.attr
       return `坡度: ${attr.slopeStr1}  (${attr.slopeStr2})<br />坡向: ${attr.direction}°`
     }
   })
@@ -61,7 +54,8 @@ function addSlope() {
   // 渲染效果
   contourLine = new mars3d.thing.ContourLine({
     contourShow: false, // 是否显示等高线
-    shadingType: "none" // 地表渲染效果类型:无nono, 高程 elevation, 坡度slope, 坡向aspect
+    shadingType: "none", // 地表渲染效果类型:无nono, 高程 elevation, 坡度slope, 坡向aspect
+    shadingAlpha: 0.6 /// 地表渲染的透明度
   })
   map.addThing(contourLine)
 }

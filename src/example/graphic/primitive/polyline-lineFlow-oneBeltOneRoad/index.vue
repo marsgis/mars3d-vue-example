@@ -29,18 +29,16 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 </script>
 <style scoped lang="less">
 .mars-load-legend {
-  position: absolute;
-  bottom: 40px;
-  right: 10px;
+  position: absolute !important;
+  top: 658px !important;
+  right: 10px !important;
   width: 300px;
+  height: 200px;
   box-sizing: border-box;
-  border: 1px solid rgba(0, 153, 255, 0.5);
-  background: rgba(12, 22, 53, 0.6);
-  padding: 10px;
 }
 
 .mars-load-head {

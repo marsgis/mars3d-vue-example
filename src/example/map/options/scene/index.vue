@@ -7,7 +7,7 @@
         </template>
 
         <!-- select下拉选择 -->
-        <template v-if="column.dataIndex === 'operation'" :model="formState1">
+        <template v-if="column.dataIndex === 'operation'">
           <mars-select
             v-if="data[index].operation === 'select'"
             v-model:value= "scene"
@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { TableColumnType } from "ant-design-vue"
 import { setAutoHeight } from "@/utils/index"
 import * as mapWork from "./map.js"
@@ -71,7 +71,7 @@ const data = ref([
     operation: "checked",
     value: "2",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("highDynamicRange", true)
       } else {
         mapWork.setSceneOptions("highDynamicRange", false)
@@ -85,7 +85,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("fxaa", true)
       } else {
         mapWork.setSceneOptions("fxaa", false)
@@ -99,7 +99,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("showSun", true)
       } else {
         mapWork.setSceneOptions("showSun", false)
@@ -113,7 +113,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("showMoon", true)
       } else {
         mapWork.setSceneOptions("showMoon", false)
@@ -127,7 +127,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("showSkyBox", true)
       } else {
         mapWork.setSceneOptions("showSkyBox", false)
@@ -151,7 +151,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("showSkyAtmosphere", true)
       } else {
         mapWork.setSceneOptions("showSkyAtmosphere", false)
@@ -165,7 +165,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneOptions("fog", true)
       } else {
         mapWork.setSceneOptions("fog", false)
@@ -192,7 +192,7 @@ const data = ref([
     operation: "checked",
     value: "2",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneGlobeOptions("enableLighting", true)
       } else {
         mapWork.setSceneGlobeOptions("enableLighting", false)
@@ -206,7 +206,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneGlobeOptions("showGroundAtmosphere", true)
       } else {
         mapWork.setSceneGlobeOptions("showGroundAtmosphere", false)
@@ -220,7 +220,7 @@ const data = ref([
     operation: "checked",
     value: "2",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneGlobeOptions("depthTestAgainstTerrain", true)
       } else {
         mapWork.setSceneGlobeOptions("depthTestAgainstTerrain", false)
@@ -254,7 +254,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("enableZoom", true)
       } else {
         mapWork.setSceneCameraControllerOptions("enableZoom", false)
@@ -268,7 +268,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("enableTilt", true)
       } else {
         mapWork.setSceneCameraControllerOptions("enableTilt", false)
@@ -282,7 +282,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("enableRotate", true)
       } else {
         mapWork.setSceneCameraControllerOptions("enableRotate", false)
@@ -296,7 +296,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("enableTranslate", true)
       } else {
         mapWork.setSceneCameraControllerOptions("enableTranslate", false)
@@ -306,14 +306,14 @@ const data = ref([
   {
     key: "20",
     name: "鼠标交互",
-    describe: "可操作南北极",
+    describe: "南北极绕轴心旋转",
     operation: "checked",
-    value: "2",
+    value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
-        mapWork.setSceneCameraControllerOptions("constrainedAxis", false)
-      } else {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("constrainedAxis", true)
+      } else {
+        mapWork.setSceneCameraControllerOptions("constrainedAxis", false)
       }
     }
   },
@@ -324,7 +324,7 @@ const data = ref([
     operation: "checked",
     value: "1",
     change(index: number) {
-      if (Number(data.value[index].value) == 1) {
+      if (Number(data.value[index].value) === 1) {
         mapWork.setSceneCameraControllerOptions("enableCollisionDetection", true)
       } else {
         mapWork.setSceneCameraControllerOptions("enableCollisionDetection", false)
@@ -367,7 +367,7 @@ const data = ref([
     max: 90000000,
     step: 1000,
     change(index: number) {
-      mapWork.setSceneCameraControllerOptions("minimumZoomDistance", data.value[index].value)
+      mapWork.setSceneCameraControllerOptions("maximumZoomDistance", data.value[index].value)
     }
   },
   {

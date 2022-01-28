@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const groupName = ref<any>("火箭整体")
@@ -42,7 +42,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
 let selectedGroup: any
 
 // 下拉列表切换，更新参数输入面板
-const onChangeGroup = (value: any, option: any) => {
+const onChangeGroup = (_value: any, option: any) => {
   selectedGroup = option
   currStates.value = option.states
 }

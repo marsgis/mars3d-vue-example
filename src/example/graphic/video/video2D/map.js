@@ -3,12 +3,14 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let selectedView
 let graphicLayer
-let videoElement
+
+// 事件对象，用于抛出事件给vue
+export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.844047, lng: 117.205448, alt: 126, heading: 175, pitch: -26 }
+    center: { lat: 31.844146, lng: 117.20555, alt: 125, heading: 184, pitch: -17 }
   }
 }
 
@@ -32,8 +34,6 @@ export function onUnmounted() {
 }
 
 function addModel() {
-  createVideoDom()
-
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
@@ -53,18 +53,9 @@ function addModel() {
     selectedView = event.graphic
     console.log("监听layer，单击了矢量对象", event)
   })
-  // graphicLayer.on(mars3d.EventType.mouseOver, function(event) {
-  //   console.log('监听layer，鼠标移入了矢量对象', event)
-  // })
-  // graphicLayer.on(mars3d.EventType.mouseOut, function(event) {
-  //   console.log('监听layer，鼠标移出了矢量对象', event)
-  // })
 
   // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   graphicLayer.bindPopup("我是layer上绑定的Popup")
-
-  // 可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
-  // graphicLayer.bindTooltip('我是layer上绑定的Tooltip')
 
   // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
   graphicLayer.bindContextMenu([
@@ -84,46 +75,90 @@ function addModel() {
   addGraphic01()
 }
 
-function createVideoDom() {
-  videoElement = mars3d.DomUtil.create("video", "", document.body)
-  videoElement.setAttribute("muted", "muted")
-  videoElement.setAttribute("autoplay", "autoplay")
-  videoElement.setAttribute("loop", "loop")
-  videoElement.setAttribute("crossorigin", "")
-  videoElement.setAttribute("controls", "")
-  videoElement.style.display = "none"
-
-  const sourceContainer = mars3d.DomUtil.create("source", "", videoElement)
-  sourceContainer.setAttribute("src", "//data.mars3d.cn/file/video/duimian.mp4")
-  sourceContainer.setAttribute("type", "video/mp4")
-}
-
-// 投射视频
-export function addVideo(dis) {
+// 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
+function addGraphic01() {
   const video2D = new mars3d.graphic.Video2D({
-    dom: videoElement,
+    position: [117.205459, 31.842988, 64.3],
     style: {
-      aspectRatio: map.scene.camera.frustum.aspectRatio,
-      fov: map.scene.camera.frustum.fov,
-      dis: dis
+      url: "//data.mars3d.cn/file/video/duimian.mp4",
+      angle: 46.3,
+      angle2: 15.5,
+      heading: 178.5,
+      pitch: 8.2,
+      distance: 78,
+      showFrustum: true
     }
   })
   graphicLayer.addGraphic(video2D)
 
   selectedView = video2D // 记录下
+
+  eventTarget.fire("loadVideo", {
+    value: {
+      cameraAngle: selectedView.angle,
+      cameraAngle2: selectedView.angle2,
+      heading: selectedView.heading,
+      pitchValue: selectedView.pitch,
+      distanceValue: selectedView.distance,
+      opcity: selectedView.opacity,
+      ckdFrustum: selectedView.showFrustum
+    }
+  })
 }
 
-// 投射图片
-export function addImg(dis) {
-  const video2D = new mars3d.graphic.Video2D({
+// 投射视频
+export function addVideo(data) {
+  // 开始绘制
+  graphicLayer.startDraw({
+    type: "video2D",
     style: {
-      material: "img/tietu/gugong.jpg", // 不传入dom时，也可以传入任意polygon支持的材质对象
-      aspectRatio: map.scene.camera.frustum.aspectRatio,
-      fov: map.scene.camera.frustum.fov,
-      dis: dis
+      url: "//data.mars3d.cn/file/video/lukou.mp4",
+      angle: data.cameraAngle,
+      angle2: data.cameraAngle2,
+      heading: data.heading,
+      pitch: data.pitchValue,
+      distance: data.distanceValue,
+      showFrustum: data.ckdFrustum
+    },
+    success: function (graphic) {
+      console.log("绘制完成", graphic)
+
+      selectedView = graphic // 记录下
+    }
+  })
+}
+
+// 按当前相机投射视频
+export function addThisCamera(data) {
+  // 取屏幕中心点
+  const targetPosition = map.getCenter({ format: false })
+  if (!targetPosition) {
+    return
+  }
+
+  const cameraPosition = Cesium.clone(map.camera.position)
+
+  const fov = Cesium.Math.toDegrees(map.camera.frustum.fov) / 2 // 相机水平张角
+  const aspectRatio = map.scene.canvas.clientWidth / map.scene.canvas.clientHeight // 获取canvas宽高
+
+  // 构造投射体
+  const video2D = new mars3d.graphic.Video2D({
+    position: cameraPosition,
+    targetPosition: targetPosition,
+    style: {
+      url: "//data.mars3d.cn/file/video/lukou.mp4",
+      angle: data.cameraAngle,
+      angle2: data.cameraAngle2,
+      heading: data.heading,
+      pitch: data.pitchValue,
+      distance: data.distanceValue,
+      opacity: data.opcity,
+      showFrustum: data.showFrustum
     }
   })
   graphicLayer.addGraphic(video2D)
+
+  selectedView = video2D // 记录下
 }
 // 清除
 export function clear() {
@@ -131,63 +166,58 @@ export function clear() {
   selectedView = null
 }
 
-// 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic01() {
-  const video2D = new mars3d.graphic.Video2D({
-    dom: videoElement,
-    position: [117.205459, 31.842988, 64.3],
-    style: {
-      camera: {
-        direction: { x: -0.20300781957546601, y: 0.3881445982693198, z: -0.8989613985180693 },
-        up: { x: -0.41112481743883666, y: 0.7994469141644973, z: 0.43801942413407347 },
-        right: { x: 0.8886867894129509, y: 0.4585067090754624, z: -0.0027180978075245542 }
-      },
-      dis: 70,
-      fovDegree: 52,
-      aspectRatio: 3,
-      stRotationDegree: 0
-    },
-    showFrustum: true
-  })
-  graphicLayer.addGraphic(video2D)
-
-  selectedView = video2D // 记录下
-}
-
-/**
- * 参数改变
- *
- * @export
- * @param {number} fovDegree 视角水平张角
- * @param {number} aspectRatio 视角宽高比例
- * @param {number} dis 视角距离
- * @returns {void}
- */
-export function updateParams(fovDegree, aspectRatio, dis) {
-  if (!selectedView) {
-    return
-  }
-  selectedView.aspectRatio = aspectRatio
-  selectedView.dis = dis
-  selectedView.fovDegree = fovDegree
-}
-
 // 播放暂停
 export function playOrpause() {
   selectedView.play = !selectedView.play
 }
 
-/**
- *
- * @export
- * @param {boolean} isCheckde 线框是否显示
- * @returns {void}
- */
-export function showFrustum(isCheckde) {
-  if (!selectedView) {
-    return
+// 修改水平角度
+export function onChangeAngle(value) {
+  if (selectedView) {
+    selectedView.angle = value
   }
-  selectedView.showFrustum = isCheckde
+}
+
+// 修改垂直角度
+export function onChangeAngle2(value) {
+  if (selectedView) {
+    selectedView.angle2 = value
+  }
+}
+
+// 修改投射距离
+export function onChangeDistance(value) {
+  if (selectedView) {
+    selectedView.distance = value
+  }
+}
+
+// 修改四周距离 value 修改后的数值
+export function onChangeHeading(value) {
+  if (selectedView) {
+    selectedView.heading = value
+  }
+}
+
+//  修改俯仰角数值   value 修改后的数值
+export function onChangePitch(value) {
+  if (selectedView) {
+    selectedView.pitch = value
+  }
+}
+
+//   线框是否显示   isCheckde 修改后的数值
+export function showFrustum(isCheckde) {
+  if (selectedView) {
+    selectedView.showFrustum = isCheckde
+  }
+}
+
+// 修改视频的透明度   opacity 透明度数值
+export function onChangeOpacity(opacity) {
+  if (selectedView) {
+    selectedView.opacity = opacity
+  }
 }
 
 /**
@@ -197,84 +227,29 @@ export function showFrustum(isCheckde) {
  * @returns {void}
  */
 export function rotateDeg(num) {
-  if (!selectedView) {
-    return
+  if (selectedView) {
+    selectedView.setStyle({ stRotationDegree: num })
   }
-  selectedView.stRotation = Cesium.Math.toRadians(num)
 }
 
-export function bindEvnet(step) {
-  document.addEventListener(
-    "keydown",
-    function (e) {
-      switch (e.keyCode) {
-        default:
-          break
-        case "A".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.LEFT, step)
-          break
-        case "D".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.RIGHT, step)
-          break
-        case "W".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.TOP, step)
-          break
-        case "S".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.BOTTOM, step)
-          break
-        case "Q".charCodeAt(0): // Q键
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.ALONG, step)
-          break
-        case "E".charCodeAt(0): // E
-          rotateCamera(mars3d.graphic.Video2D.RatateDirection.INVERSE, step)
-          break
-      }
-    },
-    false
-  )
-}
-// 定位至视频位置
+// 视角定位
 export function locate() {
-  if (!selectedView) {
-    return
+  if (selectedView) {
+    selectedView.setView()
   }
-  selectedView.flyTo()
 }
 
 // 打印参数
 export function printParameters() {
-  if (!selectedView) {
-    return
+  if (selectedView) {
+    const params = selectedView.toJSON()
+    console.log(JSON.stringify(params))
   }
-  const params = selectedView.toJSON()
-  console.log(JSON.stringify(params))
 }
 
-// 微调视频
-function rotateCamera(dir, adjustVal) {
-  if (!selectedView) {
-    return
-  }
-  selectedView.rotateCamera(dir, adjustVal)
-}
-
-/**
- *
- * @export
- * @param {boolean} isFollow 相机是否跟随
- * @returns {void} 无
- */
-export function cameraFollow(isFollow) {
-  if (isFollow) {
-    map.camera.direction = selectedView.style.camera.direction
-    map.camera.right = selectedView.style.camera.right
-    map.camera.up = selectedView.style.camera.up
-    map.camera.position = selectedView.position
-  }
-}
 // 视频位置
 export function selCamera() {
-  if (selectedView == null) {
+  if (!selectedView) {
     return
   }
 
@@ -285,6 +260,23 @@ export function selCamera() {
       graphic.remove() // 删除绘制的点
 
       selectedView.position = point
+    }
+  })
+}
+
+// 四周视角选点
+export function onClickSelView() {
+  if (!selectedView) {
+    return
+  }
+
+  map.graphicLayer.startDraw({
+    type: "point",
+    success: (graphic) => {
+      const point = graphic.point
+      graphic.remove() // 删除绘制的点
+
+      selectedView.targetPosition = point
     }
   })
 }

@@ -28,7 +28,7 @@ function initMap(options) {
   map.addControl(clockAnimate)
 
   clockAnimate.on(mars3d.EventType.click, function (event) {
-    if (event.targetType == "label") {
+    if (event.targetType === "label") {
       console.log("单击了时间文本区域", event)
       const startTime = Cesium.JulianDate.toDate(map.clock.startTime)
       const stopTime = Cesium.JulianDate.toDate(map.clock.stopTime)

@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
-import GraphicEditor from "@comp/graphic-editor/index.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
+import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
 import LocationTo from "@comp/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
@@ -153,7 +153,7 @@ const btnImpFile = (info: FileInfo) => {
   const fileName = item.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
-  if (fileType != "json") {
+  if (fileType !== "json") {
     window.$message("文件类型不合法,请选择json格式标注文件！")
   }
   mapWork.btnImpFile(item)

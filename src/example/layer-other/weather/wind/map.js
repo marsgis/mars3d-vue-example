@@ -36,8 +36,8 @@ export function onUnmounted() {
 let windLayer
 function addLayer() {
   windLayer = new mars3d.layer.WindLayer({
-    maxParticles: 9000,
-    particleHeight: 1.0,
+    particlesNumber: 9000,
+    fixedHeight: 0.0,
     fadeOpacity: 0.996,
     dropRate: 0.003,
     dropRateBump: 0.01,
@@ -46,7 +46,7 @@ function addLayer() {
   })
   map.addLayer(windLayer)
 
-  DataProcess.loadData("//data.mars3d.cn/file/apidemo/wind.nc", "//data.mars3d.cn/file/apidemo/windColor.json").then((data) => {
+  loadNetCDF("//data.mars3d.cn/file/apidemo/wind.nc").then((data) => {
     windLayer.setData(data)
   })
 }
@@ -54,8 +54,8 @@ function addLayer() {
 // 参数调整面板
 export function onParticleSystemOptionsChange(options) {
   const option = {
-    maxParticles: options.maxParticles,
-    particleHeight: options.particleHeight,
+    particlesNumber: options.particlesNumber,
+    fixedHeight: options.fixedHeight,
     fadeOpacity: options.fadeOpacity,
     dropRate: options.dropRate,
     dropRateBump: options.dropRateBump,
@@ -65,112 +65,74 @@ export function onParticleSystemOptionsChange(options) {
   windLayer.setOptions(option)
 }
 
-// 数据加载类
-const DataProcess = (function () {
-  let data
+// 色带配置
+const colors = [
+  "rgb(4,14,216)",
+  "rgb(32,80,255)",
+  "rgb(65,150,255)",
+  "rgb(109,193,255)",
+  "rgb(134,217,255)",
+  "rgb(156,238,255)",
+  "rgb(175,245,255)",
+  "rgb(206,255,255)",
+  "rgb(255,254,71)",
+  "rgb(255,235,0)",
+  "rgb(255,196,0)",
+  "rgb(255,144,0)",
+  "rgb(255,72,0)",
+  "rgb(255,0,0)",
+  "rgb(213,0,0)",
+  "rgb(158,0,0)"
+]
 
-  const loadNetCDF = function (filePath) {
-    return new Promise(function (resolve) {
-      const request = new XMLHttpRequest()
-      request.open("GET", filePath)
-      request.responseType = "arraybuffer"
+// 加载并解析NC数据
+function loadNetCDF(filePath) {
+  return new Promise(function (resolve) {
+    const request = new XMLHttpRequest()
+    request.open("GET", filePath)
+    request.responseType = "arraybuffer"
 
-      request.onload = function () {
-        const arrayToMap = function (array) {
-          return array.reduce(function (map, object) {
-            map[object.name] = object
-            return map
-          }, {})
-        }
-
-        // eslint-disable-next-line new-cap
-        const NetCDF = new netcdfjs(request.response)
-        const dimensions = arrayToMap(NetCDF.dimensions)
-
-        const variables = arrayToMap(NetCDF.variables)
-        const uAttributes = arrayToMap(variables.U.attributes) //
-        const vAttributes = arrayToMap(variables.V.attributes)
-
-        const arrLon = NetCDF.getDataVariable("lon").flat()
-        const arrLat = NetCDF.getDataVariable("lat").flat()
-        const arrLev = [1] // NetCDF.getDataVariable('lev').flat()
-
-        const arrU = NetCDF.getDataVariable("U").flat()
-        const maxU = uAttributes.max.value
-        const minU = uAttributes.min.value
-
-        const arrV = NetCDF.getDataVariable("V").flat()
-        const maxV = vAttributes.max.value
-        const minV = vAttributes.min.value
-
-        data = {}
-        data.dimensions = {} // dimensions: {lon: 720, lat: 361, lev: 1}
-        data.dimensions.lon = arrLon.length
-        data.dimensions.lat = arrLat.length
-        data.dimensions.lev = arrLev.length
-
-        data.lon = {} // lon: {min: 0, max: 359.5}
-        data.lon.min = Math.min(...arrLon)
-        data.lon.max = Math.max(...arrLon)
-
-        data.lat = {} // lat: {min: -90, max: 90}
-        data.lat.min = Math.min(...arrLat)
-        data.lat.max = Math.max(...arrLat)
-
-        data.lev = {} // lev: {min: 1, max: 1}
-        data.lev.min = Math.min(...arrLev)
-        data.lev.max = Math.max(...arrLev)
-
-        data.U = {}
-        data.U.array = new Float32Array(arrU)
-        data.U.min = minU
-        data.U.max = maxU
-
-        data.V = {}
-        data.V.array = new Float32Array(arrV)
-        data.V.min = minV
-        data.V.max = maxV
-
-        resolve(data)
+    request.onload = function () {
+      const arrayToMap = function (array) {
+        return array.reduce(function (map, object) {
+          map[object.name] = object
+          return map
+        }, {})
       }
 
-      request.send()
-    })
-  }
+      // eslint-disable-next-line new-cap
+      const NetCDF = new netcdfjs(request.response)
+      const variables = arrayToMap(NetCDF.variables)
+      const uAttributes = arrayToMap(variables.U.attributes)
+      const vAttributes = arrayToMap(variables.V.attributes)
 
-  const loadText = function (filePath) {
-    const request = new XMLHttpRequest()
-    request.open("GET", filePath, false)
-    request.send()
-    return request.responseText
-  }
+      const arrLon = NetCDF.getDataVariable("lon").flat()
+      const arrLat = NetCDF.getDataVariable("lat").flat()
+      const arrU = NetCDF.getDataVariable("U").flat()
+      const maxU = uAttributes.max.value
+      const minU = uAttributes.min.value
+      const arrV = NetCDF.getDataVariable("V").flat()
+      const maxV = vAttributes.max.value
+      const minV = vAttributes.min.value
 
-  const loadColorTable = function (filePath) {
-    const string = loadText(filePath)
-    const json = JSON.parse(string)
-
-    const colorNum = json.ncolors
-    const colorTable = json.colorTable
-
-    const colorsArray = new Float32Array(3 * colorNum)
-    for (let i = 0; i < colorNum; i++) {
-      colorsArray[3 * i] = colorTable[3 * i]
-      colorsArray[3 * i + 1] = colorTable[3 * i + 1]
-      colorsArray[3 * i + 2] = colorTable[3 * i + 2]
+      // 构造WindLayer类需要的格式数据
+      const result = {
+        xmin: Math.min(...arrLon),
+        xmax: Math.max(...arrLon),
+        ymin: Math.min(...arrLat),
+        ymax: Math.max(...arrLat),
+        rows: arrLat.length,
+        cols: arrLon.length,
+        udata: arrU, // 横向风速
+        vdata: arrV, // 纵向风速
+        umin: minU,
+        umax: maxU,
+        vmin: minV,
+        vmax: maxV,
+        colors: colors
+      }
+      resolve(result)
     }
-
-    data.colorTable = {}
-    data.colorTable.colorNum = colorNum
-    data.colorTable.array = colorsArray
-  }
-
-  const loadData = async function (ncFilePath, colorTableFilePath) {
-    await loadNetCDF(ncFilePath)
-    loadColorTable(colorTableFilePath)
-    return data
-  }
-
-  return {
-    loadData: loadData
-  }
-})()
+    request.send()
+  })
+}

@@ -4,11 +4,13 @@ let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 let selectedView
 
+// 事件对象，用于抛出事件给vue
+export const eventTarget = new mars3d.BaseClass()
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.843366, lng: 117.205566, alt: 132, heading: 179, pitch: -56 },
-    fxaa: true, // 不开启抗锯齿，编辑时界面会闪烁
+    center: { lat: 31.843175, lng: 117.205295, alt: 223, heading: 178, pitch: -75 },
     globe: {
       depthTestAgainstTerrain: true // 不加无法投射到地形上
     }
@@ -45,186 +47,163 @@ function addModel() {
   })
   map.addLayer(tiles3dLayer)
 
-  // 创建Graphic图层
+  // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
- addGraphic01()
+  addGraphic_01()
+  addGraphic_02()
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic01() {
+function addGraphic_01() {
   const video3D = new mars3d.graphic.Video3D({
-    type: mars3d.graphic.Video3D.Type.Video,
-    url: "http://data.mars3d.cn/file/video/menqian.mp4",
-    position: [117.20551, 31.842824, 41.4],
-    cameraPosition: [117.205457, 31.842984, 63.9],
+    position: [117.204472, 31.842488, 120.9],
     style: {
-      fovDegree: 84.3,
-      aspectRatio: 2.6,
-      opacity: 0.8,
-      camera: {
-        direction: {
-          x: 0.07331987934745406,
-          y: -0.31686588753316797,
-          z: -0.9456321719412325
-        },
-        right: {
-          x: 0.8826585211077188,
-          y: 0.46201009007723565,
-          z: -0.08637483304041443
-        },
-        up: {
-          x: -0.4642608430704491,
-          y: 0.8283373020603265,
-          z: -0.3135588997412374
-        }
-      }
-    },
-    showFrustum: true
+      url: "//data.mars3d.cn/file/video/lukou.mp4",
+      maskImage: "img/textures/videoMask.png", // 羽化视频四周，融合更美观
+      angle: 33.3,
+      angle2: 23.4,
+      heading: 140.7,
+      pitch: -82.1
+    }
+  })
+  graphicLayer.addGraphic(video3D)
+}
+
+function addGraphic_02() {
+  const video3D = new mars3d.graphic.Video3D({
+    position: [117.205457, 31.842984, 63.9],
+    style: {
+      url: "//data.mars3d.cn/file/video/menqian.mp4",
+      maskImage: "img/textures/videoMask.png", // 羽化视频四周，融合更美观
+      angle: 46.3,
+      angle2: 15.5,
+      heading: 178.5,
+      pitch: -49.5,
+      showFrustum: true
+    }
   })
   graphicLayer.addGraphic(video3D)
 
   selectedView = video3D // 记录下
+  eventTarget.fire("loadVideo", {
+    value: {
+      cameraAngle: selectedView.angle,
+      cameraAngle2: selectedView.angle2,
+      heading: selectedView.heading,
+      pitchValue: selectedView.pitch,
+      distanceValue: selectedView.distance,
+      opcity: selectedView.opacity,
+      ckdFrustum: selectedView.showFrustum
+    }
+  })
 }
 
-/**
- * 视频投射
- *
- * @export
- * @param {boolean} showFrustum 线框是否显示
- * @param {number} opacity 透明度
- * @returns {void} 无
- */
-export function createViewForVideo(showFrustum, opacity) {
+export function onChangeAngle(value) {
+  if (selectedView) {
+    selectedView.angle = value
+  }
+}
+
+export function onChangeAngle2(value) {
+  if (selectedView) {
+    selectedView.angle2 = value
+  }
+}
+
+export function onChangeDistance(value) {
+  if (selectedView) {
+    selectedView.distance = value
+  }
+}
+
+export function onChangeHeading(value) {
+  if (selectedView) {
+    selectedView.heading = value
+  }
+}
+
+export function onClickSelView() {
+  if (!selectedView) {
+    return
+  }
+
+  map.graphicLayer.startDraw({
+    type: "point",
+    success: (graphic) => {
+      const point = graphic.point
+      graphic.remove() // 删除绘制的点
+
+      selectedView.targetPosition = point
+    }
+  })
+}
+
+export function onChangePitch(value) {
+  if (selectedView) {
+    selectedView.pitch = value
+  }
+}
+
+// 线框是否显示
+export function showFrustum(ckd) {
+  if (selectedView) {
+    selectedView.showFrustum = ckd
+  }
+}
+
+export function onChangeOpacity(value) {
+  if (selectedView) {
+    selectedView.opacity = value
+  }
+}
+
+export function addVideo(data) {
+  // 开始绘制
+  graphicLayer.startDraw({
+    type: "video3D",
+    style: {
+      url: "//data.mars3d.cn/file/video/lukou.mp4",
+      angle: data.cameraAngle,
+      angle2: data.cameraAngle2,
+      heading: data.heading,
+      pitch: data.pitchValue,
+      distance: data.distanceValue,
+      showFrustum: data.ckdFrustum
+    },
+    success: function (graphic) {
+      console.log("绘制完成", graphic)
+
+      selectedView = graphic // 记录下
+    }
+  })
+}
+
+export function addThisCamera(data) {
   // 取屏幕中心点
-  const cartesian = map.getCenter({ format: false })
-  if (!cartesian) {
-    return
-  }
-  const cameraPosition = Cesium.clone(map.scene.camera.position)
-
-  // 构造投射体
-  const video3D = new mars3d.graphic.Video3D({
-    type: mars3d.graphic.Video3D.Type.Video,
-    url: "http://data.mars3d.cn/file/video/lukou.mp4",
-    position: cartesian,
-    cameraPosition: cameraPosition,
-    style: {
-      opacity: opacity
-    },
-    showFrustum: showFrustum
-  })
-  graphicLayer.addGraphic(video3D)
-
-  selectedView = video3D // 记录下
-}
-
-
-/**
- * 图片投放
- *
- * @export
- * @param {boolean} showFrustum 线框是否显示
- * @param {number} opacity 透明度
- * @returns {void} 无
- */
-export function createViewForPicture(showFrustum, opacity) {
-  // 取屏幕中心点
-  const cartesian = map.getCenter({ format: false })
-  if (!cartesian) {
-    return
-  }
-  const cameraPosition = Cesium.clone(map.scene.camera.position)
-
-  // 构造投射体
-  const video3D = new mars3d.graphic.Video3D({
-    type: mars3d.graphic.Video3D.Type.Image,
-    url: "./img/tietu/gugong.jpg",
-    position: cartesian,
-    cameraPosition: cameraPosition,
-    style: {
-      opacity: opacity
-    },
-    showFrustum: showFrustum
-  })
-  graphicLayer.addGraphic(video3D)
-
-  selectedView = video3D // 记录下
-}
-
-
-
-/**
- * 文本投放
- *
- * @export
- * @param {boolean} showFrustum 线框是否显示
- * @param {number} opacity 透明度
- * @returns {void} 无
- */
-export function createText(showFrustum, opacity) {
-  const cartesian = map.getCenter({ format: false })
-  if (!cartesian) {
+  const targetPosition = map.getCenter({ format: false })
+  if (!targetPosition) {
     return
   }
 
-  const cameraPosition = Cesium.clone(map.scene.camera.position)
+  const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
   const video3D = new mars3d.graphic.Video3D({
-    type: mars3d.graphic.Video3D.Type.Text,
-    position: cartesian,
-    cameraPosition: cameraPosition,
+    position: cameraPosition,
+    targetPosition: targetPosition,
     style: {
-      text: "Mars3D 火星科技 2021",
-      opacity: opacity,
-      textStyles: {
-        font: "50px 楷体",
-        fill: true,
-        fillColor: new Cesium.Color(1.0, 1.0, 0.0, 1.0),
-        stroke: true,
-        strokeWidth: 2,
-        strokeColor: new Cesium.Color(1.0, 1.0, 1.0, 0.8),
-        backgroundColor: new Cesium.Color(1.0, 1.0, 1.0, 0.1),
-        textBaseline: "top",
-        padding: 40
-      }
-    },
-    showFrustum: showFrustum
-  })
-  graphicLayer.addGraphic(video3D)
-
-  selectedView = video3D // 记录下
-}
-
-/**
- * 颜色投放
- *
- * @export
- * @param {boolean} showFrustum 线框是否显示
- * @param {number} opacity 透明度
- * @returns {void} 无
- */
-export function createViewForColor(showFrustum, opacity) {
-  // 取屏幕中心点
-  const cartesian = map.getCenter({ format: false })
-  if (!cartesian) {
-    return
-  }
-  const cameraPosition = Cesium.clone(map.scene.camera.position)
-
-  // 构造投射体
-  const video3D = new mars3d.graphic.Video3D({
-    type: mars3d.graphic.Video3D.Type.Color,
-    position: cartesian,
-    cameraPosition: cameraPosition,
-    style: {
-      color: Cesium.Color.CYAN.withAlpha(0.5),
-      opacity: opacity
-    },
-    showFrustum: showFrustum
+      url: "//data.mars3d.cn/file/video/lukou.mp4",
+      angle: data.cameraAngle,
+      angle2: data.cameraAngle2,
+      heading: data.heading,
+      pitch: data.pitchValue,
+      distance: data.distanceValue,
+      opacity: data.opcity,
+      showFrustum: data.showFrustum
+    }
   })
   graphicLayer.addGraphic(video3D)
 
@@ -232,26 +211,23 @@ export function createViewForColor(showFrustum, opacity) {
 }
 
 // 清除
-export function clearVideo() {
+export function clear() {
   graphicLayer.clear()
   selectedView = null
 }
 
 // 播放暂停
 export function playOrpause() {
-  if (!selectedView) {
-    return
+  if (selectedView) {
+    selectedView.play = !selectedView.play
   }
-
-  selectedView.play = !selectedView.play
 }
 
 // 定位至视频位置
 export function locate() {
-  if (!selectedView) {
-    return
+  if (selectedView) {
+    selectedView.setView()
   }
-  selectedView.flyTo()
 }
 
 // 打印参数
@@ -264,54 +240,8 @@ export function printParameters() {
   console.log("Video3D构造参数为", params)
 }
 
-// 混合系数
-export function opacity(value) {
-  if (!selectedView) {
-    return
-  }
-  selectedView.opacity = value
-}
-
-// 水平拉伸
-export function cameraFov(value) {
-  if (!selectedView) {
-    return
-  }
-  selectedView.fovDegree = value
-}
-
-// 宽高比例
-export function cameraWidHei(value) {
-  if (selectedView) {
-    selectedView.aspectRatio = value
-  }
-}
-
-// 线框是否显示
-export function showFrustum(ckd) {
-  if (!selectedView) {
-    return
-  }
-  selectedView.showFrustum = ckd
-}
-
 // 视频位置
 export function selCamera() {
-  if (!selectedView) {
-    return
-  }
-  map.graphicLayer.startDraw({
-    type: "point",
-    success: (graphic) => {
-      const point = graphic.point
-      graphic.remove() // 删除绘制的点
-
-      selectedView.cameraPosition = point
-    }
-  })
-}
-
-export function selView() {
   if (!selectedView) {
     return
   }
@@ -326,58 +256,17 @@ export function selView() {
     }
   })
 }
-// 键盘微调控制
-export function bindEvnet(step) {
-  document.addEventListener(
-    "keydown",
-    function (e) {
-      switch (e.keyCode) {
-        default:
-          break
-        case "A".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.LEFT, step)
-          break
-        case "D".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.RIGHT, step)
-          break
-        case "W".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.TOP, step)
-          break
-        case "S".charCodeAt(0):
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.BOTTOM, step)
-          break
-        case "Q".charCodeAt(0): // Q键
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.ALONG, step)
-          break
-        case "E".charCodeAt(0): // E
-          rotateCamera(mars3d.graphic.Video3D.RatateDirection.INVERSE, step)
-          break
-      }
-    },
-    false
-  )
-}
 
-// 微调视频
-function rotateCamera(dir, adjustVal) {
-  if (!selectedView) {
-    return
-  }
 
-  selectedView.rotateCamera(dir, adjustVal)
-}
-
-/**
- *
- * @export
- * @param {boolean} isFollow 相机是否跟随
- * @returns {void} 无
- */
-export function cameraFollow(isFollow) {
-  if (isFollow) {
-    map.camera.direction = selectedView.style.camera.direction
-    map.camera.right = selectedView.style.camera.right
-    map.camera.up = selectedView.style.camera.up
-    map.camera.position = selectedView.position
-  }
+export function draWall() {
+  map.graphicLayer.startDraw({
+    type: "wall",
+    style: {
+      color: "#ffffff",
+      opacity: 0.8,
+      diffHeight: 300,
+      hasShadows: true,
+      shadows: Cesium.ShadowMode.DISABLED
+    }
+  })
 }

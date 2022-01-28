@@ -1,7 +1,7 @@
 <template>
   <!-- 图例面板 -->
   <div class="divPanel">
-    <img src="img/legend/heatmap.png" />
+    <img src="/img/legend/heatmap.png" />
   </div>
 
   <!-- 按钮 -->
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import any from "nprogress"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"

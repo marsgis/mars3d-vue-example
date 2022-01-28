@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
 
@@ -153,7 +153,7 @@ onBeforeMount(async () => {
 })
 
 // 改变选择的城市
-const onChange = (value: string, selectedOptions: Option[]) => {
+const onChange = (_value: string, selectedOptions: Option[]) => {
   citySheng.value = selectedOptions[0].label
   cityShi.value = selectedOptions[1].label
 }

@@ -7,7 +7,7 @@
 
       <a-form-item label="起点">
         <a-space>
-          <mars-input class="inputWidth" v-model:value="strat"></mars-input>
+          <mars-input class="inputWidth" v-model:value="strat" disabled></mars-input>
           <mars-button @click="stratPoint">选点</mars-button>
         </a-space>
       </a-form-item>
@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -129,6 +129,7 @@ const btnAnalyse = () => {
 
   mapWork.btnAnalyse(count.value)
 }
+
 mapWork.eventTarget.on("analyse", function (event: any) {
   wayShow.value = true
 

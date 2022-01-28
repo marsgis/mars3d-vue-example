@@ -8,8 +8,7 @@
   </pannel>
 </template>
 <script lang="ts" setup>
-import Pannel from "@/components/marsgis/pannel.vue"
-import { GameConsoleOne } from "@icon-park/vue-next"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -72,23 +71,21 @@ function findChild(parent: any, list: any[]) {
   return list
     .filter((item: any) => item.pid === parent.id)
     .map((item: any) => {
-      if (item.pid === parent.id) {
-        const node: any = {
-          title: item.name,
-          key: item.uuid,
-          id: item.id,
-          pId: item.pid,
-          uuid: item.uuid
-        }
-        layersObj[item.uuid] = item
-        if (item.hasChildLayer) {
-          node.children = findChild(node, list)
-        }
-        if (item.isAdded && item.show) {
-          checkedKeys.value.push(node.key)
-        }
-        return node
+      const node: any = {
+        title: item.name,
+        key: item.uuid,
+        id: item.id,
+        pId: item.pid,
+        uuid: item.uuid
       }
+      layersObj[item.uuid] = item
+      if (item.hasChildLayer) {
+        node.children = findChild(node, list)
+      }
+      if (item.isAdded && item.show) {
+        checkedKeys.value.push(node.key)
+      }
+      return node
     })
 }
 </script>

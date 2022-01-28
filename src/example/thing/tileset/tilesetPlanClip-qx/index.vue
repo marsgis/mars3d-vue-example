@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 window.$notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })

@@ -82,7 +82,7 @@ class Typhoon {
 
   addNameGraphic(firstItem) {
     // [起点]绘制台风起点名字
-    var nameGraphic = new mars3d.graphic.RectanglePrimitive({
+    const nameGraphic = new mars3d.graphic.RectanglePrimitive({
       positions: [
         [firstItem.lon, firstItem.lat],
         [firstItem.lon + 0.7, firstItem.lat - 0.4]
@@ -110,7 +110,7 @@ class Typhoon {
     const endItem = arr[arr.length - 1]
 
     let lastType
-    var arrPoint = []
+    let arrPoint = []
     // 路径点
     for (let i = 0, len = arr.length; i < len; i++) {
       const item = arr[i]
@@ -145,7 +145,7 @@ class Typhoon {
       arrPoint.push(point)
 
       // 判断台风的typlevel
-      if (lastType !== item.level || i == len - 1) {
+      if (lastType !== item.level || i === len - 1) {
         // 绘制线
         const graphicLine = new mars3d.graphic.PolylineEntity({
           positions: arrPoint,
@@ -390,7 +390,7 @@ class PlayTyphoon extends Typhoon {
       )
       this.typhoonLayer.addGraphic(pointEntity)
 
-      if (lastType !== item.level || i == len - 1) {
+      if (lastType !== item.level || i === len - 1) {
         // 绘制线
         const graphicLine = new mars3d.graphic.PathEntity({
           position: property,
@@ -408,7 +408,7 @@ class PlayTyphoon extends Typhoon {
 
       // 显示每个点的风圈和预测路线
       let lastTime
-      if (i == len - 1) {
+      if (i === len - 1) {
         lastTime = this.lastTime
       } else {
         lastTime = Cesium.JulianDate.fromDate(arr[i + 1].time)
@@ -463,7 +463,6 @@ class PlayTyphoon extends Typhoon {
 // 不同等级的台风对应不同的颜色
 function getColor(level) {
   switch (level) {
-    default:
     case "TD": // 热带低压
       return "rgb(238,209,57)"
     case "TS": // 热带风暴
@@ -476,6 +475,7 @@ function getColor(level) {
       return "rgb(254,0,254)"
     case "SuperTY": // 超强台风
       return "rgb(254,0,0)"
+    default:
   }
 }
 

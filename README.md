@@ -20,13 +20,19 @@
 
 ## 项目介绍
 
- 这是一个基于 Vue3.0 开发的 mars3d 功能示例项目。
+ 这是一个基于 Vue3.0 开发的 Mars3D 功能示例 演示项目。
 
  > 如果您不熟悉Vue，对原生JS比较熟悉，可以阅读： 
  [功能示例原生版教程](http://mars3d.cn/dev/guide/start/example-old.html) 、
  [mars3d-es5-example代码](https://gitee.com/marsgis/mars3d-es5-example) 
 
  
+## 项目特性 
+- **最新技术栈**：使用 Vue3/vite2 等前端前沿技术开发
+- **TypeScript**: 应用程序级 JavaScript 的语言
+
+
+
 ## 视频讲解
 建议先看一遍视频讲解，再实际操作，您可以[新页面查看高清视频](https://www.bilibili.com/video/BV1PL41177SS/)
 
@@ -35,13 +41,13 @@
 ## 下载运行项目
 
 ### 下载代码
-- [github](https://github.com/marsgis/mars3d-vue-example)
+- [Github](https://github.com/marsgis/mars3d-vue-example)
 
 ```
 git clone git@github.com:marsgis/mars3d-vue-example.git
 ```
 
-- [gitee](https://gitee.com/marsgis/mars3d-vue-example)：国内码云，下载速度快些。
+- [Gitee](https://gitee.com/marsgis/mars3d-vue-example)：国内码云，下载速度快些。
 
 ```
 git clone git@gitee.com:marsgis/mars3d-vue-example.git
@@ -49,7 +55,7 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 
 ### 运行环境
 
-- 推荐使用 vscode，安装参考[开发环境搭建教程](guide/start/env.html)
+- 推荐使用 vscode，安装参考[开发环境搭建教程](/guide/start/env.html)
 - 安装 vscode 插件，推荐安装 volar（并禁用 vetur）、ESlint 、 Prettier
 - 配置 vscode 参数， setting.json相关配置
 ```json
@@ -74,7 +80,7 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 ```
 
 - 下载最新lib
-建议从[http://mars3d.cn/download](http://mars3d.cn/download)下载最新mars3d类库后覆盖至`public/lib/`目录下，更新mars3d为最新版本。
+建议从[http://mars3d.cn/download.html](http://mars3d.cn/download.html)下载最新mars3d类库后覆盖至`public/lib/`目录下，更新mars3d为最新版本。
 
 
 ### 运行命令
@@ -99,7 +105,7 @@ npm run build
  
 
 ### 运行效果  
- [在线体验](http://mars3d.cn/example)  
+ [在线体验](http://mars3d.cn/example.html)  
 
  ![image](https://muyao1987.gitee.io/cdn/mars3d.cn/xm/example/1.jpg)
 
@@ -120,15 +126,15 @@ npm run build
 ## 项目架构
 
 ### 技术选型
-
-- [Vue3](https://v3.cn.vuejs.org/api/)：开发框架
-- [Vue CLI](https://cli.vuejs.org/zh/guide/)：开发环境
-- [TypeScript](https://www.tslang.cn/):开发语言 
+- [Vue3](https://v3.vuejs.org/)：开发框架熟悉
+- [Vite](https://cn.vitejs.dev/)：开发环境
+- [TypeScript](https://www.typescriptlang.org/) - 熟悉`TypeScript`基本语法
+- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
+- [Ant Design Vue](https://next.antdv.com/components/overview-cn/)：UI 控件库 
 - [ESlint](https://eslint.bootcss.com/)：代码检查工具
-- [Ant Design Vue](https://next.antdv.com/components/overview-cn/)：UI控件库
-- [IconPark](https://iconpark.oceanengine.com/official)：UI图标库
+- [IconPark](https://iconpark.oceanengine.com/official)：UI 图标库
 
-> 需要有一定的知识储备，包括 vue3.0 中的 composition Api 模式等
+> 需要有一定的知识储备，包括 vue3.0 中的 composition Api 模式等，建议浏览下[Web前端知识视频讲解](https://www.bilibili.com/video/BV1xr4y1U73r/)
 
 
 
@@ -148,9 +154,10 @@ mars3d-vue-example
 │   └───lib             示例依赖资源
 │   └───temp            示例的公共基础代码
 │───.eslintrc.js        eslint配置文件
-│───babel.config.js     babel配置
-│───package.json        项目配置信息
-└───vue.config.js       vueCLI 配置文件
+│─── package.json       项目配置信息
+└─── vite.config.js     vite 配置文件
+└─── index.html         列表页入口
+└─── editor.html        编辑器页面入口
 ```
 与示例相关的3个主要目录是：`src\example`、`public`、`src\components`(部分功能依赖)。
 
@@ -213,7 +220,7 @@ mars3d-vue-example
 
 ## 添加新的示例
 
-下面我们已`src\example\map\sample\`为示例说明。
+下面我们以`src\example\map\sample\`为示例说明。
 
 ### 1. 配置文件 example.json 中修改配置
 
@@ -264,7 +271,7 @@ showLoading(type) // 显示loading
 hideLoading(type) // 关闭loading
 ```
 
-完成后我们即可访问 [http://localhost:8080/example.html?id=map/sample](http://localhost:8080/example.html?id=map/sample)来查看示例的效果。
+完成后我们即可访问 [http://localhost:8080/editor.html?id=map/sample](http://localhost:8080/editor.html?id=map/sample)来查看示例的效果。
 
 
 ### 4. (按需可选)配置其他依赖资源
@@ -338,7 +345,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {})
 原则：
 
 - 涉及地图业务的操作均写在 map.js 中
-- 涉及 UI 层面、和地图无关的操作均写在 index.vue 中,vue 中不得使用 mars3d 和 ceium 开头的类
+- 涉及 UI 层面、和地图无关的操作均写在 index.vue 中,vue 中不得使用 mars3d 和 Cesium 开头的类
 
 
 **如何区分？**

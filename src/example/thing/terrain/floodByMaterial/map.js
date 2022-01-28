@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
 
   // 基于地球材质，可以多个区域
   floodByMaterial = new mars3d.thing.FloodByMaterial({
-    // speed: speed
+    color: new Cesium.Color(0.6, 0.7, 0.95, 0.5) // 淹没颜色
   })
   map.addThing(floodByMaterial)
 
@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
     console.log("开始分析", e)
   })
   floodByMaterial.on(mars3d.EventType.change, function (e) {
-    onChangeHeight(e.height)
+    // onChangeHeight(e.height)
   })
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -58,6 +58,7 @@ export function onUnmounted() {
 // 绘制矩形
 export function btnDrawExtent(callback) {
   floodByMaterial.clear()
+  map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -81,6 +82,7 @@ export function btnDrawExtent(callback) {
 // 绘制多边形
 export function btnDraw(callback) {
   floodByMaterial.clear()
+  map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -112,7 +114,8 @@ function updateHeightRange(positions, callback) {
 
 // 开始分析
 export function begin(data) {
-  if (floodByMaterial.length == 0) {
+  console.log(floodByMaterial)
+  if (floodByMaterial.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
   }

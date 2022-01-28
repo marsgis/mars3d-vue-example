@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const typeArrPlot = ["point", "polyline", "polygon", "circle", "rectangle", "wall", "cylinder"]

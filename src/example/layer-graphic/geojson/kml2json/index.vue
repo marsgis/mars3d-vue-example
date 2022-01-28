@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
  import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([
@@ -32,7 +32,6 @@ const treeData = ref<any[]>([
     children: []
   }
 ])
-const checkedKeys = ref<string[]>([])
 const selectedKeys = ref<string[]>([])
 
 const layersObj: any = {}
@@ -42,7 +41,7 @@ onMounted(() => {
   initTree()
 })
 
-const checkedChange = (keys: string[], checkedNodes: any) => {
+const checkedChange = (_keys: string[], checkedNodes: any) => {
   const node = checkedNodes.node
   if (!node.children && node.checked) {
     layersObj[node.key].show = false
@@ -120,10 +119,10 @@ const showSafetyNotice = () => {
 <style scoped lang="less">
 
 .treeView {
-  right:10px;
-  top: 80px;
+  right:10px !important;
+  top: 80px !important;
   width: 200px;
-  max-height: calc(100% - 160px);
-  overflow-y: auto;
+  max-height: calc(100% - 160px) !important;
+  overflow-y: auto !important;
 }
 </style>

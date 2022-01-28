@@ -178,7 +178,7 @@ export function getRegion() {
   map.graphicLayer.clear()
 
   const coords = satelliteSensor.getAreaCoords() // 导出成像区边界坐标
-  if (!coords || coords.length == 0) {
+  if (!coords || coords.length === 0) {
     globalMsg("当前与地球无成像区边")
     return
   }
@@ -224,6 +224,6 @@ export function getCenter() {
   })
   map.graphicLayer.addGraphic(primitive)
 
-  const point = mars3d.LatLngPoint.fromCartesian(groundPosition)
+  const point = mars3d.LngLatPoint.fromCartesian(groundPosition)
   globalMsg(point.toString())
 }

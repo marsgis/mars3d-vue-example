@@ -1,4 +1,5 @@
 import * as mars3d from "mars3d"
+import kriging from "./krigingConfig"
 
 let map // mars3d.Map三维地图对象
 
@@ -20,6 +21,7 @@ export const mapOptions = {
 
   queryTemperatureData()
   .then(function (geojson) {
+    // eslint-disable-next-line no-undef
     const image = loadkriging(geojson.features, kriging_bounds, kriging_colors)
     const tileLayer = new mars3d.layer.ImageLayer({
       url: image,

@@ -92,7 +92,8 @@ function createCollection(count) {
         scale: 30
       },
       attr: {
-        name: "第" + j + "个模型"
+        name: "第" + j + "个模型",
+        time: new Date().toLocaleTimeString()
       }
     })
   }
@@ -102,13 +103,24 @@ function createCollection(count) {
     instances: arrData
   })
   graphicLayer.addGraphic(modelCombine)
+
+  // 测试定时更新
+  // setInterval(() => {
+  //   for (let j = 0, len = arrData.length; j < len; ++j) {
+  //     const item = arrData[j]
+
+  //     item.position = mars3d.PointUtil.getPositionByDirectionAndLen(item.position, random(0, 360), random(1, 5)) // 随机坐标
+  //     item.attr.time = new Date().toLocaleTimeString()
+  //   }
+  //   modelCombine.instances = arrData
+  // }, 5000)
 }
 
 // 取区域内的随机图标
 function randomPoint() {
   const jd = random(117.184644 * 1000, 117.307163 * 1000) / 1000
   const wd = random(31.783595 * 1000, 31.87024 * 1000) / 1000
-  return new mars3d.LatLngPoint(jd, wd, 50)
+  return Cesium.Cartesian3.fromDegrees(jd, wd, 50)
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)

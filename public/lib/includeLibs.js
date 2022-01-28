@@ -71,10 +71,11 @@ window.configLibs = {
     //支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
     "mars3d/thirdParty/sensorVolumes/cesium-sensor-volumes.js"
   ],
+  olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
 
   //////////////////////////mars2d及其插件////////////////////////
-
   mars2d: [
+    //地图 主库
     "https://unpkg.com/leaflet/dist/leaflet.css", //leaflet
     "https://unpkg.com/leaflet/dist/leaflet.js",
     "http://mars2d.cn/lib/mars2d/mars2d.css", //mars2d
@@ -93,6 +94,5 @@ window.configLibs = {
   ],
   kriging: ["kriging/kriging.min.js"],
   three: ["three/three.js"],
-  olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
   hls: ["video/hls/hls.js"]
 }

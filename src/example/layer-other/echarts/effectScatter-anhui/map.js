@@ -35,6 +35,11 @@ function createEchartsLayer() {
   options.clampToGround = true // 计算贴地高度
   const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
+
+  // 图表自适应
+  window.addEventListener("resize", function () {
+    echartsLayer.resize()
+  })
 }
 
 /**

@@ -405,7 +405,7 @@ function randomPoint() {
   const jd = random(116.1 * 1000, 116.6 * 1000) / 1000
   const wd = random(30.8 * 1000, 31.1 * 1000) / 1000
   const height = random(1000, 9000)
-  return new mars3d.LatLngPoint(jd, wd, height)
+  return new mars3d.LngLatPoint(jd, wd, height)
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)

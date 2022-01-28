@@ -37,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import { reactive } from "vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({
@@ -94,9 +94,9 @@ const formState = reactive({
 })
 
 // 全局中间变量
-var currJD: number
-var currWD: number
-var currGD: number
+let currJD: number
+let currWD: number
+let currGD: number
 
 onMounted(() => {
   // 默认显示地图中心点坐标
@@ -112,12 +112,6 @@ onMounted(() => {
 
 const changeFanwei = () => {
   switch (formState.radioFanwei) {
-    default:
-      // 十进制
-      formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
-      formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
-      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
-      break
     case "2": // 度分秒
       formState.jdDegree = mapWork.marsPointTrans(currJD).degree
       formState.jdMinute = mapWork.marsPointTrans(currJD).minute
@@ -132,19 +126,25 @@ const changeFanwei = () => {
     case "3": // CGCS2000
       changeFendai()
       break
+    default:
+      // 十进制
+      formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+      formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
+      break
   }
 }
 
 const changeFendai = () => {
-  if (formState.radioFendai == "2") {
+  if (formState.radioFendai === "2") {
     // 十进制转2000平面六分度
-    var zoon6 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
+    const zoon6 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
     formState.gk6X = mapWork.marsUtilFormtNum(zoon6[0], 1)
     formState.gk6Y = mapWork.marsUtilFormtNum(zoon6[1], 1)
     formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
   } else {
     // 十进制转2000平面三分度
-    var zone3 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
+    const zone3 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
     formState.gk6X = mapWork.marsUtilFormtNum(zone3[0], 1)
     formState.gk6Y = mapWork.marsUtilFormtNum(zone3[1], 1)
     formState.alt = mapWork.marsUtilFormtNum(currGD, 6)

@@ -1,6 +1,6 @@
 <template>
   <div class="divPanel">
-    <img src="img/legend/heatmap.png" />
+    <img src="/img/legend/heatmap.png" />
   </div>
 </template>
 

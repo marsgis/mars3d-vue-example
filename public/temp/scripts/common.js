@@ -1,7 +1,6 @@
 "use script"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-var vueGlobal = parent
+const vueGlobal = window.parent || window
 
 // 判断webgl支持
 if (!mars3d.Util.webglreport()) {

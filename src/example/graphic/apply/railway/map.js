@@ -222,7 +222,7 @@ function inintRoad(positionsSJ, positionsTD) {
       clearInterval(args.cleanTimeInter)
       return
     }
-    if (lastDistance == t) {
+    if (lastDistance === t) {
       return
     }
     lastDistance = t
@@ -345,7 +345,7 @@ function addRailway(graphicHead, mpoints) {
       }
 
       // 添加轨道支架
-      if (mpoints[i][2] - mpoints[i][3] > 20 && i % 5 == 0) {
+      if (mpoints[i][2] - mpoints[i][3] > 20 && i % 5 === 0) {
         const id = "xq" + i
         const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {
@@ -366,7 +366,7 @@ function addRailway(graphicHead, mpoints) {
       }
 
       // 添加轨道边的柱子
-      if (i % 12 == 0) {
+      if (i % 12 === 0) {
         const id = "xd" + i
         const graphic = graphicLayer.getGraphicById(id)
         if (!graphic) {

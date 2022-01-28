@@ -41,6 +41,11 @@ function createEchartsLayer() {
   const options = getEchartsOption()
   const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
+
+  // 图表自适应
+  window.addEventListener("resize", function () {
+    echartsLayer.resize()
+  })
 }
 
 /**
@@ -352,8 +357,6 @@ function getEchartsOption() {
     }
     return res
   }
-
-
 
   const series = []
   ;[["北京", BJData]].forEach(function (item, i) {

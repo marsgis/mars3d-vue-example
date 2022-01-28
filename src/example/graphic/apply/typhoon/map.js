@@ -1,5 +1,7 @@
 import * as mars3d from "mars3d"
 
+import { Typhoon, PlayTyphoon } from "./Typhoon"
+
 let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -49,7 +51,6 @@ export function selectOneTyphoon(row) {
       .then(function (res) {
         const newData = conversionPathData(res.typhoon) // 在Typhoon.js中
 
-
         typhoonObj = new Typhoon({ ...row, ...newData }, map)
         typhoonObj.flyTo()
 
@@ -87,7 +88,7 @@ export function clickTyRow(row) {
 // 取消勾选台风
 export function unSelectOneTyphoon(row) {
   const typhoon = typhoonListObj[row.id]
-  if (typhoon == selectTF) {
+  if (typhoon === selectTF) {
     stopPlay()
   }
   if (typhoon) {
@@ -141,11 +142,11 @@ function conversionPathData(oldData) {
         radius4: level[4]
       }
 
-      if (level[0] == "30KTS") {
+      if (level[0] === "30KTS") {
         circle7 = radiusObj
-      } else if (level[0] == "50KTS") {
+      } else if (level[0] === "50KTS") {
         circle10 = radiusObj
-      } else if (level[0] == "64KTS") {
+      } else if (level[0] === "64KTS") {
         circle12 = radiusObj
       } else {
         console.log("未处理风圈", radiusObj)
@@ -209,7 +210,6 @@ function conversionPathData(oldData) {
 // 不同等级的台风对应不同的颜色
 function getColor(level) {
   switch (level) {
-    default:
     case "TD": // 热带低压
       return "rgb(238,209,57)"
     case "TS": // 热带风暴
@@ -222,12 +222,12 @@ function getColor(level) {
       return "rgb(254,0,254)"
     case "SuperTY": // 超强台风
       return "rgb(254,0,0)"
+    default:
   }
 }
 
 function getLevelStr(value) {
   switch (value) {
-    default:
     case "TD":
       return "热带低压"
     case "TS":
@@ -240,12 +240,12 @@ function getLevelStr(value) {
       return "强台风"
     case "SuperTY":
       return "超强台风"
+    default:
   }
 }
 
 function getMoveToStr(value) {
   switch (value) {
-    default:
     case "N":
       return "北"
     case "NNE":
@@ -278,6 +278,7 @@ function getMoveToStr(value) {
       return "北西"
     case "NNW":
       return "北西北"
+    default:
   }
 }
 

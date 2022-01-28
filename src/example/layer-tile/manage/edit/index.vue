@@ -56,7 +56,7 @@
   </pannel>
 </template>
 <script lang="ts" setup>
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 const formRef = ref()
@@ -80,15 +80,15 @@ const formState = reactive({
 
 const onCheckedoutUrl = () => {
   const url = formState.url.toLowerCase()
-  if (url.indexOf("wms") != -1) {
+  if (url.indexOf("wms") !== -1) {
     formState.type = "wms"
-  } else if (url.indexOf("wmts") != -1) {
+  } else if (url.indexOf("wmts") !== -1) {
     formState.type = "wmts"
-  } else if (url.indexOf("_alllayers") != -1) {
+  } else if (url.indexOf("_alllayers") !== -1) {
     formState.type = "arcgis_cache"
-  } else if (url.indexOf("arcgis") != -1) {
+  } else if (url.indexOf("arcgis") !== -1) {
     formState.type = "arcgis"
-  } else if (url.indexOf("{x}") != -1 && url.indexOf("{z}") != -1) {
+  } else if (url.indexOf("{x}") !== -1 && url.indexOf("{z}") !== -1) {
     formState.type = "xyz"
   }
 }

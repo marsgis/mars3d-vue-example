@@ -38,7 +38,6 @@ export function onUnmounted() {
 
 export function radioTerrain(type) {
   switch (type) {
-    default:
     case "none": // 无地形
       map.terrainProvider = mars3d.LayerUtil.getNoTerrainProvider()
       break
@@ -74,6 +73,7 @@ export function radioTerrain(type) {
         url: "https://www.vr-theworld.com/vr-theworld/tiles1.0.0/73/"
       })
       break
+    default:
   }
 }
 

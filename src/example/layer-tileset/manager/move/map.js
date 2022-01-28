@@ -84,7 +84,6 @@ export function changeStep(val) {
 
 export function change(type) {
   switch (type) {
-    default:
     case 0:
       x += step
       break
@@ -103,6 +102,7 @@ export function change(type) {
     case 5:
       z -= step
       break
+    default:
   }
 
   const result = "x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1)

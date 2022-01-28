@@ -1,12 +1,13 @@
 import { createApp } from "vue"
 import Application from "./App.vue"
-import marsEditorInstall from "mars-editor"
+import { useList } from "mars-editor"
 
 const app = createApp(Application)
 
-marsEditorInstall(app, {
+useList(app, {
   baseUrl: process.env.BASE_URL,
   configLibs: window.configLibs,
+  resourcePath: process.env.EXAMPLE_SOURCE_PATH,
   configSource: `${process.env.BASE_URL}config/example.json`
 })
 

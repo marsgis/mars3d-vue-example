@@ -195,8 +195,8 @@ function getDynamicProperty(callback) {
 
       loading = false
       if (callback) {
-        // eslint-disable-next-line standard/no-callback-literal
-        callback({ start: startTime, stop: stopTime })
+        const result = { start: startTime, stop: stopTime }
+        callback(result)
       }
     }
   })

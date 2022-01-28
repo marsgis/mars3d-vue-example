@@ -79,18 +79,6 @@ export function onUnmounted() {
 export function query(radioFanwei, cityShi, text) {
   resultList = []
   switch (radioFanwei) {
-    default: {
-      const dmmc = cityShi
-      loadData(
-        {
-          page: 0,
-          city: dmmc,
-          citylimit: true
-        },
-        text
-      )
-      break
-    }
     case "2": {
       // 当前视角范围
       const extent = map.getExtent()
@@ -121,6 +109,18 @@ export function query(radioFanwei, cityShi, text) {
         text
       )
       break
+    default: {
+      const dmmc = cityShi
+      loadData(
+        {
+          page: 0,
+          city: dmmc,
+          citylimit: true
+        },
+        text
+      )
+      break
+    }
   }
 }
 

@@ -7,6 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 </script>
 

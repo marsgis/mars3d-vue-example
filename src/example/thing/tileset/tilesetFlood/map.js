@@ -120,7 +120,7 @@ export function begin(data) {
     return
   }
 
-  if (!tilesetFlood.floodAll && tilesetFlood.length == 0) {
+  if (!tilesetFlood.floodAll && tilesetFlood.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
   }

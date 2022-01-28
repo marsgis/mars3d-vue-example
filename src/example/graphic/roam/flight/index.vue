@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
@@ -172,8 +172,6 @@ const changeSelect = () => {
   formState.showFollowedZ = ""
 
   switch (formState.select) {
-    default:
-      break
     case "gs": //
       formState.showFollowedX = "1"
       break
@@ -188,13 +186,16 @@ const changeSelect = () => {
       formState.offsetX = 0
 
       break
-    case "sd": // 锁定上帝视角
+    case "sd": { // 锁定上帝视角
       formState.showFollowedZ = "1"
-
-      var followedZ = Number(formState.followedZ)
+      const followedZ = Number(formState.followedZ)
       if (followedZ < 500) {
         formState.followedZ = 500
       }
+      break
+    }
+
+    default:
       break
   }
   mapWork.updateCameraSetting(formState)

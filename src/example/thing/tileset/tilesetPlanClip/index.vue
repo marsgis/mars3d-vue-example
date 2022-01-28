@@ -1,26 +1,15 @@
 <template>
   <pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
-      <a-collapse-panel key="1" header="绘制坐标">
+      <a-collapse-panel key="1" header="单个裁剪面">
         <!-- 自定义面板右侧图标 -->
-        <template #extra>
-          <config-o theme="outline" />
-        </template>
+        <template #extra> </template>
         <div class="f-mb">
           <a-space>
-            <mars-button @click="drawLine">绘制线</mars-button>
-            <mars-button @click="drawExtent">绘制矩形</mars-button>
-            <mars-button @click="drawPoly">绘制面</mars-button>
+            <mars-button @click="drawLine">按绘制线裁剪</mars-button>
           </a-space>
         </div>
-        <mars-button @click="drawPoly2">绘制面(外切)</mars-button>
-      </a-collapse-panel>
 
-      <a-collapse-panel key="2" header="按正方向">
-        <!-- 自定义面板右侧图标 -->
-        <template #extra>
-          <config-o theme="outline" />
-        </template>
         <div class="f-mb">
           <a-space>
             <mars-button @click="clipping1">切顶部</mars-button>
@@ -38,31 +27,42 @@
         </div>
       </a-collapse-panel>
 
-      <a-collapse-panel key="3" header="裁剪距离">
+      <a-collapse-panel key="2" header="多个裁剪面">
         <!-- 自定义面板右侧图标 -->
-        <template #extra>
-          <config-o theme="outline" />
-        </template>
-        <a-space> <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }} </a-space>
+        <template #extra> </template>
+        <div class="f-mb">
+          <a-space>
+            <mars-button @click="drawExtent">绘制矩形</mars-button>
+            <mars-button @click="drawPoly">绘制面</mars-button>
+            <mars-button @click="drawPoly2">绘制外切面</mars-button>
+          </a-space>
+        </div>
       </a-collapse-panel>
 
-      <a-collapse-panel key="4" header="斜切偏移量">
+      <a-collapse-panel key="3" header="裁剪参数">
         <!-- 自定义面板右侧图标 -->
-        <template #extra>
-          <config-o theme="outline" />
-        </template>
-        <a-space> <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
+        <template #extra> </template>
+
+        <a-form-item label="裁剪距离">
+          <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
+        </a-form-item>
+
+        <a-form-item label="斜切偏移量">
+          <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }}
+        </a-form-item>
+
       </a-collapse-panel>
     </a-collapse>
+
     <mars-button @click="clear">清除</mars-button>
   </pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import { Config as ConfigO } from "@icon-park/vue-next"
- import * as mapWork from "./map.js"
+import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])
 const distanceVal = ref<number>(0)

@@ -149,7 +149,7 @@ function centerAtModel() {
 
 function addGraphic01(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
-    position: new mars3d.LatLngPoint(116.308659, 30.914005, 429.94),
+    position: new mars3d.LngLatPoint(116.308659, 30.914005, 429.94),
     style: {
       text: "合肥火星科技有限公司",
       font_size: 25,
@@ -185,7 +185,7 @@ function addGeoJson(geojson, graphicLayer) {
 function addGraphic02(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     name: "贴地文字",
-    position: new mars3d.LatLngPoint(116.241728, 30.879732),
+    position: new mars3d.LngLatPoint(116.241728, 30.879732),
     style: {
       text: "Mars3D",
       font_size: 25,
@@ -199,7 +199,7 @@ function addGraphic02(graphicLayer) {
 function addGraphic03(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     name: "根据视距缩放文字",
-    position: new mars3d.LatLngPoint(116.340026, 30.873948, 383.31),
+    position: new mars3d.LngLatPoint(116.340026, 30.873948, 383.31),
     style: {
       text: "中国安徽合肥",
       font_size: 20,
@@ -214,7 +214,7 @@ function addGraphic03(graphicLayer) {
 function addGraphic04(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     name: "根据视距显示文字",
-    position: new mars3d.LatLngPoint(116.329102, 30.977955, 1548.6),
+    position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
     style: {
       text: "火星科技Mars3D平台",
       font_size: 25,
@@ -344,12 +344,12 @@ function expFile() {
 function impFile(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType != "json") {
+  if (fileType !== "json") {
     globalMsg("文件类型不合法,请选择json格式标注文件！")
     return
   }
 
-  if (fileType == "json" || fileType == "geojson") {
+  if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -358,7 +358,7 @@ function impFile(file) {
         flyTo: true
       })
     }
-  } else if (fileType == "kml") {
+  } else if (fileType === "kml") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
@@ -396,7 +396,7 @@ function impFile(file) {
         })
       })
     }
-  } else if (fileType == "kmz") {
+  } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
 
     kgUtil.toGeoJSON(file).then((geojson) => {

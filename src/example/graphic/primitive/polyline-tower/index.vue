@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
@@ -17,7 +17,7 @@ mapWork.echartTarget.on("addEchart", function (event: any) {
 function drawHeightToDistanceEcharts(heightArry: any[], heightTDArray: any[], distanceArray: any[]) {
   const myChart = echarts.init(document.getElementById("section")!, "dark")
 
-  var option = {
+  const option = {
     title: {
       text: "断面图",
       left: 25
@@ -82,8 +82,7 @@ function drawHeightToDistanceEcharts(heightArry: any[], heightTDArray: any[], di
             color: "rgb(255, 70, 131)"
           }
         },
-        data: heightArry,
-        markPoint: undefined
+        data: heightArry
       }
     ]
   }

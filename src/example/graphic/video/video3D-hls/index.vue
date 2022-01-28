@@ -1,132 +1,165 @@
 <template>
   <pannel class="infoView">
-    <a-form>
-      <div class="f-tac">
-        <a-space>
-          <mars-button @click="createViewForVideo">视频投放</mars-button>
-          <mars-button @click="createViewForPicture">图片投放</mars-button>
-          <mars-button @click="createText">文本投放</mars-button>
-          <mars-button @click="createViewForColor">颜色投放</mars-button>
-          <mars-button @click="clear">清除</mars-button>
-        </a-space>
-      </div>
+    <div class="f-tac f-mb">
+      <a-space>
+        <mars-button @click="addVideo">绘制投射视频</mars-button>
+        <mars-button @click="addThisCamera">按当前相机投射视频</mars-button>
+        <mars-button @click="clear">清除</mars-button>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">混合系数:</span>
-          <a-slider @change="opacity" v-model:value="opacityValue" :min="0" :max="1" :step="0.1" />调整透明度
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">相机位置:</span>
+        <mars-button @click="selCamera">鼠标图上点选(相机位置)</mars-button>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">水平拉伸:</span>
-          <a-slider @change="cameraFov" v-model:value="fovValue" :min="30" :max="120" :step="0.1" />调整水平拉伸
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">水平张角:</span>
+        <a-slider @change="onChangeAngle" v-model:value="video.cameraAngle" :min="1" :max="60" :step="0.1" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">宽高比例:</span>
-          <a-slider @change="cameraWidHei" v-model:value="scaleValue" :min="0.5" :max="3" :step="0.05" />调整垂直拉伸
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">垂直张角:</span>
+        <a-slider @change="onChangeAngle2" v-model:value="video.cameraAngle2" :min="10" :max="30" :step="0.1" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">视椎框线:</span>
-          <a-checkbox @change="showFrustum" v-model:checked="ckdFrustum">是否显示</a-checkbox>
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">四周方向:</span>
+        <a-slider @change="onChangeHeading" v-model:value="video.heading" :min="0" :max="360" :step="0.1" />
+        <mars-button @click="onClickSelView">图上选点</mars-button>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">调整位置:</span>
-          <mars-button @click="selCamera">相机</mars-button>
-          <mars-button @click="selView">视点</mars-button>
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">俯仰角度:</span>
+        <a-slider @change="onChangePitch" v-model:value="video.pitchValue" :min="-180" :max="180" :step="0.1" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="pannel-item-label">键盘微调:</span>
-          <mars-input-number :min="0.001" :max="2" :step="0.001" v-model:value="adjustVal"></mars-input-number>
-          <a-checkbox @change="cameraFollow" v-model:checked="checked">相机跟随</a-checkbox>
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">视椎框线:</span>
+        <a-checkbox @change="showFrustum" v-model:checked="video.ckdFrustum">是否显示</a-checkbox>
+      </a-space>
+    </div>
 
-      <div class="f-tac">
-        <a-space>
-          <mars-button @click="playOrpause">播放暂停</mars-button>
-          <mars-button @click="locate">返回相机视点</mars-button>
-          <mars-button @click="printParameters">打印参数</mars-button>
-        </a-space>
-      </div>
-    </a-form>
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">最远投射距离:</span>
+        <a-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
+      </a-space>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <span class="pannel-item-label">视频透明度:</span>
+        <a-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
+      </a-space>
+    </div>
+
+    <div class="f-tac">
+      <a-space>
+        <mars-button @click="playOrpause">播放暂停</mars-button>
+        <mars-button @click="locate">返回相机视点</mars-button>
+        <mars-button @click="printParameters">打印参数</mars-button>
+      </a-space>
+    </div>
   </pannel>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import { reactive } from "vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
+import { map } from "lodash"
 
-const checked = ref<boolean>(false)
+interface Video {
+  ckdFrustum: boolean // 是否显示视椎线
+  cameraAngle: number // 水平角度
+  cameraAngle2: number // 垂直角度
+  distanceValue: number // 投射距离
+  heading: number // 四周距离
+  pitchValue: number // 俯仰角度
+  opcity: number // 透明度
+}
 
-const ckdFrustum = ref<boolean>(true)
-
-const adjustVal = ref<number>(0.5)
-
-const opacityValue = ref<number>(0.7) // 透明度
-
-const fovValue = ref<number>(45) // 水平拉伸
-
-const scaleValue = ref<number>(1.6) // 宽高比例
-
-onMounted(() => {
-  mapWork.bindEvnet(adjustVal.value)
+const video = reactive<Video>({
+  ckdFrustum: true,
+  cameraAngle: 0,
+  cameraAngle2: 0,
+  distanceValue: 0,
+  heading: 0,
+  pitchValue: 0,
+  opcity: 1
 })
 
-// 混合系数
-const opacity = () => {
-  mapWork.opacity(opacityValue.value)
-}
-// 水平拉伸
-const cameraFov = () => {
-  mapWork.cameraFov(fovValue.value)
-}
-// 宽高比例
-const cameraWidHei = () => {
-  mapWork.cameraWidHei(scaleValue.value)
+mapWork.eventTarget.on("loadVideo", (e) => {
+  const data = e.value
+  video.ckdFrustum = data.ckdFrustum
+  video.cameraAngle = data.cameraAngle
+  video.cameraAngle2 = data.cameraAngle2
+  video.distanceValue = data.distanceValue
+  video.pitchValue = data.pitchValue
+  video.opcity = data.opcity
+  video.heading = data.heading
+})
+
+// 视频位置
+const selCamera = () => {
+  mapWork.selCamera()
 }
 
-// 相机是否跟随
-const cameraFollow = () => {
-  mapWork.cameraFollow(checked.value)
+const onChangeAngle = () => {
+  mapWork.onChangeAngle(video.cameraAngle)
+}
+const onChangeAngle2 = () => {
+  mapWork.onChangeAngle2(video.cameraAngle2)
+}
+const onChangeDistance = () => {
+  mapWork.onChangeDistance(video.distanceValue)
+}
+
+const onChangeHeading = () => {
+  mapWork.onChangeHeading(video.heading)
+}
+
+const onClickSelView = () => {
+  mapWork.onClickSelView()
+}
+
+const onChangePitch = () => {
+  mapWork.onChangePitch(video.pitchValue)
+}
+
+// 线框是否显示
+const showFrustum = () => {
+  mapWork.showFrustum(video.ckdFrustum)
+}
+
+// 修改视频透明度
+const onChangeOpacity = () => {
+  mapWork.onChangeOpacity(video.opcity)
 }
 
 // 投射视频
-const createViewForVideo = () => {
-  mapWork.createViewForVideo(ckdFrustum.value, opacityValue.value)
+const addVideo = () => {
+  mapWork.addVideo(video)
 }
-
-// 图片投放
-const createViewForPicture = () => {
-  mapWork.createViewForPicture(ckdFrustum.value, opacityValue.value)
+// 按当前相机投射视频
+const addThisCamera = () => {
+  mapWork.addThisCamera(video)
 }
-
-// 文本投放
-const createText = () => {
-  mapWork.createText(ckdFrustum.value, opacityValue.value)
-}
-// 颜色投放
-const createViewForColor = () => {
-  mapWork.createViewForColor(ckdFrustum.value, opacityValue.value)
-}
-
 // 清除
 const clear = () => {
-  mapWork.clearVideo()
+  mapWork.clear()
 }
 
 // 定位至视频位置
@@ -141,22 +174,6 @@ const printParameters = () => {
 // 播放暂停
 const playOrpause = () => {
   mapWork.playOrpause()
-}
-
-// 视频位置
-const selCamera = () => {
-  mapWork.selCamera()
-}
-
-// 视点
-
-const selView = () => {
-  mapWork.selView()
-}
-
-// 线框是否显示
-const showFrustum = () => {
-  mapWork.showFrustum(ckdFrustum.value)
 }
 </script>
 <style scoped lang="less">

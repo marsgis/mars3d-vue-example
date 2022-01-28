@@ -37,8 +37,8 @@
 
 <script lang="ts" setup>
 import { getCurrentInstance, ref } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
-import GraphicEditor from "@comp/graphic-editor/index.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
+import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
 import * as mapWork from "./map.js"
 
 interface FileItem {
@@ -92,7 +92,7 @@ const openGeoJSON = (info: FileInfo) => {
   const fileName = item.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
-  if (fileType != "json") {
+  if (fileType !== "json") {
     alert("文件类型不合法,请选择json格式标注文件！")
   }
   mapWork.openGeoJSON(item)

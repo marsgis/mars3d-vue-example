@@ -1,5 +1,5 @@
 import * as mars3d from "mars3d"
-
+import ThreeLayer from "./ThreeLayer"
 let map // mars3d.Map三维地图对象
 let threeLayer
 

@@ -210,7 +210,7 @@ function formatTime(strtime) {
     return strtime.toFixed(0) + "秒"
   } else if (strtime >= 60 && strtime < 3600) {
     const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao != 0 ? miao + "秒" : "")
+    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
   } else {
     strtime = Math.floor(strtime / 60) // 秒转分钟
     return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
@@ -274,7 +274,7 @@ export function updateCameraSetting(data) {
 
   roamLine.setCameraOptions({
     type: cameraType,
-    radius: cameraType == "gs" ? followedX : 0,
+    radius: cameraType === "gs" ? followedX : 0,
     followedX: followedX,
     followedZ: followedZ,
     offsetZ: offsetZ,

@@ -42,7 +42,7 @@
  * @author 木遥 2021-11-01
  */
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
@@ -91,8 +91,8 @@ onMounted(() => {
 <style scoped lang="less">
 .infoView {
   width: 200px;
-  top: auto;
+  top: auto !important;
   bottom: 60px;
-  z-index: 0;
+  z-index: 0 !important;
 }
 </style>

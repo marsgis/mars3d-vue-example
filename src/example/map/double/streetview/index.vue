@@ -8,12 +8,12 @@
   </pannel>
 
   <pannel class="iconView">
-    <img src="img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
+    <img src="/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
   </pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/marsgis/pannel.vue"
+import Pannel from "@/components/mars-work/pannel.vue"
 import * as mapWork from "./map.js"
 
 const viewTo23D = () => {
