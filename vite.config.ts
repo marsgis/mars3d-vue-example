@@ -7,6 +7,7 @@ import path from "path"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
 import { createStyleImportPlugin, AndDesignVueResolve } from "vite-plugin-style-import"
+const { getThemeVariables } = require("ant-design-vue/dist/theme")
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
@@ -45,23 +46,24 @@ export default ({ mode }: ConfigEnv) => {
             "body-background": "#1c222b",
             "font-size-base": "12px"
           },
-          additionalData: `@import "${path.resolve(__dirname, "src/components/mars-ui/base.less")}";`,
-          javascriptEnabled: true
+          javascriptEnabled: true,
+          additionalData: `@import "${path.resolve(__dirname, "src/components/mars-ui/base.less")}";`
+
         }
       }
     },
     build: {
-      // Êä³öÂ·¾¶
+      // è¾“å‡ºè·¯å¾„
       outDir: path.join("./dist", ENV.VITE_BASE_URL),
-      // Ğ¡ÓÚ´ËãĞÖµµÄµ¼Èë»òÒıÓÃ×ÊÔ´½«ÄÚÁªÎª base64 ±àÂë£¬ ÒÔ±ÜÃâ¶îÍâµÄhttpÇëÇó£¬ ÉèÖÃÎª 0, ¿ÉÒÔÍêÈ«½ûÓÃ´ËÏî£¬
+      // å°äºæ­¤é˜ˆå€¼çš„å¯¼å…¥æˆ–å¼•ç”¨èµ„æºå°†å†…è”ä¸º base64 ç¼–ç ï¼Œ ä»¥é¿å…é¢å¤–çš„httpè¯·æ±‚ï¼Œ è®¾ç½®ä¸º 0, å¯ä»¥å®Œå…¨ç¦ç”¨æ­¤é¡¹ï¼Œ
       assetsInlineLimit: 4096,
-      // Æô¶¯ / ½ûÓÃ CSS ´úÂë²ğ·Ö
+      // å¯åŠ¨ / ç¦ç”¨ CSS ä»£ç æ‹†åˆ†
       cssCodeSplit: true,
-      // ¹¹½¨ºóÊÇ·ñÉú³É soutrce map ÎÄ¼ş
+      // æ„å»ºåæ˜¯å¦ç”Ÿæˆ soutrce map æ–‡ä»¶
       sourcemap: false,
-      // ¾²Ì¬×ÊÔ´Éú³ÉµÄÄ¿Â¼
+      // é™æ€èµ„æºç”Ÿæˆçš„ç›®å½•
       assetsDir: "example/assets",
-      // ×Ô¶¨Òåµ×²ãµÄ Rollup ´ò°üÅäÖÃ
+      // è‡ªå®šä¹‰åº•å±‚çš„ Rollup æ‰“åŒ…é…ç½®
       rollupOptions: {
         input: {
           // index: path.resolve(__dirname, "index.html"),
