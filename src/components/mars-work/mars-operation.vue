@@ -1,7 +1,5 @@
 <template>
-  <div class="mars-main-view">
-    <PannelComponent v-if="loaded" @vnode-mounted="onChildMounted" />
-  </div>
+  <PannelComponent v-if="loaded" @vnode-mounted="onChildMounted" />
 </template>
 <script lang="ts" setup>
 /**
@@ -10,7 +8,7 @@
  * @author 木遥 2021-11-01
  */
 import { defineAsyncComponent, h, ref } from "vue"
-import { getQueryString } from "@/utils/index"
+import { getQueryString } from "@/utils/mars-util"
 
 const modules = import.meta.glob("../../example/**/index.vue")
 

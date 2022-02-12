@@ -41,7 +41,7 @@
  * @author 木遥 2021-11-01
  */
 import { getCurrentInstance, ref } from "vue"
-import { isLonLat } from "@/utils/index"
+import { isLonLat } from "@/utils/mars-util"
 import { Icon } from "@iconify/vue"
 
 const globalProperties = getCurrentInstance()!.appContext.config.globalProperties

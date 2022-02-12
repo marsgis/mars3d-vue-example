@@ -1,13 +1,15 @@
 <template>
   <a-spin :spinning="loading" wrapperClassName="global-spin">
     <mars-editor ref="editorRef" :id="id" :full-name="name">
-      <mars-operation @childMounted="onChildMounted" />
+      <div class="mars-main-view">
+        <mars-operation @childMounted="onChildMounted" />
+      </div>
     </mars-editor>
   </a-spin>
 </template>
 
 <script setup lang="ts">
-import { getQueryString } from "@/utils/index"
+import { getQueryString } from "@/utils/mars-util"
 import { getCurrentInstance, ref } from "vue"
 import MarsOperation from "@/components/mars-work/mars-operation.vue"
 import nprogress from "nprogress"

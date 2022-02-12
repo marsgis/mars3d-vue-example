@@ -44,7 +44,7 @@ import { onMounted, ref } from "vue"
 import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
-import { setAutoHeight } from "@/utils/index"
+import { setAutoHeight } from "@/utils/mars-util"
 
 const serverName = ref("")
 const show = ref<boolean>(false)

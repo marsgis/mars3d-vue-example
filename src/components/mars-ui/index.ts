@@ -15,7 +15,6 @@ import MarsDropDown from "./mars-dropdown"
 import MarsMessage, { $message as marsMessage } from "./mars-message"
 import MarsAlert, { $alert as marsAlert } from "./mars-alert/"
 import MarsNotify, { $notify as marsNotify } from "./mars-notify"
-// import MarsLoading, { $hideLoading as marsHideLoading, $showLoading as marsShowLoading } from "./mars-loading"
 import MarsTree from "./mars-tree"
 import {
   AutoComplete,
@@ -37,6 +36,7 @@ import {
   Radio,
   DatePicker,
   Row,
+  Select,
   Slider,
   Space,
   Spin,
@@ -52,17 +52,13 @@ import {
 } from "ant-design-vue"
 
 import "./mars-echarts"
-import "ant-design-vue/dist/antd.less"
 
 import "./index.less"
 import "./function.less"
-importStyle()
 
 export const $alert = window.$alert = marsAlert
 export const $notify = window.$notify = marsNotify
 export const $message = window.$message = marsMessage
-// export const $hideLoading = marsHideLoading
-// export const $showLoading = marsShowLoading
 
 const components = [MarsSelect, MarsButton, MarsInput, MarsInputNumber, MarsDatePicker, MarsRangePicker, MarsColorPicker, MarsTree, MarsDropDown]
 
@@ -83,6 +79,7 @@ export default {
     app.use(DatePicker)
     app.use(Switch)
     app.use(Space)
+    app.use(Select)
     app.use(Slider)
     app.use(Table)
     app.use(Tree)
@@ -106,57 +103,6 @@ export default {
     MarsMessage(app)
     MarsAlert(app)
     MarsNotify(app)
-    // MarsLoading(app)
     return app
   }
-}
-
-function importStyle() {
-  const antSource: any[] = []
-  const sourceId = [
-    "Auto-Complete",
-    "Button",
-    "Cascader",
-    "Checkbox",
-    "Collapse",
-    "Divider",
-    "Form",
-    "Input",
-    "Grid",
-    "Input-Number",
-    "List",
-    "Menu",
-    "Modal",
-    "Page-Header",
-    "Popover",
-    "Progress",
-    "Radio",
-    "Slider",
-    "Space",
-    "Select",
-    "Spin",
-    "Switch",
-    "Table",
-    "Tabs",
-    "Tooltip",
-    "Tree",
-    "Typography",
-    "Upload",
-    "Card",
-    "Image",
-    "Date-Picker",
-    "Dropdown",
-    "Notification",
-    "Message",
-    "Alert",
-    "Spin",
-    "Pagination"
-  ]
-  sourceId.forEach((comp) => {
-    antSource.push(import(`../../../node_modules/ant-design-vue/lib/${comp.toLowerCase()}/style/index.less`))
-  })
-  Promise.all(antSource).then(() => {
-    import("./index.less")
-    import("./base.less")
-  })
 }

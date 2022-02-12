@@ -6,14 +6,10 @@
   </a-input>
 </template>
 <script lang="ts">
-import { Input } from "ant-design-vue"
 import { useAttrs, useSlots, defineComponent } from "vue"
 export default defineComponent({
   name: "mars-input",
   inheritAttrs: false,
-  components: {
-    AInput: Input
-  },
   setup() {
     const attrs = useAttrs()
     const slots = useSlots()
@@ -28,11 +24,12 @@ export default defineComponent({
 .mars-input {
   color: @mars-basecolor;
   background-color: @form-input-background !important;
-  * {
-    color: @mars-basecolor;
-  }
   :deep(.ant-input) {
     background-color: @form-input-background !important;
+    color: @mars-basecolor;
+  }
+  :deep(.ant-input-suffix .anticon) {
+    color: @mars-basecolor;
   }
 }
 </style>

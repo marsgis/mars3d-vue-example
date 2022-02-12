@@ -16,9 +16,6 @@ export default function examplePlugin(mode: string) {
     },
     transform(source: string, id: string) {
       let code = source
-      if (code.indexOf(`from "./map.js"`) !== -1 && id.endsWith(".vue")) {
-        code = code.replace(/import \* as (\S*) from \"\.\/map\.js\"/g, "const $1 = window.mapWork")
-      }
       if (/example\/.*\/map.js/.test(id) && mode === "development") {
         // 替换let const
         code = code.replace(new RegExp("export let ", "gm"), "var ")

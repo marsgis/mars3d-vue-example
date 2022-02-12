@@ -24,7 +24,7 @@
 import { nextTick, ref } from "vue"
 import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import LayerState from "@/components/mars-sample/layer-state.vue"
-import { getQueryString } from "@/utils/index"
+import { getQueryString } from "@/utils/mars-util"
 import * as mapWork from "./map.js"
 
 interface treeItem {

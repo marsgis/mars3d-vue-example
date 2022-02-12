@@ -53,7 +53,7 @@
 import { onMounted, ref } from "vue"
 import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { TableColumnType } from "ant-design-vue"
-import { setAutoHeight } from "@/utils/index"
+import { setAutoHeight } from "@/utils/mars-util"
 import * as mapWork from "./map.js"
 
 const data = ref([

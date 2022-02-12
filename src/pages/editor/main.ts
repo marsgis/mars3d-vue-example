@@ -1,6 +1,6 @@
 import { createApp } from "vue"
 import Application from "./App.vue"
-import { getQueryString } from "@/utils/index"
+import { getQueryString } from "@/utils/mars-util"
 import { useEditor } from "mars-editor"
 import MarsUI from "@/components/mars-ui"
 
@@ -18,7 +18,6 @@ const app = createApp(Application)
 
 app.use(MarsUI)
 
-// console.log(process.env)
 useEditor(app, {
   baseUrl: process.env.BASE_URL,
   code: getQueryString("code") || "0",

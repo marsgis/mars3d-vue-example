@@ -3,8 +3,6 @@ import Application from "./App.vue"
 import MarsUI from "@/components/mars-ui"
 import { setConfig } from "mars-editor"
 
-// import "ant-design-vue/dist/antd.dark.less"
-
 // https跳转处理
 const protocol = window.location.protocol
 if (protocol === "https:") {

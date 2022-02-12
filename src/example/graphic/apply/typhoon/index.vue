@@ -49,7 +49,7 @@
 import { onMounted, reactive, ref } from "vue"
 import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import { setAutoHeight } from "@/utils/index"
+import { setAutoHeight } from "@/utils/mars-util"
 import axios from "axios"
 import * as mapWork from "./map.js"
 

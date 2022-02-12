@@ -20,7 +20,7 @@
 import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { getCurrentInstance, onMounted, provide, ref } from "vue"
 import { ConfigProvider } from "ant-design-vue"
-import { getQueryString } from "@/utils"
+import { getQueryString } from "@/utils/mars-util"
 import MarsOperation from "@/components/mars-work/mars-operation.vue"
 import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
 import nprogress from "nprogress"
@@ -53,6 +53,7 @@ onMounted(async () => {
         } else {
           onChildMounted()
         }
+        console.log(mapLoaded.value)
       }
     })
 
@@ -99,7 +100,9 @@ function onChildMounted() {
     globalProperties.Cesium = mapWork.mars3d.Cesium
 
     mapWork.map = map
-    if (mapWork.onMounted) { mapWork.onMounted(map) }
+    if (mapWork.onMounted) {
+      mapWork.onMounted(map)
+    }
   }
 }
 

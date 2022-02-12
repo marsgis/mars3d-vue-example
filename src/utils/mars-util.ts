@@ -31,10 +31,17 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
   const result = wapperHeight - lose
   callback(result)
 
-  window.onresize = () => {
+  const resize = () => {
     wapperHeight = wapper?.clientHeight || 0
     const resizeHeight = wapperHeight - lose
     callback(resizeHeight)
+  }
+
+  window.addEventListener("resize", resize)
+
+  resize()
+  return () => {
+    window.removeEventListener("resize", resize)
   }
 }
 
@@ -47,4 +54,22 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
  */
 export function getQueryString(parameter: string): string | null {
   return new URL(window.location.href).searchParams.get(parameter)
+}
+/**
+ * 判断是否是pc端
+ *
+ * @export 
+ * @return { boolean } 是否是pc端
+ */
+export function isPc() {
+  const userAgentInfo = navigator.userAgent
+  const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"]
+  let flag = true
+  for (let v = 0; v < Agents.length; v++) {
+    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+      flag = false
+      break
+    }
+  }
+  return flag
 }
