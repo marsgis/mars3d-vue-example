@@ -1,5 +1,5 @@
 <template>
-  <pannel class="mars-load-legend">
+  <mars-pannel class="mars-load-legend">
     <p class="mars-load-head">One Belt One Road 图例</p>
     <ul class="mars-load-introduce">
       <li>
@@ -25,19 +25,16 @@
         </div>
       </li>
     </ul>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 </script>
 <style scoped lang="less">
 .mars-load-legend {
-  position: absolute !important;
-  top: 658px !important;
-  right: 10px !important;
-  width: 300px;
-  height: 200px;
+  width: 290px;
+  height: 180px;
   box-sizing: border-box;
 }
 

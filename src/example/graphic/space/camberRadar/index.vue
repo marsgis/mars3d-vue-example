@@ -1,78 +1,78 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
 
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">方向角</span>
+          <span class="mars-pannel-item-label">方向角</span>
           <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />
-          <span class="pannel-item-value">{{ headingValue }}</span>
+          <span class="mars-pannel-item-value">{{ headingValue }}</span>
         </a-space>
      </div>
 
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">俯仰角</span>
+          <span class="mars-pannel-item-label">俯仰角</span>
           <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />
-          <span class="pannel-item-value">{{ pitchValue }}</span>
+          <span class="mars-pannel-item-value">{{ pitchValue }}</span>
         </a-space>
      </div>
 
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">翻滚角(roll)</span>
+          <span class="mars-pannel-item-label">翻滚角(roll)</span>
           <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />
-          <span class="pannel-item-value">{{ rollValue }}</span>
+          <span class="mars-pannel-item-value">{{ rollValue }}</span>
         </a-space>
      </div>
 
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">内曲面半径</span>
+          <span class="mars-pannel-item-label">内曲面半径</span>
           <mars-input-number @change="outerRadiusChange" v-model:value="outerRadius" :min="1" :max="999999999" :step="1"></mars-input-number>
         </a-space>
      </div>
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">外曲面半径</span>
+          <span class="mars-pannel-item-label">外曲面半径</span>
           <mars-input-number @change="innerRadiusChange" v-model:value="innerRadius" :min="1" :max="999999999" :step="1"></mars-input-number>
         </a-space>
      </div>
 
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">左横截面角度</span>
+          <span class="mars-pannel-item-label">左横截面角度</span>
           <a-slider @change="startFovHChange" v-model:value="startFovH" :min="-180" :max="180" :step="0.01" />
-          <span class="pannel-item-value">{{ startFovH }}</span>
+          <span class="mars-pannel-item-value">{{ startFovH }}</span>
         </a-space>
      </div>
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">右横截面角度</span>
+          <span class="mars-pannel-item-label">右横截面角度</span>
           <a-slider @change="endFovHChange" v-model:value="endFovH" :min="-180" :max="180" :step="0.01" />
-          <span class="pannel-item-value">{{ endFovH }}</span>
+          <span class="mars-pannel-item-value">{{ endFovH }}</span>
         </a-space>
      </div>
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">垂直起始角度</span>
+          <span class="mars-pannel-item-label">垂直起始角度</span>
           <a-slider @change="startFovVChange" v-model:value="startFovV" :min="0" :max="90" :step="0.01" />
-          <span class="pannel-item-value">{{ startFovV }}</span>
+          <span class="mars-pannel-item-value">{{ startFovV }}</span>
         </a-space>
      </div>
      <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">垂直结束角度</span>
+          <span class="mars-pannel-item-label">垂直结束角度</span>
           <a-slider @change="endFovVChange" v-model:value="endFovV" :min="0" :max="90" :step="0.01" />
-          <span class="pannel-item-value">{{ endFovV }}</span>
+          <span class="mars-pannel-item-value">{{ endFovV }}</span>
         </a-space>
      </div>
 
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
  import * as mapWork from "./map.js"
 
 const outerRadius = ref<number>(2000) // 外
@@ -143,13 +143,13 @@ const endFovVChange = () => {
 .ant-slider {
   width: 110px;
 }
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 90px;
 }
 .infoView {
   width: 300px;
 }
-.pannel-item-value {
+.mars-pannel-item-value {
   min-width: 50px;
 }
 </style>

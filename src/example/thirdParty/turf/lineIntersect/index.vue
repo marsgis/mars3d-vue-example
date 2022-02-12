@@ -1,15 +1,15 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="drawLine">绘制线</mars-button>
       <mars-button @click="crossPoint">计算相交点</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
  import * as mapWork from "./map.js"
 
 

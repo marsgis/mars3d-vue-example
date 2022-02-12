@@ -4,7 +4,6 @@ let map // mars3d.Map三维地图对象
 let roamLine
 const roamLineData = {}
 
-// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
@@ -43,8 +42,9 @@ export function onMounted(mapInstance) {
   roamLine.start()
 
   addDivPoint(roamLine.property)
+
   // 显示基本信息，名称、总长、总时间
-  roamLineData.td_alltimes = formatTime(roamLine.alltimes)
+  roamLineData.td_alltimes = mars3d.Util.mars3d.Util.formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
   roamLine.on(mars3d.EventType.change, (event) => {
@@ -63,20 +63,7 @@ export function onUnmounted() {
   map = null
 }
 
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
 
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
-}
 
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {
@@ -96,7 +83,7 @@ function showRealTimeInfo(params, _alltime) {
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
 
-  roamLineData.td_times = formatTime(params.time)
+  roamLineData.td_times = mars3d.Util.mars3d.Util.formatTime(params.time)
   roamLineData.td_length = mars3d.MeasureUtil.formatDistance(params.len)
 
   if (params.hbgd) {
@@ -114,8 +101,8 @@ function showRealTimeInfo(params, _alltime) {
 
 function addDivPoint(position) {
   // 创建DIV数据图层
-  const divLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(divLayer)
+  const graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
   const graphic = new mars3d.graphic.DivGraphic({
     position: position,
@@ -157,5 +144,5 @@ function addDivPoint(position) {
       scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 100000, 0.1)
     }
   })
-  divLayer.addGraphic(graphic)
+  graphicLayer.addGraphic(graphic)
 }

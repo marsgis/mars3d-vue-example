@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -23,15 +23,17 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphic01(graphicLayer)
-  addGraphic02(graphicLayer)
-  addGraphic03(graphicLayer)
-  addGraphic04(graphicLayer)
-  addGraphic05(graphicLayer)
-  addGraphic06(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
+  addDemoGraphic6(graphicLayer)
 }
 
 /**
@@ -42,7 +44,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.282587, 30.859197, 1544.31],
     style: {
@@ -55,13 +57,11 @@ function addGraphic01(graphicLayer) {
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
-  // 演示个性化处理graphic，代码在\common\script\graphicManager.js
-
+  // 演示对graphic的个性化处理
   initGraphicManager(primitive)
-
 }
 
-function addGraphic02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
     position: new mars3d.LngLatPoint(116.22457, 30.883148, 1035.2),
     style: {
@@ -78,7 +78,7 @@ function addGraphic02(graphicLayer) {
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
-function addGraphic03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.177214, 30.842242, 2000],
     style: {
@@ -99,7 +99,7 @@ function addGraphic03(graphicLayer) {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphic04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.244399, 30.920459, 573.6],
     style: {
@@ -113,7 +113,7 @@ function addGraphic04(graphicLayer) {
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
-function addGraphic05(graphicLayer) {
+function addDemoGraphic5(graphicLayer) {
   const primitive = new mars3d.graphic.CylinderPrimitive({
     position: [116.328775, 30.954602, 5000],
     style: {
@@ -132,7 +132,7 @@ function addGraphic05(graphicLayer) {
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
-function addGraphic06(graphicLayer) {
+function addDemoGraphic6(graphicLayer) {
   // 添加卫星1
   const point = new mars3d.LngLatPoint(116.148832, 30.920609, 9000)
 
@@ -166,35 +166,8 @@ function addGraphic06(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
-
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -205,68 +178,27 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
 }
 
-// 绑定图层的弹窗
-function bindLayerPopup() {
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
 
+
+
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
     {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
@@ -330,16 +262,4 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-
-  // 测试 颜色闪烁
-  if (graphic.startFlicker) {
-    graphic.startFlicker({
-      time: 20, // 闪烁时长（秒）
-      maxAlpha: 0.5,
-      color: Cesium.Color.YELLOW,
-      onEnd: function () {
-        // 结束后回调
-      }
-    })
-  }
 }

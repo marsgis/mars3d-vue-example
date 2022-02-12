@@ -2,14 +2,10 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-/**
- *方便演示，移除默认配置的control
- *
- * @param {object} option 默认配置的参数
- * @return {object} option
- */
-//  方式1：在创建地球前的传参中配置control参数
+
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
+  //  方式1：在创建地球前的传参中配置control参数
   control: {
     mouseDownView: false // 当前示例展现的控件-鼠标按下的特效
   }

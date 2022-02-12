@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView achart_container" v-auto-height="28">
+  <mars-pannel class="infoView achart_container" v-auto-height="28">
     <!-- 右侧图表面板-->
     <div class="bg">
       <div class="_item_top">
@@ -65,17 +65,18 @@
         </div>
       </div>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 
 const ring = ref()
 const line = ref()
 const bar = ref()
+
 onMounted(() => {
   nextTick(() => {
     initEcharts()
@@ -117,7 +118,7 @@ function initEcharts() {
           position: "center",
           lineHeight: 28,
           formatter: () => {
-              return ""
+            return ""
           },
           emphasis: {
             formatter: (params: any) => {

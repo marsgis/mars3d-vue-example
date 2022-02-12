@@ -33,10 +33,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @returns {void} 无
  */
 export function onMounted(mapInstance) {
-  map = mapInstance // 记录map
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -45,9 +42,18 @@ export function onMounted(mapInstance) {
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
   })
-  graphicLayer.on(mars3d.EventType.change, function (event) {
-    // 监听位置变化
+  // graphicLayer.on(mars3d.EventType.change, function (event) {
+  //   console.log("卫星位置变化", event)
+  // })
+
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
   })
+
   creatSatellite()
 }
 
@@ -135,6 +141,7 @@ function creatSatellite() {
 
 // 框选查询 矩形
 export function drawRectangle() {
+  drawClear()
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -151,6 +158,7 @@ export function drawRectangle() {
 }
 // 框选查询   圆
 export function drawCircle() {
+  drawClear()
   map.graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -167,6 +175,7 @@ export function drawCircle() {
 }
 // 框选查询   多边
 export function drawPolygon() {
+  drawClear()
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {

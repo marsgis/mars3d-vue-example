@@ -1,14 +1,14 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="createMap">创建地图</mars-button>
       <mars-button @click="destroyMap">销毁地图</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 // 创建地图
 const createMap = () => {

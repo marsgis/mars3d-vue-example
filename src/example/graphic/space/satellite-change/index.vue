@@ -1,18 +1,17 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
+    <a-space>
+      <mars-button @click="drawRectangle">框选</mars-button>
+      <mars-button @click="drawCircle">圆形</mars-button>
+      <mars-button @click="drawPolygon">多边形</mars-button>
+      <mars-button @click="drawClear">清除</mars-button>
+    </a-space>
+  </mars-pannel>
 
-        <a-space>
-          <mars-button @click="drawRectangle">框选</mars-button>
-          <mars-button @click="drawCircle">圆形</mars-button>
-          <mars-button @click="drawPolygon">多边形</mars-button>
-          <mars-button @click="drawClear">清除</mars-button>
-        </a-space>
-
-  </pannel>
   <!-- 视频 面板 -->
   <div class="videoWrap" v-show="formState.openVideo == true">
     <div class="openPanel" v-show="formState.openPannel === true">
-      <div class="closeAction" @click="closePannel">&lt; 收缩</div>
+      <div class="closeAction" @click="closePannel">收缩&gt; </div>
       <video width="420" :muted="true" :autoplay="true">
         <source src="//data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
       </video>
@@ -25,9 +24,9 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
- import * as mapWork from "./map.js"
+import * as mapWork from "./map.js"
 
 interface FormState {
   openVideo: boolean
@@ -73,12 +72,12 @@ const closePannel = () => {
 <style scoped lang="less">
 .videoWrap {
   position: absolute;
-  bottom: 110px;
-  left: 52px;
-  border: 1px solid gray;
-  z-index: 9;
-  background-color: #3f4854;
+  bottom: 60px;
+  right: 10px;
   padding: 4px 8px;
+  border: 1px solid gray;
+  background-color: #3f4854;
+  z-index: 9;
 }
 
 .closeAction {

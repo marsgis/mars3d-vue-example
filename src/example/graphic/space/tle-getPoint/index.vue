@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="卫星张角:">
         <a-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
@@ -32,14 +32,14 @@
         <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import type { UnwrapRef } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
  import * as mapWork from "./map.js"
 
 interface FormState {

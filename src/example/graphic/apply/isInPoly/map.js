@@ -1,12 +1,12 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.772337, lng: 117.213784, alt: 12450, heading: 360, pitch: -66 }
+    center: { lat: 31.772337, lng: 117.213784, alt: 12450, heading: 0, pitch: -66 }
   }
 }
 
@@ -24,7 +24,7 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   const extent = map.getExtent()
-  mars3d.Resource.fetchJson({
+  mars3d.Util.fetchJson({
     url: "//server.mars3d.cn/server/pointRandom/",
     queryParameters: {
       xmin: extent.xmin,
@@ -79,7 +79,9 @@ function updateSelect(drawGraphic) {
 
     const isInArea = drawGraphic.isInPoly(position)
     if (isInArea) {
-      graphic.entityGraphic.image = "img/marker/mark1.png"
+      graphic.setStyle({
+        image: "img/marker/mark1.png"
+      })
       selectGraphic.push(graphic)
     }
   })
@@ -89,7 +91,10 @@ export function removeAll() {
   map.graphicLayer.clear()
 
   for (let i = 0; i < selectGraphic.length; i++) {
-    selectGraphic[i].entityGraphic.image = "img/marker/mark3.png"
+    const graphic = selectGraphic[i]
+    graphic.setStyle({
+      image: "img/marker/mark3.png"
+    })
   }
   selectGraphic = []
 }

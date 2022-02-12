@@ -23,9 +23,9 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphicDemo1(graphicLayer)
-  addGraphicDemo2(graphicLayer)
-  addGraphicDemo3(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
 }
 
 /**
@@ -37,7 +37,7 @@ export function onUnmounted() {
 }
 
 // 喷泉效果
-function addGraphicDemo1(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.224855, 31.815135, 28.05), // 位置
     style: {
@@ -67,7 +67,7 @@ function addGraphicDemo1(graphicLayer) {
 }
 
 // 火炬效果
-function addGraphicDemo2(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const particleSystem = new mars3d.graphic.ParticleSystem({
     position: Cesium.Cartesian3.fromDegrees(117.225518, 31.815549, 28.28), // 位置
     style: {
@@ -97,7 +97,7 @@ function addGraphicDemo2(graphicLayer) {
 }
 
 // 动态运行车辆的尾气粒子效果
-function addGraphicDemo3(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const roamLine = new mars3d.graphic.RoamLine({
     positions: [
       [117.226585, 31.818437, 32.41],

@@ -7,8 +7,8 @@ export const mapOptions = {
   scene: {
     center: { lat: 31.839403, lng: 117.257352, alt: 2540, heading: 0, pitch: -90 }
   },
+  // 方式1：在创建地球前的参数中配置
   layers: [
-    // 方式1：在创建地球前的参数中配置
     {
       name: "中科大-东区",
       type: "image",

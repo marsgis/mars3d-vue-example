@@ -1,35 +1,39 @@
 <template>
-  <pannel class="infoView">
-      <div class="f-mb">
-        <a-space>
-          <span>标绘:</span>
-          <mars-button @click="drawRectangle">贴地矩形</mars-button>
-          <mars-button @click="drawPolygon">贴地面</mars-button>
-          <mars-button @click="clampDrawPolygon">立体面</mars-button>
-          <mars-button @click="clear">清除</mars-button>
-        </a-space>
-      </div>
+  <mars-pannel class="infoView">
+    <div class="f-mb">
+      <layer-state />
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span>标绘:</span>
+        <mars-button @click="drawRectangle">贴地矩形</mars-button>
+        <mars-button @click="drawPolygon">贴地面</mars-button>
+        <mars-button @click="clampDrawPolygon">立体面</mars-button>
+        <mars-button @click="clear">清除</mars-button>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span>方向:</span>
-          <a-slider @change="angleChange" v-model:value="angleValue" :min="0" :max="360" :step="1" />当前值：{{ angleValue }}
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span>方向:</span>
+        <a-slider @change="angleChange" v-model:value="angleValue" :min="0" :max="360" :step="1" />当前值：{{ angleValue }}
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span>状态:</span>
-          <mars-button @click="videoPlay">播放</mars-button>
-          <mars-button @click="videoStop">暂停</mars-button>
-        </a-space>
-      </div>
-  </pannel>
+    <div class="f-mb">
+      <a-space>
+        <span>状态:</span>
+        <mars-button @click="videoPlay">播放</mars-button>
+        <mars-button @click="videoStop">暂停</mars-button>
+      </a-space>
+    </div>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const angleValue = ref<number>(0) // y轴方向

@@ -18,7 +18,8 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 蓝色底图
-  addGraphics()
+
+  addDemoGraphics()
 }
 
 /**
@@ -29,7 +30,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphics() {
+function addDemoGraphics() {
   const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
     name: "安徽各市",
     url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",

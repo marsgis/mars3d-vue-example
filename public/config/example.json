@@ -253,7 +253,19 @@
         "details": "当前平台支持的底图坐标系演示",
         "children": [
           {
-            "name": "EPSG4490坐标系",
+            "name": "EPSG3857(Web墨卡托)",
+            "main": "layer-tile/crs/epsg3857",
+            "usePannel": true,
+            "date": "2022-02-09"
+          },
+          {
+            "name": "EPSG4326坐标系(WGS84)",
+            "main": "layer-tile/crs/epsg4326",
+            "usePannel": true,
+            "date": "2022-02-09"
+          },
+          {
+            "name": "EPSG4490坐标系(大地2000)",
             "main": "layer-tile/crs/epsg4490",
             "usePannel": true,
             "date": "2021-10-09"
@@ -405,6 +417,7 @@
           {
             "name": "右键菜单",
             "main": "control/inside/contextmenu",
+            "usePannel": true,
             "date": "2021-10-08"
           },
           {
@@ -472,7 +485,7 @@
           },
           {
             "name": "放大缩小工具栏按钮",
-            "main": "control/basis/zoomNavigation",
+            "main": "control/basis/zoom",
             "date": "2021-10-09"
           },
           {
@@ -611,6 +624,7 @@
           {
             "name": "立体户型图(自定义扩展)",
             "main": "layer-graphic/geojson/huxing",
+            "usePannel": true,
             "resources": ["HuxingLayer.js"],
             "date": "2021-11-10"
           }
@@ -627,6 +641,7 @@
           {
             "name": "WFS图层",
             "main": "layer-graphic/wfs/geoserver",
+            "usePannel": true,
             "date": "2021-11-10"
           },
           {
@@ -638,6 +653,7 @@
           {
             "name": "ArcGIS WFS图层",
             "main": "layer-graphic/wfs/arcgis-feature",
+            "usePannel": true,
             "date": "2021-11-10"
           },
           {
@@ -648,6 +664,7 @@
           {
             "name": "高德POI图层",
             "main": "layer-graphic/wfs/gaodePOI",
+            "usePannel": true,
             "date": "2021-11-10"
           }
         ]
@@ -966,6 +983,13 @@
                 "url": "/vue/mars-sample/graphic-editor/style.vue"
               }
             ]
+          },
+          {
+            "name": "统计柱状图(Cylinder案例)",
+            "main": "graphic/entity/cylinder-gdp",
+            "libs": ["echarts-gl", "mars3d"],
+            "resources": ["cylinderGdp.css"],
+            "date": "2021-10-07"
           },
           {
             "name": "圆锥追踪体",
@@ -1312,13 +1336,6 @@
             "main": "graphic/primitive/cylinder"
           },
           {
-            "name": "统计柱状图(Cylinder案例)",
-            "main": "graphic/entity/cylinder-gdp",
-            "libs": ["echarts-gl", "mars3d"],
-            "resources": ["cylinderGdp.css"],
-            "date": "2021-10-07"
-          },
-          {
             "name": "圆锥追踪体P",
             "main": "graphic/primitive/coneTrack",
             "usePannel": true,
@@ -1342,6 +1359,12 @@
             "date": "2021-11-10",
             "usePannel": true,
             "main": "graphic/primitive/ellipsoid"
+          },
+          {
+            "name": "积云",
+            "main": "graphic/primitive/cloud",
+            "usePannel": true,
+            "date": "2022-1-21"
           },
           {
             "name": "Model 小模型",
@@ -1390,23 +1413,6 @@
             "main": "graphic/primitive/polyline-vline",
             "usePannel": true,
             "date": "2021-10-02"
-          },
-          {
-            "name": "竖直飞线",
-            "main": "graphic/primitive/polyline-vline-lineFlow",
-            "date": "2021-11-10",
-            "thumbnail": "thumbnail.gif"
-          },
-          {
-            "name": "北京公交线(OD线)",
-            "main": "graphic/primitive/polyline-odline-bus",
-            "date": "2021-11-03",
-            "thumbnail": "thumbnail.gif"
-          },
-          {
-            "name": "民航航线(OD线)",
-            "main": "graphic/primitive/polyline-odline-flights",
-            "date": "2021-11-10"
           },
           {
             "name": "高压电线(自动计算线)",
@@ -1556,35 +1562,52 @@
             "main": "graphic/combine/polyline"
           },
           {
-            "name": "气象流动线(PolylineCombine案例)",
+            "name": "北京公交线(OD线)",
+            "main": "graphic/combine/polyline-odline-bus",
+            "date": "2021-11-03",
+            "thumbnail": "thumbnail.gif"
+          },
+          {
+            "name": "民航航线(OD线)",
+            "main": "graphic/combine/polyline-odline-flights",
+            "date": "2021-11-10"
+          },
+          {
+            "name": "气象流动线",
             "main": "graphic/combine/polyline-lineFlow-wind",
             "date": "2021-11-02",
             "thumbnail": "thumbnail.gif"
           },
           {
+            "name": "竖直飞线",
+            "main": "graphic/combine/polyline-vline-lineFlow",
+            "date": "2021-11-10",
+            "thumbnail": "thumbnail.gif"
+          },
+          {
             "name": "PolylineVolumeCombine 管道线",
-            "main": "graphic/combine/polyline-volume-combine",
+            "main": "graphic/combine/polylineVolume",
             "date": "2022-01-24",
             "usePannel": true,
             "thumbnail": "thumbnail.jpg"
           },
           {
             "name": "CorridorCombine 走廊",
-            "main": "graphic/combine/corridor-combine",
+            "main": "graphic/combine/corridor",
             "date": "2022-01-24",
             "usePannel": true,
             "thumbnail": "thumbnail.jpg"
           },
           {
             "name": "WallCombine 墙",
-            "main": "graphic/combine/wall-combine",
+            "main": "graphic/combine/wall",
             "date": "2022-01-24",
             "usePannel": true,
             "thumbnail": "thumbnail.jpg"
           },
           {
             "name": "RectangleCombine 矩形",
-            "main": "graphic/combine/rectangle-combine",
+            "main": "graphic/combine/rectangle",
             "date": "2022-01-24",
             "usePannel": true,
             "thumbnail": "thumbnail.jpg"
@@ -1658,12 +1681,6 @@
       {
         "name": "粒子效果对象",
         "children": [
-          {
-            "name": "积云",
-            "main": "graphic/particleSystem/cloud",
-            "usePannel": true,
-            "date": "2022-1-21"
-          },
           {
             "name": "粒子效果",
             "main": "graphic/particleSystem/basis",
@@ -1867,6 +1884,7 @@
           {
             "name": "TLE卫星列表实时展示",
             "main": "graphic/space/satellite-list",
+            "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01",
             "thumbnail": "thumbnail.gif",
@@ -1874,7 +1892,7 @@
           },
           {
             "name": "TLE外太空物实时展示",
-            "main": "graphic/space/spacePoint",
+            "main": "graphic/space/point",
             "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01"
@@ -1962,6 +1980,7 @@
           {
             "name": "多个飞行路线",
             "main": "graphic/roam/flight-multi",
+            "usePannel": true,
             "date": "2021-11-02"
           },
           {
@@ -2209,7 +2228,7 @@
             "name": "高压线塔杆（点云）",
             "main": "layer-tileset/type/basis",
             "usePannel": true,
-            "params": "pnts-ganta",
+            "params": "data=pnts-ganta",
             "thumbnail": "thumbnail_ganta.jpg",
             "date": "2022-1-1"
           },
@@ -2601,7 +2620,7 @@
           {
             "name": "云图",
             "date": "2021-11-10",
-            "main": "effect/cloud"
+            "main": "graphic/entity/rectangle-cloud"
           },
           {
             "name": "水面倒影 Demo",
@@ -3142,6 +3161,7 @@
           {
             "name": "多卫星TLE实时展示",
             "main": "graphic/space/satellite-list",
+            "usePannel": true,
             "libs": ["mars3d", "mars3d-space"],
             "date": "2021-11-01",
             "thumbnail": "thumbnail.gif",

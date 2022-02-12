@@ -56,13 +56,6 @@ class Geolocation extends mars3d.control.ToolButton {
     mars3d.DomUtil.removeClass(this._container, "tracking-activated")
     mars3d.DomUtil.addClass(this._container, "tracking-deactivated")
 
-    this._map.flyToPoint(position, {
-      radius: 2000,
-      complete: function () {
-        console.log("飞行操作完成")
-      }
-    })
-
     this.clearLocationPoint()
     const graphic = new mars3d.graphic.DivLightPoint({
       position: position,
@@ -74,11 +67,20 @@ class Geolocation extends mars3d.control.ToolButton {
     })
     this._map.graphicLayer.addGraphic(graphic)
 
+    graphic.flyTo({
+      radius: 2000,
+      complete: function () {
+        console.log("飞行操作完成")
+      }
+    })
+
     this.graphic = graphic
   }
 
   clearLocationPoint() {
-    if (!this.graphic) { return }
+    if (!this.graphic) {
+      return
+    }
     this.graphic.destroy()
     this.graphic = null
   }

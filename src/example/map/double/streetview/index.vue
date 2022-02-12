@@ -1,19 +1,19 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="viewTo23D">分屏</mars-button>
       <mars-button @click="viewTo2d">仅街景</mars-button>
       <mars-button @click="viewTo3d">仅3D</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 
-  <pannel class="iconView">
+  <mars-pannel class="iconView">
     <img src="/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const viewTo23D = () => {

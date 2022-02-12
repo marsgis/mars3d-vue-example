@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -20,7 +21,7 @@ export const treeEvent = new mars3d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/airport.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/airport.json" })
     .then(function (json) {
       addOrbitList(json)
     })
@@ -53,7 +54,7 @@ function addOrbitList(arr) {
     }
   }
 
-  const geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     data: features,
     crs: "EPSG:3857", // 标识数据的坐标系
     symbol: {
@@ -68,16 +69,16 @@ function addOrbitList(arr) {
   })
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
     const data = event.list
     treeEvent.fire("tree", { data })
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 }
 
 /**

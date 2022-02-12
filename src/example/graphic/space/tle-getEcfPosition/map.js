@@ -1,7 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
 let tleArr
 let drawGraphic
 let tableList = []
@@ -9,7 +10,7 @@ let tableList = []
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 21.105826, lng: 108.202174, alt: 4426845, heading: 356, pitch: -77 },
+    center: { lat: 21.105826, lng: 108.202174, alt: 4426845, heading: 0, pitch: -77 },
     cameraController: {
       constrainedAxis: false // 解除在南北极区域鼠标操作限制
     }
@@ -30,6 +31,7 @@ export function onMounted(mapInstance) {
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
+
   queryTleChinaApiData()
 }
 
@@ -43,7 +45,7 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryTleChinaApiData() {
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle-china.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle-china.json" })
     .then(function (data) {
       tleArr = data.data
       console.log("卫星数量：" + tleArr.length)
@@ -59,6 +61,7 @@ export function drawRectangle() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "rectangle",
+    allowDrillPick: true,
     style: {
       color: "#ffff00",
       opacity: 0.2,
@@ -70,11 +73,13 @@ export function drawRectangle() {
     }
   })
 }
+
 // 框选查询   多边
 export function drawPolygon() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "polygon",
+    allowDrillPick: true,
     style: {
       color: "#ffff00",
       opacity: 0.2,
@@ -86,12 +91,13 @@ export function drawPolygon() {
     }
   })
 }
-// 框选查询   圆
 
+// 框选查询   圆
 export function drawCircle() {
   map.graphicLayer.clear()
   map.graphicLayer.startDraw({
     type: "circle",
+    allowDrillPick: true,
     style: {
       color: "#ffff00",
       opacity: 0.2,
@@ -103,6 +109,7 @@ export function drawCircle() {
     }
   })
 }
+
 export function drawClear() {
   map.graphicLayer.clear()
   drawGraphic = null
@@ -126,8 +133,6 @@ const pointClr = Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.7)
  * @returns {void}
  */
 export function startFX(startTimes, endTimes) {
-  // clearResult()
-
   if (!drawGraphic) {
     globalMsg("请先在图上绘制区域")
     return
@@ -277,7 +282,7 @@ function showResult(newSatelliteArr) {
             name: item.name,
             inTime: inTime,
             outTime: outTime,
-            often: formatTime((outAttr.time - inAttr.lastTime) / 1000),
+            often: mars3d.Util.formatTime((outAttr.time - inAttr.lastTime) / 1000),
             distance: mars3d.MeasureUtil.formatDistance(Cesium.Cartesian3.distance(positions[1], positions[0]))
           }
           tableList.push(data)
@@ -291,21 +296,6 @@ function showResult(newSatelliteArr) {
   }
 
   globalMsg("分析完成，共" + tableList.length + "条过境记录")
-}
-
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
-
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
 }
 
 const corridor = []

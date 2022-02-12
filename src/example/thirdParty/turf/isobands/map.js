@@ -44,7 +44,7 @@ const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 
 // 访问后端接口，取数据
 function queryWindpointApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
 }
 
 // 等值线面

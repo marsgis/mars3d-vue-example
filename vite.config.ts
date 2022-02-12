@@ -6,29 +6,49 @@ import copyPlugin from "rollup-plugin-copy"
 import path from "path"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
-// import MonacoEditorNlsPlugin, { esbuildPluginMonacoEditorNls, Languages } from "vite-plugin-monaco-editor-nls"
 const { getThemeVariables } = require("ant-design-vue/dist/theme")
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
-
   const ENV = loadEnv(mode, root)
-  // console.log(`当前环境信息：`, mode)
-  // console.log(`ENV：`, ENV)
 
   return defineConfig({
-    base: ENV.VITE_PUBLIC_PATH,
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "src"),
-        "@comp": path.resolve(__dirname, "src/components"),
-        "@exmp": path.resolve(__dirname, "src/exmp")
-      }
-    },
+    base: ENV.VITE_BASE_URL,
     server: {
       host: "localhost",
       https: false,
       port: 2002
+    },
+    define: {
+      "process.env": {
+        mode: mode,
+        BASE_URL: ENV.VITE_BASE_URL,
+        EXAMPLE_SOURCE_PATH: ENV.VITE_EXAMPLE_SOURCE_PATH,
+        EDITOR_MODE: ENV.VITE_EDITOR_MODE
+      }
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src")
+      }
+    },
+    optimizeDeps: {
+      exclude: ["mars3d"]
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: {
+            ...getThemeVariables({ dark: true }),
+            "border-color-base": "#cde1de",
+            "primary-color": "#4db3ff",
+            "body-background": "#1c222b",
+            "font-size-base": "12px"
+          },
+          additionalData: `@import "${path.resolve(__dirname, "src/components/mars-ui/base.less")}";`,
+          javascriptEnabled: true
+        }
+      }
     },
     build: {
       assetsDir: "example/assets",
@@ -40,14 +60,6 @@ export default ({ mode }: ConfigEnv) => {
         }
       }
     },
-    define: {
-      "process.env": {
-        mode: mode,
-        BASE_URL: ENV.VITE_PUBLIC_PATH,
-        EXAMPLE_SOURCE_PATH: ENV.VITE_EXAMPLE_SOURCE_PATH,
-        EXAMPLE_MODE: ENV.VITE_EXAMPLE_MODE
-      }
-    },
     plugins: [
       vue(),
       eslintPlugin({
@@ -55,7 +67,6 @@ export default ({ mode }: ConfigEnv) => {
       }),
       examplePlugin(mode),
       monacoEditorPlugin({ publicPath: "example/assets" }),
-      // MonacoEditorNlsPlugin({ locale: Languages.zh_hans }),
       {
         ...copyPlugin({
           hook: "closeBundle",
@@ -77,32 +88,6 @@ export default ({ mode }: ConfigEnv) => {
           ]
         })
       }
-    ],
-    optimizeDeps: {
-      exclude: ["mars3d"],
-      esbuildOptions: {
-        plugins: [
-          // esbuildPluginMonacoEditorNls({
-          //   locale: Languages.zh_hans
-          // })
-        ]
-      }
-    },
-    css: {
-      preprocessorOptions: {
-        less: {
-          modifyVars: {
-            ...getThemeVariables({
-              dark: true
-            }),
-            "border-color-base": "#cde1de",
-            "primary-color": "#4db3ff",
-            "body-background": "#1c222b",
-            "font-size-base": "12px"
-          },
-          javascriptEnabled: true
-        }
-      }
-    }
+    ]
   })
 }

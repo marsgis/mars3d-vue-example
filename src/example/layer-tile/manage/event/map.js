@@ -13,7 +13,7 @@ export const mapOptions = {
     baseLayerPicker: false
   },
   basemaps: [],
-  layers: [{ type: "tileinfo", name: "瓦片信息", order: 2, show: true }]
+  layers: [{ type: "tileinfo", name: "瓦片信息", zIndex: 3, show: true }]
 }
 
 /**
@@ -40,7 +40,7 @@ function addLayer() {
   tileLayer = new mars3d.layer.TdtLayer({
     name: "天地图影像",
     layer: "img_d",
-    order: 1
+    zIndex: 1
   })
   map.addLayer(tileLayer)
 
@@ -56,7 +56,8 @@ function addLayer() {
     getFeatureInfoParameters: {
       feature_count: 10
     },
-    popup: "all"
+    popup: "all",
+    zIndex: 2
   })
   map.addLayer(wmsLayer)
 
@@ -64,6 +65,13 @@ function addLayer() {
 }
 
 function addTileStatus() {
+  map.on(mars3d.EventType.tileLoadProgress, function (count) {
+    // console.log(`地图所有瓦片加载,剩余：${count}`)
+    if (count === 0) {
+      console.log(`地图所有瓦片加载完成`)
+    }
+  })
+
   let count = 0
   // 添加单个瓦片，开始加载瓦片（请求前）
   tileLayer.on(mars3d.EventType.addTile, function (event) {

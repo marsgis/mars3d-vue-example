@@ -1,7 +1,7 @@
 <template>
   <a-spin :spinning="loading" wrapperClassName="global-spin">
     <mars-editor ref="editorRef" :id="id" :full-name="name">
-      <operation-pannel @childMounted="onChildMounted" />
+      <mars-operation @childMounted="onChildMounted" />
     </mars-editor>
   </a-spin>
 </template>
@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { getQueryString } from "@/utils/index"
 import { getCurrentInstance, ref } from "vue"
-import OperationPannel from "@comp/mars-work/operation.vue"
+import MarsOperation from "@/components/mars-work/mars-operation.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
@@ -22,7 +22,7 @@ const name = getQueryString("name")
 
 const editorRef = ref()
 function onChildMounted() {
-  editorRef.value.setMap(window._map)
+  editorRef.value.setMap() // 通知执行mapWork.onMounted
 }
 
 let loadingNum = 0

@@ -37,7 +37,7 @@ export function onUnmounted() {
 }
 
 function queryWeiboApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo.json" })
 }
 function createMapvLayer(rs) {
   const data1 = []

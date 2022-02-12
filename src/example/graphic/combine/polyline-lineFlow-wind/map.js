@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -18,8 +19,19 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  // 创建Graphic图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+
   // 加载气象
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
     .then(function (res) {
       showWindLine(res.data)
     })
@@ -38,18 +50,6 @@ export function onUnmounted() {
 
 // 流场线
 function showWindLine(arr) {
-  // 创建Graphic图层
-  const graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
-
-  graphicLayer.bindTooltip(function (event) {
-    const attr = event.graphic.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "线", template: "all", attr: attr })
-  })
-
   const arrData = []
   const radius = 12000
   const lineMaterial = mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
@@ -116,3 +116,15 @@ function showWindLine(arr) {
     graphicLayer.addGraphic(primitive)
   }
 } */
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}

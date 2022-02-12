@@ -1,16 +1,16 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="show">无</mars-button>
       <mars-button @click="show1">背景1</mars-button>
       <mars-button @click="show2">背景2</mars-button>
       <mars-button @click="show3">背景3</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const show = () => {

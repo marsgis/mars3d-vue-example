@@ -1,6 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
+let graphic
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -27,12 +29,47 @@ export function onMounted(mapInstance) {
     }
   })
 
-  // 演示3种不同层次的绑定方式，可以按需使用
-  bindMapDemo()
+  // 为了演示图层上绑定方式
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
+    name: "标绘示例数据",
+    url: "//data.mars3d.cn/file/geojson/mars3d-draw.json"
+  })
+  map.addLayer(graphicLayer)
+
+  graphicLayer.on(mars3d.EventType.contextMenuOpen, function (event) {
+    event.stopPropagation()
+    console.log("打开了graphicLayer右键菜单")
+  })
+  graphicLayer.on(mars3d.EventType.contextMenuClose, function (event) {
+    event.stopPropagation()
+    console.log("关闭了graphicLayer右键菜单")
+  })
   bindLayerDemo()
+
+  // 为了演示graphic上绑定方式
+  graphic = new mars3d.graphic.BoxEntity({
+    position: new mars3d.LngLatPoint(116.336525, 31.196721, 323.35),
+    style: {
+      dimensions: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
+      fill: true,
+      color: "#00ff00",
+      opacity: 0.9,
+      label: {
+        text: "graphic绑定的演示",
+        font_size: 25,
+        font_family: "楷体",
+        color: "#003da6",
+        outline: true,
+        outlineColor: "#bfbfbf",
+        outlineWidth: 2,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      }
+    }
+  })
+  map.graphicLayer.addGraphic(graphic)
   bindGraphicDemo()
 }
-
 
 /**
  * 释放当前地图业务的生命周期函数
@@ -42,17 +79,18 @@ export function onUnmounted() {
   map = null
 }
 
+function rotatePoint_onChangeHandler(event) {
+  console.log("绕此处环绕飞行,变化了角度", event)
+}
 
-// 1.在map地图上绑定右键菜单
-function bindMapDemo() {
-  // 内置的默认右键菜单获取方法
-  // let defaultContextmenuItems =map.getDefaultContextMenu()
-  // 可以删减defaultContextmenuItems数组内值
-  // map.bindContextMenu(defaultContextmenuItems)
+// 在map地图上绑定右键菜单
+export function bindMapDefault() {
+  const defaultContextmenuItems = map.getDefaultContextMenu() // 内置的默认右键菜单获取方法
+  map.bindContextMenu(defaultContextmenuItems) // 可以删减defaultContextmenuItems数组内值
+}
 
-  // 解除已绑定的右键菜单
-  map.unbindContextMenu()
-
+// 在map地图上绑定右键菜单
+export function bindMapDemo() {
   const mapContextmenuItems = [
     {
       text: "显示此处经纬度",
@@ -118,24 +156,13 @@ function bindMapDemo() {
   map.bindContextMenu(mapContextmenuItems)
 }
 
-// 2.在layer图层上绑定右键菜单
-function bindLayerDemo() {
-  const graphicLayer = new mars3d.layer.GeoJsonLayer({
-    name: "标绘示例数据",
-    url: "//data.mars3d.cn/file/geojson/mars3d-draw.json"
-  })
-  map.addLayer(graphicLayer)
+// 解除Map已绑定的右键菜单
+export function unBindMapDemo() {
+  map.unbindContextMenu()
+}
 
-  graphicLayer.on(mars3d.EventType.contextMenuOpen, function (event) {
-    event.stopPropagation()
-    console.log("打开了graphicLayer右键菜单")
-  })
-  graphicLayer.on(mars3d.EventType.contextMenuClose, function (event) {
-    event.stopPropagation()
-    console.log("关闭了graphicLayer右键菜单")
-  })
-
-  // 在layer上绑定右键菜单
+// 在layer图层上绑定右键菜单
+export function bindLayerDemo() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
@@ -195,36 +222,13 @@ function bindLayerDemo() {
   ])
 }
 
-// 3.在graphic数据上绑定右键菜单
-function bindGraphicDemo() {
-  // 创建矢量数据图层
-  const graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
+// 解除Map已绑定的右键菜单
+export function unBindLayerDemo() {
+  graphicLayer.unbindContextMenu()
+}
 
-  const graphic = new mars3d.graphic.BoxEntity({
-    position: new mars3d.LngLatPoint(116.336525, 31.196721, 323.35),
-    style: {
-      dimensions: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
-      fill: true,
-      color: "#00ff00",
-      opacity: 0.9,
-      label: {
-        text: "graphic绑定的演示",
-        font_size: 25,
-        font_family: "楷体",
-        color: "#003da6",
-        outline: true,
-        outlineColor: "#bfbfbf",
-        outlineWidth: 2,
-        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-      }
-    }
-  })
-
-  graphicLayer.addGraphic(graphic)
-
-  // 2.在graphic上绑定右键菜单
+//  在graphic数据上绑定右键菜单
+export function bindGraphicDemo() {
   graphic.bindContextMenu([
     {
       text: "删除对象[graphic绑定的]",
@@ -239,8 +243,7 @@ function bindGraphicDemo() {
   ])
 }
 
-
-
-function rotatePoint_onChangeHandler(event) {
-  console.log("绕此处环绕飞行,变化了角度", event)
+// 解除Map已绑定的右键菜单
+export function unBindGraphicDemo() {
+  graphic.unbindContextMenu()
 }

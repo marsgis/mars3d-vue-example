@@ -1,14 +1,14 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-row>
         <a-col :span="5">图层状态:</a-col>
         <a-col :span="19">
           <a-space>
-            <a-checkbox v-model:checked="enabledShowHide" @change="bindShowHide">显示隐藏</a-checkbox>
-            <a-checkbox v-model:checked="enabledPopup" @change="bindPopup">Popup绑定</a-checkbox>
-            <a-checkbox v-model:checked="enabledTooltip" @change="bindTooltip">Tooltip</a-checkbox>
-            <a-checkbox v-model:checked="enabledRightMenu" @change="bindRightMenu">右键绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
+            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip</a-checkbox>
+            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键绑定</a-checkbox>
             <a-checkbox v-model:checked="isEditable" @change="isEditableChange">是否编辑</a-checkbox>
           </a-space>
         </a-col>
@@ -19,8 +19,8 @@
         <a-col :span="5">数据管理:</a-col>
         <a-col :span="19">
           <a-space>
-            <mars-button @click="btnClear">清除</mars-button>
-            <mars-button @click="btnExpFile">保存GeoJSON</mars-button>
+            <mars-button @click="onClickClear">清除</mars-button>
+            <mars-button @click="onClickExpFile">保存GeoJSON</mars-button>
             <a-upload
               :multiple="false"
               name="file"
@@ -28,8 +28,7 @@
               :file-list="fileList"
               :showUploadList="false"
               :supportServerRender="true"
-              :beforeUpload="beforeUploade"
-              @change="btnImpFile"
+              @change="onClickImpFile"
             >
               <a-button> 打开GeoJSON </a-button>
             </a-upload>
@@ -75,17 +74,19 @@
         </a-col>
       </a-row>
     </div>
-  </pannel>
+  </mars-pannel>
   <GraphicEditor ref="editor" />
   <location-to />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
-import LocationTo from "@comp/mars-sample/location-to.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import LocationTo from "@/components/mars-sample/location-to.vue"
+import { message } from "ant-design-vue"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 const editor = ref()
 
@@ -98,27 +99,39 @@ const isEditableChange = () => {
 }
 
 // 显示隐藏
-const enabledShowHide = ref<boolean>(true)
-const bindShowHide = () => {
-  mapWork.bindShowHide(enabledShowHide.value)
+const enabledShowHide = ref(true)
+const onChangeShow = () => {
+  mapWork.graphicLayer.show = enabledShowHide.value
 }
 
 // 是否绑定Popup
-const enabledPopup = ref<boolean>(true)
-const bindPopup = () => {
-  mapWork.bindPopup(enabledPopup.value)
+const enabledPopup = ref(false)
+const onChangePopup = () => {
+  if (enabledPopup.value) {
+    mapWork.bindLayerPopup()
+  } else {
+    mapWork.graphicLayer.unbindPopup()
+  }
 }
 
 // 是否绑定Tooltip
-const enabledTooltip = ref<boolean>(false)
-const bindTooltip = () => {
-  mapWork.bindTooltip(enabledTooltip.value)
+const enabledTooltip = ref(false)
+const onChangeTooltip = () => {
+  if (enabledTooltip.value) {
+    mapWork.graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+  } else {
+    mapWork.graphicLayer.unbindTooltip()
+  }
 }
 
 // 是否绑定右键菜单
-const enabledRightMenu = ref<boolean>(true)
-const bindRightMenu = () => {
-  mapWork.bindRightMenu(enabledRightMenu.value)
+const enabledRightMenu = ref(false)
+const onChangeContextMenu = () => {
+  if (enabledRightMenu.value) {
+    mapWork.bindLayerContextMenu()
+  } else {
+    mapWork.graphicLayer.unbindContextMenu(true)
+  }
 }
 
 interface FileItem {
@@ -135,28 +148,21 @@ interface FileInfo {
 }
 
 //  清除数据
-const btnClear = () => {
-  mapWork.btnClear()
+const onClickClear = () => {
+  mapWork.graphicLayer.clear()
 }
 
 // 保存geojson
-const btnExpFile = () => {
-  mapWork.btnExpFile()
+const onClickExpFile = () => {
+  if (mapWork.graphicLayer.length === 0) {
+    $message("当前没有标注任何数据，无需保存！")
+    return
+  }
+  mapWork.downloadJsonFile()
 }
 // 打开geojson
-const beforeUploade = (file: FileItem) => {
-  // fileList.value = [file]
-  return false
-}
-const btnImpFile = (info: FileInfo) => {
-  const item = info.file
-  const fileName = item.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-
-  if (fileType !== "json") {
-    window.$message("文件类型不合法,请选择json格式标注文件！")
-  }
-  mapWork.btnImpFile(item)
+const onClickImpFile = (info: FileInfo) => {
+  mapWork.openGeoJSON(info.file)
 }
 
 const fileList = ref([])
@@ -169,21 +175,21 @@ const drawExtrudedPolygon = (type: any) => {
 }
 
 // 开始编辑
-mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 停止编辑修改模型
-mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 </script>

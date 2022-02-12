@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -32,12 +32,12 @@
         <p style="color: #cad1d1">导航：{{ dh }}</p>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")

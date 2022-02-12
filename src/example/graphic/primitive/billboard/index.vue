@@ -1,23 +1,23 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <layer-state />
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">大数据加载:</span>
+        <span class="mars-pannel-item-label">大数据加载:</span>
         <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
         <mars-button @click="addPrimitiveData">生成</mars-button>
         <mars-button @click="clearLayer">清除</mars-button>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import LayerState from "@comp/mars-sample/layer-state.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 // 数据加载
@@ -27,7 +27,7 @@ const addPrimitiveData = () => {
 }
 
 const clearLayer = () => {
-  mapWork.clearLayer()
+  mapWork.graphicLayer.clear()
 }
 </script>
 <style scoped lang="less">

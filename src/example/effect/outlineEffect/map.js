@@ -18,18 +18,6 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  addGraphicAndEffect()
-}
-
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addGraphicAndEffect() {
   // 加模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "石化工厂",
@@ -59,7 +47,8 @@ function addGraphicAndEffect() {
     style: {
       radii: new Cesium.Cartesian3(50.0, 50.0, 50.0),
       material: Cesium.Color.GREY
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -74,7 +63,6 @@ function addGraphicAndEffect() {
   })
   graphicLayer.addGraphic(graphicModel)
 
-  /// ///////////////////////////////////////////////
 
   // 添加特效
   const outlineEffect = new mars3d.effect.OutlineEffect({
@@ -83,4 +71,12 @@ function addGraphicAndEffect() {
     eventType: mars3d.EventType.click
   })
   map.addEffect(outlineEffect)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

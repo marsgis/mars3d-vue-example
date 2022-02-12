@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-/** @type {mars3d.Map.options} */
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
     center: { lat: 31.609076, lng: 117.292797, alt: 17106, heading: 350, pitch: -51 }
@@ -22,11 +22,10 @@ export function onMounted(mapInstance) {
     name: "马拉松",
     url: "//data.mars3d.cn/file/geojson/hefei-marathon.json",
     onCreateGraphic: function (e) {
-      const typeP = e.type + "P"
+      const typeP = e.type + "P" // 修改type为primitive类型展示
       if (mars3d.GraphicType[typeP]) {
         e.type = typeP
-      } // 修改type为primitive类型展示
-
+      }
       geoJsonLayer.addGraphic(e)
     }
   })

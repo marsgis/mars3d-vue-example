@@ -77,6 +77,7 @@ function showWeiVectorTileLayer() {
         simplify: false,
         allowPick: true, // 允许单击
         // 以下为mars3d参数,API参考http://mars3d.cn/api/BaseTileLayer.html#.ConstructorOptions
+        maxLength: -1,
         popup: "{NAME}"
       })
       map.addLayer(tileLayer)

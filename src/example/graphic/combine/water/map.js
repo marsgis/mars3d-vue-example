@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -33,16 +33,10 @@ export function onMounted(mapInstance) {
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "建筑物", template: "all", attr: attr })
-  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
- addGraphicDemo1(graphicLayer)
+  addDemoGraphic1(graphicLayer)
 }
 
 /**
@@ -51,6 +45,47 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+function addDemoGraphic1(graphicLayer) {
+  // 加一些演示数据
+  Cesium.Resource.fetchJson({
+    url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
+  })
+    .then((data) => {
+      const arr = mars3d.Util.geoJsonToGraphics(data, {
+        symbol: {
+          callback: function (attr, styleOpt) {
+            return {
+              height: 0,
+              color: Cesium.Color.fromRandom({ alpha: 0.4 }) // 随机色
+            }
+          }
+        }
+      })
+
+      globalMsg("共加载" + arr.length + "个水面")
+
+      // 多个面对象的合并渲染。
+      const primitive = new mars3d.graphic.WaterCombine({
+        instances: arr,
+        // 公共样式
+        style: {
+          normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
+          frequency: 8000.0, // 控制波数的数字。
+          animationSpeed: 0.02, // 控制水的动画速度的数字。
+          amplitude: 5.0, // 控制水波振幅的数字。
+          specularIntensity: 0.8, // 控制镜面反射强度的数字。
+          baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
+          blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
+          opacity: 0.7 // 透明度
+        }
+      })
+      graphicLayer.addGraphic(primitive)
+    })
+    .otherwise(function (error) {
+      console.log("服务出错", error)
+    })
 }
 
 export function addCombineData(count) {
@@ -99,52 +134,21 @@ export function addCombineData(count) {
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
-export function clearLayer() {
-  graphicLayer.clear()
-}
 
-function addGraphicDemo1(graphicLayer) {
-  // 加一些演示数据
-  Cesium.Resource.fetchJson({
-    url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
-    .then((data) => {
-      const arr = mars3d.Util.geoJsonToGraphics(data, {
-        symbol: {
-          callback: function (attr, styleOpt) {
-            return {
-              height: 0,
-              color: Cesium.Color.fromRandom({ alpha: 0.4 }) // 随机色
-            }
-          }
-        }
-      })
-
-      globalMsg("共加载" + arr.length + "个面")
-
-      // 多个面对象的合并渲染。
-      const primitive = new mars3d.graphic.WaterCombine({
-        instances: arr,
-        // 公共样式
-        style: {
-          normalMap: "img/textures/waterNormals.jpg", // 水正常扰动的法线图
-          frequency: 8000.0, // 控制波数的数字。
-          animationSpeed: 0.02, // 控制水的动画速度的数字。
-          amplitude: 5.0, // 控制水波振幅的数字。
-          specularIntensity: 0.8, // 控制镜面反射强度的数字。
-          baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
-          blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
-          opacity: 0.7 // 透明度
-        }
-      })
-      graphicLayer.addGraphic(primitive)
-    })
-    .otherwise(function (error) {
-      console.log("服务出错", error)
-    })
 }
 
-// 取区域内的随机图标
+// 取区域内的随机点
 function randomPoint() {
   const jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
   const wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000

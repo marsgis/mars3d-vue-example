@@ -1,21 +1,19 @@
 <template>
-  <pannel class="infoView model-View" v-auto-height="60">
+  <mars-pannel class="infoView model-View" v-auto-height="60">
+    <div class="f-mb infoView-content">
+      <a-space>
+        <span>模型列表： </span>
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+          <i title="打开GeoJSON文件"><Icon icon="icon-park-outline:folder-upload" width="19" /></i>
+        </a-upload>
+        <i title="保存GeoJSON"><Icon icon="icon-park-outline:disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
+      </a-space>
+    </div>
+
     <div class="f-mb">
       <a-space>
         <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
         <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
-      </a-space>
-    </div>
-
-    <div class="f-mb infoView-content">
-      <a-space>
-        <span>文件打开/保存:</span>
-
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <folder-upload theme="outline" size="18" fill="#ffffff" title="打开" />
-        </a-upload>
-
-        <disk theme="outline" size="18" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON" />
       </a-space>
     </div>
 
@@ -28,7 +26,7 @@
         @change="handleChange"
       ></mars-select>
 
-      <div class="f-mb gltfImg" v-auto-height="220">
+      <div class="f-mb gltfImg" v-auto-height="200">
         <ul>
           <li v-for="imgs in dataList" :key="imgs.name">
             <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
@@ -36,15 +34,15 @@
         </ul>
       </div>
     </div>
-  </pannel>
+  </mars-pannel>
   <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
-import { Disk, FolderUpload } from "@icon-park/vue-next"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import { Icon } from "@iconify/vue"
 import * as mapWork from "./map.js"
 
 interface FileItem {
@@ -74,7 +72,7 @@ const onlyPickModelPosition = () => {
 
 // 绘制模型
 const showModel = (style: any) => {
-  mapWork.drawGltf(style)
+  mapWork.startDrawModel(style)
 }
 
 //* **********************下拉框******************* */
@@ -125,25 +123,30 @@ const saveGeoJSON = () => {
 
 // ************************属性面板************************/
 const editor = ref()
-mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 停止编辑修改模型
-mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 </script>
 <style scoped lang="less">
+.model-View {
+  right: 10px;
+  width: 250px;
+}
+
 .infoView-content {
   height: 20px;
   width: 210px;
@@ -152,10 +155,6 @@ mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
   overflow: hidden;
 }
 
-.model-View {
-  right: 10px;
-  width: 240px;
-}
 .gltfImg {
   width: 100%;
   margin-top: 10px;

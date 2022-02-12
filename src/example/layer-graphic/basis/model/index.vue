@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="showFenliDemo">风力发电机</mars-button>
       <mars-button @click="showShanghaiDemo">上海浦东</mars-button>
@@ -7,11 +7,11 @@
       <mars-button @click="showGuangfu">光伏电场</mars-button>
       <mars-button @click="removeLayer">清除</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const showShanghaiDemo = () => {

@@ -22,9 +22,6 @@ export function onMounted(mapInstance) {
   map.basemap = 2017 // 切换至蓝色底图
 
   eventTarget.fire("mapLoaded")
-  map.on(mars3d.EventType.cameraChanged, () => {
-    eventTarget.fire("mapCameraChange")
-  })
 
   addGaodeLayer()
 }

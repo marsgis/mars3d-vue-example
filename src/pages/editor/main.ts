@@ -6,7 +6,7 @@ import MarsUI from "@/components/mars-ui"
 
 // import "ant-design-vue/dist/antd.dark.less"
 // 加载全局样式
-import "@/styles/index.less"
+// import "@/styles/index.less"
 
 // https跳转处理
 const protocol = window.location.protocol

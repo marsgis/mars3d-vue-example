@@ -17,8 +17,8 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  // 修改地形夸张程度
-  map.scene.terrainExaggeration = 10
+
+  map.scene.terrainExaggeration = 10 // 修改地形夸张程度
 }
 
 /**
@@ -28,9 +28,9 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
+
 /**
  * 地形夸张程度改变
- *
  * @param {number} val 默认值1.0
  * @returns {void}
  */

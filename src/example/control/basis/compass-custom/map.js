@@ -2,12 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-/**
- *方便演示，移除默认配置的control
- *
- * @param {object} option 默认配置的参数
- * @return {object} option
- */
+ // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
   option.control = {
     compass: {

@@ -1,24 +1,24 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">缓冲半径:</span>
+        <span class="mars-pannel-item-label">缓冲半径:</span>
         <mars-input-number class="radius" @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1" :max="999"></mars-input-number>公里
       </a-space>
     </div>
 
     <a-space>
-      <span class="pannel-item-label">绘制:</span>
+      <span class="mars-pannel-item-label">绘制:</span>
       <mars-button @click="drawPoint">点</mars-button>
       <mars-button @click="drawPolyline">线</mars-button>
       <mars-button @click="drawPolygon">面</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const radiusVal = ref<number>(1)
@@ -44,7 +44,7 @@ const radiusChange = () => {
 radiusChange()
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 55px;
 }
 .ant-input-number {

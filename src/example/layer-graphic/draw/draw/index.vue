@@ -1,16 +1,16 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div>
       <a-row>
         <a-col :span="5">数据管理:</a-col>
         <a-col :span="19">
           <a-space>
-            <a-checkbox v-model:checked="isShow" @change="showChange">显示隐藏</a-checkbox>
-            <a-checkbox v-model:checked="popupShow" @change="showPopup">Popup绑定</a-checkbox>
-            <a-checkbox v-model:checked="tooltipShow" @change="showTooltip">Tooltip绑定</a-checkbox>
-            <a-checkbox v-model:checked="contextMenuShow" @change="showContextMenu">右键菜单绑定</a-checkbox>
-            <a-checkbox v-model:checked="isEditable" @change="isEditableChange">是否编辑</a-checkbox>
-            <a-checkbox v-model:checked="onlyPickModelPosition" @change="onlyPickModelPositionChange">
+            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
+            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip绑定</a-checkbox>
+            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
+            <a-checkbox v-model:checked="isEditable" @change="onChangeHasEdit">是否编辑</a-checkbox>
+            <a-checkbox v-model:checked="onlyPickModelPosition" @change="onChangeOnlyPickModel">
               <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在3dtiles上标绘</span>
             </a-checkbox>
           </a-space>
@@ -22,20 +22,20 @@
         <a-col :span="5">图层管理:</a-col>
         <a-col :span="19">
           <a-space>
-            <mars-button @click="clear">清除</mars-button>
+            <mars-button @click="onClickClear">清除</mars-button>
             <a-upload
               :multiple="false"
               name="file"
               accept="json,geojson,kml,kmz"
               :showUploadList="false"
-              @change="openGeoJSON"
+              @change="onClickOpenJson"
               :beforeUpload="() => false"
             >
               <mars-button> 打开... </mars-button>
             </a-upload>
-            <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
-            <mars-button @click="saveKML">另存KML</mars-button>
-            <mars-button @click="saveWKT">另存WKT</mars-button>
+            <mars-button @click="onClickSaveJson">保存GeoJSON</mars-button>
+            <mars-button @click="onClickSaveKml">另存KML</mars-button>
+            <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
           </a-space>
         </a-col>
       </a-row>
@@ -48,7 +48,7 @@
             <mars-button @click="drawPoint">点</mars-button>
             <mars-button @click="drawLabel">文字</mars-button>
             <mars-button @click="drawMarker">图标点</mars-button>
-            <mars-button @click="drawModel">小模型</mars-button>
+            <mars-button @click="onClickStartDarw">小模型</mars-button>
           </a-space>
         </a-col>
       </a-row>
@@ -101,16 +101,16 @@
         </a-col>
       </a-row>
     </div>
-  </pannel>
+  </mars-pannel>
   <GraphicEditor ref="editor" />
   <location-to />
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
-import LocationTo from "@comp/mars-sample/location-to.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import LocationTo from "@/components/mars-sample/location-to.vue"
 import _ from "lodash"
 import * as mapWork from "./map.js"
 
@@ -128,40 +128,44 @@ interface FileInfo {
 }
 
 // 显示隐藏
-const isShow = ref(true)
-const showChange = () => {
-  mapWork.showGraphicLayer(isShow.value)
+const enabledShowHide = ref(true)
+const onChangeShow = () => {
+  mapWork.graphicLayer.show = enabledShowHide.value
 }
 
 // 是否绑定Popup
-const popupShow = ref(false)
-const showPopup = () => {
-  if (popupShow.value) {
+const enabledPopup = ref(false)
+const onChangePopup = () => {
+  if (enabledPopup.value) {
     mapWork.bindLayerPopup()
   } else {
-    mapWork.unbindPopup()
+    mapWork.graphicLayer.unbindPopup()
   }
 }
 
 // 是否绑定Tooltip
-const tooltipShow = ref(false)
-const showTooltip = () => {
-  mapWork.showToolTip(tooltipShow.value)
+const enabledTooltip = ref(false)
+const onChangeTooltip = () => {
+  if (enabledTooltip.value) {
+    mapWork.graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+  } else {
+    mapWork.graphicLayer.unbindTooltip()
+  }
 }
 
 // 是否绑定右键菜单
-const contextMenuShow = ref(false)
-const showContextMenu = () => {
-  if (contextMenuShow.value) {
+const enabledRightMenu = ref(false)
+const onChangeContextMenu = () => {
+  if (enabledRightMenu.value) {
     mapWork.bindLayerContextMenu()
   } else {
-    mapWork.unbindContextMenu()
+    mapWork.graphicLayer.unbindContextMenu(true)
   }
 }
 
 // 是否可编辑
 const isEditable = ref(true)
-const isEditableChange = () => {
+const onChangeHasEdit = () => {
   if (!isEditable.value) {
     editor.value.hideEditor()
   }
@@ -169,52 +173,52 @@ const isEditableChange = () => {
 
 // 是否仅在3dtiles上标绘
 const onlyPickModelPosition = ref(false)
-const onlyPickModelPositionChange = () => {
-  mapWork.onlyPickModelPositionChange(onlyPickModelPosition.value)
+const onChangeOnlyPickModel = () => {
+  mapWork.updateOnlyPickModelPosition(onlyPickModelPosition.value)
 }
 
 // 点击清除按钮
-const clear = () => {
-  mapWork.clear()
+const onClickClear = () => {
+  mapWork.clearAllGraphic()
 }
 
 // 点击保存GeoJSON
-const saveGeoJSON = () => {
+const onClickSaveJson = () => {
   mapWork.saveGeoJSON()
 }
 
 // 打开GeoJSON
-const openGeoJSON = (info: FileInfo) => {
+const onClickOpenJson = (info: FileInfo) => {
   mapWork.openGeoJSON(info.file)
 }
 
 // 点击保存KML
-const saveKML = () => {
+const onClickSaveKml = () => {
   mapWork.saveKML()
 }
 
 // 点击保存WKT
-const saveWKT = () => {
+const onClickSaveWKT = () => {
   mapWork.saveWKT()
 }
 
 // 属性面板
 const editor = ref()
-mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 停止编辑修改模型
-mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 
@@ -230,8 +234,8 @@ function drawLabel() {
   mapWork.drawLabel()
 }
 
-function drawModel() {
-  mapWork.drawModel()
+function onClickStartDarw() {
+  mapWork.startDrawModel()
 }
 
 function drawPolyline(clampToGround: boolean) {

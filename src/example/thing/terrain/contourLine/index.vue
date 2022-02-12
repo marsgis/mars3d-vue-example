@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-row :gutter="[1, 10]">
       <a-col :span="24">
         <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -65,10 +65,10 @@
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'caozuo'">
               <mars-button type="link">
-                <move-one fill="#FFF" @click="flyto(record)" />
+                <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
               </mars-button>
               <mars-button type="link">
-                <delete-o fill="#FFF" @click="deleted(record)" />
+                <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
               </mars-button>
             </template>
             <template v-else>
@@ -78,13 +78,13 @@
         </a-table>
       </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
+import { nextTick, reactive, ref } from "vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

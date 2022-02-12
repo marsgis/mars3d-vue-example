@@ -1,13 +1,7 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
-      <a-space>
-        <span>图层状态:</span>
-        <a-checkbox v-model:checked="formState.enabledShowHide" @change="bindShowHide">显示隐藏</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledPopup" @change="bindPopup">Popup绑定</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledTooltip" @change="bindTooltip">Tooltip</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledRightMenu" @change="bindRightMenu">右键绑定</a-checkbox>
-      </a-space>
+      <layer-state />
     </div>
     <div class="f-mb">
       <a-row>
@@ -34,14 +28,17 @@
         </a-col>
       </a-row>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import type { UnwrapRef } from "vue"
+
 import * as mapWork from "./map.js"
+
 interface FormState {
   enabledShowHide: boolean
   enabledPopup: boolean
@@ -77,23 +74,10 @@ const arrPolylineHref = [
   "editor.html?id=graphic/entity/rectangle",
   "editor.html?id=graphic/entity/polygon"
 ]
-
-const bindShowHide = () => {
-  mapWork.bindShowHide(formState.enabledShowHide)
-}
-const bindPopup = () => {
-  mapWork.bindPopup(formState.enabledPopup)
-}
-const bindTooltip = () => {
-  mapWork.bindTooltip(formState.enabledTooltip)
-}
-const bindRightMenu = () => {
-  mapWork.bindRightMenu(formState.enabledRightMenu)
-}
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 428px;
+  width: 450px;
   :deep(.ant-space) {
     flex-wrap: wrap;
   }

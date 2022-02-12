@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <span>显示对应的数据点:</span>
     <a-switch v-model:checked="enabledUnderground" @change="chkUnderground" />
-  </pannel>
+  </mars-pannel>
   <div class="divPanel">
     <img src="/img/legend/heatmap.png" />
   </div>
@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const enabledUnderground = ref(false)

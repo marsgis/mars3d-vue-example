@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -40,12 +40,12 @@
         ></a-table>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {

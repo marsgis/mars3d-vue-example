@@ -8,17 +8,6 @@ export const mapOptions = {
     center: { lat: 31.667339, lng: 117.301893, alt: 40357, heading: 2, pitch: -68 },
     highDynamicRange: false
   },
-  control: {
-    baseLayerPicker: true, // basemaps底图切换按钮
-    homeButton: true, // 视角复位按钮
-    sceneModePicker: true, // 二三维切换按钮
-    defaultContextMenu: true, // 右键菜单
-    locationBar: { fps: true } // 状态栏
-  },
-  terrain: {
-    url: "http://data.mars3d.cn/terrain",
-    show: true
-  },
   // 方式1：在创建地球前的参数中配置
   basemaps: [
     {
@@ -73,9 +62,6 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   eventTarget.fire("mapLoaded")
-  map.on(mars3d.EventType.cameraChanged, () => {
-    eventTarget.fire("mapCameraChange")
-  })
 }
 
 /**

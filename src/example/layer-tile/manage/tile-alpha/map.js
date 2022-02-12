@@ -32,7 +32,6 @@ let step = 0
 let arrTileLayer
 
 function start(time) {
-  // 图片url
   const urlArr = [
     "//data.mars3d.cn/file/img/radar/201906211112.PNG",
     "//data.mars3d.cn/file/img/radar/201906211124.PNG",
@@ -42,7 +41,6 @@ function start(time) {
   ]
 
   const arr = []
-  // 获取图层
   for (let i = 0, len = urlArr.length; i < len; i++) {
     const tileLayer = new mars3d.layer.ImageLayer({
       url: urlArr[i],

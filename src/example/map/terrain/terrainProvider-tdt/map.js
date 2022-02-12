@@ -23,6 +23,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   // 方式2：在创建地球后更新terrainProvider
   map.terrainProvider = new mars3d.provider.TdtTerrainProvider({
     url: "https://t{s}.tianditu.gov.cn/DataServer",
@@ -38,14 +39,8 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-/**
- *是否开启三角网
- *
- * @export checkedTriangulation
- * @param {boolean} enabled  布尔类型
- * @returns {voie} 无
- */
+
+// 是否开启三角网
 export function checkedTriangulation(enabled) {
-  // 三角网
-  map.scene.globe._surface.tileProvider._debug.wireframe = enabled
+  map.scene.globe._surface.tileProvider._debug.wireframe = enabled // 三角网
 }

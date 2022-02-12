@@ -18,13 +18,7 @@ export const mapOptions = {
   },
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
-    timeline: false, // 是否显示时间线控件
-    infoBox: false,
-    baseLayerPicker: false,
-    fullscreenButton: false,
-    sceneModePicker: true,
-    geocoder: false, // 查询
-    navigationHelpButton: false, // 提示
+    timeline: true, // 是否显示时间线控件,
     compass: { top: "10px", left: "5px" }
   }
 }
@@ -37,10 +31,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()

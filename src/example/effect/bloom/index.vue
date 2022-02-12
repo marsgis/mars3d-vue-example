@@ -1,80 +1,86 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">状态:</span>
-          <a-checkbox v-model:checked="formState.chkShowEffect" @change="bindShowEffect">开启效果</a-checkbox>
+          <span class="mars-pannel-item-label">状态:</span>
+          <a-checkbox v-model:checked="formState.enabled" @change="onChangeState">开启效果</a-checkbox>
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">对比度:</span>
-          <a-slider v-model:value="formState.txt_contrast" @change="txt_contrast" :min="-255.0" :max="255.0" :step="0.01" />
+          <span class="mars-pannel-item-label">对比度:</span>
+          <a-slider v-model:value="formState.contrast" @change="onChangeContrast" :min="-255.0" :max="255.0" :step="0.01" />
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">亮度:</span>
-          <a-slider v-model:value="formState.txt_brightness" @change="txt_brightness" :min="-0.1" :max="3.0" :step="0.01" />
+          <span class="mars-pannel-item-label">亮度:</span>
+          <a-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="-0.1" :max="3.0" :step="0.01" />
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">增量:</span>
-          <a-slider v-model:value="formState.txt_delta" @change="txt_delta" :min="1" :max="5" :step="0.01" />
+          <span class="mars-pannel-item-label">增量:</span>
+          <a-slider v-model:value="formState.delta" @change="onChangeDelta" :min="1" :max="5" :step="0.01" />
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">步长:</span>
-          <a-slider v-model:value="formState.txt_stepSize" @change="txt_stepSize" :min="0" :max="7" :step="0.01" />
+          <span class="mars-pannel-item-label">步长:</span>
+          <a-slider v-model:value="formState.stepSize" @change="onChangeStep" :min="0" :max="7" :step="0.01" />
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
-          <span class="pannel-item-label">Sigma:</span>
-          <a-slider v-model:value="formState.txt_sigma" @change="txt_sigma" :min="1" :max="10" :step="0.01" />
+          <span class="mars-pannel-item-label">Sigma:</span>
+          <a-slider v-model:value="formState.sigma" @change="onChangeSigma" :min="1" :max="10" :step="0.01" />
         </a-space>
       </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({
-  chkShowEffect: true,
-  txt_contrast: 128,
-  txt_brightness: -0.3,
-  txt_delta: 1.0,
-  txt_stepSize: 5.0,
-  txt_sigma: 3.78
+  enabled: true,
+  contrast: 128,
+  brightness: -0.3,
+  delta: 1.0,
+  stepSize: 5.0,
+  sigma: 3.78
 })
 
-const bindShowEffect = () => {
-  mapWork.bindShowEffect(formState.chkShowEffect)
+const onChangeState = () => {
+  mapWork.setBloomEffect(formState.enabled)
 }
-const txt_contrast = () => {
-  mapWork.txt_contrast(formState.txt_contrast)
+
+const onChangeContrast = () => {
+  mapWork.setContrast(formState.contrast)
 }
-const txt_brightness = () => {
-  mapWork.txt_brightness(formState.txt_brightness)
+
+const onChangeBrightness = () => {
+  mapWork.setBrightness(formState.brightness)
 }
-const txt_delta = () => {
-  mapWork.txt_delta(formState.txt_delta)
+
+const onChangeDelta = () => {
+  mapWork.setDelta(formState.delta)
 }
-const txt_stepSize = () => {
-  mapWork.txt_stepSize(formState.txt_stepSize)
+
+const onChangeStep = () => {
+  mapWork.setStep(formState.stepSize)
 }
-const txt_sigma = () => {
-  mapWork.txt_sigma(formState.txt_sigma)
+
+const onChangeSigma = () => {
+  mapWork.setSigma(formState.sigma)
 }
+
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 45px;
 }
 .ant-slider {

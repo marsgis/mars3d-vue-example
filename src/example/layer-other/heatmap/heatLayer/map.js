@@ -42,7 +42,7 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryWindyuvApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
 }
 
 function showHeatMap(arrPoints) {

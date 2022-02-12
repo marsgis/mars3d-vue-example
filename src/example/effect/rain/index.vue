@@ -1,67 +1,69 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">启用状态:</span>
-        <a-switch v-model:checked="checked" @change="chkShowEffect" />
+        <span class="mars-pannel-item-label">启用状态:</span>
+        <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">粒子速度:</span>
-        <a-slider @change="speed" v-model:value="speedValue" :min="1" :max="100" />
+        <span class="mars-pannel-item-label">粒子速度:</span>
+        <a-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">粒子大小:</span>
-        <a-slider @change="size" v-model:value="sizeValue" :min="1" :max="100" />
+        <span class="mars-pannel-item-label">粒子大小:</span>
+        <a-slider @change="onChangeSize" v-model:value="formState.size" :min="1" :max="100" />
       </a-space>
     </div>
 
     <div>
       <a-space>
-        <span class="pannel-item-label">粒子方向:</span>
-        <a-slider @change="direction" v-model:value="directionValue" :min="-89" :max="89" />
+        <span class="mars-pannel-item-label">粒子方向:</span>
+        <a-slider @change="onChangeDirection" v-model:value="formState.direction" :min="-89" :max="89" />
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import { reactive } from "vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
-const checked = ref(true)
-const speedValue = ref<number>(10)
-const sizeValue = ref<number>(20)
-const directionValue = ref<number>(-30)
+const formState = reactive({
+  enabled: true,
+  speed: 10,
+  size: 20,
+  direction: -30
+})
 
 // 是否开启特效
-const chkShowEffect = () => {
-  mapWork.chkShowEffect(checked.value)
+const onChangeState = () => {
+  mapWork.setEffect(formState.enabled)
 }
 
 // 粒子速度
-
-const speed = () => {
-  mapWork.rainSpeed(speedValue.value)
+const onChangeSpeed = () => {
+  mapWork.setSpeed(formState.speed)
 }
 
 // 粒子大小
-const size = () => {
-  mapWork.rainSize(sizeValue.value)
+const onChangeSize = () => {
+  mapWork.setSize(formState.size)
 }
+
 // 粒子方向
-const direction = () => {
-  mapWork.rainDirection(directionValue.value)
+const onChangeDirection = () => {
+  mapWork.setDirection(formState.direction)
 }
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 55px;
 }
 .ant-slider {

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-row :gutter="[0, 8]">
         <a-col :span="12">总长度:</a-col>
@@ -32,7 +32,7 @@
         <a-progress :percent="formState.percent" size="small" />
       </a-row>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
@@ -42,7 +42,7 @@
  * @author 木遥 2021-11-01
  */
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
@@ -57,8 +57,11 @@ interface FormState {
   td_ldgd: number
   percent: number
 }
+
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
+// const mars3d = mapWork.mars3d
+// const Cesium = mapWork.Cesium
 
 const formState: UnwrapRef<FormState> = reactive({
   td_alllength: 0,

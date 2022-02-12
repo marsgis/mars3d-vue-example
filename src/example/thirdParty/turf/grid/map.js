@@ -1,11 +1,11 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
+    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
 }
 
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
- export function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -29,8 +29,6 @@ export const mapOptions = {
 export function onUnmounted() {
   map = null
 }
-
-
 
 const turfOptions = { units: "kilometers" }
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
@@ -60,7 +58,7 @@ export function triangleGrid(cellSide) {
 }
 
 // 蜂窝网格、正方形网格、三角形网格
- function drawPolyon(geojson) {
+function drawPolyon(geojson) {
   graphicLayer.clear()
   const polygons = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 

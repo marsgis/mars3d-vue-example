@@ -2,30 +2,30 @@
 
 const vueGlobal = window.parent || window
 
-// 判断webgl支持
-if (!mars3d.Util.webglreport()) {
-  mars3d.Util.webglerror()
+function init() {
+  // 判断webgl支持
+  if (!mars3d.Util.webglreport()) {
+    mars3d.Util.webglerror()
+  }
+  // 读取 config.json 配置文件
+  mars3d.Resource.fetchJson({ url: "config/config.json" })
+    .then(function (json) {
+      console.log("读取 config.json 配置文件完成", json) // 打印测试信息
+
+      // 构建地图
+      const initMapFun = window.initMap ? window.initMap : globalInitMap
+      vueGlobal._mapInstance = initMapFun(json.map3d)
+      vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
+    })
+    .otherwise(function (error) {
+      console.log("加载JSON出错", error)
+      globalAlert(error ? error.message : "加载JSON出错")
+    })
 }
-
-// 读取 config.json 配置文件
-// 读取 config.json 配置文件
-mars3d.Resource.fetchJson({ url: "config/config.json" })
-  .then(function (json) {
-    console.log("读取 config.json 配置文件完成", json) // 打印测试信息
-
-    // 构建地图
-    vueGlobal._map = initMap(json.map3d)
-    vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
-
-    window.map = vueGlobal._map // 这句话 只是为了方便F12调试使用
-  })
-  .otherwise(function (error) {
-    console.log("加载JSON出错", error)
-    globalAlert(error ? error.message : "加载JSON出错")
-  })
+init()
 
 // 构造地图主方法【必须】
-function initMap(options) {
+function globalInitMap(options) {
   if (window.mapOptions) {
     if (typeof window.mapOptions === "function") {
       options = window.mapOptions(options)

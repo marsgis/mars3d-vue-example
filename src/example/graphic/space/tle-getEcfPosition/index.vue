@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">过境区域:</span>
+        <span class="mars-pannel-item-label">过境区域:</span>
         <mars-button @click="drawRectangle">框选</mars-button>
         <mars-button @click="drawCircle">圆形</mars-button>
         <mars-button @click="drawPolygon">多边形</mars-button>
@@ -11,21 +11,21 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">开始时间:</span>
+        <span class="mars-pannel-item-label">开始时间:</span>
         <mars-date-picker v-model:value="startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">结束时间:</span>
+        <span class="mars-pannel-item-label">结束时间:</span>
         <mars-date-picker v-model:value="endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label"></span>
+        <span class="mars-pannel-item-label"></span>
         <mars-button @click="startFX">开始分析</mars-button>
         <mars-button @click="clearResult">清除</mars-button>
       </a-space>
@@ -38,13 +38,13 @@
         </template>
       </template>
     </a-table>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const columns = [

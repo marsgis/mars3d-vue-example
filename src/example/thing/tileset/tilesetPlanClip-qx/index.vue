@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="drawExtent">绘制矩形</mars-button>
       <mars-button @click="drawExtent2">绘制矩形(外)</mars-button>
@@ -7,14 +7,15 @@
       <mars-button @click="drawPoly2">绘制面(外)</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $message, $notify } from "@/components/mars-ui/index"
 
-window.$notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })
+$notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })
 
 // 绘制矩形
 const drawExtent = () => {
@@ -26,12 +27,12 @@ const drawExtent2 = () => {
 }
 // 绘制面
 const drawPoly = () => {
-  window.$message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
+  $message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
   mapWork.drawPoly()
 }
 // 绘制面（外）
 const drawPoly2 = () => {
-  window.$message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
+  $message("提示：因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对")
   mapWork.drawPoly2()
 }
 // 清除

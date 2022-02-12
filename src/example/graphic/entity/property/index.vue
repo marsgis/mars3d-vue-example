@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <span class="item-label">属性机制演示：</span>
     </div>
@@ -14,13 +14,13 @@
       <mars-button @click="demoCallbackProperty">CallbackProperty</mars-button>
       <mars-button @click="demoReferenceProperty">ReferenceProperty</mars-button>
       <mars-button @click="demoPropertyBag">PropertyBag</mars-button>
-      <mars-button @click="demoVelocityVectorProperty">PropertyBag</mars-button>
+      <mars-button @click="demoVelocityVectorProperty">VelocityVectorProperty</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const demoSampleProperty = () => {

@@ -1,23 +1,23 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="infoView-content">
       <a-form>
         <a-collapse v-model:activeKey="activeKey">
           <!-- 自定义切换图标 -->
           <template #expandIcon>
-            <down-c />
+            <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
           </template>
           <!-- 数据处理面板 -->
           <a-collapse-panel key="1" header="数据处理">
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">图层状态:</span>
-                <a-checkbox v-model:checked="formState.enabledShowHide" @change="bindShowHide">显示隐藏</a-checkbox>
+                <span class="mars-pannel-item-label">图层状态:</span>
+                <a-checkbox v-model:checked="formState.enabledShowHide" @change="updateLayerShow">显示隐藏</a-checkbox>
               </a-space>
             </div>
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">数据维护:</span>
+                <span class="mars-pannel-item-label">数据维护:</span>
                 <mars-button @click="startDraw">图上标绘</mars-button>
               </a-space>
             </div>
@@ -31,47 +31,47 @@
           <a-collapse-panel key="2" header="参数调试">
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">半径(米)</span>
+                <span class="mars-pannel-item-label">半径(米)</span>
                 <mars-input-number @change="radiusChange" v-model:value="radius" :min="1" :max="999999999" :step="1"></mars-input-number>
               </a-space>
             </div>
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">方向</span>
+                <span class="mars-pannel-item-label">方向</span>
                 <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">仰角</span>
+                <span class="mars-pannel-item-label">仰角</span>
                 <a-slider @change="pitchChange" v-model:value="pitchValue" :min="0" :max="360" :step="0.01" />当前值{{ pitchValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">左右(roll)</span>
+                <span class="mars-pannel-item-label">左右(roll)</span>
                 <a-slider @change="rollChange" v-model:value="rollValue" :min="0" :max="360" :step="0.01" />当前值{{ rollValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">上下夹角</span>
+                <span class="mars-pannel-item-label">上下夹角</span>
                 <a-slider @change="xHalfAngle" v-model:value="xValue" :min="0" :max="89" :step="0.01" />当前值{{ xValue }}
               </a-space>
             </div>
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">左右夹角</span>
+                <span class="mars-pannel-item-label">左右夹角</span>
                 <a-slider @change="yHalfAngle" v-model:value="yValue" :min="0" :max="89" :step="0.01" />当前值{{ yValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
-                <span class="pannel-item-label">扫描面</span>
+                <span class="mars-pannel-item-label">扫描面</span>
                 <a-checkbox @change="chkShowScanPlane" v-model:checked="formState.enabledShowScanPlane">是否扫描</a-checkbox>
               </a-space>
             </div>
@@ -79,17 +79,17 @@
         </a-collapse>
       </a-form>
     </div>
-  </pannel>
+  </mars-pannel>
   <location-to />
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
-import DataManage from "@comp/mars-sample/data-manage.vue"
-import LocationTo from "@comp/mars-sample/location-to.vue"
-import { DownC } from "@icon-park/vue-next"
+import DataManage from "@/components/mars-sample/data-manage.vue"
+import LocationTo from "@/components/mars-sample/location-to.vue"
+import { Icon } from "@iconify/vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -117,7 +117,7 @@ const yValue = ref<number>(50) // y轴方向
 
 // 初始化加载模型
 mapWork.eventTarget.on("loadOk", () => {
-  mapWork.addGraphic01(headingValue.value, pitchValue.value, rollValue.value, radius.value, xValue.value, yValue.value)
+  mapWork.addDemoGraphic1(headingValue.value, pitchValue.value, rollValue.value, radius.value, xValue.value, yValue.value)
 })
 
 const radiusChange = () => {
@@ -150,8 +150,8 @@ const chkShowScanPlane = () => {
   mapWork.ShowScanPlane(formState.enabledShowScanPlane)
 }
 
-const bindShowHide = () => {
-  mapWork.bindShowHide(formState.enabledShowHide)
+const updateLayerShow = () => {
+  mapWork.graphicLayer.show = formState.enabledShowHide
 }
 
 // 图上标绘

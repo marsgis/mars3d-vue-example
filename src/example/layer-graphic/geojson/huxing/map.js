@@ -1,6 +1,8 @@
 import * as mars3d from "mars3d"
+import { HuxingLayer } from "./HuxingLayer.js"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -19,11 +21,10 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // HuxingLayer类定义在HuxingLayer.js
-
-  const layer = new HuxingLayer({
+  graphicLayer = new HuxingLayer({
     url: "//data.mars3d.cn/file/geojson/huxing.json"
   })
-  map.addLayer(layer)
+  map.addLayer(graphicLayer)
 
   // 可以绑定Popup弹窗，回调方法中任意处理
   // layer.bindPopup(function (event) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="interest-search-pannel">
+  <div class="interest-search-mars-pannel">
     <a-auto-complete
       class="search-input"
       ref="complete"
@@ -13,7 +13,7 @@
       <a-input-search size="large" placeholder="搜索 地点" @search="searchPoint">
         <template #enterButton>
           <a-button>
-            <search size="20" fill="#FFF" />
+            <Icon icon="bx:bx-search-alt" color="#f2f2f2" class="icon-vertical-a" />
           </a-button>
         </template>
       </a-input-search>
@@ -40,16 +40,11 @@
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2021-11-01
  */
-import { ref } from "vue"
+import { getCurrentInstance, ref } from "vue"
 import { isLonLat } from "@/utils/index"
-import { Search } from "@icon-park/vue-next"
+import { Icon } from "@iconify/vue"
 
-const props = defineProps({
-  mapWork: {
-    type: Object,
-    required: true
-  }
-})
+const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
 
 const storageName = "mars3d_queryGaodePOI"
 const siteListShow = ref(false)
@@ -60,15 +55,60 @@ const dataSource = ref<any[]>([])
 const siteSource = ref<any[]>([])
 const complete = ref()
 
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
+const mapWork = window.mapWork
+const mars3d = mapWork.mars3d
+const Cesium = mapWork.Cesium
+
 // 创建矢量图层
-const graphicLayer = new props.mapWork.mars3d.layer.GraphicLayer({
+const graphicLayer = new mars3d.layer.GraphicLayer({
   name: "PIO查询",
   pid: 99 // 图层管理 中使用，父节点id
 })
 
+// GaodePOI查询
+const queryPoi = new mars3d.query.GaodePOI({
+  // city: '合肥市',
+})
+
+let queryAddressDOM
+
 // 触发自动事件，将矢量图层添加到地图中
-props.mapWork.eventTarget.on("mapLoaded", () => {
-  props.mapWork.map.addLayer(graphicLayer)
+mapWork.eventTarget.on("mapLoaded", () => {
+  const map = globalProperties.map // 取到挂载的map对象
+
+  // 下侧状态栏提示
+  const locationBar = map.controls.locationBar?.container
+  if (locationBar) {
+    queryAddressDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", map.controls.locationBar.container)
+    queryAddressDOM.style.marginRight = "50px"
+  }
+
+  // 添加图层
+  map.addLayer(graphicLayer)
+
+  // 监听相机事件
+  map.on(mars3d.EventType.cameraChanged, () => {
+    const radius = map.camera.positionCartographic.height // 单位：米
+    if (radius > 100000) {
+      address = null
+      if (queryAddressDOM) {
+        queryAddressDOM.innerHTML = ""
+      }
+      return
+    }
+    // 根据经纬度坐标获取地址
+    queryPoi.getAddress({
+      location: map.getCenter(),
+      radius: radius,
+      success: (result: any) => {
+        address = result
+        if (queryAddressDOM) {
+          queryAddressDOM.innerHTML = "地址：" + result.address
+        }
+      }
+    })
+  })
 })
 
 // 鼠标单击后的信息面板弹窗
@@ -97,33 +137,20 @@ graphicLayer.bindPopup(function (event: any) {
   return inHtml
 })
 
-// GaodePOI查询
-const queryPoi = new props.mapWork.mars3d.query.GaodePOI({
-  // city: '合肥市',
-})
-
-// 根据经纬度坐标获取地址
-props.mapWork.eventTarget.on("mapCameraChange", () => {
-  // const radius = props.mapWork.map.camera.positionCartographic.height // 单位：米
-  queryPoi.getAddress({
-    location: props.mapWork.map.getCenter(),
-    success: (result: any) => {
-      address = result
-    }
-  })
-})
-
 // 搜寻输入框数据之前的提示数据 以及搜寻过的历史数据  通过列表展现
 const handleSearch = (val: string) => {
+  const map = globalProperties.map // 取到挂载的map对象
+
   if (!val) {
     showHistoryList()
     return
   }
   siteListShow.value = false
+
   queryPoi.autoTip({
     text: val,
     city: address?.city,
-    location: props.mapWork.map.getCenter(),
+    location: map.getCenter(),
     success: (result: any) => {
       dataSource.value = result.list.map((item: any) => {
         return {
@@ -228,15 +255,15 @@ function showPOIArr(arr: any) {
     item.lat = wd
 
     // 添加实体
-    const graphic = new props.mapWork.mars3d.graphic.PointEntity({
-      position: props.mapWork.Cesium.Cartesian3.fromDegrees(jd, wd),
+    const graphic = new mars3d.graphic.PointEntity({
+      position: Cesium.Cartesian3.fromDegrees(jd, wd),
       style: {
         pixelSize: 10,
         color: "#3388ff",
         outline: true,
         outlineColor: "#ffffff",
         outlineWidth: 2,
-        scaleByDistance: new props.mapWork.Cesium.NearFarScalar(1000, 1, 1000000, 0.1),
+        scaleByDistance: new Cesium.NearFarScalar(1000, 1, 1000000, 0.1),
         clampToGround: true, // 贴地
         visibleDepth: false, // 是否被遮挡
         label: {
@@ -245,11 +272,11 @@ function showPOIArr(arr: any) {
           color: "rgb(240,255,255)",
           outline: true,
           outlineWidth: 2,
-          outlineColor: props.mapWork.Cesium.Color.BLACK,
-          horizontalOrigin: props.mapWork.Cesium.HorizontalOrigin.CENTER,
-          verticalOrigin: props.mapWork.Cesium.VerticalOrigin.BOTTOM,
+          outlineColor: Cesium.Color.BLACK,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffsetY: -10, // 偏移量
-          distanceDisplayCondition: new props.mapWork.Cesium.DistanceDisplayCondition(0.0, 200000),
+          distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 200000),
           clampToGround: true, // 贴地
           visibleDepth: false // 是否被遮挡
         }
@@ -268,12 +295,14 @@ function showPOIArr(arr: any) {
 
 // 定位至矢量图层
 function flyTo(item: any) {
+  const map = globalProperties.map // 取到挂载的map对象
+
   const graphic = item._graphic
   if (graphic === null) {
     return alert(item.name + " 无经纬度坐标信息！")
   }
 
-  props.mapWork.map.flyToGraphic(graphic, { radius: 2000 })
+  map.flyToGraphic(graphic, { radius: 2000 })
 
   setTimeout(() => {
     graphicLayer.openPopup(graphic)
@@ -300,15 +329,15 @@ function centerAtLonLat(text: any) {
   }
 
   // 添加实体
-  const graphic = new props.mapWork.mars3d.graphic.PointEntity({
-    position: props.mapWork.Cesium.Cartesian3.fromDegrees(jd, wd),
+  const graphic = new mars3d.graphic.PointEntity({
+    position: Cesium.Cartesian3.fromDegrees(jd, wd),
     style: {
       color: "#3388ff",
       pixelSize: 10,
       outline: true,
       outlineColor: "#ffffff",
       outlineWidth: 2,
-      scaleByDistance: new props.mapWork.Cesium.NearFarScalar(1000, 1, 1000000, 0.1),
+      scaleByDistance: new Cesium.NearFarScalar(1000, 1, 1000000, 0.1),
       clampToGround: true, // 贴地
       visibleDepth: false // 是否被遮挡
     }
@@ -356,7 +385,7 @@ function clearLayers() {
 </script>
 
 <style lang="less" scoped>
-.interest-search-pannel {
+.interest-search-mars-pannel {
   position: absolute;
   padding: 0;
   width: 300px;
@@ -392,5 +421,11 @@ function clearLayers() {
 :deep(.ant-list-item-meta-title) {
   font-size: 14px;
   margin: 0;
+}
+:deep(.ant-input-search-button) {
+  height: 43px;
+}
+:deep(.ant-input-group) {
+  width: 101%;
 }
 </style>

@@ -22,12 +22,13 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 切换场景
-  let lastCameraView
+  let lastCameraView // 记录视角
+
   // 切换场景前事件
   map.on(mars3d.EventType.morphStart, function (event) {
     lastCameraView = map.getCameraView()
   })
+
   // 切换场景后事件
   map.on(mars3d.EventType.morphComplete, function (event) {
     setTimeout(function () {

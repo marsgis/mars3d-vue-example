@@ -4,7 +4,7 @@ function initMap() {
   // 在创建地球前的传参中配置basemaps参数
   const map = new mars3d.Map("mars3dContainer", {
     scene: {
-      center: { lat: 14.029537, lng: 105.94238, alt: 4879779, heading: 360, pitch: -66 }
+      center: { lat: 14.029537, lng: 105.94238, alt: 4879779, heading: 0, pitch: -66 }
     },
     control: {
       baseLayerPicker: true, // basemaps底图切换按钮
@@ -41,6 +41,9 @@ function initMap() {
 
   // 根据config配置的id或name属性，更新显示指定的地图底图
   // map.basemap = '离线地图'
+}
+
+
 
   // basemaps说支持的图层类型（tileLayer）
   // "type": "image"
@@ -64,4 +67,3 @@ function initMap() {
   // "type": "bing"
   // "type": "mapbox"
   // "type": "ion"
-}

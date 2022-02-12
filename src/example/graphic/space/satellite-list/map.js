@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -32,19 +33,17 @@ export const mapOptions = {
  * @returns {void} 无
  */
 export function onMounted(mapInstance) {
-  map = mapInstance // 记录map
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
-  const dmzList = [
-    { name: "西安", radius: 1500000, point: [108.938314, 34.345614, 342.9] },
-    { name: "喀什", radius: 1800000, point: [75.990372, 39.463507, 1249.5] },
-    { name: "文昌", radius: 1200000, point: [110.755151, 19.606573, 21.1] }
-  ]
-  creatreDmzList(dmzList)
+  // 创建矢量数据图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle-china.json" })
+  bindLayerPopup()
+
+  creatreDmzList()
+
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tle-china.json" })
     .then(function (data) {
       createSatelliteList(data.data)
     })
@@ -61,54 +60,8 @@ export function onUnmounted() {
   map = null
 }
 
-// 地面站图层
-let dmzLayer
-// 创建地面站
-function creatreDmzList(arr) {
-  // 创建矢量数据图层
-  dmzLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(dmzLayer)
-
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i]
-    // 地面站gltf模型
-    const graphic = new mars3d.graphic.ModelEntity({
-      name: "地面站模型",
-      position: item.point,
-      style: {
-        url: "//data.mars3d.cn/gltf/mars/leida.glb",
-        heading: 270,
-        scale: 30,
-        minimumPixelSize: 40
-      },
-      popup: item.name
-    })
-    dmzLayer.addGraphic(graphic)
-
-    const dmfwGraphic = new mars3d.graphic.CircleEntity({
-      name: item.name,
-      position: item.point,
-      style: {
-        radius: item.radius,
-        color: "#ff0000",
-        opacity: 0.3
-      },
-      popup: item.name
-    })
-    dmzLayer.addGraphic(dmfwGraphic)
-
-    // 判断时会用到的变量
-    dmfwGraphic._isFW = true
-    dmfwGraphic._lastInPoly = {}
-  }
-}
-
 // 创建卫星列表
 function createSatelliteList(arr) {
-  // 创建矢量数据图层
-  const graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
-
   // 单击地图空白处
   map.on(mars3d.EventType.clickMap, function (event) {
     highlightSatellite()
@@ -160,13 +113,20 @@ function createSatelliteList(arr) {
       angle2: random(10, 20),
       show: false
     }
-    item.popup = `名称：${item.name}<br/>英文名：${item.name_en || ""}<br/>类型：${item.type}`
     // 属性处理  END
 
     const satelliteObj = new mars3d.graphic.Satellite(item)
     graphicLayer.addGraphic(satelliteObj)
   }
   console.log("当前卫星数量: " + arr.length)
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.options
+    return `名称：${attr.name}<br/>英文名：${attr.name_en || ""}<br/>类型：${attr.type}`
+  })
 }
 
 let lastSelectWX
@@ -263,4 +223,52 @@ function processInArea(weixin) {
 // 取随机数字
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+// 地面站图层
+let dmzLayer
+// 创建地面站
+function creatreDmzList() {
+  const arr = [
+    { name: "西安", radius: 1500000, point: [108.938314, 34.345614, 342.9] },
+    { name: "喀什", radius: 1800000, point: [75.990372, 39.463507, 1249.5] },
+    { name: "文昌", radius: 1200000, point: [110.755151, 19.606573, 21.1] }
+  ]
+
+  // 创建矢量数据图层
+  dmzLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(dmzLayer)
+
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
+    // 地面站gltf模型
+    const graphic = new mars3d.graphic.ModelEntity({
+      name: "地面站模型",
+      position: item.point,
+      style: {
+        url: "//data.mars3d.cn/gltf/mars/leida.glb",
+        heading: 270,
+        scale: 30,
+        minimumPixelSize: 40
+      },
+      popup: item.name
+    })
+    dmzLayer.addGraphic(graphic)
+
+    const dmfwGraphic = new mars3d.graphic.CircleEntity({
+      name: item.name,
+      position: item.point,
+      style: {
+        radius: item.radius,
+        color: "#ff0000",
+        opacity: 0.3
+      },
+      popup: item.name
+    })
+    dmzLayer.addGraphic(dmfwGraphic)
+
+    // 判断时会用到的变量
+    dmfwGraphic._isFW = true
+    dmfwGraphic._lastInPoly = {}
+  }
 }

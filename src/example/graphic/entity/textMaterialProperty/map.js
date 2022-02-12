@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 let textMaterialProperty
 export const eventTarget = new mars3d.BaseClass()
 
@@ -36,6 +36,8 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
+  bindLayerEvent()
+
   // 材质对象
   textMaterialProperty = mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.Text, {
     text: "火星科技Mars3D平台",
@@ -46,26 +48,10 @@ export function onMounted(mapInstance) {
   })
 
   // 加一些演示数据
-  addGraphic01(graphicLayer)
-  addGraphic02(graphicLayer)
-  addGraphic03(graphicLayer)
-  addGraphic04(graphicLayer)
-
-  // 触发自定义事件
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
-    }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
-  })
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 /**
@@ -77,13 +63,10 @@ export function onUnmounted() {
   removeAll()
 }
 
-let rotation = 0
-function getRotationValue() {
-  return rotation
-}
+
 
 // wall文字 entity方式
-function addGraphic01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const wallEntity = new mars3d.graphic.WallEntity({
     positions: [
       [121.479914, 29.791249, 32],
@@ -91,7 +74,6 @@ function addGraphic01(graphicLayer) {
     ],
     style: {
       diffHeight: 5,
-
       materialType: mars3d.MaterialType.Text,
       text: "水利闸门",
       font_family: "楷体",
@@ -103,7 +85,7 @@ function addGraphic01(graphicLayer) {
 }
 
 //  wall文字  primitive方式添加
-function addGraphic02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const primitive = new mars3d.graphic.WallEntity({
     positions: [
       [121.479343, 29.791419, 35],
@@ -139,7 +121,7 @@ function onCustomCanvas(canvas, material) {
 }
 
 // rectangle贴地矩形  3dtiles路面文字
-function addGraphic03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const rectangleEntity = new mars3d.graphic.RectangleEntity({
     name: "路面文字",
     positions: [
@@ -172,7 +154,7 @@ function addGraphic03(graphicLayer) {
   graphicLayer.addGraphic(rectangleEntity)
 }
 
-function addGraphic04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const rectangleEntity = new mars3d.graphic.RectangleEntity({
     positions: [
       [121.479593, 29.791632, 13],
@@ -180,10 +162,38 @@ function addGraphic04(graphicLayer) {
     ],
     style: {
       material: textMaterialProperty,
-      rotationDegree: 163
+      rotation: new Cesium.CallbackProperty(getRotationValue, false),
+      stRotation: new Cesium.CallbackProperty(getRotationValue, false)
     }
   })
   graphicLayer.addGraphic(rectangleEntity)
+}
+
+let rotation = 0
+function getRotationValue() {
+  return rotation
+}
+
+// 在图层级处理一些事物
+function bindLayerEvent() {
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+
+  // 数据编辑相关事件， 用于属性弹窗的交互
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      eventTarget.fire("graphicEditor-update", e)
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("graphicEditor-stop", e)
+  })
 }
 
 export function onClickDrawWall() {
@@ -193,7 +203,6 @@ export function onClickDrawWall() {
     style: {
       font_size: 50,
       color: "#ffff00",
-      opacity: 0.2,
       outline: false,
       diffHeight: 5,
       material: textMaterialProperty
@@ -225,7 +234,6 @@ export function onClickDrawPoint() {
     type: "point",
     style: {
       color: "#ffff00",
-      opacity: 0.2,
       clampToGround: true
     },
     success: function (graphic) {

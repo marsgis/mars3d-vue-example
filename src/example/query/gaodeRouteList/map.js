@@ -188,7 +188,7 @@ function showRouteResult(data) {
 
     const name = endPointArr[i].name
 
-    const time = formatTime(item.allDuration)
+    const time = mars3d.Util.formatTime(item.allDuration)
     const distance = mars3d.MeasureUtil.formatDistance(item.allDistance)
     const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
 
@@ -279,19 +279,4 @@ export function removeAll() {
   routeLayer.clear()
   poiLayer.clear()
   endPointArr = null
-}
-
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
-
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
 }

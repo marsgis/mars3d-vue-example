@@ -19,21 +19,23 @@ export function isLonLat(text: string): boolean {
 
 /**
  * 设置自动高度值
- * @param {function} callback 窗口大小变化时的回调
+ * @param {function} callback 窗口大小变化时的回调,返回当前计算完成的高度
  * @param {number} [lose=0] 窗口高度基础上减少的值
  * @param {string} [container="sanbox-warpper"] 窗口id
- * @return {number} 当前计算完成的高度
+ * @return {void}
  */
-export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "sanbox-warpper"): number {
-  const wapper = document.getElementById(container)
+export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "sanbox-warpper"): void {
+  const wapper = document.getElementById(container) || document.body
+
   let wapperHeight = wapper?.clientHeight || 0
+  const result = wapperHeight - lose
+  callback(result)
 
   window.onresize = () => {
     wapperHeight = wapper?.clientHeight || 0
     const resizeHeight = wapperHeight - lose
     callback(resizeHeight)
   }
-  return wapperHeight - lose
 }
 
 /**

@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -34,10 +34,10 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 添加矢量数据
-  addGraphic([117.077462, 31.657745, 60], { value: 0.53, color: "#fb980b" })
-  addGraphic([117.079091, 31.65898, 90], { value: 0.45, color: "#00ff00" })
-  addGraphic([117.079766, 31.658268, 70], { value: 0.35, color: "#00ffff" })
-  addGraphic([117.07913, 31.655748, 80], { value: 0.21, color: "#ff0000" })
+  addDemoGraphic([117.077462, 31.657745, 60], { value: 0.53, color: "#fb980b" })
+  addDemoGraphic([117.079091, 31.65898, 90], { value: 0.45, color: "#00ff00" })
+  addDemoGraphic([117.079766, 31.658268, 70], { value: 0.35, color: "#00ffff" })
+  addDemoGraphic([117.07913, 31.655748, 80], { value: 0.21, color: "#ff0000" })
 }
 
 /**
@@ -48,7 +48,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic(position, attr) {
+function addDemoGraphic(position, attr) {
   const graphic = new mars3d.graphic.DivGraphic({
     position: position,
     style: {
@@ -64,8 +64,8 @@ function addGraphic(position, attr) {
 
     const liquidfillchartChart = echarts.init(dom)
 
-    // // 参考API：https://github.com/ecomfe/echarts-liquidfill
-    // // 参考示例：https://www.makeapie.com/explore.html#tags=liquidFill~sort=rank~timeframe=all~author=all
+    // 参考API：https://github.com/ecomfe/echarts-liquidfill
+    // 参考示例：https://www.makeapie.com/explore.html#tags=liquidFill~sort=rank~timeframe=all~author=all
     const option = {
       series: [
         {

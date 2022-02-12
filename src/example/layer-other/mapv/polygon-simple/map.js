@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  map.viewer.imageryLayers._layers.forEach(function (layer) {
+  map.imageryLayers._layers.forEach(function (layer) {
     layer.brightness = 0.3
   })
 
@@ -41,7 +41,7 @@ export function onUnmounted() {
 
 // 获取数据
 function queryMapvLayerData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/buildings-hf.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/buildings-hf.json" })
 }
 
 // 创建mapv图层

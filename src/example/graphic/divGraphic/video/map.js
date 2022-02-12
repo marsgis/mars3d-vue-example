@@ -54,10 +54,10 @@ export function onMounted(mapInstance) {
   )
 
   // 添加数据
-  addGraphic(graphicLayer, [117.080397, 31.656139, 33.3])
-  addGraphic(graphicLayer, [117.078006, 31.65649, 49.4])
-  addGraphic(graphicLayer, [117.080571, 31.657898, 50.2])
-  addGraphic(graphicLayer, [117.078331, 31.660016, 47.2])
+  addDemoGraphic(graphicLayer, [117.080397, 31.656139, 33.3])
+  addDemoGraphic(graphicLayer, [117.078006, 31.65649, 49.4])
+  addDemoGraphic(graphicLayer, [117.080571, 31.657898, 50.2])
+  addDemoGraphic(graphicLayer, [117.078331, 31.660016, 47.2])
 }
 
 /**
@@ -68,7 +68,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic(graphicLayer, position) {
+function addDemoGraphic(graphicLayer, position) {
   const graphicImg = new mars3d.graphic.DivGraphic({
     position: position,
     style: {

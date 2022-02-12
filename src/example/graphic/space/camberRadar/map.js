@@ -43,6 +43,7 @@ export function onMounted(mapInstance) {
     }
   })
   graphicLayer.addGraphic(graphic)
+
   eventTarget.fire("loadOk")
 }
 

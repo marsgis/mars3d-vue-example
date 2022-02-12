@@ -88,7 +88,7 @@ function addGraphics() {
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-shequ.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-shequ.json" })
     .then(function (geojson) {
       const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 

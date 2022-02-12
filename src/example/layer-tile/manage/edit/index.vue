@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form ref="formRef" :model="formState" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="图层URL" name="url">
         <mars-input @change="onCheckedoutUrl" v-model:value="formState.url"></mars-input>
@@ -53,17 +53,17 @@
         </a-space>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 const formRef = ref()
 
 const formState = reactive({
-  url: "",
-  type: "",
+  url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+  type: "xyz",
   txtLayer: "",
   txtTileFormat: "png",
   CRS: "",

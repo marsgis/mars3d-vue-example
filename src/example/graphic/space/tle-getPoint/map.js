@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -32,10 +32,8 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -71,9 +69,10 @@ function addSatellite() {
     const adds = (len1 / (len1 + len2)) * (endTime.getTime() - startTime.getTime()) // 求按距离比例的时间增加值
     const currentTime = new Date(startTime.getTime() + adds)
 
-    const inthtml = "单击处时间：" + currentTime.format("yyyy-MM-dd HH:mm:ss")
+    const inthtml = "单击处时间：" + mars3d.Util.formatDate(currentTime, "yyyy-MM-dd HH:mm:ss")
     return inthtml
   })
+
   const weixin = new mars3d.graphic.Satellite({
     name: "GAOFEN 1",
     tle1: "1 39150U 13018A   21180.50843864  .00000088  00000-0  19781-4 0  9997",

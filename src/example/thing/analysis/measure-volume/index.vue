@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <p class="f-mb">
       提示：单击分析按钮激活绘制分析，对绘制面(墙)内的进行以下计算。<br />
       1. 挖方量: 计算“基准面”到地表之间的凸出部分进行挖掉的体积。<br />
@@ -31,12 +31,12 @@
         <a-checkbox @change="showResult" v-model:checked="checked">显示面内计算的三角网</a-checkbox>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const baseValue = ref<number>()
@@ -58,7 +58,8 @@ const clear = () => {
 
 // 复选框显示结果
 const showResult = () => {
-  mapWork.showResult(checked.value)
+  const isShow = mapWork.showResult(checked.value)
+  checked.value = isShow
 }
 
 // 基础高度修改

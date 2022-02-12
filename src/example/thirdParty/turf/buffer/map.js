@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -29,7 +29,6 @@ export function onMounted(mapInstance) {
   graphicLayer.on(mars3d.EventType.editRemovePoint, function (e) {
     updateBuffer(e.graphic)
   })
-
 }
 
 /**
@@ -63,7 +62,6 @@ export function drawPolyline() {
       clampToGround: true
     }
   })
-
 }
 
 export function drawPolygon() {

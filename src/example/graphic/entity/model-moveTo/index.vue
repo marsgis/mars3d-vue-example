@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">整体控制:</span>
+        <span class="mars-pannel-item-label">整体控制:</span>
         <mars-button @click="openFloorModel">展开</mars-button>
         <mars-button @click="mergeFloorModel">合并</mars-button>
         <mars-button @click="resetModel">还原</mars-button>
@@ -10,18 +10,18 @@
     </div>
 
     <!-- <div> -->
-    <span class="pannel-item-label">显示指定:</span>
+    <span class="mars-pannel-item-label">显示指定:</span>
     <a-space class="floor">
       <div :key="item" v-for="(item, index) in floorModel">
         <mars-button @click="showFloorModel(index)">{{ item }}</mars-button>
       </div>
     </a-space>
     <!-- </div> -->
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const floorModel = ["一楼", "二楼", "三楼", "四楼", "五楼", "六楼", "七楼", "八楼", "九楼", "顶楼"]
@@ -46,7 +46,7 @@ const showFloorModel = (floorNum: number) => {
     flex-wrap: wrap;
   }
 }
-.pannel-item-label {
+.mars-pannel-item-label {
   display: inline-block;
 }
 .floor {

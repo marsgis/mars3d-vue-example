@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -65,7 +65,9 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
 /**
@@ -74,7 +76,7 @@ export function onUnmounted() {
  * @returns {void} 无
  */
 function addGraphics() {
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100_full.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100_full.json" })
     .then(function (geojson) {
       const arr = mars3d.Util.geoJsonToGraphics(geojson) // 解析geojson
 

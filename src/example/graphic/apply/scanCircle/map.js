@@ -40,11 +40,11 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphicDemo1(graphicLayer)
-  addGraphicDemo2(graphicLayer)
-  addGraphicDemo3(graphicLayer)
-  addGraphicDemo4(graphicLayer)
-  addGraphicDemo5(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
 }
 
 /**
@@ -55,7 +55,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphicDemo1(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   // 立体围墙扩散效果,面状
   const diffuseWallGlow = new mars3d.graphic.DiffuseWall({
     positions: [
@@ -70,12 +70,13 @@ function addGraphicDemo1(graphicLayer) {
       color: "#ffff00",
       diffHeight: 2000, // 高度
       speed: 10 // 速度
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(diffuseWallGlow)
 }
 
-function addGraphicDemo2(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   // 立体围墙扩散效果,圆状
   const circleDiffuseWallGlow = new mars3d.graphic.DiffuseWall({
     position: new mars3d.LngLatPoint(121.481165, 31.278668, 44.3), // 圆中心点
@@ -84,12 +85,13 @@ function addGraphicDemo2(graphicLayer) {
       radius: 600, // 半径
       color: "#ff0000",
       speed: 10 // 速度
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(circleDiffuseWallGlow)
 }
 
-function addGraphicDemo3(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const primitive = new mars3d.graphic.CirclePrimitive({
     position: [121.522454, 31.267553, 61.9],
     style: {
@@ -104,7 +106,7 @@ function addGraphicDemo3(graphicLayer) {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo4(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   let _rotation = Math.random()
 
   const graphic = new mars3d.graphic.CircleEntity({
@@ -127,7 +129,7 @@ function addGraphicDemo4(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphicDemo5(graphicLayer) {
+function addDemoGraphic5(graphicLayer) {
   let _rotation = Math.random()
   const graphic = new mars3d.graphic.CircleEntity({
     position: new mars3d.LngLatPoint(121.526215, 31.245237, 123.5),

@@ -5,7 +5,7 @@ let terrainPlanClip
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.840043, lng: 117.21586, alt: 554, heading: 360, pitch: -59 },
+    center: { lat: 31.840043, lng: 117.21586, alt: 554, heading: 0, pitch: -59 },
     globe: {
       depthTestAgainstTerrain: true
     }
@@ -37,7 +37,7 @@ export function onUnmounted() {
 }
 
 function addLayer() {
-  // 管网数据：3dtiles
+  // 管网模型图层
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
     url: "//data.mars3d.cn/3dtiles/max-piping/tileset.json",

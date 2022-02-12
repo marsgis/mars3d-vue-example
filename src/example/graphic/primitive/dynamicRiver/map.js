@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let dynamicRiver
-let graphicLayer
+export let graphicLayer // 图层
+let dynamicRiver // 最后一个河流对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -27,36 +27,13 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  // 2.在layer上绑定监听事件
+  // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
   })
-  graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
-    console.log("监听layer，鼠标移入了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
-    console.log("监听layer，鼠标移出了矢量对象", event)
-  })
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindPopup("我是layer上绑定的Popup")
-
-  // 可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
-  // graphicLayer.bindTooltip('我是layer上绑定的Tooltip')
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindContextMenu([
-    {
-      text: "删除对象",
-      iconCls: "fa fa-trash-o",
-      callback: function (e) {
-        const primitive = e.graphic
-        if (primitive) {
-          graphicLayer.removeGraphic(primitive)
-        }
-      }
-    }
-  ])
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
   dynamicRiver = new mars3d.graphic.DynamicRiver({
@@ -174,8 +151,46 @@ function throttle() {
 
   onOff = false
 }
+
 // 清除
 export function clear() {
   graphicLayer.clear()
   dynamicRiver = null
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+// 绑定右键菜单
+export function bindLayerContextMenu() {
+  graphicLayer.bindContextMenu([
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayer.removeGraphic(graphic)
+      }
+    }
+  ])
 }

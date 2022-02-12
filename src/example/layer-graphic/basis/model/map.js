@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+let gltfLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -19,8 +20,8 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
+
   showShanghaiDemo()
 }
 
@@ -31,8 +32,6 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-
-let gltfLayer
 
 export function removeLayer() {
   map.trackedEntity = null
@@ -87,7 +86,7 @@ export function showDonghuaDemo() {
         style: { scale: 300 }
       }
     ],
-    center: { lat: 31.817737, lng: 117.179117, alt: 1810, heading: 356, pitch: -30, roll: 0 },
+    center: { lat: 31.817737, lng: 117.179117, alt: 1810, heading: 0, pitch: -30, roll: 0 },
     flyTo: true,
     show: true
   })

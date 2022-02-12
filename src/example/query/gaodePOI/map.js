@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+
 let poiLayer
 let queryGaodePOI
 let drawGraphic // 限定区域
@@ -139,7 +140,7 @@ function loadData(queryOptions, text) {
       const data = res.list
       resultList = resultList.concat(data)
 
-      addGraphics(data)
+      addDemoGraphics(data)
 
       eventTarget.fire("tableData", { data }) // 抛出数据给vue
 
@@ -163,7 +164,7 @@ export function clearAll(noClearDraw) {
   }
 }
 
-function addGraphics(arr) {
+function addDemoGraphics(arr) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 

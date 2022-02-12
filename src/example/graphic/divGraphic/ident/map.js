@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 const arrData = [
   { name: "油罐一", position: [117.09521, 31.814404, 47.3] },
@@ -54,7 +54,9 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
 // 效果一

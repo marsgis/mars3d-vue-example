@@ -42,7 +42,26 @@ function addLayer() {
     dropRate: 0.003,
     dropRateBump: 0.01,
     speedFactor: 0.2,
-    lineWidth: 4.0
+    lineWidth: 4.0,
+    // 色带配置
+    colors: [
+      "rgb(4,14,216)",
+      "rgb(32,80,255)",
+      "rgb(65,150,255)",
+      "rgb(109,193,255)",
+      "rgb(134,217,255)",
+      "rgb(156,238,255)",
+      "rgb(175,245,255)",
+      "rgb(206,255,255)",
+      "rgb(255,254,71)",
+      "rgb(255,235,0)",
+      "rgb(255,196,0)",
+      "rgb(255,144,0)",
+      "rgb(255,72,0)",
+      "rgb(255,0,0)",
+      "rgb(213,0,0)",
+      "rgb(158,0,0)"
+    ]
   })
   map.addLayer(windLayer)
 
@@ -64,26 +83,6 @@ export function onParticleSystemOptionsChange(options) {
   }
   windLayer.setOptions(option)
 }
-
-// 色带配置
-const colors = [
-  "rgb(4,14,216)",
-  "rgb(32,80,255)",
-  "rgb(65,150,255)",
-  "rgb(109,193,255)",
-  "rgb(134,217,255)",
-  "rgb(156,238,255)",
-  "rgb(175,245,255)",
-  "rgb(206,255,255)",
-  "rgb(255,254,71)",
-  "rgb(255,235,0)",
-  "rgb(255,196,0)",
-  "rgb(255,144,0)",
-  "rgb(255,72,0)",
-  "rgb(255,0,0)",
-  "rgb(213,0,0)",
-  "rgb(158,0,0)"
-]
 
 // 加载并解析NC数据
 function loadNetCDF(filePath) {
@@ -128,11 +127,15 @@ function loadNetCDF(filePath) {
         umin: minU,
         umax: maxU,
         vmin: minV,
-        vmax: maxV,
-        colors: colors
+        vmax: maxV
       }
       resolve(result)
     }
     request.send()
   })
+}
+
+// 改变颜色
+export function changeColor(color) {
+  windLayer.colors = [color]
 }

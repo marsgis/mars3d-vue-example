@@ -50,6 +50,7 @@ export function btnAnalyse(type) {
   }
   queryRoute(type)
 }
+
 // 清除按钮
 export function removeAll() {
   if (startGraphic) {
@@ -151,11 +152,9 @@ function queryRoute(type) {
         return
       }
 
-      const time = formatTime(firstItem.allDuration)
+      const time = mars3d.Util.formatTime(firstItem.allDuration)
       const distance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
       const html = "<div>总距离：" + distance + "<br/>所需时间：" + time + "</div>"
-
-
 
       const graphic = new mars3d.graphic.PolylineEntity({
         positions: points,
@@ -169,8 +168,7 @@ function queryRoute(type) {
       })
       routeLayer.addGraphic(graphic)
 
-
-      const allTime = formatTime(firstItem.allDuration)
+      const allTime = mars3d.Util.formatTime(firstItem.allDuration)
       const allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
       let dhHtml = ""
       for (let i = 0; i < firstItem.steps.length; i++) {
@@ -195,19 +193,4 @@ export function saveGeoJSON() {
   }
   const geojson = routeLayer.toGeoJSON()
   mars3d.Util.downloadFile("导航路径.json", JSON.stringify(geojson))
-}
-
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
-
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
 }

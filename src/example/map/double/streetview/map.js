@@ -1,6 +1,5 @@
 import * as mars3d from "mars3d"
 
-
 let map // mars3d.Map三维地图对象
 let tileLayer
 let graphicLayer
@@ -21,7 +20,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题提示", "(1) 百度街景目前限制使用，需要自行申请全景地图服务使用权限KEY替换 ")
+  globalNotify("已知问题提示", "(1) 百度街景目前限制使用，需要自行申请全景地图服务使用权限Key替换 ")
 
   creatDom()
   map.basemap = "腾讯电子"

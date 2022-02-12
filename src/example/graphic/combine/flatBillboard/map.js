@@ -1,6 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
+
 let flatBillboard
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -45,8 +47,9 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = undefined
+
   // 创建Graphic图层
-  const graphicLayer = new mars3d.layer.GraphicLayer()
+  graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件
@@ -56,14 +59,7 @@ export function onMounted(mapInstance) {
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "建筑物", template: "all", attr: attr })
-  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
   flatBillboard = new mars3d.graphic.FlatBillboard({
     // instances: [], //也可以后面通过属性传入
@@ -73,6 +69,7 @@ export function onMounted(mapInstance) {
     }
   })
   graphicLayer.addGraphic(flatBillboard)
+
   loadDemo()
 }
 
@@ -114,6 +111,7 @@ export function showDataPoint(numPoints) {
   }
 
   flatBillboard.instances = arr
+
   hideLoading()
   const endTime = new Date().getTime()
   // 两个时间戳相差的毫秒数
@@ -127,6 +125,7 @@ export function clearData() {
     flatBillboard.clear()
   }
 }
+
 // 加载演示数据
 export function loadDemo() {
   queryWindPointApiData().then(function (arr) {
@@ -140,7 +139,7 @@ function queryWindPointApiData() {
     if (arrWind) {
       resolve(arrWind)
     } else {
-      mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
+      mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
         .then(function (result) {
           arrWind = result.data
           resolve(arrWind)
@@ -236,4 +235,16 @@ function getImageBySpeed(speed) {
     windVaneUrl = "img/windVane/29.svg"
   }
   return windVaneUrl
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
 }

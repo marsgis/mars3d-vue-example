@@ -18,6 +18,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   // 添加线 矢量数据图层
   lineLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(lineLayer)

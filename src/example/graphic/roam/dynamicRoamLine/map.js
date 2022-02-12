@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -25,7 +25,9 @@ export function onMounted(mapInstance) {
   map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2020-11-25 10:10:00"))
 
   // 加载车辆
-  queryCarListApiData()
+  mars3d.Util.fetchJson({
+    url: "//data.mars3d.cn/file/apidemo/car-list.json"
+  })
     .then(function (res) {
       const tableData = res.data
       eventTarget.fire("loadOk", { tableData })
@@ -55,19 +57,6 @@ const colors = [
   "rgb(202, 101, 0)",
   "rgb(255, 0, 0)"
 ]
-
-// 访问car-list.json后端接口，取数据
-function queryCarListApiData() {
-  return mars3d.Resource.fetchJson({
-    url: "//data.mars3d.cn/file/apidemo/car-list.json"
-  })
-}
-// 访问car-path.json后端接口，取数据
-function queryCarPathApiData() {
-  return mars3d.Resource.fetchJson({
-    url: "//data.mars3d.cn/file/apidemo/car-path.json"
-  })
-}
 
 function showCarList(arr) {
   console.log("加载" + arr.length + "条")
@@ -173,6 +162,7 @@ function showCarList(arr) {
 // 取轨迹数据的时间间隔（单位：秒）
 const timeStep = 10
 let lastTime
+
 // 首次获取并创建轨迹
 function createPath() {
   // 取数据的时间范围，结束时间
@@ -215,7 +205,9 @@ function updatePath() {
 
 // 读取车辆gps坐标路径的接口
 function getPathList(beginTime, endTime) {
-  queryCarPathApiData()
+  mars3d.Util.fetchJson({
+    url: "//data.mars3d.cn/file/apidemo/car-path.json"
+  })
     .then((res) => {
       const listALL = res.data || []
       // 因为读取静态json，为了演示动态，筛选数据内符合时间范围内的数据。
@@ -247,7 +239,7 @@ function getPathList(beginTime, endTime) {
       })
     })
     .otherwise(() => {
-      globalMsg("实时查询气象信息失败，请稍候再试")
+      globalMsg("实时查询车辆路径信息失败，请稍候再试")
     })
 }
 

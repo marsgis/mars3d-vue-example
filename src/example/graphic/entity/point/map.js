@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars3d.BaseClass()
 
 /**
@@ -17,29 +17,15 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphic01(graphicLayer)
-  addGraphic02(graphicLayer)
-  addGraphic03(graphicLayer)
-  addGraphic04(graphicLayer)
-
-  // 触发自定义事件
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
-    }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
-  })
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 /**
@@ -48,84 +34,12 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
-export function bindEdit(val) {
-  graphicLayer.hasEdit = val
-}
-
-// 按钮事件
-export function onClickDrawModel() {
-  // 开始绘制
-  graphicLayer.startDraw({
-    type: "point",
-    style: {
-      pixelSize: 12,
-      color: "#3388ff",
-      label: {
-        // 不需要文字时，去掉label配置即可
-        text: "可以同时支持文字",
-        font_size: 20,
-        color: "#ffffff",
-        outline: true,
-        outlineColor: "#000000",
-        pixelOffsetY: -20
-      }
-    }
-  })
-}
-function btnClear() {
-  graphicLayer.clear()
-}
-function btnExpFile() {
-  expFile()
-}
-function btnImpFile(file) {
-  impFile(file)
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
-}
-
-function addGraphic01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     position: [116.244399, 30.920459, 573.6],
     style: {
@@ -165,7 +79,7 @@ function addGeoJson(geojson, graphicLayer) {
   graphicLayer.addGraphic(graphicCopy)
 }
 
-function addGraphic02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "根据视距缩放点",
     position: new mars3d.LngLatPoint(116.301798, 30.835848, 915),
@@ -178,7 +92,7 @@ function addGraphic02(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "贴地点",
     position: new mars3d.LngLatPoint(116.39224, 30.902853),
@@ -200,7 +114,7 @@ function addGraphic03(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphic04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     name: "根据视距显示点",
     position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
@@ -216,7 +130,7 @@ function addGraphic04(graphicLayer) {
 }
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -228,26 +142,39 @@ function initLayerManager() {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
-}
-
-// 绑定图层的弹窗
-function bindLayerPopup() {
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+  // 数据编辑相关事件， 用于属性弹窗的交互
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      eventTarget.fire("graphicEditor-update", e)
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("graphicEditor-stop", e)
   })
 }
 
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+
+
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -307,165 +234,37 @@ function bindLayerContextMenu() {
         }
         graphicLayer.removeGraphic(graphic)
       }
-    },
-    {
-      text: "计算长度",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的长度为:" + strDis)
-      }
-    },
-    {
-      text: "计算周长",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的周长为:" + strDis)
-      }
-    },
-    {
-      text: "计算面积",
-      iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
-        globalAlert("该对象的面积为:" + strArea)
-      }
     }
   ])
 }
 
-// 保存GeoJSON
-function expFile() {
-  if (graphicLayer.length === 0) {
-    globalMsg("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = graphicLayer.toGeoJSON()
-  mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
+
+export function updateLayerHasEdit(val) {
+  graphicLayer.hasEdit = val
 }
 
-// 打开保存的文件
-function impFile(file) {
-  const fileName = file.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType !== "json") {
-    globalMsg("文件类型不合法,请选择json格式标注文件！")
-    return
-  }
-
-  if (fileType === "json" || fileType === "geojson") {
-    const reader = new FileReader()
-    reader.readAsText(file, "UTF-8")
-    reader.onloadend = function () {
-      const json = this.result
-      graphicLayer.loadGeoJSON(json, {
-        flyTo: true
-      })
+// 按钮事件
+export function startDrawGraphic() {
+  // 开始绘制
+  graphicLayer.startDraw({
+    type: "point",
+    style: {
+      pixelSize: 12,
+      color: "#3388ff",
+      label: {
+        // 不需要文字时，去掉label配置即可
+        text: "可以同时支持文字",
+        font_size: 20,
+        color: "#ffffff",
+        outline: true,
+        outlineColor: "#000000",
+        pixelOffsetY: -20
+      }
     }
-  } else if (fileType === "kml") {
-    const reader = new FileReader()
-    reader.readAsText(file, "UTF-8")
-    reader.onloadend = function (e) {
-      const strkml = this.result
-
-      kgUtil.toGeoJSON(strkml).then((geojson) => {
-        console.log("kml2geojson转换结果为", geojson)
-
-        graphicLayer.loadGeoJSON(geojson, {
-          flyTo: true
-          // symbol: function (attr, style, featue) {
-          //   let geoType = featue.geometry?.type
-          //   if (geoType == 'Point') {
-          //     return {
-          //       image: 'img/marker/di3.png',
-          //       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          //       scale: 0.4,
-          //       label: {
-          //         text: attr.name,
-          //         font_size: 18,
-          //         color: '#ffffff',
-          //         outline: true,
-          //         outlineColor: '#000000',
-          //         pixelOffsetY: -50,
-          //         scaleByDistance: true,
-          //         scaleByDistance_far: 990000,
-          //         scaleByDistance_farValue: 0.3,
-          //         scaleByDistance_near: 10000,
-          //         scaleByDistance_nearValue: 1,
-          //       },
-          //     }
-          //   }
-          //   return style
-          // },
-        })
-      })
-    }
-  } else if (fileType === "kmz") {
-    // 加载input文件控件的二进制流
-
-    kgUtil.toGeoJSON(file).then((geojson) => {
-      console.log("kmz2geojson", geojson)
-
-      graphicLayer.loadGeoJSON(geojson, {
-        flyTo: true
-      })
-    })
-  } else {
-    globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
-  }
+  })
 }
+
+
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {

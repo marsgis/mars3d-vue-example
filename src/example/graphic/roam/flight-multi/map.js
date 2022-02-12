@@ -1,11 +1,11 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    // 此处参数会覆盖config.json中的对应配置
     center: { lat: 31.688428, lng: 117.118323, alt: 10375, heading: 29, pitch: -30 }
   },
   control: {
@@ -23,13 +23,21 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
   map.clock.multiplier = 1
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  addGraphicLayer()
+  // 创建矢量数据图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
+  // 绑定点击事件
+  graphicLayer.on(mars3d.EventType.click, (event) => {
+    console.log("单击了漫游路线", event)
+  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
+
+  addRoamLines()
 }
 
 /**
@@ -40,16 +48,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphicLayer() {
-  // 创建矢量数据图层
-  const graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
-
-  // 绑定点击事件
-  graphicLayer.on(mars3d.EventType.click, (event, position) => {
-    console.log("单击了漫游路线", event)
-  })
-
+function addRoamLines() {
   const arrLine = [
     {
       id: "1",
@@ -384,4 +383,41 @@ function addGraphicLayer() {
     // 启动漫游
     roamLine.start()
   }
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+// 绑定右键菜单
+export function bindLayerContextMenu() {
+  graphicLayer.bindContextMenu([
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayer.removeGraphic(graphic)
+      }
+    }
+  ])
 }

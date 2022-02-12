@@ -1,17 +1,17 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-checkbox v-model:checked="formState.enabledRedSphere" @change="formRedSphereChange">危险圈</a-checkbox>
     </div>
     <div>
       <a-checkbox v-model:checked="formState.enabledYellowSphere" @change="formYellowSphereChange">警告圈</a-checkbox>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

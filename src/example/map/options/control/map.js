@@ -2,18 +2,19 @@ import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加控件有2种方式:
-  // 方式1：在创建地球前的传参中配置control参数
+
   const map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 33.938752, lng: 103.753712, alt: 18401000, heading: 0, pitch: -90 }
     },
+    // 方式1：在创建地球前的传参中配置control参数
     control: {
       // 以下是Cesium.Viewer所支持的控件相关的options
       baseLayerPicker: true, // basemaps底图切换按钮
       homeButton: true, // 视角复位按钮
       sceneModePicker: true, // 二三维切换按钮
       navigationHelpButton: true, // 帮助按钮
-      infoBox: true, // 信息框
+      infoBox: false, // 信息框
       selectionIndicator: true, // 选择框
       vrButton: true, // vr模式按钮
       fullscreenButton: true, // 全屏按钮
@@ -36,11 +37,7 @@ function initMap() {
       }
     ]
   })
-
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-  toolbar.style.bottom = "110px"
-
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
   const locationBar = new mars3d.control.LocationBar({

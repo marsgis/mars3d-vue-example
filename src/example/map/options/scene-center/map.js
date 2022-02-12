@@ -62,7 +62,7 @@ export function onUnmounted() {
 
 // **************************** 景点视角演示********************** //
 export function changeView1() {
-  map.setCameraView({ lat: 39.904128, lng: 116.391643, alt: 1054, heading: 356, pitch: -39 })
+  map.setCameraView({ lat: 39.904128, lng: 116.391643, alt: 1054, heading: 0, pitch: -39 })
 }
 
 export function changeView2() {
@@ -82,27 +82,33 @@ export function mapGetCameraView() {
   const camera = map.getCameraView()
   globalAlert(JSON.stringify(camera), "当前视角参数")
 }
+
 export function mapSetCameraView() {
-  map.setCameraView({ lat: 26.8764, lng: 91.148781, alt: 223798, heading: 356, pitch: -45 })
+  map.setCameraView({ lat: 26.8764, lng: 91.148781, alt: 223798, heading: 0, pitch: -45 })
 }
+
 export function mapSetCameraViewList() {
-  // stop设置停留在该视角的时间
+  // 视角切换（分步执行）, stop设置停留在该视角的时间
   map.setCameraViewList([
-    { lat: 34.560444, lng: 110.047344, alt: 1402, heading: 166, pitch: 0, stop: 3 },
-    { lat: 34.54241, lng: 109.838031, alt: 3227, heading: 127, pitch: -9 },
-    { lat: 34.264647, lng: 109.842337, alt: 2722, heading: 49, pitch: -17, stop: 5 },
-    { lat: 34.291811, lng: 109.960799, alt: 2156, heading: 355, pitch: -12 }
+    { lng: 108.961601, lat: 34.217109, alt: 509.2, heading: 314.5, pitch: -22.5, duration: 8, stop: 0 },
+    { lng: 108.96164, lat: 34.222159, alt: 510.3, heading: 211.2, pitch: -22.5, duration: 5, stop: 0 },
+    { lng: 108.957259, lat: 34.221967, alt: 494.3, heading: 127.5, pitch: -17.2, duration: 5, stop: 0 },
+    { lng: 108.957319, lat: 34.217225, alt: 515.5, heading: 25.4, pitch: -25.3, duration: 5 }
   ])
 }
+
 export function mapFlyHome() {
   map.flyHome()
 }
+
 export function mapFlyToGraphic() {
   map.flyToGraphic(graphic, { radius: 10000 })
 }
+
 export function mapFlyToExtent() {
   map.flyToExtent({ xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 })
 }
+
 export function mapFlyToPositions() {
   map.flyToPositions([
     [114.031965, 36.098482, 332.8],
@@ -111,9 +117,11 @@ export function mapFlyToPositions() {
     [114.041602, 36.102055, 377.5]
   ])
 }
+
 export function mapFlyToPoint() {
   map.flyToPoint([113.939351, 36.068144, 350.9])
 }
+
 export function mapCancelFlyTo() {
   map.cancelFlyTo()
 }

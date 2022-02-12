@@ -5,15 +5,8 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 23.54104, lng: 121.083097, alt: 10219674, heading: 355, pitch: -85 },
+    center: { lat: 23.54104, lng: 121.083097, alt: 10219674, heading: 0, pitch: -85 },
     highDynamicRange: false
-  },
-  control: {
-    baseLayerPicker: true, // basemaps底图切换按钮
-    homeButton: true, // 视角复位按钮
-    sceneModePicker: true, // 二三维切换按钮
-    defaultContextMenu: true, // 右键菜单
-    locationBar: { fps: true } // 状态栏
   },
   terrain: {
     type: "gee",

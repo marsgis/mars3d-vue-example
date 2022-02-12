@@ -51,7 +51,7 @@ export function removeLayer(layer) {
 
 // 数据获取
 function queryTilesetData() {
-  mars3d.Resource.fetchJson({ url: "config/tileset.json" })
+  mars3d.Util.fetchJson({ url: "config/tileset.json" })
     .then(function (arr) {
       const modelData = arr.layers
       eventTarget.fire("loadOk", { modelData })

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span>漫游控制:</span>
@@ -14,11 +14,11 @@
       <mars-button @click="centerAtDX2">走廊</mars-button>
       <mars-button @click="centerAtDX3">楼梯间</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const startFly = () => {

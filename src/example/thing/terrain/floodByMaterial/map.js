@@ -38,7 +38,7 @@ export function onMounted(mapInstance) {
     console.log("开始分析", e)
   })
   floodByMaterial.on(mars3d.EventType.change, function (e) {
-    // onChangeHeight(e.height)
+  // console.log("高度发生了变化", e.height)
   })
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -57,8 +57,8 @@ export function onUnmounted() {
 
 // 绘制矩形
 export function btnDrawExtent(callback) {
-  floodByMaterial.clear()
-  map.graphicLayer.clear()
+  clearDraw()
+
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -81,8 +81,8 @@ export function btnDrawExtent(callback) {
 
 // 绘制多边形
 export function btnDraw(callback) {
-  floodByMaterial.clear()
-  map.graphicLayer.clear()
+  clearDraw()
+
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -133,9 +133,6 @@ export function begin(data) {
   floodByMaterial.start()
 }
 
-function onChangeHeight(height) {
-  console.log("高度发生了变化", height)
-}
 
 export function clearDraw() {
   floodByMaterial.clear()

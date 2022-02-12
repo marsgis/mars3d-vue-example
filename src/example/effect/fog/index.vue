@@ -1,61 +1,70 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">启用:</span>
-        <a-switch v-model:checked="formState.chkShowEffect" @change="bindShowEffect" />
+        <span class="mars-pannel-item-label">启用:</span>
+        <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">雾颜色:</span>
-        <mars-color-picker v-model:value="formState.color" @change="changeColor" />
+        <span class="mars-pannel-item-label">雾颜色:</span>
+        <mars-color-picker v-model:value="formState.color" @change="onChangeColor" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">近距离:</span>
-        <a-slider v-model:value="formState.fogByDistanceX" @change="fogByDistanceX" :min="1" :max="5000" :step="1" />
+        <span class="mars-pannel-item-label">近距离:</span>
+        <a-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">远距离:</span>
-        <a-slider v-model:value="formState.fogByDistanceZ" @change="fogByDistanceZ" :min="100" :max="50000" :step="1" />
+        <span class="mars-pannel-item-label">远距离:</span>
+        <a-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 const formState = reactive({
-  chkShowEffect: true,
+  enabled: true,
   color: "#ffffff",
   fogByDistanceX: 100,
   fogByDistanceZ: 9000
 })
 
-const bindShowEffect = () => {
-  mapWork.bindShowEffect(formState.chkShowEffect)
+const onChangeState = () => {
+  mapWork.setFogEffect(formState.enabled)
 }
-const changeColor = () => {
-  mapWork.changeColor(formState.color)
+const onChangeColor = () => {
+  mapWork.setColor(formState.color)
 }
-const fogByDistanceX = () => {
-  mapWork.fogByDistanceX(formState.fogByDistanceX)
+const onChangeDistanceX = () => {
+  if (formState.fogByDistanceX > formState.fogByDistanceZ) {
+    $message("近距离 不能大于 远距离")
+    return
+  }
+  mapWork.setDistanceX(formState.fogByDistanceX)
 }
-const fogByDistanceZ = () => {
-  mapWork.fogByDistanceZ(formState.fogByDistanceZ)
+const onChangeDistanceZ = () => {
+  if (formState.fogByDistanceX > formState.fogByDistanceZ) {
+    $message("远距离 不能小于 近距离")
+    return
+  }
+  mapWork.setDistanceZ(formState.fogByDistanceZ)
 }
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 40px;
 }
 .ant-slider {

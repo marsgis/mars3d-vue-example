@@ -37,7 +37,7 @@ export function onUnmounted() {
 
 // 数据获取
 function queryMapvChinaData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/mapvchina.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mapvchina.json" })
 }
 // 创建mapv图层
 function createMapvLayer(geojson) {

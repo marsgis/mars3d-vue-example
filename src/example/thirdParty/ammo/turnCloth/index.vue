@@ -1,11 +1,11 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
       <span>操作提示： Q 左摆动、 A 右摆动</span>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 </script>
 
 

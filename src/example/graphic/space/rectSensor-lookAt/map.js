@@ -28,9 +28,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   map.clock.shouldAnimate = true
   map.clock.multiplier = 60 // 速度
@@ -53,6 +51,13 @@ function addGraphicLayer() {
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
+  })
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
   })
 
   const weixin = new mars3d.graphic.Satellite({

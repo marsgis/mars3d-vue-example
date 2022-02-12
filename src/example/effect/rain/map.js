@@ -45,21 +45,21 @@ export function onUnmounted() {
 }
 
 // 是否开启特效
-export function chkShowEffect(val) {
+export function setEffect(val) {
   rainEffect.enabled = val
 }
 
 // 粒子速度
-export function rainSpeed(value) {
+export function setSpeed(value) {
   rainEffect.speed = value
 }
 
 // 粒子大小
-export function rainSize(value) {
+export function setSize(value) {
   rainEffect.size = value
 }
 
 // 粒子方向
-export function rainDirection(value) {
+export function setDirection(value) {
   rainEffect.direction = value
 }

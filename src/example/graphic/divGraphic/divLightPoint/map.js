@@ -54,7 +54,7 @@ export function onMounted(mapInstance) {
   map.addLayer(geoJsonLayer)
 
   // 显示高校点
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/gaoxiao.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/gaoxiao.json" })
     .then(function (res) {
       addFeature(res)
     })

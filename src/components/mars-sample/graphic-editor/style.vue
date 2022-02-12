@@ -61,7 +61,8 @@ import { inject, ref, watch } from "vue"
 import _ from "lodash"
 import { Input, InputNumber, Select, Slider } from "ant-design-vue"
 import Radio from "./comps/radio.vue"
-import ColorPicker from "@comp/mars-ui/mars-color-picker"
+import ColorPicker from "@/components/mars-ui/mars-color-picker"
+import { $message } from "@/components/mars-ui/index"
 
 const props = defineProps<{
   labelWidth: number
@@ -90,6 +91,7 @@ watch(
       const gp = getGraphic()
       layerName.value = gp?._layer?.name || ""
       entityName.value = gp?._name || props.styleConfig.name
+
       setImpacts()
       if (props.style.label) {
         setLabelDefault()
@@ -127,7 +129,8 @@ function getLabelConfig() {
 
 function setDefault() {
   if (props.styleConfig.style) {
-    console.log("yangshi", styleValue.value)
+    console.log("style默认样式为", styleValue.value)
+
     props.styleConfig.style.forEach((item: any) => {
       if (!styleValue.value[item.name] && styleValue.value[item.name] !== 0 && styleValue.value[item.name] !== false) {
         styleValue.value[item.name] = item.defval
@@ -207,7 +210,7 @@ function updateStyle(item: any) {
 function unionChange(item: any) {
   if (item.name === "fill" || item.name === "outline") {
     if (styleValue.value.fill === false && styleValue.value.outline === false) {
-      window.$message("填充和边框不能同时为否")
+      $message("填充和边框不能同时为否")
       styleValue.value[item.name] = true
       return
     }

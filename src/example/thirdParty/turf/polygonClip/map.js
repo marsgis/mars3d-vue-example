@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let polygonLayer
-let drawLayer
+export let graphicLayer
 
 export const mapOptions = {
   scene: {
@@ -18,11 +18,12 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   // 加载面数据
   loadPolygon()
 
-  drawLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(drawLayer)
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 }
 
 /**
@@ -35,8 +36,8 @@ export function onUnmounted() {
 
 // 绘制线
 export function drawLine() {
-  drawLayer.clear()
-  drawLayer.startDraw({
+  graphicLayer.clear()
+  graphicLayer.startDraw({
     type: "polyline",
     maxPointNum: 2,
     style: {
@@ -50,10 +51,6 @@ export function drawLine() {
       graphic.remove()
     }
   })
-}
-// 清除
-export function clearLayer() {
-  drawLayer.clear()
 }
 
 // 加载面数据
@@ -126,7 +123,7 @@ function clipAllPolygon(clipLine) {
     try {
       const clippedPolygon = geoUtil.polygonClipByLine(graphic.toGeoJSON(), clipLine)
 
-      drawLayer.loadGeoJSON(clippedPolygon, {
+      graphicLayer.loadGeoJSON(clippedPolygon, {
         style: {
           randomColor: true,
           opacity: 0.5,

@@ -3,10 +3,10 @@
 const url = "https://api.waqi.info/mapq/bounds/?bounds={RECTANGLE}&inc=placeholders&k={KEY}&_={DATA}"
 const table = [
   {
- level: "一级（优）",
-  influence: "空气质量令人满意，基本无空气污染",
-  suggestion: "各类人群可正常活动"
-},
+    level: "一级（优）",
+    influence: "空气质量令人满意，基本无空气污染",
+    suggestion: "各类人群可正常活动"
+  },
   {
     level: "二级（良）",
     influence: "空气质量可接受，但某些污染物可能对极少数异常敏感人群健康有较弱影响",

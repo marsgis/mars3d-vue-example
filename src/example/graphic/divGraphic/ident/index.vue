@@ -1,15 +1,15 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="divGraphicYellow">效果一</mars-button>
       <mars-button @click="divGraphicBule">效果二</mars-button>
       <mars-button @click="divGraphicWhite">效果三</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const divGraphicYellow = () => {

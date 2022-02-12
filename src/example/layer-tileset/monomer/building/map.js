@@ -91,6 +91,7 @@ export function onUnmounted() {
 // 是否显示各栋颜色
 export function chkShowColor(val) {
   geoJsonLayerDTH.closePopup()
+
   if (val) {
     geoJsonLayerDTH.eachGraphic((graphic, index) => {
       graphic.setStyle({

@@ -1,15 +1,15 @@
 <template>
-  <pannel class="infoView" v-auto-height="100">
+  <mars-pannel class="infoView" v-auto-height="100">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->
         <template #expandIcon>
-          <down-c />
+          <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
         </template>
         <a-collapse-panel key="1" header="表单控件">
           <!-- 自定义面板右侧图标 -->
           <template #extra>
-            <config theme="outline" />
+            <Icon icon="icon-park-outline:config" class="icon-vertical-a" />
           </template>
 
           <a-form-item label="简单文本" name="url">
@@ -78,15 +78,15 @@
           <div class="f-tac">
             <a-space>
               <mars-button size="middle" @click="onClickMessage">
-                <template #icon><alarm /></template>
+                <template #icon><Icon icon="icon-park-outline:alarm" class="icon-vertical-a" /></template>
                 消息
               </mars-button>
               <mars-button size="middle" @click="onClickNotify">
-                <template #icon><download-one /></template>
+                <template #icon><Icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
                 提示
               </mars-button>
               <mars-button size="middle" @click="onClickAlert">
-                <template #icon><download-one /></template>
+                <template #icon><Icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
                 弹窗
               </mars-button>
             </a-space>
@@ -123,27 +123,28 @@
       <div class="f-tac">
         <a-space>
           <mars-button size="middle" @click="onClickLoading">
-            <template #icon><find /></template>
+            <template #icon><Icon icon="icon-park-outline:find" class="icon-vertical-a" /></template>
             进度条1
           </mars-button>
           <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><planet /></template>
+            <template #icon><Icon icon="iconoir:planet" class="icon-vertical-a" /></template>
             进度条2
           </mars-button>
         </a-space>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import { Alarm, Config, DownC, DownloadOne, Find, Planet } from "@icon-park/vue-next"
+import { Icon } from "@iconify/vue"
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import * as mapWork from "./map.js"
+import { $message, $notify, $alert } from "@/components/mars-ui/index"
 
 const activeKey = ref(["1", "2", "3"])
 
@@ -180,7 +181,7 @@ const rules = {
 
 // 输入框修改事件
 const onTextChange = () => {
-  window.$message("您输入了文本：" + formState.url)
+  $message("您输入了文本：" + formState.url)
 }
 
 // 渲染模型
@@ -193,7 +194,7 @@ mapWork.eventTarget.on("drawExtent", function (event: any) {
 
 // 数字输入框修改事件
 const onNumberChange = () => {
-  window.$message("您修改了数字：" + formState.countCar)
+  $message("您修改了数字：" + formState.countCar)
 }
 
 // 下拉列表数据
@@ -212,18 +213,18 @@ const modelOptions = [
 
 // 下拉列表切换事件
 const onSelectChange = (value: string, data: any) => {
-  window.$message("您选择了：" + data.label)
+  $message("您选择了：" + data.label)
   console.log("下拉列表切换事件", data)
 }
 
 // 日期切换事件
 const onDateChange = (data: any, value: any) => {
-  window.$message("您选择了日期：" + value)
+  $message("您选择了日期：" + value)
 }
 
 // 多选框勾选事件
 const onCheckboxChange = () => {
-  window.$message("您勾选了：" + formState.checkboxVal)
+  $message("您勾选了：" + formState.checkboxVal)
   console.log("多选框勾选事件", formState.checkboxVal)
 }
 
@@ -253,25 +254,25 @@ const onSwitchChange = () => {
 
 // 显示消息提示，自动消失
 const onClickMessage = () => {
-  window.$message("Message消息提示演示")
+  $message("Message消息提示演示")
 }
 
 // 显示提示窗，不影响地图操作，会出现在页面右下角
 const onClickNotify = async () => {
-  window.$notify("Notify提示窗", `该窗口会出现在页面右下角，不影响地图交互操作。`)
+  $notify("Notify提示窗", `该窗口会出现在页面右下角，不影响地图交互操作。`)
 }
 
 // 显示遮罩提示窗，需要手动关闭
 const onClickAlert = async () => {
-  // window.$alert 返回一个Promise
-  await window.$alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
+  // $alert 返回一个Promise
+  await $alert(`该窗口需要单击确定按钮进行关闭，会影响地图交互操作。`, "Alert提示窗")
 
-  window.$message("点击了确定按钮") // 异步单击确定后提示
+  $message("点击了确定按钮") // 异步单击确定后提示
 }
 
 // 按钮点击事件，演示loading持续三秒
 const onClickLoading = async () => {
-  window.$message("演示遮盖loading 持续三秒")
+  $message("演示遮盖loading 持续三秒")
 
   window.$showLoading()
   setTimeout(() => {
@@ -279,19 +280,19 @@ const onClickLoading = async () => {
     window.$hideLoading()
 
     // 默认的信息提示
-    window.$message("演示加载完成提示")
+    $message("演示加载完成提示")
   }, 3000)
 }
 
 // 按钮点击事件，演示顶部不遮盖的loading
 const onClickTopLoading = () => {
-  window.$message("演示顶部不遮盖的loaing,看上面", "warning")
+  $message("演示顶部不遮盖的loaing,看上面", "warning")
 
   window.$showLoading("top") // top 调用出现在顶部的加载进度
   setTimeout(() => {
     window.$hideLoading("top")
 
-    window.$message("演示加载失败提示", "error")
+    $message("演示加载失败提示", "error")
   }, 3000)
 }
 
@@ -341,9 +342,9 @@ onMounted(() => {
 const rowSelection: TableProps["rowSelection"] = {
   onSelect: (selectedRow: any, selectedRows: boolean) => {
     if (selectedRows) {
-      window.$message("勾选了行:" + selectedRow.name_cn)
+      $message("勾选了行:" + selectedRow.name_cn)
     } else {
-      window.$message("取消了勾选行:" + selectedRow.name_cn)
+      $message("取消了勾选行:" + selectedRow.name_cn)
     }
   }
 }
@@ -352,7 +353,7 @@ const rowSelection: TableProps["rowSelection"] = {
 const customTableRow = (selectedRow: any) => {
   return {
     onClick: (row: any) => {
-      window.$message("点击表格的行：" + selectedRow.name_cn)
+      $message("点击表格的行：" + selectedRow.name_cn)
     }
   }
 }

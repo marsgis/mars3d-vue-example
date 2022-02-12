@@ -32,7 +32,7 @@ window.configLibs = {
   ],
   "mars3d-heatmap": [
     // heatmap热力图支持插件
-    "mars3d/plugins/heatmap/heatmap.min.js",
+    "mars3d/plugins/heatmap/heatmap.js",
     "mars3d/plugins/heatmap/mars3d-heatmap.js"
   ],
   "mars3d-wind": [

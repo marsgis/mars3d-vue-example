@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">室内演示视角:</span>
+        <span class="mars-pannel-item-label">室内演示视角:</span>
         <mars-button @click="centerAtDX1">教室</mars-button>
         <mars-button @click="centerAtDX2">走廊</mars-button>
         <mars-button @click="centerAtDX3">楼梯间</mars-button>
@@ -19,11 +19,11 @@
         <mars-button @click="show(100)">整体</mars-button>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const showD1 = () => {
@@ -44,7 +44,7 @@ const centerAtDX3 = () => {
 }
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 85px;
 }
 </style>

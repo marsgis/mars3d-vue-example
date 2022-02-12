@@ -6,8 +6,8 @@ let measureVolume
 
 export const mapOptions = {
   scene: {
-    globe: { depthTestAgainstTerrain: true },
-    center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 }
+    center: { lat: 30.883785, lng: 116.230883, alt: 8121, heading: 266, pitch: -62 },
+    globe: { depthTestAgainstTerrain: true }
   }
 }
 
@@ -106,10 +106,12 @@ export function clear() {
 }
 
 export function showResult(reslut) {
-  if (reslut && measureVolume) {
+  if (reslut && measureVolume && measureVolume.interPolygonObj) {
     showInterResult(measureVolume.interPolygonObj.list)
+    return true
   } else {
     clearInterResult()
+    return false
   }
 }
 

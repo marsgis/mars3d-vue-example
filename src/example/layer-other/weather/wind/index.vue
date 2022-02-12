@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-row :gutter="5">
       <a-col :span="24">
         <a-form-item label="particlesNumber" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -42,13 +42,19 @@
           <a-slider v-model:value="formState.lineWidth" @change="onParticleSystemOptionsChange" :min="0.01" :max="16.0" :step="0.01" />
         </a-form-item>
       </a-col>
+
+      <a-col :span="24">
+        <a-form-item label="线颜色" :labelCol="labelCol" :labelAlign="labelAlign">
+          <mars-color-picker v-model:value="formState.color" @change="changeColor"/>
+        </a-form-item>
+      </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -60,6 +66,7 @@ interface FormState {
   dropRateBump: number
   speedFactor: number
   lineWidth: number
+  color:string
 }
 
 const labelCol = ref({ span: 8 })
@@ -72,13 +79,20 @@ const formState: UnwrapRef<FormState> = reactive({
   dropRate: 0.003,
   dropRateBump: 0.01,
   speedFactor: 0.2,
-  lineWidth: 4.0
+  lineWidth: 4.0,
+  color: "#4696db"
 })
 
 // 参数调节面板
 const onParticleSystemOptionsChange = () => {
   mapWork.onParticleSystemOptionsChange(formState)
 }
+
+// 修改颜色
+const changeColor = () => {
+  mapWork.changeColor(formState.color)
+}
+
 </script>
 <style scoped lang="less">
 .infoView {

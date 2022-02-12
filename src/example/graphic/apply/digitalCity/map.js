@@ -156,22 +156,33 @@ function addCityGraphics() {
   })
   graphicLayer.addGraphic(rotatCicleImage)
 
-  //
-  const graphic = new mars3d.graphic.ModelEntity({
-    name: "四凌锥体",
+  // gltf的方式：四面体
+  // const graphic = new mars3d.graphic.ModelEntity({
+  //   name: "四面体",
+  //   position: [position[0], position[1], 180],
+  //   style: {
+  //     url: "//data.mars3d.cn/gltf/mars/zhui.glb",
+  //     scale: 30
+  //   }
+  // })
+  // graphicLayer.addGraphic(graphic)
+  // 开始 自旋转效果
+  // graphic.rotateStart({
+  //   direction: true, // 控制方向, true逆时针，false顺时针
+  //   time: 6 // time：给定飞行一周所需时间(单位 秒)，控制速度
+  // })
+
+  // 四面体
+  const tetrahedron = new mars3d.graphic.Tetrahedron({
     position: [position[0], position[1], 180],
     style: {
-      url: "//data.mars3d.cn/gltf/mars/zhui.glb",
-      scale: 30
+      width: 20,
+      height: 30,
+      color: "rgba(200,200,0,0.7)",
+      moveHeight: 50
     }
   })
-  graphicLayer.addGraphic(graphic)
-
-  // 开始 自旋转效果
-  graphic.rotateStart({
-    direction: true, // 控制方向, true逆时针，false顺时针
-    time: 6 // time：给定飞行一周所需时间(单位 秒)，控制速度
-  })
+  graphicLayer.addGraphic(tetrahedron)
 
   // divgraphic标注
   const divgraphic = new mars3d.graphic.DivGraphic({
@@ -203,7 +214,7 @@ function addCityGraphics() {
   graphicLayer.addGraphic(scanCircle)
 
   // 远眺的线 ,数据获取的pointArr
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/shanghai-point.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/shanghai-point.json" })
     .then((result) => {
       const pointArr = []
       result.features.forEach((obj) => {

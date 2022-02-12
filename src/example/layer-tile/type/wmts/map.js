@@ -5,18 +5,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 36.468047, lng: 104.069505, alt: 16801717, heading: 356, pitch: -88 }
-  },
-  control: {
-    baseLayerPicker: true, // basemaps底图切换按钮
-    homeButton: true, // 视角复位按钮
-    sceneModePicker: true, // 二三维切换按钮
-    defaultContextMenu: true, // 右键菜单
-    locationBar: { fps: true } // 状态栏
-  },
-  terrain: {
-    url: "http://data.mars3d.cn/terrain",
-    show: true
+    center: { lat: 36.468047, lng: 104.069505, alt: 16801717, heading: 0, pitch: -88 }
   },
   // 方式1：在创建地球前的参数中配置
   basemaps: [
@@ -65,7 +54,7 @@ let tileLayer
 export function addLayer() {
   removeLayer()
 
-  map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 360, pitch: -67 })
+  map.setCameraView({ lat: 31.528964, lng: 117.245717, alt: 81718, heading: 0, pitch: -67 })
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.WmtsLayer({

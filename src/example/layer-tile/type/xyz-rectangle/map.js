@@ -33,18 +33,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  addLayer()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addLayer() {
   // 添加 安徽省边界线墙
   const anhuiWall = new mars3d.layer.GeoJsonLayer({
     name: "安徽省边界墙",
@@ -70,4 +59,12 @@ function addLayer() {
     rectangle: { xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 }
   })
   map.addLayer(tileLayer)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

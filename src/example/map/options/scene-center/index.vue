@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
       <a-collapse-panel key="1" header="景点视角:">
         <a-space>
@@ -19,12 +19,12 @@
     </a-collapse>
     <!-- <div class="f-mb"></div>
     <div></div> -->
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3"])

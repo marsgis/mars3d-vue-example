@@ -1,5 +1,6 @@
 import * as mars3d from "mars3d"
 import ThreeLayer from "./ThreeLayer"
+
 let map // mars3d.Map三维地图对象
 let threeLayer
 
@@ -18,7 +19,6 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
 
   threeLayer = new ThreeLayer()
   map.addLayer(threeLayer)
@@ -50,13 +50,13 @@ function init3DObject() {
   threeLayer.scene.add(sphereYup) // don’t forget to add it to the Three.js scene manually
   sphereYup.position.set(ce.x, ce.y, ce.z)
 
-  const _3Dobjects = []
+  const arrXdObj = []
 
-  let _3DOB = new _3DObject()
-  _3DOB.threeMesh = sphereYup
-  _3DOB.minWGS84 = minWGS84
-  _3DOB.maxWGS84 = maxWGS84
-  _3Dobjects.push(_3DOB)
+  let xdObj = new XDObject()
+  xdObj.threeMesh = sphereYup
+  xdObj.minWGS84 = minWGS84
+  xdObj.maxWGS84 = maxWGS84
+  arrXdObj.push(xdObj)
 
   geometry = new THREE.DodecahedronGeometry()
   const dodecahedronMesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial()) // 12面体
@@ -70,15 +70,15 @@ function init3DObject() {
   dodecahedronMeshYup.add(dodecahedronMesh)
   threeLayer.scene.add(dodecahedronMeshYup) // don’t forget to add it to the Three.js scene manually
   dodecahedronMeshYup.position.set(ce.x, ce.y, ce.z)
-  //    Assign Three.js object mesh to our object array
-  _3DOB = new _3DObject()
-  _3DOB.threeMesh = dodecahedronMeshYup
-  _3DOB.minWGS84 = minWGS84
-  _3DOB.maxWGS84 = maxWGS84
-  _3Dobjects.push(_3DOB)
 
-  // 添加灯光
-  // 添加点光源
+  //    Assign Three.js object mesh to our object array
+  xdObj = new XDObject()
+  xdObj.threeMesh = dodecahedronMeshYup
+  xdObj.minWGS84 = minWGS84
+  xdObj.maxWGS84 = maxWGS84
+  arrXdObj.push(xdObj)
+
+  // 添加灯光，点光源
   const spotLight = new THREE.SpotLight(0xffffff)
   spotLight.position.set(0, 0, 50000)
   spotLight.castShadow = true // 设置光源投射阴影
@@ -93,10 +93,10 @@ function init3DObject() {
     return new THREE.Vector3(cart.x, cart.y, cart.z)
   }
 
-  // // Configure Three.js meshes to stand against globe center position up direction
-  for (const id in _3Dobjects) {
-    minWGS84 = _3Dobjects[id].minWGS84
-    maxWGS84 = _3Dobjects[id].maxWGS84
+  // Configure Three.js meshes to stand against globe center position up direction
+  for (const id in arrXdObj) {
+    minWGS84 = arrXdObj[id].minWGS84
+    maxWGS84 = arrXdObj[id].maxWGS84
     // convert lat/long center position to Cartesian3
     const center = Cesium.Cartesian3.fromDegrees((minWGS84[0] + maxWGS84[0]) / 2, (minWGS84[1] + maxWGS84[1]) / 2)
 
@@ -109,12 +109,13 @@ function init3DObject() {
     const latDir = new THREE.Vector3().subVectors(bottomLeft, topLeft).normalize()
 
     // configure entity position and orientation
-    _3Dobjects[id].threeMesh.position.copy(center)
-    _3Dobjects[id].threeMesh.lookAt(centerHigh)
-    _3Dobjects[id].threeMesh.up.copy(latDir)
+    arrXdObj[id].threeMesh.position.copy(center)
+    arrXdObj[id].threeMesh.lookAt(centerHigh)
+    arrXdObj[id].threeMesh.up.copy(latDir)
   }
 }
-function _3DObject() {
+
+function XDObject() {
   this.threeMesh = null
   this.minWGS84 = null
   this.maxWGS84 = null

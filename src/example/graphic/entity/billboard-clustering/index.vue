@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <a-checkbox v-model:checked="formState.enabledAggressive" @change="formStateChange">是否聚合</a-checkbox>
 
@@ -7,12 +7,12 @@
         演示异步计算贴地高度
       </mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {

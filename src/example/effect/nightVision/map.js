@@ -43,6 +43,6 @@ export function onUnmounted() {
   map = null
 }
 
-export function chkShowEffect(val) {
+export function setEffect(val) {
   nightVisionEffect.enabled = val
 }

@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -16,24 +16,26 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphic01(graphicLayer)
-  addGraphic02(graphicLayer)
-  addGraphic03(graphicLayer)
-  addGraphic03b(graphicLayer)
-  addGraphic04(graphicLayer)
-  addGraphic05(graphicLayer)
-  addGraphic06(graphicLayer)
-  addGraphic07(graphicLayer)
-  addGraphic08(graphicLayer)
-  addGraphic09(graphicLayer)
-  addGraphic10(graphicLayer)
-  addGraphic11(graphicLayer)
-  addGraphic12(graphicLayer)
-  addGraphic13(graphicLayer)
-  addGraphic14(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic3b(graphicLayer)
+  addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
+  addDemoGraphic6(graphicLayer)
+  addDemoGraphic7(graphicLayer)
+  addDemoGraphic8(graphicLayer)
+  addDemoGraphic9(graphicLayer)
+  addDemoGraphic10(graphicLayer)
+  addDemoGraphic11(graphicLayer)
+  addDemoGraphic12(graphicLayer)
+  addDemoGraphic13(graphicLayer)
+  addDemoGraphic14(graphicLayer)
 }
 
 /**
@@ -42,10 +44,12 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
-function addGraphic01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: [116.1, 31.0, 1000],
     style: {
@@ -66,7 +70,7 @@ function addGraphic01(graphicLayer) {
 }
 
 //
-function addGraphic02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 31.0, 1000),
     style: {
@@ -80,7 +84,7 @@ function addGraphic02(graphicLayer) {
 }
 
 //
-function addGraphic03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.307258, 30.999546, 1239.2),
     style: {
@@ -95,7 +99,7 @@ function addGraphic03(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphic03b(graphicLayer) {
+function addDemoGraphic3b(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.303345, 31.087028, 452.2),
     style: {
@@ -111,7 +115,7 @@ function addGraphic03b(graphicLayer) {
 }
 
 //
-function addGraphic04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: [116.4, 31.0, 1000],
     style: {
@@ -157,7 +161,7 @@ function addGeoJson(geojson, graphicLayer) {
 }
 
 // 2圈平面扇形
-function addGraphic05(graphicLayer) {
+function addDemoGraphic5(graphicLayer) {
   const outerRadius = 5000.0
   const innerRadius = 1000
 
@@ -179,7 +183,7 @@ function addGraphic05(graphicLayer) {
 }
 
 // 半圆顶球体
-function addGraphic06(graphicLayer) {
+function addDemoGraphic6(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 30.9, 1000),
     style: {
@@ -194,7 +198,7 @@ function addGraphic06(graphicLayer) {
 }
 
 // 含内半径 半圆顶球体
-function addGraphic07(graphicLayer) {
+function addDemoGraphic7(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
     style: {
@@ -210,7 +214,7 @@ function addGraphic07(graphicLayer) {
 }
 
 // 被切开的含内半径 半圆顶球体
-function addGraphic08(graphicLayer) {
+function addDemoGraphic8(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.4, 30.9, 1000),
     style: {
@@ -227,7 +231,7 @@ function addGraphic08(graphicLayer) {
 }
 
 // 顶部和底部切出的桶形体
-function addGraphic09(graphicLayer) {
+function addDemoGraphic9(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.5, 30.9, 1000),
     style: {
@@ -244,7 +248,7 @@ function addGraphic09(graphicLayer) {
 }
 
 // 碗行体
-function addGraphic10(graphicLayer) {
+function addDemoGraphic10(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.1, 30.8, 1000),
     style: {
@@ -260,7 +264,7 @@ function addGraphic10(graphicLayer) {
 }
 
 // 时钟开孔
-function addGraphic11(graphicLayer) {
+function addDemoGraphic11(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.2, 30.8, 1000),
     style: {
@@ -279,7 +283,7 @@ function addGraphic11(graphicLayer) {
 }
 
 // 局部圆顶
-function addGraphic12(graphicLayer) {
+function addDemoGraphic12(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.3, 30.8, 1000),
     style: {
@@ -296,7 +300,7 @@ function addGraphic12(graphicLayer) {
 }
 
 // 部分椭圆体
-function addGraphic13(graphicLayer) {
+function addDemoGraphic13(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     position: new mars3d.LngLatPoint(116.4, 30.8, 1000),
     style: {
@@ -314,7 +318,7 @@ function addGraphic13(graphicLayer) {
 }
 
 // 土星综合对象
-function addGraphic14(graphicLayer) {
+function addDemoGraphic14(graphicLayer) {
   const position = new mars3d.LngLatPoint(116.5, 30.8, 1000)
   const graphic = new mars3d.graphic.EllipsoidPrimitive({
     name: "土星",
@@ -356,36 +360,9 @@ function addGraphic14(graphicLayer) {
   })
   graphicLayer.addGraphic(graphicWai)
 }
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -396,68 +373,23 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
 }
 
-// 绑定图层的弹窗
-function bindLayerPopup() {
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
     {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
@@ -475,81 +407,6 @@ function bindLayerContextMenu() {
           return
         }
         graphicLayer.removeGraphic(graphic)
-      }
-    },
-    {
-      text: "计算长度",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的长度为:" + strDis)
-      }
-    },
-    {
-      text: "计算周长",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的周长为:" + strDis)
-      }
-    },
-    {
-      text: "计算面积",
-      iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
-        globalAlert("该对象的面积为:" + strArea)
       }
     }
   ])
@@ -596,16 +453,4 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-
-  // 测试 颜色闪烁
-  if (graphic.startFlicker) {
-    graphic.startFlicker({
-      time: 20, // 闪烁时长（秒）
-      maxAlpha: 0.5,
-      color: Cesium.Color.YELLOW,
-      onEnd: function () {
-        // 结束后回调
-      }
-    })
-  }
 }

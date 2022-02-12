@@ -89,33 +89,27 @@ export function onUnmounted() {
 }
 
 // 是否开始泛光效果
-export function bindShowEffect(val) {
+export function setBloomEffect(val) {
   bloomEffect.enabled = val
 }
 
 // 修改对应参数
-export function txt_contrast(val) {
-  if (val) {
-    bloomEffect.contrast = val
-  }
+export function setContrast(val) {
+  bloomEffect.contrast = val
 }
-export function txt_brightness(val) {
-  if (val) {
-    bloomEffect.brightness = val
-  }
+
+export function setBrightness(val) {
+  bloomEffect.brightness = val
 }
-export function txt_delta(val) {
-  if (val) {
-    bloomEffect.delta = val
-  }
+
+export function setDelta(val) {
+  bloomEffect.delta = val
 }
-export function txt_stepSize(val) {
-  if (val) {
-    bloomEffect.stepSize = val
-  }
+
+export function setStep(val) {
+  bloomEffect.stepSize = val
 }
-export function txt_sigma(val) {
-  if (val) {
-    bloomEffect.sigma = val
-  }
+
+export function setSigma(val) {
+  bloomEffect.sigma = val
 }

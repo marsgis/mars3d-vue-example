@@ -42,8 +42,7 @@ export function onMounted(mapInstance) {
 
   geoJsonLayerDTH.bindPopup((e) => {
     const item = e.graphic.attr
-    const html = `楼层：第${item.thisFloor}层 (共${item.allFloor}层)<br/>
-                      备注：${item.remark} `
+    const html = `楼层：第${item.thisFloor}层 (共${item.allFloor}层)<br/>备注：${item.remark} `
     return html
   })
 }

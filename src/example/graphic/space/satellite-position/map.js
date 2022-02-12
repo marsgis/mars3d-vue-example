@@ -18,13 +18,7 @@ export const mapOptions = {
   },
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
-    timeline: false, // 是否显示时间线控件
-    infoBox: false,
-    baseLayerPicker: false,
-    fullscreenButton: false,
-    sceneModePicker: true,
-    geocoder: false, // 查询
-    navigationHelpButton: false, // 提示
+    timeline: true, // 是否显示时间线控件
     compass: { top: "10px", left: "5px" }
   }
 }
@@ -36,10 +30,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   addSatellite()
 }
@@ -56,6 +47,18 @@ function addSatellite() {
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
+
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("单击了卫星", event)
+  })
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
+  })
+
 
   // 取数据
   const property = getDynamicProperty()
@@ -207,6 +210,7 @@ function getDynamicProperty() {
 
   const property = new Cesium.SampledPositionProperty()
   property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
   for (let z = 0; z < wxdata.length; z++) {
     const item = wxdata[z]
 

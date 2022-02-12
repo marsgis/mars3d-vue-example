@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -21,8 +21,7 @@ export function onMounted(mapInstance) {
 
   map.basemap = 2017 // 蓝色底图
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -41,13 +40,7 @@ export function onMounted(mapInstance) {
     // instance.modelMatrix = modelMatrix
   })
 
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "建筑物", template: "all", attr: attr })
-  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
   createCollection(1000)
 }
@@ -77,8 +70,18 @@ export function addCombineData(count) {
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
-export function clearLayer() {
-  graphicLayer.clear()
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
 }
 
 // 合并渲染
@@ -109,14 +112,14 @@ function createCollection(count) {
   //   for (let j = 0, len = arrData.length; j < len; ++j) {
   //     const item = arrData[j]
 
-  //     item.position = mars3d.PointUtil.getPositionByDirectionAndLen(item.position, random(0, 360), random(1, 5)) // 随机坐标
+  //     item.position = randomPoint()// 随机坐标
   //     item.attr.time = new Date().toLocaleTimeString()
   //   }
   //   modelCombine.instances = arrData
   // }, 5000)
 }
 
-// 取区域内的随机图标
+// 取区域内的随机点
 function randomPoint() {
   const jd = random(117.184644 * 1000, 117.307163 * 1000) / 1000
   const wd = random(31.783595 * 1000, 31.87024 * 1000) / 1000

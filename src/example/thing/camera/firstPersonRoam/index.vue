@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
       <div class="f-mb">
         <a-space>
           <span>启用状态:</span>
@@ -21,12 +21,12 @@
           <mars-button @click="stopAuto">停止自动漫游</mars-button>
         </a-space>
       </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const checked = ref(true)

@@ -1,6 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -17,6 +19,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
   showDraw()
 }
 
@@ -28,11 +31,10 @@ export function onUnmounted() {
   map = null
 }
 
-let geoJsonLayer
 function removeLayer() {
-  if (geoJsonLayer) {
-    map.removeLayer(geoJsonLayer, true)
-    geoJsonLayer = null
+  if (graphicLayer) {
+    map.removeLayer(graphicLayer, true)
+    graphicLayer = null
   }
 }
 
@@ -46,7 +48,7 @@ function removeLayer() {
 export function showDraw(isFlyTo) {
   removeLayer()
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "标绘示例数据",
     url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
     popup: "{type} {name}",
@@ -65,11 +67,10 @@ export function showDraw(isFlyTo) {
     },
     flyTo: isFlyTo
   })
-  map.addLayer(geoJsonLayer)
-
+  map.addLayer(graphicLayer)
 
   // load事件,必须在load完成前绑定才能监听
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     if (event.layer) {
       console.log("数据加载完成", event)
     }
@@ -77,13 +78,13 @@ export function showDraw(isFlyTo) {
 
   setTimeout(() => {
     // readyPromise是可以load加载数据完成后去获取
-    geoJsonLayer.readyPromise.then(function (layer) {
+    graphicLayer.readyPromise.then(function (layer) {
       console.log("readyPromise:数据加载完成", layer)
     })
   }, 5000)
 
   // 单击事件
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -96,8 +97,7 @@ export function showDraw(isFlyTo) {
  */
 export function showPoint() {
   removeLayer()
-
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "体育设施点",
     url: "//data.mars3d.cn/file/geojson/hfty-point.json",
     symbol: {
@@ -157,13 +157,13 @@ export function showPoint() {
     ],
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -177,7 +177,7 @@ export function showPoint() {
 export function showChinaLine() {
   removeLayer()
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "全国省界",
     url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
     symbol: {
@@ -212,10 +212,10 @@ export function showChinaLine() {
     },
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
 }
@@ -229,7 +229,7 @@ export function showChinaLine() {
 export function showRegion() {
   removeLayer()
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "合肥市",
     url: "//data.mars3d.cn/file/geojson/areas/340100_full.json",
     symbol: {
@@ -283,13 +283,13 @@ export function showRegion() {
     // "tooltip": "{name}",
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -303,7 +303,7 @@ export function showRegion() {
 export function showBuilding() {
   removeLayer()
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "建筑物面",
     url: "//data.mars3d.cn/file/geojson/buildings-demo.json",
     symbol: {
@@ -321,10 +321,10 @@ export function showBuilding() {
     popup: "all",
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
 }
@@ -338,7 +338,7 @@ export function showBuilding() {
 export function showFloor() {
   removeLayer()
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "分层分户建筑物面",
     url: "//data.mars3d.cn/file/geojson/huxing.json",
     symbol: {
@@ -366,10 +366,10 @@ export function showFloor() {
     center: { lat: 31.821524, lng: 117.179329, alt: 255, heading: 25, pitch: -48 },
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
 }
@@ -385,7 +385,7 @@ export function showPlanningSurface() {
 
   map.setCameraView({ lat: 31.591382, lng: 120.718945, alt: 784, heading: 279, pitch: -67 })
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     id: 1987,
     name: "用地规划",
     url: "//data.mars3d.cn/file/geojson/guihua.json",
@@ -426,7 +426,7 @@ export function showPlanningSurface() {
     popup: "类型:{类型}"
     // flyTo: true,
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
   // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
@@ -453,7 +453,7 @@ export function showBoundaryWall() {
 
   map.setCameraView({ lat: 30.561661, lng: 117.663884, alt: 113078, heading: 346, pitch: -43 })
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "合肥市",
     url: "//data.mars3d.cn/file/geojson/areas/340100_full.json",
     symbol: {
@@ -478,13 +478,13 @@ export function showBoundaryWall() {
     // "tooltip": "{name}",
     // flyTo: true,
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -513,7 +513,7 @@ export function showMonomer() {
     map.addLayer(tilesetLayer)
   }
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "文庙-单体化",
     url: " //data.mars3d.cn/file/geojson/dth-wm.json",
     symbol: {
@@ -539,10 +539,10 @@ export function showMonomer() {
     center: { lat: 33.589442, lng: 119.031613, alt: 254, heading: 5, pitch: -37 },
     flyTo: true
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
 }
@@ -556,9 +556,9 @@ export function showMonomer() {
 export function showWorld() {
   removeLayer()
 
-  map.setCameraView({ lat: 22.564341, lng: 89.44688, alt: 10817167, heading: 356, pitch: -87 })
+  map.setCameraView({ lat: 22.564341, lng: 89.44688, alt: 10817167, heading: 0, pitch: -87 })
 
-  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+  graphicLayer = new mars3d.layer.GeoJsonLayer({
     name: "国界线",
     url: "//data.mars3d.cn/file/geojson/world.json",
     symbol: {
@@ -583,13 +583,24 @@ export function showWorld() {
     },
     popup: "{name} {name_cn}"
   })
-  map.addLayer(geoJsonLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  geoJsonLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
   })
-  geoJsonLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
+}
+
+export function setDefuatData() {
+  const defuat = {
+    enabledShowHide: true,
+    enabledPopup: true,
+    enabledTooltip: false,
+    enabledRightMenu: false
+  }
+
+  eventTarget.fire("defuatData", defuat)
 }

@@ -1,7 +1,19 @@
-export default function examplePlugin(mode:string) {
+import fs from "fs"
+export default function examplePlugin(mode: string) {
   return {
     name: "transform-example",
+    load(id: string) {
+      // 填坑：在transform中处理的是编译后的文件内容，导致了一些bug
+      if (id.endsWith(".vue")) {
+        const data = fs.readFileSync(id)
+        let source = data.toString()
 
+        if (source.indexOf(`from "./map.js"`) !== -1) {
+          source = source.replace(/import \* as (\S*) from \"\.\/map\.js\"/g, "const $1 = window.mapWork")
+          return source
+        }
+      }
+    },
     transform(source: string, id: string) {
       let code = source
       if (code.indexOf(`from "./map.js"`) !== -1 && id.endsWith(".vue")) {

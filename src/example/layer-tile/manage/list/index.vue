@@ -1,14 +1,14 @@
 <template>
-  <pannel class="infoView manager-pannel" v-auto-height="100">
+  <mars-pannel class="infoView manager-mars-pannel" v-auto-height="100">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </pannel>
+  </mars-pannel>
 </template>
 <script lang="ts" setup>
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -24,20 +24,44 @@ mapWork.eventTarget.on("loadOK", () => {
   initTree()
 })
 
-const checkedChange = (keys: string[]) => {
-  Object.keys(layersObj).forEach((k) => {
-    const show = keys.indexOf(k) !== -1
-    const layer = layersObj[k]
-    layer.show = show
-    if (show) {
-      if (!layer.isAdded) {
-        window.mapWork.map.addLayer(layer)
-      }
+const checkedChange = (keys: string[], e: any) => {
+  const layer = layersObj[e.node.key]
+
+  if (layer) {
+    if (!layer.isAdded) {
+      mapWork.addLayer(layer)
+    }
+
+    // 处理子节点
+    if (e.node.children && e.node.children.length) {
+      renderChildNode(keys, e.node.children)
+    }
+
+    if (keys.indexOf(e.node.key) !== -1) {
+      layer.show = true
       layer.flyTo()
     } else {
-      // if (layer.isAdded) {
-      //   map.removeLayer(layer)
-      // }
+      layer.show = false
+    }
+  }
+}
+
+function renderChildNode(keys: string[], children: any[]) {
+  children.forEach((child) => {
+    const layer = layersObj[child.key]
+    if (layer) {
+      if (!layer.isAdded) {
+        mapWork.addLayer(layer)
+      }
+
+      if (keys.indexOf(child.key) !== -1) {
+        layer.show = true
+      } else {
+        layer.show = false
+      }
+      if (child.children) {
+        renderChildNode(keys, child.children)
+      }
     }
   })
 }
@@ -91,7 +115,7 @@ function findChild(parent: any, list: any[]) {
 </script>
 
 <style scoped lang="less">
-.manager-pannel {
+.manager-mars-pannel {
   width: 220px;
   overflow-y: auto;
 }

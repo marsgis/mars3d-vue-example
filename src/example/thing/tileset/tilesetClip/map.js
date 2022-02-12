@@ -19,8 +19,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
@@ -44,7 +43,6 @@ export function onMounted(mapInstance) {
 
   // 模型加载完成
   tilesetLayer.on(mars3d.EventType.load, function () {
-    // 触发自定义事件 dataLoaded
     eventTarget.fire("dataLoaded", { list: tilesetClip.list })
   })
 

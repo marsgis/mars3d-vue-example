@@ -1,10 +1,10 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let selectedView
-let graphicLayer
-let videoElement
+export let graphicLayer
 
+let selectedView
+let videoElement
 
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars3d.BaseClass()
@@ -35,35 +35,35 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(tiles3dLayer)
 
-   // 创建矢量数据图层
-   graphicLayer = new mars3d.layer.GraphicLayer()
-   map.addLayer(graphicLayer)
+  // 创建矢量数据图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
-   // 2.在layer上绑定监听事件
-   graphicLayer.on(mars3d.EventType.click, function (event) {
-     selectedView = event.graphic
-     console.log("监听layer，单击了矢量对象", event)
-   })
+  // 2.在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    selectedView = event.graphic
+    console.log("监听layer，单击了矢量对象", event)
+  })
 
-   // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-   graphicLayer.bindPopup("我是layer上绑定的Popup")
+  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  graphicLayer.bindPopup("我是layer上绑定的Popup")
 
-   // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-   graphicLayer.bindContextMenu([
-     {
-       text: "删除对象",
-       iconCls: "fa fa-trash-o",
-       callback: function (e) {
-         const graphic = e.graphic
-         if (graphic) {
-           graphicLayer.removeGraphic(graphic)
-         }
-       }
-     }
-   ])
+  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
+  graphicLayer.bindContextMenu([
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      callback: function (e) {
+        const graphic = e.graphic
+        if (graphic) {
+          graphicLayer.removeGraphic(graphic)
+        }
+      }
+    }
+  ])
 
-   createVideoDom()
-   addGraphic01()
+  createVideoDom()
+  addDemoGraphic1()
 }
 
 /**
@@ -74,7 +74,9 @@ export function onUnmounted() {
   map = null
 }
 
-
+// let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
 
 function createVideoDom(callback) {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
@@ -85,27 +87,29 @@ function createVideoDom(callback) {
   videoElement.setAttribute("controls", "")
   videoElement.style.display = "none"
 
-  const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-
   if (window.Hls.isSupported()) {
     const hls = new window.Hls()
     hls.loadSource(hlsUrl)
     hls.attachMedia(videoElement)
     hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
       videoElement.play()
-      if (callback) { callback() }
+      if (callback) {
+        callback()
+      }
     })
   } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
     videoElement.src = hlsUrl
     videoElement.addEventListener("loadedmetadata", function () {
       videoElement.play()
-      if (callback) { callback() }
+      if (callback) {
+        callback()
+      }
     })
   }
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic01() {
+function addDemoGraphic1() {
   const video2D = new mars3d.graphic.Video2D({
     position: [117.205459, 31.842988, 64.3],
     style: {

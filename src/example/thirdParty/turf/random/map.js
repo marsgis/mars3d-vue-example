@@ -1,10 +1,11 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
 export const mapOptions = {
   scene: {
-    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
+    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
 }
 

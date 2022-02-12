@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
-function initMap(options) {
+function initMap() {
   // 读取 config.json 配置文件
-  mars3d.Resource.fetchJson({ url: "config/config.json" })
+  mars3d.Util.fetchJson({ url: "config/config.json" })
     .then(function (json) {
       console.log("读取 config.json 配置文件完成", json) // 打印测试信息
 

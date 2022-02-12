@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
-let geoJsonLayer
+let geoJsonLayer // 矢量图层对象,用于layer绑定展示
+let graphicLayer // 矢量图层对象,用于graphic绑定展示
 
 export const eventTarget = new mars3d.BaseClass()
 
@@ -176,7 +176,8 @@ export function bindGraphicDemo1() {
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -224,7 +225,8 @@ export function bindGraphicDemo2() {
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 

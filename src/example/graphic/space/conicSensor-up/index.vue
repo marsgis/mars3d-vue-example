@@ -1,14 +1,14 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">圆锥体:</span>
+        <span class="mars-pannel-item-label">圆锥体:</span>
         <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">半径:</span>
+        <span class="mars-pannel-item-label">半径:</span>
         <mars-input-number
           class="inputNum"
           @change="sensorRadius"
@@ -21,30 +21,30 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">夹角:</span>
+        <span class="mars-pannel-item-label">夹角:</span>
         <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="89" :step="0.01" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">顶盖:</span>
+        <span class="mars-pannel-item-label">顶盖:</span>
         <a-checkbox @change="sensorTop" v-model:checked="formState.enabledShowModelTop">是否显示</a-checkbox>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">地面投影:</span>
+        <span class="mars-pannel-item-label">地面投影:</span>
         <a-checkbox @change="sensorArea" v-model:checked="formState.enabledModelArea">是否显示</a-checkbox>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -95,7 +95,7 @@ const sensorArea = () => {
 .inputNum {
   width: 110px !important;
 }
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 60px;
 }
 

@@ -17,6 +17,7 @@ export const mapOptions = {
       multiplier: 1 // 速度
     }
   },
+  terrain: false,
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true, // 是否显示时间线控件
@@ -32,9 +33,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  delete mapOptions.terrain
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   const tle_arr = [
     "COSMOS 33918U",
@@ -88,6 +87,13 @@ function createSatelliteList(arr) {
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
+  })
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
   })
 
   for (let i = 0; i < arr.length; i += 3) {

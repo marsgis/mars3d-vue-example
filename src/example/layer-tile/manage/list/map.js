@@ -22,6 +22,8 @@ export const eventTarget = new mars3d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+
   eventTarget.fire("loadOK")
 }
 
@@ -31,4 +33,8 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+export function addLayer(layer) {
+  map.addLayer(layer)
 }

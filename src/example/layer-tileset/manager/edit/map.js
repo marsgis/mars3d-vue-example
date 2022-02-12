@@ -1,8 +1,9 @@
 import * as mars3d from "mars3d"
+import { TilesEditor } from "./TilesEditor.js"
 
 let map // mars3d.Map三维地图对象
-let tilesEditor = null
-let tiles3dLayer = null
+let tiles3dLayer
+let tilesEditor
 
 // 自定义事件
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
@@ -16,8 +17,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 鼠标拖拽编辑，定义在js/TilesEditor.js
   tilesEditor = new TilesEditor({
@@ -323,7 +323,7 @@ function removeLayer() {
 function querySceneTreeData(url) {
   const scenetree = url.substring(0, url.lastIndexOf("/") + 1) + "scenetree.json"
 
-  return mars3d.Resource.fetchJson({ url: scenetree })
+  return mars3d.Util.fetchJson({ url: scenetree })
 }
 function name2text(o) {
   o.text = o.name

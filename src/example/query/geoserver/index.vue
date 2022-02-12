@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -34,14 +34,14 @@
         </a-form-item>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import any from "nprogress"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -55,7 +55,7 @@ const serverName = ref("")
 const show = ref(false)
 
 // 表格数据
-const dataSource = ref([any])
+const dataSource = ref([])
 
 onMounted(() => {
   mapWork.eventTarget.on("befortUI", function (event: any) {
@@ -90,7 +90,7 @@ const rowSelection = ref({
   hideDefaultSelections: true,
   onSelect: (record: DataItem, selected: boolean) => {
     if (record.graphic == null) {
-     window.$message(record.name + " 无经纬度坐标信息！")
+     $message(record.name + " 无经纬度坐标信息！")
       return
     }
     if (selected) {
@@ -112,7 +112,7 @@ const customRow = (record: DataItem) => {
   return {
     onClick: () => {
       if (record.graphic == null) {
-        window.$message(record.name + " 无经纬度坐标信息！")
+        $message(record.name + " 无经纬度坐标信息！")
         return
       }
       record.graphic.openHighlight()

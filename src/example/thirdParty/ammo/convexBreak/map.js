@@ -18,6 +18,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   addDemo()
 }
 
@@ -30,15 +31,6 @@ export function onUnmounted() {
 }
 
 function addDemo() {
-  const MeshVisualizer = Cesium.MeshVisualizer
-  const Mesh = Cesium.Mesh
-  const MeshMaterial = Cesium.MeshMaterial
-  const FramebufferTexture = Cesium.FramebufferTexture
-  const GeometryUtils = Cesium.GeometryUtils
-  const MeshPhongMaterial = Cesium.MeshPhongMaterial
-  const BasicMeshMaterial = Cesium.BasicMeshMaterial
-  const LOD = Cesium.LOD
-
   const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)
   const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
 
@@ -67,17 +59,17 @@ function addDemo() {
     } else {
       color = createRandomColor()
     }
-    return new MeshPhongMaterial({
+    return new Cesium.MeshPhongMaterial({
       defaultColor: color,
-      side: MeshMaterial.Sides.DOUBLE,
+      side: Cesium.MeshMaterial.Sides.DOUBLE,
       translucent: false
     })
   }
-  const groundMaterial = new MeshPhongMaterial({
-    defaultColor: "rgb(255,0,0)",
-    side: MeshMaterial.Sides.DOUBLE,
-    translucent: false
-  })
+  // const groundMaterial = new Cesium.MeshPhongMaterial({
+  //   defaultColor: "rgb(255,0,0)",
+  //   side: Cesium.MeshMaterial.Sides.DOUBLE,
+  //   translucent: false
+  // })
   Cesium.Cartesian3.prototype.set = function (x, y, z) {
     this.x = x
     this.y = y
@@ -98,10 +90,10 @@ function addDemo() {
     // - Global variables -
 
     // Graphics variables
-    const clock = new THREE.Clock()
+    // const clock = new THREE.Clock()
 
     const mouseCoords = new THREE.Vector2()
-    const raycaster = new THREE.Raycaster()
+    // const raycaster = new THREE.Raycaster()
     const ballMaterial = createMaterial(0x202020)
 
     // Physics variables
@@ -123,7 +115,7 @@ function addDemo() {
     const transformAux1 = new Ammo.btTransform()
     const tempBtVec3_1 = new Ammo.btVector3(0, 0, 0)
 
-    const time = 0
+    // const time = 0
 
     const objectsToRemove = []
     for (let i = 0; i < 500; i++) {

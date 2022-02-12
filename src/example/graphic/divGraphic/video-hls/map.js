@@ -54,10 +54,10 @@ export function onMounted(mapInstance) {
   )
 
   // 添加数据
-  addGraphic(graphicLayer, [117.080397, 31.656139, 33.3])
-  addGraphic(graphicLayer, [117.078006, 31.65649, 49.4])
-  addGraphic(graphicLayer, [117.080571, 31.657898, 50.2])
-  addGraphic(graphicLayer, [117.078331, 31.660016, 47.2])
+  addDemoGraphic(graphicLayer, [117.080397, 31.656139, 33.3])
+  addDemoGraphic(graphicLayer, [117.078006, 31.65649, 49.4])
+  addDemoGraphic(graphicLayer, [117.080571, 31.657898, 50.2])
+  addDemoGraphic(graphicLayer, [117.078331, 31.660016, 47.2])
 }
 
 /**
@@ -68,7 +68,11 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic(graphicLayer, position) {
+// let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
+
+function addDemoGraphic(graphicLayer, position) {
   const graphicImg = new mars3d.graphic.DivGraphic({
     position: position,
     style: {
@@ -94,9 +98,6 @@ function addGraphic(graphicLayer, position) {
     }
   })
   graphicLayer.addGraphic(graphicImg)
-
-  // let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
-  const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
 
   graphicImg.on(mars3d.EventType.popupOpen, function (event) {
     const videoElement = event.container.querySelector("#videoHLS") // popup对应的DOM

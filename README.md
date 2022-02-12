@@ -132,7 +132,7 @@ npm run build
 - [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
 - [Ant Design Vue](https://next.antdv.com/components/overview-cn/)：UI 控件库 
 - [ESlint](https://eslint.bootcss.com/)：代码检查工具
-- [IconPark](https://iconpark.oceanengine.com/official)：UI 图标库
+- [iconify](https://icon-sets.iconify.design/)：UI 图标库
 
 > 需要有一定的知识储备，包括 vue3.0 中的 composition Api 模式等，建议浏览下[Web前端知识视频讲解](https://www.bilibili.com/video/BV1xr4y1U73r/)
 
@@ -289,10 +289,10 @@ hideLoading(type) // 关闭loading
 最简模板如下:
 ```html
 <template>
-  <pannel class="infoView"> </pannel>
+  <mars-pannel class="infoView"> </mars-pannel>
 </template>
 <script lang="ts" setup>
-  import Pannel from "@comp/operation-pannel/pannel.vue"
+  import MarsPannel from "@/components/mars-work/mars-pannel.vue"
   const mapWork = window.mapWork
 </script>
 <style scoped lang="less"></style>
@@ -345,7 +345,7 @@ mapWork.eventTarget.on("loadOk", function (event: any) {})
 原则：
 
 - 涉及地图业务的操作均写在 map.js 中
-- 涉及 UI 层面、和地图无关的操作均写在 index.vue 中,vue 中不得使用 mars3d 和 Cesium 开头的类
+- 涉及 UI 层面、和地图无关的操作均写在 index.vue 中,vue 中不得使用 mars3d 和 Cesium 开头的类(组件中出除外)
 
 
 **如何区分？**

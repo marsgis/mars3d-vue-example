@@ -10,8 +10,8 @@ let tilesetPlanClip
  * @returns {void} 无
  */
 export function onMounted(mapInstance) {
-
   map = mapInstance // 记录map
+
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",

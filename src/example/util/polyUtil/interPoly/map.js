@@ -5,7 +5,6 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    // 此处参数会覆盖config.json中的对应配置
     center: { lat: 30.841762, lng: 116.26537, alt: 3281, heading: 39, pitch: -63 }
   }
 }
@@ -55,13 +54,11 @@ export function interPolygon(val) {
       const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      // let splitNum = Number($("#txtSplitNum").val())
       const resultInter = mars3d.PolyUtil.interPolygon({
         scene: map.scene,
         positions: positions,
         splitNum: val // splitNum插值分割的个数
       })
-
 
       showInterResult(resultInter.list)
     }
@@ -89,7 +86,6 @@ export function interLine(val) {
       const arrLine = mars3d.PolyUtil.interLine(positions, {
         splitNum: val // 插值分割的个数
       })
-
 
       showInterLineResult(arrLine)
     }
@@ -121,12 +117,10 @@ export function interPolyline(val) {
         splitNum: val // 插值分割的个数
       })
 
-
       showInterLineResult(arrLine)
     }
   })
 }
-
 
 // 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比
 

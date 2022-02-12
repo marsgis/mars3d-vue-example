@@ -86,7 +86,7 @@ export function loadEarthData() {
   canvasWindLayer.speedRate = 50
   canvasWindLayer.reverseY = false // false时表示 纬度顺序从大到小
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windyuv.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windyuv.json" })
     .then(function (res) {
       if (earthWindData) {
         canvasWindLayer.data = earthWindData
@@ -114,7 +114,7 @@ export function loadDongnanData() {
   canvasWindLayer.reverseY = true // true时表示 纬度顺序从小到到大
 
   // 访问windpoint.json后端接口，取数据
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
     .then(function (res) {
       if (dongnanWindData) {
         canvasWindLayer.data = dongnanWindData

@@ -1,17 +1,23 @@
 <template>
-  <pannel class="infoView" >
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
-        <play-a />
-        <span>{{ isPause ? "继续" : "开始" }}</span>
+        <a-sapce>
+          <Icon icon="ic:round-not-started" class="icon-vertical-a" />
+          <span>{{ isPause ? "继续" : "开始" }}</span>
+        </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay && !isPause" @click="pause">
-        <pause-one />
-        <span>暂停</span>
+        <a-sapce>
+          <Icon icon="ic:baseline-pause-circle-outline" class="icon-vertical-a" />
+          <span>暂停</span>
+        </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay" @click="stop">
-        <power />
-        <span>停止</span>
+        <a-sapce>
+          <Icon icon="tabler:power" class="icon-vertical-a" />
+          <span>停止</span>
+        </a-sapce>
       </mars-button>
     </a-space>
     <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
@@ -24,12 +30,12 @@
       <h3 class="f-mb">总时长：{{ totalTimes }}</h3>
       <h3 class="f-mb">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
     </template>
-  </pannel>
+  </mars-pannel>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import { PauseOne, Play as PlayA, Power } from "@icon-park/vue-next"
-import Pannel from "@/components/mars-work/pannel.vue"
+import { Icon } from "@iconify/vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const isPlay = ref(false)
@@ -241,6 +247,6 @@ onMounted(() => {
 .infoView {
   bottom: 40px;
   max-height: 600px;
-  overflow:scroll;
+  overflow: scroll;
 }
 </style>

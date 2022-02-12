@@ -1,6 +1,6 @@
 .tracking-activated,
 .tracking-activated:hover {
-  background: #0074d9 url(/img/btnBar/GPS_on.png);
+  background: #0074d9 url(img/GPS_on.png);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -8,7 +8,7 @@
 
 .tracking-deactivated,
 .tracking-deactivated:hover {
-  background-image: url(/img/btnBar/GPS_off.png);
+  background-image: url(img/GPS_off.png);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

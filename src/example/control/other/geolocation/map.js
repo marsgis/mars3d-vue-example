@@ -1,20 +1,12 @@
 import * as mars3d from "mars3d"
+import { Geolocation } from "./Geolocation.js"
 
 let map // mars3d.Map三维地图对象
 
-export const mapOptions = {
-  scene: {
-    center: { lat: 31.852379, lng: 117.278594, alt: 25115, heading: 2, pitch: -89 }
-  },
-  control: {
-    homeButton: false,
-    sceneModePicker: false,
-    navigationHelpButton: false,
-    infoBox: false,
-    vrButton: false,
-    geocoder: false,
-    fullscreenButton: false
-  }
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = function (option) {
+  delete option.control
+  return option
 }
 
 /**
@@ -26,13 +18,13 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  const toolButton = new Geolocation({
+  const geolocation = new Geolocation({
     insertIndex: 1 // 插入的位置顺序, 1是home按钮后面
   })
-  map.addControl(toolButton)
+  map.addControl(geolocation)
 
   // 手动调用，开始定位
-  toolButton.startTracking()
+  geolocation.startTracking()
 }
 
 /**

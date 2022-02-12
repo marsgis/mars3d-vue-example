@@ -5,12 +5,7 @@ let tiles3dLayer
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-/**
- *方便演示，移除默认配置的control
- *
- * @param {object} option 默认配置的参数
- * @return {object} option
- */
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
   option = {
     scene: {
@@ -113,6 +108,11 @@ export function showModel(_url) {
 
     // 限定缩放级别
     map.scene.screenSpaceCameraController.maximumZoomDistance = tiles3dLayer.boundingSphere.radius * 5
+
+    // 模型不可以拖拽移动位置，可放大缩小，旋转
+    // const center = tiles3dLayer.center.toCartesian()
+    // const offset = new Cesium.HeadingPitchRange(0, 0, tiles3dLayer.boundingSphere.radius)
+    // map.camera.lookAt(center, offset)
 
     // 自动贴地处理
     tiles3dLayer.clampToGround(10)

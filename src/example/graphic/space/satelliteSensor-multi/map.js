@@ -1,12 +1,15 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+let graphicLayer
+
 let satelliteSensor
 let satelliteSensor2
 let modelGraphic
-let graphicLayer
+
 const reverse = true // z轴方向，true朝向空中，false朝向地心
 const converter = Cesium.Transforms.eastNorthUpToFixedFrame
+// let converter = Cesium.Transforms.localFrameToFixedFrameGenerator('east', 'south')
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -20,7 +23,6 @@ export const mapOptions = {
 }
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
-// let converter = Cesium.Transforms.localFrameToFixedFrameGenerator('east', 'south')
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -122,7 +124,7 @@ export function addModelGraphic(x, y, z, heading, pitch, roll, angle1, angle2) {
  * @param {*} y 纬度
  * @param {*} z 高度
  * @returns {void}
-  */
+ */
 export function updatePosition(x, y, z) {
   const position = Cesium.Cartesian3.fromDegrees(x, y, z)
   modelGraphic.position = position
@@ -229,7 +231,6 @@ export function getRegion() {
     })
     map.graphicLayer.addGraphic(primitive)
   })
-
 }
 
 export function getCenter() {

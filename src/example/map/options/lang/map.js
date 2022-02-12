@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+
 let drawLayer
 let measure
 
@@ -10,7 +11,7 @@ export const mapOptions = {
     homeButton: true,
     sceneModePicker: true,
     navigationHelpButton: true,
-    infoBox: true,
+    infoBox: false,
     vrButton: true,
     fullscreenButton: true,
     geocoder: true,
@@ -40,21 +41,8 @@ export const eventTarget = new mars3d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance
-  multilingual()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function multilingual() {
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 涉及到多语言的模块：标绘提示
   drawLayer = new mars3d.layer.GraphicLayer({
@@ -100,6 +88,14 @@ function multilingual() {
     }
   })
   map.addThing(measure)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 export function distance() {

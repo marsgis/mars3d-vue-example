@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 let arrData
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -47,7 +47,7 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 访问后端接口，取数据
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/mudi.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/mudi.json" })
     .then(function (res) {
       arrData = res.data
       addFeature(graphicLayer, arrData)
@@ -63,7 +63,9 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
 function addFeature(graphicLayer, arr) {
@@ -77,24 +79,19 @@ function addFeature(graphicLayer, arr) {
                     <th scope="col" colspan="2" style="text-align:center;font-size:15px;">${item.text} </th>
                   </tr>
                   <tr>
-                    <td>省：</td>
-                    <td>${item.province}</td>
+                    <td>省：</td><td>${item.province}</td>
                   </tr>
                   <tr>
-                    <td>市：</td>
-                    <td>${item.city}</td>
+                    <td>市：</td> <td>${item.city}</td>
                   </tr>
                   <tr>
-                    <td>县/区：</td>
-                    <td>${item.district}</td>
+                    <td>县/区：</td> <td>${item.district}</td>
                   </tr>
                   <tr>
-                    <td>地址：</td>
-                    <td>${item.address}</td>
+                    <td>地址：</td> <td>${item.address}</td>
                   </tr>
                   <tr>
-                    <td>视频：</td>
-                    <td><video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video></td>
+                    <td>视频：</td> <td><video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video></td>
                   </tr>
                 </table>`
     return inthtml

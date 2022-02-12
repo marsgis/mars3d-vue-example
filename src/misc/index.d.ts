@@ -9,7 +9,7 @@ declare global {
   interface Window {
     configLibs: any // 第3方公共类库配置文件
 
-    _map: any // map地图对象
+    _mapInstance: any // map地图对象
     mapWork: any, // map.js内部对象
     currentPath: string, // 当前示例的所在目录路径
 

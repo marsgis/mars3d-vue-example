@@ -39,18 +39,3 @@ export function shadingMaterials(val) {
     streetView.enabled = false
   }
 }
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
-}

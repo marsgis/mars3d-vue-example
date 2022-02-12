@@ -347,7 +347,7 @@ export function workLine2Sgx() {
 // 特征线：俯瞰
 export function workLine3Fk() {
   clearPoint()
-  map.centerAt({ y: 36.070613, x: 113.943032, z: 3059, heading: 356.6, pitch: -88.9 })
+  map.centerAt({ y: 36.070613, x: 113.943032, z: 3059, heading: 0.6, pitch: -88.9 })
 }
 
 // 绘制过程：计算通过点

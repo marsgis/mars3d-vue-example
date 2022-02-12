@@ -1,16 +1,16 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="addGaodeLayer">高德交通态势图</mars-button>
       <mars-button @click="addBaiduLayer">百度交通态势图</mars-button>
     </a-space>
-  </pannel>
-  <interest-search :mapWork="mapWork"/>
+  </mars-pannel>
+  <interest-search />
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
-import InterestSearch from "@comp/mars-sample/interest-search.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import InterestSearch from "@/components/mars-sample/interest-search.vue"
 import * as mapWork from "./map.js"
 
 const addGaodeLayer = () => {

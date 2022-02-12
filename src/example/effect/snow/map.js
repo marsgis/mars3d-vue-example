@@ -59,21 +59,21 @@ export function onUnmounted() {
 }
 
 // 是否开启下雪效果
-export function chkSnow(val) {
+export function setSnow(val) {
   snowEffect.enabled = val
 }
 
 // 速度
-export function snowSpeed(value) {
+export function setSpeed(value) {
   snowEffect.speed = value
 }
 
 // 是否开启积雪效果
-export function chkSnowCover(val) {
+export function setCover(val) {
   snowCover.enabled = val
 }
 
 // 积雪厚度
-export function sonwAlpha(value) {
+export function setAlpha(value) {
   snowCover.alpha = value
 }

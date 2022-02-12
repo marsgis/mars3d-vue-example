@@ -200,113 +200,12 @@ function calculateArea(arr) {
     objTemp[item.type].count++
   }
 
-  const arrPie = [] // 饼状图:名称+面积
-  const arrTable = [] // 表格: 名称+面积+数量
-  const arrType = [] // 柱状图:名称
-  const arrArea = [] // 柱状图:面积
-
+  const arrTable = [] // 类型+面积+数量
   for (const type in objTemp) {
     const area = mars3d.Util.formatNum(objTemp[type].area, 2)
-    arrType.push(type)
-    arrArea.push(area)
-    arrPie.push({ name: type, value: area })
-    arrTable.push({ name: type, area: area, count: objTemp[type].count })
+    arrTable.push({ type: type, area: area, count: objTemp[type].count })
   }
-
-  // echarts饼状图
-  const pieEchartsOption = {
-    title: {
-      text: "饼状图",
-      left: "center",
-      textStyle: {
-        color: "#ffffff"
-      }
-    },
-    tooltip: {
-      trigger: "item",
-      formatter: "{a} <br/>{b} : {c} 亩</br>占比 : {d}%",
-      backgroundColor: "rgba(63, 72, 84, 0.7)",
-      textStyle: {
-        color: "#ffffff"
-      }
-    },
-    series: [
-      {
-        name: "用地面积",
-        type: "pie",
-        radius: "50%",
-        data: arrPie,
-        textStyle: {
-          color: "#ffffff"
-        },
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: "rgba(0, 0, 0, 0.5)"
-          }
-        }
-      }
-    ]
-  }
-
-  // echarts柱状图
-  const histogramOption = {
-    tooltip: {
-      trigger: "item",
-      backgroundColor: "rgba(63, 72, 84, 0.7)",
-      formatter: "{b}: {c} 亩",
-      textStyle: {
-        color: "#ffffff"
-      }
-    },
-    title: {
-      text: "柱状图",
-      left: "center",
-      textStyle: {
-        color: "#ffffff"
-      }
-    },
-    grid: {
-      left: "3%",
-      right: "4%",
-      bottom: "3%",
-      containLabel: true
-    },
-    xAxis: {
-      type: "value",
-      boundaryGap: [0, 0.01],
-      show: false
-    },
-    yAxis: {
-      type: "category",
-      data: arrType,
-      axisLabel: {
-        textStyle: {
-          color: " #ffffff"
-        }
-      }
-    },
-    series: [
-      {
-        type: "bar",
-        data: arrArea,
-        itemStyle: {
-          normal: {
-            label: {
-              show: true,
-              position: "right",
-              textStyle: {
-                color: "#ffffff"
-              }
-            }
-          }
-        }
-      }
-    ]
-  }
-
-  eventTarget.fire("loadOk", { arrTable, pieEchartsOption, histogramOption })
+  eventTarget.fire("loadOk", { list: arrTable })
 }
 
 // 规划面着色配置

@@ -1,21 +1,20 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="drawLine">通视分析</mars-button>
       <mars-button @click="drawCircle">圆形通视分析</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
-      <mars-button href="editor.html?id=analysis/spatial/sightlineTerrain" target="_blank">地形精确分析示例</mars-button>
+      <mars-button href="editor.html?id=thing/analysis/sightline-terrain" target="_blank">地形精确分析示例</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 
   <location-to />
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
-import LocationTo from "@comp/mars-sample/location-to.vue"
- import * as mapWork from "./map.js"
-
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LocationTo from "@/components/mars-sample/location-to.vue"
+import * as mapWork from "./map.js"
 
 // 通视分析
 const drawLine = () => {

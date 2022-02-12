@@ -5,7 +5,7 @@ let geoJsonLayer
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.722018, lng: 117.251926, alt: 8378, heading: 360, pitch: -33 }
+    center: { lat: 31.722018, lng: 117.251926, alt: 8378, heading: 0, pitch: -33 }
   }
 }
 

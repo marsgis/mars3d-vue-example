@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -23,17 +23,19 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphicDemo1()
-  addGraphicDemo2()
-  addGraphicDemo3()
-  addGraphicDemo4()
-  addGraphicDemo5()
-  addGraphicDemo6()
-  addGraphicDemo7()
-  addGraphicDemo8()
+  addDemoGraphic1()
+  addDemoGraphic2()
+  addDemoGraphic3()
+  addDemoGraphic4()
+  addDemoGraphic5()
+  addDemoGraphic6()
+  addDemoGraphic7()
+  addDemoGraphic8()
   queryAreasData()
 }
 
@@ -43,10 +45,12 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
-function addGraphicDemo1() {
+function addDemoGraphic1() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.153945, 31.881122, 36.4],
@@ -71,7 +75,7 @@ function addGraphicDemo1() {
   initGraphicManager(primitive)
 }
 
-function addGraphicDemo2() {
+function addDemoGraphic2() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.208302, 31.85757],
@@ -91,10 +95,9 @@ function addGraphicDemo2() {
     }
   })
   graphicLayer.addGraphic(primitive)
-
 }
 
-function addGraphicDemo3() {
+function addDemoGraphic3() {
   // 圆形时
   const positions = mars3d.PolyUtil.getEllipseOuterPositions({
     position: Cesium.Cartesian3.fromDegrees(117.276257, 31.866351, 19.57),
@@ -118,7 +121,7 @@ function addGraphicDemo3() {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo4() {
+function addDemoGraphic4() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.154815, 31.853495],
@@ -149,7 +152,7 @@ function addGraphicDemo4() {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo5() {
+function addDemoGraphic5() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.229659, 31.908221],
@@ -180,7 +183,7 @@ function addGraphicDemo5() {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo6() {
+function addDemoGraphic6() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.169646, 31.769171],
@@ -194,7 +197,7 @@ function addGraphicDemo6() {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo7() {
+function addDemoGraphic7() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.353776, 31.887406, 21.2],
@@ -214,7 +217,7 @@ function addGraphicDemo7() {
   graphicLayer.addGraphic(primitive)
 }
 
-function addGraphicDemo8() {
+function addDemoGraphic8() {
   const primitive = new mars3d.graphic.WallPrimitive({
     positions: [
       [117.251382, 31.824055, 28.4],
@@ -235,11 +238,10 @@ function addGraphicDemo8() {
     }
   })
   graphicLayer.addGraphic(primitive)
-
 }
 
 // 显示合肥市边界
-function addGraphicDemo9(data) {
+function addDemoGraphic9(data) {
   const arr = mars3d.Util.geoJsonToGraphics(data) // 解析geojson
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
@@ -264,42 +266,31 @@ function addGraphicDemo9(data) {
 
 // 数据获取
 function queryAreasData() {
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340100.json" })
     .then(function (data) {
-      addGraphicDemo9(data)
+      addDemoGraphic9(data)
     })
     .otherwise(function (error) {
       console.log("加载JSON出错", error)
     })
 }
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
 }
 
+
+
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -310,68 +301,11 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
-}
-
-// 绑定图层的弹窗
-function bindLayerPopup() {
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
-  })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
     {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
@@ -394,76 +328,10 @@ function bindLayerContextMenu() {
     {
       text: "计算长度",
       iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "polyline" ||
-          graphic.type === "polylineP" ||
-          graphic.type === "curve" ||
-          graphic.type === "curveP" ||
-          graphic.type === "polylineVolume" ||
-          graphic.type === "polylineVolumeP" ||
-          graphic.type === "corridor" ||
-          graphic.type === "corridorP" ||
-          graphic.type === "wall" ||
-          graphic.type === "wallP"
-        )
-      },
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         globalAlert("该对象的长度为:" + strDis)
-      }
-    },
-    {
-      text: "计算周长",
-      iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
-        globalAlert("该对象的周长为:" + strDis)
-      }
-    },
-    {
-      text: "计算面积",
-      iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
-        globalAlert("该对象的面积为:" + strArea)
       }
     }
   ])
@@ -510,16 +378,4 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-
-  // 测试 颜色闪烁
-  if (graphic.startFlicker) {
-    graphic.startFlicker({
-      time: 20, // 闪烁时长（秒）
-      maxAlpha: 0.5,
-      color: Cesium.Color.YELLOW,
-      onEnd: function () {
-        // 结束后回调
-      }
-    })
-  }
 }

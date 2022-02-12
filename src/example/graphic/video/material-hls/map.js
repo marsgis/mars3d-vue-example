@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 let videoElement
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -19,18 +19,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  addModel()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addModel() {
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "县城社区",
@@ -41,8 +30,6 @@ function addModel() {
   })
   map.addLayer(tiles3dLayer)
 
-  createVideoDom()
-
   // 允许编辑
   map.graphicLayer.hasEdit = true
 
@@ -50,46 +37,30 @@ function addModel() {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  // 2.在layer上绑定监听事件
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
-    console.log("监听layer，鼠标移入了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
-    console.log("监听layer，鼠标移出了矢量对象", event)
-  })
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindPopup("我是layer上绑定的Popup")
-
-  // 可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
-  // graphicLayer.bindTooltip('我是layer上绑定的Tooltip')
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindContextMenu([
-    {
-      text: "删除对象",
-      iconCls: "fa fa-trash-o",
-      callback: function (e) {
-        const graphic = e.graphic
-        if (graphic) {
-          graphicLayer.removeGraphic(graphic)
-        }
-      }
-    }
-  ])
+  createVideoDom()
 
   // 加一些演示数据
-  addGraphic01()
-  addGraphic02()
+  addDemoGraphic1()
+  addDemoGraphic2()
 }
 
-function createVideoDom() {
-  const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-  // let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
 
+// let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
+
+function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
   videoElement.setAttribute("autoplay", "autoplay")
@@ -118,7 +89,7 @@ function createVideoDom() {
 }
 
 // 竖立视频
-function addGraphic01() {
+function addDemoGraphic1() {
   const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481299, 28.439988, 140],
@@ -135,7 +106,7 @@ function addGraphic01() {
 }
 
 // 地面视频
-function addGraphic02() {
+function addDemoGraphic2() {
   const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [119.481749, 28.440171],
@@ -219,4 +190,95 @@ export function removeAll() {
  */
 export function angleChange(value) {
   rotation = Cesium.Math.toRadians(value)
+}
+
+// 在图层级处理一些事物
+function bindLayerEvent() {
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
+    console.log("监听layer，鼠标移入了矢量对象", event)
+  })
+  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
+    console.log("监听layer，鼠标移出了矢量对象", event)
+  }) */
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+// 绑定右键菜单
+export function bindLayerContextMenu() {
+  graphicLayer.bindContextMenu([
+    {
+      text: "开始编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic || !graphic.startEditing) {
+          return false
+        }
+        return !graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayer.startEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "停止编辑对象",
+      iconCls: "fa fa-edit",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return graphic.isEditing
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          graphicLayer.stopEditing(graphic)
+        }
+      }
+    },
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayer.removeGraphic(graphic)
+      }
+    }
+  ])
 }

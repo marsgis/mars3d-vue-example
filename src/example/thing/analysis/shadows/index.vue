@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <span>日期选择:</span>
@@ -28,12 +28,12 @@
         <mars-button @click="stopPlay">暂停</mars-button>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import dayjs from "dayjs"
 import * as mapWork from "./map.js"
 
@@ -70,7 +70,7 @@ const stopPlay = () => {
 }
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 55px;
 }
 .ant-slider {

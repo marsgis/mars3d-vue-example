@@ -91,6 +91,7 @@ export function btnDrawExtent(splitNum) {
 // 绘制多边形
 export function btnDraw(splitNum) {
   clearAll()
+
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -121,6 +122,7 @@ export function btnDraw(splitNum) {
 // 添加点
 export function btnDrawPoint() {
   clearAll()
+
   map.graphicLayer.startDraw({
     type: "point",
     style: {

@@ -1,12 +1,12 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <mars-button href="editor.html?id=graphic/divGraphic/video-hls" target="_blank">
       加载HLS视频
     </mars-button>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 </script>
 

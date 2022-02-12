@@ -1,32 +1,32 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
-     <div class="f-mb">
+      <div class="f-mb">
         <a-space>
           <span>名称</span>
           <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
         </a-space>
-     </div >
+      </div>
 
-     <div class="f-mb">
+      <div class="f-mb">
         <a-space>
           <span>范围</span>
           <mars-button @click="drawRectangle">框选范围</mars-button>
           <mars-button @click="drawCircle">圆形范围</mars-button>
           <mars-button @click="drawPolygon">多边形范围</mars-button>
         </a-space>
-     </div >
+      </div>
 
-     <div class="f-mb">
+      <div class="f-mb">
         <a-space>
           <span>范围</span>
           <mars-button @click="query">查询</mars-button>
           <mars-button @click="removeAll">清除</mars-button>
         </a-space>
-     </div >
+      </div>
 
       <div v-show="show">
-       <div class="f-mb">
+        <div class="f-mb">
           <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
         </div>
         <div class="f-mb querybar-fr">
@@ -40,14 +40,14 @@
         </div>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import any from "nprogress"
+import { onMounted, ref, markRaw, toRaw } from "vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -64,7 +64,7 @@ const allPage = ref(0)
 const show = ref(false)
 
 // 表格数据
-const dataSource = ref([any])
+const dataSource = ref([])
 onMounted(() => {
   mapWork.eventTarget.on("beforUI", function (event: any) {
     show.value = true
@@ -97,17 +97,10 @@ const customRow = (record: DataItem) => {
   return {
     onClick: () => {
       if (record.graphic == null) {
-        window.$message(record.name + " 无经纬度坐标信息！")
+        $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      record.graphic.openHighlight()
-      record.graphic.flyTo({
-        radius: 1000, // 点数据：radius控制视距距离
-        scale: 1.5, // 线面数据：scale控制边界的放大比例
-        complete: () => {
-          record.graphic.openPopup()
-        }
-      })
+      mapWork.flyToGraphic(toRaw(record.graphic))
     }
   }
 }
@@ -129,7 +122,10 @@ const drawPolygon = () => {
 // 查询数据
 const query = () => {
   show.value = false
-  mapWork.query(serverName.value)
+  const inputText = markRaw({
+    text: serverName.value
+  })
+  mapWork.query(inputText)
 }
 
 mapWork.eventTarget.on("result", (e: any) => {

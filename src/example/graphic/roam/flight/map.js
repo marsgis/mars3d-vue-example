@@ -26,10 +26,8 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
   addGraphicLayer()
 
   globalNotify("已知问题：", `(1) 不支持对地形的求交，目前仅对椭球体做投射。 `)
@@ -181,16 +179,13 @@ function addGraphicLayer() {
   roamLine = new mars3d.graphic.RoamLine(flydata)
   graphicLayer.addGraphic(roamLine)
 
-  if (map.viewer.timeline) {
-    map.viewer.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
+  if (map.controls.timeline) {
+    map.controls.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
   }
 
   // 显示基本信息，名称、总长、总时间
-  showAllInfo({
-    name: roamLine.name,
-    alllen: roamLine.alllen,
-    alltime: roamLine.alltimes
-  })
+  roamLineData.td_alltimes = mars3d.Util.formatTime(roamLine.alltimes)
+  roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
   eventTarget.fire("loadOK", { roamLine })
 
@@ -200,21 +195,6 @@ function addGraphicLayer() {
     // 漫游组件
     eventTarget.fire("roamLineChange", roamLineData)
   })
-}
-
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
-
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
 }
 
 // 显示实时坐标和时间
@@ -237,7 +217,7 @@ function showRealTimeInfo(params, _alltime) {
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
 
-  roamLineData.td_times = formatTime(params.time)
+  roamLineData.td_times = mars3d.Util.formatTime(params.time)
   roamLineData.td_length = mars3d.MeasureUtil.formatDistance(params.len)
 
   if (params.hbgd) {
@@ -282,6 +262,7 @@ export function updateCameraSetting(data) {
     offsetX: offsetX
   })
 }
+
 // 开始漫游
 export function startRoamLine() {
   roamLine.start()
@@ -306,15 +287,4 @@ export function pauseRoamLine() {
     roamLine.pause() // 暂停
     return "proceed"
   }
-}
-
-// 显示基本信息，名称、总长、总时间
-let _alltime = 100
-
-function showAllInfo(params) {
-  _alltime = params.alltime
-
-  // 显示基本信息，名称、总长、总时间
-  roamLineData.td_alltimes = formatTime(roamLine.alltimes)
-  roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 }

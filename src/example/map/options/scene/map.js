@@ -5,7 +5,7 @@ let map
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 20.772952, lng: 82.609338, alt: 22604251, heading: 360, pitch: -90 }
+    center: { lat: 20.772952, lng: 82.609338, alt: 22604251, heading: 0, pitch: -90 }
   }
 }
 

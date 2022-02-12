@@ -2,6 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let skyline
+
 export const mapOptions = {
   scene: {
     center: { lat: 28.441881, lng: 119.482881, alt: 133, heading: 240, pitch: -2 },

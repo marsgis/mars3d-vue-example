@@ -84,12 +84,12 @@ function addGraphicLayer() {
 
   testShading()
 
-  if (map.viewer.timeline) {
-    map.viewer.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
+  if (map.controls.timeline) {
+    map.controls.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
   }
 
   // 显示基本信息，名称、总长、总时间
-  roamLineData.td_alltimes = formatTime(roamLine.alltimes)
+  roamLineData.td_alltimes = mars3d.Util.formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
   roamLine.on(mars3d.EventType.change, (event) => {
@@ -112,19 +112,8 @@ export function updateModel(isAuto, val) {
   })
 }
 
-// 格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
-
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
+export function clearGraphic() {
+  groundLayer.clear()
 }
 
 // 显示实时坐标和时间
@@ -147,7 +136,7 @@ function showRealTimeInfo(params, _alltime) {
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
 
-  roamLineData.td_times = formatTime(params.time)
+  roamLineData.td_times = mars3d.Util.formatTime(params.time)
   roamLineData.td_length = mars3d.MeasureUtil.formatDistance(params.len)
 
   if (params.hbgd) {
@@ -212,11 +201,6 @@ function testShading() {
     }
     addPolygon()
   }, 1500)
-}
-
-// 清除地面投影
-export function btnClear() {
-  groundLayer.clear()
 }
 
 // 获取地面的四棱台投影面

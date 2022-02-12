@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路线</mars-button>
@@ -7,22 +7,25 @@
       <mars-button @click="showGDP">国家GDP数据</mars-button>
       <mars-button @click="showSafetyNotice">海上安全通告</mars-button>
     </a-space>
-  </pannel>
+    <div class="f-pt">
+      <layer-state />
+    </div>
+  </mars-pannel>
 
-  <pannel class="infoView manager-pannel">
+  <mars-pannel class="infoView manager-mars-pannel">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
     </mars-tree>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
- import * as mapWork from "./map.js"
-
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
+import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([
   {
@@ -128,7 +131,7 @@ const showSafetyNotice = () => {
 }
 </script>
 <style scoped lang="less">
-.manager-pannel {
+.manager-mars-pannel {
   top: 100px !important;
   right: 10px !important;
   width: 220px;

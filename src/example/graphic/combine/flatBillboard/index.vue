@@ -1,5 +1,7 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
+    <layer-state />
+    <div class="f-pt">
     <a-space>
       <span>间隔</span>
       <mars-input-number v-model:value="num" :min="1" :max="1000" step="1"></mars-input-number>米插值
@@ -7,12 +9,14 @@
       <mars-button @click="clearLayer">清除</mars-button>
       <mars-button @click="loadDemo">加载演示数据</mars-button>
     </a-space>
-  </pannel>
+    </div>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 // 生成大数据

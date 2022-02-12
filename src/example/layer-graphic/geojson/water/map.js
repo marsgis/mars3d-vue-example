@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+
 let graphic
 let waterLayer
 
@@ -78,7 +79,7 @@ export function onMounted(mapInstance) {
     console.log("数据加载完成", event)
   })
   waterLayer.on(mars3d.EventType.click, function (event) {
-    console.log("单击了", event)
+    console.log("单击了图层", event)
   })
 
   // 闸门的控制

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-row :gutter="[10, 10]">
       <a-col :span="22">
         <a-form-item>
@@ -33,10 +33,10 @@
             <template v-if="column.key === 'caozuo'">
               <a-space>
                 <mars-button type="link">
-                  <move-one fill="#FFF" @click="flyto(record)" />
+                  <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
                 </mars-button>
                 <mars-button type="link">
-                  <delete-o fill="#FFF" @click="deleted(record)" />
+                  <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
                 </mars-button>
               </a-space>
             </template>
@@ -47,15 +47,19 @@
         </a-table>
       </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
+import { $notify } from "@/components/mars-ui/index"
+
+console.log(window.mapWork === mapWork)
+console.log(mapWork.btnDrawExtent)
 
 interface FormState {
   enabledWadi: boolean
@@ -108,12 +112,10 @@ const rowSelection = ref({
   }
 })
 
-
-
 mapWork.eventTabel.on("loadOk", (e: any) => {
   e.terrainClip.diffHeight = formState.txtHeight
 
-  window.$notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
+  $notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
 })
 mapWork.eventTabel.on("tableObject", function (event: any) {
   dataSource.value = []
@@ -161,6 +163,7 @@ function resetEnabled() {
 // 添加矩形
 const btnDrawExtent = () => {
   resetEnabled()
+  console.log(mapWork.btnDrawExtent)
   mapWork.btnDrawExtent(formState.enabledWadi)
 }
 // 添加多边形

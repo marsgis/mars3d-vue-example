@@ -1,7 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
 let rectangularSensor
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -33,7 +34,6 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-
   eventTarget.fire("loadOk")
 }
 
@@ -47,18 +47,15 @@ export function onUnmounted() {
 
 /**
  * 默认相阵控雷达
- *
  * @param {number} heading 方向角
  * @param {number} pitch 仰角
  * @param {number} roll 左右（row）
  * @param {number} radius 半径
  * @param {number} xValue 上下夹角
  * @param {number} yValue 左右夹角
- *
  * @returns {void}
  */
-
-export function addGraphic01(heading, pitch, roll, radius, xValue, yValue) {
+export function addDemoGraphic1(heading, pitch, roll, radius, xValue, yValue) {
   rectangularSensor = new mars3d.graphic.RectangularSensor({
     position: [117.218875, 31.817812, 138],
     style: {
@@ -213,68 +210,4 @@ export function startDraw(heading, pitch, roll, radius, xHalfAngle, yHalfAngle) 
       depthTest: true
     }
   })
-}
-
-// 显示隐藏
-export function bindShowHide(val) {
-  graphicLayer.show = val
-}
-function btnClear() {
-  graphicLayer.clear()
-}
-function btnExpFile() {
-  expFile()
-}
-function btnImpFile(file) {
-  impFile(file)
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
-}
-
-
-
-// 保存GeoJSON
-function expFile() {
-  if (graphicLayer.length === 0) {
-    globalMsg("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = graphicLayer.toGeoJSON()
-  mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
-}
-
-// 打开保存的文件
-function impFile(file) {
-  const fileName = file.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType !== "json") {
-    globalMsg("文件类型不合法,请选择json格式标注文件！")
-    return
-  }
-
-  if (fileType === "json" || fileType === "geojson") {
-    const reader = new FileReader()
-    reader.readAsText(file, "UTF-8")
-    reader.onloadend = function (e) {
-      const json = this.result
-      graphicLayer.loadGeoJSON(json, {
-        flyTo: true
-      })
-    }
-  } else {
-    globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
-  }
 }

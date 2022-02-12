@@ -8,6 +8,7 @@ export const mapOptions = {
     center: { lat: 17.372658, lng: 109.327197, alt: 3459173, heading: 12, pitch: -69 },
     fxaa: true
   },
+  terrain: false,
   basemaps: [
     {
       name: "蓝色底图",
@@ -17,7 +18,6 @@ export const mapOptions = {
       show: true
     }
   ],
-  terrain: false,
   layers: []
 }
 
@@ -29,18 +29,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  addGraphics()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addGraphics() {
   // 一线以上城市地理位置
   const arrStart = [
     { name: "北京", position: [116.395645038, 39.9299857781] },
@@ -126,4 +115,12 @@ function addGraphics() {
       graphicLayer.addGraphic(line)
     }
   }
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }

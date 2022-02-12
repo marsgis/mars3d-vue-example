@@ -7,8 +7,6 @@ export const mapOptions = {
   scene: {
     center: { lat: 36.873519, lng: 106.863496, alt: 19999205, heading: 354, pitch: -89 },
     cameraController: {
-      zoomFactor: 3.0,
-      minimumZoomDistance: 1,
       maximumZoomDistance: 50000000
     }
   }

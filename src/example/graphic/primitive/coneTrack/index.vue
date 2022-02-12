@@ -1,11 +1,13 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
+    <layer-state />
     <mars-button @click="onClickSelPoint">追踪目标点</mars-button>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const onClickSelPoint = () => {

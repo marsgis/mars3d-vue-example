@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-table :columns="columns" :data-source="data" bordered :pagination="false" :scroll="{ y: tableScrollHeight }">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
@@ -46,12 +46,12 @@
         </template>
       </template>
     </a-table>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { TableColumnType } from "ant-design-vue"
 import { setAutoHeight } from "@/utils/index"
 import * as mapWork from "./map.js"
@@ -442,7 +442,7 @@ const handleChange = (value: string) => {
 const tableScrollHeight = ref(0)
 
 onMounted(() => {
-  tableScrollHeight.value = setAutoHeight((height) => {
+  setAutoHeight((height) => {
     tableScrollHeight.value = height
   }, 200)
 })
@@ -450,7 +450,7 @@ onMounted(() => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 350px;
+  width: 360px;
 }
 
 :deep(.ant-table-tbody > tr > td) {

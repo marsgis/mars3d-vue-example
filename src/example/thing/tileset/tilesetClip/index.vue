@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
@@ -14,10 +14,10 @@
           <template v-if="column.key === 'caozuo'">
             <a-space>
               <mars-button type="link">
-                <move-one fill="#FFF" @click="flyto(record)" />
+                <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
               </mars-button>
               <mars-button type="link">
-                <delete-o fill="#FFF" @click="deleted(record)" />
+                <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
               </mars-button>
             </a-space>
           </template>
@@ -27,17 +27,18 @@
         </template>
       </a-table>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { Delete as DeleteO, MoveOne } from "@icon-park/vue-next"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import * as mapWork from "./map.js"
+import { $notify } from "@/components/mars-ui/index"
 
 onMounted(() => {
-  window.$notify(
+  $notify(
     "已知问题提示",
     `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
   （2）目前不支持所有3dtile数据，请替换url进行自测`,

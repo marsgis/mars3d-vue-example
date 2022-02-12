@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 function initMap() {
   // 添加可叠加图层有3种方式（参数除指定的type类型外无需type参数，其他参数都相同）:
-  // 方式1：在创建地球前的传参中配置layers参数
+
   const map = new mars3d.Map("mars3dContainer", {
     scene: {
       center: { lat: 26.035977, lng: 115.209641, alt: 2703280, heading: 7, pitch: -78 }
@@ -24,6 +24,7 @@ function initMap() {
         show: true
       }
     ],
+    // 方式1：在创建地球前的传参中配置layers参数
     layers: [
       {
         name: "天地图注记",

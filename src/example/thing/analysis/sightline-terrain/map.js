@@ -7,9 +7,9 @@ let positionSXT
 let positionDM
 let positionJD // 与地面的交点
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    // 此处参数会覆盖config.json中的对应配置
     center: { lat: 30.841574, lng: 116.18792, alt: 6828, heading: 215, pitch: -28 }
   }
 }
@@ -24,6 +24,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   creatTestData()
 }
 
@@ -45,7 +46,7 @@ function creatTestData() {
   })
 
   // 测试数据
-  positionSXT = Cesium.Cartesian3.fromDegrees(116.144409, 30.744228, 1045)
+  positionSXT = Cesium.Cartesian3.fromDegrees(116.144485, 30.744249, 1060)
 
   const graphicSXT = new mars3d.graphic.PointEntity({
     position: positionSXT,
@@ -122,10 +123,14 @@ function creatTestData() {
   graphicLayer.addGraphic(graphicLine)
 
   eventTarget.fire("loadOK")
+
+  map.on(mars3d.EventType.load, function (event) {
+    analysisIntersection()
+  })
 }
 
 // 计算与地面焦点
-export function getCenter() {
+export function analysisIntersection() {
   if (!positionSXT || !positionDM) {
     return []
   }
@@ -179,7 +184,7 @@ export function updateModel(heading, pitch, roll) {
     return
   }
 
-  const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+  const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll))
   positionDM = mars3d.PointUtil.getRayEarthPosition(positionSXT, hpr, true, map.scene.globe.ellipsoid)
 
   if (!positionDM) {

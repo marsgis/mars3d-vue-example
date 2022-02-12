@@ -1,9 +1,11 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
+      <!-- 自定义切换图标 -->
+      <template #expandIcon>
+        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+      </template>
       <a-collapse-panel key="1" header="单个裁剪面">
-        <!-- 自定义面板右侧图标 -->
-        <template #extra> </template>
         <div class="f-mb">
           <a-space>
             <mars-button @click="drawLine">按绘制线裁剪</mars-button>
@@ -28,8 +30,6 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="2" header="多个裁剪面">
-        <!-- 自定义面板右侧图标 -->
-        <template #extra> </template>
         <div class="f-mb">
           <a-space>
             <mars-button @click="drawExtent">绘制矩形</mars-button>
@@ -40,28 +40,26 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="裁剪参数">
-        <!-- 自定义面板右侧图标 -->
-        <template #extra> </template>
-
         <a-form-item label="裁剪距离">
-          <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
+          <a-space>
+            <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
+          </a-space>
         </a-form-item>
 
         <a-form-item label="斜切偏移量">
-          <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }}
+          <a-space> <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
         </a-form-item>
-
       </a-collapse-panel>
     </a-collapse>
 
     <mars-button @click="clear">清除</mars-button>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { Config as ConfigO } from "@icon-park/vue-next"
+import { Icon } from "@iconify/vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])
@@ -130,6 +128,6 @@ const clipping6 = () => {
   width: 268px;
 }
 .ant-slider {
-  width: 160px;
+  width: 158px;
 }
 </style>

@@ -5,8 +5,8 @@ let shadows
 
 export const mapOptions = {
   scene: {
-    fxaa: true,
     center: { lat: 33.596051, lng: 119.031383, alt: 359, heading: 180, pitch: -43 },
+    fxaa: true,
     globe: {
       baseColor: "#000"
     }

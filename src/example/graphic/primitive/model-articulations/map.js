@@ -2,39 +2,6 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-// 汉化属性名称
-const namesCN = {
-  // 属性分组
-  LaunchVehicle: "火箭整体",
-  Fairing: "整流罩",
-
-  UpperStage: "二级部分",
-  UpperStageEngines: "二级发动机",
-  UpperStageFlames: "二级火焰",
-
-  InterstageAdapter: "级间段",
-
-  Booster: "一级部分",
-  BoosterEngines: "一级发动机",
-  BoosterFlames: "一级火焰",
-
-  SRBs: "助推器",
-  SRBFlames: "助推器火焰",
-
-  // 属性
-  MoveX: "X方向移动",
-  MoveY: "Y方向移动",
-  MoveZ: "Z方向移动",
-  Yaw: "Yaw角度",
-  Pitch: "Pitch角度",
-  Roll: "Roll角度",
-  Size: "大小",
-  Separate: "分离",
-  Drop: "下降",
-  Open: "打开",
-  Rotate: "旋转"
-}
-
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
@@ -46,8 +13,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   addRockets()
 }
 
@@ -132,4 +98,37 @@ export function setArticulationStage(groupName, stageName, current) {
   const name = groupName + " " + stageName
   model.setArticulationStage(name, Number(current))
   model.applyArticulations()
+}
+
+// 汉化属性名称
+const namesCN = {
+  // 属性分组
+  LaunchVehicle: "火箭整体",
+  Fairing: "整流罩",
+
+  UpperStage: "二级部分",
+  UpperStageEngines: "二级发动机",
+  UpperStageFlames: "二级火焰",
+
+  InterstageAdapter: "级间段",
+
+  Booster: "一级部分",
+  BoosterEngines: "一级发动机",
+  BoosterFlames: "一级火焰",
+
+  SRBs: "助推器",
+  SRBFlames: "助推器火焰",
+
+  // 属性
+  MoveX: "X方向移动",
+  MoveY: "Y方向移动",
+  MoveZ: "Z方向移动",
+  Yaw: "Yaw角度",
+  Pitch: "Pitch角度",
+  Roll: "Roll角度",
+  Size: "大小",
+  Separate: "分离",
+  Drop: "下降",
+  Open: "打开",
+  Rotate: "旋转"
 }

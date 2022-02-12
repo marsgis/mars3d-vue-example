@@ -5,7 +5,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 39.800803, lng: 116.34344, alt: 6521, heading: 360, pitch: -45 }
+    center: { lat: 39.800803, lng: 116.34344, alt: 6521, heading: 0, pitch: -45 }
   }
 }
 
@@ -24,7 +24,7 @@ export function onMounted(mapInstance) {
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  addGraphic(graphicLayer)
+  addDemoGraphics(graphicLayer)
 }
 
 /**
@@ -35,11 +35,11 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic(graphicLayer) {
+function addDemoGraphics(graphicLayer) {
   // 颜色
   const colors = ["#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#00441b"].reverse()
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/bj-bus.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/bj-bus.json" })
     .then(function (res) {
       const arr = mars3d.Util.geoJsonToGraphics(res) // 解析geojson
       arr.forEach((item, index) => {

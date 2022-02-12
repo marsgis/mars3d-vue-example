@@ -1,7 +1,7 @@
 // poi查询按钮 控件
 class PoiQueryButton extends mars3d.control.BaseControl {
   get parentContainer() {
-    return document.getElementsByClassName("cesium-viewer-toolbar")[0]
+    return this._map.toolbar
   }
 
   /**
@@ -12,10 +12,10 @@ class PoiQueryButton extends mars3d.control.BaseControl {
    */
   _mountedHook() {
     // 初始化页面
-    this.initQueryUI()
+    this._initQueryUI()
 
     // 查询控制器
-    this.queryPoi = new mars3d.query.GaodePOI()
+    this._gaodePOI = new mars3d.query.GaodePOI()
 
     // 创建矢量数据图层
     this.graphicLayer = new mars3d.layer.GraphicLayer()
@@ -52,8 +52,8 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   clear() {
-    const ulList = this.poiButtonResult.querySelector(".searchResults")
-    const gaodesousuo = this.poiButtonResult.querySelector(".gaodesousuo")
+    const ulList = this._queryResultContainer.querySelector(".searchResults")
+    const gaodesousuo = this._queryResultContainer.querySelector(".gaodesousuo")
     if (ulList) {
       ulList.remove()
     }
@@ -69,7 +69,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   // 初始化所有相关UI
-  initQueryUI() {
+  _initQueryUI() {
     // 高度值获取
     this._container = mars3d.DomUtil.create("div", "cesium-button cesium-toolbar-button")
     this._container.style.display = "inline-block"
@@ -91,18 +91,18 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       }
       cacheTarget = this.uuid
 
-      if (this.toolSearch.style.display !== "block") {
+      if (this._queryInputContainer.style.display !== "block") {
         this.toolSearchNoShow("block")
         this.toolActive()
         mars3d.DomUtil.addClass(this._container, "queryPoiButton")
 
         this._container.style.height = this.parentContainer.offsetHeight + 40 + "px"
-        this.poiButtonResult.style.height = this.parentContainer.offsetHeight - 10 + "px"
+        this._queryResultContainer.style.height = this.parentContainer.offsetHeight - 10 + "px"
       }
     })
     this._container.addEventListener("mouseout", (e) => {
       cacheTarget = null
-      const queryVal = this.toolSearch.querySelector(".searchInput").value
+      const queryVal = this._queryInputContainer.querySelector(".searchInput").value
       if (queryVal.length === 0) {
         this.clear()
         this.toolSearchNoShow("none")
@@ -112,25 +112,25 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     })
 
     // input面板，在queryPoiButton下面
-    this.toolSearch = mars3d.DomUtil.create("div", "toolSearch")
-    this._container.appendChild(this.toolSearch)
+    this._queryInputContainer = mars3d.DomUtil.create("div", "toolSearch")
+    this._container.appendChild(this._queryInputContainer)
 
     // 搜寻结果，在mars3dContainer面板下面
-    this.poiButtonResult = mars3d.DomUtil.create("div", "poiButtonResult")
-    this._container.appendChild(this.poiButtonResult)
+    this._queryResultContainer = mars3d.DomUtil.create("div", "poiButtonResult")
+    this._container.appendChild(this._queryResultContainer)
     this.toolSearchNoShow("none")
 
     // 创建input输入框
     const textInput = mars3d.DomUtil.create("input", "searchInput")
     textInput.type = "search"
     textInput.setAttribute("placeholder", "请输入地址...")
-    this.toolSearch.appendChild(textInput)
+    this._queryInputContainer.appendChild(textInput)
 
     // input的单击事件
-    const deleteInput = mars3d.DomUtil.create("div", "deleteInput", this.toolSearch)
+    const deleteInput = mars3d.DomUtil.create("div", "deleteInput", this._queryInputContainer)
 
-    this.addElementP(deleteInput, "×", () => {
-      this.toolSearch.querySelector(".searchInput").value = ""
+    this._addPElement(deleteInput, "×", () => {
+      this._queryInputContainer.querySelector(".searchInput").value = ""
       this.clear()
       this.toolSearchNoShow("none")
       mars3d.DomUtil.removeClass(this._container, "queryPoiButton")
@@ -144,7 +144,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       this.clear()
       clearTimeout(timetik)
       timetik = setTimeout(() => {
-        const queryVal = this.toolSearch.querySelector(".searchInput").value
+        const queryVal = this._queryInputContainer.querySelector(".searchInput").value
         if (queryVal.length !== 0) {
           deleteInput.style.display = "block"
           this.autoTip(queryVal)
@@ -167,8 +167,8 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   toolActive() {
-    this.toolSearch.style.display = "block"
-    const searchInput = this.toolSearch.querySelector(".searchInput")
+    this._queryInputContainer.style.display = "block"
+    const searchInput = this._queryInputContainer.querySelector(".searchInput")
     searchInput.focus()
     if (document.activeElement.tagName === "INPUT" && searchInput.value === "") {
       return
@@ -180,7 +180,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
 
   // 根据输入框内容，查询显示列表
   strartQueryPOI() {
-    const text = this.toolSearch.querySelector(".searchInput").value
+    const text = this._queryInputContainer.querySelector(".searchInput").value
     if (text.trim().length === 0) {
       globalMsg("请输入搜索关键字！")
       return
@@ -194,7 +194,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   queryTextByServer(text) {
-    this.queryPoi.queryText({
+    this._gaodePOI.queryText({
       text: text,
       count: 10,
       page: this.showPages - 1,
@@ -244,7 +244,9 @@ class PoiQueryButton extends mars3d.control.BaseControl {
             })
             this.graphicLayer.addGraphic(graphic)
           })
-          this.graphicLayer.flyTo()
+          this.graphicLayer.flyTo({
+            radius: 2000
+          })
           this.showDifferentPagesResult(result)
         }
       }
@@ -270,7 +272,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
 
   // 构造查询结果的面板Html
   showDifferentPagesResult(result) {
-    this.poiButtonResult.innerHTML = ""
+    this._queryResultContainer.innerHTML = ""
 
     // 页面上显示结果li列表
     const resultDiv = document.createElement("div")
@@ -279,7 +281,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     const suggestionsList = document.createElement("ul")
     resultDiv.appendChild(suggestionsList)
 
-    this.poiButtonResult.appendChild(resultDiv)
+    this._queryResultContainer.appendChild(resultDiv)
 
     result.list.forEach((item, index) => {
       const name = item.name
@@ -305,22 +307,22 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     const allPages = Math.ceil(result.allcount / 10) // 全部的页数 10 = result.count
     this.resultNextPages = document.createElement("div")
     this.resultNextPages.className = "resultNextPages"
-    this.poiButtonResult.appendChild(this.resultNextPages)
+    this._queryResultContainer.appendChild(this.resultNextPages)
 
     // 共加载条数
-    this.addElementP(this.resultNextPages, "共加载了" + result.allcount + "条", null)
+    this._addPElement(this.resultNextPages, "共加载了" + result.allcount + "条", null)
 
     // 展示的页数
-    this.addElementP(this.resultNextPages, this.showPages + "/" + allPages + "页", null)
+    this._addPElement(this.resultNextPages, this.showPages + "/" + allPages + "页", null)
 
     // 首页
-    this.addElementP(this.resultNextPages, "首页", () => {
+    this._addPElement(this.resultNextPages, "首页", () => {
       this.showPages = 1
       this.pagesClickToPages()
     })
 
     // 上一页
-    this.addElementP(this.resultNextPages, "<", () => {
+    this._addPElement(this.resultNextPages, "<", () => {
       if (this.showPages === 1) {
         globalMsg("当前已是第一页！")
         return
@@ -330,7 +332,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     })
 
     // 下一页
-    this.addElementP(this.resultNextPages, ">", () => {
+    this._addPElement(this.resultNextPages, ">", () => {
       if (this.showPages >= allPages) {
         globalMsg("当前已是最后一页！")
         return
@@ -341,7 +343,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   // 添加p元素
-  addElementP(parentElement, chilidWord, callback) {
+  _addPElement(parentElement, chilidWord, callback) {
     const allResult = document.createElement("p")
     const allResultWord = document.createTextNode(chilidWord)
     parentElement.appendChild(allResult) // 添加p元素
@@ -360,11 +362,11 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   autoTip(text) {
-    this.queryPoi.autoTip({
+    this._gaodePOI.autoTip({
       text: text,
       success: (result) => {
         const pois = result.list
-        const gaodesousuo = this.poiButtonResult.querySelector(".gaodesousuo")
+        const gaodesousuo = this._queryResultContainer.querySelector(".gaodesousuo")
         if (gaodesousuo) {
           gaodesousuo.remove()
         }
@@ -374,7 +376,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
         const suggestionsList = document.createElement("ul")
         resultDiv.appendChild(suggestionsList)
 
-        this.poiButtonResult.appendChild(resultDiv)
+        this._queryResultContainer.appendChild(resultDiv)
 
         if (pois.length > 0) {
           result.list.forEach((item) => {
@@ -389,7 +391,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
             suggestionsList.appendChild(suggestions)
             suggestions.appendChild(resultList)
             suggestions.addEventListener("click", () => {
-              this.toolSearch.querySelector(".searchInput").value = name
+              this._queryInputContainer.querySelector(".searchInput").value = name
 
               this.showPages = 1
               this.queryTextByServer(name)
@@ -403,8 +405,8 @@ class PoiQueryButton extends mars3d.control.BaseControl {
   }
 
   toolSearchNoShow(val) {
-    this.toolSearch.style.display = val
-    this.poiButtonResult.style.display = val
+    this._queryInputContainer.style.display = val
+    this._queryResultContainer.style.display = val
   }
 
   //= ===========================坐标定位处理====================================
@@ -419,7 +421,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       return
     }
 
-    this.poiButtonResult.style.display = "none"
+    this._queryResultContainer.style.display = "none"
     const jd = Number(arr[0])
     const wd = Number(arr[1])
     if (isNaN(jd) || isNaN(wd)) {

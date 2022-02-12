@@ -2,7 +2,6 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
-
 let pointLayer
 
 export const mapOptions = {
@@ -18,7 +17,7 @@ export const mapOptions = {
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
- export function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -37,7 +36,6 @@ export const mapOptions = {
 export function onUnmounted() {
   map = null
 }
-
 
 // 绘制线
 export function drawLine() {
@@ -75,7 +73,7 @@ export function drawPoint() {
 }
 
 // 最近点计算
- function nearPoint() {
+function nearPoint() {
   const lineLayer = graphicLayer.getGraphics()
   const point = pointLayer.getGraphics()
 

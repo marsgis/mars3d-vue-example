@@ -78,20 +78,28 @@ export function onMounted(mapInstance) {
   // 触发自定义事件
   graphicLayerEdit.on(mars3d.EventType.drawCreated, function (e) {
     const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
+    eventTarget.fire("graphicEditor-start", { graphic })
   })
   graphicLayerEdit.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
     function (e) {
       const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
+      eventTarget.fire("graphicEditor-update", { graphic })
     }
   )
   graphicLayerEdit.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
+    eventTarget.fire("graphicEditor-stop")
   })
 
-  queryDthData()
+  // 加载数据
+  const configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
+  mars3d.Util.fetchJson({ url: configUrl })
+    .then(function (result) {
+      graphicLayerEdit.loadGeoJSON(result)
+    })
+    .otherwise(function (error) {
+      console.log("加载JSON出错", error)
+    })
 
   bindLayerContextMenu()
 }
@@ -104,23 +112,11 @@ export function onUnmounted() {
   map = null
 }
 
-// 加载数据
-function queryDthData() {
-  const configUrl = "//data.mars3d.cn/file/geojson/dth-xuexiao-fd.json"
-  mars3d.Resource.fetchJson({ url: configUrl })
-    .then(function (result) {
-      graphicLayerEdit.loadGeoJSON(result)
-    })
-    .otherwise(function (error) {
-      console.log("加载JSON出错", error)
-    })
-}
-
 /**
  * 绑定右键菜单功能，开始编辑，删除等
  *@returns {void} 无
  */
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayerEdit.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -184,20 +180,6 @@ function bindLayerContextMenu() {
     {
       text: "计算周长",
       iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
@@ -207,22 +189,6 @@ function bindLayerContextMenu() {
     {
       text: "计算面积",
       iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
       callback: function (e) {
         const graphic = e.graphic
         const strArea = mars3d.MeasureUtil.formatArea(graphic.area)

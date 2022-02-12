@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <span class="fontMsg">提示：插值数大时分析略慢，请耐心等待。</span>
     </div>
@@ -23,12 +23,12 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -60,7 +60,7 @@ const interLine = () => {
   color: #cad1d1;
   font-size: 12px;
 }
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 40px;
 }
 </style>

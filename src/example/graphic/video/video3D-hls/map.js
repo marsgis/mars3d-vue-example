@@ -1,7 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
 let selectedView
 let videoElement
 
@@ -26,19 +27,6 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  addModel()
-}
-
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addModel() {
-  createVideoDom()
 
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -54,12 +42,22 @@ function addModel() {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  createVideoDom()
+
   // 加一些演示数据
-  addGraphic01()
+  addDemoGraphic1()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic01() {
+function addDemoGraphic1() {
   const video3D = new mars3d.graphic.Video3D({
     position: [117.205457, 31.842984, 63.9],
     style: {
@@ -103,9 +101,13 @@ function createVideoDom() {
 
   hls()
 }
+
+// let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
+// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
+
 function hls() {
   // 加HLS演示数据
-  const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
   if (window.Hls.isSupported()) {
     const hls = new window.Hls()
     hls.loadSource(hlsUrl)

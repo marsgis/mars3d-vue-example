@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="radioFanwei">
@@ -48,14 +48,15 @@
         </a-form-item>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -91,7 +92,7 @@ const customRow = (record: DataItem) => {
   return {
     onClick: () => {
       if (record.graphic == null) {
-        window.$message(record.name + " 无经纬度坐标信息！")
+        $message(record.name + " 无经纬度坐标信息！")
         return
       }
       record.graphic.openHighlight()

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <h2 class="f-mb">栅格底图参数</h2>
     <a-row :gutter="10">
       <a-col :span="15">
@@ -51,12 +51,12 @@
         <mars-input-number v-model:value="formState.opacity" @change="changeOpacity('opacity', formState.opacity)" :min="0" :max="1" :step="0.01" />
       </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -71,7 +71,7 @@ interface FormState {
 
 export default defineComponent({
   components: {
-    Pannel
+    MarsPannel
   },
   setup() {
     const formState: UnwrapRef<FormState> = reactive({

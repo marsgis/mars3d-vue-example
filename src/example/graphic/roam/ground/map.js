@@ -23,10 +23,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   addGraphicLayer()
 }
@@ -110,7 +107,7 @@ function addGraphicLayer() {
 
     const lblAllTime = container.querySelector("#lblAllTime")
     if (lblAllTime) {
-      lblAllTime.innerHTML = formatTime(roamLine.alltimes / map.clock.multiplier)
+      lblAllTime.innerHTML = mars3d.Util.formatTime(roamLine.alltimes / map.clock.multiplier)
     }
 
     const lblStartTime = container.querySelector("#lblStartTime")
@@ -120,7 +117,7 @@ function addGraphicLayer() {
 
     const lblRemainTime = container.querySelector("#lblRemainTime")
     if (lblRemainTime) {
-      lblRemainTime.innerHTML = formatTime((roamLine.alltimes - params.time) / map.clock.multiplier)
+      lblRemainTime.innerHTML = mars3d.Util.formatTime((roamLine.alltimes - params.time) / map.clock.multiplier)
     }
 
     const lblRemainLen = container.querySelector("#lblRemainLen")
@@ -155,26 +152,13 @@ function startFly() {
   roamLine.openPopup()
 
   // 显示基本信息，名称、总长、总时间
-  roamLineData.td_alltimes = formatTime(roamLine.alltimes)
+  roamLineData.td_alltimes = mars3d.Util.formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
   addParticleSystem(roamLine)
 }
 
-//  格式化时间
-function formatTime(strtime) {
-  strtime = Number(strtime) || 0
 
-  if (strtime < 60) {
-    return strtime.toFixed(0) + "秒"
-  } else if (strtime >= 60 && strtime < 3600) {
-    const miao = Math.floor(strtime % 60)
-    return Math.floor(strtime / 60) + "分钟" + (miao !== 0 ? miao + "秒" : "")
-  } else {
-    strtime = Math.floor(strtime / 60) // 秒转分钟
-    return Math.floor(strtime / 60) + "小时" + Math.floor(strtime % 60) + "分钟"
-  }
-}
 
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {
@@ -196,7 +180,7 @@ function showRealTimeInfo(params, _alltime) {
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
 
-  roamLineData.td_times = formatTime(params.time)
+  roamLineData.td_times = mars3d.Util.formatTime(params.time)
   roamLineData.td_length = mars3d.MeasureUtil.formatDistance(params.len)
 
   if (params.hbgd) {

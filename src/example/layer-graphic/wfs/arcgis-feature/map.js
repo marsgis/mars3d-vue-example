@@ -137,3 +137,8 @@ function addArcGisWFSLayer2() {
   })
   map.addLayer(wfsLayer)
 }
+
+// 图层状态 layer-state.vue 中进行管理的图层
+export function getManagerLayer() {
+  return map.getLayer("建筑物面矢量图层", "name")
+}

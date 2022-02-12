@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 let road
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -24,38 +24,25 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  // 2.在layer上绑定监听事件
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
-    console.log("监听layer，鼠标移入了矢量对象", event)
-  })
-  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
-    console.log("监听layer，鼠标移出了矢量对象", event)
-  })
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindPopup("我是layer上绑定的Popup")
-
-  // 可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
-  // graphicLayer.bindTooltip('我是layer上绑定的Tooltip')
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  graphicLayer.bindContextMenu([
-    {
-      text: "删除对象",
-      iconCls: "fa fa-trash-o",
-      callback: function (e) {
-        const primitive = e.graphic
-        if (primitive) {
-          graphicLayer.removeGraphic(primitive)
-        }
-      }
-    }
-  ])
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
+  addDemoGraphic1(graphicLayer)
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+  graphicLayer.remove()
+  graphicLayer = null
+}
+
+function addDemoGraphic1(graphicLayer) {
   road = new mars3d.graphic.Road({
     positions: [
       [117.181132, 31.814245, 45.95],
@@ -76,15 +63,6 @@ export function onMounted(mapInstance) {
     }
   })
   graphicLayer.addGraphic(road)
-}
-
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-  clear()
 }
 
 // 绘制道路
@@ -139,7 +117,69 @@ export function alphaChange(value) {
 }
 
 // 清除
-export function clear() {
+export function clearLayer() {
   graphicLayer.clear()
   road = null
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+
+
+// 在图层级处理一些事物
+function bindLayerEvent() {
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
+    console.log("监听layer，鼠标移入了矢量对象", event)
+  })
+  graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
+    console.log("监听layer，鼠标移出了矢量对象", event)
+  }) */
+}
+
+// 绑定右键菜单
+export function bindLayerContextMenu() {
+  graphicLayer.bindContextMenu([
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      show: (event) => {
+        const graphic = event.graphic
+        if (!graphic || graphic.isDestroy) {
+          return false
+        } else {
+          return true
+        }
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        graphicLayer.removeGraphic(graphic)
+      }
+    },
+    {
+      text: "计算长度",
+      iconCls: "fa fa-medium",
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的长度为:" + strDis)
+      }
+    }
+  ])
 }

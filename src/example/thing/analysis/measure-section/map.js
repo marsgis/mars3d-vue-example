@@ -45,26 +45,27 @@ function addMeasure() {
     hideTipMarker()
   })
 
-  // 触发自定义事件
+  // 触发事件：开始分析前
   measureObj.on(mars3d.EventType.start, function (e) {
     console.log("开始分析", e)
-    // 开始分析前回调(异步)
     showLoading()
   })
 
+  // 触发事件：异步分析完成后
   measureObj.on(mars3d.EventType.end, function (e) {
     console.log("分析结束", e)
-    // 分析完成后回调(异步)
+
     hideLoading()
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
-      eventTarget.fire("end", { e })
+      eventTarget.fire("end", e)
     }
   })
 
   measureObj.on(mars3d.EventType.click, function (e) {
     console.log("单击了对象", e)
+
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
-      eventTarget.fire("click", { e })
+      eventTarget.fire("click", e)
     }
   })
 }
@@ -125,19 +126,4 @@ export function hideTipMarker() {
   }
   tipGraphic.remove(true)
   tipGraphic = null
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
 }

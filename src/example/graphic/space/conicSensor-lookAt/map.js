@@ -31,10 +31,9 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  globalMsg("非实际卫星轨道，随机模拟的坐标，只是为了演示追踪！")
 
   addGraphicLayer()
 }
@@ -47,18 +46,11 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphicLayer(options) {
-  // 移除2.5D视图
-  // let arr = $(".cesium-sceneModePicker-wrapper").children()
-  // if (arr.length > 3) {
-  //   arr[3].remove()
-  // }
-
+function addGraphicLayer() {
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  globalMsg("非实际卫星轨道，随机模拟的坐标，只是为了演示追踪！")
 
   // ===========================================================
   // 取数据

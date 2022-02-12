@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <p class="f-mb">单个裁剪面</p>
     <div class="f-mb">
       <a-space>
@@ -50,12 +50,12 @@
     <a-space>
       <mars-button @click="clear">清除</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const distanceValue = ref<number>(0)

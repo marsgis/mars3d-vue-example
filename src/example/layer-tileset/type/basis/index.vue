@@ -1,9 +1,9 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <down-c />
+        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
       </template>
       <a-collapse-panel key="1" header="3D Tiles示例">
         <div class="f-mb">
@@ -11,15 +11,17 @@
             <mars-button @click="showQxShequDemo">倾斜摄像(某县城)</mars-button>
             <mars-button @click="showQxSimiaoDemo">倾斜摄像（某景区）</mars-button>
             <mars-button @click="showJzwHefeiDemo">城市白膜（合肥）</mars-button>
+          </a-space>
+        </div>
+        <div class="f-mb">
+          <a-space>
             <mars-button @click="showPntsGantaDemo">高压线塔杆(点云)</mars-button>
+            <mars-button @click="showMaxShihuaDemo">人工建模（石化工厂）</mars-button>
+            <mars-button @click="showBimQiaoliangDemo">BIM（桥梁）</mars-button>
           </a-space>
         </div>
 
-        <a-space>
-          <mars-button @click="showMaxShihuaDemo">人工建模（石化工厂）</mars-button>
-          <mars-button @click="showBimQiaoliangDemo">BIM（桥梁）</mars-button>
-          <mars-button @click="showBimDitiezhanDemo">BIM（地铁站）</mars-button>
-        </a-space>
+        <mars-button @click="showBimDitiezhanDemo">BIM（地铁站）</mars-button>
       </a-collapse-panel>
 
       <a-collapse-panel key="2" header="相关控制">
@@ -41,13 +43,13 @@
       </a-collapse-panel>
     </a-collapse>
     <a-form> </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { DownC } from "@icon-park/vue-next"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 const activeKey = ref(["1", "2", "3"])

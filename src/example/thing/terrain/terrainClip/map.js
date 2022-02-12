@@ -5,7 +5,7 @@ let terrainClip
 
 export const mapOptions = {
   scene: {
-    center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 360, pitch: -56 }
+    center: { lat: 30.827414, lng: 116.378229, alt: 16933, heading: 0, pitch: -56 }
   }
 }
 

@@ -11,6 +11,7 @@ let measure
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   addMeasure()
 }
 
@@ -40,14 +41,6 @@ function addMeasure() {
   measure.on(mars3d.EventType.end, function (e) {
     console.log("完成异步分析", e)
     hideLoading()
-
-    if (e.graphic?.type === mars3d.graphic.AreaSurfaceMeasure.type && e.list) {
-      showInterResult(e.list)
-    }
-  })
-  // 任意一个矢量数据被移出，贴地面积中的插值计算点都会被移除
-  measure.on(mars3d.EventType.remove, function (e) {
-    clearInterResult()
   })
 }
 
@@ -63,8 +56,6 @@ function endDraw() {
 
 export function removeAll() {
   measure.clear()
-
-  clearInterResult()
 }
 
 // 空间距离
@@ -130,116 +121,4 @@ export function measureAngle() {
 // 坐标测量
 export function measurePoint() {
   measure.point()
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024
-    })
-    map.addLayer(modelTest)
-  }
-}
-
-// 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比
-
-// 显示面的插值计算结果，方便比较分析
-let interGraphicLayer
-
-function clearInterResult() {
-  if (!interGraphicLayer) {
-    interGraphicLayer = new mars3d.layer.GraphicLayer()
-    map.addLayer(interGraphicLayer)
-  }
-
-  interGraphicLayer.clear()
-}
-
-function showInterResult(list) {
-  // 分析结果用于测试分析的，不做太多处理，直接清除之前的，只保留一个
-  clearInterResult()
-
-  let pt1, pt2, pt3
-  // var geometryInstances = [];
-  for (let i = 0, len = list.length; i < len; i++) {
-    const item = list[i]
-
-    pt1 = item.point1.pointDM
-    pt2 = item.point2.pointDM
-    pt3 = item.point3.pointDM
-
-    // 点
-    for (const pt of [item.point1, item.point2, item.point3]) {
-      const primitive = new mars3d.graphic.PointPrimitive({
-        position: pt.pointDM,
-        style: {
-          pixelSize: 9,
-          color: Cesium.Color.fromCssColorString("#ff0000").withAlpha(0.5)
-        }
-      })
-      interGraphicLayer.addGraphic(primitive)
-
-      primitive.bindTooltip("点高度:" + mars3d.MeasureUtil.formatDistance(pt.height))
-    }
-
-    // 横截面面积
-    item.area = item.area || mars3d.MeasureUtil.getTriangleArea(pt1, pt2, pt3)
-
-    // 三角网及边线
-    const positions = [pt1, pt2, pt3, pt1]
-
-    // 三角网面（单击用）
-    const primitivePoly = new mars3d.graphic.PolygonPrimitive({
-      positions: positions,
-      style: {
-        material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.Color, {
-          color: Cesium.Color.fromCssColorString("#ffffff").withAlpha(0.01)
-        })
-      }
-    })
-    interGraphicLayer.addGraphic(primitivePoly)
-    primitivePoly.bindTooltip("三角面积:" + mars3d.MeasureUtil.formatArea(item.area) + "(第" + i + "个)")
-
-    // 三角网边线
-    const primitiveLine = new mars3d.graphic.PolylinePrimitive({
-      positions: positions,
-      style: {
-        width: 1,
-        material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.Color, {
-          color: Cesium.Color.fromCssColorString("#ffff00").withAlpha(0.3)
-        })
-      }
-    })
-    interGraphicLayer.addGraphic(primitiveLine)
-  }
-}
-
-function showInterLineResult(list) {
-  // 分析结果用于测试分析的，不做太多处理，直接清除之前的，只保留最后一个
-  clearInterResult()
-
-  const colorList = [Cesium.Color.fromCssColorString("#ffff00"), Cesium.Color.fromCssColorString("#00ffff")]
-
-  for (let i = 1, len = list.length; i < len; i++) {
-    const pt1 = list[i - 1]
-    const pt2 = list[i]
-
-    const color = colorList[i % 2]
-
-    const graphic = new mars3d.graphic.PolylineEntity({
-      positions: [pt1, pt2],
-      style: {
-        width: 3,
-        material: color,
-        depthFailMaterial: color.withAlpha(0.3)
-      }
-    })
-    interGraphicLayer.addGraphic(graphic)
-    graphic.bindTooltip("长度:" + mars3d.MeasureUtil.formatDistance(Cesium.Cartesian3.distance(pt1, pt2)) + "(第" + i + "段)")
-  }
 }

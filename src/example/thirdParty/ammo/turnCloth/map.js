@@ -18,6 +18,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   creatDemo()
 }
 
@@ -33,11 +34,8 @@ function creatDemo() {
   const MeshVisualizer = Cesium.MeshVisualizer
   const Mesh = Cesium.Mesh
   const MeshMaterial = Cesium.MeshMaterial
-  const FramebufferTexture = Cesium.FramebufferTexture
   const GeometryUtils = Cesium.GeometryUtils
-  const LOD = Cesium.LOD
   const PlaneBufferGeometry = Cesium.PlaneBufferGeometry
-  const BasicMeshMaterial = Cesium.BasicMeshMaterial
   const MeshPhongMaterial = Cesium.MeshPhongMaterial
 
   const center = Cesium.Cartesian3.fromDegrees(117.220206, 31.834866, 50)

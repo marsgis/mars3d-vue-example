@@ -2,24 +2,14 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-/**
- *方便演示，移除默认配置的control
- *
- * @param {object} option 默认配置的参数
- * @return {object} option
- * @example
- * locationBar: {
- *    fps: true,
- *    template:
- *      "<div>经度:{lng}</div><div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"
- *  }
- */
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = function (option) {
   option.control = {
     locationBar: false // 当前演示的示例控件-比例尺控件
   }
   return option
 }
+
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数

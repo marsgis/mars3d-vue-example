@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -32,16 +32,10 @@ export function onMounted(mapInstance) {
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "建筑物", template: "all", attr: attr })
-  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
- addGraphicDemo1()
+  addDemoGraphic1()
 }
 
 /**
@@ -50,8 +44,95 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  clearLayer()
+  graphicLayer.remove()
 }
+
+function addDemoGraphic1() {
+  mars3d.Util.fetchJson({
+    url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
+  })
+    .then((data) => {
+      const arr = mars3d.Util.geoJsonToGraphics(data, {
+        symbol: {
+          callback: function (attr) {
+            const diffHeight = (attr.floor || 1) * 5
+
+            return {
+              height: 0,
+              diffHeight: diffHeight,
+              color: Cesium.Color.fromRandom({ alpha: 0.4 }) // 随机色
+            }
+          }
+        }
+      })
+
+      globalMsg("共加载" + arr.length + "个面")
+
+      // 多个面对象的合并渲染。
+      const primitive = new mars3d.graphic.PolygonCombine({
+        instances: arr,
+        // 公共样式
+        style: {
+          outline: true,
+          outlineColor: "#ffffff"
+        },
+
+        // 高亮时的样式
+        highlight: {
+          type: mars3d.EventType.click,
+          color: Cesium.Color.YELLOW.withAlpha(0.9)
+        }
+      })
+      graphicLayer.addGraphic(primitive)
+    })
+    .otherwise(function (error) {
+      console.log("服务出错", error)
+    })
+}
+
+// 适用于其他Geometry类型的数据，可以完全自定义
+// function addDemoGraphic2(graphicLayer) {
+//   //加一些演示数据
+//   Cesium.Resource.fetchJson({
+//     url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
+//   })
+//     .then((data) => {
+//       let arr = mars3d.Util.geoJsonToGraphics(data);
+
+//       globalMsg("共加载" + arr.length + "个面");
+
+//       //多个面对象的合并渲染。
+//       const instances = [];
+//       for (let i = 0; i < arr.length; i++) {
+//         const item = arr[i];
+//         let itemColor = Cesium.Color.fromRandom();
+
+//         const instance = new Cesium.GeometryInstance({
+//           //其他Geometry类型的数据，按Cesium语法修改下面的geometry
+//           geometry: new Cesium.RectangleGeometry({
+//             rectangle: Cesium.Rectangle.fromCartesianArray(mars3d.LngLatArray.toCartesians(item.positions)),
+//             vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+//             height: 0,
+//             extrudedHeight: (item.attr.floor || 1) * 5,
+//           }),
+//           attributes: {
+//             color: Cesium.ColorGeometryInstanceAttribute.fromColor(itemColor),
+//           },
+//         });
+//         instance.attr = item.attr; //重要：绑定相关属性
+//         instances.push(instance);
+//       }
+
+//       //多个对象的合并渲染。
+//       let primitive = new mars3d.graphic.BaseCombine({
+//         instances: instances,
+//       });
+//       graphicLayer.addGraphic(primitive);
+//     })
+//     .otherwise(function (error) {
+//       globalAlert("服务出错", error);
+//     });
+// }
 
 export function addCombineData(count) {
   graphicLayer.clear()
@@ -101,98 +182,20 @@ export function addCombineData(count) {
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 
-export function clearLayer() {
-  graphicLayer.clear()
-}
 
-function addGraphicDemo1() {
-  mars3d.Resource.fetchJson({
-    url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
-    .then((data) => {
-      const arr = mars3d.Util.geoJsonToGraphics(data, {
-        symbol: {
-          callback: function (attr) {
-            const diffHeight = (attr.floor || 1) * 5
-
-            return {
-              height: 0,
-              diffHeight: diffHeight,
-              color: Cesium.Color.fromRandom({ alpha: 0.4 }) // 随机色
-            }
-          }
-        }
-      })
-
-      globalMsg("共加载" + arr.length + "个面")
-
-      // 多个面对象的合并渲染。
-      const primitive = new mars3d.graphic.PolygonCombine({
-        instances: arr,
-        // 公共样式
-        style: {
-          outline: true,
-          outlineColor: "#ffffff"
-        },
-
-        // 高亮时的样式
-        highlight: {
-          type: mars3d.EventType.click,
-          color: Cesium.Color.YELLOW.withAlpha(0.9)
-        }
-      })
-      graphicLayer.addGraphic(primitive)
-    })
-    .otherwise(function (error) {
-      console.log("服务出错", error)
-    })
 }
 
-// 适用于其他Geometry类型的数据，可以完全自定义
-// function addGraphicDemo2(graphicLayer) {
-//   //加一些演示数据
-//   Cesium.Resource.fetchJson({
-//     url: "//data.mars3d.cn/file/geojson/buildings-hf.json",
-//   })
-//     .then((data) => {
-//       let arr = mars3d.Util.geoJsonToGraphics(data);
-
-//       globalMsg("共加载" + arr.length + "个面");
-
-//       //多个面对象的合并渲染。
-//       const instances = [];
-//       for (let i = 0; i < arr.length; i++) {
-//         const item = arr[i];
-//         let itemColor = Cesium.Color.fromRandom();
-
-//         const instance = new Cesium.GeometryInstance({
-//           //其他Geometry类型的数据，按Cesium语法修改下面的geometry
-//           geometry: new Cesium.RectangleGeometry({
-//             rectangle: Cesium.Rectangle.fromCartesianArray(mars3d.LngLatArray.toCartesians(item.positions)),
-//             vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
-//             height: 0,
-//             extrudedHeight: (item.attr.floor || 1) * 5,
-//           }),
-//           attributes: {
-//             color: Cesium.ColorGeometryInstanceAttribute.fromColor(itemColor),
-//           },
-//         });
-//         instance.attr = item.attr; //重要：绑定相关属性
-//         instances.push(instance);
-//       }
-
-//       //多个对象的合并渲染。
-//       let primitive = new mars3d.graphic.BaseCombine({
-//         instances: instances,
-//       });
-//       graphicLayer.addGraphic(primitive);
-//     })
-//     .otherwise(function (error) {
-//       globalAlert("服务出错", error);
-//     });
-// }
-
-// 取区域内的随机图标
+// 取区域内的随机点
 function randomPoint() {
   const jd = random(115.955684 * 1000, 117.474003 * 1000) / 1000
   const wd = random(30.7576 * 1000, 32.008782 * 1000) / 1000

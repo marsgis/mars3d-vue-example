@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -58,13 +59,11 @@ export function onUnmounted() {
   map = null
 }
 
-let kmlLayer
-
 function removeLayer() {
   map.trackedEntity = null
-  if (kmlLayer) {
-    map.removeLayer(kmlLayer, true)
-    kmlLayer = null
+  if (graphicLayer) {
+    map.removeLayer(graphicLayer, true)
+    graphicLayer = null
   }
 }
 // flyTo至目标
@@ -76,7 +75,7 @@ export function flyToEntity(entity) {
 export function shoRailway() {
   removeLayer()
 
-  kmlLayer = new mars3d.layer.KmlLayer({
+  graphicLayer = new mars3d.layer.KmlLayer({
     url: "//data.mars3d.cn/file/kml/hftl.kml",
     symbol: {
       styleOptions: {
@@ -110,16 +109,16 @@ export function shoRailway() {
     popup: "all",
     flyTo: true
   })
-  map.addLayer(kmlLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  kmlLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
     const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
-  kmlLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -128,7 +127,7 @@ export function shoRailway() {
 export function showExpressway() {
   removeLayer()
 
-  kmlLayer = new mars3d.layer.KmlLayer({
+  graphicLayer = new mars3d.layer.KmlLayer({
     name: "路线",
     url: "//data.mars3d.cn/file/kml/bslx.kmz",
     symbol: {
@@ -141,16 +140,16 @@ export function showExpressway() {
     popup: "all",
     flyTo: true
   })
-  map.addLayer(kmlLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  kmlLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
     const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
-  kmlLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -159,23 +158,23 @@ export function showExpressway() {
 export function showSafetyNotice() {
   removeLayer()
 
-  kmlLayer = new mars3d.layer.KmlLayer({
+  graphicLayer = new mars3d.layer.KmlLayer({
     name: "海上安全警告",
     url: "//data.mars3d.cn/file/kml/NAVWARN.kmz",
     popup: "{description}",
     center: { lat: 3.851186, lng: 110.508244, alt: 3510625, heading: 7, pitch: -74 },
     flyTo: true
   })
-  map.addLayer(kmlLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  kmlLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
     const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
-  kmlLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -184,23 +183,23 @@ export function showSafetyNotice() {
 export function showMeteorological() {
   removeLayer()
 
-  kmlLayer = new mars3d.layer.KmlLayer({
+  graphicLayer = new mars3d.layer.KmlLayer({
     name: "气象数据",
     url: "//data.mars3d.cn/file/kml/dg8.kml",
     opacity: 0.7,
     popup: "all",
     flyTo: true
   })
-  map.addLayer(kmlLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  kmlLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
     const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
-  kmlLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }
@@ -209,23 +208,23 @@ export function showMeteorological() {
 export function showGDP() {
   removeLayer()
 
-  kmlLayer = new mars3d.layer.KmlLayer({
+  graphicLayer = new mars3d.layer.KmlLayer({
     name: "全球各国GDP",
     url: "//data.mars3d.cn/file/kml/gdpPerCapita2008.kmz",
     center: { lat: 5.723953, lng: 90.735755, alt: 24143420, heading: 359, pitch: -87 },
     popup: "all",
     flyTo: true
   })
-  map.addLayer(kmlLayer)
+  map.addLayer(graphicLayer)
 
   // 绑定事件
-  kmlLayer.on(mars3d.EventType.load, function (event) {
+  graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
 
     const data = event.list
     treeEvent.fire("tree", { treeData: data })
   })
-  kmlLayer.on(mars3d.EventType.click, function (event) {
+  graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
 }

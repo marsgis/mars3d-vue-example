@@ -1,20 +1,13 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
-  scene: {
-    center: {
-      lat: 31.30003,
-      lng: 116.08603,
-      alt: 11445.39,
-      heading: 51.4,
-      pitch: -86.6,
-      roll: 2.3
-    }
-  }
+export const mapOptions = function (option) {
+  option.scene.center = { lat: 31.265081, lng: 116.103599, alt: 6178, heading: 348, pitch: -54 }
+  delete option.terrain
+  return option
 }
 
 /**
@@ -25,6 +18,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   addEntity()
 }
 
@@ -67,12 +61,12 @@ function addEntity() {
       // 结束后自动移除
       graphic.style = { fill: false }
 
-      work4HP.activate() // 闪烁结束后开始飞行
+      workPlane.activate() // 闪烁结束后开始飞行
     }
   })
 }
 
-const work4HP = {
+const workPlane = {
   flySpeed: 600, // 飞行速度
   psNum: 400, // 投射间隔路程
   frameNum: 0,
@@ -109,7 +103,6 @@ const work4HP = {
     graphicLayer.addGraphic(this.roamLine)
 
     this.roamLine.start()
-
     this.roamLine.on(mars3d.EventType.end, this.disable, this)
 
     // 视角切换（分步执行）

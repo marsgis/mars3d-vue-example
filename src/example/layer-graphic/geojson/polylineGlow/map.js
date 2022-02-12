@@ -19,7 +19,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  addGraphics()
+  addDemoGraphics()
 }
 
 /**
@@ -30,7 +30,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphics() {
+function addDemoGraphics() {
   map.basemap = 2017 // 蓝色底图
 
   // 调节场景环境

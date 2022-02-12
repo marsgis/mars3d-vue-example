@@ -11,17 +11,6 @@ export const mapOptions = {
     },
     highDynamicRange: false
   },
-  control: {
-    baseLayerPicker: true, // basemaps底图切换按钮
-    homeButton: true, // 视角复位按钮
-    sceneModePicker: true, // 二三维切换按钮
-    defaultContextMenu: true, // 右键菜单
-    locationBar: { fps: true } // 状态栏
-  },
-  terrain: {
-    url: "http://data.mars3d.cn/terrain",
-    show: true
-  },
   // 方式1：在创建地球前的参数中配置
   basemaps: [
     {
@@ -38,6 +27,8 @@ export const mapOptions = {
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
+// mvt另外的实现方式可以参考：https://github.com/robbo1975/MapboxVectorTileImageryProvider
+
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -48,10 +39,6 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   eventTarget.fire("mapLoaded")
-  map.on(mars3d.EventType.cameraChanged, () => {
-    eventTarget.fire("mapCameraChange")
-  })
-  // 另外的实现方式可以参考：https://github.com/robbo1975/MapboxVectorTileImageryProvider
 }
 
 /**

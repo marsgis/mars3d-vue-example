@@ -160,6 +160,20 @@
       {
         "id": 2017,
         "pid": 10,
+        "name": "暗色底图",
+        "type": "gaode",
+        "icon": "http://mars3d.cn/img/basemaps/blackMarble.png",
+        "layer": "vec",
+        "invertColor": true,
+        "filterColor": "#4e70a6",
+        "brightness": 0.6,
+        "contrast": 1.8,
+        "gamma": 0.3,
+        "hue": 1,
+        "saturation": 0
+      },
+      {
+        "pid": 10,
         "name": "蓝色底图",
         "icon": "img/basemaps/bd-c-midnight.png",
         "type": "xyz",

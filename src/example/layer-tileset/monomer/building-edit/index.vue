@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
         <a-radio-group @change="modeChange" v-model:value="value" name="radioGroup">
@@ -26,14 +26,14 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
   <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
 import * as mapWork from "./map.js"
 
 interface FileItem {
@@ -87,21 +87,21 @@ const saveGeoJSON = () => {
 
 //* ************************属性面板*****************************/
 const editor = ref()
-mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 停止编辑修改模型
-mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 </script>

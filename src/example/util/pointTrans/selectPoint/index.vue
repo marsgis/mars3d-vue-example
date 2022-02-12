@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -69,13 +69,14 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $alert } from "@/components/mars-ui/index"
 
 const formState = reactive({
   radioFanwei: "1",
@@ -101,9 +102,10 @@ let currGD: number
 onMounted(() => {
   // 默认显示地图中心点坐标
   mapWork.eventTarget.on("loadOK", function (event: any) {
-    currJD = event.currJD
-    currWD = event.currWD
-    currGD = event.currGD
+    const point = event.point
+    currJD = point.lng
+    currWD = point.lat
+    currGD = point.alt
     formState.jd = mapWork.marsUtilFormtNum(currJD)
     formState.wd = mapWork.marsUtilFormtNum(currWD)
     formState.alt = mapWork.marsUtilFormtNum(currGD)
@@ -169,11 +171,11 @@ const bindMourseClick = () => {
 }
 const submitCenter = () => {
   if (formState.jd > 180 || formState.jd < -180) {
-    window.$alert("请输入有效的经度值！")
+    $alert("请输入有效的经度值！")
     return
   }
   if (formState.wd > 90 || formState.wd < -90) {
-    window.$alert("请输入有效的纬度值！")
+    $alert("请输入有效的纬度值！")
     return
   }
   mapWork.updateMarker(true, formState.jd, formState.wd, formState.alt)

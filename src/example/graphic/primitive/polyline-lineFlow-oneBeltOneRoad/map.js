@@ -5,11 +5,10 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 26.163233, lng: 77.849567, alt: 17754541, heading: 360, pitch: -90 },
+    center: { lat: 26.163233, lng: 77.849567, alt: 17754541, heading: 0, pitch: -90 },
     sceneMode: 2
   },
-  terrain: false,
-  layers: []
+  terrain: false
 }
 
 /**
@@ -24,7 +23,7 @@ export function onMounted(mapInstance) {
   map.basemap = 2017 // 蓝色底图
 
   // 加载数据
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/oneBeltOneRoad.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/oneBeltOneRoad.json" })
     .then(function (res) {
       showRoad(res.data.land, {
         name: "丝绸之路经济带",

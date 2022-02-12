@@ -1,7 +1,9 @@
 import * as mars3d from "mars3d"
+// export * as kgUtil from "kml-geojson"
+export const kgUtil = window.kgUtil
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -28,23 +30,8 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
-  initLayerManager()
-
-  // 触发自定义事件
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
-    }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
-  })
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 }
 
 /**
@@ -84,87 +71,8 @@ export function drawExtrudedPolygon(type) {
   })
 }
 
-/**
- * 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
- *
- * @export
- * @param {boolean} val true 或者 false
- * @returns {void}
- */
-export function bindShowHide(val) {
-  graphicLayer.show = val
-}
-
-/**
- * 绑定popup
- *
- * @export
- * @param {boolean} val true 或者 false
- * @returns {void}
- */
-export function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-
-/**
- * 绑定tooltip
- *
- * @export
- * @param {boolean} val true 或者 false
- * @returns {void}
- */
-export function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-
-export function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
-function bindEdit(val) {
-  graphicLayer.hasEdit = val
-}
-
-export function btnClear() {
-  graphicLayer.clear()
-}
-
-export function btnExpFile() {
-  expFile()
-}
-
-export function btnImpFile(file) {
-  impFile(file)
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
-}
-
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -176,26 +84,35 @@ function initLayerManager() {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
+  // 数据编辑相关事件，用于属性弹窗的交互
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      eventTarget.fire("graphicEditor-update", e)
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("graphicEditor-stop", e)
+  })
 }
 
-// 绑定图层的弹窗
-function bindLayerPopup() {
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -260,20 +177,6 @@ function bindLayerContextMenu() {
     {
       text: "计算周长",
       iconCls: "fa fa-medium",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP"
-        )
-      },
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
@@ -283,22 +186,6 @@ function bindLayerContextMenu() {
     {
       text: "计算面积",
       iconCls: "fa fa-reorder",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return (
-          graphic.type === "circle" ||
-          graphic.type === "circleP" ||
-          graphic.type === "rectangle" ||
-          graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
-        )
-      },
       callback: function (e) {
         const graphic = e.graphic
         const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
@@ -308,31 +195,34 @@ function bindLayerContextMenu() {
   ])
 }
 
+export function updateLayerHasEdit(val) {
+  graphicLayer.hasEdit = val
+}
+
 // 保存GeoJSON
-function expFile() {
-  if (graphicLayer.length === 0) {
-    globalMsg("当前没有标注任何数据，无需保存！")
-    return
-  }
+export function downloadJsonFile() {
   const geojson = graphicLayer.toGeoJSON()
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
 
-// 打开保存的文件
-function impFile(file) {
+/**
+ * 打开geojson文件
+ *
+ * @export
+ * @param {FileInfo} file 文件
+ * @returns {void} 无
+ */
+export function openGeoJSON(file) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-  if (fileType !== "json") {
-    globalMsg("文件类型不合法,请选择json格式标注文件！")
-    return
-  }
 
   if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
-      const json = this.result
-      graphicLayer.loadGeoJSON(json, {
+      let geojson = this.result
+      geojson = simplifyGeoJSON(geojson) // 简化geojson的点
+      graphicLayer.loadGeoJSON(geojson, {
         flyTo: true
       })
     }
@@ -341,43 +231,19 @@ function impFile(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const strkml = this.result
-
       kgUtil.toGeoJSON(strkml).then((geojson) => {
-        console.log("kml2geojson转换结果为", geojson)
+        geojson = simplifyGeoJSON(geojson) // 简化geojson的点
+        console.log("kml2geojson", geojson)
 
         graphicLayer.loadGeoJSON(geojson, {
           flyTo: true
-          // symbol: function (attr, style, featue) {
-          //   let geoType = featue.geometry?.type
-          //   if (geoType == 'Point') {
-          //     return {
-          //       image: 'img/marker/di3.png',
-          //       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          //       scale: 0.4,
-          //       label: {
-          //         text: attr.name,
-          //         font_size: 18,
-          //         color: '#ffffff',
-          //         outline: true,
-          //         outlineColor: '#000000',
-          //         pixelOffsetY: -50,
-          //         scaleByDistance: true,
-          //         scaleByDistance_far: 990000,
-          //         scaleByDistance_farValue: 0.3,
-          //         scaleByDistance_near: 10000,
-          //         scaleByDistance_nearValue: 1,
-          //       },
-          //     }
-          //   }
-          //   return style
-          // },
         })
       })
     }
   } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
-
     kgUtil.toGeoJSON(file).then((geojson) => {
+      geojson = simplifyGeoJSON(geojson) // 简化geojson的点
       console.log("kmz2geojson", geojson)
 
       graphicLayer.loadGeoJSON(geojson, {
@@ -387,4 +253,14 @@ function impFile(file) {
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
   }
+}
+
+// 简化geojson的坐标
+function simplifyGeoJSON(geojson) {
+  try {
+    geojson = turf.simplify(geojson, { tolerance: 0.000001, highQuality: true, mutate: true })
+  } catch (e) {
+    //
+  }
+  return geojson
 }

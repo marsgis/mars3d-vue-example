@@ -44,27 +44,22 @@ export function onUnmounted() {
 }
 
 // 是否开启特效
-export function bindShowEffect(val) {
+export function setDepthOfField(val) {
   depthOfField.enabled = val
 }
 // 修改对应参数
-export function txt_focalDistance(val) {
-  if (val) {
-    depthOfField.focalDistance = val
-  }
+export function setFocalDistance(val) {
+  depthOfField.focalDistance = val
 }
-export function txt_delta(val) {
-  if (val) {
-    depthOfField.delta = val
-  }
+
+export function setDelta(val) {
+  depthOfField.delta = val
 }
-export function txt_sigma(val) {
-  if (val) {
-    depthOfField.sigma = val
-  }
+
+export function setSigma(val) {
+  depthOfField.sigma = val
 }
-export function txt_stepSize(val) {
-  if (val) {
-    depthOfField.stepSize = val
-  }
+
+export function setStepSize(val) {
+  depthOfField.stepSize = val
 }

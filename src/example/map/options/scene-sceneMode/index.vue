@@ -1,15 +1,15 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="to2d">切换为二维视图</mars-button>
       <mars-button @click="to3d">切换为三维视图</mars-button>
       <mars-button @click="toGLB">切换为2.5D维视图</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const to2d = () => {

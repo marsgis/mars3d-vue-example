@@ -89,10 +89,10 @@ export function onUnmounted() {
 }
 
 // 亮度发生改变
-export function brightness(value) {
+export function setBrightness(value) {
   brightnessEffect.brightness = value
 }
 
-export function chkShowEffect(val) {
+export function setBrightnessEffect(val) {
   brightnessEffect.enabled = val
 }

@@ -1,19 +1,19 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="getDataSurfaceHeight">异步计算贴地高度{{ percent }}/{{ percentAll }}</mars-button>
       <mars-button @click="toGeojson">保存GeoJSON</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
-const percent = ref(0)
-const percentAll = ref(0)
+const percent = ref(0) // 声明ref响应式数据，js中需要 *.value 来操作其值
+const percentAll = ref(0) // 声明ref响应式数据，js中需要 *.value 来操作其值
 
 mapWork.eventTarget.on("loadOk", function (event: any) {
   percentAll.value = event.geojsonLength

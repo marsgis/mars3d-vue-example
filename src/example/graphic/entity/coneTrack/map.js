@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -26,13 +26,15 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphic01(graphicLayer)
-  addGraphic02(graphicLayer)
-  addGraphic03(graphicLayer)
-  addGraphic04(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 /**
@@ -41,11 +43,13 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-  graphicLayer.clear()
+
+  graphicLayer.remove()
+  graphicLayer = null
 }
 
 // 静态的位置
-function addGraphic01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const coneTrack = new mars3d.graphic.ConeTrack({
     position: [116.327881, 31.018378, 5000],
     targetPosition: [116.311135, 30.998408, 1264.9], // 可选
@@ -68,7 +72,7 @@ function addGraphic01(graphicLayer) {
 
 // 静态的位置
 let coneTrack
-function addGraphic02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const position = [116.28782, 30.971557, 5000]
   // 加个飞机
   const primitive = new mars3d.graphic.ModelPrimitive({
@@ -115,7 +119,7 @@ export function onClickSelPoint() {
 }
 
 // 动态的位置
-function addGraphic03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const propertyFJ = getSampledPositionProperty([
     [116.364307, 31.03778, 5000],
     [116.42794, 31.064786, 5000],
@@ -196,7 +200,7 @@ function getSampledPositionProperty(points) {
   return property
 }
 
-function addGraphic04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const model = new mars3d.graphic.ModelEntity({
     name: "地面站模型",
     position: [117.170264, 31.840312, 258],
@@ -238,7 +242,7 @@ function addGraphic04(graphicLayer) {
 }
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -249,27 +253,26 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
 }
 
-// 绑定图层的弹窗
-function bindLayerPopup() {
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
 
+
+
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

@@ -1,15 +1,15 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <down-c />
+        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
       </template>
       <!-- 数据处理面板 -->
       <a-collapse-panel key="1" header="地下模式">
         <div class="f-mb">
           <a-space>
-            <span class="pannel-item-label">地表透明度:</span>
+            <span class="mars-pannel-item-label">地表透明度:</span>
             <a-slider @change="alphaChange" :min="0" :max="1" :step="0.1" v-model:value="alphaVal" />
 
             <a-checkbox @change="chkUnderground" v-model:checked="formState.enabledGround">是否开启</a-checkbox>
@@ -20,7 +20,7 @@
       <a-collapse-panel key="2" header="地下开挖">
         <div class="f-mb">
           <a-space>
-            <span class="pannel-item-label">开挖深度:</span>
+            <span class="mars-pannel-item-label">开挖深度:</span>
             <mars-input-number @change="heightChange" :min="-500" :max="999" :step="1" v-model:value="heightVal"></mars-input-number>
 
             <a-checkbox @change="chkClippingPlanes" v-model:checked="formState.enabledClipping">是否挖地</a-checkbox>
@@ -45,13 +45,13 @@
         </div>
       </a-collapse-panel>
     </a-collapse>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import { DownC } from "@icon-park/vue-next"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -20,7 +20,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  addGraphics()
+  addDemoGraphics()
 }
 
 /**
@@ -31,7 +31,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphics() {
+function addDemoGraphics() {
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)

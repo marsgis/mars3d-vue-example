@@ -5,9 +5,9 @@
   </div>
 
   <!-- 按钮 -->
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <mars-button @click="btnUpdate">更新数据</mars-button>
-  </pannel>
+  </mars-pannel>
 
   <!-- echarts图表 -->
   <div class="chart">
@@ -42,12 +42,11 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import any from "nprogress"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
-const fltjData = ref([any])
+const fltjData = ref([])
 let ZJLY
 const NDTJ = ref()
 
@@ -89,7 +88,7 @@ const chartsData = {
       { name: "2016", value: 36 },
       { name: "2017", value: 85 },
       { name: "2018", value: 10 },
-      { name: "2018年", value: 17 }
+      { name: "2019年", value: 17 }
     ],
     zds: [
       { name: "2013", value: 10 },

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-row class="f-mb">
       <a-col :span="2">单选:</a-col>
       <a-col :span="22">
@@ -25,12 +25,12 @@
         </a-space>
       </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

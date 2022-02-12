@@ -55,7 +55,7 @@ export function onMounted(mapInstance) {
     }
   ])
 
-  addGraphics(graphicLayer)
+  addDemoGraphics(graphicLayer)
 }
 
 /**
@@ -66,7 +66,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphics(graphicLayer) {
+function addDemoGraphics(graphicLayer) {
   particlePosition = Cesium.Cartesian3.fromDegrees(117.221844, 31.813857, 28.5)
 
   particleGraphic = new mars3d.graphic.ParticleSystem({

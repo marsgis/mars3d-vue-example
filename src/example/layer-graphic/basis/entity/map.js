@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -11,10 +11,6 @@ let graphicLayer // 矢量图层对象
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
-  // 创建矢量数据图层
-  graphicLayer = new mars3d.layer.GraphicLayer()
-  map.addLayer(graphicLayer)
 
   // 1.在map上绑定监听事件
   /* map.on(mars3d.EventType.clickGraphic, function (event) {
@@ -26,25 +22,31 @@ export function onMounted(mapInstance) {
     console.log("监听map，鼠标移动了", event)
   }) */
 
+  // 创建矢量数据图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
   // 2.在layer上绑定监听事件
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphice01(graphicLayer)
-  addGraphice02(graphicLayer)
-  addGraphice03(graphicLayer)
-  addGraphice04(graphicLayer)
-  addGraphice05(graphicLayer)
-  addGraphice06(graphicLayer)
-  addGraphice07(graphicLayer)
-  addGraphice08(graphicLayer)
-  addGraphice09(graphicLayer)
-  addGraphice10(graphicLayer)
-  addGraphice11(graphicLayer)
-  addGraphice12(graphicLayer)
-  addGraphice13(graphicLayer)
-  addGraphice14(graphicLayer)
-  addGraphice15(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
+  addDemoGraphic6(graphicLayer)
+  addDemoGraphic7(graphicLayer)
+  addDemoGraphic8(graphicLayer)
+  addDemoGraphic9(graphicLayer)
+  addDemoGraphic10(graphicLayer)
+  addDemoGraphic11(graphicLayer)
+  addDemoGraphic12(graphicLayer)
+  addDemoGraphic13(graphicLayer)
+  addDemoGraphic14(graphicLayer)
+  addDemoGraphic15(graphicLayer)
 }
 
 /**
@@ -55,33 +57,7 @@ export function onUnmounted() {
   map = null
 }
 
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-export function bindShowHide(val) {
-  graphicLayer.show = val
-}
-export function bindPopup(val) {
-  if (val) {
-    bindLayerPopup(graphicLayer)
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-export function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-export function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu(graphicLayer)
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
-
-function addGraphice01(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.LabelEntity({
     position: new mars3d.LngLatPoint(116.1, 31.0, 1000),
     style: {
@@ -100,7 +76,7 @@ function addGraphice01(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice02(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.PointEntity({
     position: [116.2, 31.0, 1000],
     style: {
@@ -114,7 +90,7 @@ function addGraphice02(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice03(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.BillboardEntity({
     name: "贴地图标",
     position: [116.3, 31.0, 1000],
@@ -129,7 +105,7 @@ function addGraphice03(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice04(graphicLayer) {
+function addDemoGraphic4(graphicLayer) {
   const graphic = new mars3d.graphic.PlaneEntity({
     position: new mars3d.LngLatPoint(116.4, 31.0, 1000),
     style: {
@@ -144,7 +120,7 @@ function addGraphice04(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice05(graphicLayer) {
+function addDemoGraphic5(graphicLayer) {
   const graphic = new mars3d.graphic.BoxEntity({
     position: new mars3d.LngLatPoint(116.5, 31.0, 1000),
     style: {
@@ -160,7 +136,7 @@ function addGraphice05(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice06(graphicLayer) {
+function addDemoGraphic6(graphicLayer) {
   const graphic = new mars3d.graphic.CircleEntity({
     position: [116.1, 30.9, 1000],
     style: {
@@ -177,7 +153,7 @@ function addGraphice06(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice07(graphicLayer) {
+function addDemoGraphic7(graphicLayer) {
   const graphic = new mars3d.graphic.CylinderEntity({
     position: [116.2, 30.9, 1000],
     style: {
@@ -193,7 +169,7 @@ function addGraphice07(graphicLayer) {
 }
 
 //
-function addGraphice08(graphicLayer) {
+function addDemoGraphic8(graphicLayer) {
   const graphic = new mars3d.graphic.EllipsoidEntity({
     position: new mars3d.LngLatPoint(116.3, 30.9, 1000),
     style: {
@@ -206,7 +182,7 @@ function addGraphice08(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice09(graphicLayer) {
+function addDemoGraphic9(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "消防员",
     position: [116.4, 30.9, 1000],
@@ -219,7 +195,7 @@ function addGraphice09(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphice10(graphicLayer) {
+function addDemoGraphic10(graphicLayer) {
   const graphic = new mars3d.graphic.PolylineEntity({
     positions: [
       [116.5, 30.9, 1000],
@@ -234,7 +210,7 @@ function addGraphice10(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphice11(graphicLayer) {
+function addDemoGraphic11(graphicLayer) {
   const graphic = new mars3d.graphic.PolylineVolumeEntity({
     positions: [
       [116.1, 30.8, 1000],
@@ -251,7 +227,7 @@ function addGraphice11(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphice12(graphicLayer) {
+function addDemoGraphic12(graphicLayer) {
   const graphic = new mars3d.graphic.CorridorEntity({
     positions: [
       [116.2, 30.8, 1000],
@@ -267,7 +243,7 @@ function addGraphice12(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphice13(graphicLayer) {
+function addDemoGraphic13(graphicLayer) {
   const graphic = new mars3d.graphic.WallEntity({
     positions: [
       [116.3, 30.8, 1000],
@@ -290,7 +266,7 @@ function addGraphice13(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphice14(graphicLayer) {
+function addDemoGraphic14(graphicLayer) {
   const graphic = new mars3d.graphic.RectangleEntity({
     positions: [
       [116.383144, 30.819978, 444.42],
@@ -308,7 +284,7 @@ function addGraphice14(graphicLayer) {
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
-function addGraphice15(graphicLayer) {
+function addDemoGraphic15(graphicLayer) {
   const graphic = new mars3d.graphic.PolygonEntity({
     positions: [
       [116.510278, 30.834372, 567.29],
@@ -332,7 +308,7 @@ function addGraphice15(graphicLayer) {
 }
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -343,27 +319,10 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
-}
-
-// 绑定图层的弹窗
-function bindLayerPopup() {
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
-  })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -500,4 +459,16 @@ function bindLayerContextMenu() {
       }
     }
   ])
+}
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
 }

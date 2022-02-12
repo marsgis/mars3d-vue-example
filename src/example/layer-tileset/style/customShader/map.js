@@ -92,3 +92,50 @@ export function setStyle2() {
   })
   tiles3dLayer.reload()
 }
+
+
+// 不改动cesium源码 夜景贴图
+export function setStyle3() {
+  globalMsg(`当前效果是：动态渐变+动态光环的特效`)
+
+  tiles3dLayer.customShader = new Cesium.CustomShader({
+    lightingModel: Cesium.LightingModel.UNLIT,
+    varyings: {
+      v_mars3d_normalMC: Cesium.VaryingType.VEC3
+    },
+    uniforms: {
+      u_mars3d_texture: {
+        value: new Cesium.TextureUniform({
+          url: "/img/textures/buildings.png"
+        }),
+        type: Cesium.UniformType.SAMPLER_2D
+      }
+    },
+    vertexShaderText: /* glsl */ `
+    void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput){
+        v_mars3d_normalMC = vsInput.attributes.normalMC;
+      }`,
+    fragmentShaderText: /* glsl */ `
+    void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
+      vec3 positionMC = fsInput.attributes.positionMC;
+      if (dot(vec3(0.0, 0.0, 1.0), v_mars3d_normalMC) > 0.95) {
+        //处理楼顶:统一处理成深色。
+        material.diffuse = vec3(0.079, 0.107, 0.111);
+      } else {
+        //处理四个侧面: 贴一样的图
+        float mars3d_width = 100.0;
+        float mars3d_height = 100.0;
+        float mars3d_textureX = 0.0;
+        float mars3d_dotXAxis = dot(vec3(0.0, 1.0, 0.0), v_mars3d_normalMC);
+        if (mars3d_dotXAxis > 0.52 || mars3d_dotXAxis < -0.52) {
+          mars3d_textureX = mod(positionMC.x, mars3d_width) / mars3d_width;
+        } else {
+          mars3d_textureX = mod(positionMC.y, mars3d_width) / mars3d_width;
+        }
+        float mars3d_textureY = mod(positionMC.z, mars3d_height) / mars3d_height;
+        material.diffuse = texture2D(u_mars3d_texture, vec2(mars3d_textureX, mars3d_textureY)).rgb;
+      }
+    }`
+  })
+  tiles3dLayer.reload()
+}

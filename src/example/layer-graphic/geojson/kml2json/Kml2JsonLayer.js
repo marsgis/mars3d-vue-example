@@ -1,3 +1,5 @@
+// import kgUtil from "kml-geojson"
+
 /**
  * 通过转geojson方式 加载kml和kmz文件。
  * kgUtil使用需要引入 ../lib/kml/kml-geojson.js文件

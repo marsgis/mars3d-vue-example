@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-row :gutter="[2, 10]">
       <a-col :span="24">
         <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -48,17 +48,18 @@
         </a-space>
       </a-col>
     </a-row>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
+import { $notify } from "@/components/mars-ui/index"
 
 onMounted(() => {
-  window.$notify(
+  $notify(
     "已知问题提示",
     `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
   （2）目前不支持所有3dtile数据，请替换url进行自测`,

@@ -81,7 +81,7 @@ function addWmsLayer() {
 
   // 瓦片图，参考用
   const tileLayer = new mars3d.layer.WmsLayer({
-    name: "建筑物面",
+    name: "建筑物面WMS",
     type: "wms",
     url: "//server.mars3d.cn/geoserver/mars/wms",
     layers: "mars:hfjzw",
@@ -98,7 +98,7 @@ function addWmsLayer() {
   map.addLayer(tileLayer)
 
   const wfsLayer = new mars3d.layer.WfsLayer({
-    name: "建筑物面",
+    name: "建筑物面WFS",
     url: "//server.mars3d.cn/geoserver/mars/wfs",
     layer: "mars:hfjzw",
     parameters: {
@@ -127,4 +127,11 @@ function addWmsLayer() {
   wfsLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
   })
+}
+
+
+
+// 图层状态 layer-state.vue 中进行管理的图层
+export function getManagerLayer() {
+  return map.getLayer("建筑物面WFS", "name")
 }

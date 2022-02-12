@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer
+export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -35,20 +35,9 @@ export function onMounted(mapInstance) {
     console.log("单击了合并对象中的单个值为", pickedItem)
   })
 
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic?.attr
-    if (!attr) {
-      return false
-    }
-    return mars3d.Util.getTemplateHtml({ title: "矩形", template: "all", attr: attr })
-  })
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
   addCombineData(0.1)
-
-  eventTarget.fire("mapLoaded")
-  map.on(mars3d.EventType.cameraChanged, () => {
-    eventTarget.fire("mapCameraChange")
-  })
 }
 
 /**
@@ -110,6 +99,16 @@ export function addCombineData(num) {
   globalMsg("生成" + arrData.length + "条数据，共耗时" + usedTime.toFixed(2) + "秒")
 }
 
-export function clearLayer() {
-  graphicLayer.clear()
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
 }

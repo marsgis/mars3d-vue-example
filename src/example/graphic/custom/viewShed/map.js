@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
 let selectedView
-let graphicLayer
 
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars3d.BaseClass()
@@ -43,7 +43,7 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphic_01()
+  addDemoGraphic1()
 }
 
 /**
@@ -54,7 +54,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphic_01() {
+function addDemoGraphic1() {
   const viewShed = new mars3d.graphic.ViewShed({
     position: [119.480878, 28.440286, 149],
     style: {
@@ -78,7 +78,7 @@ function addGraphic_01() {
       pitchValue: selectedView.pitch,
       distanceValue: selectedView.distance,
       opcity: selectedView.opacity,
-      ckdFrustum: selectedView.showFrustum
+      showFrustum: selectedView.showFrustum
     }
   })
 }
@@ -91,13 +91,25 @@ export function addViewShed(data) {
     style: {
       angle: data.cameraAngle,
       angle2: data.cameraAngle2,
-      showFrustum: data.ckdFrustum,
+      showFrustum: data.showFrustum,
       addHeight: 0.5 // 在坐标点增加的高度值，规避遮挡，效果更友好
     },
     success: function (graphic) {
       console.log("绘制完成", graphic)
 
       selectedView = graphic // 记录下
+
+      eventTarget.fire("loadVideo", {
+        value: {
+          cameraAngle: selectedView.angle,
+          cameraAngle2: selectedView.angle2,
+          heading: selectedView.heading,
+          pitchValue: selectedView.pitch,
+          distanceValue: selectedView.distance,
+          opcity: selectedView.opacity,
+          showFrustum: selectedView.showFrustum
+        }
+      })
     }
   })
 }

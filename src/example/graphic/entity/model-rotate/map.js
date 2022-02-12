@@ -18,16 +18,15 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  addGraphicDemo1(graphicLayer)
-  addGraphicDemo2(graphicLayer)
-  addGraphicDemo3(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
 }
 
 /**
@@ -38,7 +37,7 @@ export function onUnmounted() {
   map = null
 }
 
-function addGraphicDemo1(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "飞机",
     position: [116.239918, 30.879709, 1208],
@@ -56,7 +55,7 @@ function addGraphicDemo1(graphicLayer) {
   })
 }
 
-function addGraphicDemo2(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "四凌锥体",
     position: [116.257665, 30.869372, 1500],
@@ -74,7 +73,7 @@ function addGraphicDemo2(graphicLayer) {
   })
 }
 
-function addGraphicDemo3(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const graphicCar = new mars3d.graphic.ModelEntity({
     name: "汽车",
     position: [116.210938, 30.87518, 613.1],

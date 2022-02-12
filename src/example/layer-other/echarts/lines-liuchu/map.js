@@ -5,7 +5,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 26.63086, lng: 113.052819, alt: 5934039, heading: 356, pitch: -80 }
+    center: { lat: 26.63086, lng: 113.052819, alt: 5934039, heading: 0, pitch: -80 }
   }
 }
 

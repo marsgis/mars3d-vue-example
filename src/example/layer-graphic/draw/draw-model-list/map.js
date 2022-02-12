@@ -1,19 +1,16 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 30.83351, lng: 116.354467, alt: 2743, heading: 359, pitch: -52 },
-    clock: {
-      currentTime: "2021-01-01 22:00:00"
-    }
+    center: { lat: 31.516143, lng: 117.282937, alt: 46242, heading: 2, pitch: -49 }
   }
 }
-
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -24,8 +21,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   graphicLayer = new mars3d.layer.GraphicLayer({
     hasEdit: true,
@@ -33,23 +29,16 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
-  queryModelListData()
-
-  // 触发自定义事件
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
-    }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
-  })
+  // 加载模型列表
+  const configUrl = "//data.mars3d.cn/gltf/list.json"
+  mars3d.Util.fetchJson({ url: configUrl })
+    .then(function (data) {
+      eventTarget.fire("loadOk", { data })
+    })
+    .otherwise(function (error) {
+      console.log("加载JSON出错", error)
+    })
+  bindLayerEvent()
 }
 
 /**
@@ -59,6 +48,43 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
   deleteAll()
+}
+
+// 绘制模型
+export function startDrawModel(style) {
+  graphicLayer.startDraw({
+    type: "model",
+    drawShow: true, // 绘制时，是否显示模型，可避免在3dtiles上拾取坐标存在问题。
+    style: style
+  })
+}
+
+// 在图层级处理一些事物
+function bindLayerEvent() {
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+  /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
+      console.log("监听layer，鼠标移入了矢量对象", event)
+    })
+    graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
+      console.log("监听layer，鼠标移出了矢量对象", event)
+    }) */
+
+  // 数据编辑相关事件， 用于属性弹窗的交互
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      eventTarget.fire("graphicEditor-update", e)
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("graphicEditor-stop", e)
+  })
 }
 
 // 深度检测
@@ -73,15 +99,6 @@ export function onlyPickModelPosition(val) {
 
 export function deleteAll() {
   graphicLayer.clear()
-}
-
-// 绘制模型
-export function drawGltf(style) {
-  graphicLayer.startDraw({
-    type: "model",
-    drawShow: true, // 绘制时，是否显示模型，可避免在3dtiles上拾取坐标存在问题。
-    style: style
-  })
 }
 
 export function changeItemImage(item) {
@@ -125,16 +142,4 @@ export function saveGeoJSON() {
   }
   const geojson = graphicLayer.toGeoJSON()
   mars3d.Util.downloadFile("模型标绘.json", JSON.stringify(geojson))
-}
-
-// 下面是获取模型库的JSON数据
-function queryModelListData() {
-  const configUrl = "//data.mars3d.cn/gltf/list.json"
-  mars3d.Resource.fetchJson({ url: configUrl })
-    .then(function (data) {
-      eventTarget.fire("loadOk", { data })
-    })
-    .otherwise(function (error) {
-      console.log("加载JSON出错", error)
-    })
 }

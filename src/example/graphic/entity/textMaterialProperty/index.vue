@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item>
         <a-space>
@@ -19,14 +19,14 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </pannel>
+  </mars-pannel>
   <GraphicEditor ref="editor" />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import GraphicEditor from "@comp/mars-sample/graphic-editor/index.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -37,7 +37,7 @@ interface FormState {
 
 const formState: UnwrapRef<FormState> = reactive({
   slideStep: 0,
-  inputText: "Mars3D 火星科技 2021"
+  inputText: "Mars3D 火星科技 2017"
 })
 
 const onChangeSlider = () => {
@@ -62,21 +62,21 @@ const onClickSure = () => {
 
 // 属性面板
 const editor = ref()
-mapWork.eventTarget.on("editorUI-draw", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 编辑修改了模型
-mapWork.eventTarget.on("editorUI-SMR", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
   const result = await editor.value.setValue(e.graphic)
   if (result) {
     editor.value.showEditor()
   }
 })
 // 停止编辑修改模型
-mapWork.eventTarget.on("editorUI-stop", async (e: any) => {
+mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   editor.value.hideEditor()
 })
 </script>

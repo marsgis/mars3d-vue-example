@@ -48,35 +48,20 @@ export function onUnmounted() {
 }
 
 // 是否开始雾效果
-export function bindShowEffect(val) {
+export function setFogEffect(val) {
   fogEffect.enabled = val
 }
 
 // 改变雾的颜色
-export function changeColor(color) {
+export function setColor(color) {
   fogEffect.color = Cesium.Color.fromCssColorString(color)
 }
 
-let setTimeoutNum
 // 修改近距离和远距离
-export function fogByDistanceX(val) {
-  clearTimeout(setTimeoutNum)
-  if (val > fogEffect.fogByDistance.z) {
-    setTimeoutNum = setTimeout(() => {
-      globalMsg("近距离不能大于远距离")
-    }, 1000)
-    return
-  }
+export function setDistanceX(val) {
   fogEffect.fogByDistance.x = val
 }
 
-export function fogByDistanceZ(val) {
-  clearTimeout(setTimeoutNum)
-  if (val < fogEffect.fogByDistance.x) {
-    setTimeoutNum = setTimeout(() => {
-      globalMsg("远距离 不能小于 近距离")
-    }, 1000)
-    return
-  }
+export function setDistanceZ(val) {
   fogEffect.fogByDistance.z = val
 }

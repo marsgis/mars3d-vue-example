@@ -5,7 +5,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.665038, lng: 117.26431, alt: 40054, heading: 360, pitch: -62 }
+    center: { lat: 31.665038, lng: 117.26431, alt: 40054, heading: 0, pitch: -62 }
   }
 }
 
@@ -40,7 +40,7 @@ export function onUnmounted() {
 
 // 获取数据
 function queryMapvLayerData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-road.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-road.json" })
 }
 
 // 创建mapv图层

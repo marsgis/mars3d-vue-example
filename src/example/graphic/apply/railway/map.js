@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -40,10 +40,8 @@ const args = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
-    // 因为animation面板遮盖，修改底部bottom值
-    const toolbar = document.getElementsByClassName("cesium-viewer-toolbar")[0]
-    toolbar.style.bottom = "60px"
   addLayer()
 }
 
@@ -183,8 +181,8 @@ function inintRoad(positionsSJ, positionsTD) {
   map.clock.shouldAnimate = true // 是否开启时钟动画，默认true
   //  map.clock.clockRange = Cesium.ClockRange.LOOP_STOP; // 到达终止时间后循环
 
-  if (map.viewer.timeline) {
-    map.viewer.timeline.zoomTo(start, stop)
+  if (map.controls.timeline) {
+    map.controls.timeline.zoomTo(start, stop)
   }
 
   const availability = new Cesium.TimeIntervalCollection([

@@ -437,8 +437,8 @@ class PlayTyphoon extends Typhoon {
     this.map.clock.clockRange = Cesium.ClockRange.CLAMPED // 到达时间点后终止
     this.map.clock.multiplier = 16000
 
-    if (this.map.viewer.timeline) {
-      this.map.viewer.timeline.zoomTo(this.startTime, this.stopTime)
+    if (this.map.controls.timeline) {
+      this.map.controls.timeline.zoomTo(this.startTime, this.stopTime)
     }
 
     this.show = true

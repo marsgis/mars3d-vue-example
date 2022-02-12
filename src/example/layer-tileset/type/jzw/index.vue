@@ -1,12 +1,13 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <div class="f-mb">
         <a-space>
           <span>Style样式</span>
-          <mars-button @click="setStyle1">原始样式</mars-button>
-          <mars-button @click="setStyle2" title="这是Mars3D内置的">动态特效1</mars-button>
-          <mars-button @click="setStyle3" title="这是不改动cesium源码的">动态特效2</mars-button>
+          <mars-button @click="setStyleDef">原始样式</mars-button>
+          <mars-button @click="setStyle1" title="这是Mars3D内置的">动态特效1</mars-button>
+          <mars-button @click="setStyle2" title="这是不改动cesium源码的">动态特效2</mars-button>
+          <mars-button @click="setStyle3">夜景贴图</mars-button>
         </a-space>
       </div>
 
@@ -33,12 +34,12 @@
         </a-space>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -64,14 +65,17 @@ mapWork.eventTarget.on("loadOk", () => {
 })
 
 // 原始样式
+const setStyleDef = () => {
+  mapWork.setStyleDef()
+}
+//
 const setStyle1 = () => {
   mapWork.setStyle1()
 }
-// 样式1
+//
 const setStyle2 = () => {
   mapWork.setStyle2()
 }
-// 样式2
 const setStyle3 = () => {
   mapWork.setStyle3()
 }

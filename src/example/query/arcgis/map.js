@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
@@ -34,10 +35,10 @@ export function onUnmounted() {
   map = null
 }
 
-export function query(text) {
+export function query(item) {
   queryMapserver.query({
     column: "项目名称",
-    text: text,
+    text: item.text,
     graphic: drawGraphic,
     success: (result) => {
       if (result.count === 0) {
@@ -45,7 +46,7 @@ export function query(text) {
         return
       }
 
-    eventTarget.fire("result", { result })
+      eventTarget.fire("result", { result })
       geoJsonLayer.load({ data: result.geojson })
     },
     error: (error, msg) => {
@@ -157,6 +158,17 @@ export function drawPolygon() {
     success: function (graphic) {
       drawGraphic = graphic
       console.log("框选多边行：", drawGraphic.toGeoJSON())
+    }
+  })
+}
+
+export function flyToGraphic(graphic) {
+  graphic.openHighlight()
+  graphic.flyTo({
+    radius: 1000, // 点数据：radius控制视距距离
+    scale: 1.5, // 线面数据：scale控制边界的放大比例
+    complete: () => {
+      graphic.openPopup()
     }
   })
 }

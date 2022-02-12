@@ -20,12 +20,10 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
   const point = map.getCenter()
   point.format()
-  const currJD = point.lng
-  const currWD = point.lat
-  const currGD = point.alt
-  eventTarget.fire("loadOK", { currJD, currWD, currGD })
+  eventTarget.fire("loadOK", { point })
 }
 
 /**

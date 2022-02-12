@@ -30,9 +30,11 @@ export function onUnmounted() {
   map = null
 }
 
+let geodePoiLayer
+
 function GeodePoiLayer() {
   // 高德POI图层，演示大数据的分块加载
-  const layer = new mars3d.layer.GeodePoiLayer({
+  geodePoiLayer = new mars3d.layer.GeodePoiLayer({
     minimumLevel: 13,
     debuggerTileInfo: false, // 是否显示网格信息（测试用）
     key: mars3d.Token.gaodeArr, // 请在实际项目中将下面高德KEY换为自己申请的，因为该key不保证长期有效。
@@ -68,5 +70,10 @@ function GeodePoiLayer() {
     //   pixelRange: 20,
     // },
   })
-  map.addLayer(layer)
+  map.addLayer(geodePoiLayer)
+}
+
+// 图层状态 layer-state.vue 中进行管理的图层
+export function getManagerLayer() {
+  return geodePoiLayer
 }

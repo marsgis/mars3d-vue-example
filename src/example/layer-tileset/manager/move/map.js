@@ -1,10 +1,6 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let x = 0
-let y = 0
-let z = 0
-let step = 1
 let tiles3dLayer
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
@@ -18,8 +14,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // 固定光照，避免gltf模型随时间存在亮度不一致。
-  map.fixedLight = true
+  map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   eventTarget.fire("loadOk")
 }
 
@@ -78,37 +73,7 @@ export function showModel(modelUrl) {
   })
 }
 
-export function changeStep(val) {
-  step = val
-}
-
-export function change(type) {
-  switch (type) {
-    case 0:
-      x += step
-      break
-    case 1:
-      x -= step
-      break
-    case 2:
-      y += step
-      break
-    case 3:
-      y -= step
-      break
-    case 4:
-      z += step
-      break
-    case 5:
-      z -= step
-      break
-    default:
-  }
-
-  const result = "x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1)
-  // 触发自定义事件
-  eventTarget.fire("changeStep", { result })
-  // 创建平移矩阵方法二
+export function setTranslation(x, y, z) {
   const translation = Cesium.Cartesian3.fromArray([x, y, z])
   tiles3dLayer.tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation)
 }

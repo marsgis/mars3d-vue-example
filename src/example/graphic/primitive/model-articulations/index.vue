@@ -1,21 +1,21 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-tac">
       <mars-select ref="select" v-model:value="groupName" style="width: 200px" :options="selectGroups" @change="onChangeGroup"></mars-select>
     </div>
 
     <div v-for="rg in currStates" :key="rg.name">
       <a-space>
-        <span class="pannel-item-label">{{ rg.name_cn }}</span>
+        <span class="mars-pannel-item-label">{{ rg.name_cn }}</span>
         <a-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current" @change="onChangeStage(rg)" />
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const groupName = ref<any>("火箭整体")

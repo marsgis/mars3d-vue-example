@@ -45,6 +45,10 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+
+  clearDraw()
+  floodByGraphic.remove()
+  floodByGraphic = null
 }
 
 function onChangeHeight(height) {
@@ -53,9 +57,7 @@ function onChangeHeight(height) {
 
 // 绘制矩形
 export function btnDrawExtent(callback) {
-  drawPotions = null
-  floodByGraphic.clear()
-  map.graphicLayer.clear()
+  clearDraw()
 
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -81,9 +83,7 @@ export function btnDrawExtent(callback) {
 }
 // 绘制多边形
 export function btnDraw(callback) {
-  drawPotions = null
-  floodByGraphic.clear()
-  map.graphicLayer.clear()
+  clearDraw()
 
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -110,7 +110,7 @@ export function clearDraw() {
   drawPotions = null
   map.graphicLayer.clear()
   if (floodByGraphic) {
-    floodByGraphic.remove()
+    floodByGraphic.clear()
   }
 }
 

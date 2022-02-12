@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">视椎体状态:</span>
+        <span class="mars-pannel-item-label">视椎体状态:</span>
         <mars-button @click="locate">定位至卫星</mars-button>
         <mars-button @click="selPoint(formState.enabledSee)">{{ formState.enabledSee ? "取消凝视" : "凝视" }}</mars-button>
       </a-space>
@@ -10,7 +10,7 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">类型:</span>
+        <span class="mars-pannel-item-label">类型:</span>
         <a-radio-group v-model:value="value" name="radioGroup" @change="chkSensorType">
           <a-radio value="1">圆锥体</a-radio>
           <a-radio value="2">四棱锥体</a-radio>
@@ -20,41 +20,41 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">前后侧摆:</span>
+        <span class="mars-pannel-item-label">前后侧摆:</span>
         <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />值{{ pitchValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">左右侧摆:</span>
+        <span class="mars-pannel-item-label">左右侧摆:</span>
         <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />值{{ rollValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">夹角1:</span>
+        <span class="mars-pannel-item-label">夹角1:</span>
         <a-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />值{{ angleValue1 }}
       </a-space>
     </div>
 
     <div class="f-mb" v-if="value === '2'">
       <a-space>
-        <span class="pannel-item-label">夹角2:</span>
+        <span class="mars-pannel-item-label">夹角2:</span>
         <a-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />值{{ angleValue2 }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">参考系轴:</span>
+        <span class="mars-pannel-item-label">参考系轴:</span>
         <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 
-  <pannel class="messageShow">
+  <mars-pannel class="messageShow">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -86,12 +86,12 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -1,20 +1,22 @@
 /**
  * 统一导出公共组件, 按需初始化ant-design-vue
  * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2021-11-01
+ * @author 木遥 2021-11-01
  */
 import { App } from "vue"
-import MarsSelect from "./mars-select"
-import MarsButton from "./mars-button"
-import MarsInput from "./mars-input"
-import MarsInputNumber from "./mars-input-number"
-import MarsDatePicker from "./mars-date-picker"
+import MarsSelect from "./mars-select/index.vue"
+import MarsButton from "./mars-button/index.vue"
+import MarsInput from "./mars-input/index.vue"
+import MarsInputNumber from "./mars-input-number/index.vue"
+import MarsDatePicker from "./mars-date-picker/index.vue"
+import MarsRangePicker from "./mars-range-picker/index.vue"
 import MarsColorPicker from "./mars-color-picker"
-import MarsMessage from "./mars-message"
-import MarsAlert from "./mars-alert"
-import MarsNotify from "./mars-notify"
+import MarsDropDown from "./mars-dropdown"
+import MarsMessage, { $message as marsMessage } from "./mars-message"
+import MarsAlert, { $alert as marsAlert } from "./mars-alert/"
+import MarsNotify, { $notify as marsNotify } from "./mars-notify"
+// import MarsLoading, { $hideLoading as marsHideLoading, $showLoading as marsShowLoading } from "./mars-loading"
 import MarsTree from "./mars-tree"
-
 import {
   AutoComplete,
   Button,
@@ -33,10 +35,9 @@ import {
   Popover,
   Progress,
   Radio,
-  Pagination,
+  DatePicker,
   Row,
   Slider,
-  Select,
   Space,
   Spin,
   Switch,
@@ -47,15 +48,23 @@ import {
   Typography,
   Upload,
   Card,
-  Image,
-  DatePicker,
-  Dropdown
+  Image
 } from "ant-design-vue"
-import "ant-design-vue/lib/style/index.less"
 
+import "./mars-echarts"
+import "ant-design-vue/dist/antd.less"
+
+import "./index.less"
+import "./function.less"
 importStyle()
 
-const components = [MarsSelect, MarsButton, MarsInput, MarsInputNumber, MarsDatePicker, MarsColorPicker, MarsTree]
+export const $alert = window.$alert = marsAlert
+export const $notify = window.$notify = marsNotify
+export const $message = window.$message = marsMessage
+// export const $hideLoading = marsHideLoading
+// export const $showLoading = marsShowLoading
+
+const components = [MarsSelect, MarsButton, MarsInput, MarsInputNumber, MarsDatePicker, MarsRangePicker, MarsColorPicker, MarsTree, MarsDropDown]
 
 export default {
   install(app: App): App {
@@ -71,10 +80,10 @@ export default {
     app.use(InputNumber)
     app.use(Checkbox)
     app.use(Radio)
+    app.use(DatePicker)
     app.use(Switch)
     app.use(Space)
     app.use(Slider)
-    app.use(Select)
     app.use(Table)
     app.use(Tree)
     app.use(Upload)
@@ -90,9 +99,6 @@ export default {
     app.use(Divider)
     app.use(Card)
     app.use(Image)
-    app.use(DatePicker)
-    app.use(Dropdown)
-    app.use(Pagination)
 
     components.forEach((comp) => {
       app.component(comp.name, comp)
@@ -100,6 +106,7 @@ export default {
     MarsMessage(app)
     MarsAlert(app)
     MarsNotify(app)
+    // MarsLoading(app)
     return app
   }
 }

@@ -4,10 +4,15 @@
 
 <script lang="ts" setup>
 const jumpUrl = (item: any) => {
-  let url = process.env.BASE_URL + "editor.html?id=" + encodeURI(item.main)
-  if (process.env.EXAMPLE_MODE === "readonly") {
-    url = process.env.BASE_URL + "read.html?id=" + encodeURI(item.main)
+  let url = process.env.BASE_URL
+  if (process.env.EDITOR_MODE) {
+    url += "editor.html"
+  } else {
+    url += "read.html"
   }
+
+  // 处理参数
+  url += "?id=" + encodeURI(item.main)
   if (item.params) {
     url += `&${item.params}&name=${item.fullName}`
   }

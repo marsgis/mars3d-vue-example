@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <div class="f-mb">
         <a-space>
@@ -25,14 +25,15 @@
         </a-space>
       </div>
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
+import { $notify } from "@/components/mars-ui/index"
 
 interface FormState {
   enabledWadi: boolean
@@ -51,7 +52,7 @@ const formState: UnwrapRef<FormState> = reactive({
 mapWork.eventTarget.on("loadOk", (e: any) => {
   e.terrainPlanClip.diffHeight = formState.txtHeight
 
-  window.$notify("已知问题提示", "（1）因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对")
+  $notify("已知问题提示", "（1）因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对")
 })
 
 // 是否挖地

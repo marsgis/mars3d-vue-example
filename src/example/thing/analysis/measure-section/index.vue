@@ -1,26 +1,26 @@
 <template>
   <!-- UI面板 -->
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="measureSection">绘制线</mars-button>
       <mars-button @click="clear">清除</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 
   <!-- ecahrt图表 -->
-  <pannel class="echartsBox" v-show="isShow">
+  <mars-pannel class="echartsBox" v-show="isShow" animateClassName="fadeInUp">
     <div class="echatsView">
       <div id="echartsView1" style="width: 100%; height: 100%"></div>
     </div>
-  </pannel>
+  </mars-pannel>
 
   <location-to />
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import LocationTo from "@comp/mars-sample/location-to.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LocationTo from "@/components/mars-sample/location-to.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
@@ -39,7 +39,7 @@ onMounted(() => {
 })
 
 mapWork.eventTarget.on("end", function (event: any) {
-  data.value = event.e
+  data.value = event
   nextTick(() => {
     setEchartsData(data.value)
   })
@@ -47,8 +47,7 @@ mapWork.eventTarget.on("end", function (event: any) {
 })
 
 mapWork.eventTarget.on("click", function (event: any) {
-  const e = event.e
-  data.value = e.graphic?.measured
+  data.value = event.graphic?.measured
   if (data.value) {
     nextTick(() => {
       setEchartsData(data.value)

@@ -1,8 +1,8 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">视椎体状态:</span>
+        <span class="mars-pannel-item-label">视椎体状态:</span>
         <a-checkbox v-model:checked="formState.enabledShowHide" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
 
         <mars-button @click="locate">定位至卫星</mars-button>
@@ -11,26 +11,26 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">前后侧摆:</span>
+        <span class="mars-pannel-item-label">前后侧摆:</span>
         <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">左右侧摆:</span>
+        <span class="mars-pannel-item-label">左右侧摆:</span>
         <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">夹角:</span>
+        <span class="mars-pannel-item-label">夹角:</span>
         <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
       </a-space>
     </div>
-  </pannel>
-  <pannel class="messageShow">
+  </mars-pannel>
+  <mars-pannel class="messageShow">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -62,12 +62,12 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

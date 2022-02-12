@@ -1,25 +1,17 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div class="infoView-content">
       <a-form :label-col="labelCol">
         <a-collapse :activeKey="activeKey">
           <a-collapse-panel key="1" header="模型URL地址">
             <div class="f-mb">
-              <a-space>
-                <span class="pannel-item-label">模型URL:</span>
-                <mars-input :allowClear="false" v-model:value="formState.txtModel">
-                  <template #addonAfter> </template>
-                </mars-input>
-              </a-space>
+              <span>模型URL地址: </span> &nbsp;&nbsp;
+              <mars-input v-model:value="formState.txtModel" style="width: 100%"></mars-input>
             </div>
 
             <div class="f-mb">
-              <a-space>
-                <span class="pannel-item-label">加载模型:</span>
-                <span>代理</span>
-                <a-checkbox v-model:checked="formState.chkProxy" />
-                <mars-button @click="showModel">加载模型</mars-button>
-              </a-space>
+              <mars-button @click="showModel">加载模型</mars-button> &nbsp;&nbsp;
+              <a-checkbox v-model:checked="formState.chkProxy">使用代理</a-checkbox>
             </div>
           </a-collapse-panel>
 
@@ -85,20 +77,21 @@
         </div>
       </a-form>
     </div>
-  </pannel>
-  <pannel class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
+  </mars-pannel>
+
+  <mars-pannel class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
     <mars-button v-show="cancelTree" @click="checkedTree">取消选中</mars-button>
     <mars-tree @select="compModelChange" :tree-data="treeData">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -279,15 +272,17 @@ const checkedTree = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView-content {
-  width: 345px;
-  max-height: 720px;
-}
 .infoView {
-  max-height: 760px;
+  max-height: 770px !important;
   bottom: 60px;
   overflow: scroll;
 }
+
+.infoView-content {
+  max-height: 737px !important;
+  width: 345px;
+}
+
 .comp-model {
   width: 350px;
   min-width: 200px;

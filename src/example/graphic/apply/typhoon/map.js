@@ -1,5 +1,4 @@
 import * as mars3d from "mars3d"
-
 import { Typhoon, PlayTyphoon } from "./Typhoon"
 
 let map // mars3d.Map三维地图对象
@@ -24,7 +23,6 @@ export function onMounted(mapInstance) {
 
   // 绘制24/48小时警戒线
   drawWarningLine()
-  queryTyphoonList()
 }
 
 /**
@@ -35,40 +33,55 @@ export function onUnmounted() {
   map = null
 }
 
-let typhoonListObj = {}
+// 所有已构造的台风集合
+const typhoonListObj = {}
 
-// 勾选了台风
-let typhoonObj
-let selectTF
+// 当前选择的台风
+let selectTyphoon
+
+// 勾选台风
 export function selectOneTyphoon(row) {
-  typhoonListObj = {}
-  if (typhoonListObj[row.id]) {
-    const typhoon = typhoonListObj[row.id]
-    typhoon.show = true
+  stopPlay()
+
+  const id = row.id
+  if (!typhoonListObj[id]) {
+    typhoonListObj[id] = new Typhoon({ ...row }, map)
+  }
+
+  const typhoon = typhoonListObj[id]
+  typhoon.show = true
+  typhoon.flyTo()
+
+  selectTyphoon = typhoon
+}
+
+// 取消勾选台风
+export function unSelectOneTyphoon(id) {
+  const typhoon = typhoonListObj[id]
+  if (!typhoon) {
+    return
+  }
+
+  if (typhoon.playTyphoon) {
+    typhoon.playTyphoon.stop()
+  }
+  typhoon.show = false
+
+  selectTyphoon = null
+}
+
+// 定位到台风
+export function clickTyRow(row) {
+  const typhoon = typhoonListObj[row.id]
+  if (typhoon) {
     typhoon.flyTo()
-  } else {
-    mars3d.Resource.fetchJson({ url: "http://data.mars3d.cn/file/apidemo/typhoon/view_" + row.id + ".json" })
-      .then(function (res) {
-        const newData = conversionPathData(res.typhoon) // 在Typhoon.js中
-
-        typhoonObj = new Typhoon({ ...row, ...newData }, map)
-        typhoonObj.flyTo()
-
-        eventTarget.fire("pathList", { typhoonObj })
-
-        selectTF = typhoonObj
-
-        typhoonListObj[row.id] = typhoonObj // 绑定到数据中，方便使用
-      })
-      .otherwise(function (error) {
-        console.log("加载JSON出错", error)
-      })
   }
 }
 
+// 定位到轨迹点
 export function clickPathRow(row) {
-  typhoonObj.showPointFQ(row)
-  const graphic = typhoonObj.getPointById(row.id)
+  selectTyphoon.showPointFQ(row)
+  const graphic = selectTyphoon.getPointById(row.id)
   if (graphic) {
     graphic.flyTo({
       radius: 1600000,
@@ -79,206 +92,25 @@ export function clickPathRow(row) {
   }
 }
 
-export function clickTyRow(row) {
-  if (typhoonListObj[row.id]) {
-    selectOneTyphoon(row)
-  }
-}
-
-// 取消勾选台风
-export function unSelectOneTyphoon(row) {
-  const typhoon = typhoonListObj[row.id]
-  if (typhoon === selectTF) {
-    stopPlay()
-  }
-  if (typhoon) {
-    typhoon.show = false
-  }
-}
-
-// 访问后端接口，取台风列表数据
-function queryTyphoonList() {
-  // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_default", //在线实时接口
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json" })
-    .then(function (arr) {
-      eventTarget.fire("loadOk", { arr })
-    })
-    .otherwise(function (error) {
-      console.log("加载JSON出错", error)
-    })
-}
-
 // 开始播放
 export function startPlay() {
-  if (!selectTF) {
+  if (!selectTyphoon) {
     return
   }
 
-  selectTF.playTyphoon = selectTF.playTyphoon || new PlayTyphoon(selectTF.options, map)
-  selectTF.playTyphoon.start()
-  selectTF.show = false
+  if (!selectTyphoon.playTyphoon) {
+    selectTyphoon.playTyphoon = new PlayTyphoon(selectTyphoon.options, map)
+  }
+
+  selectTyphoon.playTyphoon.start()
+  selectTyphoon.show = false
 }
+
 // 停止播放
 export function stopPlay() {
-  if (selectTF?.playTyphoon) {
-    selectTF.playTyphoon.stop()
-    selectTF.show = true
-  }
-}
-
-// 转换数据,将后端接口数据转换为需要的格式
-function conversionPathData(oldData) {
-  const path = []
-  oldData[8].forEach((message) => {
-    let circle7
-    let circle10
-    let circle12
-    message[10].forEach((level) => {
-      const radiusObj = {
-        speed: level[0],
-        radius1: level[1],
-        radius2: level[2],
-        radius3: level[3],
-        radius4: level[4]
-      }
-
-      if (level[0] === "30KTS") {
-        circle7 = radiusObj
-      } else if (level[0] === "50KTS") {
-        circle10 = radiusObj
-      } else if (level[0] === "64KTS") {
-        circle12 = radiusObj
-      } else {
-        console.log("未处理风圈", radiusObj)
-      }
-    })
-
-    // 预测路径
-    const babj = message[11]?.BABJ
-    let arrForecast
-    if (babj) {
-      arrForecast = []
-      babj.forEach((element) => {
-        const newArr = {
-          time: element[0], // 几小时预报
-          time_str: element[1],
-          lon: element[2], // 预报经度
-          lat: element[3], // 预报纬度
-          strength: element[4], // 中心气压
-          centerSpeed: element[5], // 最大风速  m/s
-          level: element[7], // 预报台风等级, 代码
-          color: getColor(element[7]) // 对应等级的颜色
-        }
-        arrForecast.push(newArr)
-      })
-    }
-
-    const time = mars3d.Util.formatDate(new Date(message[2]), "yyyy-M-d HH:mm") // 时间
-
-    path.push({
-      id: message[0], // 唯一标识
-      time: new Date(message[2]), // 时间
-      time_str: time, // 时间格式化字符串
-      level: message[3], // 台风等级, 代码
-      level_str: getLevelStr(message[3]),
-      color: getColor(message[3]), // 对应等级的颜色
-      lon: message[4], // 经度
-      lat: message[5], // 纬度
-      strength: message[6], // 中心气压,百帕
-      centerSpeed: message[7], // 最大风速,米/秒
-      moveTo: message[8], // 移动方向, 代码
-      moveTo_str: getMoveToStr(message[8]),
-      windSpeed: message[9], // 移动速度,公里/小时
-
-      circle7: circle7, // 7级风圈, 对象
-      circle10: circle10, // 10级风圈, 对象
-      circle12: circle12, // 12级风圈, 对象
-      forecast: arrForecast // 预测路径, 数组
-    })
-  })
-
-  return {
-    id: oldData[0],
-    name_en: oldData[1], // 台风名字,英文
-    name_cn: oldData[2], // 台风名字
-    typnumber: oldData[3], // 台风编号
-    state: oldData[7],
-    path: path
-  }
-}
-
-// 不同等级的台风对应不同的颜色
-function getColor(level) {
-  switch (level) {
-    case "TD": // 热带低压
-      return "rgb(238,209,57)"
-    case "TS": // 热带风暴
-      return "rgb(0,0,255)"
-    case "STS": // 强热带风暴
-      return "rgb(15,128,0)"
-    case "TY": // 台风
-      return "rgb(254,156,69)"
-    case "STY": // 强台风
-      return "rgb(254,0,254)"
-    case "SuperTY": // 超强台风
-      return "rgb(254,0,0)"
-    default:
-  }
-}
-
-function getLevelStr(value) {
-  switch (value) {
-    case "TD":
-      return "热带低压"
-    case "TS":
-      return "热带风暴"
-    case "STS":
-      return "强热带风暴"
-    case "TY":
-      return "台风"
-    case "STY":
-      return "强台风"
-    case "SuperTY":
-      return "超强台风"
-    default:
-  }
-}
-
-function getMoveToStr(value) {
-  switch (value) {
-    case "N":
-      return "北"
-    case "NNE":
-      return "北东北"
-    case "NE":
-      return "东北"
-    case "ENE":
-      return "东东北"
-    case "E":
-      return "东"
-    case "ESE":
-      return "东东南"
-    case "ES":
-      return "东南"
-    case "SSE":
-      return "南东南"
-    case "S":
-      return "南"
-    case "SSW":
-      return "南西南"
-    case "SW":
-      return "西南"
-    case "WSW":
-      return "西西南"
-    case "W":
-      return "西"
-    case "WNW":
-      return "西北西"
-    case "NW":
-      return "北西"
-    case "NNW":
-      return "北西北"
-    default:
+  if (selectTyphoon?.playTyphoon) {
+    selectTyphoon.playTyphoon.stop()
+    selectTyphoon.show = true
   }
 }
 
@@ -315,8 +147,7 @@ function drawWarningLine() {
         color: "#828314",
         backgroundColor: new Cesium.Color(0.0, 0.0, 0.0, 0)
       }),
-      rotationDegree: 90,
-      zIndex: 2
+      rotationDegree: 90
     }
   })
   map.graphicLayer.addGraphic(textWarning24)
@@ -334,8 +165,7 @@ function drawWarningLine() {
       material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.PolylineDash, {
         dashLength: 20.0,
         color: "#4dba3d"
-      }),
-      zIndex: 1
+      })
     }
   })
   map.graphicLayer.addGraphic(lineWarning48)
@@ -359,3 +189,5 @@ function drawWarningLine() {
   })
   map.graphicLayer.addGraphic(textWarning48)
 }
+
+export const formatDate = mars3d.Util.formatDate

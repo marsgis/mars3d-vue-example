@@ -9,8 +9,6 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -23,25 +21,20 @@ export function onMounted(mapInstance) {
   map.basemap = 2017 // 切换至蓝色底图
 
   // 添加参考三维模型;
-  const tiles3dLayer = new mars3d.layer.TilesetLayer({
-    name: "合肥市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json"
-  })
-  map.addLayer(tiles3dLayer)
+  // const tiles3dLayer = new mars3d.layer.TilesetLayer({
+  //   name: "合肥市建筑物",
+  //   url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json"
+  // })
+  // map.addLayer(tiles3dLayer)
 
   // 创建矢量数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphic_a1(graphicLayer)
-  addGraphic_a2(graphicLayer)
-  addGraphic_a3(graphicLayer)
-
-  eventTarget.fire("mapLoaded")
-  map.on(mars3d.EventType.cameraChanged, () => {
-    eventTarget.fire("mapCameraChange")
-  })
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
 }
 
 /**
@@ -52,7 +45,7 @@ export function onUnmounted() {
   map = null
 }
 
-export function addGraphic_a1(graphicLayer) {
+export function addDemoGraphic1(graphicLayer) {
   const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.222132, 31.822729, 250),
     style: {
@@ -65,7 +58,7 @@ export function addGraphic_a1(graphicLayer) {
   graphicLayer.addGraphic(tetrahedronPrimitive)
 }
 
-export function addGraphic_a2(graphicLayer) {
+export function addDemoGraphic2(graphicLayer) {
   const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.227581, 31.821564, 250),
     style: {
@@ -78,7 +71,7 @@ export function addGraphic_a2(graphicLayer) {
   graphicLayer.addGraphic(tetrahedronPrimitive)
 }
 
-export function addGraphic_a3(graphicLayer) {
+export function addDemoGraphic3(graphicLayer) {
   const tetrahedronPrimitive = new mars3d.graphic.Tetrahedron({
     position: Cesium.Cartesian3.fromDegrees(117.223923, 31.81897, 250),
     style: {

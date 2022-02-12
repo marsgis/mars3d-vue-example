@@ -6,7 +6,7 @@ let pointsLayer
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 }
+    center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 0, pitch: -46 }
   }
 }
 

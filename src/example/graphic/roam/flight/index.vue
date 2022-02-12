@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView roamLinePanel">
+  <mars-pannel class="infoView roamLinePanel">
     <div class="f-mb f-tac">
       <a-space>
         <mars-button @click="btnStart">开始</mars-button>
@@ -67,14 +67,14 @@
         </a-col>
       </a-row>
     </div>
-  </pannel>
+  </mars-pannel>
 
   <roamline-panel />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"

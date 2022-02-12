@@ -1,13 +1,13 @@
 <template>
-  <pannel class="infoView" title="shez" v-show="showClockAnimate" animateClassName="fadeInUp">
+  <mars-pannel class="infoView" v-show="showClockAnimate" animateClassName="fadeInUp">
     <p class="closePannel f-mb">
-      <close-i theme="filled" size="14" fill="#fdfdfd" @click="onClickHiddenTime" />
+      <Icon icon="eva:close-outline" width="24" @click="onClickHiddenTime" />
     </p>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">当前时间：</span>
+        <span class="mars-pannel-item-label">当前时间：</span>
         <mars-date-picker
-          style="width: 160px"
+          style="width: 170px"
           v-model:value="currrentTime"
           format="YYYY-MM-DD HH:mm:ss"
           :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
@@ -17,8 +17,8 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="pannel-item-label">时间范围：</span>
-        <a-range-picker
+        <span class="mars-pannel-item-label">时间范围：</span>
+        <mars-range-picker
           v-model:value="nowTimeScope"
           :show-time="{ format: 'HH:mm' }"
           format="YYYY-MM-DD HH:mm"
@@ -27,14 +27,14 @@
         />
       </a-space>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
-import { Close as CloseI } from "@icon-park/vue-next"
-import Pannel from "@/components/mars-work/pannel.vue"
+import { Icon } from "@iconify/vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const showClockAnimate = ref<boolean>(false)
@@ -58,12 +58,16 @@ const onChangeCurrentTime = (value: Dayjs) => {
 }
 </script>
 
-<style lang="less" scoped>
+<style>
 .infoView {
-  top: calc(100% - 195px);
-  right: calc(100% - 415px);
+  overflow-x: hidden;
+  top: calc(100% - 195px) !important;
+  right: calc(100% - 415px) !important;
 }
-.pannel-item-label {
+</style>
+
+<style lang="less" scoped>
+.mars-pannel-item-label {
   width: 60px;
 }
 .closePannel {
@@ -71,6 +75,6 @@ const onChangeCurrentTime = (value: Dayjs) => {
   left: 95%;
 }
 :deep(.ant-picker) {
-  width: 278px;
+  width: 300px;
 }
 </style>

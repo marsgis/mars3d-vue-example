@@ -1,10 +1,10 @@
 <template>
-  <pannel class="attr-editor-model" v-auto-height="50" type="model" title="矢量数据属性" v-model:visible="visible">
+  <mars-pannel class="attr-editor-model" animateClassName="fadeInLeft" v-auto-height="50" type="model" title="矢量数据属性" v-model:visible="visible">
     <div class="top-handle-bar">
       <a-space>
-        <send fill="#FFF" @click="flyToGraphic" title="飞行定位" />
-        <delete-o fill="#FFF" @click="deleteEntity" title="删除" />
-        <save fill="#FFF" @click="getGeoJson" title="导出geojson" />
+        <i title="飞行定位"><Icon icon="icon-park-outline:move-one" width="18" @click="flyToGraphic" /></i>
+        <i title="删除"><Icon icon="ep:delete" width="18" @click="deleteEntity" /></i>
+        <i title="导出geojson"><Icon icon="icon-park-outline:disk" width="18" @click="getGeoJson" /></i>
       </a-space>
     </div>
     <div v-if="visible" class="attr-editor-main">
@@ -17,7 +17,7 @@
       <a-tab-pane key="coord" tab="坐标"></a-tab-pane>
       <a-tab-pane key="style" tab="样式"></a-tab-pane>
     </a-tabs>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script lang="ts" setup>
@@ -29,13 +29,16 @@
 import { onBeforeMount, provide, ref } from "vue"
 import _ from "lodash"
 import axios from "axios"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import attrEditor from "./attr.vue"
 import coordEditor from "./coord.vue"
 import styleEditor from "./style.vue"
-import { Delete as DeleteO, Save, Send } from "@icon-park/vue-next"
+import { Icon } from "@iconify/vue"
 
+// mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
+const mars3d = mapWork.mars3d
+const Cesium = mapWork.Cesium
 
 // 获取属性配置列表
 let graphicAttr: any = null
@@ -125,7 +128,7 @@ function getGeoJson() {
   const geojson = graphic.toGeoJSON()
   geojson.properties._layer = graphic._layer.name // 记录分组信息
 
-  mapWork.mars3d.Util.downloadFile("标绘item.json", JSON.stringify(geojson))
+  mars3d.Util.downloadFile("标绘item.json", JSON.stringify(geojson))
 }
 
 function attrChange(attr: any) {
@@ -157,6 +160,7 @@ function styleChange(style: any) {
   left: 10px; /*遮盖了toolbar按钮没有关系，按钮使用频次不高 */
   top: 10px;
   width: 260px;
+  overflow: hidden;
   .top-handle-bar {
     border-bottom: 1px solid #cde1de;
     padding: 5px 0 2px 0;

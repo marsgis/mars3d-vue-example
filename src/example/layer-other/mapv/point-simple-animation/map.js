@@ -5,7 +5,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 21.004037, lng: 107.525781, alt: 10103609, heading: 356, pitch: -83 }
+    center: { lat: 21.004037, lng: 107.525781, alt: 10103609, heading: 0, pitch: -83 }
   }
 }
 
@@ -41,7 +41,7 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryWeibo2ApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo2.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo2.json" })
 }
 function createMapvLayer(rs) {
   const data = []

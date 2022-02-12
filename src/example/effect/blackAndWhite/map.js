@@ -42,10 +42,10 @@ export function onUnmounted() {
   map = null
 }
 
-export function chkShowEffect(val) {
+export function setEnabled(val) {
   blackAndWhite.enabled = val
 }
 
-export function gradations(value) {
+export function setGradations(value) {
   blackAndWhite.gradations = value
 }

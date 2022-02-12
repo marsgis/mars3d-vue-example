@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -18,46 +18,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  addGraphics()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-/**
- * 改变迁移的速度
- *
- * @param {number} val 滑动条的数值
- * @returns {void} 无
- * @example
- * 更新material
- * graphic.setStyle({
- *   material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
- *     image: "img/textures/lineClr.png",
- *     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
- *     speed: speed,
- *   }),
- * });
- */
-export function changeSlide(val) {
-  if (!val) {
-    return
-  }
-
-  graphicLayer.eachGraphic((graphic) => {
-    if (graphic instanceof mars3d.graphic.PolylinePrimitive) {
-      // 只更新速度（平滑过度）
-      graphic.uniforms.speed = val
-    }
-  })
-}
-
-function addGraphics() {
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
@@ -116,4 +77,41 @@ function addGraphics() {
     primitive.bindPopup(`合肥 - ${item.name}`)
     graphicLayer.addGraphic(primitive)
   }
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+/**
+ * 改变迁移的速度
+ *
+ * @param {number} val 滑动条的数值
+ * @returns {void} 无
+ * @example
+ * 更新material
+ * graphic.setStyle({
+ *   material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
+ *     image: "img/textures/lineClr.png",
+ *     color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 1),
+ *     speed: speed,
+ *   }),
+ * });
+ */
+export function changeSlide(val) {
+  if (!val) {
+    return
+  }
+
+  graphicLayer.eachGraphic((graphic) => {
+    if (graphic instanceof mars3d.graphic.PolylinePrimitive) {
+      graphic.uniforms.speed = val // 只更新速度（平滑过度）
+    } else {
+      // graphic.setStyle({})
+    }
+  })
 }

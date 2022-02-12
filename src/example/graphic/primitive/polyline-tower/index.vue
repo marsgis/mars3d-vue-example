@@ -1,11 +1,11 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <div id="section" style="width: 500px; height: 200px"></div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 

@@ -1,8 +1,9 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+export let graphicLayer
+
 let selectedView
-let graphicLayer
 
 // 事件对象，用于抛出事件给vue
 export const eventTarget = new mars3d.BaseClass()
@@ -72,11 +73,11 @@ function addModel() {
   ])
 
   // 加一些演示数据
-  addGraphic01()
+  addDemoGraphic1()
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic01() {
+function addDemoGraphic1() {
   const video2D = new mars3d.graphic.Video2D({
     position: [117.205459, 31.842988, 64.3],
     style: {

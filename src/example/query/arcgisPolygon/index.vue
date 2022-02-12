@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -24,12 +24,7 @@
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
           <a-tab-pane key="1" tab="表格" force-render :forceRender="true">
             <a-form-item>
-              <a-table
-                :pagination="false"
-                :dataSource="dataSource"
-                :columns="columns"
-                :scroll="{ y: tableScrollHeight }"
-                size="small" bordered />
+              <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
             </a-form-item>
           </a-tab-pane>
           <a-tab-pane key="2" tab="饼状图" :forceRender="true">
@@ -40,15 +35,13 @@
           </a-tab-pane>
         </a-tabs>
       </a-form-item>
-
     </a-form>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
-import any from "nprogress"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 import { setAutoHeight } from "@/utils/index"
@@ -58,31 +51,127 @@ const show = ref<boolean>(false)
 const activeKey = ref("1")
 
 // 表格数据
-const dataSource = ref([any])
+const dataSource = ref([])
 // 取到js中的数据
-mapWork.eventTarget.on("loadOk", function(event:any) {
-  // 表格数据
-  dataSource.value = []
-  event.arrTable.forEach((item:any, index:any) => {
-    dataSource.value.push({
-                            key: index,
-                            index: index + 1,
-                            type: item.name,
-                            num: item.count,
-                            area: item.area
-                          })
+mapWork.eventTarget.on("loadOk", function (event: any) {
+
+  const arrPie = [] // 饼状图:名称+面积
+  const arrTable = [] // 表格: 名称+面积+数量
+  const arrType = [] // 柱状图:名称
+  const arrArea = [] // 柱状图:面积
+  event.list.forEach((item: any, index: any) => {
+    arrType.push(item.type)
+    arrArea.push(item.area)
+    arrPie.push({ name: item.type, value: item.area })
+    arrTable.push({ key: index, index: index + 1, type: item.type, num: item.count, area: item.area })
   })
 
+  // 表格数据
+  dataSource.value = arrTable
+
   // 饼状图数据
-  const pieDom:any = document.getElementById("pieChart")
+  const pieDom: any = document.getElementById("pieChart")
   const pieEcharts = echarts.init(pieDom)
 
-  pieEcharts.setOption(event.pieEchartsOption)
+  // echarts饼状图
+  const pieEchartsOption = {
+    title: {
+      text: "饼状图",
+      left: "center",
+      textStyle: {
+        color: "#ffffff"
+      }
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} 亩</br>占比 : {d}%",
+      backgroundColor: "rgba(63, 72, 84, 0.7)",
+      textStyle: {
+        color: "#ffffff"
+      }
+    },
+    series: [
+      {
+        name: "用地面积",
+        type: "pie",
+        radius: "50%",
+        data: arrPie,
+        textStyle: {
+          color: "#ffffff"
+        },
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  }
+
+  pieEcharts.setOption(pieEchartsOption)
 
   // 柱状图数据
-  const histogramDom:any = document.getElementById("histogram")
+  const histogramDom: any = document.getElementById("histogram")
   const histogramECharts = echarts.init(histogramDom)
-  histogramECharts.setOption(event.histogramOption)
+
+  // echarts柱状图
+  const histogramOption = {
+    tooltip: {
+      trigger: "item",
+      backgroundColor: "rgba(63, 72, 84, 0.7)",
+      formatter: "{b}: {c} 亩",
+      textStyle: {
+        color: "#ffffff"
+      }
+    },
+    title: {
+      text: "柱状图",
+      left: "center",
+      textStyle: {
+        color: "#ffffff"
+      }
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true
+    },
+    xAxis: {
+      type: "value",
+      boundaryGap: [0, 0.01],
+      show: false
+    },
+    yAxis: {
+      type: "category",
+      data: arrType,
+      axisLabel: {
+        textStyle: {
+          color: " #ffffff"
+        }
+      }
+    },
+    series: [
+      {
+        type: "bar",
+        data: arrArea,
+        itemStyle: {
+          normal: {
+            label: {
+              show: true,
+              position: "right",
+              textStyle: {
+                color: "#ffffff"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+  histogramECharts.setOption(histogramOption)
 })
 
 const columns = ref([
@@ -125,7 +214,6 @@ const query = () => {
     show.value = true
   } else {
     show.value = false
-
   }
 }
 
@@ -138,21 +226,20 @@ const removeAll = () => {
 const tableScrollHeight = ref(0)
 
 onMounted(() => {
-  tableScrollHeight.value = setAutoHeight((height) => {
+  setAutoHeight((height) => {
     tableScrollHeight.value = height
   }, 400)
 })
-
 </script>
 <style scoped lang="less">
-.infoView{
+.infoView {
   width: 320px;
 }
-.inputServe{
-  width:250px;
+.inputServe {
+  width: 250px;
 }
-.chart{
+.chart {
   width: 380px;
-  height: 250px
+  height: 250px;
 }
 </style>

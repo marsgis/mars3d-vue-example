@@ -39,19 +39,34 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryPopulationApiData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/population.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/population.json" })
 }
 
 function showData(data) {
   const heightScale = 2000000
 
+  // 创建Graphic图层
+  const graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
+
+  // 在layer上绑定监听事件
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("监听layer，单击了矢量对象", event)
+  })
+
+  // 在layer上绑定Popup弹窗
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+
   for (let x = 0; x < 1; x++) {
     const series = data[x]
     const coordinates = series[1]
-
-    // 创建Graphic图层
-    const graphicLayer = new mars3d.layer.GraphicLayer()
-    map.addLayer(graphicLayer)
 
     // Now loop over each coordinate in the series and create
     for (let i = 0; i < coordinates.length; i += 3) {
@@ -73,7 +88,8 @@ function showData(data) {
         style: {
           width: 4,
           color: color
-        }
+        },
+        attr: { gdp: height }
       })
       graphicLayer.addGraphic(primitive)
     }

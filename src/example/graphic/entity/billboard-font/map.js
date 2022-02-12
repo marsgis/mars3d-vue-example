@@ -1,9 +1,10 @@
+// 原理是利用dom-to-image.js将DIV转为IMG图片
 // 更多字体样式，可以前往生成：https://www.iconfont.cn
 
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars3d.BaseClass()
 
 /**
@@ -19,28 +20,14 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphicDemo1(graphicLayer)
-  addGraphicDemo2(graphicLayer)
-  addGraphicDemo3(graphicLayer)
-
-  // 触发自定义事件
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    const graphic = e.graphic
-    eventTarget.fire("editorUI-draw", { graphic })
-  })
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      const graphic = e.graphic
-      eventTarget.fire("editorUI-SMR", { graphic })
-    }
-  )
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    eventTarget.fire("editorUI-stop")
-  })
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
 }
 
 /**
@@ -51,79 +38,7 @@ export function onUnmounted() {
   map = null
 }
 
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
-export function bindEdit(val) {
-  graphicLayer.hasEdit = val
-}
-
-// 按钮事件
-export function onClickDrawModel() {
-  graphicLayer.startDraw({
-    type: "fontBillboard",
-    style: {
-      iconClass: "fa fa-street-view",
-      iconSize: 50,
-      color: "#00FF00",
-      opacity: 1,
-      label: {
-        // 不需要文字时，去掉label配置即可
-        text: "可以同时支持文字",
-        font_size: 18,
-        color: "#ffffff",
-        outline: true,
-        outlineColor: "#000000",
-        pixelOffsetY: -50
-      }
-    }
-  })
-}
-function btnClear() {
-  graphicLayer.clear()
-}
-function btnExpFile() {
-  expFile()
-}
-
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
-}
-
-function addGraphicDemo1(graphicLayer) {
+function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.FontBillboardEntity({
     position: new mars3d.LngLatPoint(116.301798, 30.835848, 915),
     style: {
@@ -142,12 +57,12 @@ function addGraphicDemo1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
-  // 演示个性化处理graphic，代码在\js\graphicManager.js
-
+  // 演示个性化处理graphic
   initGraphicManager(graphic)
 
   // graphic转geojson
@@ -167,7 +82,7 @@ function addGeoJson(geojson, graphicLayer) {
   graphicLayer.addGraphic(graphicCopy)
 }
 
-function addGraphicDemo2(graphicLayer) {
+function addDemoGraphic2(graphicLayer) {
   const graphic = new mars3d.graphic.FontBillboardEntity({
     name: "贴地图标",
     position: [116.39224, 30.902853],
@@ -183,12 +98,13 @@ function addGraphicDemo2(graphicLayer) {
       highlight: {
         scale: 1.2
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
 
-function addGraphicDemo3(graphicLayer) {
+function addDemoGraphic3(graphicLayer) {
   const graphic = new mars3d.graphic.FontBillboardEntity({
     position: [116.340443, 30.882935, 389.88],
     style: {
@@ -196,13 +112,14 @@ function addGraphicDemo3(graphicLayer) {
       iconSize: 50,
       color: "#FFFF00",
       opacity: 1
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -214,26 +131,38 @@ function initLayerManager() {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
 
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
-}
-
-// 绑定图层的弹窗
-function bindLayerPopup() {
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+  // 数据编辑相关事件，用于editorUI属性弹窗的交互
+  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    eventTarget.fire("graphicEditor-start", e)
+  })
+  graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      eventTarget.fire("graphicEditor-update", e)
+    }
+  )
+  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    eventTarget.fire("graphicEditor-stop", e)
   })
 }
 
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
+
+
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -297,15 +226,33 @@ function bindLayerContextMenu() {
   ])
 }
 
-// 保存GeoJSON
-function expFile() {
-  if (graphicLayer.length === 0) {
-    globalMsg("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = graphicLayer.toGeoJSON()
-  mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
+export function updateLayerHasEdit(val) {
+  graphicLayer.hasEdit = val
 }
+
+// 按钮事件
+export function startDrawGraphic() {
+  graphicLayer.startDraw({
+    type: "fontBillboard",
+    style: {
+      iconClass: "fa fa-street-view",
+      iconSize: 50,
+      color: "#00FF00",
+      opacity: 1,
+      label: {
+        // 不需要文字时，去掉label配置即可
+        text: "可以同时支持文字",
+        font_size: 18,
+        color: "#ffffff",
+        outline: true,
+        outlineColor: "#000000",
+        pixelOffsetY: -50
+      }
+    }
+  })
+}
+
+
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {

@@ -1,11 +1,11 @@
 <template>
   <ConfigProvider :locale="locale">
     <a-spin :spinning="loading" wrapperClassName="global-spin">
-      <div class="mars-main-view" id="mars-main-view">
+      <div id="sanbox-warpper" class="mars-main-view">
         <div id="centerDiv3D">
           <div id="mars3dContainer" class="mars3d-container"></div>
         </div>
-        <operation-pannel v-if="mapLoaded" @childMounted="onChildMounted" />
+        <mars-operation v-if="mapLoaded" @childMounted="onChildMounted" />
       </div>
     </a-spin>
   </ConfigProvider>
@@ -18,12 +18,15 @@
  * @author 火星吴彦祖 2021-12-30
  */
 import zhCN from "ant-design-vue/es/locale/zh_CN"
-import { onMounted, provide, ref } from "vue"
+import { getCurrentInstance, onMounted, provide, ref } from "vue"
 import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@/utils"
-import OperationPannel from "@comp/mars-work/operation.vue"
+import MarsOperation from "@/components/mars-work/mars-operation.vue"
 import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
+import nprogress from "nprogress"
+import "nprogress/nprogress.css"
 
+const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
 
 const resourcePath = (process.env.EXAMPLE_SOURCE_PATH || "") + "example/"
 
@@ -36,7 +39,6 @@ onMounted(async () => {
 
   const config = await getCompConfig(exampleId)
   if (config) {
-
     window.currentPath = `${resourcePath}${config?.main}/` // 当前示例的配置
 
     Object.defineProperty(window, "mapWork", {
@@ -45,12 +47,11 @@ onMounted(async () => {
       },
       set(value) {
         mapWork = value // 赋值后vue中使用
+
         if (config.usePannel) {
           mapLoaded.value = true // 开始构造vue面板
         } else {
-          if (mapWork && mapWork.onMounted) {
-            mapWork.onMounted(window._map)
-          }
+          onChildMounted()
         }
       }
     })
@@ -73,8 +74,8 @@ onMounted(async () => {
     loadQueen.push("temp/styles/style.css")
 
     LoadSource(loadQueen).then(() => {
-      loadScript(`${resourcePath}${config.main}/map.js`)
-      loadScript("/temp/scripts/common.js")
+      loadScript(`${resourcePath}${config.main}/map.js`, false)
+      loadScript("/temp/scripts/common.js", false)
     })
   }
 })
@@ -87,9 +88,50 @@ provide("getMapInstance", () => {
 })
 
 const mapLoaded = ref(false)
+
 function onChildMounted() {
-  if (mapWork && mapWork.onMounted) {
-    mapWork.onMounted(window._map)
+  const map = window._mapInstance
+
+  globalProperties.map = map // map的挂载,方便vue组件内使用
+
+  if (mapWork) {
+    globalProperties.mars3d = mapWork.mars3d
+    globalProperties.Cesium = mapWork.mars3d.Cesium
+
+    mapWork.map = map
+    if (mapWork.onMounted) { mapWork.onMounted(map) }
+  }
+}
+
+let loadingNum = 0
+window.$showLoading = globalProperties.$showLoading = (type = "mask") => {
+  loadingNum++
+  if (type === "mask") {
+    loading.value = true
+  } else if (type === "top") {
+    nprogress.start()
+    const interval = setInterval(() => {
+      if (nprogress.isStarted() && nprogress.status < 0.8) {
+        nprogress.set(nprogress.status + 0.1)
+      } else {
+        clearInterval(interval)
+      }
+    }, 500)
+  } else {
+    loadingNum--
+  }
+}
+
+window.$hideLoading = globalProperties.$hideLoading = (type = "mask") => {
+  loadingNum = Math.max(0, --loadingNum)
+  if (loadingNum === 0) {
+    if (type === "mask") {
+      loading.value = false
+    } else if (type === "top") {
+      nprogress.done()
+    } else {
+      loadingNum++
+    }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <span>视角:</span>
       <mars-button @click="startPoint">起点</mars-button>
@@ -7,11 +7,11 @@
       <mars-button @click="endPoint">终点</mars-button>
       <mars-button @click="allLine">全程路线</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const startPoint = () => {
@@ -29,7 +29,7 @@ const allLine = () => {
 }
 </script>
 <style scoped lang="less">
-.pannel-item-label {
+.mars-pannel-item-label {
   width: 60px;
 }
 </style>

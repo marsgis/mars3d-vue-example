@@ -3,7 +3,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 let imgData = null
 let lastExtent = null
@@ -17,7 +17,7 @@ let worker
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 25.251743, lng: 107.045599, alt: 553192, heading: 356, pitch: -51 }
+    center: { lat: 25.251743, lng: 107.045599, alt: 553192, heading: 0, pitch: -51 }
   }
 }
 
@@ -56,7 +56,8 @@ export function onMounted(mapInstance) {
     })
   })
 
-  map.on(mars3d.EventType.clockTick, onMap_clockTick)
+  map.on(mars3d.EventType.cameraChanged, onMap_cameraChanged)
+  onMap_cameraChanged()
 }
 
 /**
@@ -67,7 +68,7 @@ export function onUnmounted() {
   map = null
 }
 
-function onMap_clockTick() {
+function onMap_cameraChanged() {
   endTimestamp = new Date().getTime()
   if (bWorking === false) {
     const extent = map.getExtent()

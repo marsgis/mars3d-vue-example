@@ -1,12 +1,12 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 32.246011, lng: 119.666969, alt: 317736, heading: 360, pitch: -90 }
+    center: { lat: 32.246011, lng: 119.666969, alt: 317736, heading: 0, pitch: -90 }
   }
 }
 
@@ -25,70 +25,64 @@ export function onMounted(mapInstance) {
 
   const arrData = [
     {
-      PortName: "南通市",
-      TotalLength: 233991,
-      DeepUsedLength: 51077,
-      DeepUnUsedLength: 131008,
-      UnDeepUsedLength: 28579,
-      UnDeepUnUsedLength: 23327,
-      X: 120.83720389900009,
-      Y: 32.00030006500003,
-      id: 8
+      name: "南通市",
+      totalLength: 233991,
+      deepUsedLength: 51077,
+      deepUnUsedLength: 131008,
+      unDeepUsedLength: 28579,
+      unDeepUnUsedLength: 23327,
+      lng: 120.8372039,
+      lat: 32.000300065
     },
     {
-      PortName: "南京市",
-      TotalLength: 91025,
-      DeepUsedLength: 36909,
-      DeepUnUsedLength: 12551,
-      UnDeepUsedLength: 28251,
-      UnDeepUnUsedLength: 13313,
-      X: 118.73599633300012,
-      Y: 32.08923823900005,
-      id: 9
+      name: "南京市",
+      totalLength: 91025,
+      deepUsedLength: 36909,
+      deepUnUsedLength: 12551,
+      unDeepUsedLength: 28251,
+      unDeepUnUsedLength: 13313,
+      lng: 118.735996333,
+      lat: 32.089238239
     },
     {
-      PortName: "镇江市",
-      TotalLength: 147431,
-      DeepUsedLength: 35499,
-      DeepUnUsedLength: 52026,
-      UnDeepUsedLength: 18359,
-      UnDeepUnUsedLength: 41547,
-      X: 119.61540071200011,
-      Y: 32.18204232800008,
-      id: 10
+      name: "镇江市",
+      totalLength: 147431,
+      deepUsedLength: 35499,
+      deepUnUsedLength: 52026,
+      unDeepUsedLength: 18359,
+      unDeepUnUsedLength: 41547,
+      lng: 119.615400712,
+      lat: 32.182042328
     },
     {
-      PortName: "扬州市",
-      TotalLength: 49649,
-      DeepUsedLength: 30245,
-      DeepUnUsedLength: 9140,
-      UnDeepUsedLength: 8164,
-      UnDeepUnUsedLength: 2101,
-      X: 119.3991518150001,
-      Y: 32.271322643000076,
-      id: 36
+      name: "扬州市",
+      totalLength: 49649,
+      deepUsedLength: 30245,
+      deepUnUsedLength: 9140,
+      unDeepUsedLength: 8164,
+      unDeepUnUsedLength: 2101,
+      lng: 119.399151815,
+      lat: 32.271322643
     },
     {
-      PortName: "常州市",
-      TotalLength: 9849,
-      DeepUsedLength: 3484,
-      DeepUnUsedLength: 836,
-      UnDeepUsedLength: 4115,
-      UnDeepUnUsedLength: 1415,
-      X: 119.98426756200001,
-      Y: 31.971521771000027,
-      id: 37
+      name: "常州市",
+      totalLength: 9849,
+      deepUsedLength: 3484,
+      deepUnUsedLength: 836,
+      unDeepUsedLength: 4115,
+      unDeepUnUsedLength: 1415,
+      lng: 119.984267562,
+      lat: 31.971521771
     },
     {
-      PortName: "江阴市",
-      TotalLength: 23570,
-      DeepUsedLength: 22365,
-      DeepUnUsedLength: 1205,
-      UnDeepUsedLength: 0,
-      UnDeepUnUsedLength: 0,
-      X: 120.32921593100002,
-      Y: 31.927882063000027,
-      id: 38
+      name: "江阴市",
+      totalLength: 23570,
+      deepUsedLength: 22365,
+      deepUnUsedLength: 1205,
+      unDeepUsedLength: 0,
+      unDeepUnUsedLength: 0,
+      lng: 120.329215931,
+      lat: 31.927882063
     }
   ]
   showDivGraphic(arrData)
@@ -104,20 +98,18 @@ export function onUnmounted() {
 
 function showDivGraphic(arr) {
   for (let i = 0; i < arr.length; i++) {
-    const deepUnUsed = arr[i].DeepUnUsedLength // 国道
-    const deepUsed = arr[i].DeepUsedLength // 县道
-    const total = arr[i].TotalLength // 中间显示
-    const unDeepUnUsed = arr[i].UnDeepUnUsedLength // 铁路
-    const unDeepUsed = arr[i].UnDeepUsedLength // 高速
-    const cityName = arr[i].PortName // 城市名字
-    const points = [arr[i].X, arr[i].Y] // 位置
+    const deepUnUsed = arr[i].deepUnUsedLength // 国道
+    const deepUsed = arr[i].deepUsedLength // 县道
+    const total = arr[i].totalLength // 中间显示
+    const unDeepUnUsed = arr[i].unDeepUnUsedLength // 铁路
+    const unDeepUsed = arr[i].unDeepUsedLength // 高速
+    const cityName = arr[i].name // 城市名字
+    const point = [arr[i].lng, arr[i].lat] // 位置
 
-    const point = mars3d.LngLatPoint.fromCartesian(points) // 经纬度坐标
-    const divPostion = point._position
 
     // 白色背景
     const backGroundGraphic = new mars3d.graphic.DivGraphic({
-      position: divPostion,
+      position: point,
       style: {
         html: '<div style="width:60px;height:60px;border-radius: 50%;background-color: #ffffff; position: relative;"></div>',
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -128,7 +120,7 @@ function showDivGraphic(arr) {
 
     // div
     const graphic = new mars3d.graphic.DivGraphic({
-      position: divPostion,
+      position: point,
       style: {
         html: '<div style="width: 100px;height:100px;"></div>',
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,

@@ -22,6 +22,14 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+  map.on(mars3d.EventType.terrainLoadSuccess, function (event) {
+    console.log("地形服务加载完成", event)
+  })
+  map.on(mars3d.EventType.terrainLoadError, function (event) {
+    console.log("地形服务加载失败", event)
+  })
+
   // 方式2：在创建地球后更新terrainProvider(用 mars3d.layer.createTerrainProvider工厂方法创建)[目前1个球只支持1个地形服务]
   map.terrainProvider = mars3d.LayerUtil.createTerrainProvider({
     url: "http://data.mars3d.cn/terrain"
@@ -81,7 +89,8 @@ export function radioTerrain(type) {
 export function enabledTerrain(val) {
   map.hasTerrain = val
 }
-// 三角网
+
+// 是否开启三角网
 export function enabledTerrainSJW(val) {
   map.scene.globe._surface.tileProvider._debug.wireframe = val
 }

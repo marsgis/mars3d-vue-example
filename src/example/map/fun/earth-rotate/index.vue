@@ -1,10 +1,10 @@
 <template>
-  <pannel class="infoView">
+  <mars-pannel class="infoView">
     <a-space>
       <mars-button @click="startRotate">开始</mars-button>
       <mars-button @click="stopRotate">停止</mars-button>
     </a-space>
-  </pannel>
+  </mars-pannel>
 
   <div class="infoview-js">
     <div class="infoview_panel">
@@ -35,14 +35,14 @@
   </div>
 
   <div class="btnBar">
-    <mars-button class="btnbar_item" href="https://mars3d.cn/" target="_blank">公司简介</mars-button>
-    <mars-button class="btnbar_item" href="https://mars3d.cn/template.html" target="_blank">公司项目</mars-button>
-    <mars-button class="btnbar_item" href="https://mars3d.cn/example.html" target="_blank">主要产品</mars-button>
+    <mars-button class="btnbar_item" href="http://marsgis.cn/about.html?index=0" target="_blank">公司简介</mars-button>
+    <mars-button class="btnbar_item" href="http://mars3d.cn/template.html" target="_blank">公司项目</mars-button>
+    <mars-button class="btnbar_item" href="http://mars3d.cn/example.html" target="_blank">主要产品</mars-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 // 开始

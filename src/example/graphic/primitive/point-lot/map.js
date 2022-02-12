@@ -2,6 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let graphicLayerElllipsoid
+
 const center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -29,7 +30,6 @@ export function onMounted(mapInstance) {
 
   // 半球范围圈
   createEllipsoid(true, false)
-
 
   // 添加点集
   const resource = new Cesium.Resource({
@@ -67,8 +67,9 @@ function creteaPointPrimitive(graphicLayer, rs) {
   for (let i = 1, len = rs.length; i < len; i++) {
     const item = rs[i]
 
-    if (item[2] !== 2) { continue } // 只展示一层
-
+    if (item[2] !== 2) {
+      continue
+    } // 只展示一层
 
     const val = item[3]
     const par1Position = mars3d.PointUtil.getPositionByHprAndOffset(center, new Cesium.Cartesian3(item[0], item[1], item[2]), hpr)
@@ -129,8 +130,6 @@ export function createEllipsoid(redShow, yellowShow) {
   // 是否显示黄色的警告圈
   yellowSphere.show = yellowShow
 }
-
-
 
 // 颜色处理
 const clr = {

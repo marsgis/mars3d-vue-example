@@ -23,9 +23,9 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 访问后端接口，取数据
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/mudi-all.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/mudi-all.json" })
     .then(function (res) {
-      managerEntry(graphicLayer, res.data)
+      createGraphics(graphicLayer, res.data)
     })
     .otherwise(function (error) {
       console.log("加载JSON出错", error)
@@ -40,7 +40,7 @@ export function onUnmounted() {
   map = null
 }
 
-function managerEntry(graphicLayer, arr) {
+function createGraphics(graphicLayer, arr) {
   graphicLayer.bindPopup(function (event) {
     const item = event.graphic.attr
     if (!item) {

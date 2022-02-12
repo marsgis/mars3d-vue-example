@@ -6,7 +6,7 @@ let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 24.018309, lng: 109.414236, alt: 8607884, heading: 356, pitch: -82 }
+    center: { lat: 24.018309, lng: 109.414236, alt: 8607884, heading: 0, pitch: -82 }
   }
 }
 
@@ -52,7 +52,7 @@ export function onUnmounted() {
 
 // 数据获取
 function queryTemperatureData() {
-  return mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/temperature.json" })
+  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/temperature.json" })
 }
 
 // 根据 克里金法 插值绘制图片

@@ -31,7 +31,7 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryLineroadApiData() {
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/lineroad.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/lineroad.json" })
     .then(function (json) {
       createEchartsLayer(json.data)
     })

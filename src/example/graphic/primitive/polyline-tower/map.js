@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 export const echartTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tower.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/tower.json" })
     .then(function (res) {
       showData(res.data)
     })

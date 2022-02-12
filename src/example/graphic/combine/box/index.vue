@@ -1,16 +1,21 @@
 <template>
-  <pannel class="infoView">
-    <a-space>
-      <span>大数据加载:</span>
-      <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
-      <mars-button @click="addCombineData">生成</mars-button>
-      <mars-button @click="clearLayer">清除</mars-button>
-    </a-space>
-  </pannel>
+  <mars-pannel class="infoView">
+    <layer-state />
+    <div class="f-pt">
+      <a-space>
+        <span>大数据加载:</span>
+        <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
+        <mars-button @click="addCombineData">生成</mars-button>
+        <mars-button @click="clearLayer">清除</mars-button>
+      </a-space>
+    </div>
+  </mars-pannel>
 </template>
+
 <script lang="ts" setup>
 import { ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 // 生成大数据
@@ -20,7 +25,7 @@ const addCombineData = () => {
 }
 
 const clearLayer = () => {
-  mapWork.clearLayer()
+  mapWork.graphicLayer.clear()
 }
 </script>
 <style scoped lang="less">

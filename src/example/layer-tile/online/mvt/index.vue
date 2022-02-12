@@ -3,6 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import InterestSearch from "@comp/mars-sample/interest-search.vue"
+import InterestSearch from "@/components/mars-sample/interest-search.vue"
 import * as mapWork from "./map.js"
 </script>

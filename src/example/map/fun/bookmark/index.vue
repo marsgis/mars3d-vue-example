@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView infoview">
+  <mars-pannel class="infoView infoview">
     <div class="f-mb">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
@@ -15,13 +15,14 @@
         </mars-button>
       </div>
     </div>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
+import { $message } from "@/components/mars-ui/index"
 
 const formState = reactive({
   input: "",
@@ -51,7 +52,7 @@ const butAddTxtName = () => {
   const imgObject = formState.imgObject
 
   if (!name) {
-    window.$message("请输入名称")
+    $message("请输入名称")
     return
   }
 
@@ -66,7 +67,7 @@ const butAddTxtName = () => {
   if (name) {
     for (let i = 0; i < imgObject.length; i++) {
       if (imgObject[i].name === name) {
-        window.$message(name + " 已存在，请更换名称!")
+        $message(name + " 已存在，请更换名称!")
         return
       }
     }
@@ -113,7 +114,7 @@ const butDeleteTxtName = (index: number) => {
 }
 .bookmarkView {
   width: 265px;
-  height: calc(100% - 50px);
+  height: calc(100% - 53px);
   border: 1px solid white;
   border-radius: 5px;
   margin: 10px 0;
@@ -130,7 +131,7 @@ const butDeleteTxtName = (index: number) => {
 }
 .markImg {
   height: 160px;
-  width: 230px;
+  width: 100%;
   z-index: 0;
 }
 .addNewImg {

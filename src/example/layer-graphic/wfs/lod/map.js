@@ -35,7 +35,7 @@ function LodGraphicLayer() {
     // 根据LOD分块信息去请求对应的Tile瓦块内的数据
     queryGridData: (grid, callback) => {
       const extent = grid.extent
-      mars3d.Resource.fetchJson({
+      mars3d.Util.fetchJson({
         url: "//server.mars3d.cn/server/pointRandom/",
         queryParameters: {
           xmin: extent.xmin,

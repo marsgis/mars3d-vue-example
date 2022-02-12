@@ -31,10 +31,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  * @returns {void} 无
  */
 export function onMounted(mapInstance) {
-  map = mapInstance // 记录map
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map = mapInstance // 记录map  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
 
   // 指定时间
   // map.clock.currentTime = Cesium.JulianDate.fromDate(new Date('2020-11-27 10:48:28'))
@@ -59,6 +56,13 @@ function addGraphicLayer() {
 
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了卫星", event)
+  })
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "卫星图层", template: "all", attr: attr })
   })
 
   weixin = new mars3d.graphic.Satellite({
@@ -110,7 +114,7 @@ function addGraphicLayer() {
       width: 1
     },
     fixedFrameTransform: Cesium.Transforms.localFrameToFixedFrameGenerator("east", "south"),
-    popup: `高分1号`
+    attr: { name: "高分1号" }
   })
   graphicLayer.addGraphic(weixin)
 

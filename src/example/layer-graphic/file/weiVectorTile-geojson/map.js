@@ -17,7 +17,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
     .then(function (geojson) {
       showBJXLine(geojson.features[0])
     })
@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
       globalAlert("Json文件加载失败！")
     })
 
-  mars3d.Resource.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/340000_full.json" })
     .then(function (geojson) {
       showGeoJsonVectorTile(geojson)
     })
@@ -91,9 +91,14 @@ function showGeoJsonVectorTile(geojson) {
       return style
     },
     // 以下为mars3d参数,API参考http://mars3d.cn/api/BaseTileLayer.html#.ConstructorOptions
+    maxLength: -1,
     popup: "all"
   })
   map.addLayer(tileLayer)
+
+  tileLayer.on(mars3d.EventType.click, function (event) {
+    console.log("单击了图层", event)
+  })
 }
 
 function showBJXLine(feature) {

@@ -150,6 +150,7 @@ function clearGraphic() {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 }
+
 // 颜色
 let index = 0
 const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]

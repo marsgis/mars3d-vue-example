@@ -3,6 +3,7 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let sightline
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
     center: { lat: 30.715648, lng: 116.300527, alt: 10727, heading: 3, pitch: -25 }
@@ -56,7 +57,6 @@ export function drawCircle() {
       map.graphicLayer.clear()
       map.scene.globe.depthTestAgainstTerrain = true
 
-      const targetArr = []
       for (let i = 0; i < targetPoints.length; i++) {
         let targetPoint = targetPoints[i]
         targetPoint = mars3d.PointUtil.getSurfacePosition(map.scene, targetPoint)
@@ -136,18 +136,4 @@ function createPoint(position, isFirst) {
   map.graphicLayer.addGraphic(graphic)
 
   return graphic
-}
-// 定位至模型
-let modelTest
-function centerAtModel() {
-  if (!modelTest) {
-    modelTest = new mars3d.layer.TilesetLayer({
-      url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-      position: { alt: 80.6 },
-      maximumScreenSpaceError: 1,
-      maximumMemoryUsage: 1024,
-      flyTo: true
-    })
-    map.addLayer(modelTest)
-  }
 }

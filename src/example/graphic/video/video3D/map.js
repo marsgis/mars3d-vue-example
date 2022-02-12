@@ -1,7 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
+
 let selectedView
 
 // 事件对象，用于抛出事件给vue
@@ -25,18 +26,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  addModel()
-}
 
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
-}
-
-function addModel() {
   // 添加参考三维模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "合肥国家大学科技园",
@@ -52,12 +42,20 @@ function addModel() {
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  addGraphic_01()
-  addGraphic_02()
+  addDemoGraphic1()
+  addDemoGraphic2()
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
 }
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
-function addGraphic_01() {
+function addDemoGraphic1() {
   const video3D = new mars3d.graphic.Video3D({
     position: [117.204472, 31.842488, 120.9],
     style: {
@@ -72,7 +70,7 @@ function addGraphic_01() {
   graphicLayer.addGraphic(video3D)
 }
 
-function addGraphic_02() {
+function addDemoGraphic2() {
   const video3D = new mars3d.graphic.Video3D({
     position: [117.205457, 31.842984, 63.9],
     style: {
@@ -256,7 +254,6 @@ export function selCamera() {
     }
   })
 }
-
 
 export function draWall() {
   map.graphicLayer.startDraw({

@@ -1,4 +1,3 @@
-
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
@@ -32,20 +31,16 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  // The viewModel tracks the state of our mini application.
-  const viewModel = {
+
+  // 添加图层
+  tileLayer = new mars3d.layer.GaodeLayer({
+    layer: "vec",
     brightness: 1, // 亮度
     contrast: 1, // 对比度
     hue: 0.1, // 色彩
     saturation: 1, // 饱和度
     gamma: 0.2, // 伽马值
     opacity: 1 // 透明度
-  }
-
-  // 添加图层
-  tileLayer = new mars3d.layer.GaodeLayer({
-    layer: "vec",
-    ...viewModel
   })
   map.addLayer(tileLayer)
 }
@@ -57,24 +52,6 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-
-// // Convert the viewModel members into knockout observables.
-// Cesium.knockout.track(viewModel)
-// let toolbar = document.getElementById("toolbar")
-// Cesium.knockout.applyBindings(viewModel, toolbar)
-
-// // Make the active imagery layer a subscriber of the viewModel.
-// function subscribeLayerParameter(name) {
-//   Cesium.knockout.getObservable(viewModel, name).subscribe(function (newValue) {
-//     tileLayer[name] = newValue
-//   })
-// }
-// subscribeLayerParameter("brightness")
-// subscribeLayerParameter("contrast")
-// subscribeLayerParameter("hue")
-// subscribeLayerParameter("saturation")
-// subscribeLayerParameter("gamma")
-// subscribeLayerParameter("opacity")
 
 /**
  * 参数发生变化

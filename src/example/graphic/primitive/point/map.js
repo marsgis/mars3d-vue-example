@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer // 矢量图层对象
+export let graphicLayer // 矢量图层对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -16,13 +16,15 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  initLayerManager()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
-  addGraphicDemo1(graphicLayer)
-  addGraphicDemo2(graphicLayer)
-  addGraphicDemo3(graphicLayer)
-  addGraphicDemo4(graphicLayer)
+  addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 /**
@@ -31,6 +33,80 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+function addDemoGraphic1(graphicLayer) {
+  const primitive = new mars3d.graphic.PointPrimitive({
+    position: [116.244399, 30.920459, 573.6],
+    style: {
+      pixelSize: 8,
+      color: Cesium.Color.fromCssColorString("#FED976").withAlpha(0.9),
+      label: {
+        text: "我是原始点",
+        font_size: 18,
+        color: "#ffffff",
+        pixelOffsetY: -10,
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 500000,
+        distanceDisplayCondition_near: 0
+      }
+    }
+  })
+  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
+
+  // 演示对graphic的个性化处理
+  initGraphicManager(primitive)
+
+  // 转geojson
+  const geojson = primitive.toGeoJSON()
+  console.log("转换后的geojson", geojson)
+}
+
+function addDemoGraphic2(graphicLayer) {
+  const primitive = new mars3d.graphic.PointPrimitive({
+    position: [116.39224, 30.902853],
+    style: {
+      pixelSize: 9,
+      color: "#ff0000",
+      clampToGround: true
+    }
+  })
+  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
+}
+
+function addDemoGraphic3(graphicLayer) {
+  const primitive = new mars3d.graphic.PointPrimitive({
+    position: [116.340443, 30.882935, 389.88],
+    style: {
+      color: "#ffff00",
+      pixelSize: 10,
+      outlineWidth: 0,
+
+      label: { text: "鼠标单击会高亮", pixelOffsetY: -10 },
+      // 高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+      highlight: {
+        type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
+        pixelSize: 15,
+        outlineColor: "#ff0000",
+        outlineWidth: 2
+      }
+    }
+  })
+  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
+}
+
+function addDemoGraphic4(graphicLayer) {
+  const primitive = new mars3d.graphic.PointPrimitive({
+    position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
+    style: {
+      color: Cesium.Color.BLUE,
+      pixelSize: 20,
+      outlineColor: "#ffffff",
+      outlineWidth: 2,
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000)
+    }
+  })
+  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
 // 添加数据
@@ -73,114 +149,25 @@ export function addPrimitiveData(count) {
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
 // 清除数据
-export function clearLayer() {
-  graphicLayer.clear()
-}
 
-function addGraphicDemo1(graphicLayer) {
-  const primitive = new mars3d.graphic.PointPrimitive({
-    position: [116.244399, 30.920459, 573.6],
-    style: {
-      pixelSize: 8,
-      color: Cesium.Color.fromCssColorString("#FED976").withAlpha(0.9),
-      label: {
-        text: "我是原始点",
-        font_size: 18,
-        color: "#ffffff",
-        pixelOffsetY: -10,
-        distanceDisplayCondition: true,
-        distanceDisplayCondition_far: 500000,
-        distanceDisplayCondition_near: 0
-      }
-    }
+
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
-  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
-
-  // 图层管理的相关处理，代码在\common\script\graphicManager.js
-
-  initGraphicManager(primitive)
-
-  // entity转geojson
-  const geojson = primitive.toGeoJSON()
-  console.log("转换后的geojson", geojson)
 }
 
-function addGraphicDemo2(graphicLayer) {
-  const primitive = new mars3d.graphic.PointPrimitive({
-    position: [116.39224, 30.902853],
-    style: {
-      pixelSize: 9,
-      color: "#ff0000",
-      clampToGround: true
-    }
-  })
-  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
-}
 
-function addGraphicDemo3(graphicLayer) {
-  const primitive = new mars3d.graphic.PointPrimitive({
-    position: [116.340443, 30.882935, 389.88],
-    style: {
-      color: "#ffff00",
-      pixelSize: 10,
-      outlineWidth: 0,
-
-      label: { text: "鼠标单击会高亮", pixelOffsetY: -10 },
-      // 高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
-      highlight: {
-        type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
-        pixelSize: 15,
-        outlineColor: "#ff0000",
-        outlineWidth: 2
-      }
-    }
-  })
-  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
-}
-
-function addGraphicDemo4(graphicLayer) {
-  const primitive = new mars3d.graphic.PointPrimitive({
-    position: new mars3d.LngLatPoint(116.329102, 30.977955, 1548.6),
-    style: {
-      color: Cesium.Color.BLUE,
-      pixelSize: 20,
-      outlineColor: "#ffffff",
-      outlineWidth: 2,
-      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000)
-    }
-  })
-  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
-}
-
-// 显示隐藏 绑定popup和tooltip和右键菜单以及是否编辑
-function bindShowHide(val) {
-  graphicLayer.show = val
-}
-
-function bindPopup(val) {
-  if (val) {
-    bindLayerPopup()
-  } else {
-    graphicLayer.unbindPopup()
-  }
-}
-function bindTooltip(val) {
-  if (val) {
-    graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
-  } else {
-    graphicLayer.unbindTooltip()
-  }
-}
-function bindRightMenu(val) {
-  if (val) {
-    bindLayerContextMenu()
-  } else {
-    graphicLayer.unbindContextMenu(true)
-  }
-}
 
 // 在图层级处理一些事物
-function initLayerManager() {
+function bindLayerEvent() {
   // 在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("监听layer，单击了矢量对象", event)
@@ -191,68 +178,11 @@ function initLayerManager() {
   graphicLayer.on(mars3d.EventType.mouseOut, function (event) {
     console.log("监听layer，鼠标移出了矢量对象", event)
   }) */
-
-  // 可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
-  bindLayerPopup()
-
-  // 可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
-  bindLayerContextMenu()
-}
-
-// 绑定图层的弹窗
-function bindLayerPopup() {
-  graphicLayer.bindPopup(function (event) {
-    const attr = event.graphic.attr || {}
-    attr.test1 = "测试属性"
-    // attr["视频"] = `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
-
-    return mars3d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
-  })
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      iconCls: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
     {
       text: "删除对象",
       iconCls: "fa fa-trash-o",
@@ -272,7 +202,6 @@ function bindLayerContextMenu() {
         graphicLayer.removeGraphic(graphic)
       }
     }
-
   ])
 }
 
@@ -317,21 +246,9 @@ function initGraphicManager(graphic) {
       }
     }
   ])
-
-  // 测试 颜色闪烁
-  if (graphic.startFlicker) {
-    graphic.startFlicker({
-      time: 20, // 闪烁时长（秒）
-      maxAlpha: 0.5,
-      color: Cesium.Color.YELLOW,
-      onEnd: function () {
-        // 结束后回调
-      }
-    })
-  }
 }
 
-// 取区域内的随机图标
+// 取区域内的随机点
 function randomPoint() {
   const jd = random(116.1 * 1000, 116.6 * 1000) / 1000
   const wd = random(30.8 * 1000, 31.1 * 1000) / 1000

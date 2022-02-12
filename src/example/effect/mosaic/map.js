@@ -43,6 +43,6 @@ export function onUnmounted() {
   map = null
 }
 
-export function chkShowEffect(val) {
+export function setMosaicEffect(val) {
   mosaicEffect.enabled = val
 }

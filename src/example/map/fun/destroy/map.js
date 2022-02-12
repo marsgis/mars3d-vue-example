@@ -31,6 +31,10 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+
+  map.on(mars3d.EventType.load, function (event) {
+    console.log(`地图所有图层加载完成`)
+  })
 }
 
 /**

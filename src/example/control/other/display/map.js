@@ -2,16 +2,13 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 
-/**
- * 合并属性参数，可覆盖config.json中的对应配置
- * @type {object}
- */
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   control: {
     homeButton: true,
     sceneModePicker: true,
     navigationHelpButton: true,
-    infoBox: true,
+    infoBox: false,
     vrButton: true,
     fullscreenButton: true,
     geocoder: true,
@@ -30,9 +27,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  // 因为animation面板遮盖，修改底部bottom值
-  const toolbar = document.querySelector(".cesium-viewer-toolbar")
-  toolbar.style.bottom = "60px"
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 }
 
 /**
@@ -45,65 +40,70 @@ export function onUnmounted() {
 
 // 按钮
 export function bindPOI(val) {
-  map.viewer.geocoder.container.style.display = val ? "block" : "none"
+  map.controls.geocoder.show = val
 }
+
 // 视角复位
 export function bindView(val) {
-  map.viewer.homeButton._element.style.display = val ? "block" : "none"
+  map.controls.homeButton.show = val
 }
-// 二三维切换
-export function bindSceneModePicker(val) {
-  document.getElementsByClassName("cesium-sceneModePicker-wrapper")[0].style.display = val ? "block" : "none"
-}
+
 // 基础的地图切换
 export function bindBaseLayerPicker(val) {
-  map.viewer.baseLayerPicker._element.style.display = val ? "block" : "none"
+  map.controls.baseLayerPicker.show = val
 }
+
 // 全屏切换
 export function bindFullScreen(val) {
-  map.viewer.fullscreenButton.container.style.display = val ? "block" : "none"
+  map.controls.fullscreenButton.show = val
 }
+
 // VR
 export function bindVR(val) {
-  map.viewer.vrButton.container.style.display = val ? "block" : "none"
+  map.controls.vrButton.show = val
 }
+
 // 帮助按钮
 export function bindHelpButton(val) {
-  document.getElementsByClassName("cesium-navigationHelpButton-wrapper")[0].style.display = val ? "block" : "none"
+  map.controls.navigationHelpButton.show = val
 }
+
+// 二三维切换
+export function bindSceneModePicker(val) {
+  map.controls.sceneModePicker.show = val
+}
+
 export function bindZoom(val) {
   map.controls.zoom.show = val
 }
-
 
 // 面板：
 // 信息状态栏
 export function bindLocation(val) {
   map.controls.locationBar.show = val
 }
+
 // 时钟
 export function bindClock(val) {
   map.controls.clockAnimate.show = val
 }
+
 // 时间刻度线
 export function bindTimeLine(val) {
-  if (map.controls.timeline) { map.controls.timeline.show = val }
-  if (map.viewer.timeline) { map.viewer.timeline.container.style.display = val ? "block" : "none" }
-
-  if (val) {
-    map.controls.locationBar.setStyle({
-      bottom: "25px"
-    })
-  } else {
-    map.controls.locationBar.setStyle({
-      bottom: "0px"
-    })
+  if (map.controls.timeline) {
+    map.controls.timeline.show = val
   }
+
+  map.controls.locationBar.setStyle({
+    bottom: val ? "25px" : "0px"
+  })
 }
+
 // 导航球
 export function bindNav(val) {
   map.controls.compass.show = val
 }
+
 // 比例尺
 export function bindLegend(val) {
   map.controls.distanceLegend.show = val

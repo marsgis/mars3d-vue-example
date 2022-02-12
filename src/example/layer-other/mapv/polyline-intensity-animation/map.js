@@ -38,7 +38,7 @@ export function onUnmounted() {
 
 // 访问后端接口，取数据
 function queryQianxiTimeApiData() {
-  return mars3d.Resource.fetchText({ url: "//data.mars3d.cn/file/apidemo/qianxi-time.txt" })
+  return Cesium.Resource.fetchText({ url: "//data.mars3d.cn/file/apidemo/qianxi-time.txt" })
 }
 
 function createMapvLayer(rs) {

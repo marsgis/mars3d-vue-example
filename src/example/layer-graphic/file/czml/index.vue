@@ -1,5 +1,5 @@
 <template>
-  <pannel class="infoView" v-show="isShow">
+  <mars-pannel class="infoView" v-show="isShow">
     <a-space>
       <mars-button @click="showAircraft">飞机</mars-button>
       <mars-button @click="showShip">船舶</mars-button>
@@ -9,19 +9,24 @@
       <mars-button @click="showRocket">火箭发射</mars-button>
       <mars-button @click="showFireDrill">消防演练</mars-button>
     </a-space>
-  </pannel>
+    <div class="f-pt">
+      <layer-state label="图层控制：" />
+    </div>
+  </mars-pannel>
 
-  <pannel class="treeView">
+  <mars-pannel class="treeView">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
     </mars-tree>
-  </pannel>
+  </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, ref } from "vue"
-import Pannel from "@/components/mars-work/pannel.vue"
+import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import LayerState from "@/components/mars-sample/layer-state.vue"
 import { getQueryString } from "@/utils/index"
 import * as mapWork from "./map.js"
+
 interface treeItem {
   title: string
   key: string
@@ -131,9 +136,9 @@ const showFireDrill = () => {
 <style scoped lang="less">
 .treeView {
   right: 10px !important;
-  top: 80px !important;
+  top: 100px !important;
   width: 200px;
-  max-height: calc(100% - 160px) !important;
+  max-height: calc(100% - 180px) !important;
   overflow-y: auto !important;
 }
 </style>
