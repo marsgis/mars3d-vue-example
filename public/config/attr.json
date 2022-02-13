@@ -801,7 +801,7 @@
           { "label": "纯色", "value": "Color", "impact": ["color", "opacity"] },
           { "label": "流动效果", "value": "LineFlow", "impact": ["color", "opacity", "speed", "image", "repeat_x", "repeat_y", "axisY"] },
           { "label": "走马灯效果", "value": "WallScroll", "impact": ["color", "opacity", "speed", "image", "count"] },
-          { "label": "文本", "value": "Text", "impact": ["color", "opacity", "text", "font_size", "font_weight", "font_family", "font_style"] },
+          { "label": "文本", "value": "Text", "impact": ["fillColor", "opacity", "text", "font_size", "font_weight", "font_family", "font_style"] },
           { "label": "网格", "value": "Grid", "impact": ["color", "opacity", "cellAlpha", "lineCount", "lineThickness"] },
           { "label": "条纹", "value": "Stripe", "impact": ["repeat", "evenColor", "oddColor"] },
           { "label": "棋盘", "value": "Checkerboard", "impact": ["repeat", "evenColor", "oddColor"] }
@@ -815,6 +815,7 @@
       { "name": "count", "isImpact": true, "label": "数量", "type": "number", "step": 1, "defval": 1.0 },
 
       { "name": "text", "isImpact": true, "label": "文本内容", "type": "textarea", "defval": "文字" },
+      { "name": "fillColor", "isImpact": true, "label": "文本颜色", "type": "color", "defval": "#00FF00" },
       {
         "name": "font_family",
         "isImpact": true,
@@ -963,7 +964,7 @@
           { "label": "网格", "value": "Grid", "impact": ["color", "opacity", "cellAlpha", "lineCount", "lineThickness"] },
           { "label": "条纹", "value": "Stripe", "impact": ["repeat", "evenColor", "oddColor"] },
           { "label": "棋盘", "value": "Checkerboard", "impact": ["repeat", "evenColor", "oddColor"] },
-          { "label": "文本", "value": "Text", "impact": ["color", "opacity", "text", "font_size", "font_weight", "font_family", "font_style"] },
+          { "label": "文本", "value": "Text", "impact": ["fillColor", "opacity", "text", "font_size", "font_weight", "font_family", "font_style"] },
           { "label": "图片", "value": "Image", "impact": ["image", "opacity"] }
         ]
       },
@@ -980,6 +981,7 @@
 
 
       { "name": "text", "isImpact": true, "label": "文本内容", "type": "textarea", "defval": "文字" },
+      { "name": "fillColor", "isImpact": true, "label": "文本颜色", "type": "color", "defval": "#00FF00" },
       {
         "name": "font_family",
         "isImpact": true,

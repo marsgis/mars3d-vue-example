@@ -1,45 +1,55 @@
 <template>
   <mars-pannel class="infoView">
-    <a-form>
-      <div class="f-mb">
-        <a-space>
-          <span>Style样式</span>
-          <mars-button @click="setStyleDef">原始样式</mars-button>
-          <mars-button @click="setStyle1" title="这是Mars3D内置的">动态特效1</mars-button>
-          <mars-button @click="setStyle2" title="这是不改动cesium源码的">动态特效2</mars-button>
-          <mars-button @click="setStyle3">夜景贴图</mars-button>
-        </a-space>
-      </div>
+    <a-collapse v-model:activeKey="activeKey">
+      <!-- 自定义切换图标 -->
+      <template #expandIcon>
+        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+      </template>
+      <a-collapse-panel key="1" header="原始样式">
+        <div class="f-mb">
+          <a-space>
+            <mars-button @click="setStyleDef">原始样式</mars-button>
+            <span>建筑物颜色</span>
+            <mars-color-picker @change="changeColor" v-model:value="formState.color" />
+          </a-space>
+        </div>
+      </a-collapse-panel>
 
-      <div class="f-mb">
-        <a-space>
-          <span>背景颜色</span>
-          <mars-color-picker @change="changeColor" v-model:value="formState.color" />
-        </a-space>
-      </div>
+      <a-collapse-panel key="2" header="建筑物样式">
+        <div class="f-mb">
+          <a-space>
+            <mars-button @click="setStyle1" title="这是Mars3D内置的">动态特效1</mars-button>
+            <mars-button @click="setStyle2" title="这是不改动cesium源码的">动态特效2</mars-button>
+            <mars-button @click="setStyle3">夜景贴图</mars-button>
+          </a-space>
+        </div>
+      </a-collapse-panel>
 
-      <div class="f-mb">
-        <a-space>
-          <span>叠加效果</span>
-          <a-checkbox @change="chkBloom" v-model:checked="formState.enabledBloom">开启泛光</a-checkbox>
-          <a-checkbox @change="chkShadows" v-model:checked="formState.enabledShadows">开启光照</a-checkbox>
-        </a-space>
-      </div>
+      <a-collapse-panel key="3" header="叠加场景效果">
+        <div class="f-mb">
+          <a-space>
+            <span>叠加效果</span>
+            <a-checkbox @change="chkBloom" v-model:checked="formState.enabledBloom">开启泛光</a-checkbox>
+            <a-checkbox @change="chkShadows" v-model:checked="formState.enabledShadows">开启光照</a-checkbox>
+          </a-space>
+        </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span>亮度效果</span>
-          <a-checkbox @change="chkBrightness" v-model:checked="formState.enabledBrightness">开启亮度</a-checkbox>
-          <a-slider @change="alphaChange" :min="0.1" :max="8.0" :step="0.05" v-model:value="alphaVal" />
-        </a-space>
-      </div>
-    </a-form>
+        <div class="f-mb">
+          <a-space>
+            <span>亮度效果</span>
+            <a-checkbox @change="chkBrightness" v-model:checked="formState.enabledBrightness">开启亮度</a-checkbox>
+            <a-slider @change="alphaChange" :min="0.1" :max="8.0" :step="0.05" v-model:value="alphaVal" />
+          </a-space>
+        </div>
+      </a-collapse-panel>
+    </a-collapse>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+import { Icon } from "@iconify/vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -56,6 +66,8 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledBrightness: true,
   color: "#4B61E1"
 })
+
+const activeKey = ref(["1", "2", "3"])
 
 // 透明度
 const alphaVal = ref<number>(1.5)

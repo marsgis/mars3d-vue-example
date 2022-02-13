@@ -1,4 +1,3 @@
-// 最佳的二三维联动是：https://github.com/openlayers/ol-cesium
 import * as mars3d from "mars3d"
 
 let map3d

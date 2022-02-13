@@ -5,9 +5,23 @@ let mapEx
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
-  scene: {
-    center: { lat: 30.754115, lng: 116.341283, alt: 14041, heading: 5, pitch: -49 }
-  }
+  layers: [
+    {
+      type: "geojson",
+      name: "示例数据",
+      url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
+      popup: "{type} {name}",
+      show: true
+    },
+    {
+      type: "3dtiles",
+      name: "测试模型",
+      url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
+      position: { lng: 116.313536, lat: 31.217297, alt: 80 },
+      scale: 100,
+      show: true
+    }
+  ]
 }
 
 /**
@@ -25,7 +39,7 @@ export function onMounted(mapInstance) {
   sourceContainer.setAttribute("id", "mars3dContainerEx")
 
   // 获取原来地图的参数
-  const mapOptions2 = map.getOptions()
+  const mapOptions2 = map.getCurrentOptions() // map.getOptions()
   mapOptions2.control.baseLayerPicker = true // basemaps底图切换按钮
   mapOptions2.control.sceneModePicker = false
 
@@ -33,26 +47,11 @@ export function onMounted(mapInstance) {
   for (let i = 0, len = mapOptions2.layers.length; i < len; i++) {
     const item = mapOptions2.layers[i]
     if (item.compare) {
-      // 存在compare属性时
       for (const key in item.compare) {
-        item[key] = item.compare[key]
+        item[key] = item.compare[key] // 存在compare属性时
       }
     }
   }
-
-  // 后置加的图层的处理
-  const mapLayers = map.getLayers({
-    filter: true
-  })
-
-  for (let i = mapLayers.length - 1; i >= 0; i--) {
-    const layer = mapLayers[i]
-    if (layer.noLayerManage || layer.parent) {
-      continue
-    }
-    mapOptions2.layers.push(layer.toJSON())
-  }
-
   console.log("分屏地图配置", mapOptions2)
 
   mapEx = new mars3d.Map(sourceContainer, mapOptions2)

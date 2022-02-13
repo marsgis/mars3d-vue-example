@@ -2325,7 +2325,7 @@
             "name": "建筑物样式",
             "date": "2021-11-10",
             "usePannel": true,
-            "main": "layer-tileset/style/jzw"
+            "main": "layer-tileset/style/basis"
           },
           {
             "name": "单击查看分户",

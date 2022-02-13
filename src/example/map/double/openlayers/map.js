@@ -7,7 +7,24 @@ export const mapOptions = {
   scene: {
     center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
     fxaa: true
-  }
+  },
+  layers: [
+    {
+      type: "geojson",
+      name: "示例数据",
+      url: "//data.mars3d.cn/file/geojson/mars3d-draw.json",
+      popup: "{type} {name}",
+      show: true
+    },
+    {
+      type: "3dtiles",
+      name: "测试模型",
+      url: "//data.mars3d.cn/3dtiles/bim-daxue/tileset.json",
+      position: { lng: 116.313536, lat: 31.217297, alt: 80 },
+      scale: 100,
+      show: true
+    }
+  ]
 }
 
 /**

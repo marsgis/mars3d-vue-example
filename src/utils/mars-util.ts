@@ -40,9 +40,9 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
   window.addEventListener("resize", resize)
 
   resize()
-  return () => {
-    window.removeEventListener("resize", resize)
-  }
+  // return () => {
+  //   window.removeEventListener("resize", resize)
+  // }
 }
 
 /**
@@ -58,7 +58,7 @@ export function getQueryString(parameter: string): string | null {
 /**
  * 判断是否是pc端
  *
- * @export 
+ * @export
  * @return { boolean } 是否是pc端
  */
 export function isPc() {

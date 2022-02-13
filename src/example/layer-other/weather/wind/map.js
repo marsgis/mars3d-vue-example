@@ -70,6 +70,8 @@ function addLayer() {
   })
 }
 
+let canrefresh
+
 // 参数调整面板
 export function onParticleSystemOptionsChange(options) {
   const option = {
@@ -81,7 +83,11 @@ export function onParticleSystemOptionsChange(options) {
     speedFactor: options.speedFactor,
     lineWidth: options.lineWidth
   }
-  windLayer.setOptions(option)
+  // 不能随时刷新，需要隔一段时间刷新，避免卡顿
+  clearTimeout(canrefresh)
+  canrefresh = setTimeout(() => {
+    windLayer.setOptions(option)
+  }, 500)
 }
 
 // 加载并解析NC数据
