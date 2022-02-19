@@ -6,7 +6,7 @@
 /**
  * 导航菜单按钮 （控件）
  * @copyright 火星科技 mars3d.cn
- * @author 火星渣渣灰 2021-12-10
+ * @author 火星渣渣灰 2022-01-10
  */
 import { useWidget } from "@mars/widgets/common/store/widget"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"

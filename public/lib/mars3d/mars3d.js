@@ -8,7 +8,7 @@
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
- * 使用单位：免费公开版 ，2022-2-1
+ * 使用单位：免费公开版 ，2022-02-1
  */
 let Cesium = window.Cesium //通过index.html的head引入
 if (!Cesium && typeof exports === 'object') {
