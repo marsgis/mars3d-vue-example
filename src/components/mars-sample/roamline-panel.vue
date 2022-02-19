@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" height="285px" right="10" bottom="60" width="200">
     <a-form>
       <a-row :gutter="[0, 8]">
         <a-col :span="12">总长度:</a-col>
@@ -42,7 +42,6 @@
  * @author 木遥 2021-11-01
  */
 import { onMounted, reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {
@@ -92,10 +91,11 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="less">
-.infoView {
+:deep(.info-view) {
   width: 200px;
   top: auto !important;
   bottom: 60px;
+  overflow-y: hidden;
   z-index: 0 !important;
 }
 </style>

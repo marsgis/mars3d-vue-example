@@ -62,7 +62,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.9
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -78,7 +79,8 @@ function addDemoGraphic2(graphicLayer) {
       color: Cesium.Color.RED.withAlpha(0.5),
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -94,7 +96,8 @@ function addDemoGraphic3(graphicLayer) {
         color: Cesium.Color.GREEN,
         speed: 5.0
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -139,7 +142,8 @@ function addDemoGraphic4(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -177,7 +181,8 @@ function addDemoGraphic5(graphicLayer) {
       color: "rgba(255,255,0,0.2)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -192,7 +197,8 @@ function addDemoGraphic6(graphicLayer) {
       color: Cesium.Color.BLUE.withAlpha(0.3),
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -208,7 +214,8 @@ function addDemoGraphic7(graphicLayer) {
       color: Cesium.Color.RED.withAlpha(0.3),
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -225,7 +232,8 @@ function addDemoGraphic8(graphicLayer) {
       color: Cesium.Color.YELLOW.withAlpha(0.3),
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -242,7 +250,8 @@ function addDemoGraphic9(graphicLayer) {
       color: "rgba(31,254,230,0.3)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -258,7 +267,8 @@ function addDemoGraphic10(graphicLayer) {
       color: "rgba(149,228,12,0.3)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -277,7 +287,8 @@ function addDemoGraphic11(graphicLayer) {
       color: "rgba(149,228,12,0.3)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例11" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -294,7 +305,8 @@ function addDemoGraphic12(graphicLayer) {
       color: "rgba(242,250,25,0.3)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -312,7 +324,8 @@ function addDemoGraphic13(graphicLayer) {
       color: "rgba(247,154,44,0.3)",
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例13" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -326,7 +339,8 @@ function addDemoGraphic14(graphicLayer) {
     style: {
       radii: new Cesium.Cartesian3(2000.0, 2000.0, 2000.0),
       color: new Cesium.Color(0.95, 0.82, 0.49)
-    }
+    },
+    attr: { remark: "示例14" }
   })
   graphicLayer.addGraphic(graphic)
 

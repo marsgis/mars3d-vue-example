@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="280">
     <div class="f-mb">
       <a-space>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
@@ -14,10 +14,10 @@
           <template v-if="column.key === 'caozuo'">
             <a-space>
               <mars-button type="link">
-                <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
               </mars-button>
               <mars-button type="link">
-                <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
               </mars-button>
             </a-space>
           </template>
@@ -32,10 +32,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import { Icon } from "@iconify/vue"
+
 import * as mapWork from "./map.js"
-import { $notify } from "@/components/mars-ui/index"
+import { $notify } from "@mars/components/mars-ui/index"
 
 onMounted(() => {
   $notify(
@@ -118,8 +117,3 @@ const removeAll = () => {
   dataSource.value = []
 }
 </script>
-<style scoped lang="less">
-.infoView {
-  width: 280px;
-}
-</style>

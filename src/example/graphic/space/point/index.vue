@@ -1,6 +1,7 @@
 <template>
   <!--查询条件面板-->
-  <mars-pannel class="infoView" v-show="formState.viewContorUi === true">
+  <mars-pannel :visible="formState.viewContorUi === true" right="10" top="10" width="355">
+  <div style="width: 330px;">
     <a-form>
       <a-form-item label="名称">
         <mars-input v-model:value="formState.name" :allowClear="true" @change="selectSatellites" />
@@ -16,10 +17,10 @@
       </a-form-item>
 
       <a-form-item label="雷达截面">
-        <a-slider range v-model:value="formState.sliRcs" :marks="{ 0: '0', 1000: '1000' }" :min="0" :max="1000" :step="1" @change="changeSlider" />
+        <mars-slider range v-model:value="formState.sliRcs" :marks="{ 0: '0', 1000: '1000' }" :min="0" :max="1000" :step="1" @change="changeSlider" />
       </a-form-item>
       <a-form-item label="发射日期">
-        <a-slider
+        <mars-slider
           range
           v-model:value="formState.sliLaunchdate"
           :marks="{ 1950: '50', 2022: '22' }"
@@ -30,7 +31,7 @@
         />
       </a-form-item>
       <a-form-item label="轨道周期">
-        <a-slider range v-model:value="formState.sliPeriod" :marks="{ 0: '0', 60000: '6w' }" :min="0" :max="60000" :step="1" @change="changeSlider" />
+        <mars-slider range v-model:value="formState.sliPeriod" :marks="{ 0: '0', 60000: '6w' }" :min="0" :max="60000" :step="1" @change="changeSlider" />
       </a-form-item>
 
       <a-form-item label="轨道类型">
@@ -38,7 +39,7 @@
       </a-form-item>
 
       <a-form-item label="倾斜角度">
-        <a-slider
+        <mars-slider
           range
           v-model:value="formState.sliInclination"
           :marks="{ 0: '0°', 150: '150°' }"
@@ -49,7 +50,7 @@
         />
       </a-form-item>
       <a-form-item label="远地点高度">
-        <a-slider
+        <mars-slider
           range
           v-model:value="formState.sliApogee"
           :marks="{ 0: '0', 600000: '600km' }"
@@ -60,7 +61,7 @@
         />
       </a-form-item>
       <a-form-item label="近地点高度">
-        <a-slider
+        <mars-slider
           range
           v-model:value="formState.sliPerigee"
           :marks="{ 0: '0', 500000: '500km' }"
@@ -75,10 +76,11 @@
         <mars-button @click="reset">重置</mars-button>
       </a-form-item>
     </a-form>
+    </div>
   </mars-pannel>
 
   <!--卫星详情面板-->
-  <mars-pannel class="infoView" v-show="formState.pointInfo === true">
+  <mars-pannel :visible="formState.pointInfo === true" right="10" top="10" width="335">
     <mars-button @click="highlightSatellite"> 返回 </mars-button>
     <table class="mars-table tb-border">
       <tr v-for="(item, index) in weixinNameList" :key="item">
@@ -91,7 +93,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -343,9 +344,6 @@ const highlightSatellite = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 335px;
-}
 
 :deep(.ant-form-item-label) {
   width: 75px;

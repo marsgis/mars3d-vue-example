@@ -204,7 +204,7 @@ function addDemoGraphic8(graphicLayer) {
       // 高亮时的样式
       highlight: {
         type: mars3d.EventType.click,
-        className: "mars-popup-highlight"
+        className: "mars3d-template-highlight"
       }
     },
     attr: { remark: "示例8" }

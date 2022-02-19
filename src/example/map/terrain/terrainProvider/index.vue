@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="430">
     <a-row class="f-mb">
       <a-col :span="2">单选:</a-col>
       <a-col :span="22">
@@ -30,7 +30,6 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -53,17 +52,13 @@ const onShowTerrain = () => {
   mapWork.enabledTerrain(formState.enabledTerrain)
 }
 const onChangeRadioTerrain = () => {
-  formState.enabledTerrain = true
-  formState.enabledTerrainSJW = false
+  if (formState.radio === "none") {
+    formState.enabledTerrain = false
+  } else {
+    formState.enabledTerrain = true
+  }
   mapWork.radioTerrain(formState.radio)
 }
 </script>
 
-<style lang="less" scoped>
-.infoView {
-  width: 430px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style lang="less" scoped></style>

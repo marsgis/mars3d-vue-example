@@ -88,7 +88,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive)
 
@@ -113,7 +114,8 @@ function addDemoGraphic2(graphicLayer) {
         // type: mars3d.EventType.click,
         materialType: mars3d.MaterialType.Color
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -132,7 +134,8 @@ function addDemoGraphic3(graphicLayer) {
         percent: 0.15,
         alpha: 0.2
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -150,7 +153,8 @@ function addDemoGraphic4(graphicLayer) {
         image: "img/textures/ArrowOpacity.png",
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -171,7 +175,8 @@ function addDemoGraphic5(graphicLayer) {
         color: "#ffff00",
         speed: 40
       })
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -189,7 +194,8 @@ function addDemoGraphic6(graphicLayer) {
         speed: 5 + 1.0 * Math.random(),
         startTime: Math.random()
       })
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -208,7 +214,8 @@ function addDemoGraphic7(graphicLayer) {
         image: "img/textures/lineClr.png",
         speed: 15
       })
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -228,7 +235,8 @@ function addDemoGraphic8(graphicLayer) {
         color: new Cesium.Color(0.0, 1.0, 0.0, 0.7),
         speed: 5
       })
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -248,7 +256,8 @@ function addDemoGraphic9(graphicLayer) {
         percent: 0.15,
         alpha: 0.2
       })
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -273,7 +282,8 @@ function addDemoGraphic10(graphicLayer) {
       width: 5,
       colors: colors // 每一段都不同颜色,
       // colorsPerVertex: true,
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic)
 }

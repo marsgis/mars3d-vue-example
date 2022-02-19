@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" height="90">
     <a-space>
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路</mars-button>
@@ -12,19 +12,20 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel class="treeView">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys">
-      <template #title="{ title }">
-        <span class="tree-style" :title="title">{{ title }}</span>
-      </template>
-    </mars-tree>
+  <mars-pannel :visible="true" right="10" top="110" width="200" customClass="pannel">
+    <div style="width: 168px">
+      <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys" v-model:expandedKeys="expandedKeys">
+        <template #title="{ title }">
+          <span class="tree-style" :title="title">{{ title }}</span>
+        </template>
+      </mars-tree>
+    </div>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([
@@ -36,6 +37,8 @@ const treeData = ref<any[]>([
   }
 ])
 const selectedKeys = ref<string[]>([])
+const expandedKeys = ref<any[]>([])
+expandedKeys.value.push(0)
 
 const layersObj: any = {}
 
@@ -118,15 +121,12 @@ const showSafetyNotice = () => {
   mapWork.showSafetyNotice()
 }
 </script>
-<style  lang="less">
-.treeView {
-  right: 10px !important;
-  top: 100px !important;
-  width: 200px;
-  max-height: calc(100% - 180px) !important;
-  overflow-y: auto !important;
-}
+<style lang="less">
 .mars-pannel-item-label {
   width: auto;
+}
+.pannel {
+  max-height: 750px;
+  overflow-y: auto;
 }
 </style>

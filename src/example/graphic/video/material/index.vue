@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
      <div class="f-mb">
       <layer-state />
     </div>
@@ -16,7 +16,7 @@
     <div class="f-mb">
       <a-space>
         <span>方向:</span>
-        <a-slider @change="angleChange" v-model:value="angleValue" :min="0" :max="360" :step="1" />当前值：{{ angleValue }}
+        <mars-slider @change="angleChange" v-model:value="angleValue" :min="0" :max="360" :step="1" />当前值：{{ angleValue }}
       </a-space>
     </div>
 
@@ -32,8 +32,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const angleValue = ref<number>(0) // y轴方向

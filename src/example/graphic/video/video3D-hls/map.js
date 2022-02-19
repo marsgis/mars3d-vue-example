@@ -68,7 +68,8 @@ function addDemoGraphic1() {
       heading: 178.5,
       pitch: -49.5,
       showFrustum: true
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(video3D)
 

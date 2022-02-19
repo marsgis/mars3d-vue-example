@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-form>
       <a-form-item label="方式">
         <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -152,9 +151,6 @@ const removeAll = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 280px;
-}
 .selectWidth {
   width: 210px;
 }

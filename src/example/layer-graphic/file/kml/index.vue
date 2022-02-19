@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路线</mars-button>
@@ -12,7 +12,7 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel class="infoView manager-mars-pannel">
+  <mars-pannel :visible="true" right="10" top="100" bottom="40" width="220">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
@@ -23,8 +23,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([
@@ -131,13 +130,6 @@ const showSafetyNotice = () => {
 }
 </script>
 <style scoped lang="less">
-.manager-mars-pannel {
-  top: 100px !important;
-  right: 10px !important;
-  width: 220px;
-  max-height: calc(100% - 138px) !important;
-  overflow-y: auto !important;
-}
 :deep(.ant-form-item) {
   margin-bottom: 10px;
 }

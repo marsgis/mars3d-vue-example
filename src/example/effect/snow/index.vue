@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果</a-checkbox>
@@ -10,14 +10,14 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">速度:</span>
-        <a-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
+        <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
       </a-space>
     </div>
 
     <div>
       <a-space>
         <span class="mars-pannel-item-label">积雪程度:</span>
-        <a-slider @change="onChangeAlpha" v-model:value="formState.alpha" :min="0" :max="1" :step="0.1" />
+        <mars-slider @change="onChangeAlpha" v-model:value="formState.alpha" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
   </mars-pannel>
@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

@@ -101,7 +101,8 @@ function addGraphics() {
           style: {
             color: item.attr.color,
             opacity: 0.4
-          }
+          },
+          attr: { remark: "polygon面" }
         })
         graphicLayer.addGraphic(polygonEntity)
 
@@ -116,7 +117,8 @@ function addGraphics() {
               color: item.attr.color,
               speed: 4
             })
-          }
+          },
+          attr: { remark: "PolylineEntity线" }
         })
         graphicLayer.addGraphic(graphicLine)
 
@@ -130,7 +132,8 @@ function addGraphics() {
             color: "#ccc",
             boderColor: "#15d1f2",
             addHeight: 100
-          }
+          },
+          attr: { remark: "DIV矢量数据" }
         })
         graphicLayer.addGraphic(graphic)
       }

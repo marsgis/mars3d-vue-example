@@ -1,21 +1,21 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
         <a-sapce>
-          <Icon icon="ic:round-not-started" class="icon-vertical-a" />
+          <mars-icon icon="ic:round-not-started" class="icon-vertical-a" />
           <span>{{ isPause ? "继续" : "开始" }}</span>
         </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay && !isPause" @click="pause">
         <a-sapce>
-          <Icon icon="ic:baseline-pause-circle-outline" class="icon-vertical-a" />
+          <mars-icon icon="ic:baseline-pause-circle-outline" class="icon-vertical-a" />
           <span>暂停</span>
         </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay" @click="stop">
         <a-sapce>
-          <Icon icon="tabler:power" class="icon-vertical-a" />
+          <mars-icon icon="tabler:power" class="icon-vertical-a" />
           <span>停止</span>
         </a-sapce>
       </mars-button>
@@ -27,15 +27,13 @@
       </template>
     </mars-tree>
     <template v-if="isPlay">
-      <h3 class="f-mb">总时长：{{ totalTimes }}</h3>
-      <h3 class="f-mb">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
+      <h3 class="f-mb show-time">总时长：{{ totalTimes }}</h3>
+      <h3 class="f-mb show-time">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
     </template>
   </mars-pannel>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import { Icon } from "@iconify/vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const isPlay = ref(false)
@@ -244,9 +242,9 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.infoView {
-  bottom: 40px;
-  max-height: 600px;
-  overflow: scroll;
+.show-time {
+  color: @mars-basecolor;
 }
+
+
 </style>

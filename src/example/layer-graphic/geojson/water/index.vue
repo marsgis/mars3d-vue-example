@@ -1,8 +1,6 @@
 <template>
-  <mars-pannel class="infoView">
-    <div class="f-mb">
-      <h1 style="margin-left: 40%">闸门控制</h1>
-    </div>
+  <mars-pannel :visible="true" right="10" top="10">
+    <div class="f-mb title">闸门控制</div>
 
     <a-form class="f-mb">
       <a-form-item label="高度（米）">
@@ -24,7 +22,6 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -44,3 +41,9 @@ const closeZm = () => {
   mapWork.closeZm(formState.height, formState.time)
 }
 </script>
+<style lang="less" scoped>
+.title{
+  color: #fff;
+  text-align: center;
+}
+</style>

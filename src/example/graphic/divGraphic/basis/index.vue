@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <layer-state />
     </div>
@@ -17,10 +17,9 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import DataManage from "@/components/mars-sample/data-manage.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import DataManage from "@mars/components/mars-sample/data-manage.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 interface FormState {

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawExtent">绘制矩形</mars-button>
       <mars-button @click="drawExtent2">绘制矩形(外)</mars-button>
@@ -11,9 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $message, $notify } from "@/components/mars-ui/index"
+import { $message, $notify } from "@mars/components/mars-ui/index"
 
 $notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })
 

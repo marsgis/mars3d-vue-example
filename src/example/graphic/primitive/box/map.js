@@ -50,7 +50,8 @@ function addDemoGraphic1(graphicLayer) {
       dimensions: new Cesium.Cartesian3(1000.0, 1000.0, 1000.0),
       color: "#00ffff",
       opacity: 0.8
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -71,7 +72,8 @@ function addDemoGraphic2(graphicLayer) {
       opacity: 0.4,
       outline: true,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -83,7 +85,8 @@ function addDemoGraphic3(graphicLayer) {
       dimensions: new Cesium.Cartesian3(800.0, 600.0, 1000.0),
       color: "#99FFFF",
       opacity: 0.4
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -101,7 +104,8 @@ function addDemoGraphic4(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -122,7 +126,8 @@ function addDemoGraphic5(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(primitive)
 }

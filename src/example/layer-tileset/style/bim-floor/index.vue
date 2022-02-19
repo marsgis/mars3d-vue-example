@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="show(5)">5F</mars-button>
       <mars-button @click="show(4)">4F</mars-button>
@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 // 负一层

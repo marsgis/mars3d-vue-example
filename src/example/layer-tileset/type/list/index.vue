@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
@@ -9,7 +9,6 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])

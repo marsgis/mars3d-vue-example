@@ -1,12 +1,11 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div id="chart-container" style="width: 400px; height: 250px"></div>
   </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { onMounted } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 

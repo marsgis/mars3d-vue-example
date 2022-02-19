@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item>
         <a-space>
@@ -10,7 +10,7 @@
         </a-space>
       </a-form-item>
       <a-form-item label="方向">
-        <a-slider v-model:value="formState.slideStep" @change="onChangeSlider" :min="0" :max="360" :step="1" />
+        <mars-slider v-model:value="formState.slideStep" @change="onChangeSlider" :min="0" :max="360" :step="1" />
       </a-form-item>
       <a-form-item label="文字">
         <a-space>
@@ -20,15 +20,15 @@
       </a-form-item>
     </a-form>
   </mars-pannel>
-  <GraphicEditor ref="editor" />
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import { reactive, markRaw } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
+import { useWidget } from "@mars/widgets/common/store/widget"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FormState {
   slideStep: number
@@ -61,22 +61,29 @@ const onClickSure = () => {
 }
 
 // 属性面板
-const editor = ref()
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
   }
+}
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
+    showEditor(e)
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 </script>

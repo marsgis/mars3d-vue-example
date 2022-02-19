@@ -4,8 +4,8 @@
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.2.1，
- * 编译日期：2022-02-12 18:11:24
+ * 版本信息：v3.2.2，
+ * 编译日期：2022-02-19 13:37:27
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
@@ -4734,7 +4734,8 @@ export namespace DivBoderLabel {
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
- * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
+ * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "auto"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -4756,6 +4757,7 @@ export class DivBoderLabel extends DivGraphic {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -4895,6 +4897,7 @@ export namespace DivGraphic {
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
  * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "auto"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.parentContainer] - 控件加入的父容器，默认为当前图层所在的DOM layer.container
@@ -4917,6 +4920,7 @@ export class DivGraphic extends BaseGraphic {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         parentContainer?: HTMLElement;
@@ -5123,7 +5127,8 @@ export namespace DivLightPoint {
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
- * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
+ * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "auto"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -5145,6 +5150,7 @@ export class DivLightPoint extends DivGraphic {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -5231,7 +5237,8 @@ export namespace DivUpLabel {
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
- * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
+ * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "auto"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -5253,6 +5260,7 @@ export class DivUpLabel extends DivGraphic {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -5358,7 +5366,8 @@ export namespace Popup {
  * @param [options.animation = true] - 是否执行打开时的动画效果
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = true] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
- * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
+ * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "10000000"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.id = uuid()] - 矢量数据id标识
@@ -5374,6 +5383,7 @@ export class Popup extends DivGraphic {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         id?: string | number;
@@ -5447,7 +5457,8 @@ export namespace Tooltip {
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.testPoint] - 测试点 的对应样式 ，可以进行用于比较测试div的位置，方便调试CSS。
  * @param [options.pointerEvents = false] - DIV是否可以鼠标交互，为false时可以穿透操作及缩放地图，但无法进行鼠标交互及触发相关事件。
- * @param [options.hasZIndex = true] - 是否自动调整DIV的层级顺序。
+ * @param [options.hasZIndex = false] - 是否自动调整DIV的层级顺序。
+ * @param [options.zIndex = "10000000"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
  * @param [options.depthTest = true] - 是否打开深度判断（true时判断是否在球背面）
  * @param [options.hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
  * @param [options.id = uuid()] - 矢量数据id标识
@@ -5462,6 +5473,7 @@ export class Tooltip extends Popup {
         testPoint?: PointEntity.StyleOptions;
         pointerEvents?: boolean;
         hasZIndex?: boolean;
+        zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
         id?: string | number;
@@ -17404,6 +17416,7 @@ export class GraphicLayer extends BaseGraphicLayer {
      * @param [options.type] - 转为指定的类型
      * @param [options.style] - 可以设置指定style样式,每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
+     * @param [options.onEachFeature] - 创建每个Graphic前的回调
      * @returns 转换后的Graphic对象数组
      */
     loadGeoJSON(geojson: string | any, options?: {
@@ -17412,6 +17425,7 @@ export class GraphicLayer extends BaseGraphicLayer {
         type?: GraphicType | string;
         style?: any;
         crs?: string;
+        onEachFeature?: (...params: any[]) => any;
     }): BaseGraphic[];
     /**
      * 添加Graphic矢量数据
@@ -18530,6 +18544,11 @@ export class TilesetLayer extends BaseGraphicLayer {
  * @param [options] - 参数对象，包括以下：
  * @param options.url - WFS服务地址
  * @param [options.parameters] - 要在URL中 传递给WFS服务GetFeature请求的其他参数。
+ * @param [options.parameters.maxFeatures] - 返回结果最大数量
+ * @param [options.parameters.cql_filter] - 筛选服务数据的[SQL语句]{@link https://docs.geoserver.org/2.12.2/user/services/wfs/vendor.html#wfs-vendor-parameters}
+ * @param [options.parameters.service = 'WFS'] - 服务类型
+ * @param [options.parameters.version = '1.0.0'] - 服务版本
+ * @param [options.geometryName = 'the_geom'] - geometry字段名称
  * @param [options.headers] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
@@ -18602,7 +18621,13 @@ export class TilesetLayer extends BaseGraphicLayer {
 export class WfsLayer extends LodGraphicLayer {
     constructor(options?: {
         url: string;
-        parameters?: any;
+        parameters?: {
+            maxFeatures?: number;
+            cql_filter?: boolean;
+            service?: string;
+            version?: string;
+        };
+        geometryName?: string;
         headers?: any;
         proxy?: Mars3dCesium.Proxy;
         layer: string;
@@ -22732,6 +22757,11 @@ export class Map extends BaseClass {
      */
     getOptions(): any;
     /**
+     * 获取地图的当前实时状态对应的配置参数。
+     * @returns 地图的配置参数
+     */
+    getCurrentOptions(): any;
+    /**
      * 获取平台内置的右键菜单
      * @returns 右键菜单
      */
@@ -22860,12 +22890,14 @@ export class Map extends BaseClass {
      * @param [options.basemaps = false] - 是否包含basemps中配置的所有图层
      * @param [options.layers = false] - 是否包含layers中配置的所有图层
      * @param [options.filter = false] - 是否排除layers和baseps的图层
+     * @param [options.filterBasemaps = false] - 是否只排除baseps的图层
      * @returns 图层数组
      */
     getLayers(options?: {
         basemaps?: boolean;
         layers?: boolean;
         filter?: boolean;
+        filterBasemaps?: boolean;
     }): BaseLayer[] | any[];
     /**
      * 获取所有basemps底图图层
@@ -24185,13 +24217,14 @@ export class ScanLineMaterialProperty extends BaseMaterialProperty {
  * @param [options.font_style = "normal"] - 是否斜体 ,可选项：italic (解释：是),normal (解释：否),
  * @param [options.font = '30px normal normal 楷体'] - 上叙4个属性的一次性指定CSS字体的属性。
  * @param [options.fill = true] - 是否填充
- * @param [options.color = "#ffff00"] - 文本颜色
+ * @param [options.fillColor = "#ffff00"] - 文本颜色
+ * @param [options.color = "#ffff00"] - 文本颜色，同fillColor（别名）
  * @param [options.stroke = true] - 是否描边文本。
  * @param [options.strokeColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
  * @param [options.strokeWidth = 2] - 描边的宽度。
  * @param [options.backgroundColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
  * @param [options.outlineWidth] - 边框的宽度。
- * @param [options.outlineColor = color] - 矩形边框的颜色。
+ * @param [options.outlineColor = fillColor] - 矩形边框的颜色。
  * @param [options.padding = 10] - 要在文本周围添加的填充的像素大小。
  * @param [options.textBaseline = 'top'] - 文本的基线。
  * @param [options.onCustomCanvas] - 支持对生成后的Canvas做自定义处理。
@@ -24205,6 +24238,7 @@ export class TextMaterialProperty extends Image2MaterialProperty {
         font_style?: string;
         font?: string;
         fill?: boolean;
+        fillColor?: string;
         color?: string;
         stroke?: boolean;
         strokeColor?: Mars3dCesium.Color;
@@ -24387,7 +24421,8 @@ export class CylinderWaveMaterial extends Mars3dCesium.Material {
  * @param [options.font_style = "normal"] - 是否斜体 ,可选项：italic (解释：是),normal (解释：否),
  * @param [options.font = '30px normal normal 楷体'] - 上叙4个属性的一次性指定CSS字体的属性。
  * @param [options.fill = true] - 是否填充
- * @param [options.color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 填充颜色。
+ * @param [options.fillColor = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 文本颜色
+ * @param [options.color] - 文本颜色，同fillColor（别名）
  * @param [options.stroke = true] - 是否描边文本。
  * @param [options.strokeColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
  * @param [options.strokeWidth = 2] - 描边的宽度。
@@ -24406,6 +24441,7 @@ export class TextMaterial extends Mars3dCesium.Material {
         font_style?: string;
         font?: string;
         fill?: boolean;
+        fillColor?: string;
         color?: Mars3dCesium.Color;
         stroke?: boolean;
         strokeColor?: Mars3dCesium.Color;
@@ -24718,7 +24754,7 @@ export class EchartsLayer extends BaseLayer {
  */
 export class HeatLayer extends BaseLayer {
     constructor(options: {
-        positions?: LatLngPoint[] | Mars3dCesium.Cartesian3[] | any;
+        positions?: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any;
         heatStyle?: {
             maxOpacity?: number;
             minOpacity?: number;
@@ -24767,7 +24803,7 @@ export class HeatLayer extends BaseLayer {
     /**
      * 数据位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[] | LatLngPoint[];
+    positions: Mars3dCesium.Cartesian3[] | LngLatPoint[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -24781,7 +24817,7 @@ export class HeatLayer extends BaseLayer {
      * @param item - 坐标点（含热力值）
      * @returns 无
      */
-    addPosition(item: Mars3dCesium.Cartesian3 | LatLngPoint): void;
+    addPosition(item: Mars3dCesium.Cartesian3 | LngLatPoint): void;
     /**
      * 清除矢量对象
      * @returns 无
@@ -24800,7 +24836,7 @@ export class HeatLayer extends BaseLayer {
 
 /**
  * MapV图层
- * 【需要引入 heatmap.js 库 和 mars3d-heatmap 插件库】
+ * 【需要引入 mapv.js 库 和 mars3d-mapv 插件库】
  * @param options - 图层参数，包括：
  * @param [options.data] - new mapv.DataSet(data)的data值，如有传入时可以用于替代dataSet参数
  * @param [options.depthTest = true] - 是否进行计算深度判断，在地球背面或被遮挡时不显示（大数据时，需要关闭）
@@ -25067,14 +25103,14 @@ export class Tle {
      * @param datetime - 指定的时间
      * @returns 卫星当前经纬度位置
      */
-    getPoint(datetime: Date | Mars3dCesium.JulianDate | number): LatLngPoint | undefined;
+    getPoint(datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint | undefined;
     /**
      * 获取 地面地点 对卫星的 天文观测值
      * @param point - 地面地点经纬度坐标
      * @param datetime - 指定的时间
      * @returns 观测值
      */
-    getLookAngles(point: LatLngPoint, datetime: Date | Mars3dCesium.JulianDate | number): Tle.LookAngles;
+    getLookAngles(point: LngLatPoint, datetime: Date | Mars3dCesium.JulianDate | number): Tle.LookAngles;
     /**
      * 计算卫星指定时间所在的 经纬度位置
      * @param tle1 - 卫星TLE的第一行
@@ -25082,7 +25118,7 @@ export class Tle {
      * @param datetime - 指定的时间
      * @returns 卫星当前经纬度位置
      */
-    static getPoint(tle1: string, tle2: string, datetime: Date | Mars3dCesium.JulianDate | number): LatLngPoint | undefined;
+    static getPoint(tle1: string, tle2: string, datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint | undefined;
     /**
      * 获取卫星指定时间所在的 ECEF坐标
      * @param tle1 - 卫星TLE的第一行
@@ -25103,7 +25139,7 @@ export class Tle {
      * @param datetime - 指定时间, number时请传入格林尼治恒星时(GMST)时间
      * @returns 经纬度坐标
      */
-    static eciToGeodetic(positionEci: Mars3dCesium.Cartesian3, datetime: Date | Mars3dCesium.JulianDate | number): LatLngPoint;
+    static eciToGeodetic(positionEci: Mars3dCesium.Cartesian3, datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint;
     /**
      * ECI坐标 转换为 ECEF坐标
      * @param positionEci - ECI(地心惯性坐标系)坐标
@@ -25190,7 +25226,7 @@ export namespace CamberRadar {
  */
 export class CamberRadar extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
         style: CamberRadar.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -25290,7 +25326,7 @@ export namespace ConicSensor {
  */
 export class ConicSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
         style: ConicSensor.StyleOptions;
         attr?: any;
         lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
@@ -25450,7 +25486,7 @@ export namespace RectSensor {
  */
 export class RectSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LatLngPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
         style: RectSensor.StyleOptions;
         attr?: any;
         lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
@@ -25799,7 +25835,7 @@ export namespace SatelliteSensor {
  */
 export class SatelliteSensor extends BasePointPrimitive {
     constructor(options?: {
-        position: LatLngPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
         style: SatelliteSensor.StyleOptions;
         attr?: any;
         lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
@@ -27455,14 +27491,16 @@ export class QueryGeoServer extends BaseClass {
      */
     readonly layer: GeoJsonLayer;
     /**
-     * 按指定类别自动查询
+     * 查询服务，基于filter条件
      * @param queryOptions - 查询参数
-     * @param [queryOptions.text] - 检索关键字。
-     * @param [queryOptions.column] - 检索关键字的属性名称(PropertyName)。
-     * @param [queryOptions.like = true] - 检索关键字时，是否模糊匹配，false时精确查询。
+     * @param [queryOptions.text] - 检索关键字
+     * @param [queryOptions.column] - 检索关键字时，对应的字段名称
+     * @param [queryOptions.like = true] - 检索关键字时，是否模糊匹配，false时精确查询
      * @param [queryOptions.graphic] - 限定的搜索区域
-     * @param [queryOptions.geoColumn = 'the_geom'] - 搜索区域的属性名称(PropertyName)。
-     * @param [queryOptions.maxFeatures = 1000] - 最多返回结果个数
+     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
+     * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
+     * @param [queryOptions.sortBy] - 排序的属性名称，默认升序，降序时+D
+     * @param [queryOptions.更多参数] - WFS服务支持的其他参数，均支持
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
      * @returns 当前对象本身，可以链式调用
@@ -27472,8 +27510,32 @@ export class QueryGeoServer extends BaseClass {
         column?: string;
         like?: boolean;
         graphic?: BaseGraphic | any;
-        geoColumn?: string;
+        geometryName?: string;
         maxFeatures?: number;
+        sortBy?: string;
+        更多参数?: any;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): QueryGeoServer;
+    /**
+     * 查询服务，基于cql_filter条件
+     * @param queryOptions - 查询参数
+     * @param queryOptions.parameters.cql_filter - 筛选服务数据的[SQL语句]{@link https://docs.geoserver.org/2.12.2/user/services/wfs/vendor.html#wfs-vendor-parameters}
+     * @param [queryOptions.graphic] - 限定的搜索区域,自动转换后加入到cql_filter中，也可以外部自行处理
+     * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
+     * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
+     * @param [queryOptions.sortBy] - 排序的属性名称，默认升序，降序时+D
+     * @param [queryOptions.更多参数] - WFS服务支持的其他参数，均支持
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 当前对象本身，可以链式调用
+     */
+    queryBySql(queryOptions: {
+        graphic?: BaseGraphic | any;
+        geometryName?: string;
+        maxFeatures?: number;
+        sortBy?: string;
+        更多参数?: any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): QueryGeoServer;

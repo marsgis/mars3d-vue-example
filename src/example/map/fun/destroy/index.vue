@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="createMap">创建地图</mars-button>
       <mars-button @click="destroyMap">销毁地图</mars-button>
@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 // 创建地图
 const createMap = () => {

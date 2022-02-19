@@ -1,49 +1,50 @@
 <template>
-  <mars-pannel class="infoView model-View" v-auto-height="60">
-    <div class="f-mb infoView-content">
-      <a-space>
-        <span>模型列表： </span>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <i title="打开GeoJSON文件"><Icon icon="icon-park-outline:folder-upload" width="19" /></i>
-        </a-upload>
-        <i title="保存GeoJSON"><Icon icon="icon-park-outline:disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
-      </a-space>
-    </div>
+  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="252">
+    <div style="width: 220px">
+      <div class="f-mb infoView-content">
+        <a-space>
+          <span>模型列表： </span>
+          <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+            <i title="打开GeoJSON文件"><mars-icon icon="icon-park-outline:folder-upload" width="19" /></i>
+          </a-upload>
+          <i title="保存GeoJSON"><mars-icon icon="icon-park-outline:disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <a-space>
-        <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
-        <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
-      </a-space>
-    </div>
+      <div class="f-mb">
+        <a-space>
+          <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
+          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <mars-select
-        ref="select"
-        v-model:value="value1"
-        style="width: 200px; margin-left: 10px"
-        :options="selectOptions"
-        @change="handleChange"
-      ></mars-select>
+      <div class="f-mb">
+        <mars-select
+          ref="select"
+          v-model:value="value1"
+          style="width: 200px; margin-left: 10px"
+          :options="selectOptions"
+          @change="handleChange"
+        ></mars-select>
 
-      <div class="f-mb gltfImg" v-auto-height="200">
-        <ul>
-          <li v-for="imgs in dataList" :key="imgs.name">
-            <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
-          </li>
-        </ul>
+        <div class="f-mb gltfImg" v-auto-height="200">
+          <ul>
+            <li v-for="imgs in dataList" :key="imgs.name">
+              <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </mars-pannel>
-  <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
-import { Icon } from "@iconify/vue"
+import { ref, markRaw } from "vue"
+import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -122,31 +123,33 @@ const saveGeoJSON = () => {
 }
 
 // ************************属性面板************************/
-const editor = ref()
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
   }
+}
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
+  showEditor(e)
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 </script>
 <style scoped lang="less">
-.model-View {
-  right: 10px;
-  width: 250px;
-}
-
 .infoView-content {
   height: 20px;
   width: 210px;

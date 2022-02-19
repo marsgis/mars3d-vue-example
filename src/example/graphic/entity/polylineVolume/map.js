@@ -64,7 +64,8 @@ function addDemoGraphic1(graphicLayer) {
       radius: 80,
       color: "#3388ff",
       opacity: 0.6
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -90,7 +91,8 @@ function addDemoGraphic2(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -130,7 +132,8 @@ function addDemoGraphic3(graphicLayer) {
         speed: 10,
         repeat_x: 6
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -147,7 +150,8 @@ function addDemoGraphic4(graphicLayer) {
       cornerType: Cesium.CornerType.MITERED,
       color: "#ffff00",
       opacity: 0.4
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -164,7 +168,8 @@ function addDemoGraphic5(graphicLayer) {
       radius: 80,
       color: "#0000ff",
       opacity: 0.9
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }

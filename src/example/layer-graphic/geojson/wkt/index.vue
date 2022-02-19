@@ -1,9 +1,9 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" height="46" >
     <layer-state />
   </mars-pannel>
 
-  <mars-pannel class="treeView">
+  <mars-pannel :visible="true" right="10" top="60" width="250">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
@@ -12,8 +12,7 @@
   </mars-pannel>
 </template>
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import { nextTick, ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -89,13 +88,6 @@ function initTree(dataItems: any) {
 </script>
 
 <style lang="less">
-.treeView {
-  right: 10px !important;
-  top: 60px !important;
-  width: 250px;
-  max-height: calc(100% - 120px) !important;
-  overflow-y: auto !important;
-}
 .mars-pannel-item-label {
   width: auto;
 }

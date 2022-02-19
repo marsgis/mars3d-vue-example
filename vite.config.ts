@@ -7,7 +7,6 @@ import path from "path"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
 import { createStyleImportPlugin, AndDesignVueResolve } from "vite-plugin-style-import"
-const { getThemeVariables } = require("ant-design-vue/dist/theme")
 
 export default ({ mode }: ConfigEnv) => {
   const root = process.cwd()
@@ -30,25 +29,24 @@ export default ({ mode }: ConfigEnv) => {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src")
-      }
+        "@": path.resolve(__dirname, "src"),
+        "@mars": path.join(__dirname, "src")
+      },
+      extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
     optimizeDeps: {
-      exclude: ["mars3d"]
+      include: ["@mars/widgets/common/store/widget"]
+    },
+    json: {
+      // 支持从 .json 文件中进行按名导入
+      namedExports: true,
+      stringify: false
     },
     css: {
       preprocessorOptions: {
         less: {
-          modifyVars: {
-            ...getThemeVariables({ dark: true }),
-            "border-color-base": "#cde1de",
-            "primary-color": "#4db3ff",
-            "body-background": "#1c222b",
-            "font-size-base": "12px"
-          },
           javascriptEnabled: true,
           additionalData: `@import "${path.resolve(__dirname, "src/components/mars-ui/base.less")}";`
-
         }
       }
     },
@@ -61,22 +59,34 @@ export default ({ mode }: ConfigEnv) => {
       cssCodeSplit: true,
       // 构建后是否生成 soutrce map 文件
       sourcemap: false,
+      // 自定义rollup-commonjs插件选项
+      commonjsOptions: {
+        include: /node_modules|src\/widgets\/common/
+      },
       // 静态资源生成的目录
       assetsDir: "example/assets",
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {
           // index: path.resolve(__dirname, "index.html"),
-          editor: path.resolve(__dirname, "editor.html")
-          // read: path.resolve(__dirname, "read.html")
+          editor: path.resolve(__dirname, "editor.html"),
+          read: path.resolve(__dirname, "read.html")
         }
-      }
+      },
+      // 当设置为 true, 构建后将会生成 manifest.json 文件
+      manifest: false,
+      // 设置为 false 可以禁用最小化混淆,或是用来指定是应用哪种混淆器 boolean | 'terser' | 'esbuild'
+      minify: "terser",
+      // 传递给 Terser 的更多 minify 选项
+      terserOptions: {},
+      // 设置为false 来禁用将构建好的文件写入磁盘
+      write: true,
+      // 默认情况下 若 outDir 在 root 目录下， 则 Vite 会在构建时清空该目录。
+      emptyOutDir: true
     },
     plugins: [
       vue(),
-      eslintPlugin({
-        cache: false
-      }),
+      eslintPlugin({ cache: false }),
       createStyleImportPlugin({
         resolves: [AndDesignVueResolve()],
         libs: [

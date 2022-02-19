@@ -19,7 +19,9 @@ module.exports = {
 
     Cesium: "readonly",
     mars3d: "readonly",
+    L: "readonly",
     mars2d: "readonly",
+    
     turf: "readonly",
     THREE: "readonly",
     Ammo: "readonly",
@@ -64,7 +66,6 @@ module.exports = {
     "block-scoped-var": "error", // 将 var 定义的变量视为块作用域，禁止在块外使用
     "guard-for-in": "off", // for in 内部必须有 hasOwnProperty
     "constructor-super": "error", // constructor 中必须有 super
-    "sort-imports": ["off", { ignoreCase: false, ignoreMemberSort: false, memberSyntaxSortOrder: ["none", "all", "multiple", "single"], ignoreDeclarationSort: true }],
     "dot-location": ["off", "property"], // @fixable 链式调用的时候，点号必须放在第二行开头处，禁止放在第一行结尾处
     "comma-style": ["error", "last"], // 控制逗号在行尾出现还是在行首出现 (默认行尾)
     "space-before-function-paren": ["off", "always"], // 函数定义时括号前的空格

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item label="图层URL" name="url">
         <a-space>
@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const url = ref<any>()

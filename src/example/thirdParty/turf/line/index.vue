@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">原始数据:</span>
@@ -26,7 +26,6 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const value = ref<number>(5)

@@ -48,7 +48,7 @@ export function onMounted(mapInstance) {
   poiLayer.bindPopup(function (event) {
     const item = event.graphic.attr
 
-    let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
+    let inHtml = '<div class="mars3d-template-titile">' + item.name + '</div><div class="mars3d-template-content" >'
 
     const type = String(item.type).trim()
     if (type) {

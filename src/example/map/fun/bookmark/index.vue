@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView infoview">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40">
     <div class="f-mb">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
@@ -20,9 +20,8 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 const formState = reactive({
   input: "",

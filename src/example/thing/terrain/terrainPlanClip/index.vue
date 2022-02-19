@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-form>
       <div class="f-mb">
         <a-space>
@@ -30,10 +30,9 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@/components/mars-ui/index"
+import { $notify } from "@mars/components/mars-ui/index"
 
 interface FormState {
   enabledWadi: boolean
@@ -94,9 +93,6 @@ const changeClipHeight = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 300px;
-}
 .ant-input-number {
   width: 100px !important;
 }

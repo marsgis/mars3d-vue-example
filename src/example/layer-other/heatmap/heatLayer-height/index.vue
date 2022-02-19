@@ -5,7 +5,7 @@
   </div>
 
   <!-- 按钮 -->
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" left="10" top="10">
     <mars-button @click="btnUpdate">更新数据</mars-button>
   </mars-pannel>
 
@@ -42,7 +42,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 

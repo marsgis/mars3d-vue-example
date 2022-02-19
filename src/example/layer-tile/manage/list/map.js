@@ -1,5 +1,11 @@
 import * as mars3d from "mars3d"
 
+// 用于 config.json 中 西藏垭口 图层的详情按钮 演示
+// @ts-ignore
+window.showPopupDetails = (item) => {
+  globalAlert(item.NAME)
+}
+
 let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -23,7 +29,6 @@ export const eventTarget = new mars3d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-
   eventTarget.fire("loadOK")
 }
 
@@ -37,4 +42,8 @@ export function onUnmounted() {
 
 export function addLayer(layer) {
   map.addLayer(layer)
+}
+
+export function flyToLayer(layer) {
+  layer.flyTo()
 }

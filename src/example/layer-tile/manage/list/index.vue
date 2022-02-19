@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView manager-mars-pannel" v-auto-height="100">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="220">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
@@ -8,7 +8,6 @@
   </mars-pannel>
 </template>
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
@@ -39,7 +38,7 @@ const checkedChange = (keys: string[], e: any) => {
 
     if (keys.indexOf(e.node.key) !== -1) {
       layer.show = true
-      layer.flyTo()
+      mapWork.flyToLayer(layer)
     } else {
       layer.show = false
     }
@@ -72,9 +71,11 @@ function initTree() {
     layers: true // 是否取config.json中的layers
   })
 
+
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
+
     if (layer && layer.pid === -1) {
       const node: any = {
         title: layer.name,
@@ -103,7 +104,9 @@ function findChild(parent: any, list: any[]) {
         uuid: item.uuid
       }
       layersObj[item.uuid] = item
-      if (item.hasChildLayer) {
+      expandedKeys.value.push(node.key)
+
+      if (item.hasEmptyGroup) {
         node.children = findChild(node, list)
       }
       if (item.isAdded && item.show) {
@@ -115,10 +118,6 @@ function findChild(parent: any, list: any[]) {
 </script>
 
 <style scoped lang="less">
-.manager-mars-pannel {
-  width: 220px;
-  overflow-y: auto;
-}
 :deep(.ant-form-item) {
   margin-bottom: 10px;
 }

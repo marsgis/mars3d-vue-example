@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <span>模型URL地址: </span> &nbsp;&nbsp;
       <a-checkbox v-model:checked="isProxy">使用代理</a-checkbox>
@@ -23,14 +23,14 @@
       </div>
     </div>
   </mars-pannel>
-  <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import { ref, markRaw } from "vue"
+import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -95,22 +95,29 @@ const saveGeoJSON = () => {
 }
 
 // *****************************属性面板***************************//
-const editor = ref()
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
   }
+}
+mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
+  showEditor(e)
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 </script>

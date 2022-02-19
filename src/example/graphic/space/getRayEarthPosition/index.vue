@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -12,25 +12,25 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆:</span>
-        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
+        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆:</span>
-        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
+        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">夹角:</span>
-        <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
+        <span class="mars-pannel-item-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;夹角:</span>
+        <mars-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
       </a-space>
     </div>
   </mars-pannel>
-  <mars-pannel class="messageShow">
+  <mars-pannel :visible="true" right="10" top="210" width="300">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -67,7 +67,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -136,12 +135,6 @@ const chkShowModelMatrix = () => {
 .inputNum {
   width: 70px !important;
 }
-.messageShow {
-  right: 10px !important;
-  top: 60% !important;
-  bottom: 54px;
-  padding: 0 !important;
-}
 th.column-money,
 td.column-money {
   text-align: right !important;
@@ -150,7 +143,7 @@ td.column-money {
   width: 110px;
 }
 .mars-table {
-  width: 280px;
+  width: 277px;
   border-collapse: collapse;
   border-spacing: 0;
 }

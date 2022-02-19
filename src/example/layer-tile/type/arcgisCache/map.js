@@ -17,7 +17,6 @@ export const mapOptions = {
       upperCase: true, // 标识图片名称是否大写
       minimumLevel: 0,
       maximumLevel: 4,
-      rectangle: { xmin: -180, xmax: 180, ymin: -90, ymax: 90 },
       show: true
     }
   ]
@@ -45,6 +44,7 @@ let tileLayer
 export function addLayer() {
   removeLayer()
   map.setCameraView({ lat: 31.427562, lng: 117.193707, alt: 97757, heading: 3, pitch: -66 })
+
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.ArcGisCacheLayer({
     url: "//data.mars3d.cn/arcgis_cache/hfgh/_alllayers/{z}/{y}/{x}.png",
@@ -57,6 +57,7 @@ export function addLayer() {
   })
   map.addLayer(tileLayer)
 }
+
 export function removeLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)

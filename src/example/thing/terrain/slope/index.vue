@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item label="插值数">
         <a-space>
@@ -24,7 +24,6 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

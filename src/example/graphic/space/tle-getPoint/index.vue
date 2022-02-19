@@ -1,8 +1,8 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" height="300">
     <a-form>
       <a-form-item label="卫星张角:">
-        <a-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
+        <mars-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
       </a-form-item>
 
       <a-form-item label="开始时间:">
@@ -17,7 +17,7 @@
       </a-form-item>
 
       <a-form-item label="区域透明度:">
-        <a-slider @change="changeColorOpacity" v-model:value="formState.slideOpacity" :min="0.01" :max="1.0" :step="0.01" />
+        <mars-slider @change="changeColorOpacity" v-model:value="formState.slideOpacity" :min="0.01" :max="1.0" :step="0.01" />
       </a-form-item>
 
       <div class="f-mb f-tac">
@@ -39,8 +39,7 @@
 import { reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
 import type { UnwrapRef } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
- import * as mapWork from "./map.js"
+import * as mapWork from "./map.js"
 
 interface FormState {
   slideAngle: number
@@ -51,8 +50,6 @@ interface FormState {
   guidaoS: boolean
   guidaoJ: boolean
 }
-
-
 
 const formState: UnwrapRef<FormState> = reactive({
   slideAngle: 10,

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView achart_container" v-auto-height="28">
+  <mars-pannel :visible="true" top="2" right="10" bottom="40" width="450">
     <!-- 右侧图表面板-->
     <div class="bg">
       <div class="_item_top">
@@ -70,7 +70,6 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 
 const ring = ref()
@@ -535,10 +534,6 @@ function fontSize(res: number) {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 410px;
-  overflow-y: auto;
-}
 .achart_container {
   position: absolute;
   padding: 10px;
@@ -555,7 +550,7 @@ function fontSize(res: number) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.22rem;
+  margin-bottom: 0;
 }
 
 .item_bottom {

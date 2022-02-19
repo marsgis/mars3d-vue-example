@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawRectangle">框选</mars-button>
       <mars-button @click="drawCircle">圆形</mars-button>
@@ -11,7 +11,7 @@
   <!-- 视频 面板 -->
   <div class="videoWrap" v-show="formState.openVideo == true">
     <div class="openPanel" v-show="formState.openPannel === true">
-      <div class="closeAction" @click="closePannel">收缩&gt; </div>
+      <div class="closeAction" @click="closePannel">收缩&gt;</div>
       <video width="420" :muted="true" :autoplay="true">
         <source src="//data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
       </video>
@@ -24,7 +24,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -58,6 +57,7 @@ const drawPolygon = () => {
 // 清除
 const drawClear = () => {
   mapWork.drawClear()
+  formState.openVideo = false
 }
 
 // 视屏面板的控制

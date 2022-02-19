@@ -1,15 +1,15 @@
 <template>
-  <mars-pannel class="infoView" v-auto-height="100">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->
         <template #expandIcon>
-          <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+          <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
         </template>
         <a-collapse-panel key="1" header="表单控件">
           <!-- 自定义面板右侧图标 -->
           <template #extra>
-            <Icon icon="icon-park-outline:config" class="icon-vertical-a" />
+            <mars-icon icon="icon-park-outline:config" class="icon-vertical-a" />
           </template>
 
           <a-form-item label="简单文本" name="url">
@@ -42,11 +42,11 @@
           </a-form-item>
 
           <a-form-item label="滑动条">
-            <a-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
+            <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
           </a-form-item>
 
           <a-form-item label="刻度滑动条">
-            <a-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
+            <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
           </a-form-item>
 
           <a-form-item label="多选">
@@ -78,15 +78,15 @@
           <div class="f-tac">
             <a-space>
               <mars-button size="middle" @click="onClickMessage">
-                <template #icon><Icon icon="icon-park-outline:alarm" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="icon-park-outline:alarm" class="icon-vertical-a" /></template>
                 消息
               </mars-button>
               <mars-button size="middle" @click="onClickNotify">
-                <template #icon><Icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
                 提示
               </mars-button>
               <mars-button size="middle" @click="onClickAlert">
-                <template #icon><Icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
+                <template #icon><mars-icon icon="icon-park-outline:download-one" class="icon-vertical-a" /></template>
                 弹窗
               </mars-button>
             </a-space>
@@ -123,11 +123,11 @@
       <div class="f-tac">
         <a-space>
           <mars-button size="middle" @click="onClickLoading">
-            <template #icon><Icon icon="icon-park-outline:find" class="icon-vertical-a" /></template>
+            <template #icon><mars-icon icon="icon-park-outline:find" class="icon-vertical-a" /></template>
             进度条1
           </mars-button>
           <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><Icon icon="iconoir:planet" class="icon-vertical-a" /></template>
+            <template #icon><mars-icon icon="iconoir:planet" class="icon-vertical-a" /></template>
             进度条2
           </mars-button>
         </a-space>
@@ -138,13 +138,12 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import { Icon } from "@iconify/vue"
+
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import * as mapWork from "./map.js"
-import { $message, $notify, $alert } from "@/components/mars-ui/index"
+import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 
 const activeKey = ref(["1", "2", "3"])
 

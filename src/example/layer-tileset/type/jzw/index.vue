@@ -1,9 +1,9 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+        <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
       </template>
       <a-collapse-panel key="1" header="原始样式">
         <div class="f-mb">
@@ -38,7 +38,7 @@
           <a-space>
             <span>亮度效果</span>
             <a-checkbox @change="chkBrightness" v-model:checked="formState.enabledBrightness">开启亮度</a-checkbox>
-            <a-slider @change="alphaChange" :min="0.1" :max="8.0" :step="0.05" v-model:value="alphaVal" />
+            <mars-slider @change="alphaChange" :min="0.1" :max="8.0" :step="0.05" v-model:value="alphaVal" />
           </a-space>
         </div>
       </a-collapse-panel>
@@ -48,8 +48,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import { Icon } from "@iconify/vue"
+
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

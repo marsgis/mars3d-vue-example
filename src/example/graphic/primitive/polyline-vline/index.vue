@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView" v-auto-height="50">
+  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="385">
     <div class="populationView">
       <!-- 实有人口 -->
       <div class="realPopulation">
@@ -37,11 +37,11 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <div class="male">
-          <Icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
+          <mars-icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
           <span>男性</span>
         </div>
         <div class="female">
-          <Icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
+          <mars-icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
           <span>女性</span>
         </div>
         <div id="structure" class="structure"></div>
@@ -54,17 +54,17 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <span class="man_icon">
-          <Icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
+          <mars-icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
         </span>
         <span class="woman_icon">
-          <Icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
+          <mars-icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
         </span>
         <div class="man_display">
-          <Icon icon="icon-park-outline:boy-two" color="#00f6ff" />
+          <mars-icon icon="icon-park-outline:boy-two" color="#00f6ff" />
           <span>38.53%</span>
         </div>
         <div class="woman_display">
-          <Icon icon="icon-park-outline:girl" color="#ff6ac4" />
+          <mars-icon icon="icon-park-outline:girl" color="#ff6ac4" />
           <span>61.49%</span>
         </div>
 
@@ -76,8 +76,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue"
-import { Icon } from "@iconify/vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+
 import * as echarts from "echarts"
 
 onMounted(() => {
@@ -326,11 +325,6 @@ function initAging(dom: any) {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 385px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 .genderIcon {
   font-family: "GenderIcon" !important;
   font-size: 30px;

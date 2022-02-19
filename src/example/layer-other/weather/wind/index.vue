@@ -1,45 +1,45 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-row :gutter="5">
       <a-col :span="24">
         <a-form-item label="particlesNumber" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.particlesNumber" @change="onParticleSystemOptionsChange" :min="1" :max="256 * 256" :step="1" />
+          <mars-slider v-model:value="formState.particlesNumber" @change="onParticleSystemOptionsChange" :min="1" :max="256 * 256" :step="1" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="fixedHeight" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.fixedHeight" @change="onParticleSystemOptionsChange" :min="1" :max="10000" :step="1" />
+          <mars-slider v-model:value="formState.fixedHeight" @change="onParticleSystemOptionsChange" :min="1" :max="10000" :step="1" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="fadeOpacity" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.fadeOpacity" @change="onParticleSystemOptionsChange" :min="0.9" :max="0.999" :step="0.001" />
+          <mars-slider v-model:value="formState.fadeOpacity" @change="onParticleSystemOptionsChange" :min="0.9" :max="0.999" :step="0.001" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="dropRate" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.dropRate" @change="onParticleSystemOptionsChange" :min="0.0" :max="0.1" :step="0.001" />
+          <mars-slider v-model:value="formState.dropRate" @change="onParticleSystemOptionsChange" :min="0.0" :max="0.1" :step="0.001" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="dropRateBump" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.dropRateBump" @change="onParticleSystemOptionsChange" :min="0.0" :max="0.2" :step="0.001" />
+          <mars-slider v-model:value="formState.dropRateBump" @change="onParticleSystemOptionsChange" :min="0.0" :max="0.2" :step="0.001" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="speedFactor" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.speedFactor" @change="onParticleSystemOptionsChange" :min="0.05" :max="1" :step="0.01" />
+          <mars-slider v-model:value="formState.speedFactor" @change="onParticleSystemOptionsChange" :min="0.05" :max="1" :step="0.01" />
         </a-form-item>
       </a-col>
 
       <a-col :span="24">
         <a-form-item label="lineWidth" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider v-model:value="formState.lineWidth" @change="onParticleSystemOptionsChange" :min="0.01" :max="16.0" :step="0.01" />
+          <mars-slider v-model:value="formState.lineWidth" @change="onParticleSystemOptionsChange" :min="0.01" :max="16.0" :step="0.01" />
         </a-form-item>
       </a-col>
 
@@ -54,7 +54,6 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

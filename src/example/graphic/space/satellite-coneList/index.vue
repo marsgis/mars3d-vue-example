@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="locate">定位至卫星</mars-button>
       <span class="mars-pannel-item-label">参考系</span>
       <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
     </a-space>
-    <table class="mars-table tb-border">
+    <table class="mars-table tb-border f-mt">
       <tr>
         <td class="nametd">名称</td>
         <td id="td_name">{{ formState.name }}</td>
@@ -41,7 +41,6 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

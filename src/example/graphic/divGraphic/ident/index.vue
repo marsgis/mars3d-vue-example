@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="divGraphicYellow">效果一</mars-button>
       <mars-button @click="divGraphicBule">效果二</mars-button>
@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const divGraphicYellow = () => {

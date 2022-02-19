@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>日期选择:</span>
@@ -10,7 +10,7 @@
     <div class="f-mb">
       <a-space>
         <span>时间选择:</span>
-        <a-slider @change="timeChange" v-model:value="timeVal" :min="0" :max="1440" :step="1" />
+        <mars-slider @change="timeChange" v-model:value="timeVal" :min="0" :max="1440" :step="1" />
       </a-space>
     </div>
 
@@ -33,7 +33,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import dayjs from "dayjs"
 import * as mapWork from "./map.js"
 

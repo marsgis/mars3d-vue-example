@@ -1,12 +1,10 @@
 import { createApp } from "vue"
 import Application from "./App.vue"
-import { getQueryString } from "@/utils/mars-util"
+import { getQueryString } from "@mars/utils/mars-util"
 import { useEditor } from "mars-editor"
-import MarsUI from "@/components/mars-ui"
-
-// import "ant-design-vue/dist/antd.dark.less"
-// 加载全局样式
-// import "@/styles/index.less"
+import MarsUIInstall from "@mars/components/mars-ui"
+import { injectState, key } from "@mars/widgets/common/store/widget"
+import store from "@mars/widgets/widget-store"
 
 // https跳转处理
 const protocol = window.location.protocol
@@ -16,7 +14,16 @@ if (protocol === "https:") {
 
 const app = createApp(Application)
 
-app.use(MarsUI)
+MarsUIInstall(app, {
+  dialog: {
+    position: {
+      left: 50,
+      bottom: 50
+    }
+  }
+})
+
+app.use(injectState(store), key)
 
 useEditor(app, {
   baseUrl: process.env.BASE_URL,

@@ -1,7 +1,9 @@
 import { createApp } from "vue"
 import Application from "./App.vue"
-import MarsUI from "@/components/mars-ui"
+import MarsUIInstall from "@mars/components/mars-ui"
 import { setConfig } from "mars-editor"
+import { injectState, key } from "@mars/widgets/common/store/widget"
+import store from "@mars/widgets/widget-store"
 
 // https跳转处理
 const protocol = window.location.protocol
@@ -11,7 +13,15 @@ if (protocol === "https:") {
 
 const app = createApp(Application)
 
-app.use(MarsUI)
+MarsUIInstall(app, {
+  dialog: {
+    position: {
+      left: 50,
+      bottom: 50
+    }
+  }
+})
+app.use(injectState(store), key)
 
 document.oncontextmenu = function (e) {
   e.preventDefault()
@@ -28,7 +38,7 @@ setConfig(app, {
 // 设置自适应高度指令
 app.directive("auto-height", {
   mounted(el, binding) {
-    const container = document.getElementById("sanbox-warpper")
+    const container = document.getElementById("mars-main-view")
     const loseHeight = binding.value || 0
     let wapperHeight = container?.clientHeight || 0
     el.style.height = `${wapperHeight - loseHeight}px`

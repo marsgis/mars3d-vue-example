@@ -1,11 +1,22 @@
 <template>
   <ConfigProvider :locale="locale">
     <a-spin :spinning="loading" wrapperClassName="global-spin">
-      <div id="sanbox-warpper" class="mars-main-view">
+      <div id="mars-main-view" class="mars-main-view">
         <div id="centerDiv3D">
           <div id="mars3dContainer" class="mars3d-container"></div>
         </div>
-        <mars-operation v-if="mapLoaded" @childMounted="onChildMounted" />
+        <main-operation v-if="showPannel" @childMounted="onChildMounted" />
+
+        <template v-if="mapLoaded">
+          <template v-for="comp in widgets" :key="comp.key">
+            <component
+              v-if="openAtStart.includes(comp.name) && comp.visible"
+              :is="comp.component"
+              v-model:visible="comp.visible"
+              v-bind="getWidgetAttr(comp)"
+            />
+          </template>
+        </template>
       </div>
     </a-spin>
   </ConfigProvider>
@@ -20,9 +31,10 @@
 import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { getCurrentInstance, onMounted, provide, ref } from "vue"
 import { ConfigProvider } from "ant-design-vue"
-import { getQueryString } from "@/utils/mars-util"
-import MarsOperation from "@/components/mars-work/mars-operation.vue"
+import { getQueryString } from "@mars/utils/mars-util"
+import MainOperation from "@mars/components/mars-work/main-operation.vue"
 import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
+import { useWidget, Widget } from "@mars/widgets/common/store/widget"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 
@@ -30,9 +42,44 @@ const globalProperties = getCurrentInstance()!.appContext.config.globalPropertie
 
 const resourcePath = (process.env.EXAMPLE_SOURCE_PATH || "") + "example/"
 
+const { widgets, openAtStart, activate, isActivate, disable } = useWidget()
+
+const locale = zhCN
+
+const mapLoaded = ref(false) // map加载完成
+
+const showPannel = ref(false) // 是否加载面板
+
 let mapWork: any | null = null
 
+let mapInstance: any = null
+provide("getMapInstance", () => {
+  return mapInstance
+})
+
 const loading = ref(false)
+
+const marsOnload = (map: any) => {
+  mapInstance = map
+  mapLoaded.value = true
+}
+
+const getWidgetAttr = (widget: Widget) => {
+  let attr = {}
+  if (widget.meta && widget.meta.props) {
+    attr = {
+      ...attr,
+      ...widget.meta.props
+    }
+  }
+  if (widget.data && widget.data.props) {
+    attr = {
+      ...attr,
+      ...widget.data.props
+    }
+  }
+  return attr
+}
 
 onMounted(async () => {
   const exampleId = getQueryString("id")
@@ -47,13 +94,13 @@ onMounted(async () => {
       },
       set(value) {
         mapWork = value // 赋值后vue中使用
-
+        marsOnload(window._mapInstance)
         if (config.usePannel) {
-          mapLoaded.value = true // 开始构造vue面板
+          // 开始构造vue面板
+          showPannel.value = true
         } else {
           onChildMounted()
         }
-        console.log(mapLoaded.value)
       }
     })
 
@@ -80,15 +127,6 @@ onMounted(async () => {
     })
   }
 })
-
-const locale = zhCN
-
-const mapInstance: any = null
-provide("getMapInstance", () => {
-  return mapInstance
-})
-
-const mapLoaded = ref(false)
 
 function onChildMounted() {
   const map = window._mapInstance

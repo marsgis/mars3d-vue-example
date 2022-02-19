@@ -1,27 +1,20 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="426">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+        <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
       </template>
       <a-collapse-panel key="1" header="3D Tiles示例">
-        <div class="f-mb">
-          <a-space>
-            <mars-button @click="showQxShequDemo">倾斜摄像(某县城)</mars-button>
-            <mars-button @click="showQxSimiaoDemo">倾斜摄像（某景区）</mars-button>
-            <mars-button @click="showJzwHefeiDemo">城市白膜（合肥）</mars-button>
-          </a-space>
+        <div class="basis-button-contain">
+          <mars-button @click="showQxShequDemo">倾斜摄像(某县城)</mars-button>
+          <mars-button @click="showQxSimiaoDemo">倾斜摄像（某景区）</mars-button>
+          <mars-button @click="showJzwHefeiDemo">城市白膜（合肥）</mars-button>
+          <mars-button @click="showPntsGantaDemo">高压线塔杆(点云)</mars-button>
+          <mars-button @click="showMaxShihuaDemo">人工建模（石化工厂）</mars-button>
+          <mars-button @click="showBimQiaoliangDemo">BIM（桥梁）</mars-button>
+          <mars-button @click="showBimDitiezhanDemo">BIM（地铁站）</mars-button>
         </div>
-        <div class="f-mb">
-          <a-space>
-            <mars-button @click="showPntsGantaDemo">高压线塔杆(点云)</mars-button>
-            <mars-button @click="showMaxShihuaDemo">人工建模（石化工厂）</mars-button>
-            <mars-button @click="showBimQiaoliangDemo">BIM（桥梁）</mars-button>
-          </a-space>
-        </div>
-
-        <mars-button @click="showBimDitiezhanDemo">BIM（地铁站）</mars-button>
       </a-collapse-panel>
 
       <a-collapse-panel key="2" header="相关控制">
@@ -48,8 +41,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import { Icon } from "@iconify/vue"
+
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 const activeKey = ref(["1", "2", "3"])
@@ -104,7 +96,10 @@ const showBimDitiezhanDemo = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 426px;
+.basis-button-contain {
+  .mars-button {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
 }
 </style>

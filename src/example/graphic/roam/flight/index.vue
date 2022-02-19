@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView roamLinePanel">
+  <mars-pannel :visible="true" width="300" right="10" top="10">
     <div class="f-mb f-tac">
       <a-space>
         <mars-button @click="btnStart">开始</mars-button>
@@ -58,12 +58,12 @@
 
         <a-col :span="8">pitch值(前后):</a-col>
         <a-col :span="11">
-          <a-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
+          <mars-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
         </a-col>
 
         <a-col :span="8">roll值(左右):</a-col>
         <a-col :span="11">
-          <a-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
+          <mars-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
         </a-col>
       </a-row>
     </div>
@@ -74,8 +74,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
+import roamlinePanel from "@mars/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -186,7 +185,8 @@ const changeSelect = () => {
       formState.offsetX = 0
 
       break
-    case "sd": { // 锁定上帝视角
+    case "sd": {
+      // 锁定上帝视角
       formState.showFollowedZ = "1"
       const followedZ = Number(formState.followedZ)
       if (followedZ < 500) {

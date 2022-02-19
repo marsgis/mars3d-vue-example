@@ -53,7 +53,8 @@ function addDemoGraphic1(graphicLayer) {
       bottomRadius: 1000.0,
       color: "#ff0000",
       opacity: 0.7
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -73,7 +74,8 @@ function addDemoGraphic2(graphicLayer) {
       heading: 45,
       roll: 45,
       pitch: 0
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -94,7 +96,8 @@ function addDemoGraphic3(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -108,7 +111,8 @@ function addDemoGraphic4(graphicLayer) {
       bottomRadius: 1000.0,
       color: "#00FFFF",
       opacity: 0.4
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -127,7 +131,8 @@ function addDemoGraphic5(graphicLayer) {
       }),
       faceForward: false, // 当绘制的三角面片法向不能朝向视点时，自动翻转法向，从而避免法向计算后发黑等问题
       closed: true // 是否为封闭体，实际上执行的是 是否进行背面裁剪
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -143,7 +148,8 @@ function addDemoGraphic6(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
       scale: 1,
       minimumPixelSize: 50
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphicModel)
 

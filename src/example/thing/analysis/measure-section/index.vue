@@ -1,6 +1,6 @@
 <template>
   <!-- UI面板 -->
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="measureSection">绘制线</mars-button>
       <mars-button @click="clear">清除</mars-button>
@@ -8,7 +8,7 @@
   </mars-pannel>
 
   <!-- ecahrt图表 -->
-  <mars-pannel class="echartsBox" v-show="isShow" animateClassName="fadeInUp">
+  <mars-pannel v-model:visible="isShow" left="10" width="calc(100% - 20px)" bottom="40">
     <div class="echatsView">
       <div id="echartsView1" style="width: 100%; height: 100%"></div>
     </div>
@@ -19,8 +19,7 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
@@ -192,9 +191,9 @@ function setEchartsData(data: any) {
   left: 50px;
   width: calc(100% - 60px);
   bottom: 40px;
-  .echatsView {
-    width: 100%;
-    height: 200px;
-  }
+}
+.echatsView {
+  width: 100%;
+  height: 200px;
 }
 </style>

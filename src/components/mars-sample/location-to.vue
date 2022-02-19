@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="localBtn">
+  <mars-pannel :visible="true" right="10" bottom="40">
     <a-space>
       <mars-button @click="onClickCenterAtTerrain">定位至山区</mars-button>
       <mars-button @click="onClickCenterAtModel">定位至模型</mars-button>
@@ -14,12 +14,8 @@
  * @author 木遥 2021-11-01
  */
 import { defineComponent, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 
 export default defineComponent({
-  components: {
-    MarsPannel
-  },
   setup() {
     // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
     const mapWork = window.mapWork

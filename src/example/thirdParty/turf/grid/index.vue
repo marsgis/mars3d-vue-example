@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <span>步长:</span>
       <mars-input-number v-model:value="value" :min="1" :max="10" />
@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="256">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">圆锥体:</span>
@@ -15,32 +15,32 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">方向角:</span>
-        <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ headingValue }}</span>
+        <mars-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ headingValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">俯仰角:</span>
-        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ pitchValue }}</span>
+        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ pitchValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右角:</span>
-        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ rollValue }}</span>
+        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ rollValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">夹角:</span>
-        <a-slider @change="angle" v-model:value="angleValue" :min="0" :max="89" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ angleValue }}</span>
+        <mars-slider @change="angle" v-model:value="angleValue" :min="0" :max="89" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ angleValue }}°</span>
       </a-space>
     </div>
 
@@ -55,7 +55,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -122,12 +121,11 @@ const sensorTop = () => {
 </script>
 <style scoped lang="less">
 .mars-pannel-item-label {
-  width: 60px;
+  display: block;
+  text-align: right;
+  width: 40px;
 }
 .ant-slider {
   width: 110px;
-}
-.infoView {
-  width: 274px;
 }
 </style>

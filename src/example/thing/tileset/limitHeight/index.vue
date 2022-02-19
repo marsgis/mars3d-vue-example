@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>分析区域</span>
@@ -11,14 +11,13 @@
 
     <a-space>
       <span>限定高度</span>
-      <a-slider @change="currHeight" v-model:value="inputValue" :min="0" :max="180" />高度{{ inputValue }}
+      <mars-slider @change="currHeight" v-model:value="inputValue" :min="0" :max="180" />高度{{ inputValue }}
     </a-space>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const inputValue = ref<number>(80)

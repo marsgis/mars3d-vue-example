@@ -60,7 +60,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -74,7 +75,8 @@ function addDemoGraphic2(graphicLayer) {
     style: {
       radius: 1500.0,
       image: "img/textures/excavate_bottom_min.jpg"
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -89,7 +91,8 @@ function addDemoGraphic3(graphicLayer) {
         count: 1, // 圆圈数量
         speed: 20
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -103,7 +106,8 @@ function addDemoGraphic4(graphicLayer) {
         color: new Cesium.Color(1.0, 1.0, 0.0, 1.0),
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -119,7 +123,8 @@ function addDemoGraphic5(graphicLayer) {
         speed: 20,
         gradient: 0.1
       })
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(primitive) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -134,7 +139,8 @@ function addDemoGraphic6(graphicLayer) {
         color: "#00ffff",
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(primitive) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -149,7 +155,8 @@ function addDemoGraphic7(graphicLayer) {
         color: "#00ff00",
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(primitive) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -204,7 +211,8 @@ function addDemoGraphic8(graphicLayer) {
         alpha: 0.4,
         speed: 10.0
       })
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(circlePrimitiveScan)
 }

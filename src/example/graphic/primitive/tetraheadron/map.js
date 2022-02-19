@@ -53,7 +53,8 @@ export function addDemoGraphic1(graphicLayer) {
       height: 40,
       color: "rgba(200,200,0,0.7)",
       moveHeight: 50
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(tetrahedronPrimitive)
 }
@@ -66,7 +67,8 @@ export function addDemoGraphic2(graphicLayer) {
       height: 30,
       color: new Cesium.Color(0.8, 0.8, 0, 0.8),
       moveHeight: 40
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(tetrahedronPrimitive)
 }
@@ -82,7 +84,8 @@ export function addDemoGraphic3(graphicLayer) {
       moveHeight: 30,
       moveDuration: 1,
       rotationAngle: 1
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(tetrahedronPrimitive)
 }

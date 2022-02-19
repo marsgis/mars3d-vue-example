@@ -102,11 +102,11 @@ export function deleteAll() {
 }
 
 export function changeItemImage(item) {
-  return mars3d.Util.template(item.image, { gltfServerUrl: "//data.mars3d.cn/gltf" })
+  return mars3d.Util.template(item.image, map.options.templateValues)
 }
 
 export function changeItemUrl(item) {
-  return mars3d.Util.template(item.style.url, { gltfServerUrl: "//data.mars3d.cn/gltf" })
+  return mars3d.Util.template(item.style.url, map.options.templateValues)
 }
 
 /**

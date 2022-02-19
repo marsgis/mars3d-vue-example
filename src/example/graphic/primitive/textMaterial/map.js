@@ -67,7 +67,8 @@ function addDemoGraphic1(graphicLayer) {
       text: "水利闸门",
       font_family: "楷体",
       fillColor: "#00ffff"
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -87,7 +88,8 @@ function addDemoGraphic2(graphicLayer) {
         fillColor: "#3388cc",
         outlineWidth: 4
       })
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -121,7 +123,8 @@ function addDemoGraphic3(graphicLayer) {
         strokeColor: new Cesium.Color(1.0, 1.0, 0.0, 0.8),
         strokeWidth: 5
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(rectanglePrimitive)
 }
@@ -144,7 +147,8 @@ function addDemoGraphic4(graphicLayer) {
       rotation: Cesium.Math.toRadians(163),
       stRotation: Cesium.Math.toRadians(163),
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(rectanglePrimitive)
 }

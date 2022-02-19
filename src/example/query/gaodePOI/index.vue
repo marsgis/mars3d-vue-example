@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="400">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="radioFanwei">
@@ -53,10 +53,9 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -179,8 +178,4 @@ const removeAll = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 330px;
-  max-height: 93%;
-}
 </style>

@@ -77,7 +77,8 @@ function addDemoGraphic1(graphicLayer) {
         speed: 10,
         axisY: true
       })
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -103,7 +104,8 @@ function addDemoGraphic2(graphicLayer) {
         repeat: new Cesium.Cartesian2(30, 1),
         speed: 20
       })
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -128,7 +130,8 @@ function addDemoGraphic3(graphicLayer) {
         speed: 10,
         axisY: true
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -150,7 +153,8 @@ function addDemoGraphic4(graphicLayer) {
         color2: "#ffff00",
         speed: 10
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -174,7 +178,8 @@ function addDemoGraphic5(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -216,7 +221,8 @@ function addDemoGraphic6(graphicLayer) {
         repeat: new Cesium.Cartesian2(20, 1),
         speed: 20
       })
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -238,7 +244,8 @@ function addDemoGraphic7(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -255,7 +262,8 @@ function addDemoGraphic8(graphicLayer) {
         image: getColorRampCanvas(),
         transparent: false
       })
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic)
 }

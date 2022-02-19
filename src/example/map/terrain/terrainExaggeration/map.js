@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  map.scene.terrainExaggeration = 10 // 修改地形夸张程度
+  map.scene.globe.terrainExaggeration = 10 // 修改地形夸张程度
 }
 
 /**

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="400">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -39,9 +39,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -156,9 +155,6 @@ const removeAll = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 320px;
-}
 .inputServe {
   width: 250px;
 }

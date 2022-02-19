@@ -65,7 +65,8 @@ function addDemoGraphic1() {
       angle2: 23.4,
       heading: 140.7,
       pitch: -82.1
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(video3D)
 }
@@ -81,7 +82,8 @@ function addDemoGraphic2() {
       heading: 178.5,
       pitch: -49.5,
       showFrustum: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(video3D)
 

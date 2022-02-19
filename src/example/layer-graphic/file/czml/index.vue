@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView" v-show="isShow">
+  <mars-pannel v-model:visible="isShow" right="10" top="10">
     <a-space>
       <mars-button @click="showAircraft">飞机</mars-button>
       <mars-button @click="showShip">船舶</mars-button>
@@ -14,7 +14,7 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel class="treeView">
+  <mars-pannel :visible="true" right="10" top="100" width="220">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
     </mars-tree>
   </mars-pannel>
@@ -22,9 +22,8 @@
 
 <script setup lang="ts">
 import { nextTick, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
-import { getQueryString } from "@/utils/mars-util"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
+import { getQueryString } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 
 interface treeItem {

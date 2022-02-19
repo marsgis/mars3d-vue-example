@@ -153,6 +153,7 @@ html {
 }
 .cesium-toolbar-button img {
   height: 100%;
+  vertical-align: middle;
 }
 .cesium-viewer-toolbar > .cesium-toolbar-button,
 .cesium-navigationHelpButton-wrapper,

@@ -68,7 +68,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(coneTrack)
 }
@@ -84,7 +85,8 @@ function addDemoGraphic2(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
       scale: 1,
       minimumPixelSize: 50
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 
@@ -140,7 +142,8 @@ function addDemoGraphic3(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
       scale: 0.3,
       minimumPixelSize: 30
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphicModel)
 

@@ -1,78 +1,62 @@
 <template>
-  <mars-pannel class="infoView">
-    <a-row :gutter="5">
-      <a-col :span="24">
-        <a-form-item label="演示数据" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-space>
-            <mars-button @click="loadEarthData">全球区域</mars-button>
-            <mars-button @click="loadDongnanData">局部区域</mars-button>
-          </a-space>
-        </a-form-item>
-      </a-col>
+  <mars-pannel :visible="true" right="10" top="10">
+    <div class="f-mb">
+      <a-space>
+        <span>演示数据:</span>
+        <mars-button @click="loadEarthData">全球区域</mars-button>
+        <mars-button @click="loadDongnanData">局部区域</mars-button>
+      </a-space>
+    </div>
 
-      <a-col :span="24">
-        <a-form-item label="粒子个数" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider
-          v-model:value="formState.count"
-          @change="changeCount"
-          :min="1000" :max="90000" :step="1" />
-        </a-form-item>
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>粒子个数:</span>
+        <mars-slider v-model:value="formState.count" @change="changeCount" :min="1000" :max="90000" :step="1" />
+      </a-space>
+    </div>
 
-      <a-col :span="24">
-        <a-form-item label="存活时间" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider
-          v-model:value="formState.age"
-          @change="changeAge"
-          :min="10" :max="500" :step="1" />
-        </a-form-item>
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>存活时间:</span>
+        <mars-slider v-model:value="formState.age" @change="changeAge" :min="10" :max="500" :step="1" />
+      </a-space>
+    </div>
 
-      <a-col :span="24">
-        <a-form-item label="移动速率" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider
-          v-model:value="formState.speed"
-          @change="changeSpeed"
-          :min="1" :max="100" :step="1" />
-        </a-form-item>
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>移动速率:</span>
+        <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="100" :step="1" />
+      </a-space>
+    </div>
 
-      <a-col :span="24">
-        <a-form-item label="线宽度" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-slider
-          v-model:value="formState.linewidth"
-          @change="changeLinewidth"
-          :min="1" :max="10" :step="0.1" />
-        </a-form-item>
-      </a-col>
+    <div class="f-mb">
+      <a-space>
+        <span>线宽度:</span>
+        <mars-slider v-model:value="formState.linewidth" @change="changeLinewidth" :min="1" :max="10" :step="0.1" />
+      </a-space>
+    </div>
 
-      <a-col :span="24">
-        <a-form-item label="线颜色" :labelCol="labelCol" :labelAlign="labelAlign">
-          <mars-color-picker v-model:value="formState.color" @change="changeColor"/>
-        </a-form-item>
-      </a-col>
-    </a-row >
+    <div class="f-mb">
+      <a-space>
+        <span>线颜色:</span>
+        <mars-color-picker v-model:value="formState.color" @change="changeColor" />
+      </a-space>
+    </div>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
   count: number
-  age:number
-  speed:number
-  linewidth:number
-  color:string
+  age: number
+  speed: number
+  linewidth: number
+  color: string
 }
-
-
-
-const labelCol = ref({ span: 8 })
-const labelAlign = ref("left")
 
 const formState: UnwrapRef<FormState> = reactive({
   count: 5000,
@@ -81,7 +65,6 @@ const formState: UnwrapRef<FormState> = reactive({
   linewidth: 1,
   color: "#4696db"
 })
-
 
 // 滑动条事件
 // 修改粒子数量
@@ -117,7 +100,7 @@ const loadDongnanData = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView{
-  width: 300px;
+.ant-slider {
+  width: 140px;
 }
 </style>

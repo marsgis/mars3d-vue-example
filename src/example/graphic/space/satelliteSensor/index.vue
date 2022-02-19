@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -9,7 +9,7 @@
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <!-- <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度:</span>
          <mars-input-number @change="xChange" v-model:value="model_x" class="inputNum"></mars-input-number> 纬度:<mars-input-number
@@ -19,26 +19,47 @@
         ></mars-input-number>
         高度:<mars-input-number @change="zChange" v-model:value="model_z" class="inputNum"></mars-input-number>
       </a-space>
+    </div> -->
+
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">经度:</span>
+        <mars-input-number @change="xChange" v-model:value="model_x" class="inputNum"></mars-input-number>
+      </a-space>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">经度:</span>
+        <mars-input-number @change="yChange" v-model:value="model_y" class="inputNum"></mars-input-number>
+      </a-space>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">高度:</span>
+        <mars-input-number @change="zChange" v-model:value="model_z" class="inputNum"></mars-input-number
+      ></a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轨迹方向:</span>
-        <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="1" />当前值{{ headingValue }}
+        <mars-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="1" />当前值{{ headingValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆:</span>
-        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
+        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆:</span>
-        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
+        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
       </a-space>
     </div>
     <div class="f-mb">
@@ -52,7 +73,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轴长度:</span>
-        <a-slider @change="lengthChange" v-model:value="matrixLength" :min="1" :max="10000" :step="1" />当前值{{ matrixLength }}
+        <mars-slider @change="lengthChange" v-model:value="matrixLength" :min="1" :max="10000" :step="1" />当前值{{ matrixLength }}
       </a-space>
     </div>
 
@@ -70,14 +91,14 @@
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">夹角1:</span>
-          <a-slider @change="angle1" v-model:value="angleValue1" :min="0" :max="89" :step="0.001" />当前值{{ angleValue1 }}
+          <mars-slider @change="angle1" v-model:value="angleValue1" :min="0" :max="89" :step="0.001" />当前值{{ angleValue1 }}
         </a-space>
       </div>
 
       <div class="f-mb" v-if="value === '2'">
         <a-space>
           <span class="mars-pannel-item-label">夹角2:</span>
-          <a-slider @change="angle2" v-model:value="angleValue2" :min="0" :max="89" :step="0.001" />当前值{{ angleValue2 }}
+          <mars-slider @change="angle2" v-model:value="angleValue2" :min="0" :max="89" :step="0.001" />当前值{{ angleValue2 }}
         </a-space>
       </div>
 
@@ -95,7 +116,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -209,10 +229,13 @@ const chkSensorType = () => {
 </script>
 <style scoped lang="less">
 .inputNum {
-  width: 70px !important;
+  width: 140px !important;
 }
 
 .ant-slider {
   width: 110px;
+}
+.mars-pannel-item-label {
+  width: 64px;
 }
 </style>

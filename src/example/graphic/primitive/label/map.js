@@ -51,7 +51,8 @@ function addDemoGraphic1(graphicLayer) {
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       disableDepthTestDistance: Number.POSITIVE_INFINITY // 一直显示，不被地形等遮挡(会穿过地球被透视)
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -70,7 +71,8 @@ function addDemoGraphic2(graphicLayer) {
       text: "Mars3D",
       fillColor: Cesium.Color.YELLOW,
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -83,7 +85,8 @@ function addDemoGraphic3(graphicLayer) {
       fillColor: Cesium.Color.LIME,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1)
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -105,7 +108,8 @@ function addDemoGraphic4(graphicLayer) {
       highlight: {
         font_size: 35
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

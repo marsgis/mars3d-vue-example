@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="startAnimation">重新播放</mars-button>
       <mars-button @click="stopAnimation">停止动画</mars-button>
@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 // 随机点

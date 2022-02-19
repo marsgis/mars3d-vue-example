@@ -4,6 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
@@ -11,27 +12,30 @@
     "jsx": "preserve",
     "allowJs": true,
     "sourceMap": true,
+    "alwaysStrict": true,
     "noImplicitAny": false,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
     "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "lib": [
       "esnext",
-      "dom"
-    ]
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ],
+    "isolatedModules": false,
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@mars/*": [
+        "src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "vite.config.ts"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules",

@@ -65,7 +65,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(coneTrack)
 }
@@ -81,19 +82,19 @@ function addDemoGraphic2(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/feiji.glb",
       scale: 1,
       minimumPixelSize: 50
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 
   // 圆锥追踪体
   coneTrack = new mars3d.graphic.ConeTrack({
     position: position,
-    // targetPosition: [116.317411, 30.972581, 1439.7], //可选
+    // targetPosition: [116.317411, 30.972581, 1439.7], // 可选
     style: {
       length: 4000,
       angle: 5, // 半场角度
       material: mars3d.MaterialUtil.createMaterialProperty(mars3d.MaterialType.CircleWave, {
-        duration: 2000,
         color: "#02ff00"
       })
     }
@@ -137,7 +138,8 @@ function addDemoGraphic3(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/zhanji.glb",
       scale: 0.3,
       minimumPixelSize: 30
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphicModel)
 
@@ -209,7 +211,8 @@ function addDemoGraphic4(graphicLayer) {
       scale: 1,
       minimumPixelSize: 40,
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(model)
 
@@ -255,8 +258,6 @@ function bindLayerEvent() {
   }) */
 }
 
-
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -268,8 +269,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {

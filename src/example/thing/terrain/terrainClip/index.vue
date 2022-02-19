@@ -1,62 +1,63 @@
 <template>
-  <mars-pannel class="infoView">
-    <a-row :gutter="[10, 10]">
-      <a-col :span="22">
-        <a-form-item>
-          <a-space>
-            <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
-            <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
-            <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
-          </a-space>
-        </a-form-item>
-      </a-col>
+  <mars-pannel :visible="true" right="10" top="10" width="360">
+    <div class="terrain-contain">
+      <a-row :gutter="[1, 10]">
+        <a-col :span="24">
+          <a-form-item>
+            <a-space>
+              <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
+              <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
+              <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
+            </a-space>
+          </a-form-item>
+        </a-col>
 
-      <a-col :span="22">
-        <a-form-item label="开挖区域" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-space>
-            <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-            <mars-button @click="btnDraw">添加多边行</mars-button>
-            <mars-button @click="removeAll">清除</mars-button>
-          </a-space>
-        </a-form-item>
-      </a-col>
+        <a-col :span="24">
+          <a-form-item label="开挖区域" :labelCol="labelCol" :labelAlign="labelAlign">
+            <a-space>
+              <mars-button @click="btnDrawExtent">添加矩形</mars-button>
+              <mars-button @click="btnDraw">添加多边行</mars-button>
+              <mars-button @click="removeAll">清除</mars-button>
+            </a-space>
+          </a-form-item>
+        </a-col>
 
-      <a-col :span="22">
-        <a-form-item label="开挖深度" :labelCol="labelCol" :labelAlign="labelAlign">
-          <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
-        </a-form-item>
-      </a-col>
+        <a-col :span="24">
+          <a-form-item label="开挖深度" :labelCol="labelCol" :labelAlign="labelAlign">
+            <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
+          </a-form-item>
+        </a-col>
 
-      <a-col :span="22">
-        <a-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'caozuo'">
-              <a-space>
-                <mars-button type="link">
-                  <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                </mars-button>
-                <mars-button type="link">
-                  <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                </mars-button>
-              </a-space>
+        <a-col :span="24">
+          <a-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'caozuo'">
+                <a-space>
+                  <mars-button type="link">
+                    <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                  </mars-button>
+                  <mars-button type="link">
+                    <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                  </mars-button>
+                </a-space>
+              </template>
+              <template v-else>
+                {{ record.name }}
+              </template>
             </template>
-            <template v-else>
-              {{ record.name }}
-            </template>
-          </template>
-        </a-table>
-      </a-col>
-    </a-row>
+          </a-table>
+        </a-col>
+      </a-row>
+    </div>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { nextTick, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import { Icon } from "@iconify/vue"
+
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@/components/mars-ui/index"
+import { $notify } from "@mars/components/mars-ui/index"
 
 console.log(window.mapWork === mapWork)
 console.log(mapWork.btnDrawExtent)
@@ -187,13 +188,14 @@ const changeClipHeight = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 360px;
-}
 .miFont {
   font-size: 15px;
   margin-top: 10px;
   margin-left: -11px;
   color: white;
+}
+.terrain-contain {
+  width: 337px;
+  margin-right: 0;
 }
 </style>

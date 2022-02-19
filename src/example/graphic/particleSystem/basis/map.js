@@ -60,7 +60,8 @@ function addDemoGraphic1(graphicLayer) {
     },
     transZ: 5, // 离地高度
     gravity: -3.5, // 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
-    maxHeight: 5000 // 超出该高度后不显示粒子效果
+    maxHeight: 5000, // 超出该高度后不显示粒子效果
+    attr: { remark: "示例1" }
   })
 
   graphicLayer.addGraphic(particleSystem)
@@ -91,7 +92,8 @@ function addDemoGraphic2(graphicLayer) {
     },
     transZ: 5, // 离地高度
     gravity: 0.0, // 重力因子，会修改速度矢量以改变方向或速度（基于物理的效果）
-    maxHeight: 5000 // 超出该高度后不显示粒子效果
+    maxHeight: 5000, // 超出该高度后不显示粒子效果
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(particleSystem)
 }
@@ -135,7 +137,8 @@ function addDemoGraphic3(graphicLayer) {
     },
     transX: -4.0,
     transZ: 1.4,
-    maxHeight: 1000 // 超出该高度后不显示粒子效果
+    maxHeight: 1000, // 超出该高度后不显示粒子效果
+    attr: { remark: "示例3" }
   })
   map.graphicLayer.addGraphic(particleSystem)
 }

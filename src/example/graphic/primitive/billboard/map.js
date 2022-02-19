@@ -56,7 +56,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -94,7 +95,8 @@ function addDemoGraphic2(graphicLayer) {
       highlight: {
         scale: 0.8
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -107,7 +109,8 @@ function addDemoGraphic3(graphicLayer) {
       scale: 1,
       pixelOffset: new Cesium.Cartesian2(0, -6), // 偏移量
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 500000)
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -118,7 +121,8 @@ function addDemoGraphic4(graphicLayer) {
     style: {
       image: "img/marker/mark3.png",
       scale: 1
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

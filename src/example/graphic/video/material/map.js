@@ -92,7 +92,8 @@ function addDemoGraphic1() {
     style: {
       material: videoElement,
       stRotationDegree: 0 // 视频旋转角度
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -110,7 +111,8 @@ function addDemoGraphic2() {
       material: videoElement,
       stRotationDegree: 130, // 视频旋转角度
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }

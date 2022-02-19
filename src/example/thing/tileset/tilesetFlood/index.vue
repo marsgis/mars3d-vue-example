@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="320">
     <a-row :gutter="[2, 10]">
       <a-col :span="24">
         <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -53,10 +53,9 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@/components/mars-ui/index"
+import { $notify } from "@mars/components/mars-ui/index"
 
 onMounted(() => {
   $notify(
@@ -106,8 +105,3 @@ const stop = () => {
   mapWork.stop()
 }
 </script>
-<style scoped lang="less">
-.infoView {
-  width: 320px;
-}
-</style>

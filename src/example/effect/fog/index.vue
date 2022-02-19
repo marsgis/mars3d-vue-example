@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">启用:</span>
@@ -17,13 +17,13 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">近距离:</span>
-        <a-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
+        <mars-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">远距离:</span>
-        <a-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
+        <mars-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
       </a-space>
     </div>
   </mars-pannel>
@@ -31,9 +31,8 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 const formState = reactive({
   enabled: true,

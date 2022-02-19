@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawLine">通视分析</mars-button>
       <mars-button @click="drawCircle">圆形通视分析</mars-button>
@@ -12,8 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 // 通视分析

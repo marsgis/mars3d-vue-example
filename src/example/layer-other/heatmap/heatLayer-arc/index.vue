@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <span>显示对应的数据点:</span>
     <a-switch v-model:checked="enabledUnderground" @change="chkUnderground" />
   </mars-pannel>
@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const enabledUnderground = ref(false)

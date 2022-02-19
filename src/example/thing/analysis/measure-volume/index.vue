@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <p class="f-mb">
       提示：单击分析按钮激活绘制分析，对绘制面(墙)内的进行以下计算。<br />
       1. 挖方量: 计算“基准面”到地表之间的凸出部分进行挖掉的体积。<br />
@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const baseValue = ref<number>()

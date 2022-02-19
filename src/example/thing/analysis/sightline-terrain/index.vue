@@ -1,23 +1,23 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轨迹方向</span>
-        <a-slider @change="headingChange" v-model:value="headingVal" :min="0" :max="360" :step="0.01" />值{{ headingVal }}
+        <mars-slider @change="headingChange" v-model:value="headingVal" :min="0" :max="360" :step="0.01" />值{{ headingVal }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆</span>
-        <a-slider @change="pitchChange" v-model:value="pitchVal" :min="-180" :max="180" :step="0.01" />值{{ pitchVal }}
+        <mars-slider @change="pitchChange" v-model:value="pitchVal" :min="-180" :max="180" :step="0.01" />值{{ pitchVal }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆</span>
-        <a-slider @change="rollChange" v-model:value="rollVal" :min="-180" :max="180" :step="0.01" />值{{ rollVal }}
+        <mars-slider @change="rollChange" v-model:value="rollVal" :min="-180" :max="180" :step="0.01" />值{{ rollVal }}
       </a-space>
     </div>
 
@@ -33,7 +33,6 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const headingVal = ref<number>(220)

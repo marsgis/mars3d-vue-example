@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item label="范围">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -74,9 +74,8 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $alert } from "@/components/mars-ui/index"
+import { $alert } from "@mars/components/mars-ui/index"
 
 const formState = reactive({
   radioFanwei: "1",

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-tac f-mb">
       <a-space>
         <mars-button @click="addVideo">绘制投射视频</mars-button>
@@ -18,21 +18,21 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">水平张角:</span>
-        <a-slider @change="onChangeAngle" v-model:value="video.cameraAngle" :min="1" :max="60" :step="0.1" />
+        <mars-slider @change="onChangeAngle" v-model:value="video.cameraAngle" :min="1" :max="60" :step="0.1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">垂直张角:</span>
-        <a-slider @change="onChangeAngle2" v-model:value="video.cameraAngle2" :min="10" :max="30" :step="0.1" />
+        <mars-slider @change="onChangeAngle2" v-model:value="video.cameraAngle2" :min="10" :max="30" :step="0.1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">四周方向:</span>
-        <a-slider @change="onChangeHeading" v-model:value="video.heading" :min="0" :max="360" :step="0.1" />
+        <mars-slider @change="onChangeHeading" v-model:value="video.heading" :min="0" :max="360" :step="0.1" />
         <mars-button @click="onClickSelView">图上选点</mars-button>
       </a-space>
     </div>
@@ -40,7 +40,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">俯仰角度:</span>
-        <a-slider @change="onChangePitch" v-model:value="video.pitchValue" :min="-180" :max="180" :step="0.1" />
+        <mars-slider @change="onChangePitch" v-model:value="video.pitchValue" :min="-180" :max="180" :step="0.1" />
       </a-space>
     </div>
 
@@ -54,14 +54,14 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">最远投射距离:</span>
-        <a-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
+        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视频透明度:</span>
-        <a-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
+        <mars-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
 
@@ -77,9 +77,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { map } from "lodash"
 
 interface Video {
   ckdFrustum: boolean // 是否显示视椎线

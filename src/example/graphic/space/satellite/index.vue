@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -21,28 +21,28 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆:</span>
-        <a-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />值{{ pitchValue }}
+        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />值{{ pitchValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆:</span>
-        <a-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />值{{ rollValue }}
+        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />值{{ rollValue }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">夹角1:</span>
-        <a-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />值{{ angleValue1 }}
+        <mars-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />值{{ angleValue1 }}
       </a-space>
     </div>
 
     <div class="f-mb" v-if="value === '2'">
       <a-space>
         <span class="mars-pannel-item-label">夹角2:</span>
-        <a-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />值{{ angleValue2 }}
+        <mars-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />值{{ angleValue2 }}
       </a-space>
     </div>
 
@@ -54,7 +54,7 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel class="messageShow">
+  <mars-pannel :visible="true" right="10" bottom="50px" width="293">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -91,7 +91,6 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -193,17 +192,6 @@ const chkSensorType = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 280px;
-}
-
-.messageShow {
-  right: 10px !important;
-  top: 60% !important;
-  bottom: 54px;
-  padding: 0 !important;
-}
-
 th.column-money,
 td.column-money {
   text-align: right !important;

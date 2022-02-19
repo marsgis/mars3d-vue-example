@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="338">
     <a-table
       size="small"
       :customRow="tyRowClick"
@@ -47,9 +47,8 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import { setAutoHeight } from "@/utils/mars-util"
+import { setAutoHeight } from "@mars/utils/mars-util"
 import axios from "axios"
 import * as mapWork from "./map.js"
 
@@ -131,7 +130,7 @@ onMounted(() => {
   })
 
   setAutoHeight((height) => {
-    tableScrollHeight.value = height
+    tableScrollHeight.value = height - 30
   }, 400)
 })
 
@@ -363,9 +362,6 @@ function getMoveToStr(value) {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 338px;
-}
 .playBtn {
   margin-bottom: 5px;
 }

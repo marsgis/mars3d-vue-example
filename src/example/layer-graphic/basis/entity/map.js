@@ -71,7 +71,8 @@ function addDemoGraphic1(graphicLayer) {
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       visibleDepth: false
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -85,7 +86,8 @@ function addDemoGraphic2(graphicLayer) {
       outline: true,
       outlineColor: "#ffffff",
       outlineWidth: 2
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -100,7 +102,8 @@ function addDemoGraphic3(graphicLayer) {
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -115,7 +118,8 @@ function addDemoGraphic4(graphicLayer) {
         image: "img/textures/movingRiver.png",
         transparent: true
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -131,7 +135,8 @@ function addDemoGraphic5(graphicLayer) {
       heading: 45,
       roll: 45,
       pitch: 0
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -148,7 +153,8 @@ function addDemoGraphic6(graphicLayer) {
       outlineColor: "#ffffff",
       clampToGround: true
     },
-    popup: "直接传参的popup"
+    popup: "直接传参的popup",
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -163,7 +169,8 @@ function addDemoGraphic7(graphicLayer) {
       color: "#00FFFF",
       opacity: 0.7
     },
-    popup: "直接传参的popup"
+    popup: "直接传参的popup",
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -177,7 +184,8 @@ function addDemoGraphic8(graphicLayer) {
       material: Cesium.Color.RED.withAlpha(0.5),
       outline: true,
       outlineColor: Cesium.Color.WHITE.withAlpha(0.3)
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -190,7 +198,8 @@ function addDemoGraphic9(graphicLayer) {
       url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
       scale: 16,
       minimumPixelSize: 100
-    }
+    },
+    attr: { remark: "示例9" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -205,7 +214,8 @@ function addDemoGraphic10(graphicLayer) {
     style: {
       width: 5,
       color: "#3388ff"
-    }
+    },
+    attr: { remark: "示例10" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -222,7 +232,8 @@ function addDemoGraphic11(graphicLayer) {
       radius: 80,
       color: "#3388ff",
       opacity: 0.9
-    }
+    },
+    attr: { remark: "示例11" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -238,7 +249,8 @@ function addDemoGraphic12(graphicLayer) {
     style: {
       width: 500,
       color: "#3388ff"
-    }
+    },
+    attr: { remark: "示例12" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -261,7 +273,8 @@ function addDemoGraphic13(graphicLayer) {
         speed: 10,
         axisY: true
       })
-    }
+    },
+    attr: { remark: "示例13" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -279,7 +292,8 @@ function addDemoGraphic14(graphicLayer) {
       outline: true,
       outlineWidth: 3,
       outlineColor: "#ffffff"
-    }
+    },
+    attr: { remark: "示例14" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -302,7 +316,8 @@ function addDemoGraphic15(graphicLayer) {
         baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
         blendColor: "#006ab4" // 从水中混合到非水域时使用的rgba颜色对象。
       })
-    }
+    },
+    attr: { remark: "示例15" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }

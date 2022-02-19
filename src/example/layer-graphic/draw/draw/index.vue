@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="345px">
     <div>
       <a-row>
         <a-col :span="5">数据管理:</a-col>
@@ -9,7 +9,7 @@
             <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
-            <a-checkbox v-model:checked="isEditable" @change="onChangeHasEdit">是否编辑</a-checkbox>
+            <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
             <a-checkbox v-model:checked="onlyPickModelPosition" @change="onChangeOnlyPickModel">
               <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在3dtiles上标绘</span>
             </a-checkbox>
@@ -102,17 +102,16 @@
       </a-row>
     </div>
   </mars-pannel>
-  <GraphicEditor ref="editor" />
   <location-to />
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
-import _ from "lodash"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
+import { ref, markRaw } from "vue"
+import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -164,10 +163,10 @@ const onChangeContextMenu = () => {
 }
 
 // 是否可编辑
-const isEditable = ref(true)
+const enabledEdit = ref(true)
 const onChangeHasEdit = () => {
-  if (!isEditable.value) {
-    editor.value.hideEditor()
+  if (!enabledEdit.value) {
+    disable("graphic-editor")
   }
 }
 
@@ -203,23 +202,32 @@ const onClickSaveWKT = () => {
 }
 
 // 属性面板
-const editor = ref()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
+  }
+}
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+  if (enabledEdit.value) {
+    showEditor(e)
   }
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 
 function drawPoint() {
@@ -295,10 +303,7 @@ function drawExtrudedCircle() {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 340px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
-  }
+:deep(.ant-space) {
+  flex-wrap: wrap;
 }
 </style>

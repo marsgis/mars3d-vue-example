@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="350">
     <a-row :gutter="[5, 10]">
-      <a-col :span="5">
+      <a-col :span="6">
         <a-form-item label="开挖区域"></a-form-item>
       </a-col>
-      <a-col :span="19">
+      <a-col :span="18">
         <a-space>
           <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
           <mars-button @click="btnDraw">绘制多边行</mars-button>
@@ -12,13 +12,13 @@
         </a-space>
       </a-col>
 
-      <a-col :span="5">
+      <a-col :span="6">
         <a-form-item label="压平区高度:"> </a-form-item>
       </a-col>
-      <a-col :span="16">
+      <a-col :span="10">
         <mars-input-number v-model:value="formState.flatHeight" @change="changeFlatHeight" :step="0.1" />
       </a-col>
-      <a-col :span="3" class="miFont">
+      <a-col :span="8" class="miFont">
         <p>（米）</p>
       </a-col>
 
@@ -34,10 +34,10 @@
             <template v-if="column.key === 'caozuo'">
               <a-space>
                 <mars-button type="link">
-                  <Icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                  <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
                 </mars-button>
                 <mars-button type="link">
-                  <Icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                  <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
                 </mars-button>
               </a-space>
             </template>
@@ -53,11 +53,9 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import { Icon } from "@iconify/vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@/components/mars-ui/index"
+import { $notify } from "@mars/components/mars-ui/index"
 
 onMounted(() => {
   $notify(
@@ -159,13 +157,11 @@ const changeFlatHeight = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 350px;
+.ant-input-number {
+  width: 100%;
 }
 .miFont {
-  font-size: 15px;
   margin-top: 10px;
-  margin-left: -11px;
   color: white;
 }
 </style>

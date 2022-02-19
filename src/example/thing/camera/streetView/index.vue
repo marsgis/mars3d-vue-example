@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item>
         <a-radio-group @change="shadingMaterials" v-model:value="value">
@@ -25,8 +25,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
 const value = ref<number>(1)

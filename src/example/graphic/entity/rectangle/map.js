@@ -62,7 +62,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -91,7 +92,8 @@ function addDemoGraphic2(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -113,7 +115,8 @@ function addDemoGraphic3(graphicLayer) {
       image: "img/tietu/gugong.jpg",
       rotation: new Cesium.CallbackProperty(getRotationValue, false),
       stRotation: new Cesium.CallbackProperty(getRotationValue, false)
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -127,7 +130,8 @@ function addDemoGraphic4(graphicLayer) {
     style: {
       image: "img/tietu/hangpai.png",
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphicZP)
 }

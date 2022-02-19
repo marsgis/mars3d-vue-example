@@ -53,7 +53,8 @@ function addDemoGraphic1(graphicLayer) {
       scale: 1,
       minimumPixelSize: 50,
       heading: 150
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphicFJ)
 
@@ -93,7 +94,8 @@ function addDemoGraphic2(graphicLayer) {
         opacity: 0.8
       }
     },
-    asynchronous: false
+    asynchronous: false,
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -107,7 +109,8 @@ function addDemoGraphic3(graphicLayer) {
       scale: 1,
       minimumPixelSize: 50,
       heading: 70
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphicFJ)
 

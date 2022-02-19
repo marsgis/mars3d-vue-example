@@ -73,7 +73,8 @@ function addDemoGraphic1() {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -100,7 +101,8 @@ function addDemoGraphic2() {
       blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
       opacity: 0.7, // 透明度
       clampToGround: true // 是否贴地
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -132,7 +134,8 @@ function addDemoGraphic3() {
       highlight: {
         opacity: 0.9
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -158,7 +161,8 @@ function addDemoGraphic4() {
       blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
       opacity: 0.6, // 透明度
       clampToGround: false // 是否贴地
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

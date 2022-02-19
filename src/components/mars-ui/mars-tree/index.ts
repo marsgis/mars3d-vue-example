@@ -14,11 +14,11 @@ const MarsTree = defineComponent({
   setup(props, context) {
     const icon = (isLeaf: boolean, expanded: boolean) => {
       if (isLeaf) {
-        return [h(Icon, { icon: "gis:layer-stack", width: "18", color: "#4db3ff" })]
+        return [h(Icon, { icon: "ph:browsers-fill", width: "14", color: "#79C1F8" })]
       } else if (expanded) {
-        return [h(Icon, { icon: "ant-design:folder-open-filled", width: "20", color: "#db9829" })]
+        return [h(Icon, { icon: "ph:folders-fill", width: "14", color: "#db9829" })]
       } else if (!expanded) {
-        return [h(Icon, { icon: "ant-design:folder-filled", width: "14", color: "#db9829", class: "icon-vertical-a" })]
+        return [h(Icon, { icon: "ph:folder-fill", width: "14", color: "#db9829" })]
       }
     }
     return () =>

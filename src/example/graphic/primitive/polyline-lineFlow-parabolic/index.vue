@@ -1,14 +1,13 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form-item label="速度:">
-      <a-slider @change="formStateChange" v-model:value="slideStep" :min="1" :max="100" :step="1" />
+      <mars-slider @change="formStateChange" v-model:value="slideStep" :min="1" :max="100" :step="1" />
     </a-form-item>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const slideStep = ref<number>(10)
@@ -17,7 +16,7 @@ const formStateChange = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 245px;
+.ant-slider {
+  width: 100px !important;
 }
 </style>

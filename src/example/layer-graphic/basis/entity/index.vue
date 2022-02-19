@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="450">
     <div class="f-mb">
       <layer-state />
     </div>
@@ -7,11 +7,9 @@
       <a-row>
         <a-col :span="4">点状:</a-col>
         <a-col :span="19">
-          <a-space>
-            <div :key="item" v-for="(item, index) in arrPoint">
-              <mars-button :href="arrPointHref[index]" target="_blank">{{ item }}</mars-button>
-            </div>
-          </a-space>
+          <div class="entity-button-contain" :key="item" v-for="(item, index) in arrPoint">
+            <mars-button :href="arrPointHref[index]" target="_blank">{{ item }}</mars-button>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -20,11 +18,9 @@
       <a-row>
         <a-col :span="4">线面状:</a-col>
         <a-col :span="19">
-          <a-space>
-            <div :key="item" v-for="(item, index) in arrPolyline">
-              <mars-button :href="arrPolylineHref[index]" target="_blank">{{ item }}</mars-button>
-            </div>
-          </a-space>
+          <div class="entity-button-contain" :key="item" v-for="(item, index) in arrPolyline">
+            <mars-button :href="arrPolylineHref[index]" target="_blank">{{ item }}</mars-button>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -33,8 +29,7 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import type { UnwrapRef } from "vue"
 
 import * as mapWork from "./map.js"
@@ -76,13 +71,14 @@ const arrPolylineHref = [
 ]
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 450px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
-  }
-}
 .ant-col-4 {
   max-width: 11.666667%;
+}
+.entity-button-contain {
+  float: left;
+  .mars-button {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
 }
 </style>

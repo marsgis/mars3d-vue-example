@@ -1,53 +1,54 @@
 <template>
-  <mars-pannel class="infoView">
-    <a-form>
-      <div class="f-mb">
-        <a-space>
-          <span>名称</span>
-          <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
-        </a-space>
-      </div>
-
-      <div class="f-mb">
-        <a-space>
-          <span>范围</span>
-          <mars-button @click="drawRectangle">框选范围</mars-button>
-          <mars-button @click="drawCircle">圆形范围</mars-button>
-          <mars-button @click="drawPolygon">多边形范围</mars-button>
-        </a-space>
-      </div>
-
-      <div class="f-mb">
-        <a-space>
-          <span>范围</span>
-          <mars-button @click="query">查询</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
-      </div>
-
-      <div v-show="show">
+  <mars-pannel :visible="true" right="10" top="10" width="350">
+    <div class="arcgis-contain">
+      <a-form>
         <div class="f-mb">
-          <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
-        </div>
-        <div class="f-mb querybar-fr">
           <a-space>
-            <span>找到{{ allLength }}条结果</span>
-            第{{ nowPage }}/{{ allPage }}页
-            <mars-button class="button" @click="showFirstPage">首页</mars-button>
-            <mars-button class="button" @click="showPretPage">&lt;</mars-button>
-            <mars-button class="button" @click="showNextPage">&gt;</mars-button>
+            <span>名称</span>
+            <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
           </a-space>
         </div>
-      </div>
-    </a-form>
+
+        <div class="f-mb">
+          <a-space>
+            <span>范围</span>
+            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawCircle">圆形范围</mars-button>
+            <mars-button @click="drawPolygon">多边形范围</mars-button>
+          </a-space>
+        </div>
+
+        <div class="f-mb">
+          <a-space>
+            <span>范围</span>
+            <mars-button @click="query">查询</mars-button>
+            <mars-button @click="removeAll">清除</mars-button>
+          </a-space>
+        </div>
+
+        <div v-show="show">
+          <div class="f-mb">
+            <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
+          </div>
+          <div class="f-mb querybar-fr">
+            <a-space>
+              <span>找到{{ allLength }}条结果</span>
+              第{{ nowPage }}/{{ allPage }}页
+              <mars-button class="button" @click="showFirstPage">首页</mars-button>
+              <mars-button class="button" @click="showPretPage">&lt;</mars-button>
+              <mars-button class="button" @click="showNextPage">&gt;</mars-button>
+            </a-space>
+          </div>
+        </div>
+      </a-form>
+    </div>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, markRaw, toRaw } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
-import { $message } from "@/components/mars-ui/index"
+import { $message } from "@mars/components/mars-ui/index"
 
 interface DataItem {
   key: number
@@ -153,9 +154,6 @@ const showNextPage = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 312px;
-}
 .inputServe {
   width: 250px;
 }
@@ -163,5 +161,8 @@ const showNextPage = () => {
   position: relative;
   bottom: 3px;
   right: -6px;
+}
+.arcgis-contain {
+  width: 322px;
 }
 </style>

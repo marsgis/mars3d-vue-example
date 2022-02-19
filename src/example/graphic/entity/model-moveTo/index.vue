@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="335">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">整体控制:</span>
@@ -11,17 +11,16 @@
 
     <!-- <div> -->
     <span class="mars-pannel-item-label">显示指定:</span>
-    <a-space class="floor">
-      <div :key="item" v-for="(item, index) in floorModel">
+    <div style="margin-left: 59px;margin-top: -20px;">
+      <div class="model-button-contain" :key="item" v-for="(item, index) in floorModel">
         <mars-button @click="showFloorModel(index)">{{ item }}</mars-button>
       </div>
-    </a-space>
+    </div>
     <!-- </div> -->
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const floorModel = ["一楼", "二楼", "三楼", "四楼", "五楼", "六楼", "七楼", "八楼", "九楼", "顶楼"]
@@ -40,17 +39,18 @@ const showFloorModel = (floorNum: number) => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 335px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
-  }
+:deep(.ant-space) {
+  flex-wrap: wrap;
 }
 .mars-pannel-item-label {
   display: inline-block;
 }
-.floor {
-  margin-left: 78px;
-  margin-top: -7px;
+
+.model-button-contain {
+  float: left;
+  .mars-button {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
 }
 </style>

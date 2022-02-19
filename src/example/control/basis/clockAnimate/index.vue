@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel class="infoView" v-show="showClockAnimate" animateClassName="fadeInUp">
+  <mars-pannel :visible="showClockAnimate" left="60" bottom="50">
     <p class="closePannel f-mb">
-      <Icon icon="eva:close-outline" width="24" @click="onClickHiddenTime" />
+      <mars-icon icon="eva:close-outline" width="24" @click="onClickHiddenTime" />
     </p>
     <div class="f-mb">
       <a-space>
@@ -33,8 +33,7 @@
 <script lang="ts" setup>
 import { ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
-import { Icon } from "@iconify/vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+
 import * as mapWork from "./map.js"
 
 const showClockAnimate = ref<boolean>(false)
@@ -71,8 +70,11 @@ const onChangeCurrentTime = (value: Dayjs) => {
   width: 60px;
 }
 .closePannel {
-  position: relative;
-  left: 95%;
+  display: flex;
+  justify-content: flex-end;
+}
+:deep(.ant-select-dropdown) {
+  background-color: #3f5563c4 !important;
 }
 :deep(.ant-picker) {
   width: 300px;

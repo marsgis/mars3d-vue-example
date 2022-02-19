@@ -1,9 +1,10 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="280">
+  <div style="width: 240px;">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+        <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
       </template>
       <a-collapse-panel key="1" header="单个裁剪面">
         <div class="f-mb">
@@ -42,24 +43,24 @@
       <a-collapse-panel key="3" header="裁剪参数">
         <a-form-item label="裁剪距离">
           <a-space>
-            <a-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
+            <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
           </a-space>
         </a-form-item>
 
         <a-form-item label="斜切偏移量">
-          <a-space> <a-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
+          <a-space> <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
         </a-form-item>
       </a-collapse-panel>
     </a-collapse>
 
     <mars-button @click="clear">清除</mars-button>
+    </div>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { Icon } from "@iconify/vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
+
 import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])

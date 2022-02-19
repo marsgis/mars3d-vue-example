@@ -64,7 +64,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -86,7 +87,8 @@ function addDemoGraphic2(graphicLayer) {
       image: "./img/textures/excavate_kuangqu.jpg",
       imageBottom: "./img/textures/excavate_bottom_min.jpg",
       splitNum: 50 // 井边界插值数
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -107,7 +109,8 @@ function addDemoGraphic3(graphicLayer) {
       image: "./img/textures/excavate_side_min.jpg",
       imageBottom: "./img/textures/excavationregion_top.jpg",
       splitNum: 50 // 井边界插值数
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

@@ -27,7 +27,7 @@ class PoiQueryButton extends mars3d.control.BaseControl {
       if (!item) {
         return
       }
-      let inHtml = `<div class="mars-popup-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars-popup-content" >`
+      let inHtml = `<div class="mars3d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars3d-template-content" >`
 
       const phone = String(item.tel).trim()
       if (phone) {
@@ -446,8 +446,8 @@ class PoiQueryButton extends mars3d.control.BaseControl {
     })
     this.graphicLayer.addGraphic(graphic)
 
-    graphic.bindPopup(`<div class="mars-popup-titile">坐标定位</div>
-              <div class="mars-popup-content" >
+    graphic.bindPopup(`<div class="mars3d-template-titile">坐标定位</div>
+              <div class="mars3d-template-content" >
                 <div><label>经度</label> ${jd}</div>
                 <div><label>纬度</label>${wd}</div>
               </div>`)

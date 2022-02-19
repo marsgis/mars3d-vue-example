@@ -225,6 +225,8 @@ export function drawPolygon() {
     style: {
       color: "#ffff00",
       opacity: 0.3,
+      outline: true,
+      outlineColor: "#000000",
       clampToGround: true
     }
   })

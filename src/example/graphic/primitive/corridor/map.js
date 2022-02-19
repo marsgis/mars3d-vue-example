@@ -58,7 +58,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.9
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -87,7 +88,8 @@ function addDemoGraphic2(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -109,7 +111,8 @@ function addDemoGraphic3(graphicLayer) {
         color: "#ffff00",
         speed: 60
       })
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

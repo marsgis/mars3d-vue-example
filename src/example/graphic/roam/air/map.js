@@ -44,7 +44,7 @@ export function onMounted(mapInstance) {
   addDivPoint(roamLine.property)
 
   // 显示基本信息，名称、总长、总时间
-  roamLineData.td_alltimes = mars3d.Util.mars3d.Util.formatTime(roamLine.alltimes)
+  roamLineData.td_alltimes = mars3d.Util.formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
   roamLine.on(mars3d.EventType.change, (event) => {
@@ -62,8 +62,6 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-
-
 
 // 显示实时坐标和时间
 function showRealTimeInfo(params, _alltime) {
@@ -83,7 +81,7 @@ function showRealTimeInfo(params, _alltime) {
   roamLineData.td_wd = params.lat
   roamLineData.td_gd = mars3d.MeasureUtil.formatDistance(params.alt)
 
-  roamLineData.td_times = mars3d.Util.mars3d.Util.formatTime(params.time)
+  roamLineData.td_times = mars3d.Util.formatTime(params.time)
   roamLineData.td_length = mars3d.MeasureUtil.formatDistance(params.len)
 
   if (params.hbgd) {

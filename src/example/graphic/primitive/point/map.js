@@ -50,7 +50,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -69,7 +70,8 @@ function addDemoGraphic2(graphicLayer) {
       pixelSize: 9,
       color: "#ff0000",
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -90,7 +92,8 @@ function addDemoGraphic3(graphicLayer) {
         outlineColor: "#ff0000",
         outlineWidth: 2
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -104,7 +107,8 @@ function addDemoGraphic4(graphicLayer) {
       outlineColor: "#ffffff",
       outlineWidth: 2,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000)
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

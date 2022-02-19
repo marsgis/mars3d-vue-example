@@ -1,15 +1,14 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <span>夸张程度:</span>
-      <a-slider :min="1" :max="50" v-model:value="terrainExaggeration" @change="formStateChange" />
+      <mars-slider :min="1" :max="50" v-model:value="terrainExaggeration" @change="formStateChange" />
     </a-space>
   </mars-pannel>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const terrainExaggeration = ref<number>(1)

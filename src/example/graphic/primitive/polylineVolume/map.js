@@ -69,7 +69,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -87,7 +88,8 @@ function addDemoGraphic2(graphicLayer) {
       radius: 80,
       color: "#00ffff",
       closed: false
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
@@ -108,7 +110,8 @@ function addDemoGraphic3(graphicLayer) {
         repeat_x: 6
       }),
       cornerType: Cesium.CornerType.BEVELED
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

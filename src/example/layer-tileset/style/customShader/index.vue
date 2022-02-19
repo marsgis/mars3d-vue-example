@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="setStyleDef">原始样式</mars-button>
       <mars-button @click="setStyle1">自定义效果1</mars-button>
@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const setStyle1 = () => {

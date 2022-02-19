@@ -1,8 +1,8 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
   </mars-pannel>
-  <mars-pannel class="msg">
+  <mars-pannel customClass="message-list" :visible="true" right="10" top="310" width="300">
     <div v-for="(msgList, index) in msg" :key="index">
       <p>{{ msgList }}</p>
     </div>
@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -94,14 +93,9 @@ const rowClick = (recode: any) => {
 }
 </script>
 
-<style scoped lang="less">
-.msg {
-  top: 300px !important;
-  max-height: 400px !important;
-  right: 10px !important;
+<style lang="less">
+.message-list {
+  max-height: 300px;
   overflow: auto;
-}
-.infoView {
-  width: 310px;
 }
 </style>

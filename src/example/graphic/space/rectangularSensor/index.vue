@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="320">
     <div class="infoView-content">
       <a-form>
         <a-collapse v-model:activeKey="activeKey">
           <!-- 自定义切换图标 -->
           <template #expandIcon>
-            <Icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+            <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
           </template>
           <!-- 数据处理面板 -->
           <a-collapse-panel key="1" header="数据处理">
@@ -38,34 +38,34 @@
             <div class="f-mb">
               <a-space>
                 <span class="mars-pannel-item-label">方向</span>
-                <a-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
+                <mars-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />当前值{{ headingValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
                 <span class="mars-pannel-item-label">仰角</span>
-                <a-slider @change="pitchChange" v-model:value="pitchValue" :min="0" :max="360" :step="0.01" />当前值{{ pitchValue }}
+                <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="0" :max="360" :step="0.01" />当前值{{ pitchValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
                 <span class="mars-pannel-item-label">左右(roll)</span>
-                <a-slider @change="rollChange" v-model:value="rollValue" :min="0" :max="360" :step="0.01" />当前值{{ rollValue }}
+                <mars-slider @change="rollChange" v-model:value="rollValue" :min="0" :max="360" :step="0.01" />当前值{{ rollValue }}
               </a-space>
             </div>
 
             <div class="f-mb">
               <a-space>
                 <span class="mars-pannel-item-label">上下夹角</span>
-                <a-slider @change="xHalfAngle" v-model:value="xValue" :min="0" :max="89" :step="0.01" />当前值{{ xValue }}
+                <mars-slider @change="xHalfAngle" v-model:value="xValue" :min="0" :max="89" :step="0.01" />当前值{{ xValue }}
               </a-space>
             </div>
             <div class="f-mb">
               <a-space>
                 <span class="mars-pannel-item-label">左右夹角</span>
-                <a-slider @change="yHalfAngle" v-model:value="yValue" :min="0" :max="89" :step="0.01" />当前值{{ yValue }}
+                <mars-slider @change="yHalfAngle" v-model:value="yValue" :min="0" :max="89" :step="0.01" />当前值{{ yValue }}
               </a-space>
             </div>
 
@@ -85,11 +85,10 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
-import DataManage from "@/components/mars-sample/data-manage.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
-import { Icon } from "@iconify/vue"
+import DataManage from "@mars/components/mars-sample/data-manage.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
+
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -166,10 +165,5 @@ const startDraw = () => {
 
 .ant-slider {
   width: 110px;
-}
-.infoView-content {
-  width: 300px;
-  max-height: 600px;
-  overflow-y: auto;
 }
 </style>

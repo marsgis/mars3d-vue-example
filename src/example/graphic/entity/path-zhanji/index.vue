@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="viewSeeTop">顶视图</mars-button>
       <mars-button @click="viewSeeCe">侧视图</mars-button>
@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const viewSeeTop = () => {

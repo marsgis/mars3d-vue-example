@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <layer-state />
     <div class="f-mb">
       <span>建议：顺着道路方向选点，直线时多采集点</span>
@@ -20,7 +20,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">透明度:</span>
-        <a-slider @change="alphaChange" v-model:value="alphaValue" :min="0" :max="1" :step="0.1" />当前值{{ alphaValue }}
+        <mars-slider @change="alphaChange" v-model:value="alphaValue" :min="0" :max="1" :step="0.1" />当前值{{ alphaValue }}
       </a-space>
     </div>
 
@@ -35,8 +35,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 // 宽度

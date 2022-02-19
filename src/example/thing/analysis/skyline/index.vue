@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-checkbox @change="isVChecked" v-model:checked="checked">开启天际线</a-checkbox>
     </div>
@@ -7,14 +7,13 @@
     <a-space>
       <span>线宽(像素):</span>
       <mars-input-number @change="lineWidth" v-model:value="value" :min="1" :max="10" />
-      <a-button @click="changeColor">换色</a-button>
+      <mars-button @click="changeColor">换色</mars-button>
     </a-space>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const value = ref<number>(3)

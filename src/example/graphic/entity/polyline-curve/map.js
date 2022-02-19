@@ -57,7 +57,8 @@ function addDemoGraphic1(graphicLayer) {
     style: {
       width: 5,
       color: "#3388ff"
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -88,7 +89,8 @@ function addDemoGraphic2(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -129,7 +131,8 @@ function addDemoGraphic3(graphicLayer) {
       highlight: {
         color: "#ff0000"
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -149,7 +152,8 @@ function addDemoGraphic4(graphicLayer) {
         color: Cesium.Color.CYAN,
         dashLength: 8.0
       })
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -170,7 +174,8 @@ function addDemoGraphic5(graphicLayer) {
         gapColor: Cesium.Color.YELLOW,
         dashPattern: parseInt("1111000000", 2)
       })
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }

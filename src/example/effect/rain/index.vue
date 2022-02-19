@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">启用状态:</span>
@@ -10,21 +10,21 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">粒子速度:</span>
-        <a-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
+        <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">粒子大小:</span>
-        <a-slider @change="onChangeSize" v-model:value="formState.size" :min="1" :max="100" />
+        <mars-slider @change="onChangeSize" v-model:value="formState.size" :min="1" :max="100" />
       </a-space>
     </div>
 
     <div>
       <a-space>
         <span class="mars-pannel-item-label">粒子方向:</span>
-        <a-slider @change="onChangeDirection" v-model:value="formState.direction" :min="-89" :max="89" />
+        <mars-slider @change="onChangeDirection" v-model:value="formState.direction" :min="-89" :max="89" />
       </a-space>
     </div>
   </mars-pannel>
@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

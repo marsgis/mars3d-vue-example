@@ -3,6 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
+import roamlinePanel from "@mars/components/mars-sample/roamline-panel.vue"
 
 </script>

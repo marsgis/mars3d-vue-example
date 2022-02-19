@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="onBindMapDefault">Map绑定默认菜单</mars-button>
       <mars-button @click="onBindMapDemo">Map绑定自定义菜单</mars-button>
@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const onBindMapDemo = () => {

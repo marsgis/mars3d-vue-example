@@ -37,7 +37,7 @@ function initMap() {
       }
     ]
   })
-  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
+  map.toolbar.style.bottom = "120px" // 修改toolbar控件的样式
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件)
   const locationBar = new mars3d.control.LocationBar({

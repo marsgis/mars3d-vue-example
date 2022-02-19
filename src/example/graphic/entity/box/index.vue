@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <layer-state />
     </div>
@@ -15,17 +15,17 @@
     </div>
   </mars-pannel>
   <location-to />
-  <GraphicEditor ref="editor" />
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import DataManage from "@/components/mars-sample/data-manage.vue"
-import LocationTo from "@/components/mars-sample/location-to.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import DataManage from "@mars/components/mars-sample/data-manage.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
+import { ref, markRaw } from "vue"
+import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 const onClickStartDraw = () => {
   mapWork.startDrawGraphic()
@@ -38,22 +38,31 @@ const onChangeHasEdit = () => {
 }
 
 // 属性面板
-const editor = ref()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
+  }
+}
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+  if (enabledEdit.value) {
+    showEditor(e)
   }
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 </script>

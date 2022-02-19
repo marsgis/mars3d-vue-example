@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")
@@ -105,11 +104,6 @@ const saveGeoJSON = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 320px;
-  max-height: 90%;
-  overflow-y: auto;
-}
 .showRoam {
   top: 250px;
   word-break: break-all;

@@ -543,21 +543,7 @@
             "main": "graphic/divGraphic/basis",
             "usePannel": true,
             "resources": ["/temp/styles/divGraphic.css"],
-            "date": "2021-10-07",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-07"
           },
           {
             "name": "glTF 小模型图层(简单场景用)",
@@ -768,21 +754,7 @@
             "name": "Label 文字",
             "main": "graphic/entity/label",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "文字贴图",
@@ -794,41 +766,13 @@
             "name": "Point 点 ",
             "main": "graphic/entity/point",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Billboard 图标点",
             "main": "graphic/entity/billboard",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "图标点+文字(含聚合)",
@@ -847,142 +791,44 @@
             "main": "graphic/entity/billboard-font",
             "usePannel": true,
             "resources": ["/lib/font-awesome/css/font-awesome.min.css", "/lib/dom2img/dom-to-image.js"],
-            "date": "2021-11-10",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-11-10"
           },
           {
             "name": "Div图片点",
             "main": "graphic/entity/billboard-div",
             "usePannel": true,
             "resources": ["/temp/styles/divGraphic.css", "/lib/dom2img/dom-to-image.js"],
-            "date": "2021-11-10",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-11-10"
           },
           {
             "name": "Plane 平面",
             "main": "graphic/entity/plane",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Box 盒子",
             "main": "graphic/entity/box",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Circle 圆、圆柱",
             "main": "graphic/entity/circle",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Ellipse 椭圆、椭圆柱",
             "main": "graphic/entity/ellipse",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Cylinder 圆锥",
             "main": "graphic/entity/cylinder",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "统计柱状图(Cylinder案例)",
@@ -1002,21 +848,7 @@
             "name": "Ellipsoid 球、半球、椭球",
             "main": "graphic/entity/ellipsoid",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "半球、雷达范围",
@@ -1028,21 +860,7 @@
             "name": "Model 小模型",
             "main": "graphic/entity/model",
             "usePannel": true,
-            "date": "2021-11-02",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-11-02"
           },
           {
             "name": "点对象动态位置",
@@ -1083,181 +901,55 @@
             "name": "Polyline 线",
             "main": "graphic/entity/polyline",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "曲线",
             "main": "graphic/entity/polyline-curve",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "PolylineVolume 管道线",
             "main": "graphic/entity/polylineVolume",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Corridor 走廊",
             "main": "graphic/entity/corridor",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Wall 墙",
             "main": "graphic/entity/wall",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Rectangle 矩形",
             "main": "graphic/entity/rectangle",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "Polygon 面",
             "main": "graphic/entity/polygon",
             "usePannel": true,
-            "date": "2021-10-05",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-05"
           },
           {
             "name": "正多边形",
             "main": "graphic/entity/polygon-regular",
             "usePannel": true,
-            "date": "2021-11-10",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-11-10"
           },
           {
             "name": "扇形",
             "main": "graphic/entity/polygon-sector",
             "usePannel": true,
-            "date": "2021-11-10",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-11-10"
           },
           {
             "name": "Property属性机制演示",
@@ -2053,21 +1745,7 @@
             "main": "layer-graphic/draw/draw",
             "libs": ["mars3d", "kmlGeojson", "terraformer"],
             "usePannel": true,
-            "date": "2021-10-07",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "date": "2021-10-07"
           },
           {
             "name": "标绘数据展示(马拉松)",
@@ -2079,21 +1757,7 @@
             "name": "军事标绘",
             "date": "2021-10-09",
             "usePannel": true,
-            "main": "layer-graphic/draw/military",
-            "vueFiles": [
-              {
-                "name": "attr.vue",
-                "url": "/vue/mars-sample/graphic-editor/attr.vue"
-              },
-              {
-                "name": "coord.vue",
-                "url": "/vue/mars-sample/graphic-editor/coord.vue"
-              },
-              {
-                "name": "style.vue",
-                "url": "/vue/mars-sample/graphic-editor/style.vue"
-              }
-            ]
+            "main": "layer-graphic/draw/military"
           },
           {
             "name": "框选数据",

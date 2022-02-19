@@ -3,7 +3,7 @@
     <span class="mars-pannel-item-label">数据管理:</span>
     <mars-button @click="onClickClear">清除</mars-button>
     <mars-button @click="onClickExpFile" title="保存GeoJSON">
-      <Icon icon="icon-park-outline:save" class="icon-vertical-a" />
+      <mars-icon icon="icon-park-outline:save" class="icon-vertical-a" />
       保存
     </mars-button>
     <a-upload
@@ -17,7 +17,7 @@
       @change="onClickImpFile"
     >
       <mars-button title="打开GeoJSON">
-        <Icon icon="icon-park-outline:upload-one" class="icon-vertical-a" />
+        <mars-icon icon="icon-park-outline:upload-one" class="icon-vertical-a" />
         打开
       </mars-button>
     </a-upload>
@@ -32,8 +32,8 @@
  */
 import { ref } from "vue"
 import { message } from "ant-design-vue"
-import { Icon } from "@iconify/vue"
-import { $message } from "@/components/mars-ui/index"
+
+import { $message } from "@mars/components/mars-ui/index"
 
 interface FileItem {
   uid: string

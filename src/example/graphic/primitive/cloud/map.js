@@ -56,7 +56,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 90000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -68,7 +69,8 @@ function addDemoGraphic2(graphicLayer) {
       scale: new Cesium.Cartesian2(3500, 800),
       maximumSize: new Cesium.Cartesian3(50, 12, 15),
       slice: 0.36
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -80,7 +82,8 @@ function addDemoGraphic3(graphicLayer) {
       scale: new Cesium.Cartesian2(5000, 1000),
       maximumSize: new Cesium.Cartesian3(50, 12, 15),
       slice: 0.49
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -92,7 +95,8 @@ function addDemoGraphic4(graphicLayer) {
       scale: new Cesium.Cartesian2(2300, 900),
       maximumSize: new Cesium.Cartesian3(13, 13, 13),
       slice: 0.2
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(primitive)
 }

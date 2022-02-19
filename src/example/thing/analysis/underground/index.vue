@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">状态:</span>
@@ -10,7 +10,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">地表透明度:</span>
-        <a-slider @change="opacityChange" v-model:value="inputValue" :min="0" :max="1" :step="0.1" />
+        <mars-slider @change="opacityChange" v-model:value="inputValue" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
 
@@ -27,7 +27,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const inputValue = ref<number>(0.5)

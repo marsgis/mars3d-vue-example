@@ -73,7 +73,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 10000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -122,7 +123,8 @@ function addDemoGraphic2(graphicLayer) {
         silhouetteColor: "#00ffff",
         silhouetteSize: 3
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 
@@ -168,7 +170,8 @@ function addDemoGraphic3(graphicLayer) {
         silhouetteColor: "#ff0000",
         silhouetteSize: 4
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

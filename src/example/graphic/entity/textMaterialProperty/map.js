@@ -78,7 +78,8 @@ function addDemoGraphic1(graphicLayer) {
       text: "水利闸门",
       font_family: "楷体",
       fillColor: "#00ffff"
-    }
+    },
+    attr: { remark: "示例1" }
   })
 
   graphicLayer.addGraphic(wallEntity)
@@ -100,7 +101,8 @@ function addDemoGraphic2(graphicLayer) {
       outlineWidth: 4,
 
       onCustomCanvas: onCustomCanvas // 对Canvas做自定义处理
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -149,7 +151,8 @@ function addDemoGraphic3(graphicLayer) {
         strokeColor: "#ff0000",
         strokeWidth: 4
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(rectangleEntity)
 }
@@ -164,7 +167,8 @@ function addDemoGraphic4(graphicLayer) {
       material: textMaterialProperty,
       rotation: new Cesium.CallbackProperty(getRotationValue, false),
       stRotation: new Cesium.CallbackProperty(getRotationValue, false)
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(rectangleEntity)
 }

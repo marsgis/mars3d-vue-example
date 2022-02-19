@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <a-checkbox v-model:checked="formState.enabledAggressive" @change="formStateChange">是否聚合</a-checkbox>
 
@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 
 interface FormState {

@@ -1,16 +1,16 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="355">
     <div class="f-mb">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
 
     <div class="f-mb">
       <a-row>
         <a-col :span="7">Plot:</a-col>
         <a-col :span="17">
-          <a-space>
+          <div class="lang-button-contain">
             <mars-button :key="item" v-for="item in typeArrPlot" @click="onStartDraw(item)">
               {{ item }}
             </mars-button>
-          </a-space>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -18,13 +18,13 @@
       <a-row>
         <a-col :span="7">Measurement:</a-col>
         <a-col :span="17">
-          <a-space>
+          <div class="lang-button-contain">
             <mars-button size="middle" @click="onClickCoordinate">coordinate</mars-button>
             <mars-button size="middle" @click="onClickDistance">distance</mars-button>
             <mars-button size="middle" @click="onClickHeight">height</mars-button>
             <mars-button size="middle" @click="onClickArea">area</mars-button>
             <mars-button size="middle" @click="onClickAngle">ditance</mars-button>
-          </a-space>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -32,7 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const typeArrPlot = ["rectangle", "polyline", "polygon", "cylinder", "point", "circle", "wall"]
@@ -57,11 +56,11 @@ const onClickAngle = () => {
   mapWork.angle()
 }
 </script>
-<style scoped lang="less">
-.infoView {
-  width: 355px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
+<style lang="less" scoped>
+.lang-button-contain {
+  .mars-button {
+    margin-right: 8px;
+    margin-bottom: 8px;
   }
 }
 </style>

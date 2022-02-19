@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="450">
     <div class="f-mb">
       <a-row>
         <a-col :span="6">演示视角：</a-col>
@@ -11,7 +11,7 @@
           <span title="平移的步长（单位：米）" class="tip-name" > 平移步长:</span>
         </a-col>
         <a-col :span="7">
-          <a-slider v-model:value="slideStep" @change="onChangeSlider" :min="0" :max="300" :step="0.01" />
+          <mars-slider v-model:value="slideStep" @change="onChangeSlider" :min="0" :max="300" :step="0.01" />
         </a-col>
       </a-row>
 
@@ -60,7 +60,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const slideStep = ref<number>(10)
@@ -76,12 +75,6 @@ const onChangeCenterAtDX2 = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 450px;
-  :deep(.ant-space) {
-    flex-wrap: wrap;
-  }
-}
 .ant-slider {
   width: 103px;
   display: inline-block;

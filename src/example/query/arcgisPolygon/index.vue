@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" width="400">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -41,10 +41,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
-import { setAutoHeight } from "@/utils/mars-util"
+import { setAutoHeight } from "@mars/utils/mars-util"
 
 const serverName = ref("")
 const show = ref<boolean>(false)
@@ -54,7 +53,6 @@ const activeKey = ref("1")
 const dataSource = ref([])
 // 取到js中的数据
 mapWork.eventTarget.on("loadOk", function (event: any) {
-
   const arrPie = [] // 饼状图:名称+面积
   const arrTable = [] // 表格: 名称+面积+数量
   const arrType = [] // 柱状图:名称
@@ -172,6 +170,12 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
     ]
   }
   histogramECharts.setOption(histogramOption)
+
+  if (dataSource.value.length !== 0) {
+    show.value = true
+  } else {
+    show.value = false
+  }
 })
 
 const columns = ref([
@@ -210,11 +214,6 @@ const drawPolygon = () => {
 // 查询数据
 const query = () => {
   mapWork.queryData(serverName.value)
-  if (dataSource.value.length !== 0) {
-    show.value = true
-  } else {
-    show.value = false
-  }
 }
 
 // 清除数据
@@ -232,8 +231,8 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 320px;
+:deep(.ant-tabs-tab-btn) {
+  color: #fff !important;
 }
 .inputServe {
   width: 250px;

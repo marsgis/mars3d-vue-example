@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <span class="item-label">属性机制演示：</span>
     </div>
@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const demoSampleProperty = () => {
@@ -59,7 +58,7 @@ const demoVelocityVectorProperty = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 220px;
+  width: 224px;
 }
 .item-label {
   font-size: 15px;

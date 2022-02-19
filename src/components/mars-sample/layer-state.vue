@@ -16,7 +16,7 @@
  */
 import { reactive } from "vue"
 import type { UnwrapRef } from "vue"
-import { $alert } from "@/components/mars-ui/index"
+import { $alert } from "@mars/components/mars-ui/index"
 
 const props = withDefaults(
   defineProps<{
@@ -102,7 +102,7 @@ const onChangeTooltip = () => {
       attr["备注"] = "我支持鼠标移入交互"
 
       return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
-    })
+    }, { pointerEvents: true })
   } else {
     layer.unbindTooltip()
   }
@@ -138,7 +138,7 @@ function bindLayerPopup() {
     //     resolve('Promise异步回调显示的弹窗内容信息')
     //   }, 2000)
     // })
-  })
+  }, { pointerEvents: true })
 }
 
 function getAttrForEvent(event) {

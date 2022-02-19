@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel class="infoView">
-    <a-table :columns="columns" :data-source="data" bordered :pagination="false" :scroll="{ y: tableScrollHeight }">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="360">
+    <a-table :columns="columns" :data-source="data" bordered :pagination="false">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
           <a href="https://mars3d.cn/api/Map.html#.sceneOptions" target="_black">{{ text }}</a>
@@ -10,7 +10,7 @@
         <template v-if="column.dataIndex === 'operation'">
           <mars-select
             v-if="data[index].operation === 'select'"
-            v-model:value= "scene"
+            v-model:value="scene"
             ref="select"
             style="width: 120px"
             @change="handleChange"
@@ -35,7 +35,7 @@
           />
 
           <!-- range滑动 -->
-          <a-slider
+          <mars-slider
             @change="(data[index] as any).change(index)"
             v-if="data[index].operation === 'range'"
             v-model:value="data[index].value"
@@ -51,9 +51,8 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { TableColumnType } from "ant-design-vue"
-import { setAutoHeight } from "@/utils/mars-util"
+import { setAutoHeight } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 
 const data = ref([
@@ -438,21 +437,8 @@ const scene = ref<string>("三维视图")
 const handleChange = (value: string) => {
   mapWork.sceneMode(value)
 }
-
-const tableScrollHeight = ref(0)
-
-onMounted(() => {
-  setAutoHeight((height) => {
-    tableScrollHeight.value = height
-  }, 200)
-})
-
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 360px;
-}
-
 :deep(.ant-table-tbody > tr > td) {
   padding: 4px;
 }

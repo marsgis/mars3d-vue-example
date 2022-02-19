@@ -2,6 +2,8 @@
 
 const vueGlobal = window.parent || window
 
+vueGlobal.mars3d = mars3d // widget中使用
+
 function init() {
   // 判断webgl支持
   if (!mars3d.Util.webglreport()) {

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10" bottom="160">
     <div class="infoView-content">
       <a-form :label-col="labelCol">
         <a-collapse :activeKey="activeKey">
@@ -57,13 +57,13 @@
               <mars-input-number v-model:value="formState.scale" :step="0.1" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="显示精度">
-              <a-slider :min="1" :max="30" v-model:value="formState.maximumScreenSpaceError" @change="formStateChange" />
+              <mars-slider :min="1" :max="30" v-model:value="formState.maximumScreenSpaceError" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="材质底色">
-              <a-slider :min="0.1" :max="3" :step="0.1" v-model:value="formState.luminanceAtZenith" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="3" :step="0.1" v-model:value="formState.luminanceAtZenith" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="透明度">
-              <a-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
             </a-form-item>
           </a-collapse-panel>
         </a-collapse>
@@ -79,19 +79,18 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel class="comp-model" type="model" title="查看控件" v-model:visible="showCompModel">
+  <mars-dialog left="10" top="10" bottom="40" width="350" title="查看控件" v-model:visible="showCompModel">
     <mars-button v-show="cancelTree" @click="checkedTree">取消选中</mars-button>
     <mars-tree @select="compModelChange" :tree-data="treeData">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -283,15 +282,6 @@ const checkedTree = () => {
   width: 345px;
 }
 
-.comp-model {
-  width: 350px;
-  min-width: 200px;
-  top: 10px;
-  bottom: 60px;
-  left: 10px;
-  max-height: 700px;
-  overflow-x: auto;
-}
 .ant-input {
   width: 240px;
 }

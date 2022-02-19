@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView roamLinePanel">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <a-form-item>
         <a-row :gutter="[0, 10]">
@@ -19,12 +19,12 @@
 
           <a-col :span="7">pitch值(前后):</a-col>
           <a-col :span="17">
-            <a-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="-90" :max="90" :step="0.01" />
+            <mars-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="-90" :max="90" :step="0.01" />
           </a-col>
 
           <a-col :span="7">roll值(左右):</a-col>
           <a-col :span="17">
-            <a-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="-90" :max="90" :step="0.01" />
+            <mars-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="-90" :max="90" :step="0.01" />
           </a-col>
         </a-row>
       </a-form-item>
@@ -38,8 +38,7 @@
 
 <script setup lang="ts">
 import { reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import roamlinePanel from "@/components/mars-sample/roamline-panel.vue"
+import roamlinePanel from "@mars/components/mars-sample/roamline-panel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" height="540px" top="10">
     <a-space>
       <mars-button @click="showChinaLine">省界线</mars-button>
       <mars-button @click="showPlanningSurface">规划面</mars-button>
@@ -19,8 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import LayerState from "@/components/mars-sample/layer-state.vue"
+import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
 const showDraw = () => {

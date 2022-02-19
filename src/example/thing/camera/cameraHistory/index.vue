@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <p class="f-mb">当前共有{{ formState.allLength }}条视角记录，当前正在{{ formState.nowView }}条视角</p>
     <div class="f-mb">
       <mars-button @click="lastOneView">回到当前（最后一条）</mars-button>
@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const formState = reactive({

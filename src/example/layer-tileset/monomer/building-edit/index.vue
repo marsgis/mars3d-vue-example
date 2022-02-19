@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <a-radio-group @change="modeChange" v-model:value="value" name="radioGroup">
@@ -12,14 +12,7 @@
     <div v-if="value === '1'">
       <a-space>
         <mars-button @click="drawPolygon">单体化面</mars-button>
-        <a-upload
-          :multiple="false"
-          name="file"
-          accept="json,geojson"
-          :showUploadList="false"
-          @change="openGeoJSON"
-          :beforeUpload="() => false"
-        >
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
           <mars-button> 打开... </mars-button>
         </a-upload>
         <mars-button @click="saveGeoJSON">保存</mars-button>
@@ -27,14 +20,14 @@
       </a-space>
     </div>
   </mars-pannel>
-  <GraphicEditor ref="editor" />
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
-import GraphicEditor from "@/components/mars-sample/graphic-editor/index.vue"
+import { ref, markRaw } from "vue"
 import * as mapWork from "./map.js"
+import { useWidget } from "@mars/widgets/common/store/widget"
+
+const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -86,22 +79,31 @@ const saveGeoJSON = () => {
 }
 
 //* ************************属性面板*****************************/
-const editor = ref()
+
+const showEditor = (e: any) => {
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: { graphic: markRaw(e.graphic) }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: { graphic: markRaw(e.graphic) }
+    })
+  }
+}
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
+  if (value.value === "1") {
+    showEditor(e)
   }
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  const result = await editor.value.setValue(e.graphic)
-  if (result) {
-    editor.value.showEditor()
-  }
+  showEditor(e)
 })
+
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  editor.value.hideEditor()
+  disable("graphic-editor")
 })
 </script>

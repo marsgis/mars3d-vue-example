@@ -77,7 +77,8 @@ function addDemoGraphic1() {
       highlight: {
         color: "#ff0000"
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(diffuseWallGlow)
 }
@@ -91,7 +92,8 @@ function addDemoGraphic2() {
       radius: 600, // 半径
       color: "#ff0000",
       speed: 10 // 速度
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(circleDiffuseWallGlow)
 }

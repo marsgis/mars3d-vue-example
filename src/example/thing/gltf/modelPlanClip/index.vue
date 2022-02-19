@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <p class="f-mb">单个裁剪面</p>
     <div class="f-mb">
       <a-space>
@@ -34,14 +34,14 @@
     <div class="f-mb">
       <a-space>
         <span>裁剪距离</span>
-        <a-slider @change="distance" v-model:value="distanceValue" :min="-100" :max="100" />
+        <mars-slider @change="distance" v-model:value="distanceValue" :min="-100" :max="100" />
         <mars-input-number @change="txtDistance" v-model:value="distanceValue" :min="-100" :max="100" />米
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span>Z偏移量</span>
-        <a-slider @change="deviation" v-model:value="deviationValue" :min="-10" :max="10" />
+        <mars-slider @change="deviation" v-model:value="deviationValue" :min="-10" :max="10" />
         <mars-input-number @change="txtDeviation" v-model:value="deviationValue" :min="-10" :max="10" />米
       </a-space>
     </div>
@@ -55,7 +55,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import * as mapWork from "./map.js"
 
 const distanceValue = ref<number>(0)

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel class="infoView">
+  <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">圆锥体:</span>
@@ -22,7 +22,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">夹角:</span>
-        <a-slider @change="angle" v-model:value="angleValue" :min="1" :max="89" :step="0.01" />
+        <mars-slider @change="angle" v-model:value="angleValue" :min="1" :max="89" :step="0.01" />
       </a-space>
     </div>
 
@@ -44,7 +44,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import MarsPannel from "@/components/mars-work/mars-pannel.vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
