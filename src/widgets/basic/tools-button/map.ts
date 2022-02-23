@@ -10,7 +10,8 @@ import iconBasemaps from "./icon/manager-basemaps.svg"
 export const eventTarget = new mars3d.BaseClass()
 
 let map: mars3d.Map // mars3d.Map三维地图对象
-
+let layersTool: mars3d.control.ToolButton
+let basemapsTool: mars3d.control.ToolButton
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -19,8 +20,7 @@ let map: mars3d.Map // mars3d.Map三维地图对象
  */
 export function onMounted(mapInstance: mars3d.Map): void {
   map = mapInstance // 记录map
-
-  const layersTool = new mars3d.control.ToolButton({
+  layersTool = new mars3d.control.ToolButton({
     title: "图层控制",
     icon: iconLayer,
     insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
@@ -31,7 +31,7 @@ export function onMounted(mapInstance: mars3d.Map): void {
   map.addControl(layersTool)
 
   if (!map.controls.baseLayerPicker && map.options.basemaps?.length > 0) {
-    const basemapsTool = new mars3d.control.ToolButton({
+    basemapsTool = new mars3d.control.ToolButton({
       title: "底图切换",
       icon: iconBasemaps,
       insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
@@ -41,7 +41,6 @@ export function onMounted(mapInstance: mars3d.Map): void {
     })
     map.addControl(basemapsTool)
   }
-
 }
 
 /**
@@ -50,5 +49,9 @@ export function onMounted(mapInstance: mars3d.Map): void {
  */
 export function onUnmounted() {
   eventTarget.off()
+  map.removeControl(basemapsTool)
+  map.removeControl(layersTool)
+  basemapsTool = null
+  layersTool = null
   map = null
 }

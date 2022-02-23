@@ -299,6 +299,9 @@ function histogram(arr: any, Word: string) {
   background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
   background-color: rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
+  h6 {
+    color: #ffffff;
+  }
 }
 .chart h6 {
   padding: 4px;

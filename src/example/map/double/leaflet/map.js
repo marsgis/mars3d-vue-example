@@ -39,11 +39,11 @@ function creatMap2D() {
   map2dDiv.setAttribute("id", "map2d")
   map2dDiv.setAttribute("class", "mars2d-container")
 
-  mars2d.axios
-    .get("http://mars2d.cn/example/config/config.json")
-    .then(function (response) {
+  const configUrl = "http://mars2d.cn/config/config.json"
+  mars2d.Util.fetchJson({ url: configUrl })
+    .then(function (data) {
       // 构建地图
-      map2d = new mars2d.Map("map2d", response.data.map)
+      map2d = new mars2d.Map("map2d", data.mars2d)
       bind2dEvent(map2d)
       bind3dEvent()
 

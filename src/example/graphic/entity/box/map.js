@@ -117,7 +117,7 @@ function addDemoGraphic4(graphicLayer) {
         distanceDisplayCondition_near: 0
       }
     },
-    attr: { remark: "示例1" }
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 

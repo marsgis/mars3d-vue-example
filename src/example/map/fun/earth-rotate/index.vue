@@ -71,22 +71,24 @@ const stopRotate = () => {
   background: url("/img/btnBar/infoBox.png") no-repeat;
   background-size: 100% 100%;
   margin-right: 5px;
-  font-size: 20px;
-}
-
-.infoview_panel label {
-  color: #03dae7;
-  display: inline-block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  line-height: 35px;
-}
-.infoview_panel .title {
-  color: #ffec48;
-  font-size: 28px;
-  text-align: center;
-  font-weight: bold;
-  line-height: 50px;
+  span {
+    font-size: 20px !important;
+  }
+  label {
+    color: #03dae7;
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    line-height: 35px;
+    font-size: 20px !important;
+  }
+  .title {
+    color: #ffec48;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 50px;
+  }
 }
 .btnBar {
   bottom: 40px;

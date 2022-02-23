@@ -80,7 +80,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 10000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -130,7 +131,8 @@ function addDemoGraphic2(graphicLayer) {
         silhouetteColor: "#00ffff",
         silhouetteSize: 3
       }
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -151,7 +153,8 @@ function addDemoGraphic3(graphicLayer) {
         silhouetteColor: "#ff0000",
         silhouetteSize: 4
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -178,6 +181,7 @@ function addDemoGraphic4(graphicLayer) {
       scale: 0.1,
       minimumPixelSize: 20
     },
+    attr: { remark: "示例4" },
     hasEdit: false
   })
   graphicLayer.addGraphic(graphicModel)

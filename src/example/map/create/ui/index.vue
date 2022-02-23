@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->

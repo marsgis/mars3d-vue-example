@@ -54,7 +54,7 @@ const onChangeStepSize = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 200px;
+.ant-slider {
+  width: 100px;
 }
 </style>

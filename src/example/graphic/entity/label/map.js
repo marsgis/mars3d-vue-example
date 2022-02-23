@@ -54,7 +54,8 @@ function addDemoGraphic1(graphicLayer) {
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       visibleDepth: false
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -84,7 +85,8 @@ function addDemoGraphic2(graphicLayer) {
       font_size: 25,
       color: "#ffff00",
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -99,7 +101,8 @@ function addDemoGraphic3(graphicLayer) {
       color: "#00ff00",
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1)
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -122,7 +125,8 @@ function addDemoGraphic4(graphicLayer) {
       highlight: {
         font_size: 30
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }

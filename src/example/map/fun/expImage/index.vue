@@ -7,7 +7,7 @@
     </a-space>
   </mars-pannel>
 
-  <mars-dialog left="25%" top="10" bottom="40" width="50%" title="场景出图" v-model:visible="showImg">
+  <mars-dialog :position="{ left: '25%', top: '30%' }" width="50%" title="场景出图" v-model:visible="showImg">
     <img :src="imges" style="width: 100%; height: 90%" />
   </mars-dialog>
 </template>
@@ -36,5 +36,4 @@ const downLoad2 = () => {
   mapWork.downLoad2()
 }
 </script>
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

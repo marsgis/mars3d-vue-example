@@ -1,53 +1,57 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="350">
-    <a-row :gutter="[5, 10]">
-      <a-col :span="6">
-        <a-form-item label="开挖区域"></a-form-item>
-      </a-col>
-      <a-col :span="18">
-        <a-space>
-          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-          <mars-button @click="btnDraw">绘制多边行</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
-      </a-col>
+    <div style="width: 325px">
+      <div>
+        <a-row :gutter="[5, 10]">
+          <a-col :span="6">
+            <a-form-item label="开挖区域"></a-form-item>
+          </a-col>
+          <a-col :span="18">
+            <a-space>
+              <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+              <mars-button @click="btnDraw">绘制多边行</mars-button>
+              <mars-button @click="removeAll">清除</mars-button>
+            </a-space>
+          </a-col>
 
-      <a-col :span="6">
-        <a-form-item label="压平区高度:"> </a-form-item>
-      </a-col>
-      <a-col :span="10">
-        <mars-input-number v-model:value="formState.flatHeight" @change="changeFlatHeight" :step="0.1" />
-      </a-col>
-      <a-col :span="8" class="miFont">
-        <p>（米）</p>
-      </a-col>
+          <a-col :span="6">
+            <a-form-item label="压平区高度:"> </a-form-item>
+          </a-col>
+          <a-col :span="10">
+            <mars-input-number v-model:value="formState.flatHeight" @change="changeFlatHeight" :step="0.1" />
+          </a-col>
+          <a-col :span="8" class="miFont">
+            <p>（米）</p>
+          </a-col>
 
-      <a-col :span="21">
-        <a-form-item>
-          <a-checkbox v-model:checked="formState.enabledBianJieXian" @change="chkShowLine"> 显示测试边界线 </a-checkbox>
-        </a-form-item>
-      </a-col>
+          <a-col :span="21">
+            <a-form-item>
+              <a-checkbox v-model:checked="formState.enabledBianJieXian" @change="chkShowLine"> 显示测试边界线 </a-checkbox>
+            </a-form-item>
+          </a-col>
 
-      <a-col :span="24">
-        <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'caozuo'">
-              <a-space>
-                <mars-button type="link">
-                  <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                </mars-button>
-                <mars-button type="link">
-                  <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                </mars-button>
-              </a-space>
-            </template>
-            <template v-else>
-              {{ record.name }}
-            </template>
-          </template>
-        </a-table>
-      </a-col>
-    </a-row>
+          <a-col :span="24">
+            <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+              <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'caozuo'">
+                  <a-space>
+                    <mars-button type="link">
+                      <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                    </mars-button>
+                    <mars-button type="link">
+                      <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                    </mars-button>
+                  </a-space>
+                </template>
+                <template v-else>
+                  {{ record.name }}
+                </template>
+              </template>
+            </a-table>
+          </a-col>
+        </a-row>
+      </div>
+    </div>
   </mars-pannel>
 </template>
 

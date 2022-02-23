@@ -101,7 +101,8 @@ function addDemoGraphic3(graphicLayer) {
         speed: 10
       }),
       clampToGround: true // 是否贴地
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(primitive)
 }
@@ -124,7 +125,8 @@ function addDemoGraphic4(graphicLayer) {
       }, false),
       classificationType: Cesium.ClassificationType.BOTH,
       clampToGround: true // 是否贴地
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -146,7 +148,8 @@ function addDemoGraphic5(graphicLayer) {
       }, false),
       classificationType: Cesium.ClassificationType.BOTH,
       clampToGround: true // 是否贴地
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
 }

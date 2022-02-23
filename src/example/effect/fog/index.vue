@@ -1,30 +1,32 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">启用:</span>
-        <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
-      </a-space>
-    </div>
+  <mars-pannel :visible="true" right="10" top="10" width="245">
+    <div style="width: 200px;">
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">启用:</span>
+          <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">雾颜色:</span>
-        <mars-color-picker v-model:value="formState.color" @change="onChangeColor" />
-      </a-space>
-    </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">雾颜色:</span>
+          <mars-color-picker v-model:value="formState.color" @change="onChangeColor" />
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">近距离:</span>
-        <mars-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">远距离:</span>
-        <mars-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
-      </a-space>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">近距离:</span>
+          <mars-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
+        </a-space>
+      </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">远距离:</span>
+          <mars-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
+        </a-space>
+      </div>
     </div>
   </mars-pannel>
 </template>

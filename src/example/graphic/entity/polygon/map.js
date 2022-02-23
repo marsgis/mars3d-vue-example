@@ -71,7 +71,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -90,7 +91,8 @@ function addDemoGraphic2(graphicLayer) {
       image: "img/textures/excavate_bottom_min.jpg",
       opacity: 0.8, // 透明度
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -116,7 +118,8 @@ function addDemoGraphic3(graphicLayer) {
       baseWaterColor: "#006ab4", // rgba颜色对象基础颜色的水。#00ffff,#00baff,#006ab4
       blendColor: "#006ab4", // 从水中混合到非水域时使用的rgba颜色对象。
       clampToGround: true
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -142,7 +145,8 @@ function addDemoGraphic4(graphicLayer) {
       highlight: {
         opacity: 0.8
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -168,7 +172,8 @@ function addDemoGraphic5(graphicLayer) {
       highlight: {
         color: "#ff0000"
       }
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }

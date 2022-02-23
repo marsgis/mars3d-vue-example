@@ -50,7 +50,8 @@ function addDemoGraphic1(graphicLayer) {
       highlight: {
         opacity: 0.9
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -69,7 +70,8 @@ function addDemoGraphic2(graphicLayer) {
         image: "img/textures/movingRiver.png",
         transparent: true
       })
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -90,7 +92,8 @@ function addDemoGraphic3(graphicLayer) {
       heading: 45,
       roll: 45,
       pitch: 0
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -115,7 +118,8 @@ function addDemoGraphic4(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 

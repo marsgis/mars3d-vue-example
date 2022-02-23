@@ -72,7 +72,7 @@ function addDemoGraphic2(graphicLayer) {
         speed: 40
       })
     },
-    attr: { remark: "示例1" }
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -95,7 +95,8 @@ function addDemoGraphic3(graphicLayer) {
         return _rotation
       }, false),
       classificationType: Cesium.ClassificationType.BOTH
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -122,7 +123,8 @@ function addDemoGraphic4(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -160,7 +162,8 @@ function addDemoGraphic5(graphicLayer) {
         color: "#00ff00",
         opacity: 0.7
       }
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }

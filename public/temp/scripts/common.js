@@ -30,7 +30,7 @@ init()
 function globalInitMap(options) {
   if (window.mapOptions) {
     if (typeof window.mapOptions === "function") {
-      options = window.mapOptions(options)
+      options = window.mapOptions(options) || options
     } else {
       window.mapOptions = options = mars3d.Util.merge(options, window.mapOptions)
     }

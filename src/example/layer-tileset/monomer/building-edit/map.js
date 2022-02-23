@@ -252,6 +252,7 @@ export function openGeoJSON(file) {
         clear: true,
         flyTo: true
       })
+
     }
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
@@ -260,10 +261,12 @@ export function openGeoJSON(file) {
 
 // 保存JSON文件
 export function saveGeoJSON() {
+
   if (graphicLayerEdit.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  const geojson = graphicLayerEdit.toGeoJSON()
+ const layers = map.getLayerById(graphicLayerEdit.id)
+  const geojson = layers.toGeoJSON()
   mars3d.Util.downloadFile("单体化.json", JSON.stringify(geojson))
 }

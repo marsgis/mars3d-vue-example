@@ -40,6 +40,9 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  map.graphicLayer.clear()
+  map.removeEffect(bloomEffect, true)
+  bloomEffect = null
   map = null
 }
 

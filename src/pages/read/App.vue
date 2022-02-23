@@ -5,7 +5,7 @@
         <div id="centerDiv3D">
           <div id="mars3dContainer" class="mars3d-container"></div>
         </div>
-        <main-operation v-if="showPannel" @childMounted="onChildMounted" />
+        <main-operation v-if="showPannel" @childMounted="onChildMounted" @childUnmounted="childUnmounted" />
 
         <template v-if="mapLoaded">
           <template v-for="comp in widgets" :key="comp.key">
@@ -26,7 +26,7 @@
 /**
  * 渲染主入口
  * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2021-12-30
+ * @author 火星吴彦祖 2022-02-19
  */
 import zhCN from "ant-design-vue/es/locale/zh_CN"
 import { getCurrentInstance, onMounted, provide, ref } from "vue"
@@ -95,7 +95,7 @@ onMounted(async () => {
       set(value) {
         mapWork = value // 赋值后vue中使用
         marsOnload(window._mapInstance)
-        if (config.usePannel) {
+        if (config.vuePanel) {
           // 开始构造vue面板
           showPannel.value = true
         } else {
@@ -134,13 +134,17 @@ function onChildMounted() {
   globalProperties.map = map // map的挂载,方便vue组件内使用
 
   if (mapWork) {
-    globalProperties.mars3d = mapWork.mars3d
-    globalProperties.Cesium = mapWork.mars3d.Cesium
 
     mapWork.map = map
     if (mapWork.onMounted) {
       mapWork.onMounted(map)
     }
+  }
+}
+
+function childUnmounted() {
+  if (mapWork.onUnmounted) {
+    mapWork.onUnmounted()
   }
 }
 

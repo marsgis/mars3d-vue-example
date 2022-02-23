@@ -11,6 +11,7 @@
         <a-checkbox v-model:checked="formState.enabledVR" @change="onBindVR">VR模式</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledHelpButton" @change="onBindHelpButton">帮助</a-checkbox>
         <a-checkbox v-model:checked="formState.enabledZoom" @change="onBindZoom">地图缩放</a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledLayer" @change="onBindLayer">图层控制</a-checkbox>
       </a-space>
     </div>
     <div class="f-mb">
@@ -30,6 +31,8 @@
 import { reactive } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
+import { useWidget } from "@mars/widgets/common/store/widget"
+const { activate, isActivate, disable } = useWidget()
 
 interface FormState {
   enabledPOI: boolean
@@ -39,14 +42,14 @@ interface FormState {
   enabledFullScreen: boolean
   enabledVR: boolean
   enabledHelpButton: boolean
+  enabledLayer: boolean
 
   enabledLocation: boolean
   enabledClock: boolean
   enabledTimeLine: boolean
   enabledNav: boolean
   enabledLegend: boolean
-  enabledZoom: boolean,
-
+  enabledZoom: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -58,6 +61,7 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledVR: true,
   enabledHelpButton: true,
   enabledZoom: true,
+  enabledLayer: true,
 
   enabledLocation: true,
   enabledClock: true,
@@ -92,6 +96,15 @@ const onBindZoom = () => {
   mapWork.bindZoom(formState.enabledZoom)
 }
 
+const onBindLayer = () => {
+  if (formState.enabledLayer) {
+    activate("tools-button")
+
+  } else {
+    disable("tools-button")
+
+  }
+}
 
 // 面板
 const onBindLocation = () => {

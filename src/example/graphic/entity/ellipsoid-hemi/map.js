@@ -68,6 +68,7 @@ function addDemoGraphic1(graphicLayer) {
         outlineColor: Cesium.Color.RED
       }
     },
+    attr: { remark: "示例1" },
     // 添加扫描面
     scanPlane: {
       step: 0.5, // 步长
@@ -97,6 +98,7 @@ function addDemoGraphic2(graphicLayer) {
       outline: true,
       outlineColor: Cesium.Color.RED.withAlpha(0.7)
     },
+    attr: { remark: "示例2" },
     // 添加扫描面
     scanPlane: [
       { step: 0.9, style: { color: "#ffff00", minimumConeDegree: 70.0, maximumConeDegree: 90.0 } },
@@ -118,7 +120,8 @@ function addDemoGraphic3(graphicLayer) {
         speed: 5.0
       }),
       outline: false
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
@@ -135,7 +138,8 @@ function addDemoGraphic4(graphicLayer) {
         speed: 5.0
       }),
       outline: false
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -153,7 +157,8 @@ function addDemoGraphic5(graphicLayer) {
       slicePartitions: 32,
       outline: true,
       outlineColor: "#f33349"
-    }
+    },
+    attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -178,7 +183,8 @@ function addDemoGraphic6(graphicLayer) {
       fill: false,
       outline: true,
       outlineColor: Cesium.Color.BLUE.withAlpha(0.6)
-    }
+    },
+    attr: { remark: "示例6" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -204,7 +210,8 @@ function addDemoGraphic7(graphicLayer) {
       maximumConeDegree: 90,
       color: Cesium.Color.RED.withAlpha(0.3),
       outline: true
-    }
+    },
+    attr: { remark: "示例7" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
@@ -228,7 +235,8 @@ function addDemoGraphic8(graphicLayer) {
       maximumConeDegree: 90,
       color: Cesium.Color.YELLOW.withAlpha(0.3),
       outline: true
-    }
+    },
+    attr: { remark: "示例8" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 

@@ -1,53 +1,55 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="320">
-    <a-row :gutter="[2, 10]">
-      <a-col :span="24">
-        <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
-          <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
-            <a-radio value="1">整体淹没</a-radio>
-            <a-radio value="2">局部淹没</a-radio>
-          </a-radio-group>
-        </a-form-item>
-      </a-col>
+    <div style="width: 280px">
+      <a-row :gutter="[2, 10]">
+        <a-col :span="24">
+          <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
+            <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
+              <a-radio value="1">整体淹没</a-radio>
+              <a-radio value="2">局部淹没</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
 
-      <a-col :span="8" v-show="formState.radio == '2'">
-        <a-form-item label="分析区域:" />
-      </a-col>
-      <a-col :span="16" v-show="formState.radio == '2'">
-        <a-space>
-          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-          <mars-button @click="btnDraw">绘制多边形</mars-button>
-        </a-space>
-      </a-col>
+        <a-col :span="10" v-show="formState.radio == '2'">
+          <a-form-item label="分析区域:" />
+        </a-col>
+        <a-col :span="14" v-show="formState.radio == '2'">
+          <a-space>
+            <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+            <mars-button @click="btnDraw">绘制多边形</mars-button>
+          </a-space>
+        </a-col>
 
-      <a-col :span="8">
-        <a-form-item label="最低海拔（米）" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.minHeight" :step="1" />
-      </a-col>
+        <a-col :span="10">
+          <a-form-item label="最低海拔（米）" />
+        </a-col>
+        <a-col :span="14">
+          <mars-input-number v-model:value="formState.minHeight" :step="1" />
+        </a-col>
 
-      <a-col :span="8">
-        <a-form-item label="最高海拔（米）" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.maxHeight" :step="1" />
-      </a-col>
+        <a-col :span="10">
+          <a-form-item label="最高海拔（米）" />
+        </a-col>
+        <a-col :span="14">
+          <mars-input-number v-model:value="formState.maxHeight" :step="1" />
+        </a-col>
 
-      <a-col :span="8">
-        <a-form-item label="淹没速度（米/秒）" />
-      </a-col>
-      <a-col :span="16">
-        <mars-input-number v-model:value="formState.speed" :step="1" />
-      </a-col>
+        <a-col :span="10">
+          <a-form-item label="淹没速度（米/秒）" />
+        </a-col>
+        <a-col :span="14">
+          <mars-input-number v-model:value="formState.speed" :step="1" />
+        </a-col>
 
-      <a-col :span="21">
-        <a-space>
-          <mars-button @click="begin">开始分析</mars-button>
-          <mars-button @click="stop">结束分析</mars-button>
-        </a-space>
-      </a-col>
-    </a-row>
+        <a-col :span="21">
+          <a-space>
+            <mars-button @click="begin">开始分析</mars-button>
+            <mars-button @click="stop">结束分析</mars-button>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
   </mars-pannel>
 </template>
 

@@ -1,6 +1,5 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="280">
-  <div style="width: 240px;">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -41,20 +40,23 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="裁剪参数">
-        <a-form-item label="裁剪距离">
-          <a-space>
-            <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
-          </a-space>
-        </a-form-item>
+        <div style="width: 246px">
+          <a-form-item label="裁剪距离">
+            <a-space>
+              <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
+            </a-space>
+          </a-form-item>
 
-        <a-form-item label="斜切偏移量">
-          <a-space> <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }} </a-space>
-        </a-form-item>
+          <a-form-item label="斜切偏移量">
+            <a-space>
+              <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }}
+            </a-space>
+          </a-form-item>
+        </div>
       </a-collapse-panel>
     </a-collapse>
 
     <mars-button @click="clear">清除</mars-button>
-    </div>
   </mars-pannel>
 </template>
 

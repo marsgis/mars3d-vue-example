@@ -21,46 +21,75 @@
 <script lang="ts" setup>
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
+import { useWidget } from "@mars/widgets/common/store/widget"
+
+const { updateWidget } = useWidget()
 
 const showDraw = () => {
   mapWork.setDefuatData()
   mapWork.showDraw(true)
+
+  changeGraphicData()
 }
 const showPoint = () => {
   mapWork.setDefuatData()
   mapWork.showPoint()
+
+  changeGraphicData()
 }
 const showChinaLine = () => {
   mapWork.setDefuatData()
   mapWork.showChinaLine()
+
+  changeGraphicData()
 }
 const showRegion = () => {
   mapWork.setDefuatData()
   mapWork.showRegion()
+
+  changeGraphicData()
 }
 const showBoundaryWall = () => {
   mapWork.setDefuatData()
   mapWork.showBoundaryWall()
+
+  changeGraphicData()
 }
 const showPlanningSurface = () => {
   mapWork.setDefuatData()
   mapWork.showPlanningSurface()
+
+  changeGraphicData()
 }
 const showWorld = () => {
   mapWork.setDefuatData()
   mapWork.showWorld()
+
+  changeGraphicData()
 }
 const showBuilding = () => {
   mapWork.setDefuatData()
   mapWork.showBuilding()
+
+  changeGraphicData()
 }
 const showFloor = () => {
   mapWork.setDefuatData()
   mapWork.showFloor()
+
+  changeGraphicData()
 }
 const showMonomer = () => {
   mapWork.setDefuatData()
   mapWork.showMonomer()
+
+  changeGraphicData()
+}
+
+function changeGraphicData() {
+  setTimeout(() => {
+    updateWidget("manage-layers")
+  }, 500)
 }
 </script>
 <style scoped lang="less">

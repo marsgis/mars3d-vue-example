@@ -56,7 +56,8 @@ function addDemoGraphic1(graphicLayer) {
         distanceDisplayCondition_far: 500000,
         distanceDisplayCondition_near: 0
       }
-    }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
 
@@ -87,7 +88,8 @@ function addDemoGraphic2(graphicLayer) {
       color: "#00ff00",
       pixelSize: 32,
       scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1)
-    }
+    },
+    attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -109,7 +111,8 @@ function addDemoGraphic3(graphicLayer) {
         outlineColor: "#ff0000",
         outlineWidth: 2
       }
-    }
+    },
+    attr: { remark: "示例3" }
   })
   graphicLayer.addGraphic(graphic)
 }
@@ -124,7 +127,8 @@ function addDemoGraphic4(graphicLayer) {
       outlineColor: "#ffffff",
       outlineWidth: 2,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 100000)
-    }
+    },
+    attr: { remark: "示例4" }
   })
   graphicLayer.addGraphic(graphic)
 }

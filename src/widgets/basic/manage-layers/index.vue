@@ -26,13 +26,22 @@ import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
-const { activate, disable } = useWidget()
+const { activate, disable, getWidget } = useWidget()
 
 onUnmounted(() => {
   disable("layer-tree")
 })
 
 useLifecycle(mapWork)
+
+const widget = getWidget("manage-layers")
+
+widget.onUpdate(() => {
+  treeData.value = []
+  expandedKeys.value = []
+  checkedKeys.value = []
+  initTree()
+})
 
 const treeData = ref<any[]>([])
 
@@ -183,6 +192,7 @@ function flyTo(item: any) {
 }
 
 function initTree() {
+  console.log("a")
   const layers = mapWork.getLayers()
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层

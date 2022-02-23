@@ -1,31 +1,33 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">启用状态:</span>
-        <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
-      </a-space>
-    </div>
+  <mars-pannel :visible="true" right="10" top="10" width="254">
+    <div style="width: 232px;">
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">启用状态:</span>
+          <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">粒子速度:</span>
-        <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
-      </a-space>
-    </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">粒子速度:</span>
+          <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">粒子大小:</span>
-        <mars-slider @change="onChangeSize" v-model:value="formState.size" :min="1" :max="100" />
-      </a-space>
-    </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">粒子大小:</span>
+          <mars-slider @change="onChangeSize" v-model:value="formState.size" :min="1" :max="100" />
+        </a-space>
+      </div>
 
-    <div>
-      <a-space>
-        <span class="mars-pannel-item-label">粒子方向:</span>
-        <mars-slider @change="onChangeDirection" v-model:value="formState.direction" :min="-89" :max="89" />
-      </a-space>
+      <div>
+        <a-space>
+          <span class="mars-pannel-item-label">粒子方向:</span>
+          <mars-slider @change="onChangeDirection" v-model:value="formState.direction" :min="-89" :max="89" />
+        </a-space>
+      </div>
     </div>
   </mars-pannel>
 </template>

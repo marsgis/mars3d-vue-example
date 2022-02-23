@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="200px">
     <a-form>
       <a-form-item label="状态:">
         <a-checkbox @change="onChangeState" v-model:checked="enabled">开启效果</a-checkbox>
@@ -30,7 +30,7 @@ const onChangeState = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 200px;
+.ant-slider {
+  width: 120px;
 }
 </style>
