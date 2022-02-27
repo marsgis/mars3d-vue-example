@@ -192,12 +192,11 @@ function flyTo(item: any) {
 }
 
 function initTree() {
-  console.log("a")
   const layers = mapWork.getLayers()
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i] // 创建图层
 
-    if (!layer._hasMapInit && layer.pid === -1) {
+    if (!layer._hasMapInit && layer.pid === -1 && layer.id !== 99) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
 

@@ -16,8 +16,21 @@ function init() {
 
       // 构建地图
       const initMapFun = window.initMap ? window.initMap : globalInitMap
-      vueGlobal._mapInstance = initMapFun(json.map3d)
-      vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
+      new Promise(function (resolve) {
+        const mapObj = initMapFun(json.map3d)
+        if (mapObj instanceof Promise) {
+          mapObj.then(function (m) {
+            resolve(m)
+          })
+        } else {
+          resolve(mapObj)
+        }
+      }).then(function (m) {
+        vueGlobal._mapInstance = m
+        vueGlobal.mapWork = window
+      })
+      // vueGlobal._mapInstance = initMapFun(json.map3d)
+      // vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
     })
     .otherwise(function (error) {
       console.log("加载JSON出错", error)

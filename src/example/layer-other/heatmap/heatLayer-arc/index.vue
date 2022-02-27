@@ -1,7 +1,9 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <span>显示对应的数据点:</span>
-    <a-switch v-model:checked="enabledUnderground" @change="chkUnderground" />
+  <mars-pannel :visible="true" right="10" width="150" top="10" height="45">
+    <a-space>
+      <span>显示对应的数据点:</span>
+      <a-checkbox v-model:checked="enabledUnderground" @change="chkUnderground" />
+    </a-space>
   </mars-pannel>
   <div class="divPanel">
     <img src="/img/legend/heatmap.png" />

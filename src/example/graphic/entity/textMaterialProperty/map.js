@@ -63,8 +63,6 @@ export function onUnmounted() {
   removeAll()
 }
 
-
-
 // wall文字 entity方式
 function addDemoGraphic1(graphicLayer) {
   const wallEntity = new mars3d.graphic.WallEntity({
@@ -198,6 +196,19 @@ function bindLayerEvent() {
   graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
     eventTarget.fire("graphicEditor-stop", e)
   })
+
+  graphicLayer.bindContextMenu([
+    {
+      text: "删除对象",
+      iconCls: "fa fa-trash-o",
+      callback: function (e) {
+        const graphic = e.graphic
+        if (graphic) {
+          graphicLayer.removeGraphic(graphic)
+        }
+      }
+    }
+  ])
 }
 
 export function onClickDrawWall() {
@@ -249,7 +260,6 @@ export function onClickDrawPoint() {
         width: 60,
         height: 10
       })
-      console.log(positions)
 
       const rectangleEntity = new mars3d.graphic.RectangleEntity({
         positions: positions,

@@ -22,7 +22,9 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  bindLayerEvent()
+  bindLayerEvent() // 对图层绑定相关事件
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+  bindLayerContextMenu() // 在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
 
   // 加一些演示数据
   addDemoGraphic1(graphicLayer)
@@ -384,8 +386,6 @@ function bindLayerEvent() {
   })
 }
 
-
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -397,8 +397,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {
@@ -481,8 +479,6 @@ export function startDrawGraphic() {
     }
   })
 }
-
-
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {

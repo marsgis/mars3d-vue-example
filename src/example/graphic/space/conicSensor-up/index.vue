@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="220">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">圆锥体:</span>

@@ -51,6 +51,7 @@ function addGraphicLayer() {
     name: "飞机航线",
     speed: 100,
     showStop: true,
+    startTime: "2017-08-25 09:00:00",
     positions: [
       [116.295754, 30.859525, 418.5],
       [116.295699, 30.859754, 419.1],
@@ -179,6 +180,8 @@ function addGraphicLayer() {
   roamLine = new mars3d.graphic.RoamLine(flydata)
   graphicLayer.addGraphic(roamLine)
 
+  // 修改控件对应的时间
+  map.clock.currentTime = roamLine.startTime
   if (map.controls.timeline) {
     map.controls.timeline.zoomTo(roamLine.startTime, roamLine.stopTime)
   }

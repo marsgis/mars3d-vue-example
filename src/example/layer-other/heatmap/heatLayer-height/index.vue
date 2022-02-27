@@ -287,7 +287,7 @@ function histogram(arr: any, Word: string) {
 .chartOne,
 .chartTwo,
 .chartThree {
-  width: 390px;
+  width: 393px;
   height: 30%;
   margin-bottom: 6px;
   position: relative;

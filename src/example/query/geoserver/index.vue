@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onMounted, ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -89,7 +89,7 @@ const rowSelection = ref({
   hideDefaultSelections: true,
   onSelect: (record: DataItem, selected: boolean) => {
     if (record.graphic == null) {
-     $message(record.name + " 无经纬度坐标信息！")
+      $message(record.name + " 无经纬度坐标信息！")
       return
     }
     if (selected) {
@@ -114,14 +114,7 @@ const customRow = (record: DataItem) => {
         $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      record.graphic.openHighlight()
-      record.graphic.flyTo({
-        radius: 1000, // 点数据：radius控制视距距离
-        scale: 1.5, // 线面数据：scale控制边界的放大比例
-        complete: () => {
-          record.graphic.openPopup()
-        }
-      })
+      mapWork.flyToGraphic(toRaw(record.graphic))
     }
   }
 }

@@ -10,8 +10,10 @@ import iconBasemaps from "./icon/manager-basemaps.svg"
 export const eventTarget = new mars3d.BaseClass()
 
 let map: mars3d.Map // mars3d.Map三维地图对象
+
 let layersTool: mars3d.control.ToolButton
 let basemapsTool: mars3d.control.ToolButton
+
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -19,6 +21,8 @@ let basemapsTool: mars3d.control.ToolButton
  * @returns {void} 无
  */
 export function onMounted(mapInstance: mars3d.Map): void {
+  if (!mapInstance) { return }
+
   map = mapInstance // 记录map
   layersTool = new mars3d.control.ToolButton({
     title: "图层控制",

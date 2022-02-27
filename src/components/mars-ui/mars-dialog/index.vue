@@ -373,7 +373,7 @@ export default {
 .pannel-model__body {
   width: 100%;
   height: calc(100% - 40px);
-  padding: 0 5px 10px 5px;
+  padding: 0 5px 10px 10px;
   overflow: hidden;
 }
 .content {

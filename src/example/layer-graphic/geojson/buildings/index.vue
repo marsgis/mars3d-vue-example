@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" top="2" right="10" bottom="40" width="450">
+  <mars-pannel :visible="true" top="55" right="10" bottom="90" width="450">
     <!-- 右侧图表面板-->
     <div class="bg">
       <div class="_item_top">
@@ -550,7 +550,7 @@ function fontSize(res: number) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0;
+  margin-bottom:1.22rem;
 }
 
 .item_bottom {

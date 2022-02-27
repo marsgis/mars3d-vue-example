@@ -276,7 +276,7 @@ function showResult(newSatelliteArr) {
           positions.push(outAttr.position)
           outTime = mars3d.Util.formatDate(new Date(outAttr.time), "yyyy-M-d HH:mm:ss")
         }
-        if (positions.length > 0) {
+        if (positions.length > 1) {
           const data = {
             positions: positions,
             name: item.name,

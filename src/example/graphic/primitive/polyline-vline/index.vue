@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="385">
+  <mars-pannel :visible="true" right="10" top="10" bottom="90" width="385">
     <div class="populationView">
       <!-- 实有人口 -->
       <div class="realPopulation">

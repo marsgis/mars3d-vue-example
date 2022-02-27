@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="190">
     <a-form>
       <a-form-item label="启用">
         <a-switch v-model:checked="formState.enabled" @change="onChangeState" />

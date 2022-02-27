@@ -4,12 +4,12 @@
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.2.2，
- * 编译日期：2022-02-19 13:37:27
+ * 版本信息：v3.2.3，
+ * 编译日期：2022-02-27 14:55:45
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
- * 使用单位：免费公开版 ，2022-02-1
+ * 使用单位：免费公开版 ，2022-2-1
  */
 declare module "mars3d" {
   import * as Mars3dCesium from "mars3d-cesium"
@@ -15339,7 +15339,7 @@ export class RoamLine extends BaseRoamLine {
         circle?: CircleEntity.StyleOptions | any;
         attr?: any;
         offsetHeight?: number;
-        startTime?: string | Mars3dCesium.JulianDate;
+        startTime?: string | Date | Mars3dCesium.JulianDate;
         pauseTime?: number | ((...params: any[]) => any);
         multiplier?: number;
         hasCache?: boolean;
@@ -22887,17 +22887,13 @@ export class Map extends BaseClass {
     /**
      * 获取所有图层
      * @param [options] - 参数对象，包括以下：
-     * @param [options.basemaps = false] - 是否包含basemps中配置的所有图层
-     * @param [options.layers = false] - 是否包含layers中配置的所有图层
-     * @param [options.filter = false] - 是否排除layers和baseps的图层
-     * @param [options.filterBasemaps = false] - 是否只排除baseps的图层
+     * @param [options.basemaps] - 默认不比较及处理，true:返回所有basemps中配置图层，false：排除所有所有basemps中配置图层
+     * @param [options.layers] - 默认不比较及处理，true:返回所有operationallayers中配置图层，false：排除所有operationallayers中配置图层
      * @returns 图层数组
      */
     getLayers(options?: {
         basemaps?: boolean;
         layers?: boolean;
-        filter?: boolean;
-        filterBasemaps?: boolean;
     }): BaseLayer[] | any[];
     /**
      * 获取所有basemps底图图层
@@ -29871,17 +29867,6 @@ namespace DomUtil {
      * @returns class样式名称
      */
     function getClass(el: HTMLElement): string;
-    /**
-     * 进入全屏
-     * @param el - 指定DOM元素
-     * @returns 是否执行
-     */
-    function enterFullscreen(el: HTMLElement): boolean;
-    /**
-     * 退出全屏
-     * @returns 是否执行
-     */
-    function exitFullscreen(): boolean;
 }
 
 /**
@@ -31418,7 +31403,6 @@ namespace Util {
      * @param [symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
      * @param [symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
      * @param [attr] - 数据属性对象
-     * @param [mergeStyle] - 需要合并到styleOptions的默认Style样式
      * @returns style样式
      */
     function getSymbolStyle(symbol: {
@@ -31426,7 +31410,7 @@ namespace Util {
         styleField?: string;
         styleFieldOptions?: any;
         callback?: (...params: any[]) => any;
-    }, attr?: any, mergeStyle?: any): any;
+    }, attr?: any): any;
     /**
      * geojson格式 转 arcgis服务的json格式
      * @param geojson - geojson格式
@@ -31670,6 +31654,17 @@ namespace Util {
      * @returns lang参数指定的对应文本内容
      */
     function getLangText(key: string, langType: LangType): void;
+    /**
+     * 进入全屏
+     * @param container - 指定DOM元素，如 map.container
+     * @returns 是否全屏
+     */
+    function requestFullscreen(container: HTMLElement): boolean;
+    /**
+     * 退出全屏
+     * @returns 是否全屏
+     */
+    function exitFullscreen(): boolean;
 }
 
 

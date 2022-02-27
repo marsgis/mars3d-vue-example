@@ -130,10 +130,6 @@ const showEditor = (e: any) => {
       name: "graphic-editor",
       data: { graphic: markRaw(e.graphic) }
     })
-  } else {
-    updateWidget("graphic-editor", {
-      data: { graphic: markRaw(e.graphic) }
-    })
   }
 }
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
@@ -141,6 +137,9 @@ mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
 })
 // 编辑修改了模型
 mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
+  updateWidget("graphic-editor", {
+    data: { graphic: markRaw(e.graphic) }
+  })
   showEditor(e)
 })
 

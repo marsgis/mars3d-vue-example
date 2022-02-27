@@ -5,7 +5,7 @@
  * @author 木遥 2021-11-26
  */
 window.configLibs = {
-  //////////////////////////mars3d及其插件////////////////////////
+  //////////////////////////Mars3D及其插件////////////////////////
   mars3d: [
     // 三维地球“主库”
     "Cesium/Widgets/widgets.css", // cesium
@@ -44,6 +44,11 @@ window.configLibs = {
     // 天地图三维
     "mars3d/plugins/tdt/mars3d-tdt.js"
   ],
+  "mars3d-supermap": [
+    //超图S3M服务
+    "mars3d/plugins/supermap/SuperMap3D.js", //s3m支持原生cesium的独立插件
+    "mars3d/plugins/supermap/mars3d-supermap.js",//mars3d-supermap简化调用封装
+  ],
 
   //////////////////////////cesium相关第3方插件////////////////////////
   "cesium-pbf": [
@@ -71,7 +76,11 @@ window.configLibs = {
     //支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
     "mars3d/thirdParty/sensorVolumes/cesium-sensor-volumes.js"
   ],
-  olcesium: ["ol/ol.css", "ol/ol.js", "ol/ol-cesium/olcesium.js"],
+  'olcesium': [
+    "ol/ol.css",
+    "ol/ol.js",
+    "ol/ol-cesium/olcesium.js",
+  ],
 
   //////////////////////////mars2d及其插件////////////////////////
   mars2d: [

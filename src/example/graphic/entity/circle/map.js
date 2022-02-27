@@ -302,7 +302,8 @@ function addDemoGraphic9(graphicLayer) {
       // }, false)
       clampToGround: true
     },
-    attr: { remark: "示例9" }
+    attr: { remark: "示例9" },
+    hasEdit: false
   })
   graphicLayer.addGraphic(circleEntity)
 }

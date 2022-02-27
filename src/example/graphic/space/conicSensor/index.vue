@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="256">
+  <mars-pannel :visible="true" right="10" top="10" width="260">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">圆锥体:</span>
@@ -39,7 +39,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">夹角:</span>
-        <mars-slider @change="angle" v-model:value="angleValue" :min="0" :max="89" :step="0.01" />
+        <mars-slider @change="angle" v-model:value="angleValue" :min="0.01" :max="89" :step="0.01" />
         <span class="mars-pannel-item-value">值{{ angleValue }}°</span>
       </a-space>
     </div>

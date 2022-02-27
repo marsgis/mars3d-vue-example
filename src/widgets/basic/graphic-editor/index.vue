@@ -54,16 +54,15 @@ function updataLayer(graphicLayer?: any) {
   }
   if (gp && gp.isEditing) {
     style.value = _.cloneDeep(gp.style)
-
     const config = (graphicAttr as any)[gp.options.edittype || gp.type] || {}
     styleConfig.value = config
   }
 }
 
-const updataWidget = getWidget("plot")
+const updataWidget = getWidget("graphic-editor")
 if (updataWidget) {
   updataWidget.onUpdate((e) => {
-    updataLayer(e)
+    updataLayer(e.data.graphic)
   })
 }
 

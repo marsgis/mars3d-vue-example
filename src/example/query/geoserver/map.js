@@ -162,10 +162,22 @@ export function removeAll() {
   clearAll()
 }
 
+// 定位
 export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     map.graphicLayer.clear()
   }
   geoJsonLayer.clear()
+}
+
+export function flyToGraphic(graphic) {
+  graphic.openHighlight()
+  graphic.flyTo({
+    radius: 1000, // 点数据：radius控制视距距离
+    scale: 1.5, // 线面数据：scale控制边界的放大比例
+    complete: () => {
+      graphic.openPopup()
+    }
+  })
 }

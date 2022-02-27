@@ -11,7 +11,7 @@
 
       <!-- 十进制的面板 -->
       <div v-show="formState.radioFanwei == '1'">
-        <a-form-item label="经度" class="shijingzhi">
+        <a-form-item label="经度" class="shijingzhi" >
           <mars-input v-model:value="formState.jd"> </mars-input>
         </a-form-item>
         <a-form-item label="纬度" class="shijingzhi">
