@@ -33,6 +33,10 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  // 修改已有地图为50%
+  const mapOld = document.getElementById("centerDiv3D")
+  mapOld.style.width = "50%"
+
   const centerDivEx = mars3d.DomUtil.create("div", "", document.body)
   centerDivEx.setAttribute("id", "centerDivEx")
   const sourceContainer = mars3d.DomUtil.create("div", "mars3d-container", centerDivEx)

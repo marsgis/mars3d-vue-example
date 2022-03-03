@@ -78,8 +78,8 @@ export function shoRailway() {
 
   graphicLayer = new mars3d.layer.Kml2JsonLayer({
     url: "//data.mars3d.cn/file/kml/hftl.kml",
-    symbol: {
-      styleOptions: {
+    symbol: function (attr, style, featue) {
+      return {
         color: "#00ffff",
         opacity: 0.8,
         width: 3,

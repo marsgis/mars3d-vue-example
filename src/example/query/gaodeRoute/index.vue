@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel customClass="gaodeRoutePannel" :visible="true">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
@@ -103,6 +103,15 @@ const saveGeoJSON = () => {
   mapWork.saveGeoJSON()
 }
 </script>
+
+<style lang="less">
+.gaodeRoutePannel {
+  right: 10px !important;
+  top: 10px !important;
+  max-height: calc(100% - 51px) !important;
+  overflow: auto !important;
+}
+</style>
 <style scoped lang="less">
 .showRoam {
   top: 250px;

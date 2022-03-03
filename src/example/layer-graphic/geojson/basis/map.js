@@ -33,8 +33,13 @@ export function onUnmounted() {
 
 function removeLayer() {
   if (graphicLayer) {
+    graphicLayer.clear()
     map.removeLayer(graphicLayer, true)
     graphicLayer = null
+  }
+  if (tilesetLayer) {
+    map.removeLayer(tilesetLayer, true)
+    tilesetLayer = null
   }
 }
 

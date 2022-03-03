@@ -35,13 +35,12 @@ export function onUnmounted() {
  */
 function showWeiVectorTileLayer() {
   // shp 国界线
-  Cesium.when.all(
-    [
-      Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.shp"),
-      Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.dbf"),
-      Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.prj")
-    ],
-    function (files) {
+
+  Promise.all([
+    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.shp"),
+    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.dbf"),
+    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.prj")
+  ]).then(function (files) {
       files[0].name = "hefei_xz.shp"
       files[1].name = "hefei_xz.dbf"
       files[2].name = "hefei_xz.prj"

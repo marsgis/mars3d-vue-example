@@ -71,7 +71,6 @@ function initTree() {
     layers: true // 是否取config.json中的layers
   })
 
-
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
@@ -82,7 +81,8 @@ function initTree() {
         key: layer.uuid,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid
+        uuid: layer.uuid,
+        group: layer.type === "group"
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)
@@ -101,7 +101,8 @@ function findChild(parent: any, list: any[]) {
         key: item.uuid,
         id: item.id,
         pId: item.pid,
-        uuid: item.uuid
+        uuid: item.uuid,
+        group: item.type === "group"
       }
       layersObj[item.uuid] = item
       expandedKeys.value.push(node.key)

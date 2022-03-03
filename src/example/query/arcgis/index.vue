@@ -20,7 +20,7 @@
 
         <div class="f-mb">
           <a-space>
-            <span>范围</span>
+            <span>操作</span>
             <mars-button @click="query">查询</mars-button>
             <mars-button @click="removeAll">清除</mars-button>
           </a-space>

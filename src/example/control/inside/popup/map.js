@@ -185,25 +185,33 @@ export function bindGraphicDemo1() {
     // let attr = event.graphic.attr
     const inthtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
-                <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
+                <tr><td >说明：</td><td >Popup鼠标单击信息弹窗1 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
                 <tr><td >备注：</td><td >我是graphic上绑定的Popup</td></tr>
-                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button onclick="showXQ()">更多</button></td></tr>
+                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button id="btnDetails">更多</button></td></tr>
               </table>`
     return inthtml
   }
 
-  // 绑定Popup
-  graphic.bindPopup(getInnerHtml).openPopup()
-
   graphic.on(mars3d.EventType.popupOpen, function (event) {
     const container = event.container // popup对应的DOM
     console.log("打开了popup", container)
+
+    const btnDetails = container.querySelector("#btnDetails")
+    if (btnDetails) {
+      btnDetails.addEventListener("click", (e) => {
+        showXQ()
+      })
+    }
   })
   graphic.on(mars3d.EventType.popupClose, function (event) {
     const container = event.container // popup对应的DOM
     console.log("移除了popup", container)
   })
+
+
+  // 绑定Popup
+  graphic.bindPopup(getInnerHtml).openPopup()
 }
 
 // 4.在graphic数据上绑定Popup单击弹窗
@@ -232,14 +240,22 @@ export function bindGraphicDemo2() {
 
   const innerHtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup局部刷新</th></tr>
-                <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
+                <tr><td >说明：</td><td >Popup鼠标单击信息弹窗2 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
                 <tr><td >备注：</td><td >我是graphic上绑定的Popup</td></tr>
                 <tr><td >时间：</td><td id="tdTime"></td></tr>
-                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button onclick="showXQ()">更多</button></td></tr>
+                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button id="btnDetails">更多</button></td></tr>
               </table>`
-  // 绑定Popup
-  graphic.bindPopup(innerHtml, { offsetY: -30 }).openPopup()
+
+  graphic.on(mars3d.EventType.popupOpen, function (event) {
+    const container = event.container // popup对应的DOM
+    const btnDetails = container.querySelector("#btnDetails")
+    if (btnDetails) {
+      btnDetails.addEventListener("click", (e) => {
+        showXQ()
+      })
+    }
+  })
 
   // 刷新局部DOM,不影响popup面板的其他控件操作
   graphic.on(mars3d.EventType.postRender, function (event) {
@@ -252,15 +268,8 @@ export function bindGraphicDemo2() {
     }
   })
 
-  // graphic.on(mars3d.EventType.popupOpen, function (event) {
-  //   let container = event.container //popup对应的DOM
-  //   console.log('打开了popup', container)
-  // })
-
-  // graphic.on(mars3d.EventType.popupClose, function (event) {
-  //   let container = event.container //popup对应的DOM
-  //   console.log('移除了popup', container)
-  // })
+  // 绑定Popup
+  graphic.bindPopup(innerHtml, { offsetY: -30 }).openPopup()
 }
 
 // 只是为了演示，可以单击详情

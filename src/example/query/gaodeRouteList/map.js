@@ -142,14 +142,14 @@ export function endPoint() {
 }
 
 // 开始分析
-export function btnAnalyse(count) {
+export function btnAnalyse(type, count) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
   }
   showLoading()
 
-  queryRoute()
+  queryRoute(type)
 }
 
 function queryRoute(type) {
@@ -161,7 +161,7 @@ function queryRoute(type) {
   }
 
   gaodeRoute.queryArr({
-    type: type, // GaodeRouteType枚举类型
+    type: Number(type), // GaodeRouteType枚举类型
     points: arr,
     success: function (data) {
       hideLoading()

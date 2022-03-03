@@ -4,8 +4,8 @@
 /**
  * Mars3D三维可视化平台
  *
- * 版本信息：v3.2.3，
- * 编译日期：2022-02-27 14:55:45
+ * 版本信息：v3.2.4，
+ * 编译日期：2022-03-03 12:08:57
  *
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  *
@@ -773,6 +773,7 @@ export const enum LayerType {
     image,
     xyz,
     arcgis,
+    arcgis_tile,
     arcgis_cache,
     wms,
     wmts,
@@ -5718,10 +5719,11 @@ export class BaseEntity extends BaseGraphic {
  * @param [options.entity] - 传入外部已经构造好的Entity对象
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
- * @param [options.frameRate = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateClamp = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -5749,10 +5751,11 @@ export class BasePointEntity extends BaseEntity {
         entity?: Mars3dCesium.Entity;
         hasEdit?: boolean;
         maxCacheCount?: number;
-        clampToTileset?: boolean;
-        frameRate?: number;
         forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
         backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateClamp?: number;
+        objectsToExclude?: any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -5823,7 +5826,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities 等
      */
-    readonly objectsToExclude: any | undefined;
+    objectsToExclude: any | undefined;
     /**
      * 更新 三维空间中的Quaternion旋转对象。
      * @returns 更新后的Quaternion旋转对象
@@ -6104,6 +6107,12 @@ export namespace BillboardEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
+ * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -6127,6 +6136,12 @@ export class BillboardEntity extends BasePointEntity {
         viewFrom?: Mars3dCesium.Property;
         parent?: Mars3dCesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
+        maxCacheCount?: number;
+        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateHeight?: number;
+        objectsToExclude?: any;
         drawShow?: boolean;
         addHeight?: number;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -8074,10 +8089,11 @@ export namespace ModelEntity {
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
- * @param [options.frameRate = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -8103,10 +8119,11 @@ export class ModelEntity extends BasePointEntity {
         parent?: Mars3dCesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         maxCacheCount?: number;
-        clampToTileset?: boolean;
-        frameRate?: number;
         forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
         backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateHeight?: number;
+        objectsToExclude?: any;
         drawShow?: boolean;
         addHeight?: number;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -8575,6 +8592,12 @@ export namespace PointEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
+ * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -8598,6 +8621,12 @@ export class PointEntity extends BasePointEntity {
         viewFrom?: Mars3dCesium.Property;
         parent?: Mars3dCesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
+        maxCacheCount?: number;
+        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateHeight?: number;
+        objectsToExclude?: any;
         drawShow?: boolean;
         addHeight?: number;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -11290,6 +11319,7 @@ export class VolumeMeasure extends AreaMeasure {
  * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
  * @param options.style - 矢量数据的 样式信息，具体见各类数据的说明
  * @param [options.attr] - 矢量数据的 属性信息，可以任意附加属性。
+ * @param [options.frameRate = 1] - 当postion为CallbackProperty时，多少帧获取一次数据。用于控制效率，如果卡顿就把该数值调大一些。
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
  * @param [options.attributes] - [cesium原生]每个实例的属性。
  * @param [options.depthFailAppearance] - 当深度测试失败时，用于为该图元着色的外观。
@@ -11302,6 +11332,12 @@ export class VolumeMeasure extends AreaMeasure {
  * @param [options.asynchronous = true] - 确定该图元是异步创建还是阻塞创建，直到就绪。
  * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
  * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
+ * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
+ * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -11319,6 +11355,7 @@ export class BasePointPrimitive extends BasePrimitive {
         modelMatrix?: Mars3dCesium.Matrix4;
         style: any;
         attr?: any;
+        frameRate?: number;
         appearance?: Mars3dCesium.Appearance;
         attributes?: Mars3dCesium.Appearance;
         depthFailAppearance?: Mars3dCesium.Appearance;
@@ -11331,6 +11368,12 @@ export class BasePointPrimitive extends BasePrimitive {
         asynchronous?: boolean;
         debugShowBoundingVolume?: boolean;
         debugShowShadowVolume?: boolean;
+        maxCacheCount?: number;
+        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateHeight?: number;
+        objectsToExclude?: any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -11394,6 +11437,10 @@ export class BasePointPrimitive extends BasePrimitive {
      * <br/>提示：父类属性，非所有子类都具备
      */
     roll: number;
+    /**
+     * 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities 等
+     */
+    objectsToExclude: any | undefined;
     /**
      * 设置并添加动画轨迹位置，按“指定时间”运动到达“指定位置”。
      * @param point - 指定位置坐标
@@ -13370,6 +13417,12 @@ export namespace ModelPrimitive {
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
  * @param [options.attributes] - [cesium原生]每个实例的属性。
+ * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
+ * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
+ * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
+ * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -13389,6 +13442,12 @@ export class ModelPrimitive extends BasePointPrimitive {
         attr?: any;
         appearance?: Mars3dCesium.Appearance;
         attributes?: Mars3dCesium.Appearance;
+        maxCacheCount?: number;
+        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        clampToTileset?: boolean;
+        frameRateHeight?: number;
+        objectsToExclude?: any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -15102,7 +15161,7 @@ export namespace DynamicRoamLine {
  *
  * //以下是 clampToGround中使用的
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
- * @param [options.frameRate = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
+ * @param [options.frameRateHeight = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
  * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.shadow] - 设置投影或附加的对象，支持类型：
  * @param [options.shadow.wall] - wall类型所支持的参数
@@ -15145,7 +15204,7 @@ export class DynamicRoamLine extends BaseRoamLine {
         backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
         fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
         clampToTileset?: boolean;
-        frameRate?: number;
+        frameRateHeight?: number;
         objectsToExclude?: any;
         shadow?: {
             wall?: BaseRoamLine.WallShadingOptions;
@@ -15297,7 +15356,7 @@ export namespace RoamLine {
  * @param [options.minDistance = null] - 当clampToGround计算时，插值最小间隔(单位：米)，优先级高于splitNum
  * @param [options.offset = 0] - 当clampToGround计算时，可以按需增加偏移高度（单位：米），便于可视
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
- * @param [options.frameRate = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
+ * @param [options.frameRateHeight = 30] - 当clampToTileset：true时，控制贴模型的效率，多少帧计算一次贴模型高度,
  * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，默认是当前本身，可以是： primitives, entities, 或 3D Tiles features
  * @param [options.shadow] - 设置投影或附加的对象，支持类型：
  * @param [options.shadow.wall] - wall类型所支持的参数
@@ -15357,7 +15416,7 @@ export class RoamLine extends BaseRoamLine {
         minDistance?: number;
         offset?: number;
         clampToTileset?: boolean;
-        frameRate?: number;
+        frameRateHeight?: number;
         objectsToExclude?: any;
         shadow?: {
             wall?: BaseRoamLine.WallShadingOptions;
@@ -25971,6 +26030,15 @@ export class S3MLayer extends BaseLayer {
      * 模型对应的Mars3dCesium.S3MTilesLayer图层组
      */
     readonly layer: any;
+    /**
+     * 获取将在加载瓦片集的根瓦片并准备渲染该瓦片集时并init完成解析的Promise承诺,
+     * 这个Promise承诺在渲染tileset的第一帧之前的帧结束时被解析,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
+     * @example
+     * s3mLayer.readyPromise.then(function(layer) {
+     *     console.log("load完成", layer)
+     *   })
+     */
+    readonly readyPromise: Promise<S3MLayer | any>;
     /**
      * 设置S3M图层本身支持的参数
      */

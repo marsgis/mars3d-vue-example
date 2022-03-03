@@ -3,7 +3,7 @@ import * as mars3d from "mars3d"
 let map // mars3d.Map三维地图对象
 let slope
 let contourLine
-
+let graphicLayer
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -12,8 +12,9 @@ let contourLine
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   addSlope()
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 }
 
 /**
@@ -63,7 +64,7 @@ function addSlope() {
 // 添加矩形
 export function btnDrawExtent(splitNum) {
   clearAll()
-  map.graphicLayer.startDraw({
+  graphicLayer.startDraw({
     type: "rectangle",
     style: {
       color: "#007be6",
@@ -73,7 +74,7 @@ export function btnDrawExtent(splitNum) {
     success: function (graphic) {
       // 绘制成功后回调
       const positions = graphic.getOutlinePositions(false)
-      map.graphicLayer.clear()
+      graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
@@ -91,8 +92,7 @@ export function btnDrawExtent(splitNum) {
 // 绘制多边形
 export function btnDraw(splitNum) {
   clearAll()
-
-  map.graphicLayer.startDraw({
+  graphicLayer.startDraw({
     type: "polygon",
     style: {
       color: "#29cf34",
@@ -104,7 +104,7 @@ export function btnDraw(splitNum) {
     success: function (graphic) {
       // 绘制成功后回调
       const positions = graphic.positionsShow
-      map.graphicLayer.clear()
+      graphicLayer.clear()
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
@@ -123,14 +123,14 @@ export function btnDraw(splitNum) {
 export function btnDrawPoint() {
   clearAll()
 
-  map.graphicLayer.startDraw({
+  graphicLayer.startDraw({
     type: "point",
     style: {
       color: "#ffff00"
     },
     success: function (graphic) {
       const positions = graphic.positionsShow
-      map.graphicLayer.clear()
+      graphicLayer.clear()
 
       slope.add(positions)
     }

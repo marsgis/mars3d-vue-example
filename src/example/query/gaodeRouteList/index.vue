@@ -126,7 +126,7 @@ const btnAnalyse = () => {
   wayShow.value = false
   dataSource.value = []
 
-  mapWork.btnAnalyse(count.value)
+  mapWork.btnAnalyse(selectWay.value, count.value)
 }
 
 mapWork.eventTarget.on("analyse", function (event: any) {

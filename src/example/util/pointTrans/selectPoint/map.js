@@ -49,6 +49,18 @@ export function marsProj4Trans(JD, WD, radio) {
   }
 }
 
+// 转换成十进制的方法
+export function marsDms2degree(du, fen, miao) {
+  return mars3d.PointTrans.dms2degree(du, fen, miao)
+}
+export function marsZONEtoCRS(jd, wd, radio) {
+  if (radio === "2") {
+    return mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_6, mars3d.CRS.EPSG4326)
+  } else {
+    return mars3d.PointTrans.proj4Trans([jd, wd], mars3d.CRS.CGCS2000_GK_Zone_3, mars3d.CRS.EPSG4326)
+  }
+}
+
 // 地图选点
 export function bindMourseClick() {
   map.setCursor(true)

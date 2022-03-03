@@ -67,7 +67,9 @@
           </a-form-item>
 
           <a-form-item label="允许鼠标操作">
-            <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+            <div class="f-tac">
+              <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+            </div>
           </a-form-item>
 
           <a-form-item label="颜色选择">

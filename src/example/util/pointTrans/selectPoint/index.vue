@@ -11,14 +11,14 @@
 
       <!-- 十进制的面板 -->
       <div v-show="formState.radioFanwei == '1'">
-        <a-form-item label="经度" class="shijingzhi" >
+        <a-form-item label="经度" class="shijingzhi" @change="changeJWD">
           <mars-input v-model:value="formState.jd"> </mars-input>
         </a-form-item>
         <a-form-item label="纬度" class="shijingzhi">
-          <mars-input v-model:value="formState.wd"> </mars-input>
+          <mars-input v-model:value="formState.wd" @change="changeJWD"> </mars-input>
         </a-form-item>
         <a-form-item label="高程" class="shijingzhi">
-          <mars-input v-model:value="formState.alt"> </mars-input>
+          <mars-input v-model:value="formState.alt" @change="changeJWD"> </mars-input>
         </a-form-item>
       </div>
 
@@ -26,16 +26,16 @@
       <div v-show="formState.radioFanwei == '2'">
         <a-form-item label="经度">
           <a-space>
-            <mars-input v-model:value="formState.jdDegree" class="dufenmiao"> </mars-input>°
-            <mars-input v-model:value="formState.jdMinute" class="dufenmiao"> </mars-input>'
-            <mars-input v-model:value="formState.jdSecond" class="dufenmiao"> </mars-input>"
+            <mars-input v-model:value="formState.jdDegree" class="dufenmiao" @change="changeDMS"> </mars-input>°
+            <mars-input v-model:value="formState.jdMinute" class="dufenmiao" @change="changeDMS"> </mars-input>'
+            <mars-input v-model:value="formState.jdSecond" class="dufenmiao" @change="changeDMS"> </mars-input>"
           </a-space>
         </a-form-item>
         <a-form-item label="纬度">
           <a-space>
-            <mars-input v-model:value="formState.wdDegree" class="dufenmiao"> </mars-input>°
-            <mars-input v-model:value="formState.wdMinute" class="dufenmiao"> </mars-input>'
-            <mars-input v-model:value="formState.wdSecond" class="dufenmiao"> </mars-input>"
+            <mars-input v-model:value="formState.wdDegree" class="dufenmiao" @change="changeDMS"> </mars-input>°
+            <mars-input v-model:value="formState.wdMinute" class="dufenmiao" @change="changeDMS"> </mars-input>'
+            <mars-input v-model:value="formState.wdSecond" class="dufenmiao" @change="changeDMS"> </mars-input>"
           </a-space>
         </a-form-item>
         <a-form-item label="高程" class="shijingzhi">
@@ -52,13 +52,13 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="纵坐标" class="shijingzhi">
-          <mars-input v-model:value="formState.gk6X"> </mars-input>
+          <mars-input v-model:value="formState.gk6X" @change="changeGKZone"> </mars-input>
         </a-form-item>
         <a-form-item label="横坐标" class="shijingzhi">
-          <mars-input v-model:value="formState.gk6Y"> </mars-input>
+          <mars-input v-model:value="formState.gk6Y" @change="changeGKZone"> </mars-input>
         </a-form-item>
         <a-form-item label="高度值" class="shijingzhi">
-          <mars-input v-model:value="formState.alt"> </mars-input>
+          <mars-input v-model:value="formState.alt" @change="changeGKZone"> </mars-input>
         </a-form-item>
       </div>
 
@@ -105,11 +105,27 @@ onMounted(() => {
     currJD = point.lng
     currWD = point.lat
     currGD = point.alt
-    formState.jd = mapWork.marsUtilFormtNum(currJD)
-    formState.wd = mapWork.marsUtilFormtNum(currWD)
-    formState.alt = mapWork.marsUtilFormtNum(currGD)
+    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
   })
 })
+
+const changeJWD = () => {
+  currJD = Number(formState.jd)
+  currWD = Number(formState.wd)
+  currGD = Number(formState.alt)
+}
+const changeDMS = () => {
+  currJD = mapWork.marsDms2degree(formState.jdDegree, formState.jdMinute, formState.jdSecond)
+  currWD = mapWork.marsDms2degree(formState.wdDegree, formState.wdMinute, formState.wdSecond)
+}
+
+const changeGKZone = () => {
+  const zoon = mapWork.marsZONEtoCRS(Number(formState.gk6X), Number(formState.gk6Y), formState.radioFendai)
+  currJD = zoon[0]
+  currWD = zoon[1]
+}
 
 const changeFanwei = () => {
   switch (formState.radioFanwei) {
@@ -122,7 +138,6 @@ const changeFanwei = () => {
       formState.wdMinute = mapWork.marsPointTrans(currWD).minute
       formState.wdSecond = mapWork.marsPointTrans(currWD).second
 
-      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
       break
     case "3": // CGCS2000
       changeFendai()
@@ -131,25 +146,15 @@ const changeFanwei = () => {
       // 十进制
       formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
       formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
-      formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
       break
   }
 }
 
 const changeFendai = () => {
-  if (formState.radioFendai === "2") {
-    // 十进制转2000平面六分度
-    const zoon6 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
-    formState.gk6X = mapWork.marsUtilFormtNum(zoon6[0], 1)
-    formState.gk6Y = mapWork.marsUtilFormtNum(zoon6[1], 1)
-    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
-  } else {
-    // 十进制转2000平面三分度
-    const zone3 = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
-    formState.gk6X = mapWork.marsUtilFormtNum(zone3[0], 1)
-    formState.gk6Y = mapWork.marsUtilFormtNum(zone3[1], 1)
-    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
-  }
+  // 十进制转2000平面六分度
+  const zoon = mapWork.marsProj4Trans(currJD, currWD, formState.radioFendai)
+  formState.gk6X = mapWork.marsUtilFormtNum(zoon[0], 1)
+  formState.gk6Y = mapWork.marsUtilFormtNum(zoon[1], 1)
 }
 
 const bindMourseClick = () => {
@@ -177,7 +182,7 @@ const submitCenter = () => {
     $alert("请输入有效的纬度值！")
     return
   }
-  mapWork.updateMarker(true, formState.jd, formState.wd, formState.alt)
+  mapWork.updateMarker(true, currJD, currWD, currGD)
 }
 </script>
 <style scoped lang="less">

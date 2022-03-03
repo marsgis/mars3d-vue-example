@@ -142,7 +142,7 @@ function queryRoute(type) {
   showLoading()
 
   gaodeRoute.query({
-    type: type,
+    type: Number(type),
     points: [startGraphic.coordinate, endGraphic.coordinate],
     success: function (data) {
       hideLoading()

@@ -3,7 +3,7 @@
     <a-form>
       <a-form-item label="插值数">
         <a-space>
-          <mars-input-number v-model:value="formState.txtSplitNum" :step="1" :min="1" :max="999" />
+          <mars-input-number v-model:value="txtSplitNum" :step="1" :min="1" :max="999" />
           <mars-button @click="btnDrawExtent">添加矩形</mars-button>
           <mars-button @click="btnDraw">添加多边形</mars-button>
           <mars-button @click="btnDrawPoint">添加点</mars-button>
@@ -12,7 +12,7 @@
       </a-form-item>
 
       <a-form-item label="地表渲染">
-        <a-radio-group v-model:value="formState.radio" @change="changeShadingType">
+        <a-radio-group v-model:value="radio" @change="changeShadingType">
           <a-radio value="none">无阴影</a-radio>
           <a-radio value="slope">坡度</a-radio>
           <a-radio value="aspect">坡向</a-radio>
@@ -23,27 +23,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
-import type { UnwrapRef } from "vue"
+import { ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 
-interface FormState {
-  radio: string
-  txtSplitNum: number
-}
-
-const formState: UnwrapRef<FormState> = reactive({
-  radio: "none",
-  txtSplitNum: 10
-})
+const txtSplitNum = ref(10)
+const radio = ref("none")
 
 // 添加矩形
 const btnDrawExtent = () => {
-  mapWork.btnDrawExtent(formState.txtSplitNum)
+  mapWork.btnDrawExtent(toRaw(txtSplitNum.value))
 }
 // 添加多边形
 const btnDraw = () => {
-  mapWork.btnDraw(formState.txtSplitNum)
+  mapWork.btnDraw(toRaw(txtSplitNum.value))
 }
 // 添加点
 const btnDrawPoint = () => {
@@ -56,7 +48,7 @@ const clearAll = () => {
 
 // 改变阴影
 const changeShadingType = () => {
-  mapWork.changeShadingType(formState.radio)
+  mapWork.changeShadingType(toRaw(radio.value))
 }
 </script>
 <style scoped lang="less">

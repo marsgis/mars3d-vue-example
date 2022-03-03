@@ -226,30 +226,33 @@ export function bindGraphicDemo2() {
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
                 <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
                 <tr><td >时间：</td><td id="tdTime"></td></tr>
-                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button onclick="showXQ()">更多</button></td></tr>
+                <tr><td colspan="4" style="text-align:right;cursor: pointer;"><button  id="btnDetails">更多</button></td></tr>
               </table>`
-  // 绑定Tooltip
-  graphic.bindTooltip(innerHtml, { offsetY: -30, pointerEvents: true }).openTooltip()
+
+  graphic.on(mars3d.EventType.tooltipOpen, function (event) {
+    const container = event.container // popup对应的DOM
+    console.log("打开了popup", container)
+
+    const btnDetails = container.querySelector("#btnDetails")
+    if (btnDetails) {
+      btnDetails.addEventListener("click", (e) => {
+        showXQ()
+      })
+    }
+  })
 
   // 刷新局部DOM,不影响tooltip面板的其他控件操作
   graphic.on(mars3d.EventType.postRender, function (event) {
     const container = event.container // tooltip对应的DOM
+
     const tdTime = container.querySelector("#tdTime")
     if (tdTime) {
       const date = mars3d.Util.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss S")
       tdTime.innerHTML = date
     }
   })
-
-  // graphic.on(mars3d.EventType.tooltipOpen, function (event) {
-  //   let container = event.container //tooltip对应的DOM
-  //   console.log('打开了tooltip', container)
-  // })
-
-  // graphic.on(mars3d.EventType.tooltipClose, function (event) {
-  //   let container = event.container //tooltip对应的DOM
-  //   console.log('移除了tooltip', container)
-  // })
+  // 绑定Tooltip
+  graphic.bindTooltip(innerHtml, { offsetY: -30, pointerEvents: true }).openTooltip()
 }
 
 // 只是为了演示，可以单击详情

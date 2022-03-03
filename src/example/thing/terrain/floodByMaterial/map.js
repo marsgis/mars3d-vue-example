@@ -38,7 +38,8 @@ export function onMounted(mapInstance) {
     console.log("开始分析", e)
   })
   floodByMaterial.on(mars3d.EventType.change, function (e) {
-  // console.log("高度发生了变化", e.height)
+    const height = e.height
+    eventTarget.fire("heightChange", { height })
   })
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -114,7 +115,6 @@ function updateHeightRange(positions, callback) {
 
 // 开始分析
 export function begin(data) {
-  console.log(floodByMaterial)
   if (floodByMaterial.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -133,6 +133,19 @@ export function begin(data) {
   floodByMaterial.start()
 }
 
+// 高度选择
+export function onChangeHeight(height) {
+  floodByMaterial.height = height
+}
+
+// 自动播放
+export function startPlay() {
+  if (floodByMaterial.isStart) {
+    floodByMaterial.stop()
+  } else {
+    floodByMaterial.start()
+  }
+}
 
 export function clearDraw() {
   floodByMaterial.clear()
