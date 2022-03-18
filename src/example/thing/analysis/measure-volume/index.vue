@@ -89,6 +89,7 @@ const selHeight = () => {
 
 onMounted(() => {
   mapWork.eventTarget.on("endMeasure", function (item: any) {
+    showResult()
     baseValue.value = item.event.sourceTarget.options.height.toFixed(1)
     bottomValue.value = item.event.minHeight.toFixed(1)
     topValue.value = item.event.maxHeight.toFixed(1)

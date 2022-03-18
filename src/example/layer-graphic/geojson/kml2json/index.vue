@@ -13,13 +13,11 @@
   </mars-pannel>
 
   <mars-pannel :visible="true" right="10" top="110" width="200" customClass="pannel">
-    <div style="width: 168px">
-      <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys" v-model:expandedKeys="expandedKeys">
-        <template #title="{ title }">
-          <span class="tree-style" :title="title">{{ title }}</span>
-        </template>
-      </mars-tree>
-    </div>
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys" v-model:expandedKeys="expandedKeys">
+      <template #title="{ title }">
+        <span :title="title">{{ title }}</span>
+      </template>
+    </mars-tree>
   </mars-pannel>
 </template>
 
@@ -122,9 +120,6 @@ const showSafetyNotice = () => {
 }
 </script>
 <style lang="less">
-.mars-pannel-item-label {
-  width: auto;
-}
 .pannel {
   max-height: 750px;
   overflow-y: auto;

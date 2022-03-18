@@ -51,6 +51,7 @@
         <a-space>
           <mars-button @click="startPlay">{{ isStart ? "暂停" : "播放" }}</mars-button>
           <mars-button @click="goBack">返回</mars-button>
+          <a-checkbox v-model:checked="formState.enabledShowElse" @change="onChangeElse">显示非淹没区域</a-checkbox>
         </a-space>
       </div>
     </div>
@@ -67,13 +68,15 @@ interface FormState {
   maxHeight: any
   speed: number
   height: number
+  enabledShowElse: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
   minHeight: "",
   maxHeight: "",
   height: 0,
-  speed: 80
+  speed: 80,
+  enabledShowElse: true
 })
 
 const isStart = ref(true)
@@ -140,6 +143,11 @@ const goBack = () => {
   formState.maxHeight = ""
   isShow.value = false
   isStart.value = true
+  formState.enabledShowElse = true
+}
+
+const onChangeElse = () => {
+  mapWork.onChangeElse(formState.enabledShowElse)
 }
 </script>
 <style scoped lang="less">

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="195">
     <a-space>
       <span>夸张程度:</span>
       <mars-slider :min="1" :max="50" v-model:value="terrainExaggeration" @change="formStateChange" />

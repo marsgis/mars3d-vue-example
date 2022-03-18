@@ -7,7 +7,8 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">数据维护:</span>
-        <mars-button @click="onClickStartDraw">图上标绘</mars-button>
+        <mars-button @click="onClickStartDraw">标绘椭圆</mars-button>
+        <mars-button @click="onClickDrawExtruded">椭圆柱</mars-button>
         <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
       </a-space>
     </div>
@@ -38,9 +39,11 @@ const onChangeHasEdit = () => {
 const onClickStartDraw = () => {
   mapWork.startDrawGraphic()
 }
+const onClickDrawExtruded = () => {
+  mapWork.onClickDrawExtruded()
+}
 
 // 属性面板
-
 const showEditor = (e: any) => {
   if (!isActivate("graphic-editor")) {
     activate({

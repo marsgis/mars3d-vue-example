@@ -13,7 +13,7 @@ import { ref } from "vue"
 import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
 
-const value = ref<number>(1)
+const value = ref<number>(2)
 
 const shadingMaterials = () => {
   mapWork.shadingMaterials(value.value)

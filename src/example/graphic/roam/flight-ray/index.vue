@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-form>
       <a-form-item>
         <a-row :gutter="[0, 10]">
           <a-col :span="7">模型角度:</a-col>
-          <a-col :span="17">
+          <a-col :span="16">
             <a-radio-group v-model:value="formState.radio">
               <a-radio value="1">自动</a-radio>
               <a-radio value="2">手动</a-radio>
@@ -15,15 +15,15 @@
       <a-form-item v-show="formState.radio === '2'">
         <a-row :gutter="[0, 10]">
           <a-col :span="7">heading值:</a-col>
-          <a-col :span="17">根据路线自动计算</a-col>
+          <a-col :span="16">根据路线自动计算</a-col>
 
           <a-col :span="7">pitch值(前后):</a-col>
-          <a-col :span="17">
+          <a-col :span="16">
             <mars-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="-90" :max="90" :step="0.01" />
           </a-col>
 
           <a-col :span="7">roll值(左右):</a-col>
-          <a-col :span="17">
+          <a-col :span="16">
             <mars-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="-90" :max="90" :step="0.01" />
           </a-col>
         </a-row>

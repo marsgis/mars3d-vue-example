@@ -1,32 +1,30 @@
 
-/* eslint-disable */
+/**
+ * Mars3D三维可视化平台  mars3d-sdk
+ *
+ * 版本信息：v3.3.0
+ * 编译日期：2022-03-18 17:22:33
+ * 版权所有：Copyright by 火星科技  http://mars3d.cn
+ * 使用单位：免费公开版 ，2022-02-01
+ */
+
+import * as Cesium from "mars3d-cesium"
+export { Cesium }
+export { Resource } from "mars3d-cesium"
+
+declare const version: string
+declare const update: string
+declare const name: string
+
+declare const proj4: any
+
+declare const provider: any
+
 
 /**
- * Mars3D三维可视化平台
- *
- * 版本信息：v3.2.4，
- * 编译日期：2022-03-03 12:08:57
- *
- * 版权所有：Copyright by 火星科技  http://mars3d.cn
- *
- * 使用单位：免费公开版 ，2022-2-1
- */
-declare module "mars3d" {
-  import * as Mars3dCesium from "mars3d-cesium"
-
-  export const Cesium: typeof Mars3dCesium
-  export const Resource: Mars3dCesium.Resource
-
-  export const version: string
-  export const update: string
-  export const name: string
-  export const proj4: any
-
-
-  /**
  * 国内偏移坐标系 枚举
  */
-export const enum ChinaCRS {
+declare const enum ChinaCRS {
     /**
      * 标准无偏坐标系
      */
@@ -44,7 +42,7 @@ export const enum ChinaCRS {
 /**
  * 裁剪模型类型
  */
-export const enum ClipType {
+declare const enum ClipType {
     /**
      * z水平面, 切底部
      */
@@ -74,7 +72,7 @@ export const enum ClipType {
 /**
  * 控件类型
  */
-export const enum ControlType {
+declare const enum ControlType {
     clockAnimate,
     compass,
     distanceLegend,
@@ -88,7 +86,7 @@ export const enum ControlType {
 /**
  * 坐标系 枚举
  */
-export const enum CRS {
+declare const enum CRS {
     /**
      * Web墨卡托投影坐标系
      */
@@ -126,7 +124,7 @@ export const enum CRS {
 /**
  * 特效类型
  */
-export const enum EffectType {
+declare const enum EffectType {
     blackAndWhite,
     bloom,
     brightness,
@@ -144,7 +142,7 @@ export const enum EffectType {
 /**
  * 事件类型 枚举（所有事件统一的入口）
  */
-export const enum EventType {
+declare const enum EventType {
     /**
      * 添加对象
      */
@@ -524,7 +522,7 @@ export const enum EventType {
 /**
  * 矢量数据类型
  */
-export const enum GraphicType {
+declare const enum GraphicType {
     label,
     labelP,
     point,
@@ -622,7 +620,7 @@ export const enum GraphicType {
  * @example
  * mars3d.Lang["_单击开始绘制"][mars3d.LangType.ZH] ="新的中文提示语句";
  */
-export const enum Lang {
+declare const enum Lang {
     "_放大" = "[\"\u653E\u5927\",\"\u653E\u5927\",\"Zoom In\"]",
     "_缩小" = "[\"\u7F29\u5C0F\",\"\u7E2E\u5C0F\",\"Zoom Out\"]",
     "_查看此处坐标" = "[\"\u67E5\u770B\u6B64\u5904\u5750\u6807\",\"\u67E5\u770B\u6B64\u8655\u5750\u6A19\",\"Location info\"]",
@@ -742,7 +740,7 @@ export const enum Lang {
 /**
  * 语言类型  枚举
  */
-export const enum LangType {
+declare const enum LangType {
     /**
      * 简体中文
      */
@@ -760,7 +758,7 @@ export const enum LangType {
 /**
  * 图层类型
  */
-export const enum LayerType {
+declare const enum LayerType {
     tdt,
     baidu,
     gaode,
@@ -846,49 +844,49 @@ export const enum LayerType {
  * })
  * graphicLayer.addGraphic(primitive)
  */
-namespace MaterialType {
+declare namespace MaterialType {
     /**
      * 通用：纯色颜色 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - 颜色
+     * @property [color = Cesium.Color.WHITE] - 颜色
      */
     const Color: string;
     /**
      * 通用：图片 材质
      * @property image - 图片对象或图片地址
-     * @property [repeat = new Mars3dCesium.Cartesian2(1.0, 1.0)] - A {@link Cartesian2} Property specifying the number of times the image repeats in each direction.
-     * @property [color = Mars3dCesium.Color.WHITE] - The color applied to the image
+     * @property [repeat = new Cesium.Cartesian2(1.0, 1.0)] - A {@link Cartesian2} Property specifying the number of times the image repeats in each direction.
+     * @property [color = Cesium.Color.WHITE] - The color applied to the image
      * @property [transparent = false] - Set to true when the image has transparency (for example, when a png has transparent sections)
      */
     const Image: string;
     /**
      * 通用：网格 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - A Property specifying the grid {@link Color}.
+     * @property [color = Cesium.Color.WHITE] - A Property specifying the grid {@link Color}.
      * @property [cellAlpha = 0.1] - A numeric Property specifying cell alpha values.
-     * @property [lineCount = new Mars3dCesium.Cartesian2(8, 8)] - A {@link Cartesian2} Property specifying the number of grid lines along each axis.
-     * @property [lineThickness = new Mars3dCesium.Cartesian2(1.0, 1.0)] - A {@link Cartesian2} Property specifying the thickness of grid lines along each axis.
-     * @property [lineOffset = new Mars3dCesium.Cartesian2(0.0, 0.0)] - A {@link Cartesian2} Property specifying starting offset of grid lines along each axis.
+     * @property [lineCount = new Cesium.Cartesian2(8, 8)] - A {@link Cartesian2} Property specifying the number of grid lines along each axis.
+     * @property [lineThickness = new Cesium.Cartesian2(1.0, 1.0)] - A {@link Cartesian2} Property specifying the thickness of grid lines along each axis.
+     * @property [lineOffset = new Cesium.Cartesian2(0.0, 0.0)] - A {@link Cartesian2} Property specifying starting offset of grid lines along each axis.
      */
     const Grid: string;
     /**
      * 通用：棋盘 材质
-     * @property [evenColor = Mars3dCesium.Color.WHITE] - A Property specifying the first {@link Mars3dCesium.Color}.
-     * @property [oddColor = Mars3dCesium.Color.BLACK] - A Property specifying the second {@link Mars3dCesium.Color}.
-     * @property [repeat = new Mars3dCesium.Cartesian2(2.0, 2.0)] - A {@link Mars3dCesium.Cartesian2} Property specifying how many times the tiles repeat in each direction.
+     * @property [evenColor = Cesium.Color.WHITE] - A Property specifying the first {@link Cesium.Color}.
+     * @property [oddColor = Cesium.Color.BLACK] - A Property specifying the second {@link Cesium.Color}.
+     * @property [repeat = new Cesium.Cartesian2(2.0, 2.0)] - A {@link Cesium.Cartesian2} Property specifying how many times the tiles repeat in each direction.
      */
     const Checkerboard: string;
     /**
      * 通用：条纹 材质
-     * @property [orientation = Mars3dCesium.StripeOrientation.HORIZONTAL] - 条纹方向
-     * @property [evenColor = Mars3dCesium.Color.WHITE] - A Property specifying the first {@link Color}.
-     * @property [oddColor = Mars3dCesium.Color.BLACK] - A Property specifying the second {@link Color}.
+     * @property [orientation = Cesium.StripeOrientation.HORIZONTAL] - 条纹方向
+     * @property [evenColor = Cesium.Color.WHITE] - A Property specifying the first {@link Color}.
+     * @property [oddColor = Cesium.Color.BLACK] - A Property specifying the second {@link Color}.
      * @property [offset = 0] - A numeric Property specifying how far into the pattern to start the material.
      * @property [repeat = 1] - A numeric Property specifying how many times the stripes repeat.
      */
     const Stripe: string;
     /**
      * 通用：水面 材质
-     * @property [baseWaterColor = new Mars3dCesium.Color(0.2, 0.3, 0.6, 1.0)] - 基础颜色
-     * @property [blendColor = new Mars3dCesium.Color(0.0, 1.0, 0.699, 1.0)] - 从水中混合到非水域时使用的rgba颜色对象。
+     * @property [baseWaterColor = new Cesium.Color(0.2, 0.3, 0.6, 1.0)] - 基础颜色
+     * @property [blendColor = new Cesium.Color(0.0, 1.0, 0.699, 1.0)] - 从水中混合到非水域时使用的rgba颜色对象。
      * @property [specularMap] - 单一通道纹理用来指示水域的面积。
      * @property [normalMap] - 水正常扰动的法线图。
      * @property [frequency = 100] - 控制波数的数字。
@@ -900,27 +898,27 @@ namespace MaterialType {
     const Water: string;
     /**
      * 线：虚线 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
-     * @property [gapColor = Mars3dCesium.Color.TRANSPARENT] - A Property specifying the {@link Color} of the gaps in the line.
+     * @property [color = Cesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
+     * @property [gapColor = Cesium.Color.TRANSPARENT] - A Property specifying the {@link Color} of the gaps in the line.
      * @property [dashLength = 16.0] - A numeric Property specifying the length of the dash pattern in pixels.
      * @property [dashPattern = 255.0] - A numeric Property specifying a 16 bit pattern for the dash
      */
     const PolylineDash: string;
     /**
      * 线：衬色线 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
-     * @property [outlineColor = Mars3dCesium.Color.BLACK] - A Property specifying the {@link Color} of the outline.
+     * @property [color = Cesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
+     * @property [outlineColor = Cesium.Color.BLACK] - A Property specifying the {@link Color} of the outline.
      * @property [outlineWidth = 1.0] - A numeric Property specifying the width of the outline, in pixels.
      */
     const PolylineOutline: string;
     /**
      * 线：箭头 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - 颜色
+     * @property [color = Cesium.Color.WHITE] - 颜色
      */
     const PolylineArrow: string;
     /**
      * 线：高亮线 材质
-     * @property [color = Mars3dCesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
+     * @property [color = Cesium.Color.WHITE] - A Property specifying the {@link Color} of the line.
      * @property [glowPower = 0.25] - 高亮强度,占总线宽的百分比表示。
      * @property [taperPower = 1.0] - A numeric Property specifying the strength of the tapering effect, as a percentage of the total line length.  If 1.0 or higher, no taper effect is used.
      */
@@ -929,24 +927,24 @@ namespace MaterialType {
      * 通用：图片 材质2 (没有加载完成前的白色闪烁，但也不支持纯白色的图片)
      * @property image - 图片对象或图片地址
      * @property [opacity = 1.0] - 透明度
-     * @property [options.color = Mars3dCesium.Color.WHITE] - 颜色
+     * @property [options.color = Cesium.Color.WHITE] - 颜色
      */
     const Image2: string;
     /**
      * 线状: 流动图片效果 材质（适用于线和墙）
      * @property image - 背景图片URL
-     * @property [color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
-     * @property [repeat = new Mars3dCesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
+     * @property [color = new Cesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
+     * @property [repeat = new Cesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
      * @property [axisY = false] - 是否Y轴朝上
      * @property [speed = 10] - 速度，值越大越快
      * @property [hasImage2 = false] - 是否有2张图片的混合模式
      * @property [image2] - 第2张背景图片URL地址
-     * @property [color2 = new Mars3dCesium.Color(1, 1, 1)] - 第2张背景图片颜色
+     * @property [color2 = new Cesium.Color(1, 1, 1)] - 第2张背景图片颜色
      */
     const LineFlow: string;
     /**
      * 线状: 流动颜色效果 材质
-     * @property [color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+     * @property [color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
      * @property [speed = 2] - 速度，值越大越快
      * @property [percent = 0.04] - 比例
      * @property [alpha = 0.1] - 透明程度 0.0-1.0
@@ -955,7 +953,7 @@ namespace MaterialType {
     const LineFlowColor: string;
     /**
      * 线状: OD线效果 材质
-     * @property [color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 运动对象的颜色
+     * @property [color = new Cesium.Color(1, 0, 0, 1.0)] - 运动对象的颜色
      * @property [options.bgColor] - 线的背景颜色
      * @property [startTime = 0] - 开始的时间
      * @property [speed = 20] - 速度，值越大越快
@@ -964,39 +962,39 @@ namespace MaterialType {
     const ODLine: string;
     /**
      * 线状: 闪烁线 材质
-     * @property [color = new Mars3dCesium.Color(1.0, 0.0, 0.0, 0.7)] - 线颜色
+     * @property [color = new Cesium.Color(1.0, 0.0, 0.0, 0.7)] - 线颜色
      * @property [speed = 10] - 速度，值越大越快
      */
     const LineFlicker: string;
     /**
      * 线状: 轨迹线 材质
-     * @property [color = new Mars3dCesium.Color(1.0, 0.0, 0.0, 0.7)] - 线颜色
+     * @property [color = new Cesium.Color(1.0, 0.0, 0.0, 0.7)] - 线颜色
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const LineTrail: string;
     /**
      * 墙体:  走马灯围墙 材质
      * @property [image] - 背景图片URL
-     * @property [color = new Mars3dCesium.Color(1.0, 0.0, 0.0, 0.7)] - 颜色
+     * @property [color = new Cesium.Color(1.0, 0.0, 0.0, 0.7)] - 颜色
      * @property [count = 1] - 数量
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const WallScroll: string;
     /**
      * 面状: 用于面状对象的 扫描线放大效果 材质
-     * @property [color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 扫描线颜色
+     * @property [color = new Cesium.Color(1.0, 1.0, 0.0, 1.0)] - 扫描线颜色
      * @property [speed = 10] - 扫描速度，值越大越快
      */
     const ScanLine: string;
     /**
      * 圆形: 扫描效果 材质
      * @property image - 扫描图片URL地址
-     * @property [color = new Mars3dCesium.Color(1.0, 0.0, 0.0, 1.0)] - 颜色
+     * @property [color = new Cesium.Color(1.0, 0.0, 0.0, 1.0)] - 颜色
      */
     const CircleScan: string;
     /**
      * 圆形: 扩散波纹效果 材质
-     * @property [color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 颜色
+     * @property [color = new Cesium.Color(1.0, 1.0, 0.0, 1.0)] - 颜色
      * @property [speed = 10] - 速度，值越大越快
      * @property [count = 1] - 圆圈个数
      * @property [gradient = 0.1] - 透明度的幂方（0-1）,0表示无虚化效果，1表示虚化成均匀渐变
@@ -1004,13 +1002,13 @@ namespace MaterialType {
     const CircleWave: string;
     /**
      * 圆形: 雷达线(圆+旋转半径线) 材质
-     * @property [color = new Mars3dCesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
+     * @property [color = new Cesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const RadarLine: string;
     /**
      * 圆形: 波纹雷达扫描效果 材质
-     * @property [color = new Mars3dCesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
+     * @property [color = new Cesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const RadarWave: string;
@@ -1022,11 +1020,11 @@ namespace MaterialType {
      * @property [font_weight = "normal"] - 是否加粗 ,可选项：bold (解释：是),normal (解释：否),
      * @property [font_style = "normal"] - 是否斜体 ,可选项：italic (解释：是),normal (解释：否),
      * @property [font = '30px normal normal 楷体'] - 上叙4个属性的一次性指定CSS字体的属性。
-     * @property [color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 填充颜色。
+     * @property [color = new Cesium.Color(1.0, 1.0, 0.0, 1.0)] - 填充颜色。
      * @property [stroke = true] - 是否描边文本。
-     * @property [strokeColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
+     * @property [strokeColor = new Cesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
      * @property [strokeWidth = 2] - 描边的宽度。
-     * @property [backgroundColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
+     * @property [backgroundColor = new Cesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
      * @property [padding = 10] - 要在文本周围添加的填充的像素大小。
      * @property [textBaseline = 'top'] - 文本的基线。
      */
@@ -1034,70 +1032,70 @@ namespace MaterialType {
     /**
      * 矩形面： 轮播图  材质
      * @property image - 图片URL
-     * @property [color = Mars3dCesium.Color.WHITE] - 颜色和透明度
+     * @property [color = Cesium.Color.WHITE] - 颜色和透明度
      * @property [speed = 10] - 速度，值越大越快
      * @property [pure = false] - 是否纯色
      */
     const RectSlide: string;
     /**
      * 面状： 渐变面  材质
-     * @property [color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 0.5)] - 颜色
+     * @property [color = new Cesium.Color(1.0, 1.0, 0.0, 0.5)] - 颜色
      * @property [alphaPower = 1.5] - 透明度系数
      * @property [diffusePower = 1.6] - 漫射系数
      */
     const PolyGradient: string;
     /**
      * 面状： 柏油路面效果  材质
-     * @property [asphaltColor = new Mars3dCesium.Color(0.15, 0.15, 0.15, 1.0)] - 沥青的颜色
+     * @property [asphaltColor = new Cesium.Color(0.15, 0.15, 0.15, 1.0)] - 沥青的颜色
      * @property [bumpSize = 0.02] - 块大小
      * @property [roughness = 0.2] - 粗糙度
      */
     const PolyAsphalt: string;
     /**
      * 面状：混合效果 材质
-     * @property [lightColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.5)] - 浅色的颜色
-     * @property [darkColor = new Mars3dCesium.Color(0.0, 0.0, 1.0, 0.5)] - 深色的颜色
+     * @property [lightColor = new Cesium.Color(1.0, 1.0, 1.0, 0.5)] - 浅色的颜色
+     * @property [darkColor = new Cesium.Color(0.0, 0.0, 1.0, 0.5)] - 深色的颜色
      * @property [frequency = 10.0] - 频率
      */
     const PolyBlob: string;
     /**
      * 面状：碎石面效果 材质
-     * @property [lightColor = new Mars3dCesium.Color(0.25, 0.25, 0.25, 0.75)] - 浅色的颜色
-     * @property [darkColor = new Mars3dCesium.Color(0.75, 0.75, 0.75, 0.75)] - 深色的颜色
+     * @property [lightColor = new Cesium.Color(0.25, 0.25, 0.25, 0.75)] - 浅色的颜色
+     * @property [darkColor = new Cesium.Color(0.75, 0.75, 0.75, 0.75)] - 深色的颜色
      * @property [frequency = 10.0] - 频率
      */
     const PolyFacet: string;
     /**
      * 面状：草地面效果 材质
-     * @property [grassColor = new Mars3dCesium.Color(0.25, 0.4, 0.1, 1.0)] - 草地的颜色
-     * @property [dirtColor = new Mars3dCesium.Color(0.1, 0.1, 0.1, 1.0)] - 泥土的颜色
+     * @property [grassColor = new Cesium.Color(0.25, 0.4, 0.1, 1.0)] - 草地的颜色
+     * @property [dirtColor = new Cesium.Color(0.1, 0.1, 0.1, 1.0)] - 泥土的颜色
      * @property [patchiness = 1.5] - 斑块分布
      */
     const PolyGrass: string;
     /**
      * 面状：木材面效果 材质
-     * @property [lightWoodColor = new Mars3dCesium.Color(0.6, 0.3, 0.1, 1.0)] - 浅色的颜色
-     * @property [darkWoodColor = new Mars3dCesium.Color(0.4, 0.2, 0.07, 1.0)] - 深色的颜色
+     * @property [lightWoodColor = new Cesium.Color(0.6, 0.3, 0.1, 1.0)] - 浅色的颜色
+     * @property [darkWoodColor = new Cesium.Color(0.4, 0.2, 0.07, 1.0)] - 深色的颜色
      * @property [ringFrequency = 3.0] - 环频率
-     * @property [noiseScale = new Mars3dCesium.Cartesian2(0.7, 0.5)] - 噪波比例
+     * @property [noiseScale = new Cesium.Cartesian2(0.7, 0.5)] - 噪波比例
      * @property [grainFrequency = 27.0] - 颗粒的频率
      */
     const PolyWood: string;
     /**
      * 球体: 电弧球体效果  材质
-     * @property [color = new Mars3dCesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
+     * @property [color = new Cesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const EllipsoidElectric: string;
     /**
      * 球体: 波纹球体效果 材质
-     * @property [color = new Mars3dCesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
+     * @property [color = new Cesium.Color(0.0, 1.0, 1.0, 0.7)] - 颜色
      * @property [speed = 5.0] - 速度，值越大越快
      */
     const EllipsoidWave: string;
     /**
      * 圆锥: 条纹波纹扩散效果
-     * @property [color = new Mars3dCesium.Color(2, 1, 0.0, 0.8)] - 颜色
+     * @property [color = new Cesium.Color(2, 1, 0.0, 0.8)] - 颜色
      * @property [repeat = 30] - 圈数量
      * @property [frameRate = 60] - 每秒刷新次数
      */
@@ -1107,7 +1105,7 @@ namespace MaterialType {
 /**
  * 相机旋转的类型
  */
-export const enum MoveType {
+declare const enum MoveType {
     /**
      * 向屏幕中心靠近
      */
@@ -1137,7 +1135,7 @@ export const enum MoveType {
 /**
  * 状态 枚举
  */
-export const enum State {
+declare const enum State {
     /**
      * 初始化
      */
@@ -1159,7 +1157,7 @@ export const enum State {
 /**
  * 地形类型
  */
-export const enum TerrainType {
+declare const enum TerrainType {
     /**
      * 无地形
      */
@@ -1190,7 +1188,7 @@ export const enum TerrainType {
  * SDK中涉及到的所有第3方地图服务的Token令牌key，
  * 【重要提示：为了避免后期失效，请全部重新赋值换成自己的key】
  */
-namespace Token {
+declare namespace Token {
     /**
      * Cesium官方的Ion服务key，
      * 官网： {@link https://cesium.com/ion/signin/}
@@ -1245,7 +1243,7 @@ namespace Token {
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class BaseControl extends BaseThing {
+declare class BaseControl extends BaseThing {
     constructor(options?: {
         id?: string | number;
         enabled?: boolean;
@@ -1326,7 +1324,7 @@ export class BaseControl extends BaseThing {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class ClockAnimate extends BaseControl {
+declare class ClockAnimate extends BaseControl {
     constructor(options?: {
         format?: string;
         id?: string | number;
@@ -1355,7 +1353,7 @@ export class ClockAnimate extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class Compass extends BaseControl {
+declare class Compass extends BaseControl {
     constructor(options?: {
         rotation?: boolean;
         className?: string;
@@ -1410,7 +1408,7 @@ export class Compass extends BaseControl {
     _removedHook(): void;
 }
 
-export namespace DistanceLegend {
+declare namespace DistanceLegend {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -1438,7 +1436,7 @@ export namespace DistanceLegend {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class DistanceLegend extends BaseControl {
+declare class DistanceLegend extends BaseControl {
     constructor(options?: {
         top?: string;
         bottom?: string;
@@ -1474,7 +1472,7 @@ export class DistanceLegend extends BaseControl {
     _removedHook(): void;
 }
 
-export namespace LocationBar {
+declare namespace LocationBar {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -1513,7 +1511,7 @@ export namespace LocationBar {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class LocationBar extends BaseControl {
+declare class LocationBar extends BaseControl {
     constructor(options?: {
         template?: string | string[];
         latDecimal?: number;
@@ -1550,7 +1548,7 @@ export class LocationBar extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class MapSplit extends BaseControl {
+declare class MapSplit extends BaseControl {
     constructor(options?: {
         leftLayer?: BaseTileLayer;
         rightLayer?: BaseTileLayer;
@@ -1574,7 +1572,7 @@ export class MapSplit extends BaseControl {
      * @param splitDirection - 图层显示的方向
      * @returns 无
      */
-    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection: Mars3dCesium.ImagerySplitDirection): void;
+    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection: Cesium.ImagerySplitDirection): void;
     /**
      * 控件类型
      */
@@ -1608,7 +1606,7 @@ export class MapSplit extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class MouseDownView extends BaseControl {
+declare class MouseDownView extends BaseControl {
     constructor(options?: {
         id?: string | number;
         enabled?: boolean;
@@ -1641,7 +1639,7 @@ export class MouseDownView extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class OverviewMap extends BaseControl {
+declare class OverviewMap extends BaseControl {
     constructor(options?: {
         basemap: Map.basemapOptions;
         layers?: Map.layerOptions[];
@@ -1656,8 +1654,8 @@ export class OverviewMap extends BaseControl {
         flyToOptions?: {
             scale?: number;
             duration?: number;
-            complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-            cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
+            complete?: Cesium.Camera.FlightCompleteCallback;
+            cancel?: Cesium.Camera.FlightCancelledCallback;
         };
         id?: string | number;
         enabled?: boolean;
@@ -1703,7 +1701,7 @@ export class OverviewMap extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class Timeline extends BaseControl {
+declare class Timeline extends BaseControl {
     constructor(options?: {
         style?: {
             top?: string;
@@ -1721,14 +1719,14 @@ export class Timeline extends BaseControl {
      * @param startTime - 开始时间
      * @param stopTime - 结束时间
      */
-    zoomTo(startTime: Mars3dCesium.JulianDate, stopTime: Mars3dCesium.JulianDate): void;
+    zoomTo(startTime: Cesium.JulianDate, stopTime: Cesium.JulianDate): void;
     /**
      * 父容器DOM对象
      */
     readonly parentContainer: HTMLElement;
 }
 
-export namespace ToolButton {
+declare namespace ToolButton {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -1755,7 +1753,7 @@ export namespace ToolButton {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class ToolButton extends BaseControl {
+declare class ToolButton extends BaseControl {
     constructor(options?: {
         title?: string;
         icon?: string;
@@ -1783,7 +1781,7 @@ export class ToolButton extends BaseControl {
  * @param [options.insertIndex] - 可以自定义插入到父容器中的index顺序，默认是插入到最后面。
  * @param [options.insertBefore] - 可以自定义插入到指定兄弟容器的前面，与insertIndex二选一。
  */
-export class Zoom extends BaseControl {
+declare class Zoom extends BaseControl {
     constructor(options?: {
         zoomOutIcon?: string;
         zoomInIcon?: string;
@@ -1803,7 +1801,7 @@ export class Zoom extends BaseControl {
  * 基础类，SDK中几乎所有类的基类，都是继承该基类的。
  * @param [options] - 参数名称
  */
-export class BaseClass {
+declare class BaseClass {
     constructor(options?: any);
     /**
      * 当前类的构造参数
@@ -1880,7 +1878,7 @@ export class BaseClass {
  * 转换options参数处理基类
  * @param [options] - 控制参数
  */
-export class BaseOptsConver {
+declare class BaseOptsConver {
     constructor(options?: any);
     /**
      * 转换为Cesium相关属性值
@@ -1901,22 +1899,22 @@ export class BaseOptsConver {
      * @param style - 样式配置
      * @returns 颜色
      */
-    static getColorByStyle(style: any): Mars3dCesium.Color;
+    static getColorByStyle(style: any): Cesium.Color;
     /**
      * 根据样式配置获取颜色
      * @param style - 样式配置
      * @returns 颜色
      */
-    getColorByStyle(style: any): Mars3dCesium.Color;
+    getColorByStyle(style: any): Cesium.Color;
     /**
      * 根据样式配置获取outline颜色
      * @param style - 样式配置
      * @returns 颜色
      */
-    getOutlineColorByStyle(style: any): Mars3dCesium.Color;
+    getOutlineColorByStyle(style: any): Cesium.Color;
 }
 
-export namespace BaseThing {
+declare namespace BaseThing {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -1940,7 +1938,7 @@ export namespace BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class BaseThing extends BaseClass {
+declare class BaseThing extends BaseClass {
     constructor(options?: {
         id?: string | number;
         enabled?: boolean;
@@ -2011,7 +2009,7 @@ export class BaseThing extends BaseClass {
 /**
  * 近地天空盒, 在场景周围绘制星星等太空背景。
  * 天空盒子是用真正的赤道平均春分点(TEME)轴定义的。仅在3D中支持。当转换为2D或哥伦布视图时，天空盒会淡出。
- * 天空盒子的大小不能超过{@link Mars3dCesium.Scene#maximumCubeMapSize}。
+ * 天空盒子的大小不能超过{@link Cesium.Scene#maximumCubeMapSize}。
  * @example
  * scene.skyBox = new mars3d.GroundSkyBox({
  *   sources : {
@@ -2033,7 +2031,7 @@ export class BaseThing extends BaseClass {
  * @param [options.sources.negativeZ] - 映射面的图片url
  * @param [options.show = true] - 是否显示
  */
-export class GroundSkyBox extends Mars3dCesium.SkyBox {
+declare class GroundSkyBox extends Cesium.SkyBox {
     constructor(options: {
         sources?: {
             positiveX?: string;
@@ -2050,28 +2048,28 @@ export class GroundSkyBox extends Mars3dCesium.SkyBox {
 /**
  * 坐标数组处理类
  */
-export class LngLatArray {
+declare class LngLatArray {
     /**
      * 根据传入的各种对象数据数组，转换返回Cartesian3数组
      * @param value - 坐标位置数组
      * @param [clone] - 是否重新生成拷贝
      * @returns 转换返回的Cartesian3数组
      */
-    static toCartesians(value: string[] | any[][] | LngLatPoint[], clone?: boolean): Mars3dCesium.Cartesian3[];
+    static toCartesians(value: string[] | any[][] | LngLatPoint[], clone?: boolean): Cesium.Cartesian3[];
     /**
      * 根据传入的各种对象数据数组，转换返回LatLngPoint数组
      * @param value - 坐标位置数组
      * @param [clone] - 是否重新生成拷贝
      * @returns 转换返回的LatLngPoint数组
      */
-    static toPoints(value: string[] | any[][] | Mars3dCesium.Cartesian3[], clone?: boolean): LngLatPoint[];
+    static toPoints(value: string[] | any[][] | Cesium.Cartesian3[], clone?: boolean): LngLatPoint[];
     /**
      * 根据传入的各种对象数据数组，转换返回经纬度坐标数组
      * @param value - 坐标位置数组
      * @param [noAlt] - 是否包含高度值
      * @returns 经纬度坐标数组,示例：[ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
-    static toArray(value: string[] | any[][] | Mars3dCesium.Cartesian3[], noAlt?: boolean): any[][];
+    static toArray(value: string[] | any[][] | Cesium.Cartesian3[], noAlt?: boolean): any[][];
 }
 
 /**
@@ -2080,7 +2078,7 @@ export class LngLatArray {
  * @param lat - 纬度值, -90 至 90
  * @param [alt] - 高度（单位：米）
  */
-export class LngLatPoint {
+declare class LngLatPoint {
     constructor(lng: number | string, lat: number | string, alt?: number | string);
     /**
      * 经度值, -180 至 180
@@ -2120,12 +2118,12 @@ export class LngLatPoint {
      * @param clone - 是否复制
      * @returns 笛卡尔坐标
      */
-    toCartesian(clone: boolean): Mars3dCesium.Cartesian3;
+    toCartesian(clone: boolean): Cesium.Cartesian3;
     /**
      * 转换为 地理坐标(弧度制)
      * @returns 地理坐标(弧度制)
      */
-    toCartographic(): Mars3dCesium.Cartographic;
+    toCartographic(): Cesium.Cartographic;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
@@ -2140,10 +2138,10 @@ export class LngLatPoint {
     /**
      * 根据传入的各种对象数据，转换返回LatLngPoint对象
      * @param position - 坐标位置
-     * @param [time = Mars3dCesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的LatLngPoint对象
      */
-    static parse(position: string | any[] | any | Mars3dCesium.Cartesian3 | any, time?: Mars3dCesium.JulianDate): LngLatPoint;
+    static parse(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): LngLatPoint;
     /**
      * 根据数组数据，转换返回LatLngPoint对象
      * 示例：[113.123456,31.123456,30.1]
@@ -2161,30 +2159,30 @@ export class LngLatPoint {
     /**
      * 根据传入的笛卡尔坐标，转换返回LatLngPoint对象
      * @param cartesian - 坐标位置
-     * @param [time = Mars3dCesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的LatLngPoint对象
      */
-    static fromCartesian(cartesian: Mars3dCesium.Cartesian3 | any, time?: Mars3dCesium.JulianDate): LngLatPoint;
+    static fromCartesian(cartesian: Cesium.Cartesian3 | any, time?: Cesium.JulianDate): LngLatPoint;
     /**
      * 根据传入的地理坐标(弧度制)，转换返回LatLngPoint对象
      * @param cartographic - 地理坐标(弧度制)
      * @returns 转换返回的LatLngPoint对象
      */
-    static fromCartographic(cartographic: Mars3dCesium.Cartographic): LngLatPoint;
+    static fromCartographic(cartographic: Cesium.Cartographic): LngLatPoint;
     /**
      * 根据传入的各种对象数据，转换返回Cartesian3对象
      * @param position - 坐标位置
-     * @param [time = Mars3dCesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的Cartesian3对象
      */
-    static toCartesian(position: string | any[] | any | Mars3dCesium.Cartesian3 | any, time?: Mars3dCesium.JulianDate): Mars3dCesium.Cartesian3;
+    static toCartesian(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
     /**
      * 根据传入的各种对象数据，转换返回Cartographic对象
      * @param position - 坐标位置
-     * @param [time = Mars3dCesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
+     * @param [time = Cesium.JulianDate.now()] - Cesium坐标时，getValue传入的时间值
      * @returns 转换返回的Cartographic对象
      */
-    static toCartographic(position: string | any[] | any | Mars3dCesium.Cartesian3 | any, time?: Mars3dCesium.JulianDate): Mars3dCesium.Cartographic;
+    static toCartographic(position: string | any[] | any | Cesium.Cartesian3 | any, time?: Cesium.JulianDate): Cesium.Cartographic;
     /**
      * 经度纬度的格式化时的长度，默认为6
      */
@@ -2200,22 +2198,22 @@ export class LngLatPoint {
  * @param center - 局部坐标的中心点对应的世界坐标
  * @param [fixedFrameTransform] - 局部坐标系的轴方向
  */
-export class LocalWorldTransform {
-    constructor(center: Mars3dCesium.Cartesian3, fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame);
+declare class LocalWorldTransform {
+    constructor(center: Cesium.Cartesian3, fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame);
     /**
      * 局部坐标 转换成对应的 世界坐标
      * @param localPoint - 局部坐标
      * @param [result] - 世界坐标
      * @returns 世界坐标
      */
-    localToWorld(localPoint: Mars3dCesium.Cartesian3, result?: Mars3dCesium.Cartesian3): Mars3dCesium.Cartesian3;
+    localToWorld(localPoint: Cesium.Cartesian3, result?: Cesium.Cartesian3): Cesium.Cartesian3;
     /**
      * 世界坐标 转换成对应的 局部坐标
      * @param worldPoint - 世界坐标
      * @param [result] - 局部坐标
      * @returns 局部坐标
      */
-    worldToLocal(worldPoint: Mars3dCesium.Cartesian3, result?: Mars3dCesium.Cartesian3): Mars3dCesium.Cartesian3;
+    worldToLocal(worldPoint: Cesium.Cartesian3, result?: Cesium.Cartesian3): Cesium.Cartesian3;
 }
 
 /**
@@ -2224,7 +2222,7 @@ export class LocalWorldTransform {
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  */
-export class BaseEffect extends BaseThing {
+declare class BaseEffect extends BaseThing {
     constructor(options?: {
         id?: string | number;
         enabled?: boolean;
@@ -2236,7 +2234,7 @@ export class BaseEffect extends BaseThing {
     /**
      * 特效对象
      */
-    readonly target: Mars3dCesium.PostProcessStage;
+    readonly target: Cesium.PostProcessStage;
     /**
      * 特效对象的uniforms
      * 一个对象，它的属性被用来设置片段着色器shader。
@@ -2247,7 +2245,7 @@ export class BaseEffect extends BaseThing {
      *  常量值也可以是图像的URI、数据URI，或者可以用作纹理的HTML元素，如HTMLImageElement或HTMLCanvasElement。
      * </p>
      * <p>
-     * 如果这个后处理阶段是{@link Mars3dCesium.PostProcessStageComposite}中不串行执行的部分，那么常量值也可以是复合程序中另一个阶段的名称。这将设置统一的输出纹理与该名称的舞台。
+     * 如果这个后处理阶段是{@link Cesium.PostProcessStageComposite}中不串行执行的部分，那么常量值也可以是复合程序中另一个阶段的名称。这将设置统一的输出纹理与该名称的舞台。
      * </p>
      */
     readonly uniforms: any;
@@ -2259,7 +2257,7 @@ export class BaseEffect extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.gradations = 4.0] - 渐变
  */
-export class BlackAndWhiteEffect extends BaseEffect {
+declare class BlackAndWhiteEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         gradations?: number;
@@ -2280,7 +2278,7 @@ export class BlackAndWhiteEffect extends BaseEffect {
  * @param [options.sigma = 3.78] - delta和sigma用于计算高斯滤波器的权值。方程是 <code>exp((-0.5 * delta * delta) / (sigma * sigma))</code>。
  * @param [options.stepSize = 5.0] - 步长,是下一个texel的距离
  */
-export class BloomEffect extends BaseEffect {
+declare class BloomEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         contrast?: number;
@@ -2317,7 +2315,7 @@ export class BloomEffect extends BaseEffect {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.brightness = 2.0] - 亮度值
  */
-export class BrightnessEffect extends BaseEffect {
+declare class BrightnessEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         brightness?: number;
@@ -2337,7 +2335,7 @@ export class BrightnessEffect extends BaseEffect {
  * @param [options.sigma = 3.78] - delta和sigma用于计算高斯滤波器的权值。方程是 <code>exp((-0.5 * delta * delta) / (sigma * sigma))</code>。
  * @param [options.stepSize = 5.0] - 步长,是下一个texel的距离
  */
-export class DepthOfFieldEffect extends BaseEffect {
+declare class DepthOfFieldEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         focalDistance?: number;
@@ -2367,25 +2365,25 @@ export class DepthOfFieldEffect extends BaseEffect {
  * 雾场景效果
  * @param [options] - 参数对象，包括以下：
  * @param [options.enabled = true] - 对象的启用状态
- * @param [options.fogByDistance = new Mars3dCesium.Cartesian4(10, 0.0, 1000, 0.9)] - 雾强度
- * @param [options.color = Mars3dCesium.Color.WHITE] - 雾颜色
+ * @param [options.fogByDistance = new Cesium.Cartesian4(10, 0.0, 1000, 0.9)] - 雾强度
+ * @param [options.color = Cesium.Color.WHITE] - 雾颜色
  * @param [options.maxHeight = 9000] - 最高限定高度，超出该高度不显示雾场景效果
  */
-export class FogEffect extends BaseEffect {
+declare class FogEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
-        fogByDistance?: Mars3dCesium.Cartesian4;
-        color?: Mars3dCesium.Color;
+        fogByDistance?: Cesium.Cartesian4;
+        color?: Cesium.Color;
         maxHeight?: number;
     });
     /**
      * 雾强度
      */
-    fogByDistance: Mars3dCesium.Cartesian4;
+    fogByDistance: Cesium.Cartesian4;
     /**
      * 雾颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 最高限定高度，超出该高度不显示雾场景效果
      */
@@ -2397,7 +2395,7 @@ export class FogEffect extends BaseEffect {
  * @param [options] - 参数对象，包括以下：
  * @param [options.enabled = true] - 对象的启用状态
  */
-export class InvertedEffect extends BaseEffect {
+declare class InvertedEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
     });
@@ -2408,7 +2406,7 @@ export class InvertedEffect extends BaseEffect {
  * @param [options] - 参数对象，包括以下：
  * @param [options.enabled = true] - 对象的启用状态
  */
-export class MosaicEffect extends BaseEffect {
+declare class MosaicEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
     });
@@ -2419,17 +2417,17 @@ export class MosaicEffect extends BaseEffect {
  * @param [options] - 参数对象，包括以下：
  * @param [options.enabled = true] - 对象的启用状态
  */
-export class NightVisionEffect extends BaseEffect {
+declare class NightVisionEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
     });
 }
 
-export namespace OutlineEffect {
+declare namespace OutlineEffect {
     /**
      * 选中对象的 轮廓线描边效果 支持的参数信息
      * @property [width = 6] - 线宽，单位：像素px
-     * @property [color = Mars3dCesium.Color.WHITE] - 轮廓线 颜色
+     * @property [color = Cesium.Color.WHITE] - 轮廓线 颜色
      * @property [colorHidden = color] - 被遮挡的轮廓线 颜色
      * @property [showPlane = false] - 是否显示边缘同一个平面（按thresholdAngle属性定义）
      * @property [planeAngle = 10] - 如果两个三角面的法线间夹角小于该值 则标记为同一个平面。该值的单位：角度
@@ -2440,8 +2438,8 @@ export namespace OutlineEffect {
      */
     type Options = {
         width?: number;
-        color?: string | Mars3dCesium.Color;
-        colorHidden?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
+        colorHidden?: string | Cesium.Color;
         showPlane?: boolean;
         planeAngle?: number;
         glow?: boolean;
@@ -2457,7 +2455,7 @@ export namespace OutlineEffect {
  * @param [options.eventType = "click"] - 高亮触发的事件类型，默认为单击。可选值：单击、鼠标移入,false时不内部控制
  * @param [options.enabled = true] - 对象的启用状态
  */
-export class OutlineEffect extends BaseEffect {
+declare class OutlineEffect extends BaseEffect {
     constructor(options?: {
         eventType?: EventType | boolean;
         enabled?: boolean;
@@ -2469,11 +2467,11 @@ export class OutlineEffect extends BaseEffect {
     /**
      * 轮廓线 颜色
      */
-    color: string | Mars3dCesium.Color;
+    color: string | Cesium.Color;
     /**
      * 被遮挡的轮廓线 颜色
      */
-    colorHidden: string | Mars3dCesium.Color;
+    colorHidden: string | Cesium.Color;
     /**
      * 如果两个三角面的法线间夹角小于该值 则标记为同一个平面。该值的单位：角度
      */
@@ -2522,7 +2520,7 @@ export class OutlineEffect extends BaseEffect {
  * @param [options.size = 20] - 雨粒子大小
  * @param [options.direction = -30] - 雨的方向（度），0度垂直向下
  */
-export class RainEffect extends BaseEffect {
+declare class RainEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         speed?: number;
@@ -2550,7 +2548,7 @@ export class RainEffect extends BaseEffect {
  * @param [options.alpha = 1.0] - 覆盖强度  0-1
  * @param [options.maxHeight = 9000] - 最高限定高度，超出该高度不显示积雪效果
  */
-export class SnowCoverEffect extends BaseEffect {
+declare class SnowCoverEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         alpha?: number;
@@ -2572,7 +2570,7 @@ export class SnowCoverEffect extends BaseEffect {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.speed = 10] - 速度
  */
-export class SnowEffect extends BaseEffect {
+declare class SnowEffect extends BaseEffect {
     constructor(options?: {
         enabled?: boolean;
         speed?: number;
@@ -2586,7 +2584,7 @@ export class SnowEffect extends BaseEffect {
 /**
  * 全局JsDoc变量 (只是注释使用，非mars3d变量)
  */
-namespace Globe {
+declare namespace Globe {
     /**
      * Popup或Tooltip配置的数组方式对象
      * @property field - 字段名称
@@ -2613,17 +2611,17 @@ namespace Globe {
      * @param newHeight - 计算完成的贴地(或贴模型)高度值
      * @param cartOld - 原始点坐标对应的Cartographic经纬度值（弧度值）
      */
-    type getSurfaceHeight_callback = (newHeight: number | null, cartOld: Mars3dCesium.Cartographic) => void;
+    type getSurfaceHeight_callback = (newHeight: number | null, cartOld: Cesium.Cartographic) => void;
     /**
      * 面内进行贴地(或贴模型)插值, 返回三角网等计算结果 的回调方法
      * @param raisedPositions - 计算完成后得到的贴地点数组
      * @param noHeight - 是否计算贴地高度失败，true时标识计算失败了
      * @param positions - 原始的坐标数组
      */
-    type surfaceLineWork_callback = (raisedPositions: Mars3dCesium.Cartesian3[], noHeight: boolean, positions: Mars3dCesium.Cartesian3[]) => void;
+    type surfaceLineWork_callback = (raisedPositions: Cesium.Cartesian3[], noHeight: boolean, positions: Cesium.Cartesian3[]) => void;
 }
 
-export namespace BaseGraphic {
+declare namespace BaseGraphic {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -2676,10 +2674,10 @@ export namespace BaseGraphic {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BaseGraphic extends BaseClass {
+declare class BaseGraphic extends BaseClass {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -2720,7 +2718,7 @@ export class BaseGraphic extends BaseClass {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
     /**
      * 显示隐藏状态
      */
@@ -2744,7 +2742,7 @@ export class BaseGraphic extends BaseClass {
     /**
      * 中心点坐标（笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3 | Mars3dCesium.SampledPositionProperty;
+    readonly center: Cesium.Cartesian3 | Cesium.SampledPositionProperty;
     /**
      * 中心点坐标
      */
@@ -2822,11 +2820,11 @@ export class BaseGraphic extends BaseClass {
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 飞行定位至 数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -2858,15 +2856,15 @@ export class BaseGraphic extends BaseClass {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseGraphic | any;
     /**
      * 绑定鼠标移入或单击后的 对象高亮
@@ -2907,7 +2905,7 @@ export class BaseGraphic extends BaseClass {
      * @param [event] - 用于抛出事件时的相关额外属性
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(position?: LngLatPoint | Mars3dCesium.Cartesian3 | number[], event?: any): BaseGraphic | any;
+    openPopup(position?: LngLatPoint | Cesium.Cartesian3 | number[], event?: any): BaseGraphic | any;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -2938,7 +2936,7 @@ export class BaseGraphic extends BaseClass {
      * @param [event] - 用于抛出事件时的相关额外属性
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(position?: LngLatPoint | Mars3dCesium.Cartesian3 | number[], event?: any): BaseGraphic | any;
+    openTooltip(position?: LngLatPoint | Cesium.Cartesian3 | number[], event?: any): BaseGraphic | any;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -3003,7 +3001,7 @@ export class BaseGraphic extends BaseClass {
      * @param [position = this.center] - 矢量对象 或 显示的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openContextMenu(position?: Mars3dCesium.Cartesian3): BaseGraphic | any;
+    openContextMenu(position?: Cesium.Cartesian3): BaseGraphic | any;
     /**
      * 关闭右键菜单
      * @returns 当前对象本身，可以链式调用
@@ -3015,7 +3013,7 @@ export class BaseGraphic extends BaseClass {
      * @param message - 显示的内容
      * @returns 当前对象本身，可以链式调用
      */
-    openSmallTooltip(position: Mars3dCesium.Cartesian2 | Mars3dCesium.Cartesian3, message: any): BaseGraphic | any;
+    openSmallTooltip(position: Cesium.Cartesian2 | Cesium.Cartesian3, message: any): BaseGraphic | any;
     /**
      * 关闭小提示窗
      * @returns 当前对象本身，可以链式调用
@@ -3036,7 +3034,7 @@ export class BaseGraphic extends BaseClass {
 /**
  * 大数据合并渲染Primitive对象基类
  */
-export class BaseCombine extends BasePrimitive {
+declare class BaseCombine extends BasePrimitive {
     /**
      * 数据集合数组，同类的构造参数
      */
@@ -3051,11 +3049,11 @@ export class BaseCombine extends BasePrimitive {
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 更新颜色
      * @param style - 样式信息
@@ -3065,7 +3063,7 @@ export class BaseCombine extends BasePrimitive {
      * @returns 空
      */
     setColorStyle(style: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
     }, index?: number | undefined): void;
 }
@@ -3103,10 +3101,10 @@ export class BaseCombine extends BasePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class BasePolyCombine extends BaseCombine {
+declare class BasePolyCombine extends BaseCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3114,9 +3112,9 @@ export class BasePolyCombine extends BaseCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3188,10 +3186,10 @@ export class BasePolyCombine extends BaseCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BoxCombine extends BasePolyCombine {
+declare class BoxCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: BoxPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3199,9 +3197,9 @@ export class BoxCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3257,10 +3255,10 @@ export class BoxCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CircleCombine extends BasePolyCombine {
+declare class CircleCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: CirclePrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3268,9 +3266,9 @@ export class CircleCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3324,17 +3322,17 @@ export class CircleCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class CorridorCombine extends BasePolyCombine {
+declare class CorridorCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: CorridorPrimitive.StyleOptions;
             attr?: any;
         }[];
         style?: CorridorPrimitive.StyleOptions;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3390,10 +3388,10 @@ export class CorridorCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CylinderCombine extends BasePolyCombine {
+declare class CylinderCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: CylinderPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3401,9 +3399,9 @@ export class CylinderCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3459,10 +3457,10 @@ export class CylinderCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class EllipsoidCombine extends BasePolyCombine {
+declare class EllipsoidCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: EllipsoidPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3470,9 +3468,9 @@ export class EllipsoidCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3495,7 +3493,7 @@ export class EllipsoidCombine extends BasePolyCombine {
     });
 }
 
-export namespace FlatBillboard {
+declare namespace FlatBillboard {
     /**
      * 平放的图标 单个数据对象
      * @property image - 图标URL
@@ -3504,7 +3502,7 @@ export namespace FlatBillboard {
      */
     type DataOptions = {
         image: string;
-        position: Mars3dCesium.Cartesian3;
+        position: Cesium.Cartesian3;
         angle?: number;
     };
 }
@@ -3516,7 +3514,7 @@ export namespace FlatBillboard {
  * @param options.style - 样式信息
  * @param [options.style.width = 50] - 图标宽度
  * @param [options.style.height = width] - 图标高度
- * @param [options.style.distanceDisplayCondition = new Mars3dCesium.DistanceDisplayCondition(0, 5000000)] - 指定数据将显示在与摄像机的多大距离
+ * @param [options.style.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0, 5000000)] - 指定数据将显示在与摄像机的多大距离
  * @param [options.scale3d = 0.8] - 二维和三维模式切换后图标的缩放比例。因为二三维模式使用不同渲染方式，可能存在大小偏差，可以该参数调优。
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
@@ -3524,13 +3522,13 @@ export namespace FlatBillboard {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FlatBillboard extends BaseCombine {
+declare class FlatBillboard extends BaseCombine {
     constructor(options: {
         instances: FlatBillboard.DataOptions[];
         style: {
             width?: number;
             height?: number;
-            distanceDisplayCondition?: Mars3dCesium.DistanceDisplayCondition;
+            distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
         };
         scale3d?: number;
         id?: string | number;
@@ -3542,7 +3540,7 @@ export class FlatBillboard extends BaseCombine {
     /**
      * 指定数据将显示在与摄像机的多大距离
      */
-    distanceDisplayCondition: Mars3dCesium.DistanceDisplayCondition;
+    distanceDisplayCondition: Cesium.DistanceDisplayCondition;
     /**
      * 清除数据
      * @returns 无
@@ -3593,10 +3591,10 @@ export class FlatBillboard extends BaseCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FrustumCombine extends BasePolyCombine {
+declare class FrustumCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: FrustumPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3604,9 +3602,9 @@ export class FrustumCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3629,7 +3627,7 @@ export class FrustumCombine extends BasePolyCombine {
     });
 }
 
-export namespace ModelCombine {
+declare namespace ModelCombine {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -3686,12 +3684,12 @@ export namespace ModelCombine {
  * @param options.instances.position - 坐标位置
  * @param [options.instances.style] - 样式信息(目前仅支持方向和比例参数)
  * @param [options.instances.attr] - 矢量数据的 属性信息，可以任意附加属性。
- * @param [options.batchTable] - 实例化的3D贴图的Mars3dCesium.Cesium3DTileBatchTable批处理表。
+ * @param [options.batchTable] - 实例化的3D贴图的Cesium.Cesium3DTileBatchTable批处理表。
  * @param [options.requestType] - 请求类型，用于确定请求的优先级
  * @param [options.gltf] - 一个glTF JSON对象，或者一个二进制的glTF缓冲区。
  * @param [options.basePath = ''] - glTF JSON中路径相对的基本路径。
  * @param [options.dynamic = false] - 提示实例模型矩阵是否会频繁更新。
- * @param [options.allowPicking = true] - 当true时，每个glTF和Primitive都可以用{@link Mars3dCesium.Scene#pick}来拾取。
+ * @param [options.allowPicking = true] - 当true时，每个glTF和Primitive都可以用{@link Cesium.Scene#pick}来拾取。
  * @param [options.asynchronous = true] - 确定模型WebGL资源创建是否将分散在几个帧或块上，直到所有glTF文件加载完成。
  * @param [options.incrementallyLoadTextures = true] - 确定模型加载后纹理是否会继续流进来。
  * @param [options.shadows = ShadowMode.ENABLED] - 指定模型是投射还是接收来自光源的阴影。
@@ -3711,45 +3709,45 @@ export namespace ModelCombine {
  * @param [options.removeOnStop = false] - 当true时，动画在停止播放后被删除。
  * @param [options.multiplier = 1.0] - 大于1.0的值增加动画播放的速度相对于场景时钟的速度;小于1.0会降低速度。
  * @param [options.reverse = false] - 当true时，动画会反向播放。
- * @param [options.loop = Mars3dCesium.ModelAnimationLoop.REPEAT] - 决定动画是否循环以及如何循环。
+ * @param [options.loop = Cesium.ModelAnimationLoop.REPEAT] - 决定动画是否循环以及如何循环。
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ModelCombine extends BaseCombine {
+declare class ModelCombine extends BaseCombine {
     constructor(options: {
-        url?: Mars3dCesium.Resource | string;
+        url?: Cesium.Resource | string;
         instances?: {
-            position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+            position: LngLatPoint | Cesium.Cartesian3 | number[];
             style?: ModelPrimitive.StyleOptions;
             attr?: any;
         }[];
         batchTable?: any;
         requestType?: any;
         gltf?: any | ArrayBuffer | Uint8Array;
-        basePath?: Mars3dCesium.Resource | string;
+        basePath?: Cesium.Resource | string;
         dynamic?: boolean;
         allowPicking?: boolean;
         asynchronous?: boolean;
         incrementallyLoadTextures?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
-        imageBasedLightingFactor?: Mars3dCesium.Cartesian2;
-        lightColor?: Mars3dCesium.Cartesian3;
+        shadows?: Cesium.ShadowMode;
+        imageBasedLightingFactor?: Cesium.Cartesian2;
+        lightColor?: Cesium.Cartesian3;
         luminanceAtZenith?: number;
-        sphericalHarmonicCoefficients?: Mars3dCesium.Cartesian3[];
+        sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
         specularEnvironmentMaps?: string;
         backFaceCulling?: boolean;
         debugShowBoundingVolume?: boolean;
         debugWireframe?: boolean;
-        startTime?: Mars3dCesium.JulianDate;
+        startTime?: Cesium.JulianDate;
         delay?: number;
-        stopTime?: Mars3dCesium.JulianDate;
+        stopTime?: Cesium.JulianDate;
         removeOnStop?: boolean;
         multiplier?: number;
         reverse?: boolean;
-        loop?: Mars3dCesium.ModelAnimationLoop;
+        loop?: Cesium.ModelAnimationLoop;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -3791,10 +3789,10 @@ export class ModelCombine extends BaseCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PlaneCombine extends BasePolyCombine {
+declare class PlaneCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PlanePrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3802,9 +3800,9 @@ export class PlaneCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3860,10 +3858,10 @@ export class PlaneCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class PolygonCombine extends BasePolyCombine {
+declare class PolygonCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -3871,9 +3869,9 @@ export class PolygonCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3927,17 +3925,17 @@ export class PolygonCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class PolylineCombine extends BasePolyCombine {
+declare class PolylineCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolylinePrimitive.StyleOptions;
             attr?: any;
         }[];
         style?: PolylinePrimitive.StyleOptions;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -3991,17 +3989,17 @@ export class PolylineCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class PolylineVolumeCombine extends BasePolyCombine {
+declare class PolylineVolumeCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolylineVolumePrimitive.StyleOptions;
             attr?: any;
         }[];
         style?: PolylineVolumePrimitive.StyleOptions;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -4057,10 +4055,10 @@ export class PolylineVolumeCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class RectangleCombine extends BasePolyCombine {
+declare class RectangleCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: RectanglePrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -4068,9 +4066,9 @@ export class RectangleCombine extends BasePolyCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -4124,17 +4122,17 @@ export class RectangleCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class WallCombine extends BasePolyCombine {
+declare class WallCombine extends BasePolyCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: WallPrimitive.StyleOptions;
             attr?: any;
         }[];
         style?: WallPrimitive.StyleOptions;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -4190,10 +4188,10 @@ export class WallCombine extends BasePolyCombine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
  */
-export class WaterCombine extends PolygonCombine {
+declare class WaterCombine extends PolygonCombine {
     constructor(options: {
         instances?: {
-            positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+            positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
             style?: PolygonPrimitive.StyleOptions;
             attr?: any;
         }[];
@@ -4201,9 +4199,9 @@ export class WaterCombine extends PolygonCombine {
         highlight?: {
             type?: string;
         };
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -4226,7 +4224,7 @@ export class WaterCombine extends PolygonCombine {
     });
 }
 
-export namespace ArcFrustum {
+declare namespace ArcFrustum {
     /**
      * 弧形平截头体 支持的样式信息
      * @property [angle] - 四棱锥体张角（角度值，取值范围 0.01-89.99）
@@ -4235,7 +4233,7 @@ export namespace ArcFrustum {
      * @property [heading = 0] - 方向角 （度数值，0-360度）
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
-     * @property [color = Mars3dCesium.Color.WHITE] - 颜色
+     * @property [color = Cesium.Color.WHITE] - 颜色
      */
     type StyleOptions = {
         angle?: number;
@@ -4244,7 +4242,7 @@ export namespace ArcFrustum {
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
     };
 }
 
@@ -4261,10 +4259,10 @@ export namespace ArcFrustum {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class ArcFrustum extends BasePointPrimitive {
+declare class ArcFrustum extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: ArcFrustum.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -4275,7 +4273,7 @@ export class ArcFrustum extends BasePointPrimitive {
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 夹角，半场角度，取值范围 0.01-89.99
      */
@@ -4287,10 +4285,10 @@ export class ArcFrustum extends BasePointPrimitive {
     /**
      * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
 }
 
-export namespace ParticleSystem {
+declare namespace ParticleSystem {
     /**
      * 粒子效果 支持的样式信息
      * @property [image] - 粒子的图片URL
@@ -4323,21 +4321,21 @@ export namespace ParticleSystem {
      */
     type StyleOptions = {
         image?: string;
-        emitter?: Mars3dCesium.ParticleEmitter;
+        emitter?: Cesium.ParticleEmitter;
         emissionRate?: number;
-        bursts?: Mars3dCesium.ParticleBurst[];
+        bursts?: Cesium.ParticleBurst[];
         loop?: boolean;
         particleSize?: number;
-        imageSize?: Mars3dCesium.Cartesian2;
-        minimumImageSize?: Mars3dCesium.Cartesian2;
-        maximumImageSize?: Mars3dCesium.Cartesian2;
+        imageSize?: Cesium.Cartesian2;
+        minimumImageSize?: Cesium.Cartesian2;
+        maximumImageSize?: Cesium.Cartesian2;
         sizeInMeters?: boolean;
         scale?: number;
         startScale?: number;
         endScale?: number;
-        color?: Mars3dCesium.Color;
-        startColor?: Mars3dCesium.Color;
-        endColor?: Mars3dCesium.Color;
+        color?: Cesium.Color;
+        startColor?: Cesium.Color;
+        endColor?: Cesium.Color;
         speed?: number;
         minimumSpeed?: number;
         maximumSpeed?: number;
@@ -4348,7 +4346,7 @@ export namespace ParticleSystem {
         mass?: number;
         minimumMass?: number;
         maximumMass?: number;
-        updateCallback?: Mars3dCesium.ParticleSystem.updateCallback;
+        updateCallback?: Cesium.ParticleSystem.updateCallback;
     };
 }
 
@@ -4370,14 +4368,14 @@ export namespace ParticleSystem {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class ParticleSystem extends BasePointPrimitive {
+declare class ParticleSystem extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: ParticleSystem.StyleOptions;
         attr?: any;
         gravity?: number;
-        target?: Mars3dCesium.Cartesian3;
+        target?: Cesium.Cartesian3;
         transZ?: number;
         transX?: number;
         transY?: number;
@@ -4410,19 +4408,19 @@ export class ParticleSystem extends BasePointPrimitive {
     /**
      * 粒子的方向，粒子喷射的目标方向。
      */
-    target: Mars3dCesium.Cartesian3;
+    target: Cesium.Cartesian3;
     /**
      * 粒子图片的Size大小（单位：像素）
      */
     particleSize: number;
 }
 
-export namespace Tetrahedron {
+declare namespace Tetrahedron {
     /**
      * 四面体（顶部正方形+倒立的三角椎体） 支持的样式信息
      * @property [width = 20] - 顶部正方形长宽，单位：米
      * @property [height = 30] - 倒立的三角椎体部分高度，单位：米
-     * @property [color = new Mars3dCesium.Color(0.8, 0.8, 0, 0.8)] - 颜色
+     * @property [color = new Cesium.Color(0.8, 0.8, 0, 0.8)] - 颜色
      * @property [animation = true] - 是否动画
      * @property [moveHeight = 30] - 动画时，上下移动的单程总高度，单位：米
      * @property [moveDuration = 2] - 动画时，上下移动的单程总时长，单位：秒
@@ -4431,7 +4429,7 @@ export namespace Tetrahedron {
     type StyleOptions = {
         width?: number;
         height?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         animation?: boolean;
         moveHeight?: number;
         moveDuration?: number;
@@ -4451,10 +4449,10 @@ export namespace Tetrahedron {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class Tetrahedron extends BasePointPrimitive {
+declare class Tetrahedron extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: Tetrahedron.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -4465,14 +4463,14 @@ export class Tetrahedron extends BasePointPrimitive {
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
 }
 
-export namespace Video3D {
+declare namespace Video3D {
     /**
      * 视频融合（投射3D，贴物体表面） 支持的样式信息
      * @property [container] - video视频DOM容器
@@ -4485,7 +4483,7 @@ export namespace Video3D {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [opacity = 1.0] - 透明度 0.0 - 1.0
-     * @property [hiddenAreaColor = new Mars3dCesium.Color(0, 0, 0, 0.5)] - 无视频投影区域的颜色
+     * @property [hiddenAreaColor = new Cesium.Color(0, 0, 0, 0.5)] - 无视频投影区域的颜色
      * @property [showFrustum = false] - 是否显示视椎体框线
      */
     type StyleOptions = {
@@ -4499,7 +4497,7 @@ export namespace Video3D {
         pitch?: number;
         roll?: number;
         opacity?: number;
-        hiddenAreaColor?: Mars3dCesium.Color | string;
+        hiddenAreaColor?: Cesium.Color | string;
         showFrustum?: boolean;
     };
 }
@@ -4516,10 +4514,10 @@ export namespace Video3D {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class Video3D extends ViewShed {
+declare class Video3D extends ViewShed {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | number[];
         style: Video3D.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -4548,7 +4546,7 @@ export class Video3D extends ViewShed {
     static fromDraw(layer: GraphicLayer, options: any): Video3D;
 }
 
-export namespace ViewShed {
+declare namespace ViewShed {
     /**
      * 可视域矢量对象 支持的样式信息
      * @property [angle = 60] - 水平张角(度数)，取值范围 0-60
@@ -4558,8 +4556,8 @@ export namespace ViewShed {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [opacity = 0.6] - 透明度 0.0 - 1.0
-     * @property [visibleAreaColor = new Mars3dCesium.Color(0, 1, 0)] - 可视区域颜色
-     * @property [hiddenAreaColor = new Mars3dCesium.Color(1, 0, 0)] - 不可视区域颜色
+     * @property [visibleAreaColor = new Cesium.Color(0, 1, 0)] - 可视区域颜色
+     * @property [hiddenAreaColor = new Cesium.Color(1, 0, 0)] - 不可视区域颜色
      * @property [addHeight] - 在坐标点增加的高度值，规避遮挡，效果更友好
      * @property [showFrustum = false] - 是否显示视椎体框线
      */
@@ -4571,8 +4569,8 @@ export namespace ViewShed {
         pitch?: number;
         roll?: number;
         opacity?: number;
-        visibleAreaColor?: Mars3dCesium.Color | string;
-        hiddenAreaColor?: Mars3dCesium.Color | string;
+        visibleAreaColor?: Cesium.Color | string;
+        hiddenAreaColor?: Cesium.Color | string;
         addHeight?: number;
         showFrustum?: boolean;
     };
@@ -4591,10 +4589,10 @@ export namespace ViewShed {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class ViewShed extends BasePointPrimitive {
+declare class ViewShed extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | number[];
         style: ViewShed.StyleOptions;
         attr?: any;
         terrain?: boolean;
@@ -4614,11 +4612,11 @@ export class ViewShed extends BasePointPrimitive {
     /**
      * 可视区域颜色
      */
-    visibleAreaColor: Mars3dCesium.Color;
+    visibleAreaColor: Cesium.Color;
     /**
      * 不可视区域颜色
      */
-    hiddenAreaColor: Mars3dCesium.Color;
+    hiddenAreaColor: Cesium.Color;
     /**
      * 混合系数0-1
      */
@@ -4634,11 +4632,11 @@ export class ViewShed extends BasePointPrimitive {
     /**
      * 相机对象
      */
-    readonly camera: Mars3dCesium.Camera;
+    readonly camera: Cesium.Camera;
     /**
      * 目标点位置(笛卡尔坐标)
      */
-    targetPosition: Mars3dCesium.Cartesian3;
+    targetPosition: Cesium.Cartesian3;
     /**
      * 定位至相机的第一视角
      * @returns 无
@@ -4665,10 +4663,10 @@ export class ViewShed extends BasePointPrimitive {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
-export namespace DivBoderLabel {
+declare namespace DivBoderLabel {
     /**
      * 动态边框文本 支持的样式信息
      * @property text - 文本内容
@@ -4691,7 +4689,7 @@ export namespace DivBoderLabel {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [css_transform_origin = 'left bottom 0'] - DIV的 transform-origin css值
      * @property [timeRender] - 是否实时刷新全部HTML，此时需要绑定html需传入回调方法。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
@@ -4705,8 +4703,8 @@ export namespace DivBoderLabel {
         boderColor?: string;
         width?: number;
         height?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         scaleByDistance?: boolean;
@@ -4718,7 +4716,7 @@ export namespace DivBoderLabel {
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         css_transform_origin?: string;
         timeRender?: boolean;
         setHeight?: number | string;
@@ -4749,9 +4747,9 @@ export namespace DivBoderLabel {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class DivBoderLabel extends DivGraphic {
+declare class DivBoderLabel extends DivGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: DivBoderLabel.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -4780,7 +4778,7 @@ export class DivBoderLabel extends DivGraphic {
     static fromDraw(layer: GraphicLayer, options: any): DivGraphic;
 }
 
-export namespace DivGraphic {
+declare namespace DivGraphic {
     /**
      * DIV点 支持的样式信息
      * @property html - Html文本
@@ -4799,7 +4797,7 @@ export namespace DivGraphic {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [css_transform_origin = 'left bottom 0'] - DIV的 transform-origin css值
      * @property [timeRender] - 是否实时刷新全部HTML，此时需要绑定html需传入回调方法。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
@@ -4807,8 +4805,8 @@ export namespace DivGraphic {
      */
     type StyleOptions = {
         html: string | HTMLDivElement | ((...params: any[]) => any);
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         className?: string;
@@ -4822,7 +4820,7 @@ export namespace DivGraphic {
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         css_transform_origin?: string;
         timeRender?: boolean;
         setHeight?: number | string;
@@ -4912,9 +4910,9 @@ export namespace DivGraphic {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class DivGraphic extends BaseGraphic {
+declare class DivGraphic extends BaseGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: DivGraphic.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -4938,7 +4936,7 @@ export class DivGraphic extends BaseGraphic {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 位置坐标 （笛卡尔坐标）
      */
@@ -5004,10 +5002,10 @@ export class DivGraphic extends BaseGraphic {
     /**
      * 设置并添加动画轨迹位置，按“指定时间”运动到达“指定位置”。
      * @param point - 指定位置坐标
-     * @param [currTime = Mars3dCesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
+     * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LngLatPoint | Mars3dCesium.Cartesian3 | number[], currTime?: Mars3dCesium.JulianDate | Date | string | number): DivGraphic;
+    addDynamicPosition(point: LngLatPoint | Cesium.Cartesian3 | number[], currTime?: Cesium.JulianDate | Date | string | number): DivGraphic;
     /**
      * 位置坐标(数组对象)，示例[113.123456,31.123456,30.1]
      * @param noAlt - true时不导出高度值
@@ -5070,10 +5068,10 @@ export class DivGraphic extends BaseGraphic {
     /**
      * 中心点坐标（笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3 | Mars3dCesium.SampledPositionProperty;
+    readonly center: Cesium.Cartesian3 | Cesium.SampledPositionProperty;
 }
 
-export namespace DivLightPoint {
+declare namespace DivLightPoint {
     /**
      * 动画的扩散div点 支持的样式信息
      * @property [color = '#f33349'] - CSS颜色
@@ -5090,7 +5088,7 @@ export namespace DivLightPoint {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [css_transform_origin = 'left bottom 0'] - DIV的 transform-origin css值
      * @property [timeRender] - 是否实时刷新全部HTML，此时需要绑定html需传入回调方法。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
@@ -5098,8 +5096,8 @@ export namespace DivLightPoint {
      */
     type StyleOptions = {
         color?: string;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         scaleByDistance?: boolean;
@@ -5111,7 +5109,7 @@ export namespace DivLightPoint {
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         css_transform_origin?: string;
         timeRender?: boolean;
         setHeight?: number | string;
@@ -5142,9 +5140,9 @@ export namespace DivLightPoint {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class DivLightPoint extends DivGraphic {
+declare class DivLightPoint extends DivGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: DivLightPoint.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -5173,7 +5171,7 @@ export class DivLightPoint extends DivGraphic {
     static fromDraw(layer: GraphicLayer, options: any): DivGraphic;
 }
 
-export namespace DivUpLabel {
+declare namespace DivUpLabel {
     /**
      * 竖立的文本 支持的样式信息
      * @property text - 文本内容
@@ -5195,7 +5193,7 @@ export namespace DivUpLabel {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [css_transform_origin = 'left bottom 0'] - DIV的 transform-origin css值
      * @property [timeRender] - 是否实时刷新全部HTML，此时需要绑定html需传入回调方法。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
@@ -5208,8 +5206,8 @@ export namespace DivUpLabel {
         font_family?: string;
         lineHeight?: number;
         circleSize?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         scaleByDistance?: boolean;
@@ -5221,7 +5219,7 @@ export namespace DivUpLabel {
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         css_transform_origin?: string;
         timeRender?: boolean;
         setHeight?: number | string;
@@ -5252,9 +5250,9 @@ export namespace DivUpLabel {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class DivUpLabel extends DivGraphic {
+declare class DivUpLabel extends DivGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: DivUpLabel.StyleOptions;
         attr?: any;
         hasEdit?: boolean;
@@ -5286,7 +5284,7 @@ export class DivUpLabel extends DivGraphic {
 /**
  * DivGraphic对象，标绘处理对应的编辑类
  */
-export class EditDivGraphic extends EditBase {
+declare class EditDivGraphic extends EditBase {
     /**
      * 对应的DOM元素
      */
@@ -5303,7 +5301,7 @@ export class EditDivGraphic extends EditBase {
     disable(): EditBase;
 }
 
-export namespace Popup {
+declare namespace Popup {
     /**
      * Popup对象 支持的配置信息
      * @property [html] - Html文本({content}部分，整体展示的DOM由template和html属性共同组成)
@@ -5335,8 +5333,8 @@ export namespace Popup {
     type StyleOptions = {
         html?: string;
         template?: string;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         className?: string;
@@ -5375,9 +5373,9 @@ export namespace Popup {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class Popup extends DivGraphic {
+declare class Popup extends DivGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: Popup.StyleOptions;
         attr?: any;
         animation?: boolean;
@@ -5404,7 +5402,7 @@ export class Popup extends DivGraphic {
     static fromDraw(layer: GraphicLayer, options: any): DivGraphic;
 }
 
-export namespace Tooltip {
+declare namespace Tooltip {
     /**
      * Tooltip对象 支持的配置信息
      * @property [html] - Html文本({content}部分，整体展示的DOM由template和html属性共同组成)
@@ -5431,8 +5429,8 @@ export namespace Tooltip {
         html?: string;
         template?: string | boolean;
         direction?: string;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         offsetX?: number;
         offsetY?: number;
         className?: string;
@@ -5466,9 +5464,9 @@ export namespace Tooltip {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class Tooltip extends Popup {
+declare class Tooltip extends Popup {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: Tooltip.StyleOptions;
         attr?: any;
         testPoint?: PointEntity.StyleOptions;
@@ -5490,7 +5488,7 @@ export class Tooltip extends Popup {
     static fromDraw(layer: GraphicLayer, options: any): Tooltip;
 }
 
-export namespace BaseEntity {
+declare namespace BaseEntity {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -5572,7 +5570,7 @@ export namespace BaseEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -5584,16 +5582,16 @@ export namespace BaseEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BaseEntity extends BaseGraphic {
+declare class BaseEntity extends BaseGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
@@ -5609,11 +5607,11 @@ export class BaseEntity extends BaseGraphic {
     /**
      * 加载Entity数据的内部Cesium容器
      */
-    readonly dataSource: Mars3dCesium.CustomDataSource;
+    readonly dataSource: Cesium.CustomDataSource;
     /**
      * 矢量数据对应的 Cesium内部对象
      */
-    readonly entity: Mars3dCesium.Entity;
+    readonly entity: Cesium.Entity;
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
@@ -5621,7 +5619,7 @@ export class BaseEntity extends BaseGraphic {
     /**
      * 附加的label文本对象
      */
-    readonly label: Mars3dCesium.Label | Mars3dCesium.LabelGraphics;
+    readonly label: Cesium.Label | Cesium.LabelGraphics;
     /**
      * 是否正在编辑状态
      */
@@ -5642,14 +5640,14 @@ export class BaseEntity extends BaseGraphic {
      * 高亮闪烁 Enity实体对象
      * @param options - 参数
      * @param [options.time = null] - 闪烁的时长(秒)，未设置时不自动停止。
-     * @param [options.color = Mars3dCesium.Color.YELLOW] - 高亮的颜色
+     * @param [options.color = Cesium.Color.YELLOW] - 高亮的颜色
      * @param [options.maxAlpha = 0.3] - 闪烁的最大透明度，从 0 到 maxAlpha 渐变
      * @param [options.onEnd = null] - 播放完成后的回调方法
      * @returns 高亮闪烁控制 对象
      */
     startFlicker(options: {
         time?: number;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         maxAlpha?: number;
         onEnd?: (...params: any[]) => any;
     }): FlickerEntity;
@@ -5683,9 +5681,9 @@ export class BaseEntity extends BaseGraphic {
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
-     * @returns 无
+     * @returns 是否正常结束了矢量对象绘制
      */
-    endDraw(): void;
+    endDraw(): boolean;
     /**
      * 开始编辑对象
      * @returns 无
@@ -5699,7 +5697,7 @@ export class BaseEntity extends BaseGraphic {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 /**
@@ -5713,14 +5711,14 @@ export class BaseEntity extends BaseGraphic {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.entity] - 传入外部已经构造好的Entity对象
  * @param [options.hasEdit = true] - 是否允许编辑
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateClamp = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -5735,24 +5733,24 @@ export class BaseEntity extends BaseGraphic {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BasePointEntity extends BaseEntity {
+declare class BasePointEntity extends BaseEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
-        orientation?: Mars3dCesium.Property;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        orientation?: Cesium.Property;
         style: any;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
-        entity?: Mars3dCesium.Entity;
+        entity?: Cesium.Entity;
         hasEdit?: boolean;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateClamp?: number;
         objectsToExclude?: any;
@@ -5774,7 +5772,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 位置坐标
      */
@@ -5786,7 +5784,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 中心点坐标
      */
@@ -5794,7 +5792,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 三维空间中的旋转。
      */
-    readonly orientation: Mars3dCesium.Quaternion;
+    readonly orientation: Cesium.Quaternion;
     /**
      * 四周方向角，0-360度角度值
      */
@@ -5814,7 +5812,7 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
     /**
      * 是否显示3个方向轴，用于对比测试
      */
@@ -5831,7 +5829,7 @@ export class BasePointEntity extends BaseEntity {
      * 更新 三维空间中的Quaternion旋转对象。
      * @returns 更新后的Quaternion旋转对象
      */
-    updateOrientation(): Mars3dCesium.Quaternion;
+    updateOrientation(): Cesium.Quaternion;
     /**
      * 清除addDynamicPosition添加的动态轨迹
      * @returns 当前对象本身，可以链式调用
@@ -5840,10 +5838,10 @@ export class BasePointEntity extends BaseEntity {
     /**
      * 设置并添加动画轨迹位置，按“指定时间”运动到达“指定位置”。
      * @param point - 指定位置坐标
-     * @param [currTime = Mars3dCesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
+     * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LngLatPoint | Mars3dCesium.Cartesian3 | number[], currTime?: Mars3dCesium.JulianDate | Date | string | number): BasePointEntity;
+    addDynamicPosition(point: LngLatPoint | Cesium.Cartesian3 | number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointEntity;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -5864,10 +5862,10 @@ export class BasePointEntity extends BaseEntity {
      */
     getCoordinate(noAlt: boolean): any[];
     /**
-     * 按Mars3dCesium.CallbackProperty的方式 更新坐标（更加平滑）
+     * 按Cesium.CallbackProperty的方式 更新坐标（更加平滑）
      * @param position - 坐标
      */
-    setCallbackPosition(position: Mars3dCesium.Cartesian3): void;
+    setCallbackPosition(position: Cesium.Cartesian3): void;
     /**
      * 显示隐藏状态
      */
@@ -5884,7 +5882,7 @@ export class BasePointEntity extends BaseEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -5902,15 +5900,15 @@ export class BasePointEntity extends BaseEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BasePolyEntity extends BaseEntity {
+declare class BasePolyEntity extends BaseEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: any;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -5944,15 +5942,15 @@ export class BasePolyEntity extends BaseEntity {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 围合面的内部中心点坐标
      */
-    readonly centerOfMass: Mars3dCesium.Cartesian3;
+    readonly centerOfMass: Cesium.Cartesian3;
     /**
      * 边线的中心点坐标
      */
-    readonly centerOfLine: Mars3dCesium.Cartesian3;
+    readonly centerOfLine: Cesium.Cartesian3;
     /**
      * 距离（单位：米）
      */
@@ -5964,16 +5962,16 @@ export class BasePolyEntity extends BaseEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 实际显示的坐标数组 （笛卡尔坐标），
      * 如标绘中时positions对应的可能只是控制点坐标或CallbackProperty属性
      */
-    readonly positionsShow: Mars3dCesium.Cartesian3[];
+    readonly positionsShow: Cesium.Cartesian3[];
     /**
      * 位置坐标数组
      */
-    readonly points: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+    readonly points: LngLatPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -5981,7 +5979,7 @@ export class BasePolyEntity extends BaseEntity {
     /**
      * 坐标数据对应的矩形边界
      */
-    readonly rectangle: Mars3dCesium.Rectangle;
+    readonly rectangle: Cesium.Rectangle;
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      * @param noAlt - true时不导出高度值
@@ -5993,7 +5991,7 @@ export class BasePolyEntity extends BaseEntity {
      * @param position - 需要判断的点
      * @returns 是否在多边形内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -6010,13 +6008,13 @@ export class BasePolyEntity extends BaseEntity {
         callback: Globe.surfaceLineWork_callback;
     }): BasePolyEntity;
     /**
-     * 按Mars3dCesium.CallbackProperty的方式 更新坐标集合（更加平滑）
+     * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
      * @param positions - 坐标数组
      */
-    setCallbackPositions(positions: Mars3dCesium.Cartesian3[]): void;
+    setCallbackPositions(positions: Cesium.Cartesian3[]): void;
 }
 
-export namespace BillboardEntity {
+declare namespace BillboardEntity {
     /**
      * 图标点 支持的样式信息
      * @property [image] - 用于矢量对象的 图像、URI或Canvas
@@ -6041,7 +6039,7 @@ export namespace BillboardEntity {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [visibleDepth = true] - 是否被遮挡
      * @property [disableDepthTestDistance] - 指定从相机到禁用深度测试的距离。
      * @property [color = Color.WHITE] - 附加的颜色
@@ -6062,33 +6060,33 @@ export namespace BillboardEntity {
         scale?: number;
         rotation?: number;
         rotationDegree?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         width?: number;
         height?: number;
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Mars3dCesium.Cartesian2 | number[];
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        pixelOffset?: Cesium.Cartesian2 | number[];
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        color?: Mars3dCesium.Color;
-        eyeOffset?: Mars3dCesium.Cartesian3;
-        alignedAxis?: Mars3dCesium.Cartesian3;
+        color?: Cesium.Color;
+        eyeOffset?: Cesium.Cartesian3;
+        alignedAxis?: Cesium.Cartesian3;
         sizeInMeters?: boolean;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
-        pixelOffsetScaleByDistance?: Mars3dCesium.NearFarScalar;
-        imageSubRegion?: Mars3dCesium.BoundingRectangle;
+        translucencyByDistance?: Cesium.NearFarScalar;
+        pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
+        imageSubRegion?: Cesium.BoundingRectangle;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: BillboardEntity.StyleOptions;
@@ -6106,10 +6104,10 @@ export namespace BillboardEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -6126,19 +6124,19 @@ export namespace BillboardEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BillboardEntity extends BasePointEntity {
+declare class BillboardEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: BillboardEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -6158,7 +6156,7 @@ export class BillboardEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.BillboardGraphics;
+    readonly entityGraphic: Cesium.BillboardGraphics;
     /**
      * 图像、URI或Canvas
      */
@@ -6196,7 +6194,7 @@ export class BillboardEntity extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): BillboardEntity;
 }
 
-export namespace BoxEntity {
+declare namespace BoxEntity {
     /**
      * 盒子 支持的样式信息
      * @property [dimensions] - 指定盒子的长度、宽度和高度。
@@ -6209,7 +6207,7 @@ export namespace BoxEntity {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -6220,16 +6218,16 @@ export namespace BoxEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        dimensions?: Mars3dCesium.Cartesian3 | Mars3dCesium.Property;
+        dimensions?: Cesium.Cartesian3 | Cesium.Property;
         dimensions_x?: number;
         dimensions_y?: number;
         dimensions_z?: number;
@@ -6239,20 +6237,20 @@ export namespace BoxEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: BoxEntity.StyleOptions;
@@ -6271,7 +6269,7 @@ export namespace BoxEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -6285,16 +6283,16 @@ export namespace BoxEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BoxEntity extends BasePointEntity {
+declare class BoxEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: BoxEntity.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        orientation?: Cesium.Property;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -6312,7 +6310,7 @@ export class BoxEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.BoxGraphics;
+    readonly entityGraphic: Cesium.BoxGraphics;
     /**
      * 编辑处理类
      */
@@ -6326,19 +6324,19 @@ export class BoxEntity extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): BoxEntity;
 }
 
-export namespace CircleEntity {
+declare namespace CircleEntity {
     /**
      * 圆、圆柱 支持的样式信息
      * @property [radius = 100] - 半径
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [diffHeight = 100] - 高度差（圆柱本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定椭圆的挤压面相对于椭球面的高度。
-     * @property [extrudedHeightReference = Mars3dCesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
+     * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -6353,12 +6351,12 @@ export namespace CircleEntity {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
      * @property [numberOfVerticalLines = 16] - 指定沿轮廓的周长绘制的垂直线的数量。
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定椭圆是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定椭圆是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序。用于排序地面几何。只有在椭圆为常量且没有指定height或exturdedHeight时才有效果。
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -6367,34 +6365,34 @@ export namespace CircleEntity {
     type StyleOptions = {
         radius?: number;
         height?: number;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
-        extrudedHeightReference?: Mars3dCesium.HeightReference;
+        extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
-        rotation?: number | Mars3dCesium.Property;
+        rotation?: number | Cesium.Property;
         rotationDegree?: number;
-        stRotation?: number | Mars3dCesium.Property;
+        stRotation?: number | Cesium.Property;
         stRotationDegree?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         granularity?: number;
         numberOfVerticalLines?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         addHeight?: number | string;
         highlight?: CircleEntity.StyleOptions;
@@ -6412,7 +6410,7 @@ export namespace CircleEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShowRadius = true] - 绘制时，是否显示圆的半径。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -6427,15 +6425,15 @@ export namespace CircleEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CircleEntity extends BasePointEntity {
+declare class CircleEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: CircleEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShowRadius?: boolean;
         drawShow?: boolean;
@@ -6454,7 +6452,7 @@ export class CircleEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.EllipseGraphics;
+    readonly entityGraphic: Cesium.EllipseGraphics;
     /**
      * 编辑处理类
      */
@@ -6462,7 +6460,7 @@ export class CircleEntity extends BasePointEntity {
     /**
      * 圆的边线坐标集合（笛卡尔坐标）
      */
-    outlinePositions: Mars3dCesium.Cartesian3[];
+    outlinePositions: Cesium.Cartesian3[];
     /**
      * 圆的边线坐标集合（经纬度二维数组），示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7], …… ]
      */
@@ -6496,7 +6494,7 @@ export class CircleEntity extends BasePointEntity {
      * @param [count] - 象限内点的数量，返回的总数为 count*4
      * @returns 边线坐标数组
      */
-    getOutlinePositions(closure?: boolean, count?: number): Mars3dCesium.Cartesian3[];
+    getOutlinePositions(closure?: boolean, count?: number): Cesium.Cartesian3[];
     /**
      * 获取圆的边线坐标集合（经纬度二维数组）
      * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
@@ -6509,17 +6507,17 @@ export class CircleEntity extends BasePointEntity {
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 判断点是否在圆内
      * @param position - 需要判断的点
      * @returns 是否在圆内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -6530,7 +6528,7 @@ export class CircleEntity extends BasePointEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 飞行定位至 数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -6562,19 +6560,19 @@ export class CircleEntity extends BasePointEntity {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseGraphic | any;
 }
 
-export namespace ConeTrack {
+declare namespace ConeTrack {
     /**
      * 圆锥追踪体 支持的样式信息
      * @property [angle] - 圆锥追踪体张角（角度值，取值范围 0.01-89.99）
@@ -6586,7 +6584,7 @@ export namespace ConeTrack {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -6599,8 +6597,8 @@ export namespace ConeTrack {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定圆柱是投射还是接收来自光源的阴影。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定圆柱是投射还是接收来自光源的阴影。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -6616,21 +6614,21 @@ export namespace ConeTrack {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         numberOfVerticalLines?: number;
         slices?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
-        heightReference?: Mars3dCesium.HeightReference;
+        shadows?: Cesium.ShadowMode;
+        heightReference?: Cesium.HeightReference;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: CylinderEntity.StyleOptions;
@@ -6649,7 +6647,7 @@ export namespace ConeTrack {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -6661,16 +6659,16 @@ export namespace ConeTrack {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ConeTrack extends CylinderEntity {
+declare class ConeTrack extends CylinderEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: ConeTrack.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
@@ -6686,7 +6684,7 @@ export class ConeTrack extends CylinderEntity {
     /**
      * 追踪的目标位置(确定了方向和距离)
      */
-    targetPosition: Mars3dCesium.Cartesian3;
+    targetPosition: Cesium.Cartesian3;
     /**
      * 追踪的目标位置
      */
@@ -6700,20 +6698,20 @@ export class ConeTrack extends CylinderEntity {
 /**
  * 定时闪烁高亮Entity（点、线、面）
  */
-export class FlickerEntity {
+declare class FlickerEntity {
     /**
      * 高亮闪烁 Enity实体对象
      * @param entitys - entity对象或对象数组
      * @param [opts = {}] - 控制参数
      * @param [opts.time = null] - 闪烁的时长(秒)，未设置时不自动停止。
-     * @param [opts.color = Mars3dCesium.Color.YELLOW] - 高亮的颜色
+     * @param [opts.color = Cesium.Color.YELLOW] - 高亮的颜色
      * @param [opts.maxAlpha = 0.3] - 闪烁的最大透明度，从 0 到 maxAlpha 渐变
      * @param [opts.onEnd = null] - 播放完成后的回调方法
      * @returns 高亮闪烁控制 对象
      */
-    startFlicker(entitys: Mars3dCesium.Entity | Mars3dCesium.Entity[], opts?: {
+    startFlicker(entitys: Cesium.Entity | Cesium.Entity[], opts?: {
         time?: number;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         maxAlpha?: number;
         onEnd?: (...params: any[]) => any;
     }): FlickerEntity;
@@ -6724,20 +6722,20 @@ export class FlickerEntity {
     stopFlicker(): FlickerEntity;
 }
 
-export namespace CorridorEntity {
+declare namespace CorridorEntity {
     /**
      * 走廊 支持的样式信息
      * @property [width = 100] - 走廊宽度，指定走廊边缘之间的距离。
      * @property [cornerType] - 指定边角的样式。
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
-     * @property [extrudedHeightReference = Mars3dCesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
+     * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充。
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -6747,11 +6745,11 @@ export namespace CorridorEntity {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度和经度之间的距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度和经度之间的距离。
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定走廊是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定走廊是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序，用于排序。只有在高度和挤压高度未定义，并且走廊是静态的情况下才有效果。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
@@ -6760,30 +6758,30 @@ export namespace CorridorEntity {
      */
     type StyleOptions = {
         width?: number;
-        cornerType?: string | Mars3dCesium.CornerType;
-        height?: number | Mars3dCesium.Property;
-        heightReference?: Mars3dCesium.HeightReference;
+        cornerType?: string | Cesium.CornerType;
+        height?: number | Cesium.Property;
+        heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
-        extrudedHeightReference?: Mars3dCesium.HeightReference;
+        extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         granularity?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         setHeight?: number | string;
         addHeight?: number | string;
@@ -6802,7 +6800,7 @@ export namespace CorridorEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -6820,15 +6818,15 @@ export namespace CorridorEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CorridorEntity extends BasePolyEntity {
+declare class CorridorEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: CorridorEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -6850,7 +6848,7 @@ export class CorridorEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.CorridorGraphics;
+    readonly entityGraphic: Cesium.CorridorGraphics;
     /**
      * 编辑处理类
      */
@@ -6865,7 +6863,7 @@ export class CorridorEntity extends BasePolyEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
 /**
@@ -6878,7 +6876,7 @@ export class CorridorEntity extends BasePolyEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -6896,15 +6894,15 @@ export class CorridorEntity extends BasePolyEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CurveEntity extends PolylineEntity {
+declare class CurveEntity extends PolylineEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -6932,7 +6930,7 @@ export class CurveEntity extends PolylineEntity {
     static fromDraw(layer: GraphicLayer, options: any): CurveEntity;
 }
 
-export namespace CylinderEntity {
+declare namespace CylinderEntity {
     /**
      * 圆锥 支持的样式信息
      * @property [topRadius = 0] - 顶部半径，指定圆柱体顶部的半径，当为0时即为圆锥。
@@ -6944,7 +6942,7 @@ export namespace CylinderEntity {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -6957,8 +6955,8 @@ export namespace CylinderEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定圆柱是投射还是接收来自光源的阴影。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定圆柱是投射还是接收来自光源的阴影。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -6974,21 +6972,21 @@ export namespace CylinderEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         numberOfVerticalLines?: number;
         slices?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
-        heightReference?: Mars3dCesium.HeightReference;
+        shadows?: Cesium.ShadowMode;
+        heightReference?: Cesium.HeightReference;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: CylinderEntity.StyleOptions;
@@ -7007,7 +7005,7 @@ export namespace CylinderEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7021,16 +7019,16 @@ export namespace CylinderEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CylinderEntity extends BasePointEntity {
+declare class CylinderEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: CylinderEntity.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        orientation?: Cesium.Property;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7048,7 +7046,7 @@ export class CylinderEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.CylinderGraphics;
+    readonly entityGraphic: Cesium.CylinderGraphics;
     /**
      * 编辑处理类
      */
@@ -7063,10 +7061,10 @@ export class CylinderEntity extends BasePointEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
-export namespace DivBillboardEntity {
+declare namespace DivBillboardEntity {
     /**
      * HTML转图片后的图标点Entity 支持的样式信息
      * @property html - Html内容
@@ -7091,7 +7089,7 @@ export namespace DivBillboardEntity {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [visibleDepth = true] - 是否被遮挡
      * @property [disableDepthTestDistance] - 指定从相机到禁用深度测试的距离。
      * @property [color = Color.WHITE] - 附加的颜色
@@ -7112,33 +7110,33 @@ export namespace DivBillboardEntity {
         scale?: number;
         rotation?: number;
         rotationDegree?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         width?: number;
         height?: number;
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Mars3dCesium.Cartesian2 | number[];
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        pixelOffset?: Cesium.Cartesian2 | number[];
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        color?: Mars3dCesium.Color;
-        eyeOffset?: Mars3dCesium.Cartesian3;
-        alignedAxis?: Mars3dCesium.Cartesian3;
+        color?: Cesium.Color;
+        eyeOffset?: Cesium.Cartesian3;
+        alignedAxis?: Cesium.Cartesian3;
         sizeInMeters?: boolean;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
-        pixelOffsetScaleByDistance?: Mars3dCesium.NearFarScalar;
-        imageSubRegion?: Mars3dCesium.BoundingRectangle;
+        translucencyByDistance?: Cesium.NearFarScalar;
+        pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
+        imageSubRegion?: Cesium.BoundingRectangle;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: BillboardEntity.StyleOptions;
@@ -7157,7 +7155,7 @@ export namespace DivBillboardEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7171,15 +7169,15 @@ export namespace DivBillboardEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DivBillboardEntity extends BillboardEntity {
+declare class DivBillboardEntity extends BillboardEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: DivBillboardEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7206,7 +7204,7 @@ export class DivBillboardEntity extends BillboardEntity {
 /**
  * 标绘处理对应的编辑基类
  */
-export class EditBase {
+declare class EditBase {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
@@ -7226,100 +7224,100 @@ export class EditBase {
 /**
  * BoxEntity对象，标绘处理对应的编辑类
  */
-export class EditBox extends EditBase {
+declare class EditBox extends EditBase {
     /**
      * 位置坐标 （笛卡尔坐标）
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
 /**
  * Circle对象 标绘处理对应的编辑类
  */
-export class EditCircle extends EditPoly {
+declare class EditCircle extends EditPoly {
 }
 
 /**
  * Corridor对象 标绘处理对应的编辑类
  */
-export class EditCorridor extends EditPoly {
+declare class EditCorridor extends EditPoly {
 }
 
 /**
  * Cylinder对象 标绘处理对应的编辑类
  */
-export class EditCylinder extends EditPoly {
+declare class EditCylinder extends EditPoly {
 }
 
 /**
  * Ellipsoid对象 标绘处理对应的编辑类
  */
-export class EditEllipsoid extends EditBase {
+declare class EditEllipsoid extends EditBase {
 }
 
 /**
  * Model对象 标绘处理对应的编辑类
  */
-export class EditModel extends EditBase {
+declare class EditModel extends EditBase {
 }
 
 /**
  * Plane对象 标绘处理对应的编辑类
  */
-export class EditPlane extends EditBase {
+declare class EditPlane extends EditBase {
 }
 
 /**
  * Point 对象 标绘处理对应的编辑类
  */
-export class EditPoint extends EditBase {
+declare class EditPoint extends EditBase {
 }
 
 /**
  * 线面状对象 标绘处理对应的编辑类基类
  */
-export class EditPoly extends EditBase {
+declare class EditPoly extends EditBase {
 }
 
 /**
  * Polygon对象 标绘处理对应的编辑类
  */
-export class EditPolygon extends EditPoly {
+declare class EditPolygon extends EditPoly {
 }
 
 /**
  * Polygon对象 标绘处理对应的编辑类，
  * 用于外部扩展使用，绘制的点与显示的点不一致的标号
  */
-export class EditPolygonEx extends EditPolygon {
+declare class EditPolygonEx extends EditPolygon {
 }
 
 /**
  * Rectangle对象 标绘处理对应的编辑类，
  */
-export class EditRectangle extends EditPoly {
+declare class EditRectangle extends EditPoly {
 }
 
 /**
  * Wall对象 标绘处理对应的编辑类，
  */
-export class EditWall extends EditPoly {
+declare class EditWall extends EditPoly {
 }
 
-export namespace EllipseEntity {
+declare namespace EllipseEntity {
     /**
      * 椭圆、椭圆柱 支持的样式信息
      * @property [semiMinorAxis = 100] - 椭圆时的 短半径
      * @property [semiMajorAxis = 100] - 椭圆时的 长半径
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [diffHeight = 100] - 高度差（圆柱本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定椭圆的挤压面相对于椭球面的高度。
-     * @property [extrudedHeightReference = Mars3dCesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
+     * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 填充颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -7334,49 +7332,49 @@ export namespace EllipseEntity {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
      * @property [numberOfVerticalLines = 16] - 指定沿轮廓的周长绘制的垂直线的数量。
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定椭圆是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定椭圆是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序。用于排序地面几何。只有在椭圆为常量且没有指定height或exturdedHeight时才有效果。
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        semiMinorAxis?: number | Mars3dCesium.Property;
-        semiMajorAxis?: number | Mars3dCesium.Property;
+        semiMinorAxis?: number | Cesium.Property;
+        semiMajorAxis?: number | Cesium.Property;
         height?: number;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
-        extrudedHeightReference?: Mars3dCesium.HeightReference;
+        extrudedHeightReference?: Cesium.HeightReference;
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
         rotation?: number;
         rotationDegree?: number;
         stRotation?: number;
         stRotationDegree?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         granularity?: number;
         numberOfVerticalLines?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         addHeight?: number | string;
         highlight?: CircleEntity.StyleOptions;
@@ -7394,7 +7392,7 @@ export namespace EllipseEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7408,15 +7406,15 @@ export namespace EllipseEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class EllipseEntity extends CircleEntity {
+declare class EllipseEntity extends CircleEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: EllipseEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7440,7 +7438,7 @@ export class EllipseEntity extends CircleEntity {
     static fromDraw(layer: GraphicLayer, options: any): EllipseEntity;
 }
 
-export namespace EllipsoidEntity {
+declare namespace EllipsoidEntity {
     /**
      * 球、半球、椭球 支持的 样式信息
      * @property [radii] - 指定椭球半径。
@@ -7465,7 +7463,7 @@ export namespace EllipsoidEntity {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -7475,23 +7473,23 @@ export namespace EllipsoidEntity {
      * @property [stackPartitions = 64] - 指定竖向划分数量
      * @property [slicePartitions = 64] - 指定横向划分数量
      * @property [subdivisions = 128] - 指定每个轮廓环的样本数量，确定曲率的粒度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定从实体位置到它的相对高度。
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定椭球是否投射或接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定椭球是否投射或接收来自光源的阴影。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        radii?: Mars3dCesium.Cartesian3;
+        radii?: Cesium.Cartesian3;
         radii_x?: number;
         radii_y?: number;
         radii_z?: number;
-        innerRadii?: Mars3dCesium.Cartesian3;
+        innerRadii?: Cesium.Cartesian3;
         innerRadii_x?: number;
         innerRadii_y?: number;
         innerRadii_z?: number;
@@ -7509,22 +7507,22 @@ export namespace EllipsoidEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         stackPartitions?: number;
         slicePartitions?: number;
         subdivisions?: number;
-        heightReference?: Mars3dCesium.HeightReference;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        heightReference?: Cesium.HeightReference;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: EllipsoidEntity.StyleOptions;
@@ -7558,7 +7556,7 @@ export namespace EllipsoidEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7572,17 +7570,17 @@ export namespace EllipsoidEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class EllipsoidEntity extends BasePointEntity {
+declare class EllipsoidEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: EllipsoidEntity.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
+        orientation?: Cesium.Property;
         scanPlane: EllipsoidEntity.ScanPlaneOptions | EllipsoidEntity.ScanPlaneOptions[];
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7600,7 +7598,7 @@ export class EllipsoidEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.EllipsoidGraphics;
+    readonly entityGraphic: Cesium.EllipsoidGraphics;
     /**
      * 编辑处理类
      */
@@ -7610,13 +7608,13 @@ export class EllipsoidEntity extends BasePointEntity {
      * @param planeOptions - 扫描面构造参数
      * @returns 矢量对象
      */
-    addScanPlane(planeOptions: EllipsoidEntity.ScanPlaneOptions): Mars3dCesium.Entity;
+    addScanPlane(planeOptions: EllipsoidEntity.ScanPlaneOptions): Cesium.Entity;
     /**
      * 移除单个指定的扫描面
      * @param entity - addScanPlane返回的矢量对象
      * @returns 无
      */
-    removeScanPlan(entity: Mars3dCesium.Entity): void;
+    removeScanPlan(entity: Cesium.Entity): void;
     /**
      * 清除所有扫描面
      * @returns 无
@@ -7632,10 +7630,10 @@ export class EllipsoidEntity extends BasePointEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
-export namespace FontBillboardEntity {
+declare namespace FontBillboardEntity {
     /**
      * Font CSS字体点转图片后的图标点  Entity 支持的样式信息
      * @property [iconClass = "fa fa-automobile"] - 字体css样式
@@ -7662,7 +7660,7 @@ export namespace FontBillboardEntity {
      * @property [distanceDisplayCondition_far = 10000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [visibleDepth = true] - 是否被遮挡
      * @property [disableDepthTestDistance] - 指定从相机到禁用深度测试的距离。
      * @property [eyeOffset = Cartesian3.ZERO] - 眼偏移量
@@ -7684,32 +7682,32 @@ export namespace FontBillboardEntity {
         scale?: number;
         rotation?: number;
         rotationDegree?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         width?: number;
         height?: number;
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Mars3dCesium.Cartesian2 | number[];
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        pixelOffset?: Cesium.Cartesian2 | number[];
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        eyeOffset?: Mars3dCesium.Cartesian3;
-        alignedAxis?: Mars3dCesium.Cartesian3;
+        eyeOffset?: Cesium.Cartesian3;
+        alignedAxis?: Cesium.Cartesian3;
         sizeInMeters?: boolean;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
-        pixelOffsetScaleByDistance?: Mars3dCesium.NearFarScalar;
-        imageSubRegion?: Mars3dCesium.BoundingRectangle;
+        translucencyByDistance?: Cesium.NearFarScalar;
+        pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
+        imageSubRegion?: Cesium.BoundingRectangle;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: BillboardEntity.StyleOptions;
@@ -7728,7 +7726,7 @@ export namespace FontBillboardEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7742,15 +7740,15 @@ export namespace FontBillboardEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FontBillboardEntity extends BasePointEntity {
+declare class FontBillboardEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: FontBillboardEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7774,7 +7772,7 @@ export class FontBillboardEntity extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): FontBillboardEntity;
 }
 
-export namespace LabelEntity {
+declare namespace LabelEntity {
     /**
      * 文本点 支持的样式信息
      * @property [text = "文字"] - 文本内容，换行可以用换行符'\n'。
@@ -7796,7 +7794,7 @@ export namespace LabelEntity {
      * @property [background = false] - 是否背景
      * @property [backgroundColor = "#000000"] - 背景颜色
      * @property [backgroundOpacity = 0.5] - 背景透明度
-     * @property [backgroundPadding = new Mars3dCesium.Cartesian2(7, 5)] - 背景内边距，指定文字与填充边界内容之间的空间(以像素为单位)。
+     * @property [backgroundPadding = new Cesium.Cartesian2(7, 5)] - 背景内边距，指定文字与填充边界内容之间的空间(以像素为单位)。
      * @property [hasPixelOffset = false] - 是否存在偏移量
      * @property [pixelOffsetX = 0] - 横向偏移像素
      * @property [pixelOffsetY = 0] - 纵向偏移像素
@@ -7812,7 +7810,7 @@ export namespace LabelEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [visibleDepth = true] - 是否被遮挡
      * @property [disableDepthTestDistance] - 指定从相机到禁用深度测试的距离。
      * @property [translucencyByDistance] - 用于基于与相机的距离设置半透明度。
@@ -7822,43 +7820,43 @@ export namespace LabelEntity {
     type StyleOptions = {
         text?: string;
         scale?: number;
-        horizontalOrigin?: Mars3dCesium.HorizontalOrigin;
-        verticalOrigin?: Mars3dCesium.VerticalOrigin;
+        horizontalOrigin?: Cesium.HorizontalOrigin;
+        verticalOrigin?: Cesium.VerticalOrigin;
         font_family?: string;
         font_size?: number;
         font_weight?: string;
         font_style?: string;
         font?: string;
         fill?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineWidth?: number;
         background?: boolean;
-        backgroundColor?: string | Mars3dCesium.Color;
+        backgroundColor?: string | Cesium.Color;
         backgroundOpacity?: number;
-        backgroundPadding?: number | Mars3dCesium.Cartesian2;
+        backgroundPadding?: number | Cesium.Cartesian2;
         hasPixelOffset?: boolean;
         pixelOffsetX?: number;
         pixelOffsetY?: number;
-        pixelOffset?: Mars3dCesium.Cartesian2 | number[];
-        pixelOffsetScaleByDistance?: Mars3dCesium.NearFarScalar;
-        eyeOffset?: Mars3dCesium.Cartesian3;
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        pixelOffset?: Cesium.Cartesian2 | number[];
+        pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
+        eyeOffset?: Cesium.Cartesian3;
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
+        translucencyByDistance?: Cesium.NearFarScalar;
         setHeight?: number | string;
         addHeight?: number | string;
     };
@@ -7874,7 +7872,7 @@ export namespace LabelEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -7888,15 +7886,15 @@ export namespace LabelEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class LabelEntity extends BasePointEntity {
+declare class LabelEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: LabelEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -7914,7 +7912,7 @@ export class LabelEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.LabelGraphics;
+    readonly entityGraphic: Cesium.LabelGraphics;
     /**
      * 文本内容
      */
@@ -7947,10 +7945,10 @@ export class LabelEntity extends BasePointEntity {
     /**
      * 附加的label文本对象
      */
-    readonly label: Mars3dCesium.Label | Mars3dCesium.LabelGraphics;
+    readonly label: Cesium.Label | Cesium.LabelGraphics;
 }
 
-export namespace ModelEntity {
+declare namespace ModelEntity {
     /**
      * gltf小模型 支持的样式信息
      * @property [url] - glTF模型的URI的字符串或资源属性。
@@ -7979,7 +7977,7 @@ export namespace ModelEntity {
      * @property [hasShadows = true] - 是否阴影
      * @property [shadows = ShadowMode.ENABLED] - 指定模型是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [incrementallyLoadTextures = true] - 确定模型加载后纹理是否会继续流进来。
      * @property [runAnimations = true] - 指定模型中指定的glTF动画是否应该启动。
      * @property [clampAnimations = true] - 指定在没有关键帧的情况下，glTF动画是否应该保持最后一个姿势。
@@ -7994,7 +7992,7 @@ export namespace ModelEntity {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        url?: string | Mars3dCesium.Resource;
+        url?: string | Cesium.Resource;
         scale?: number;
         heading?: number;
         pitch?: number;
@@ -8004,35 +8002,35 @@ export namespace ModelEntity {
         minimumPixelSize?: number;
         maximumScale?: number;
         fill?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
-        colorBlendMode?: Mars3dCesium.ColorBlendMode;
+        colorBlendMode?: Cesium.ColorBlendMode;
         colorBlendAmount?: number;
         silhouette?: boolean;
-        silhouetteColor?: string | Mars3dCesium.Color;
+        silhouetteColor?: string | Cesium.Color;
         silhouetteSize?: number;
         silhouetteAlpha?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_near?: number;
         distanceDisplayCondition_far?: number;
         distanceDisplayPoint?: PointEntity.StyleOptions;
         distanceDisplayBillboard?: BillboardEntity.StyleOptions;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         incrementallyLoadTextures?: boolean;
         runAnimations?: boolean;
         clampAnimations?: boolean;
-        imageBasedLightingFactor?: Mars3dCesium.Cartesian2;
-        lightColor?: Mars3dCesium.Color;
-        nodeTransformations?: Mars3dCesium.PropertyBag | {
-            [key: string]: Mars3dCesium.TranslationRotationScale;
+        imageBasedLightingFactor?: Cesium.Cartesian2;
+        lightColor?: Cesium.Color;
+        nodeTransformations?: Cesium.PropertyBag | {
+            [key: string]: Cesium.TranslationRotationScale;
         };
-        articulations?: Mars3dCesium.PropertyBag | {
+        articulations?: Cesium.PropertyBag | {
             [key: string]: number;
         };
-        clippingPlanes?: Mars3dCesium.ClippingPlaneCollection;
+        clippingPlanes?: Cesium.ClippingPlaneCollection;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: ModelEntity.StyleOptions;
@@ -8087,10 +8085,10 @@ export namespace ModelEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -8107,20 +8105,20 @@ export namespace ModelEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ModelEntity extends BasePointEntity {
+declare class ModelEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: ModelEntity.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        orientation?: Cesium.Property;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -8140,7 +8138,7 @@ export class ModelEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.ModelGraphics;
+    readonly entityGraphic: Cesium.ModelGraphics;
     /**
      * 编辑处理类
      */
@@ -8153,7 +8151,7 @@ export class ModelEntity extends BasePointEntity {
      * 获取模型的当前时间的实际hpr角度(如动态模型)
      * @returns Heading Pitch Roll方向
      */
-    getHeadingPitchRoll(): Mars3dCesium.HeadingPitchRoll;
+    getHeadingPitchRoll(): Cesium.HeadingPitchRoll;
     /**
      * 开始运行 自旋转动画效果
      * @param [options = {}] - 参数包括：
@@ -8181,7 +8179,7 @@ export class ModelEntity extends BasePointEntity {
      * @returns 无
      */
     moveTo(options?: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         time?: number;
         onEnd?: (...params: any[]) => any;
     }): void;
@@ -8216,15 +8214,15 @@ export class ModelEntity extends BasePointEntity {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): ModelEntity;
     /**
      * 设置透明度
@@ -8242,16 +8240,16 @@ export class ModelEntity extends BasePointEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
-export namespace PathEntity {
+declare namespace PathEntity {
     /**
      * path路径 支持的样式信息
      * @property [width = 1.0] - 以像素为单位指定宽度的数字属性。
      * @property [color = "#FFFF00"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后fillType和color属性将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后fillType和color属性将被覆盖。
      * @property [leadTime] - 指定要在保留path对象前面显示的秒数。
      * @property [trailTime] - 指定要显示的对象后面的秒数。
      * @property [resolution = 60] - 指定在对位置进行采样时步进的最大秒数。
@@ -8264,13 +8262,13 @@ export namespace PathEntity {
      */
     type StyleOptions = {
         width?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         leadTime?: number;
         trailTime?: number;
         resolution?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         setHeight?: number | string;
@@ -8294,7 +8292,7 @@ export namespace PathEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -8306,20 +8304,20 @@ export namespace PathEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PathEntity extends BasePointEntity {
+declare class PathEntity extends BasePointEntity {
     constructor(options: {
-        position: Mars3dCesium.SampledPositionProperty;
-        orientation?: Mars3dCesium.Property;
+        position: Cesium.SampledPositionProperty;
+        orientation?: Cesium.Property;
         style: PathEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
         model?: ModelEntity.StyleOptions;
         point?: PointEntity.StyleOptions;
         billboard?: BillboardEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions;
@@ -8335,15 +8333,15 @@ export class PathEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PathGraphics;
+    readonly entityGraphic: Cesium.PathGraphics;
     /**
      * 获取当前时间的三维空间中的旋转。
      */
-    readonly orientationShow: Mars3dCesium.Quaternion;
+    readonly orientationShow: Cesium.Quaternion;
     /**
      * 获取当前时间的方向角
      */
-    readonly hpr: Mars3dCesium.HeadingPitchRoll;
+    readonly hpr: Cesium.HeadingPitchRoll;
     /**
      * 俯仰角，上下摇摆的角度，0-360度角度值
      */
@@ -8357,7 +8355,7 @@ export class PathEntity extends BasePointEntity {
      * @param [currentTime] - 指定的时间，默认为map当前时间
      * @returns 数组的顺序
      */
-    getIndex(currentTime?: Mars3dCesium.JulianDate): number;
+    getIndex(currentTime?: Cesium.JulianDate): number;
     /**
      * 定位至当前时间所在的位置 (非相机位置)
      * @param [options = {}] - 具有以下属性的对象:
@@ -8380,20 +8378,20 @@ export class PathEntity extends BasePointEntity {
         pitch?: number;
         roll?: number;
         duration?: number;
-        endTransform?: Mars3dCesium.Matrix4;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
-export namespace PlaneEntity {
+declare namespace PlaneEntity {
     /**
      * 平面 支持的样式信息
      * @property [dimensions] - 指定平面的宽度和高度。
@@ -8408,7 +8406,7 @@ export namespace PlaneEntity {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [randomColor = false] - 是否随机颜色
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
@@ -8420,17 +8418,17 @@ export namespace PlaneEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定平面是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定平面是投射还是接收来自光源的阴影。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        dimensions?: Mars3dCesium.Cartesian2;
+        dimensions?: Cesium.Cartesian2;
         dimensions_x?: number;
         dimensions_y?: number;
-        plane?: Mars3dCesium.Plane;
+        plane?: Cesium.Plane;
         plane_normal?: string;
         plane_distance?: number;
         heading?: number;
@@ -8439,19 +8437,19 @@ export namespace PlaneEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         randomColor?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: PlaneEntity.StyleOptions;
@@ -8470,7 +8468,7 @@ export namespace PlaneEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -8484,16 +8482,16 @@ export namespace PlaneEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PlaneEntity extends BasePointEntity {
+declare class PlaneEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: PlaneEntity.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        orientation?: Cesium.Property;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -8511,7 +8509,7 @@ export class PlaneEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PlaneGraphics;
+    readonly entityGraphic: Cesium.PlaneGraphics;
     /**
      * 编辑处理类
      */
@@ -8525,7 +8523,7 @@ export class PlaneEntity extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): PlaneEntity;
 }
 
-export namespace PointEntity {
+declare namespace PointEntity {
     /**
      * 像素点 支持的样式信息
      * @property [pixelSize = 10] - 像素大小
@@ -8547,7 +8545,7 @@ export namespace PointEntity {
      * @property [disableDepthTestDistance] - 指定从相机到禁用深度测试的距离。
      * @property [translucencyByDistance] - 用于基于与相机的距离设置半透明度。
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -8555,25 +8553,25 @@ export namespace PointEntity {
      */
     type StyleOptions = {
         pixelSize?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineWidth?: number;
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
+        translucencyByDistance?: Cesium.NearFarScalar;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: PointEntity.StyleOptions;
@@ -8591,10 +8589,10 @@ export namespace PointEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -8611,19 +8609,19 @@ export namespace PointEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PointEntity extends BasePointEntity {
+declare class PointEntity extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: PointEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -8643,7 +8641,7 @@ export class PointEntity extends BasePointEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PointGraphics;
+    readonly entityGraphic: Cesium.PointGraphics;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -8653,13 +8651,13 @@ export class PointEntity extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): PointEntity;
 }
 
-export namespace PolygonEntity {
+declare namespace PolygonEntity {
     /**
      * 面 支持的样式信息
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [randomColor = false] - 是否随机颜色
@@ -8674,19 +8672,19 @@ export namespace PolygonEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
-     * @property [extrudedHeightReference = Mars3dCesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [closeTop = true] - 当为false时，离开一个挤压多边形的顶部打开。
      * @property [closeBottom = true] - 当为false时，离开挤压多边形的底部打开。
-     * @property [arcType = Mars3dCesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
+     * @property [arcType = Cesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定多边形是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定多边形是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
      * @property [perPositionHeight = false] - 指定是否使用每个位置的高度。同clampToGround，与clampToGround反之
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序，指定用于排序地面几何的zIndex。只有当多边形是常数且没有指定高度或挤压高度时才有效果。
      * @property [buffer] - 对坐标进行缓冲扩大buffer指定的半径范围，单位：米。如用于单体化建筑物扩大点方便鼠标拾取。
      * @property [setHeight = 0] - 指定坐标高度值，或数组指定每个点的高度（常用于图层中配置）
@@ -8700,34 +8698,34 @@ export namespace PolygonEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
         stRotation?: number;
         stRotationDegree?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         height?: number;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
-        extrudedHeightReference?: Mars3dCesium.HeightReference;
+        extrudedHeightReference?: Cesium.HeightReference;
         granularity?: number;
         closeTop?: boolean;
         closeBottom?: boolean;
-        arcType?: Mars3dCesium.ArcType;
+        arcType?: Cesium.ArcType;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
         perPositionHeight?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         buffer?: number;
         setHeight?: number | number[];
@@ -8750,7 +8748,7 @@ export namespace PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -8768,15 +8766,15 @@ export namespace PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolygonEntity extends BasePolyEntity {
+declare class PolygonEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -8798,7 +8796,7 @@ export class PolygonEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PolygonGraphics;
+    readonly entityGraphic: Cesium.PolygonGraphics;
     /**
      * 编辑处理类
      */
@@ -8806,11 +8804,11 @@ export class PolygonEntity extends BasePolyEntity {
     /**
      * 对应的Cesium面entity内部位置对象
      */
-    readonly hierarchy: Mars3dCesium.PolygonHierarchy;
+    readonly hierarchy: Cesium.PolygonHierarchy;
     /**
-     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Mars3dCesium.PolygonHierarchy
+     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Cesium.PolygonHierarchy
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 将矢量数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
@@ -8834,30 +8832,30 @@ export class PolygonEntity extends BasePolyEntity {
      * @param entity - polygon面对象
      * @returns 最外层圈坐标数组
      */
-    static getPositions(entity: Mars3dCesium.Entity): Mars3dCesium.Cartesian3[];
+    static getPositions(entity: Cesium.Entity): Cesium.Cartesian3[];
     /**
      * 获取entity的多个坐标【只取多圈的坐标，如挖洞多边形】
      * @param entity - polygon面对象
      * @returns 多个 坐标数组
      */
-    static getAllPositions(entity: Mars3dCesium.Entity): any[][];
+    static getAllPositions(entity: Cesium.Entity): any[][];
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
-     * 按Mars3dCesium.CallbackProperty的方式 更新坐标集合（更加平滑）
+     * 按Cesium.CallbackProperty的方式 更新坐标集合（更加平滑）
      * @param positions - 坐标数组
      */
-    setCallbackPositions(positions: Mars3dCesium.Cartesian3[]): void;
+    setCallbackPositions(positions: Cesium.Cartesian3[]): void;
 }
 
-export namespace PolylineEntity {
+declare namespace PolylineEntity {
     /**
      * 线 支持的样式信息
      * @property [materialType = "Color"] - 线型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [width = 4] - 线宽
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
@@ -8873,50 +8871,52 @@ export namespace PolylineEntity {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [arcType = Mars3dCesium.ArcType.GEODESIC] - 折线段必须遵循的线的类型。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 如果arcType不是arcType.none，则指定每个纬度和经度之间的角距离的数字属性。
+     * @property [arcType = Cesium.ArcType.GEODESIC] - 折线段必须遵循的线的类型。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 如果arcType不是arcType.none，则指定每个纬度和经度之间的角距离的数字属性。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序,指定用于排序地面几何的zIndex。只有当' clampToGround '为真且支持地形上的折线时才会有效果。
      * @property [setHeight = 0] - 指定坐标高度值，或数组指定每个点的高度（常用于图层中配置）
      * @property [addHeight = 0] - 在现有坐标基础上增加的高度值，或数组指定每个点增加的高度（常用于图层中配置）
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示，额外支持：
+     * @property [label.text = "文字"] - 文本内容，换行可以用换行符'\n'。
      * @property [label.position] - 文字所在位置，默认是矢量对象本身的center属性值。支持配置 'center'：围合面的内部中心点坐标，'{xxxx}'配置属性字段, 或者直接指定坐标值。
      * @property [label.showAll] - MultiPolygon和MultiLineString时，是否显示所有注记，默认只在最大坐标数的面或线上显示。
      */
     type StyleOptions = {
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         width?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
-        depthFailMaterial?: Mars3dCesium.MaterialProperty | Mars3dCesium.Color;
+        depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color;
         closure?: boolean;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineWidth?: number;
         depthFail?: boolean;
         depthFailColor?: string;
         depthFailOpacity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
-        arcType?: Mars3dCesium.ArcType;
+        arcType?: Cesium.ArcType;
         granularity?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         setHeight?: number | number[];
         addHeight?: number | number[];
         highlight?: PolylineEntity.StyleOptions;
         label?: {
+            text?: string;
             position?: string | LngLatPoint;
             showAll?: boolean;
         };
@@ -8933,7 +8933,7 @@ export namespace PolylineEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -8951,15 +8951,15 @@ export namespace PolylineEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolylineEntity extends BasePolyEntity {
+declare class PolylineEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -8981,7 +8981,7 @@ export class PolylineEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PolylineGraphics;
+    readonly entityGraphic: Cesium.PolylineGraphics;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -8992,10 +8992,10 @@ export class PolylineEntity extends BasePolyEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
-export namespace PolylineVolumeEntity {
+declare namespace PolylineVolumeEntity {
     /**
      * 管道线 支持的样式信息
      * @property [radius = 10] - 半径
@@ -9003,18 +9003,18 @@ export namespace PolylineVolumeEntity {
      * @property [fill = true] - 是否填充
      * @property [color = "#FFFF00"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后fillType和color属性将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后fillType和color属性将被覆盖。
      * @property [outline = false] - 是否边线
      * @property [outlineWidth = 1.0] - 边线宽度
      * @property [outlineColor = "#ffffff"] - 边线颜色
      * @property [outlineOpacity = opacity] - 边框透明度
      * @property [cornerType = CornerType.ROUNDED] - 指定边角的样式。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否投射阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定管道是否投射或接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定管道是否投射或接收来自光源的阴影。
      * @property [setHeight = 0] - 指定坐标高度值，或数组指定每个点的高度（常用于图层中配置）
      * @property [addHeight = 0] - 在现有坐标基础上增加的高度值，或数组指定每个点增加的高度（常用于图层中配置）
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -9022,22 +9022,22 @@ export namespace PolylineVolumeEntity {
      */
     type StyleOptions = {
         radius?: number;
-        shape?: string | Mars3dCesium.Cartesian2[];
+        shape?: string | Cesium.Cartesian2[];
         fill?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        cornerType?: Mars3dCesium.CornerType;
+        cornerType?: Cesium.CornerType;
         granularity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         setHeight?: number | number[];
         addHeight?: number | number[];
         highlight?: PolylineVolumeEntity.StyleOptions;
@@ -9055,7 +9055,7 @@ export namespace PolylineVolumeEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -9073,15 +9073,15 @@ export namespace PolylineVolumeEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolylineVolumeEntity extends BasePolyEntity {
+declare class PolylineVolumeEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineVolumeEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -9103,7 +9103,7 @@ export class PolylineVolumeEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.PolygonGraphics;
+    readonly entityGraphic: Cesium.PolygonGraphics;
     /**
      * 编辑处理类
      */
@@ -9118,16 +9118,16 @@ export class PolylineVolumeEntity extends BasePolyEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
-export namespace RectangleEntity {
+declare namespace RectangleEntity {
     /**
      * 矩形 支持的样式信息
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否边框
@@ -9136,10 +9136,10 @@ export namespace RectangleEntity {
      * @property [outlineOpacity = 0.6] - 边框透明度
      * @property [outlineStyle] - 边框的完整自定义样式，会覆盖outlineWidth、outlineColor等参数。
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
-     * @property [extrudedHeightReference = Mars3dCesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
+     * @property [extrudedHeightReference = Cesium.HeightReference.NONE] - 指定挤压高度相对于什么的属性。
      * @property [rotation = 0] - 旋转角度（弧度值），正北为0，逆时针旋转
      * @property [rotationDegree = 0] - 旋转角度（度数值，0-360度），与rotation二选一
      * @property [stRotation = 0] - 矩形纹理的角度（弧度值），正北为0，逆时针旋转
@@ -9148,10 +9148,10 @@ export namespace RectangleEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定矩形是投射还是接收来自光源的阴影。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定矩形上各点之间的角距离。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定矩形是投射还是接收来自光源的阴影。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定矩形上各点之间的角距离。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [zIndex = 0] - 层级顺序，指定用于排序地面几何的zIndex。只有当矩形为常量且没有指定height或extrdedheight时才有效果。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
@@ -9162,31 +9162,31 @@ export namespace RectangleEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
         height?: number;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         diffHeight?: number;
         extrudedHeight?: number;
-        extrudedHeightReference?: Mars3dCesium.HeightReference;
+        extrudedHeightReference?: Cesium.HeightReference;
         rotation?: number;
         rotationDegree?: number;
         stRotation?: number;
         stRotationDegree?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         granularity?: number;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         zIndex?: number;
         setHeight?: number | string;
         addHeight?: number | string;
@@ -9206,7 +9206,7 @@ export namespace RectangleEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -9224,16 +9224,16 @@ export namespace RectangleEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class RectangleEntity extends BasePolyEntity {
+declare class RectangleEntity extends BasePolyEntity {
     constructor(options: {
-        positions?: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
-        rectangle?: Mars3dCesium.Rectangle | Mars3dCesium.PositionProperty;
+        positions?: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
+        rectangle?: Cesium.Rectangle | Cesium.PositionProperty;
         style: RectangleEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -9255,7 +9255,7 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.RectangleGraphics;
+    readonly entityGraphic: Cesium.RectangleGraphics;
     /**
      * 编辑处理类
      */
@@ -9263,7 +9263,7 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 矩形的边线坐标集合（笛卡尔坐标）
      */
-    outlinePositions: Mars3dCesium.Cartesian3[];
+    outlinePositions: Cesium.Cartesian3[];
     /**
      * 矩形的边线坐标集合（经纬度二维数组），示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7], …… ]
      */
@@ -9271,7 +9271,7 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 坐标数据对应的矩形边界对象
      */
-    rectangle: Mars3dCesium.Rectangle;
+    rectangle: Cesium.Rectangle;
     /**
      * 将矢量数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
@@ -9290,7 +9290,7 @@ export class RectangleEntity extends BasePolyEntity {
      * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
      * @returns 边线坐标数组
      */
-    getOutlinePositions(closure?: boolean): Mars3dCesium.Cartesian3[];
+    getOutlinePositions(closure?: boolean): Cesium.Cartesian3[];
     /**
      * 获取矩形的4个边线坐标集合（经纬度二维数组）
      * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
@@ -9302,17 +9302,17 @@ export class RectangleEntity extends BasePolyEntity {
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 判断点是否在矩形内
      * @param position - 需要判断的点
      * @returns 是否在矩形内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 通过标绘 来创建矢量对象
      * @param layer - 图层
@@ -9323,7 +9323,7 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 距离（单位：米）
      */
@@ -9335,11 +9335,11 @@ export class RectangleEntity extends BasePolyEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 位置坐标数组
      */
-    readonly points: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+    readonly points: LngLatPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 飞行定位至 数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -9371,19 +9371,19 @@ export class RectangleEntity extends BasePolyEntity {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseGraphic | any;
 }
 
-export namespace RectangularSensor {
+declare namespace RectangularSensor {
     /**
      * 相控阵雷达 支持的样式信息
      * @property radius - 半径
@@ -9393,14 +9393,14 @@ export namespace RectangularSensor {
      * @property [yHalfAngleDegree = 0] - 传感器垂直半角（度数值，0-360度），与yHalfAngle二选一
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 0.4] - 透明度
-     * @property [material = new Mars3dCesium.Color(0.0, 1.0, 1.0, 0.4)] - 指定用于填充的材质，指定material后color属性将被覆盖。
+     * @property [material = new Cesium.Color(0.0, 1.0, 1.0, 0.4)] - 指定用于填充的材质，指定material后color属性将被覆盖。
      * @property [lineColor = "#ffffff"] - 边线颜色
      * @property [lineOpacity = 0.6] - 边线透明度
      * @property [heading = 0] - 方向角 （度数值，0-360度）
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [showScanPlane = true] - 是否显示扫描面
-     * @property [scanPlaneColor = new Mars3dCesium.Color(0.0, 1.0, 1.0, 1.0)] - 扫描面颜色
+     * @property [scanPlaneColor = new Cesium.Color(0.0, 1.0, 1.0, 1.0)] - 扫描面颜色
      * @property [scanPlaneOpacity = 0.9] - 扫描面透明度
      * @property [scanPlaneMode = 'vertical'] - 扫描面方向模式,可选值：vertical（解释：垂直方向）、horizontal（解释：水平方向）
      * @property [scanPlaneRate = 3] - 扫描速率
@@ -9412,7 +9412,7 @@ export namespace RectangularSensor {
      * @property [domeSurfaceMaterial] - 圆顶表面材质
      * @property [showDomeLines = true] - 是否显示圆顶面线
      * @property [showIntersection = true] - 是否显示与地球相交的线
-     * @property [intersectionColor = Mars3dCesium.Color.WHITE] - 与地球相交的线的颜色
+     * @property [intersectionColor = Cesium.Color.WHITE] - 与地球相交的线的颜色
      * @property [intersectionWidth = 5.0] - 与地球相交的线的宽度（像素）
      * @property [slice = 32] - 切分程度
      * @property [depthTest = true] - 是否被遮挡
@@ -9423,29 +9423,29 @@ export namespace RectangularSensor {
         xHalfAngleDegree?: number;
         yHalfAngle?: number;
         yHalfAngleDegree?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        lineColor?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        lineColor?: string | Cesium.Color;
         lineOpacity?: number;
         heading?: number;
         pitch?: number;
         roll?: number;
         showScanPlane?: boolean;
-        scanPlaneColor?: string | Mars3dCesium.Color;
+        scanPlaneColor?: string | Cesium.Color;
         scanPlaneOpacity?: number;
         scanPlaneMode?: number;
         scanPlaneRate?: number;
         showSectorLines?: boolean;
         showSectorSegmentLines?: boolean;
         showLateralSurfaces?: boolean;
-        lateralSurfaceMaterial?: Mars3dCesium.MaterialProperty;
+        lateralSurfaceMaterial?: Cesium.MaterialProperty;
         showDomeSurfaces?: boolean;
-        domeSurfaceMaterial?: Mars3dCesium.MaterialProperty;
+        domeSurfaceMaterial?: Cesium.MaterialProperty;
         showDomeLines?: boolean;
         showIntersection?: boolean;
-        intersectionColor?: Mars3dCesium.Color;
-        intersectionWidth?: Mars3dCesium.Color;
+        intersectionColor?: Cesium.Color;
+        intersectionWidth?: Cesium.Color;
         slice?: number;
         depthTest?: boolean;
     };
@@ -9462,7 +9462,7 @@ export namespace RectangularSensor {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -9476,16 +9476,16 @@ export namespace RectangularSensor {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class RectangularSensor extends BasePointEntity {
+declare class RectangularSensor extends BasePointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: RectangularSensor.StyleOptions;
         attr?: any;
-        orientation?: Mars3dCesium.Property;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        orientation?: Cesium.Property;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -9517,7 +9517,7 @@ export class RectangularSensor extends BasePointEntity {
     static fromDraw(layer: GraphicLayer, options: any): RectangularSensor;
 }
 
-export namespace Video2D {
+declare namespace Video2D {
     /**
      * 视频融合（投射2D平面） 支持的样式信息
      * @property options.container - 视频对应的video标签
@@ -9528,7 +9528,7 @@ export namespace Video2D {
      * @property [pitch = 0] - 俯仰角（度数值，0-360度）
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      * @property [opacity = 1.0] - 透明度
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后。
      * @property [stRotation = 0] - 多边形纹理的角度（弧度值），正北为0，逆时针旋转
      * @property [stRotationDegree = 0] - 多边形纹理的角度（度数值，0-360度），与stRotation二选一
      * @property [outline = false] - 是否边框
@@ -9540,7 +9540,7 @@ export namespace Video2D {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定多边形是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定多边形是投射还是接收来自光源的阴影。
      * @property [showFrustum = false] - 是否显示视椎体框线
      */
     type StyleOptions = {
@@ -9551,19 +9551,19 @@ export namespace Video2D {
         pitch?: number;
         roll?: number;
         opacity?: number;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
         stRotation?: number;
         stRotationDegree?: number;
         outline?: boolean;
         outlineWidth?: number;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineStyle?: PolylineEntity.StyleOptions;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         showFrustum?: boolean;
     };
 }
@@ -9587,10 +9587,10 @@ export namespace Video2D {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Video2D extends PolygonEntity {
+declare class Video2D extends PolygonEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | number[];
         style: Video2D.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -9607,7 +9607,7 @@ export class Video2D extends PolygonEntity {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 位置坐标 （笛卡尔坐标）
      */
@@ -9619,7 +9619,7 @@ export class Video2D extends PolygonEntity {
     /**
      * 目标点位置(笛卡尔坐标)
      */
-    targetPosition: Mars3dCesium.Cartesian3;
+    targetPosition: Cesium.Cartesian3;
     /**
      * 四周方向角，0-360度角度值
      * <br/>提示：父类属性，非所有子类都具备
@@ -9684,7 +9684,7 @@ export class Video2D extends PolygonEntity {
     static fromDraw(layer: GraphicLayer, options: any): Video2D;
 }
 
-export namespace WallEntity {
+declare namespace WallEntity {
     /**
      * 墙 支持的样式信息
      * @property [diffHeight = 100] - 墙高
@@ -9693,7 +9693,7 @@ export namespace WallEntity {
      * @property [fill = true] - 是否填充
      * @property [materialType = "Color"] - 填充类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
-     * @property [material = Mars3dCesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
+     * @property [material = Cesium.Color.WHITE] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [closure = false] - 是否闭合, 在positions是属性机制的回调对象时无效
@@ -9705,8 +9705,8 @@ export namespace WallEntity {
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定墙壁是投射还是接收来自光源的阴影。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定墙壁是投射还是接收来自光源的阴影。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -9721,19 +9721,19 @@ export namespace WallEntity {
         fill?: boolean;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.MaterialProperty | BaseMaterialProperty | Mars3dCesium.Color;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.MaterialProperty | BaseMaterialProperty | Cesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         closure?: boolean;
         outline?: boolean;
         outlineWidth?: string;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         granularity?: number;
         setHeight?: number | string;
         addHeight?: number | string;
@@ -9755,7 +9755,7 @@ export namespace WallEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -9773,15 +9773,15 @@ export namespace WallEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class WallEntity extends BasePolyEntity {
+declare class WallEntity extends BasePolyEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: WallEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -9803,7 +9803,7 @@ export class WallEntity extends BasePolyEntity {
     /**
      * 矢量数据对应的 Cesium内部对象的具体类型对象
      */
-    readonly entityGraphic: Mars3dCesium.WallGraphics;
+    readonly entityGraphic: Cesium.WallGraphics;
     /**
      * 编辑处理类
      */
@@ -9818,7 +9818,7 @@ export class WallEntity extends BasePolyEntity {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
 /**
@@ -9831,7 +9831,7 @@ export class WallEntity extends BasePolyEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -9845,15 +9845,15 @@ export class WallEntity extends BasePolyEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AttackArrow extends PolygonEntity {
+declare class AttackArrow extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -9887,7 +9887,7 @@ export class AttackArrow extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -9901,15 +9901,15 @@ export class AttackArrow extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AttackArrowPW extends PolygonEntity {
+declare class AttackArrowPW extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -9943,7 +9943,7 @@ export class AttackArrowPW extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -9957,15 +9957,15 @@ export class AttackArrowPW extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AttackArrowYW extends PolygonEntity {
+declare class AttackArrowYW extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -9999,7 +9999,7 @@ export class AttackArrowYW extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10013,15 +10013,15 @@ export class AttackArrowYW extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CloseVurve extends PolygonEntity {
+declare class CloseVurve extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10055,7 +10055,7 @@ export class CloseVurve extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10069,15 +10069,15 @@ export class CloseVurve extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DoubleArrow extends PolygonEntity {
+declare class DoubleArrow extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10104,13 +10104,13 @@ export class DoubleArrow extends PolygonEntity {
 /**
  * Regular对象 标绘处理对应的编辑类
  */
-export class EditRegular extends EditPolygon {
+declare class EditRegular extends EditPolygon {
 }
 
 /**
  * Sector对象 标绘处理对应的编辑类
  */
-export class EditSector extends EditPolygon {
+declare class EditSector extends EditPolygon {
 }
 
 /**
@@ -10123,7 +10123,7 @@ export class EditSector extends EditPolygon {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10137,15 +10137,15 @@ export class EditSector extends EditPolygon {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FineArrow extends PolygonEntity {
+declare class FineArrow extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10179,7 +10179,7 @@ export class FineArrow extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10193,15 +10193,15 @@ export class FineArrow extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FineArrowYW extends PolygonEntity {
+declare class FineArrowYW extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10235,7 +10235,7 @@ export class FineArrowYW extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10249,15 +10249,15 @@ export class FineArrowYW extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class GatheringPlace extends PolygonEntity {
+declare class GatheringPlace extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10291,7 +10291,7 @@ export class GatheringPlace extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10305,15 +10305,15 @@ export class GatheringPlace extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class IsosTriangle extends PolygonEntity {
+declare class IsosTriangle extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10347,7 +10347,7 @@ export class IsosTriangle extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10361,15 +10361,15 @@ export class IsosTriangle extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Lune extends PolygonEntity {
+declare class Lune extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10406,7 +10406,7 @@ export class Lune extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10420,19 +10420,19 @@ export class Lune extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Regular extends PolygonEntity {
+declare class Regular extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: {
             border?: number;
             radius: number;
             startAngle?: number;
         };
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10459,9 +10459,9 @@ export class Regular extends PolygonEntity {
      */
     static fromDraw(layer: GraphicLayer, options: any): Regular;
     /**
-     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Mars3dCesium.PolygonHierarchy
+     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Cesium.PolygonHierarchy
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
 /**
@@ -10477,7 +10477,7 @@ export class Regular extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10491,19 +10491,19 @@ export class Regular extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Sector extends PolygonEntity {
+declare class Sector extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: {
             radius: number;
             startAngle: number;
             endAngle: number;
         };
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10530,9 +10530,9 @@ export class Sector extends PolygonEntity {
      */
     static fromDraw(layer: GraphicLayer, options: any): Sector;
     /**
-     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Mars3dCesium.PolygonHierarchy
+     * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象 或 Cesium.PolygonHierarchy
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
 }
 
 /**
@@ -10545,7 +10545,7 @@ export class Sector extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.hasMoveEdit = true] - 绘制时，是否可以整体平移
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -10559,15 +10559,15 @@ export class Sector extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class StraightArrow extends PolygonEntity {
+declare class StraightArrow extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         hasMoveEdit?: boolean;
         addHeight?: number;
@@ -10603,7 +10603,7 @@ export class StraightArrow extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10621,16 +10621,16 @@ export class StraightArrow extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AngleMeasure extends PolylineEntity {
+declare class AngleMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -10680,7 +10680,7 @@ export class AngleMeasure extends PolylineEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10698,16 +10698,16 @@ export class AngleMeasure extends PolylineEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AreaMeasure extends PolygonEntity {
+declare class AreaMeasure extends PolygonEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -10763,7 +10763,7 @@ export class AreaMeasure extends PolygonEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10781,16 +10781,16 @@ export class AreaMeasure extends PolygonEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class AreaSurfaceMeasure extends AreaMeasure {
+declare class AreaSurfaceMeasure extends AreaMeasure {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolygonEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -10830,7 +10830,7 @@ export class AreaSurfaceMeasure extends AreaMeasure {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10848,16 +10848,16 @@ export class AreaSurfaceMeasure extends AreaMeasure {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DistanceMeasure extends PolylineEntity {
+declare class DistanceMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -10907,7 +10907,7 @@ export class DistanceMeasure extends PolylineEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10925,16 +10925,16 @@ export class DistanceMeasure extends PolylineEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DistanceSurfaceMeasure extends DistanceMeasure {
+declare class DistanceSurfaceMeasure extends DistanceMeasure {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -10974,7 +10974,7 @@ export class DistanceSurfaceMeasure extends DistanceMeasure {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -10992,16 +10992,16 @@ export class DistanceSurfaceMeasure extends DistanceMeasure {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class HeightMeasure extends PolylineEntity {
+declare class HeightMeasure extends PolylineEntity {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -11051,7 +11051,7 @@ export class HeightMeasure extends PolylineEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -11069,16 +11069,16 @@ export class HeightMeasure extends PolylineEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class HeightTriangleMeasure extends HeightMeasure {
+declare class HeightTriangleMeasure extends HeightMeasure {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -11123,7 +11123,7 @@ export class HeightTriangleMeasure extends HeightMeasure {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.drawShow = true] - 绘制时，是否自动隐藏entity，可避免拾取坐标存在问题。
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
@@ -11137,15 +11137,15 @@ export class HeightTriangleMeasure extends HeightMeasure {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PointMeasure extends PointEntity {
+declare class PointMeasure extends PointEntity {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty | number[] | string;
+        position: LngLatPoint | Cesium.Cartesian3 | Cesium.PositionProperty | number[] | string;
         style: PointEntity.StyleOptions;
         attr?: any;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         drawShow?: boolean;
         addHeight?: number;
@@ -11181,7 +11181,7 @@ export class PointMeasure extends PointEntity {
  * @param [options.description] - 指定此实体的HTML描述的字符串属性（infoBox中展示）。
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
- * @param [options.onBeforeCreate] - 在 new Mars3dCesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
  * @param [options.minPointNum = 2] - 绘制时，至少需要点的个数
  * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
  * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
@@ -11199,16 +11199,16 @@ export class PointMeasure extends PointEntity {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class SectionMeasure extends DistanceMeasure {
+declare class SectionMeasure extends DistanceMeasure {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | Mars3dCesium.PositionProperty | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | Cesium.PositionProperty | any[];
         style: PolylineEntity.StyleOptions;
         attr?: any;
         label?: LabelEntity.StyleOptions;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
-        viewFrom?: Mars3dCesium.Property;
-        parent?: Mars3dCesium.Entity;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
+        viewFrom?: Cesium.Property;
+        parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
         minPointNum?: number;
         maxPointNum?: number;
@@ -11243,20 +11243,21 @@ export class SectionMeasure extends DistanceMeasure {
  * 1. 挖方量: 计算“基准面”到地表之间的凸出部分进行挖掉的体积。<br />
  * 2. 填方量：计算“基准面”与“墙底部”之间的缺少部分进行填平的体积。
  * @param options - 参数对象，包括以下：
- * @param options.style - 样式信息
+ * @param options.style - 基准面样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.polygonWallStyle] - 围墙面的样式
  * @param [options.label] - 测量结果文本的样式
  * @param [options.heightLabel = true] - 是否显示各边界点高度值文本
  * @param [options.offsetLabel = false] - 是否显示各边界点高度差文本
  * @param [options.labelHeight] - 各边界点高度结果文本的样式
+ * @param [options.showArea = true] - 是否显示横切面积
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class VolumeMeasure extends AreaMeasure {
+declare class VolumeMeasure extends AreaMeasure {
     constructor(options: {
         style: PolygonEntity.StyleOptions;
         attr?: any;
@@ -11265,6 +11266,7 @@ export class VolumeMeasure extends AreaMeasure {
         heightLabel?: boolean;
         offsetLabel?: boolean;
         labelHeight?: LabelEntity.StyleOptions;
+        showArea?: boolean;
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -11333,8 +11335,8 @@ export class VolumeMeasure extends AreaMeasure {
  * @param [options.debugShowBoundingVolume = false] - 仅供调试。确定该图元命令的边界球是否显示。
  * @param [options.debugShowShadowVolume = false] - 仅供调试。贴地时，确定是否绘制了图元中每个几何图形的阴影体积。必须是true创建卷之前要释放几何图形或选项。releaseGeometryInstance必须是false。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -11349,16 +11351,16 @@ export class VolumeMeasure extends AreaMeasure {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BasePointPrimitive extends BasePrimitive {
+declare class BasePointPrimitive extends BasePrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: any;
         attr?: any;
         frameRate?: number;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -11369,8 +11371,8 @@ export class BasePointPrimitive extends BasePrimitive {
         debugShowBoundingVolume?: boolean;
         debugShowShadowVolume?: boolean;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -11388,15 +11390,15 @@ export class BasePointPrimitive extends BasePrimitive {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 同 positions只是为了兼容entity的同名属性
      */
-    readonly positionsShow: Mars3dCesium.Cartesian3[];
+    readonly positionsShow: Cesium.Cartesian3[];
     /**
      * 同 position只是为了兼容entity的同名属性
      */
-    readonly positionShow: Mars3dCesium.Cartesian3;
+    readonly positionShow: Cesium.Cartesian3;
     /**
      * 位置坐标
      */
@@ -11408,7 +11410,7 @@ export class BasePointPrimitive extends BasePrimitive {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 中心点坐标
      */
@@ -11421,7 +11423,7 @@ export class BasePointPrimitive extends BasePrimitive {
      * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
      * <br/>提示：父类属性，非所有子类都具备
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
     /**
      * 四周方向角，0-360度角度值
      * <br/>提示：父类属性，非所有子类都具备
@@ -11444,10 +11446,10 @@ export class BasePointPrimitive extends BasePrimitive {
     /**
      * 设置并添加动画轨迹位置，按“指定时间”运动到达“指定位置”。
      * @param point - 指定位置坐标
-     * @param [currTime = Mars3dCesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
+     * @param [currTime = Cesium.JulianDate.now()] - 指定时间, 默认为当前时间5秒后。当为String时，可以传入'2021-01-01 12:13:00'; 当为number时，可以传入当前时间延迟的秒数。
      * @returns 当前对象本身，可以链式调用
      */
-    addDynamicPosition(point: LngLatPoint | Mars3dCesium.Cartesian3 | number[], currTime?: Mars3dCesium.JulianDate | Date | string | number): BasePointPrimitive;
+    addDynamicPosition(point: LngLatPoint | Cesium.Cartesian3 | number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointPrimitive;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -11498,14 +11500,14 @@ export class BasePointPrimitive extends BasePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BasePolyPrimitive extends BasePrimitive {
+declare class BasePolyPrimitive extends BasePrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -11529,15 +11531,15 @@ export class BasePolyPrimitive extends BasePrimitive {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 围合面的内部中心点坐标
      */
-    readonly centerOfMass: Mars3dCesium.Cartesian3;
+    readonly centerOfMass: Cesium.Cartesian3;
     /**
      * 边线的中心点坐标
      */
-    readonly centerOfLine: Mars3dCesium.Cartesian3;
+    readonly centerOfLine: Cesium.Cartesian3;
     /**
      * 距离（单位：米）
      */
@@ -11549,15 +11551,15 @@ export class BasePolyPrimitive extends BasePrimitive {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 同 positions 只是为了兼容entity的同名属性
      */
-    readonly positionsShow: Mars3dCesium.Cartesian3[];
+    readonly positionsShow: Cesium.Cartesian3[];
     /**
      * 位置坐标数组
      */
-    readonly points: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+    readonly points: LngLatPoint[] | Cesium.Cartesian3[] | any[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -11565,7 +11567,7 @@ export class BasePolyPrimitive extends BasePrimitive {
     /**
      * 坐标数据对应的矩形边界
      */
-    readonly rectangle: Mars3dCesium.Rectangle;
+    readonly rectangle: Cesium.Rectangle;
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      * @param noAlt - true时不导出高度值
@@ -11577,7 +11579,7 @@ export class BasePolyPrimitive extends BasePrimitive {
      * @param position - 需要判断的点
      * @returns 是否在多边形内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 异步计算更新坐标进行贴地(或贴模型)
      * @param [options = {}] - 参数对象:
@@ -11595,7 +11597,7 @@ export class BasePolyPrimitive extends BasePrimitive {
     }): BasePolyPrimitive;
 }
 
-export namespace BasePrimitive {
+declare namespace BasePrimitive {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -11672,15 +11674,15 @@ export namespace BasePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BasePrimitive extends BaseGraphic {
+declare class BasePrimitive extends BaseGraphic {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: any;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -11704,17 +11706,17 @@ export class BasePrimitive extends BaseGraphic {
     /**
      * 当加载primitive数据的内部Cesium容器
      */
-    primitiveCollection: Mars3dCesium.PrimitiveCollection | Mars3dCesium.LabelCollection | Mars3dCesium.BillboardCollection | Mars3dCesium.PointPrimitiveCollection | Mars3dCesium.CloudCollection;
+    primitiveCollection: Cesium.PrimitiveCollection | Cesium.LabelCollection | Cesium.BillboardCollection | Cesium.PointPrimitiveCollection | Cesium.CloudCollection;
     /**
      * 矢量数据对应的 Cesium内部对象
      */
-    readonly primitive: Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly primitive: Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
     /**
-     * 返回实例可修改的属性。{@link Mars3dCesium.GeometryInstance}
+     * 返回实例可修改的属性。{@link Cesium.GeometryInstance}
      * @example
      * let attributes = primitiveGraphic.geometryInstanceAttributes;
-     * attributes.color = Mars3dCesium.ColorGeometryInstanceAttribute.toValue(Mars3dCesium.Color.AQUA);
-     * attributes.show = Mars3dCesium.ShowGeometryInstanceAttribute.toValue(true);
+     * attributes.color = Cesium.ColorGeometryInstanceAttribute.toValue(Cesium.Color.AQUA);
+     * attributes.show = Cesium.ShowGeometryInstanceAttribute.toValue(true);
      */
     readonly geometryInstanceAttributes: any;
     /**
@@ -11731,7 +11733,7 @@ export class BasePrimitive extends BaseGraphic {
     /**
      * 附加的label文本对象
      */
-    readonly label: Mars3dCesium.Label;
+    readonly label: Cesium.Label;
     /**
      * 重新渲染
      * @param [style] - 新的样式信息
@@ -11753,7 +11755,7 @@ export class BasePrimitive extends BaseGraphic {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 /**
@@ -11773,9 +11775,9 @@ export class BasePrimitive extends BaseGraphic {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BillboardPrimitive extends BasePointPrimitive {
+declare class BillboardPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: BillboardEntity.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -11792,14 +11794,14 @@ export class BillboardPrimitive extends BasePointPrimitive {
     /**
      * 当加载primitive数据的内部Cesium容器
      */
-    readonly primitiveCollection: Mars3dCesium.BillboardCollection;
+    readonly primitiveCollection: Cesium.BillboardCollection;
     /**
      * 图像、URI或Canvas
      */
     image: string | HTMLCanvasElement;
 }
 
-export namespace BoxPrimitive {
+declare namespace BoxPrimitive {
     /**
      * 盒子 支持的样式信息
      * @property [dimensions] - 指定盒子的长度、宽度和高度。
@@ -11822,8 +11824,8 @@ export namespace BoxPrimitive {
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -11833,7 +11835,7 @@ export namespace BoxPrimitive {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        dimensions?: Mars3dCesium.Cartesian3;
+        dimensions?: Cesium.Cartesian3;
         dimensions_x?: number;
         dimensions_y?: number;
         dimensions_z?: number;
@@ -11842,13 +11844,13 @@ export namespace BoxPrimitive {
         roll?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -11893,15 +11895,15 @@ export namespace BoxPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class BoxPrimitive extends BasePointPrimitive {
+declare class BoxPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: BoxPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -11924,7 +11926,7 @@ export class BoxPrimitive extends BasePointPrimitive {
     });
 }
 
-export namespace CirclePrimitive {
+declare namespace CirclePrimitive {
     /**
      * 圆 支持的样式信息
      * @property [radius = 100] - 半径
@@ -11933,7 +11935,7 @@ export namespace CirclePrimitive {
      * @property [extrudedHeight] - 指定圆的挤压面相对于椭球面的高度。
      * @property [stRotation = 0] - 椭圆纹理的角度（弧度值），正北为0，逆时针旋转
      * @property [stRotationDegree = 0] - 椭圆纹理的角度（度数值，0-360度），与stRotation二选一
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定椭圆上各点之间的角距离。
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
      * @property [material的多个参数] - materialType对应的多个参数，根据具体{@link MaterialType}来确定
      * @property [material] - 指定用于填充的材质，指定material后`materialType`和`material材质参数`将被覆盖。
@@ -11942,16 +11944,16 @@ export namespace CirclePrimitive {
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
-     * @property [materialSupport = Mars3dCesium.MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
+     * @property [materialSupport = Cesium.MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [classification = false] - 是否为ClassificationPrimitive ，分类基元 表示Scene要高亮显示的包围几何的体积
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -11970,15 +11972,15 @@ export namespace CirclePrimitive {
         granularity?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         classification?: boolean;
         flat?: boolean;
         faceForward?: boolean;
@@ -12024,15 +12026,15 @@ export namespace CirclePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CirclePrimitive extends BasePointPrimitive {
+declare class CirclePrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: CirclePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -12060,7 +12062,7 @@ export class CirclePrimitive extends BasePointPrimitive {
     /**
      * 圆的边线坐标集合（笛卡尔坐标）
      */
-    readonly outlinePositions: Mars3dCesium.Cartesian3[];
+    readonly outlinePositions: Cesium.Cartesian3[];
     /**
      * 获取圆的边线坐标集合（经纬度二维数组）
      * @param [closure = true] - 是否闭合，true时会添加第0个点进行闭合。
@@ -12075,22 +12077,22 @@ export class CirclePrimitive extends BasePointPrimitive {
      * @param [count] - 象限内点的数量，返回的总数为 count*4
      * @returns 边线坐标数组
      */
-    getOutlinePositions(closure?: boolean, count?: number): Mars3dCesium.Cartesian3[];
+    getOutlinePositions(closure?: boolean, count?: number): Cesium.Cartesian3[];
     /**
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 判断点是否在圆内
      * @param position - 需要判断的点
      * @returns 是否在圆内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 飞行定位至 数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -12122,19 +12124,19 @@ export class CirclePrimitive extends BasePointPrimitive {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseGraphic | any;
 }
 
-export namespace CloudPrimitive {
+declare namespace CloudPrimitive {
     /**
      * 积云 Primitive矢量数据 支持的样式信息
      * @property scale - 积云的比例（以米为单位）。该scale属性会影响广告牌的大小，但不会影响云的实际外观。
@@ -12143,8 +12145,8 @@ export namespace CloudPrimitive {
      * @property [brightness = 1.0] - 亮度
      */
     type StyleOptions = {
-        scale: Mars3dCesium.Cartesian2;
-        maximumSize: Mars3dCesium.Cartesian3;
+        scale: Cesium.Cartesian2;
+        maximumSize: Cesium.Cartesian3;
         slice: number;
         brightness?: number;
     };
@@ -12170,9 +12172,9 @@ export namespace CloudPrimitive {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.stopPropagation = false] - 当前类中事件是否停止冒泡, false时：事件冒泡到layer中。
  */
-export class CloudPrimitive extends BasePointPrimitive {
+declare class CloudPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: CloudPrimitive.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -12188,7 +12190,7 @@ export class CloudPrimitive extends BasePointPrimitive {
     /**
      * 当加载primitive数据的内部Cesium容器
      */
-    readonly primitiveCollection: Mars3dCesium.CloudCollection;
+    readonly primitiveCollection: Cesium.CloudCollection;
     /**
      * 积云的最大大小。这定义了云可以出现在的最大椭球体体积。这不是保证一个特定的大小，而是指定了云出现的边界，改变它可能会影响云的形状。
      * 改变maximumSize的z值对云的外观有最显著的影响，因为它改变了云的深度，从而改变了云形状纹理采样的位置。
@@ -12197,7 +12199,7 @@ export class CloudPrimitive extends BasePointPrimitive {
      * <table border='0' cellpadding='5'>
      * <tr>
      *   <td align='center'>
-     *     <code>cloud.maximumSize = new Mars3dCesium.Cartesian3(14, 9, 10);</code><br/>
+     *     <code>cloud.maximumSize = new Cesium.Cartesian3(14, 9, 10);</code><br/>
      *     <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.maximumSizex14y9z10.png' width='250' height='158' />
      *   </td>
      *   <td align='center'>
@@ -12220,18 +12222,18 @@ export class CloudPrimitive extends BasePointPrimitive {
      *
      * <p>To modify the billboard's actual size, modify the cloud's <code>scale</code> property.</p>
      */
-    maximumSize: Mars3dCesium.Cartesian3;
+    maximumSize: Cesium.Cartesian3;
     /**
      * 积云广告牌的规模(以米为单位)。缩放属性会影响广告牌的大小，但不会影响云的实际外观。
      *
      * <div align='center'>
      * <table border='0' cellpadding='5'><tr>
      * <td align='center'>
-     *   <code>cloud.scale = new Mars3dCesium.Cartesian2(12, 8);</code><br/>
+     *   <code>cloud.scale = new Cesium.Cartesian2(12, 8);</code><br/>
      *   <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.scalex12y8.png' width='250' height='158' />
      * </td>
      * <td align='center'>
-     *   <code>cloud.scale = new Mars3dCesium.Cartesian2(24, 10);</code><br/>
+     *   <code>cloud.scale = new Cesium.Cartesian2(24, 10);</code><br/>
      *   <img src='//mars3d.cn/api/cesium/Images/CumulusCloud.scalex24y10.png' width='250' height='158' />
      * </td>
      * </tr></table>
@@ -12240,7 +12242,7 @@ export class CloudPrimitive extends BasePointPrimitive {
      * <p>To modify the cloud's appearance, modify its <code>maximumSize</code>
      * and <code>slice</code> properties.</p>
      */
-    scale: Mars3dCesium.Cartesian2;
+    scale: Cesium.Cartesian2;
     /**
      * 在广告牌上渲染的云的“切片”，即为广告牌的外观选择的云的特定横截面。给定一个介于0和1之间的值，切片根据它在z方向上的最大大小指定与云相交的深度。
      * <div align='center'>
@@ -12289,7 +12291,7 @@ export class CloudPrimitive extends BasePointPrimitive {
     brightness: number;
 }
 
-export namespace ConeTrackPrimitive {
+declare namespace ConeTrackPrimitive {
     /**
      * 圆锥追踪体 Primitive图元矢量对象 支持的样式信息
      * @property [angle] - 圆锥追踪体张角（角度值，取值范围 0.01-89.99）
@@ -12311,8 +12313,8 @@ export namespace ConeTrackPrimitive {
      * @property [materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -12328,15 +12330,15 @@ export namespace ConeTrackPrimitive {
         pitch?: number;
         roll?: number;
         fill?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
+        material?: Cesium.Material;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -12379,15 +12381,15 @@ export namespace ConeTrackPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ConeTrackPrimitive extends CylinderPrimitive {
+declare class ConeTrackPrimitive extends CylinderPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | number[];
         style: ConeTrackPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -12411,7 +12413,7 @@ export class ConeTrackPrimitive extends CylinderPrimitive {
     /**
      * 追踪的目标位置(确定了方向和距离)
      */
-    targetPosition: Mars3dCesium.Cartesian3;
+    targetPosition: Cesium.Cartesian3;
     /**
      * 追踪的目标位置
      */
@@ -12422,7 +12424,7 @@ export class ConeTrackPrimitive extends CylinderPrimitive {
     angle: number;
 }
 
-export namespace CorridorPrimitive {
+declare namespace CorridorPrimitive {
     /**
      * 走廊  Primitive图元 支持的样式信息
      * @property [width = 100] - 走廊宽度，指定走廊边缘之间的距离。
@@ -12439,17 +12441,17 @@ export namespace CorridorPrimitive {
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [classification = false] - 是否为ClassificationPrimitive ，分类基元 表示Scene要高亮显示的包围几何的体积
      *
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -12459,22 +12461,22 @@ export namespace CorridorPrimitive {
      */
     type StyleOptions = {
         width?: number;
-        cornerType?: string | Mars3dCesium.CornerType;
+        cornerType?: string | Cesium.CornerType;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         height?: number;
         diffHeight?: number;
         extrudedHeight?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         classification?: boolean;
         flat?: boolean;
         faceForward?: boolean;
@@ -12518,14 +12520,14 @@ export namespace CorridorPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CorridorPrimitive extends BasePolyPrimitive {
+declare class CorridorPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: CorridorPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -12548,7 +12550,7 @@ export class CorridorPrimitive extends BasePolyPrimitive {
     });
 }
 
-export namespace CylinderPrimitive {
+declare namespace CylinderPrimitive {
     /**
      * 圆锥 支持的样式信息
      * @property [topRadius = 0] - 顶部半径，指定圆柱体顶部的半径，当为0时即为圆锥。
@@ -12569,8 +12571,8 @@ export namespace CylinderPrimitive {
      * @property [materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -12585,15 +12587,15 @@ export namespace CylinderPrimitive {
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
+        material?: Cesium.Material;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -12636,15 +12638,15 @@ export namespace CylinderPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class CylinderPrimitive extends BasePointPrimitive {
+declare class CylinderPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: CylinderPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -12667,21 +12669,21 @@ export class CylinderPrimitive extends BasePointPrimitive {
     });
 }
 
-export namespace DiffuseWall {
+declare namespace DiffuseWall {
     /**
      * 立体面(或圆)散射效果  支持的样式信息
      * @property [diffHeight = 100] - 墙高
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [speed = 10] - 扩散的速度，值越大越快
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      */
     type StyleOptions = {
         diffHeight?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         speed?: number;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
     };
 }
 
@@ -12703,10 +12705,10 @@ export namespace DiffuseWall {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DiffuseWall extends BasePolyPrimitive {
+declare class DiffuseWall extends BasePolyPrimitive {
     constructor(options: {
-        positions?: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
-        position?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        positions?: LngLatPoint[] | Cesium.Cartesian3[] | any[];
+        position?: LngLatPoint | Cesium.Cartesian3 | number[];
         style?: DiffuseWall.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -12723,18 +12725,18 @@ export class DiffuseWall extends BasePolyPrimitive {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
-export namespace DynamicRiver {
+declare namespace DynamicRiver {
     /**
      * 动态河流 支持的样式信息
      * @property image - 图片材质URL
@@ -12770,9 +12772,9 @@ export namespace DynamicRiver {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DynamicRiver extends BasePolyPrimitive {
+declare class DynamicRiver extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: DynamicRiver.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -12823,10 +12825,10 @@ export class DynamicRiver extends BasePolyPrimitive {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
-export namespace EllipsoidPrimitive {
+declare namespace EllipsoidPrimitive {
     /**
      * 球体 支持的样式信息
      * @property [radii] - 指定椭球半径。
@@ -12860,8 +12862,8 @@ export namespace EllipsoidPrimitive {
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -12869,11 +12871,11 @@ export namespace EllipsoidPrimitive {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        radii?: Mars3dCesium.Cartesian3;
+        radii?: Cesium.Cartesian3;
         radii_x?: number;
         radii_y?: number;
         radii_z?: number;
-        innerRadii?: Mars3dCesium.Cartesian3;
+        innerRadii?: Cesium.Cartesian3;
         innerRadii_x?: number;
         innerRadii_y?: number;
         innerRadii_z?: number;
@@ -12887,14 +12889,14 @@ export namespace EllipsoidPrimitive {
         maximumConeDegree?: number;
         stackPartitions?: number;
         slicePartitions?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        material?: Cesium.Material;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         flat?: boolean;
         faceForward?: boolean;
@@ -12938,15 +12940,15 @@ export namespace EllipsoidPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class EllipsoidPrimitive extends BasePointPrimitive {
+declare class EllipsoidPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: EllipsoidPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -12969,7 +12971,7 @@ export class EllipsoidPrimitive extends BasePointPrimitive {
     });
 }
 
-export namespace FrustumPrimitive {
+declare namespace FrustumPrimitive {
     /**
      * 四棱锥体 支持的样式信息
      * @property [angle] - 四棱锥体张角（角度值，取值范围 0.01-89.99）
@@ -12989,8 +12991,8 @@ export namespace FrustumPrimitive {
      * @property [materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -13006,13 +13008,13 @@ export namespace FrustumPrimitive {
         roll?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -13055,15 +13057,15 @@ export namespace FrustumPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class FrustumPrimitive extends BasePointPrimitive {
+declare class FrustumPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        targetPosition?: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        targetPosition?: LngLatPoint | Cesium.Cartesian3 | number[];
         style: FrustumPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -13087,7 +13089,7 @@ export class FrustumPrimitive extends BasePointPrimitive {
     /**
      * 圆锥追踪的目标(确定了方向和距离)
      */
-    targetPosition: Mars3dCesium.Cartesian3;
+    targetPosition: Cesium.Cartesian3;
     /**
      * 圆锥追踪的目标位置坐标
      */
@@ -13103,13 +13105,13 @@ export class FrustumPrimitive extends BasePointPrimitive {
     /**
      * 求当前位置射线与地球相交点
      */
-    readonly groundPosition: Mars3dCesium.Cartesian3;
+    readonly groundPosition: Cesium.Cartesian3;
     /**
      * 获取射线向地面与地球的4个交点坐标
-     * @param [time = Mars3dCesium.JulianDate.now()] - 指定的时间值
+     * @param [time = Cesium.JulianDate.now()] - 指定的时间值
      * @returns 坐标数组
      */
-    getRayEarthPositions(time?: Mars3dCesium.JulianDate): Mars3dCesium.Cartesian3[];
+    getRayEarthPositions(time?: Cesium.JulianDate): Cesium.Cartesian3[];
     /**
      * 四周方向角，0-360度角度值
      * <br/>提示：父类属性，非所有子类都具备
@@ -13127,7 +13129,7 @@ export class FrustumPrimitive extends BasePointPrimitive {
     roll: number;
 }
 
-export namespace LabelPrimitive {
+declare namespace LabelPrimitive {
     /**
      * 文字 支持的样式信息（与LabelEntity相同）
      * @property [所有] - 与LabelEntity相同
@@ -13154,9 +13156,9 @@ export namespace LabelPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class LabelPrimitive extends BasePointPrimitive {
+declare class LabelPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: LabelPrimitive.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -13173,14 +13175,14 @@ export class LabelPrimitive extends BasePointPrimitive {
     /**
      * 当加载primitive数据的内部Cesium容器
      */
-    readonly primitiveCollection: Mars3dCesium.LabelCollection;
+    readonly primitiveCollection: Cesium.LabelCollection;
     /**
      * 文本内容
      */
     readonly text: string;
 }
 
-export namespace LightCone {
+declare namespace LightCone {
     /**
      * 光锥体 支持的样式信息
      * @property [color = '#00ffff'] - 颜色
@@ -13188,7 +13190,7 @@ export namespace LightCone {
      * @property [height = 1000] - 锥体高度，相对于椭球面的高度。(单位：米)
      */
     type StyleOptions = {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         radius?: number;
         height?: number;
     };
@@ -13211,9 +13213,9 @@ export namespace LightCone {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class LightCone extends BasePointPrimitive {
+declare class LightCone extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: LightCone.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -13230,14 +13232,14 @@ export class LightCone extends BasePointPrimitive {
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
-export namespace ModelPrimitive {
+declare namespace ModelPrimitive {
     /**
      * gltf小模型 支持的样式信息
      * @property [url] - glTF模型的URI的字符串或资源属性。
@@ -13268,7 +13270,7 @@ export namespace ModelPrimitive {
      * @property [hasShadows = true] - 是否阴影
      * @property [shadows = ShadowMode.ENABLED] - 指定模型是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [heightReference = Mars3dCesium.HeightReference.NONE] - 指定高度相对于什么的属性。
+     * @property [heightReference = Cesium.HeightReference.NONE] - 指定高度相对于什么的属性。
      * @property [incrementallyLoadTextures = true] - 确定模型加载后纹理是否会继续流进来。
      * @property [runAnimations = true] - 指定模型中指定的glTF动画是否应该启动。
      * @property [clampAnimations = true] - 指定在没有关键帧的情况下，glTF动画是否应该保持最后一个姿势。
@@ -13277,7 +13279,7 @@ export namespace ModelPrimitive {
      * @property [nodeTransformations] - 一个对象，其中键是节点的名称，值是{@link TranslationRotationScale}属性，描述要应用到该节点的转换。该转换是在节点的现有转换之后(如glTF中指定的那样)应用的，并且不会替换节点的现有转换。
      * @property [articulations] - An object, where keys are composed of an articulation name, a single space, and a stage name, and the values are numeric properties.
      * @property [clippingPlanes] - 用于裁剪模型的Plane平面集合
-     * @property [allowPicking = true] - 当true时，每个glTF和Primitive都可以用{@link Mars3dCesium.Scene#pick}来拾取。
+     * @property [allowPicking = true] - 当true时，每个glTF和Primitive都可以用{@link Cesium.Scene#pick}来拾取。
      * @property [asynchronous = true] - 确定模型WebGL资源创建是否将分散在几个帧或块上，直到所有glTF文件加载完成。
      * @property [dequantizeInShader = true] - 确定一个{@link https://github.com/google/draco|Draco}编码的模型是否在GPU上被去量化。这减少了编码模型的总内存使用量。
      * @property [backFaceCulling = true] - 是否剔除面向背面的几何图形。当为真时，背面剔除是由材料的双面属性决定的;当为false时，禁用背面剔除。如果{@link Model#color}是半透明的，或者{@link Model#silhouette}大于0.0，则背面不会被剔除。
@@ -13291,17 +13293,17 @@ export namespace ModelPrimitive {
      * @property [removeOnStop = false] - 当true时，动画在停止播放后被删除。
      * @property [multiplier = 1.0] - 大于1.0的值增加动画播放的速度相对于场景时钟的速度;小于1.0会降低速度。
      * @property [reverse = false] - 当true时，动画会反向播放。
-     * @property [loop = Mars3dCesium.ModelAnimationLoop.REPEAT] - 决定动画是否循环以及如何循环。
+     * @property [loop = Cesium.ModelAnimationLoop.REPEAT] - 决定动画是否循环以及如何循环。
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 支持附带文字的显示
      * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
-     * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.NONE] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
-     * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.NONE] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+     * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.NONE] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+     * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.NONE] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
      */
     type StyleOptions = {
-        url?: string | Mars3dCesium.Resource;
+        url?: string | Cesium.Resource;
         scale?: number;
         scaleX?: number;
         scaleY?: number;
@@ -13312,49 +13314,49 @@ export namespace ModelPrimitive {
         minimumPixelSize?: number;
         maximumScale?: number;
         fill?: boolean;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
-        colorBlendMode?: Mars3dCesium.ColorBlendMode;
+        colorBlendMode?: Cesium.ColorBlendMode;
         colorBlendAmount?: number;
         silhouette?: boolean;
-        silhouetteColor?: string | Mars3dCesium.Color;
+        silhouetteColor?: string | Cesium.Color;
         silhouetteSize?: number;
         silhouetteAlpha?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_near?: number;
         distanceDisplayCondition_far?: number;
         distanceDisplayPoint?: PointEntity.StyleOptions;
         distanceDisplayBillboard?: BillboardEntity.StyleOptions;
-        customShader?: Mars3dCesium.CustomShader;
+        customShader?: Cesium.CustomShader;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        heightReference?: Mars3dCesium.HeightReference;
+        heightReference?: Cesium.HeightReference;
         incrementallyLoadTextures?: boolean;
         runAnimations?: boolean;
         clampAnimations?: boolean;
-        imageBasedLightingFactor?: Mars3dCesium.Cartesian2;
-        lightColor?: Mars3dCesium.Color;
-        nodeTransformations?: Mars3dCesium.PropertyBag | {
-            [key: string]: Mars3dCesium.TranslationRotationScale;
+        imageBasedLightingFactor?: Cesium.Cartesian2;
+        lightColor?: Cesium.Color;
+        nodeTransformations?: Cesium.PropertyBag | {
+            [key: string]: Cesium.TranslationRotationScale;
         };
-        articulations?: Mars3dCesium.PropertyBag | {
+        articulations?: Cesium.PropertyBag | {
             [key: string]: number;
         };
-        clippingPlanes?: Mars3dCesium.ClippingPlaneCollection;
+        clippingPlanes?: Cesium.ClippingPlaneCollection;
         allowPicking?: boolean;
         asynchronous?: boolean;
         dequantizeInShader?: boolean;
         backFaceCulling?: boolean;
         debugShowBoundingVolume?: boolean;
         debugWireframe?: boolean;
-        startTime?: Mars3dCesium.JulianDate;
+        startTime?: Cesium.JulianDate;
         delay?: number;
-        stopTime?: Mars3dCesium.JulianDate;
+        stopTime?: Cesium.JulianDate;
         removeOnStop?: boolean;
         multiplier?: number;
         reverse?: boolean;
-        loop?: Mars3dCesium.ModelAnimationLoop;
+        loop?: Cesium.ModelAnimationLoop;
         setHeight?: number | string;
         addHeight?: number | string;
         highlight?: ModelPrimitive.StyleOptions;
@@ -13418,8 +13420,8 @@ export namespace ModelPrimitive {
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
  * @param [options.attributes] - [cesium原生]每个实例的属性。
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.clampToTileset] - 当使用addDynamicPosition设置为动画轨迹位置时，是否进行贴模型。
  * @param [options.frameRateHeight = 30] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，多少帧计算一次贴模型高度
  * @param [options.objectsToExclude] - 当使用addDynamicPosition设置为动画轨迹位置时，并clampToTileset：true时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -13434,17 +13436,17 @@ export namespace ModelPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ModelPrimitive extends BasePointPrimitive {
+declare class ModelPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: ModelPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -13478,10 +13480,10 @@ export class ModelPrimitive extends BasePointPrimitive {
     /**
      * 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
 }
 
-export namespace Pit {
+declare namespace Pit {
     /**
      * 井  支持的样式信息，
      * @property image - 井墙面贴图URL
@@ -13529,14 +13531,14 @@ export namespace Pit {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Pit extends BasePolyPrimitive {
+declare class Pit extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: Pit.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -13564,10 +13566,10 @@ export class Pit extends BasePolyPrimitive {
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
 }
 
-export namespace PlanePrimitive {
+declare namespace PlanePrimitive {
     /**
      * 平面 支持的样式信息
      * @property [dimensions] - 指定平面的宽度和高度。
@@ -13590,8 +13592,8 @@ export namespace PlanePrimitive {
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -13599,21 +13601,21 @@ export namespace PlanePrimitive {
      * @property [label] - 支持附带文字的显示
      */
     type StyleOptions = {
-        dimensions?: Mars3dCesium.Cartesian2;
+        dimensions?: Cesium.Cartesian2;
         dimensions_x?: number;
         dimensions_y?: number;
         plane_normal?: string;
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        materialSupport?: Mars3dCesium.MaterialAppearance.MaterialSupportType;
+        material?: Cesium.Material;
+        materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         flat?: boolean;
         faceForward?: boolean;
@@ -13657,15 +13659,15 @@ export namespace PlanePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PlanePrimitive extends BasePointPrimitive {
+declare class PlanePrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
-        modelMatrix?: Mars3dCesium.Matrix4;
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
+        modelMatrix?: Cesium.Matrix4;
         style: PlanePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -13689,10 +13691,10 @@ export class PlanePrimitive extends BasePointPrimitive {
     /**
      * 用于指定位置的矩阵
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
 }
 
-export namespace PointPrimitive {
+declare namespace PointPrimitive {
     /**
      * 像素点 支持的样式信息
      * @property [pixelSize = 10] - 像素大小
@@ -13719,23 +13721,23 @@ export namespace PointPrimitive {
      */
     type StyleOptions = {
         pixelSize?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         outlineWidth?: number;
-        scaleByDistance?: boolean | Mars3dCesium.NearFarScalar;
+        scaleByDistance?: boolean | Cesium.NearFarScalar;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
         scaleByDistance_near?: number;
         scaleByDistance_nearValue?: number;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
         visibleDepth?: boolean;
         disableDepthTestDistance?: number;
-        translucencyByDistance?: Mars3dCesium.NearFarScalar;
+        translucencyByDistance?: Cesium.NearFarScalar;
         setHeight?: number | string;
         addHeight?: number | string;
         label?: LabelPrimitive.StyleOptions;
@@ -13760,9 +13762,9 @@ export namespace PointPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PointPrimitive extends BasePointPrimitive {
+declare class PointPrimitive extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: PointPrimitive.StyleOptions;
         attr?: any;
         frameRate?: number;
@@ -13780,10 +13782,10 @@ export class PointPrimitive extends BasePointPrimitive {
     /**
      * 当加载primitive数据的内部Cesium容器
      */
-    readonly primitiveCollection: Mars3dCesium.PointPrimitiveCollection;
+    readonly primitiveCollection: Cesium.PointPrimitiveCollection;
 }
 
-export namespace PolygonPrimitive {
+declare namespace PolygonPrimitive {
     /**
      * 面   Primitive图元 支持的样式信息
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
@@ -13801,21 +13803,21 @@ export namespace PolygonPrimitive {
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [closeTop = true] - 当为false时，离开一个挤压多边形的顶部打开。
      * @property [closeBottom = true] - 当为false时，离开挤压多边形的底部打开。
-     * @property [arcType = Mars3dCesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
+     * @property [arcType = Cesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [classification = false] - 是否为ClassificationPrimitive ，分类基元 表示Scene要高亮显示的包围几何的体积
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -13830,15 +13832,15 @@ export namespace PolygonPrimitive {
     type StyleOptions = {
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
         image?: string;
         stRotation?: number;
         stRotationDegree?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         height?: number;
         diffHeight?: number;
@@ -13846,11 +13848,11 @@ export namespace PolygonPrimitive {
         granularity?: number;
         closeTop?: boolean;
         closeBottom?: boolean;
-        arcType?: Mars3dCesium.ArcType;
+        arcType?: Cesium.ArcType;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         classification?: boolean;
         flat?: boolean;
         faceForward?: boolean;
@@ -13899,14 +13901,14 @@ export namespace PolygonPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolygonPrimitive extends BasePolyPrimitive {
+declare class PolygonPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: PolygonPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -13930,14 +13932,14 @@ export class PolygonPrimitive extends BasePolyPrimitive {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 中心点坐标 （笛卡尔坐标）
      */
-    readonly center: Mars3dCesium.Cartesian3;
+    readonly center: Cesium.Cartesian3;
 }
 
-export namespace PolylinePrimitive {
+declare namespace PolylinePrimitive {
     /**
      * 线 Primitive图元 支持的样式信息
      * @property [width = 4] - 线宽
@@ -13953,12 +13955,12 @@ export namespace PolylinePrimitive {
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
-     * @property [arcType = Mars3dCesium.ArcType.GEODESIC] - 折线段必须遵循的线的类型。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 如果arcType不是arcType.none，则指定每个纬度和经度之间的角距离的数字属性。
+     * @property [arcType = Cesium.ArcType.GEODESIC] - 折线段必须遵循的线的类型。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 如果arcType不是arcType.none，则指定每个纬度和经度之间的角距离的数字属性。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [setHeight] - 指定坐标高度值，或数组指定每个点的高度（常用于图层中配置）
      * @property [addHeight] - 在现有坐标基础上增加的高度值，或数组指定每个点增加的高度（常用于图层中配置）
      * @property [highlight] - 鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
@@ -13970,22 +13972,22 @@ export namespace PolylinePrimitive {
         width?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
-        colors?: Mars3dCesium.Color[];
+        colors?: Cesium.Color[];
         colorsPerVertex?: boolean;
         closure?: boolean;
-        distanceDisplayCondition?: boolean | Mars3dCesium.DistanceDisplayCondition;
+        distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
-        arcType?: Mars3dCesium.ArcType;
+        arcType?: Cesium.ArcType;
         granularity?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         setHeight?: number | number[];
         addHeight?: number | number[];
         highlight?: PolylinePrimitive.StyleOptions;
@@ -14025,14 +14027,14 @@ export namespace PolylinePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolylinePrimitive extends BasePolyPrimitive {
+declare class PolylinePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylinePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -14084,14 +14086,14 @@ export class PolylinePrimitive extends BasePolyPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolylineSimplePrimitive extends BasePolyPrimitive {
+declare class PolylineSimplePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylinePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -14114,7 +14116,7 @@ export class PolylineSimplePrimitive extends BasePolyPrimitive {
     });
 }
 
-export namespace PolylineVolumePrimitive {
+declare namespace PolylineVolumePrimitive {
     /**
      * 管道线 Primitive图元 支持的样式信息
      * @property [radius = 10] - 半径
@@ -14125,15 +14127,15 @@ export namespace PolylineVolumePrimitive {
      * @property [color = "#3388ff"] - 颜色
      * @property [opacity = 1.0] - 透明度，取值范围：0.0-1.0
      * @property [cornerType = CornerType.ROUNDED] - 指定边角的样式。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -14143,16 +14145,16 @@ export namespace PolylineVolumePrimitive {
      */
     type StyleOptions = {
         radius?: number;
-        shape?: string | Mars3dCesium.Cartesian2[];
+        shape?: string | Cesium.Cartesian2[];
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
-        cornerType?: Mars3dCesium.CornerType;
+        cornerType?: Cesium.CornerType;
         granularity?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -14195,14 +14197,14 @@ export namespace PolylineVolumePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class PolylineVolumePrimitive extends BasePolyPrimitive {
+declare class PolylineVolumePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: PolylineVolumePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -14225,7 +14227,7 @@ export class PolylineVolumePrimitive extends BasePolyPrimitive {
     });
 }
 
-export namespace RectanglePrimitive {
+declare namespace RectanglePrimitive {
     /**
      * 矩形   Primitive图元 支持的样式信息
      * @property [materialType = "Color"] - 填充材质类型 ,可选项：{@link MaterialType}
@@ -14245,9 +14247,9 @@ export namespace RectanglePrimitive {
      * @property [stRotation = 0] - 矩形纹理的角度（弧度值），正北为0，逆时针旋转
      * @property [stRotationDegree = 0] - 矩形纹理的角度（度数值，0-360度），与stRotation二选一
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      * @property [clampToGround = false] - 是否贴地
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      * @property [classification = false] - 是否为ClassificationPrimitive ，分类基元 表示Scene要高亮显示的包围几何的体积
      * @property [setHeight] - 指定坐标高度值（常用于图层中配置）,也支持字符串模版配置
      * @property [addHeight] - 在现有坐标基础上增加的高度值（常用于图层中配置）,也支持字符串模版配置
@@ -14256,12 +14258,12 @@ export namespace RectanglePrimitive {
     type StyleOptions = {
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         image?: string;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         height?: number;
         diffHeight?: number;
@@ -14271,9 +14273,9 @@ export namespace RectanglePrimitive {
         stRotation?: number;
         stRotationDegree?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         clampToGround?: boolean;
-        classificationType?: Mars3dCesium.ClassificationType;
+        classificationType?: Cesium.ClassificationType;
         classification?: boolean;
         setHeight?: number | string;
         addHeight?: number | string;
@@ -14311,15 +14313,15 @@ export namespace RectanglePrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class RectanglePrimitive extends BasePolyPrimitive {
+declare class RectanglePrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions?: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
-        rectangle?: Mars3dCesium.Rectangle | Mars3dCesium.PositionProperty;
+        positions?: LngLatPoint[] | Cesium.Cartesian3[] | any[];
+        rectangle?: Cesium.Rectangle | Cesium.PositionProperty;
         style: RectanglePrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -14343,29 +14345,29 @@ export class RectanglePrimitive extends BasePolyPrimitive {
     /**
      * 坐标数据对应的矩形边界对象
      */
-    rectangle: Mars3dCesium.Rectangle;
+    rectangle: Cesium.Rectangle;
     /**
      * 获取数据的矩形边界
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 判断点是否在矩形内
      * @param position - 需要判断的点
      * @returns 是否在矩形内
      */
-    isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint): boolean;
+    isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
      * 面积（单位：平方米）
      */
     readonly area: number;
 }
 
-export namespace Road {
+declare namespace Road {
     /**
      * 道路 支持的样式信息
      * @property image - 图片材质URL
@@ -14393,9 +14395,9 @@ export namespace Road {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Road extends DynamicRiver {
+declare class Road extends DynamicRiver {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: Road.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -14406,7 +14408,7 @@ export class Road extends DynamicRiver {
     });
 }
 
-export namespace ScrollWall {
+declare namespace ScrollWall {
     /**
      * 走马灯围墙效果 支持的样式信息
      * @property [diffHeight = 100] - 墙高
@@ -14415,16 +14417,16 @@ export namespace ScrollWall {
      * @property [speed = 10] - 速度，值越大越快
      * @property [reverse = false] - 方向：true往上、false往下
      * @property [style = 1] - 样式，可选值：1、2
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
      */
     type StyleOptions = {
         diffHeight?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         speed?: number;
         reverse?: boolean;
         style?: number;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
     };
 }
 
@@ -14445,9 +14447,9 @@ export namespace ScrollWall {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class ScrollWall extends BasePolyPrimitive {
+declare class ScrollWall extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: ScrollWall.StyleOptions;
         attr?: any;
         popup?: string | any[] | ((...params: any[]) => any);
@@ -14464,10 +14466,10 @@ export class ScrollWall extends BasePolyPrimitive {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
-export namespace WallPrimitive {
+declare namespace WallPrimitive {
     /**
      * 墙  Primitive图元 支持的样式信息
      * @property [diffHeight = 100] - 墙高
@@ -14481,13 +14483,13 @@ export namespace WallPrimitive {
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定折线是投射还是接收来自光源的阴影。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定折线是投射还是接收来自光源的阴影。
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -14500,15 +14502,15 @@ export namespace WallPrimitive {
         diffHeight?: number;
         materialType?: string;
         material的多个参数?: any;
-        material?: Mars3dCesium.Material;
-        color?: string | Mars3dCesium.Color;
+        material?: Cesium.Material;
+        color?: string | Cesium.Color;
         opacity?: number;
         closure?: boolean;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -14553,14 +14555,14 @@ export namespace WallPrimitive {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class WallPrimitive extends BasePolyPrimitive {
+declare class WallPrimitive extends BasePolyPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: WallPrimitive.StyleOptions;
         attr?: any;
-        appearance?: Mars3dCesium.Appearance;
-        attributes?: Mars3dCesium.Appearance;
-        depthFailAppearance?: Mars3dCesium.Appearance;
+        appearance?: Cesium.Appearance;
+        attributes?: Cesium.Appearance;
+        depthFailAppearance?: Cesium.Appearance;
         vertexCacheOptimize?: boolean;
         interleave?: boolean;
         compressVertices?: boolean;
@@ -14583,7 +14585,7 @@ export class WallPrimitive extends BasePolyPrimitive {
     });
 }
 
-export namespace Water {
+declare namespace Water {
     /**
      * 水面   Primitive图元 支持的样式信息
      * @property [baseWaterColor = "#123e59"] - 基础颜色
@@ -14605,20 +14607,20 @@ export namespace Water {
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
-     * @property [granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
+     * @property [granularity = Cesium.Math.RADIANS_PER_DEGREE] - 指定每个纬度点和经度点之间的角距离。
      * @property [closeTop = true] - 当为false时，离开一个挤压多边形的顶部打开。
      * @property [closeBottom = true] - 当为false时，离开挤压多边形的底部打开。
-     * @property [arcType = Mars3dCesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
+     * @property [arcType = Cesium.ArcType.GEODESIC] - 多边形的边缘必须遵循的线条类型。
      * @property [hasShadows = false] - 是否阴影
-     * @property [shadows = Mars3dCesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
-     * @property [classificationType = Mars3dCesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
+     * @property [shadows = Cesium.ShadowMode.DISABLED] - 指定对象是投射还是接收来自光源的阴影。
+     * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
      *
      *
      * //以下是 这是MaterialAppearance的参数
      * @property [flat = false] - 当true时，在片段着色器中使用平面着色，不考虑光照。
      * @property [faceForward = !closed] - 当true时，片段着色器根据需要翻转表面的法线，以确保法线面向查看器以避免黑点。
-     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
-     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Mars3dCesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
+     * @property [translucent = true] - 当true时，几何图形将显示为半透明，因此{@link Cesium.PerInstanceColorAppearance#renderState}将启用alpha混合。
+     * @property [closed = false] - 当true时，几何图形将被关闭，因此{@link Cesium.PerInstanceColorAppearance#renderState}启用了背面剔除。
      * @property [vertexShaderSource] - 可选的GLSL顶点着色器源，覆盖默认的顶点着色器。
      * @property [fragmentShaderSource] - 可选的GLSL片段着色器源覆盖默认的片段着色器。
      * @property [renderState] - 可选渲染状态，以覆盖默认渲染状态。
@@ -14644,7 +14646,7 @@ export namespace Water {
         stRotation?: number;
         stRotationDegree?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
         height?: number;
         diffHeight?: number;
@@ -14652,10 +14654,10 @@ export namespace Water {
         granularity?: number;
         closeTop?: boolean;
         closeBottom?: boolean;
-        arcType?: Mars3dCesium.ArcType;
+        arcType?: Cesium.ArcType;
         hasShadows?: boolean;
-        shadows?: Mars3dCesium.ShadowMode;
-        classificationType?: Mars3dCesium.ClassificationType;
+        shadows?: Cesium.ShadowMode;
+        classificationType?: Cesium.ClassificationType;
         flat?: boolean;
         faceForward?: boolean;
         translucent?: boolean;
@@ -14699,9 +14701,9 @@ export namespace Water {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class Water extends PolygonPrimitive {
+declare class Water extends PolygonPrimitive {
     constructor(options: {
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         style: Water.StyleOptions;
         attr?: any;
         vertexCacheOptimize?: boolean;
@@ -14726,7 +14728,7 @@ export class Water extends PolygonPrimitive {
     });
 }
 
-export namespace BaseRoamLine {
+declare namespace BaseRoamLine {
     /**
      * wall 类型shading 支持的参数，
      * 效果是飞机飞行轨迹线下的投射墙体效果。
@@ -14786,20 +14788,20 @@ export namespace BaseRoamLine {
 /**
  * 漫游路线管理类 基类
  */
-export class BaseRoamLine extends BaseGraphic {
+declare class BaseRoamLine extends BaseGraphic {
     /**
      * 动态时序坐标位置，
      * Cesium原生动态属性对象
      */
-    readonly property: Mars3dCesium.SampledPositionProperty;
+    readonly property: Cesium.SampledPositionProperty;
     /**
      * 加载Entity数据的内部Cesium容器
      */
-    readonly dataSource: Mars3dCesium.CustomDataSource;
+    readonly dataSource: Cesium.CustomDataSource;
     /**
      * 当前时间对应的坐标位置 （笛卡尔坐标）
      */
-    readonly position: Mars3dCesium.Cartesian3;
+    readonly position: Cesium.Cartesian3;
     /**
      * 当前飞行过的positions轨迹点数组的index顺序
      */
@@ -14811,24 +14813,24 @@ export class BaseRoamLine extends BaseGraphic {
     /**
      * 中心点坐标（笛卡尔坐标）,popup/tooltip等功能会使用
      */
-    readonly center: Mars3dCesium.SampledPositionProperty;
+    readonly center: Cesium.SampledPositionProperty;
     /**
      * 获取三维空间中的旋转。
      */
-    readonly orientation: Mars3dCesium.Quaternion;
+    readonly orientation: Cesium.Quaternion;
     /**
      * 获取当前hpr角度。
      */
-    readonly hpr: Mars3dCesium.HeadingPitchRoll;
+    readonly hpr: Cesium.HeadingPitchRoll;
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      * 同 modelMatrix
      */
-    readonly matrix: Mars3dCesium.Matrix4;
+    readonly matrix: Cesium.Matrix4;
     /**
      * 四周方向角，弧度值
      */
@@ -14856,7 +14858,7 @@ export class BaseRoamLine extends BaseGraphic {
     /**
      * 求当前位置射线与地球相交点
      */
-    readonly groundPosition: Mars3dCesium.Cartesian3;
+    readonly groundPosition: Cesium.Cartesian3;
     /**
      * 倍速
      */
@@ -14877,7 +14879,7 @@ export class BaseRoamLine extends BaseGraphic {
         x: number;
         y: number;
         z: number;
-    }): Mars3dCesium.Matrix4;
+    }): Cesium.Matrix4;
     /**
      * 重新赋值参数，同构造方法参数一致。
      * @param options - 参数,与类的构造方法参数相同
@@ -14942,7 +14944,7 @@ export class BaseRoamLine extends BaseGraphic {
      * 获取飞过的路线坐标数组
      * @returns 坐标数组
      */
-    getOverPositions(): Mars3dCesium.Cartesian3[];
+    getOverPositions(): Cesium.Cartesian3[];
     /**
      * 按类型 添加单个投影
      * @param item - 参数，按类型分别支持：
@@ -14960,37 +14962,37 @@ export class BaseRoamLine extends BaseGraphic {
         circle?: BaseRoamLine.CircleShadingOptions;
         polyline?: BaseRoamLine.PolylineShadingOptions;
         polylineGoing?: BaseRoamLine.PolylineGoingShadingOptions;
-    }, addOptions?: boolean): Mars3dCesium.Entity | undefined;
+    }, addOptions?: boolean): Cesium.Entity | undefined;
     /**
      * 移除单个投影
      * @param entity - 可以  构造的投影矢量对象 或 传入type类型 ，未传入时删除最后添加的一个投影
      * @returns 无
      */
-    removeShading(entity: Mars3dCesium.Entity | string | null): void;
+    removeShading(entity: Cesium.Entity | string | null): void;
     /**
      * 添加wall 轨迹墙投影
      * @param options - 投影构造参数
      * @returns 构造完成的投影对象
      */
-    addWallShading(options: BaseRoamLine.WallShadingOptions): Mars3dCesium.Entity | undefined;
+    addWallShading(options: BaseRoamLine.WallShadingOptions): Cesium.Entity | undefined;
     /**
      * 添加cylinder 圆锥立体投影
      * @param options - 投影构造参数
      * @returns 构造完成的投影对象
      */
-    addCylinderShading(options: BaseRoamLine.CylinderShadingOptions): Mars3dCesium.Entity | undefined;
+    addCylinderShading(options: BaseRoamLine.CylinderShadingOptions): Cesium.Entity | undefined;
     /**
      * 添加circle扩散圆投影
      * @param options - 投影构造参数
      * @returns 构造完成的投影对象
      */
-    addCircleShading(options: BaseRoamLine.CircleShadingOptions): Mars3dCesium.Entity | undefined;
+    addCircleShading(options: BaseRoamLine.CircleShadingOptions): Cesium.Entity | undefined;
     /**
      * 添加 polyline 或 polylineGoing 路线 投影
      * @param options - 投影构造参数
      * @returns 构造完成的投影对象
      */
-    addPolylineShading(options: BaseRoamLine.PolylineShadingOptions | BaseRoamLine.PolylineGoingShadingOptions): Mars3dCesium.Entity | undefined;
+    addPolylineShading(options: BaseRoamLine.PolylineShadingOptions | BaseRoamLine.PolylineGoingShadingOptions): Cesium.Entity | undefined;
     /**
      * 视角定位至路线范围
      * @param [options = {}] - 参数对象:
@@ -15022,15 +15024,15 @@ export class BaseRoamLine extends BaseGraphic {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 定位至当前时间所在的位置 (非相机位置)
@@ -15054,12 +15056,12 @@ export class BaseRoamLine extends BaseGraphic {
         pitch?: number;
         roll?: number;
         duration?: number;
-        endTransform?: Mars3dCesium.Matrix4;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 暂停
@@ -15084,7 +15086,7 @@ export class BaseRoamLine extends BaseGraphic {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
     /**
      * 显示隐藏状态
      */
@@ -15099,7 +15101,7 @@ export class BaseRoamLine extends BaseGraphic {
     readonly options: any;
 }
 
-export namespace DynamicRoamLine {
+declare namespace DynamicRoamLine {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -15155,9 +15157,9 @@ export namespace DynamicRoamLine {
  * @param [options.attr] - 矢量数据的 属性信息，可以任意附加属性。
  * @param [options.hasCache = true] - 是否记录缓存，提高效率
  * @param [options.maxCacheCount = 50] - 保留的坐标点数量,当为-1时保留所有
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
- * @param [options.fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
  *
  * //以下是 clampToGround中使用的
  * @param [options.clampToTileset = false] - 是否贴3dtiles模型上（贴模型效率较慢，按需开启）
@@ -15190,7 +15192,7 @@ export namespace DynamicRoamLine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class DynamicRoamLine extends BaseRoamLine {
+declare class DynamicRoamLine extends BaseRoamLine {
     constructor(options: {
         model?: ModelEntity.StyleOptions;
         label?: LabelEntity.StyleOptions;
@@ -15200,9 +15202,9 @@ export class DynamicRoamLine extends BaseRoamLine {
         attr?: any;
         hasCache?: boolean;
         maxCacheCount?: number;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         clampToTileset?: boolean;
         frameRateHeight?: number;
         objectsToExclude?: any;
@@ -15238,7 +15240,7 @@ export class DynamicRoamLine extends BaseRoamLine {
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 将轨迹数据转换为CZML格式数据
      * @example
@@ -15251,7 +15253,7 @@ export class DynamicRoamLine extends BaseRoamLine {
      * car.updatePath(path, {
      *   timeColumn: 'datetime',
      *   getPosition: function (item) {
-     *     return Mars3dCesium.Cartesian3.fromDegrees(parseFloat(item.longitude), parseFloat(item.lat), 0)
+     *     return Cesium.Cartesian3.fromDegrees(parseFloat(item.longitude), parseFloat(item.lat), 0)
      *   },
      * })
      * @param points - 轨迹点数据数组，包含时间、经度、纬度值 即可。
@@ -15268,10 +15270,10 @@ export class DynamicRoamLine extends BaseRoamLine {
      * 动态时序坐标位置，
      * Cesium原生动态属性对象
      */
-    readonly property: Mars3dCesium.SampledPositionProperty;
+    readonly property: Cesium.SampledPositionProperty;
 }
 
-export namespace RoamLine {
+declare namespace RoamLine {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -15346,10 +15348,10 @@ export namespace RoamLine {
  * @param [options.showStop = false] - 是否在start前或stop后显示模型等对象
  * @param [options.autoStop = false] - 是否自动停止
  * @param [options.clockRange] - 设定全局时钟播放的模式，可以设置到达终点后停止或循环播放
- * @param [options.clockLoop = false] - 是否循环播放，与 clockRange: Mars3dCesium.ClockRange.LOOP_STOP 效果类似，但不改变全局时钟时间。
- * @param [options.forwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
- * @param [options.backwardExtrapolationType = Mars3dCesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
- * @param [options.fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+ * @param [options.clockLoop = false] - 是否循环播放，与 clockRange: Cesium.ClockRange.LOOP_STOP 效果类似，但不改变全局时钟时间。
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
+ * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
  *
  * //以下是 clampToGround中使用的
  * @param [options.splitNum = 100] - 当clampToGround计算时，插值数，等比分割的个数
@@ -15385,7 +15387,7 @@ export namespace RoamLine {
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
-export class RoamLine extends BaseRoamLine {
+declare class RoamLine extends BaseRoamLine {
     constructor(options: {
         positions: any[][] | LngLatPoint[];
         speed: any[][] | number;
@@ -15398,7 +15400,7 @@ export class RoamLine extends BaseRoamLine {
         circle?: CircleEntity.StyleOptions | any;
         attr?: any;
         offsetHeight?: number;
-        startTime?: string | Date | Mars3dCesium.JulianDate;
+        startTime?: string | Date | Cesium.JulianDate;
         pauseTime?: number | ((...params: any[]) => any);
         multiplier?: number;
         hasCache?: boolean;
@@ -15407,11 +15409,11 @@ export class RoamLine extends BaseRoamLine {
         showGroundHeight?: boolean;
         showStop?: boolean;
         autoStop?: boolean;
-        clockRange?: Mars3dCesium.ClockRange;
+        clockRange?: Cesium.ClockRange;
         clockLoop?: boolean;
-        forwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        backwardExtrapolationType?: Mars3dCesium.ExtrapolationType;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         splitNum?: number;
         minDistance?: number;
         offset?: number;
@@ -15466,15 +15468,15 @@ export class RoamLine extends BaseRoamLine {
     /**
      * 路线开始时间
      */
-    readonly startTime: Mars3dCesium.JulianDate;
+    readonly startTime: Cesium.JulianDate;
     /**
      * 路线结束时间
      */
-    readonly stopTime: Mars3dCesium.JulianDate;
+    readonly stopTime: Cesium.JulianDate;
     /**
      * 位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[];
+    positions: Cesium.Cartesian3[];
     /**
      * 是否已启动
      */
@@ -15509,10 +15511,10 @@ export class RoamLine extends BaseRoamLine {
      * 动态时序坐标位置，
      * Cesium原生动态属性对象
      */
-    readonly property: Mars3dCesium.SampledPositionProperty;
+    readonly property: Cesium.SampledPositionProperty;
 }
 
-export namespace BaseGraphicLayer {
+declare namespace BaseGraphicLayer {
     /**
      * 图层类支持的{@link EventType}事件类型
      * @example
@@ -15583,7 +15585,7 @@ export namespace BaseGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class BaseGraphicLayer extends BaseLayer {
+declare class BaseGraphicLayer extends BaseLayer {
     constructor(options?: {
         popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
@@ -15659,7 +15661,7 @@ export class BaseGraphicLayer extends BaseLayer {
      * @param position - 矢量对象 或 显示的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(position: BaseGraphic | LngLatPoint | Mars3dCesium.Cartesian3): BaseGraphicLayer;
+    openPopup(position: BaseGraphic | LngLatPoint | Cesium.Cartesian3): BaseGraphicLayer;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -15688,7 +15690,7 @@ export class BaseGraphicLayer extends BaseLayer {
      * @param position - graphic矢量对象 或 显示的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(position: BaseGraphic | LngLatPoint | Mars3dCesium.Cartesian3): BaseGraphicLayer;
+    openTooltip(position: BaseGraphic | LngLatPoint | Cesium.Cartesian3): BaseGraphicLayer;
     /**
      * 关闭弹窗
      * @returns 当前对象本身，可以链式调用
@@ -15765,7 +15767,7 @@ export class BaseGraphicLayer extends BaseLayer {
      * @param position - 矢量对象 或 显示的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openContextMenu(position: BaseGraphic | Mars3dCesium.Cartesian3): BaseGraphicLayer;
+    openContextMenu(position: BaseGraphic | Cesium.Cartesian3): BaseGraphicLayer;
     /**
      * 关闭右键菜单
      * @returns 当前对象本身，可以链式调用
@@ -15777,7 +15779,7 @@ export class BaseGraphicLayer extends BaseLayer {
      * @param message - 显示的内容
      * @returns 当前对象本身，可以链式调用
      */
-    openSmallTooltip(position: Mars3dCesium.Cartesian2 | Mars3dCesium.Cartesian3, message: any): BaseGraphicLayer;
+    openSmallTooltip(position: Cesium.Cartesian2 | Cesium.Cartesian3, message: any): BaseGraphicLayer;
     /**
      * 关闭小提示窗
      * @returns 当前对象本身，可以链式调用
@@ -15808,7 +15810,7 @@ export class BaseGraphicLayer extends BaseLayer {
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为map对象，false时不冒泡
  */
-export class BaseLayer extends BaseClass {
+declare class BaseLayer extends BaseClass {
     constructor(options?: {
         id?: string | number;
         pid?: string | number;
@@ -15940,15 +15942,15 @@ export class BaseLayer extends BaseClass {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
     /**
      * 更新图层参数
@@ -15973,7 +15975,7 @@ export class BaseLayer extends BaseClass {
     destroy(noDel?: boolean): void;
 }
 
-export namespace CzmGeoJsonLayer {
+declare namespace CzmGeoJsonLayer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -16058,7 +16060,7 @@ export namespace CzmGeoJsonLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class CzmGeoJsonLayer extends BaseGraphicLayer {
+declare class CzmGeoJsonLayer extends BaseGraphicLayer {
     constructor(options?: {
         url?: string;
         data?: any;
@@ -16109,11 +16111,11 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
     /**
      * GeoJsonDataSource 对象
      */
-    readonly layer: Mars3dCesium.GeoJsonDataSource;
+    readonly layer: Cesium.GeoJsonDataSource;
     /**
      * Entity矢量数据 集合
      */
-    readonly entities: Mars3dCesium.EntityCollection;
+    readonly entities: Cesium.EntityCollection;
     /**
      * 数据加载完成后抛出,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
      * @example
@@ -16125,7 +16127,7 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
     /**
      * 当存在 文字primitive 数据的内部Cesium容器
      */
-    readonly labelCollection: Mars3dCesium.LabelCollection;
+    readonly labelCollection: Cesium.LabelCollection;
     /**
      * 是否可以调整图层顺序（在同类型图层间）
      */
@@ -16171,7 +16173,7 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
      * @param attr - 属性信息
      * @returns label文本对象
      */
-    lblAddFun(position: Mars3dCesium.Cartesian3 | Mars3dCesium.SampledPositionProperty | any, labelattr: any, attr: any): Mars3dCesium.Label;
+    lblAddFun(position: Cesium.Cartesian3 | Cesium.SampledPositionProperty | any, labelattr: any, attr: any): Cesium.Label;
     /**
      * 设置透明度
      * @param value - 透明度
@@ -16183,7 +16185,7 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
      * @param entity - Entity矢量对象
      * @returns 数据
      */
-    getEntityAttr(entity: Mars3dCesium.Entity): any;
+    getEntityAttr(entity: Cesium.Entity): any;
     /**
      * 清除所有数据
      * @returns 当前对象本身，可以链式调用
@@ -16210,15 +16212,15 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
 }
 
@@ -16259,7 +16261,7 @@ export class CzmGeoJsonLayer extends BaseGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class CzmlLayer extends CzmGeoJsonLayer {
+declare class CzmlLayer extends CzmGeoJsonLayer {
     constructor(options?: {
         url?: string;
         data?: any;
@@ -16321,7 +16323,7 @@ export class CzmlLayer extends CzmGeoJsonLayer {
      * @param entity - Entity矢量对象
      * @returns 数据
      */
-    getEntityAttr(entity: Mars3dCesium.Entity): any;
+    getEntityAttr(entity: Cesium.Entity): any;
 }
 
 /**
@@ -16367,7 +16369,7 @@ export class CzmlLayer extends CzmGeoJsonLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class KmlLayer extends CzmGeoJsonLayer {
+declare class KmlLayer extends CzmGeoJsonLayer {
     constructor(options?: {
         url?: string;
         data?: Document | Blob;
@@ -16436,7 +16438,7 @@ export class KmlLayer extends CzmGeoJsonLayer {
      * @param entity - Entity矢量对象
      * @returns 数据
      */
-    getEntityAttr(entity: Mars3dCesium.Entity): any;
+    getEntityAttr(entity: Cesium.Entity): any;
 }
 
 /**
@@ -16507,7 +16509,7 @@ export class KmlLayer extends CzmGeoJsonLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ArcGisWfsLayer extends LodGraphicLayer {
+declare class ArcGisWfsLayer extends LodGraphicLayer {
     constructor(options?: {
         url: string;
         token?: string;
@@ -16515,7 +16517,7 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
         wkid?: number;
         parameters?: any;
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
         IdField?: string;
         minimumLevel?: number;
         maximumLevel?: number;
@@ -16638,7 +16640,7 @@ export class ArcGisWfsLayer extends LodGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ArcGisWfsSingleLayer extends GeoJsonLayer {
+declare class ArcGisWfsSingleLayer extends GeoJsonLayer {
     constructor(options?: {
         url: string;
         token?: string;
@@ -16761,7 +16763,7 @@ export class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GeodePoiLayer extends LodGraphicLayer {
+declare class GeodePoiLayer extends LodGraphicLayer {
     constructor(options?: {
         key?: string[];
         minimumLevel?: number;
@@ -16819,7 +16821,7 @@ export class GeodePoiLayer extends LodGraphicLayer {
     readonly key: string;
 }
 
-export namespace GeoJsonLayer {
+declare namespace GeoJsonLayer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -16946,7 +16948,7 @@ export namespace GeoJsonLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GeoJsonLayer extends GraphicLayer {
+declare class GeoJsonLayer extends GraphicLayer {
     constructor(options?: {
         url?: string;
         data?: any;
@@ -17055,7 +17057,7 @@ export class GeoJsonLayer extends GraphicLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GraphicGroupLayer extends GroupLayer {
+declare class GraphicGroupLayer extends GroupLayer {
     constructor(options?: {
         layers?: GraphicLayer[];
         defaultLayer?: string;
@@ -17168,9 +17170,9 @@ export class GraphicGroupLayer extends GroupLayer {
     /**
      * 获取图层内所有数据的 矩形边界值
      * @param [isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
-    getRectangle(isFormat?: boolean): Mars3dCesium.Rectangle | any;
+    getRectangle(isFormat?: boolean): Cesium.Rectangle | any;
     /**
      * 开始绘制矢量数据，绘制的数据会加载在当前图层。
      * @param options - Graphic构造参数,包含：
@@ -17199,7 +17201,7 @@ export class GraphicGroupLayer extends GroupLayer {
     disableEdit(): GraphicGroupLayer;
 }
 
-export namespace GraphicLayer {
+declare namespace GraphicLayer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -17325,7 +17327,7 @@ export namespace GraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GraphicLayer extends BaseGraphicLayer {
+declare class GraphicLayer extends BaseGraphicLayer {
     constructor(options?: {
         data?: any | any;
         hasEdit?: boolean;
@@ -17404,11 +17406,11 @@ export class GraphicLayer extends BaseGraphicLayer {
     /**
      * 当加载Entity类型数据的内部Cesium容器 {@link BaseEntity}
      */
-    readonly dataSource: Mars3dCesium.CustomDataSource;
+    readonly dataSource: Cesium.CustomDataSource;
     /**
      * 当加载普通 primitive类型数据的内部Cesium容器 {@link BasePrimitive}
      */
-    primitiveCollection: Mars3dCesium.PrimitiveCollection;
+    primitiveCollection: Cesium.PrimitiveCollection;
     /**
      * 当加载 DivGraphic 数据的内部DOM容器 {@link DivGraphic}
      */
@@ -17454,9 +17456,9 @@ export class GraphicLayer extends BaseGraphicLayer {
     /**
      * 获取图层内所有数据的 矩形边界值
      * @param [isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
-    getRectangle(isFormat?: boolean): Mars3dCesium.Rectangle | any;
+    getRectangle(isFormat?: boolean): Cesium.Rectangle | any;
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
@@ -17577,8 +17579,8 @@ export class GraphicLayer extends BaseGraphicLayer {
         maxPointNum?: number;
         drawShow?: boolean;
         addHeight?: number;
-        availability?: Mars3dCesium.TimeIntervalCollection;
-        description?: Mars3dCesium.Property | string;
+        availability?: Cesium.TimeIntervalCollection;
+        description?: Cesium.Property | string;
     }): BaseGraphic | any;
     /**
      * 停止绘制，如有未完成的绘制会自动删除
@@ -17588,9 +17590,9 @@ export class GraphicLayer extends BaseGraphicLayer {
     /**
      * 完成绘制和编辑，如有未完成的绘制会自动完成。
      * 在移动端需要调用此方法来类似PC端双击结束。
-     * @returns 当前对象本身,可以链式调用
+     * @returns 是否正常结束了矢量对象绘制
      */
-    endDraw(): GraphicLayer;
+    endDraw(): boolean;
     /**
      * 激活编辑，绑定相关处理，同 hasEdit=true
      * @returns 当前对象本身,可以链式调用
@@ -17642,7 +17644,7 @@ export class GraphicLayer extends BaseGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GraticuleLayer extends BaseLayer {
+declare class GraticuleLayer extends BaseLayer {
     constructor(options?: {
         numLines?: number;
         lineStyle?: PolylinePrimitive.StyleOptions;
@@ -17677,7 +17679,7 @@ export class GraticuleLayer extends BaseLayer {
     _mountedHook(): void;
 }
 
-export namespace LodGraphicLayer {
+declare namespace LodGraphicLayer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -17782,7 +17784,7 @@ export namespace LodGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class LodGraphicLayer extends GraphicLayer {
+declare class LodGraphicLayer extends GraphicLayer {
     constructor(options?: {
         IdField?: string;
         queryGridData: (...params: any[]) => any;
@@ -17992,17 +17994,17 @@ export class LodGraphicLayer extends GraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ModelLayer extends GraphicLayer {
+declare class ModelLayer extends GraphicLayer {
     constructor(options?: {
         url: string;
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: any;
         data: {
             url: string;
-            position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+            position: LngLatPoint | Cesium.Cartesian3 | number[];
             style: any;
         }[];
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         hasEdit?: boolean;
         isAutoEditing?: boolean;
         isContinued?: boolean;
@@ -18066,7 +18068,7 @@ export class ModelLayer extends GraphicLayer {
     /**
      * 加载gltf模型数据的内部Cesium容器
      */
-    readonly layer: Mars3dCesium.CustomDataSource;
+    readonly layer: Cesium.CustomDataSource;
 }
 
 /**
@@ -18115,13 +18117,13 @@ export class ModelLayer extends GraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class OsmBuildingsLayer extends TilesetLayer {
+declare class OsmBuildingsLayer extends TilesetLayer {
     constructor(options: {
         maximumScreenSpaceError?: number;
         maximumMemoryUsage?: number;
-        style?: any | Mars3dCesium.Cesium3DTileStyle | ((...params: any[]) => any);
+        style?: any | Cesium.Cesium3DTileStyle | ((...params: any[]) => any);
         marsJzwStyle?: boolean | string;
-        customShader?: Mars3dCesium.CustomShader;
+        customShader?: Cesium.CustomShader;
         highlight?: {
             type?: string;
             all?: boolean;
@@ -18167,7 +18169,7 @@ export class OsmBuildingsLayer extends TilesetLayer {
     });
 }
 
-export namespace TilesetLayer {
+declare namespace TilesetLayer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -18269,9 +18271,9 @@ export namespace TilesetLayer {
  * @param [options.skipLevels = 1] - 当skipLevelOfDetail是true，一个常量定义了加载tiles时要跳过的最小级别数。当它为0时，不会跳过任何级别。与skipScreenSpaceErrorFactor一起使用，以决定加载哪些贴图。
  * @param [options.immediatelyLoadDesiredLevelOfDetail = false] - 当skipLevelOfDetail为true时，只有满足最大屏幕空间错误的tiles才会被下载。跳过因素将被忽略，并且只加载所需的块。
  * @param [options.loadSiblings = false] - 当skipLevelOfDetail = true时，判断遍历过程中是否总是下载可见块的兄弟块。如果为true则不会在已加载完模型后，自动从中心开始超清化模型。
- * @param [options.clippingPlanes] - {@link Mars3dCesium.ClippingPlaneCollection}用于选择性地禁用tile集的渲染。
+ * @param [options.clippingPlanes] - {@link Cesium.ClippingPlaneCollection}用于选择性地禁用tile集的渲染。
  * @param [options.classificationType] - 确定地形、3D贴图或两者都将被这个贴图集分类。有关限制和限制的详细信息，请参阅{@link cesium3dtilesset #classificationType}。
- * @param [options.pointCloudShading] - 基于几何误差和光照构造一个{@link Mars3dCesium.PointCloudShading}对象来控制点衰减的选项。
+ * @param [options.pointCloudShading] - 基于几何误差和光照构造一个{@link Cesium.PointCloudShading}对象来控制点衰减的选项。
  * @param [options.imageBasedLightingFactor = new Cartesian2(1.0, 1.0)] - 缩放来自地球、天空、大气和星星天空盒的漫反射和高光图像照明。
  * @param [options.lightColor] - 光的颜色当遮光模型。当undefined场景的浅色被使用代替。
  * @param [options.luminanceAtZenith = 0.2] - 太阳在天顶的亮度，单位是千坎德拉每平方米，用于这个模型的程序环境地图。
@@ -18305,9 +18307,9 @@ export namespace TilesetLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TilesetLayer extends BaseGraphicLayer {
+declare class TilesetLayer extends BaseGraphicLayer {
     constructor(options: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         maximumScreenSpaceError?: number;
         maximumMemoryUsage?: number;
         position?: {
@@ -18320,13 +18322,13 @@ export class TilesetLayer extends BaseGraphicLayer {
             y: number;
             z: number;
         };
-        modelMatrix?: Mars3dCesium.Matrix4;
+        modelMatrix?: Cesium.Matrix4;
         updateMatrix?: (...params: any[]) => any;
         scale?: number;
-        axis?: string | Mars3dCesium.Axis;
-        style?: any | Mars3dCesium.Cesium3DTileStyle | ((...params: any[]) => any);
+        axis?: string | Cesium.Axis;
+        style?: any | Cesium.Cesium3DTileStyle | ((...params: any[]) => any);
         marsJzwStyle?: boolean | string;
-        customShader?: Mars3dCesium.CustomShader;
+        customShader?: Cesium.CustomShader;
         highlight?: {
             type?: string;
             all?: boolean;
@@ -18337,7 +18339,7 @@ export class TilesetLayer extends BaseGraphicLayer {
         allowDrillPick?: boolean | ((...params: any[]) => any);
         clampToGround?: boolean;
         chinaCRS?: ChinaCRS;
-        shadows?: Mars3dCesium.ShadowMode;
+        shadows?: Cesium.ShadowMode;
         cullWithChildrenBounds?: boolean;
         cullRequestsWhileMoving?: boolean;
         cullRequestsWhileMovingMultiplier?: number;
@@ -18352,7 +18354,7 @@ export class TilesetLayer extends BaseGraphicLayer {
         foveatedScreenSpaceError?: boolean;
         foveatedConeSize?: number;
         foveatedMinimumScreenSpaceErrorRelaxation?: number;
-        foveatedInterpolationCallback?: Mars3dCesium.Cesium3DTileset.foveatedInterpolationCallback;
+        foveatedInterpolationCallback?: Cesium.Cesium3DTileset.foveatedInterpolationCallback;
         foveatedTimeDelay?: number;
         skipLevelOfDetail?: boolean;
         baseScreenSpaceError?: number;
@@ -18360,13 +18362,13 @@ export class TilesetLayer extends BaseGraphicLayer {
         skipLevels?: number;
         immediatelyLoadDesiredLevelOfDetail?: boolean;
         loadSiblings?: boolean;
-        clippingPlanes?: Mars3dCesium.ClippingPlaneCollection;
-        classificationType?: Mars3dCesium.ClassificationType;
+        clippingPlanes?: Cesium.ClippingPlaneCollection;
+        classificationType?: Cesium.ClassificationType;
         pointCloudShading?: any;
-        imageBasedLightingFactor?: Mars3dCesium.Cartesian2;
-        lightColor?: Mars3dCesium.Cartesian3;
+        imageBasedLightingFactor?: Cesium.Cartesian2;
+        lightColor?: Cesium.Cartesian3;
         luminanceAtZenith?: number;
-        sphericalHarmonicCoefficients?: Mars3dCesium.Cartesian3[];
+        sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
         specularEnvironmentMaps?: string;
         backFaceCulling?: boolean;
         debugHeatmapTilePropertyName?: string;
@@ -18406,7 +18408,7 @@ export class TilesetLayer extends BaseGraphicLayer {
     /**
      * 模型对应的 Cesium3DTileset对象
      */
-    readonly tileset: Mars3dCesium.Cesium3DTileset;
+    readonly tileset: Cesium.Cesium3DTileset;
     /**
      * 获取将在加载瓦片集的根瓦片并准备渲染该瓦片集时并init完成解析的Promise承诺,
      * 这个Promise承诺在渲染tileset的第一帧之前的帧结束时被解析,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
@@ -18428,12 +18430,12 @@ export class TilesetLayer extends BaseGraphicLayer {
      * 模型样式，
      * 使用{@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
      */
-    style: any | Mars3dCesium.Cesium3DTileStyle | ((...params: any[]) => any);
+    style: any | Cesium.Cesium3DTileStyle | ((...params: any[]) => any);
     /**
      * 自定义shader效果, <br/>
      * 如果默认无customShader，加载模型后动态修改customShader值
      */
-    customShader: Mars3dCesium.CustomShader;
+    customShader: Cesium.CustomShader;
     /**
      * 模型原始的中心点坐标
      */
@@ -18441,11 +18443,11 @@ export class TilesetLayer extends BaseGraphicLayer {
     /**
      * 模型原始的中心点坐标 （笛卡尔坐标）
      */
-    readonly orginCenterPosition: Mars3dCesium.Cartesian3;
+    readonly orginCenterPosition: Cesium.Cartesian3;
     /**
      * 模型当前中心点坐标 （笛卡尔坐标）
      */
-    readonly position: Mars3dCesium.Cartesian3;
+    readonly position: Cesium.Cartesian3;
     /**
      * 模型当前中心点坐标
      */
@@ -18457,7 +18459,7 @@ export class TilesetLayer extends BaseGraphicLayer {
     /**
      * 模型的边界球体。
      */
-    readonly boundingSphere: Mars3dCesium.BoundingSphere;
+    readonly boundingSphere: Cesium.BoundingSphere;
     /**
      * 旋转方向，示例：{ x: 0, y: 0, z: 0 }
      */
@@ -18477,7 +18479,7 @@ export class TilesetLayer extends BaseGraphicLayer {
     /**
      * 轴方向
      */
-    axis: string | Mars3dCesium.Axis;
+    axis: string | Cesium.Axis;
     /**
      * 缩放比例
      */
@@ -18493,7 +18495,7 @@ export class TilesetLayer extends BaseGraphicLayer {
     /**
      * 模型原始矩阵
      */
-    readonly orginMatrix: Mars3dCesium.Matrix4;
+    readonly orginMatrix: Cesium.Matrix4;
     /**
      * 模型自动贴地计算及处理,
      * 因为模型在设计或生产时，模型的视角中心位置不一定在0,0,0点，此方法不是唯一准确的。
@@ -18505,18 +18507,18 @@ export class TilesetLayer extends BaseGraphicLayer {
      * 重新计算当前矩阵（需要是否存在世界矩阵时）
      * @returns 计算完成的矩阵
      */
-    updateMatrix(): Mars3dCesium.Matrix4 | undefined;
+    updateMatrix(): Cesium.Matrix4 | undefined;
     /**
      * 重新计算当前矩阵，普通方式, 此种方式[x，y不能多次更改]
      * @returns 计算完成的矩阵
      */
-    updateMatrix2(): Mars3dCesium.Matrix4;
+    updateMatrix2(): Cesium.Matrix4;
     /**
      * 获取构件节点位置，现对于原始矩阵变化后的新位置
      * @param position - 原始位置
      * @returns 新位置
      */
-    getPositionByOrginMatrix(position: Mars3dCesium.Cartesian3): Mars3dCesium.Cartesian3;
+    getPositionByOrginMatrix(position: Cesium.Cartesian3): Cesium.Cartesian3;
     /**
      * 设置透明度
      * @param value - 透明度
@@ -18537,7 +18539,7 @@ export class TilesetLayer extends BaseGraphicLayer {
      * @param [feature] - 需要高亮的构件, 如果是mars3d的相关事件内时，可以取 event.pickedObject
      * @returns 无
      */
-    openHighlight(highlightStyle?: any, closeLast?: boolean, feature?: Mars3dCesium.Cesium3DTileFeature): void;
+    openHighlight(highlightStyle?: any, closeLast?: boolean, feature?: Cesium.Cesium3DTileFeature): void;
     /**
      * 清除已选中的高亮
      * @returns 无
@@ -18586,15 +18588,15 @@ export class TilesetLayer extends BaseGraphicLayer {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
 }
 
@@ -18677,7 +18679,7 @@ export class TilesetLayer extends BaseGraphicLayer {
  * @param [options.extent.height = 0] - 矩形高度值
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class WfsLayer extends LodGraphicLayer {
+declare class WfsLayer extends LodGraphicLayer {
     constructor(options?: {
         url: string;
         parameters?: {
@@ -18688,7 +18690,7 @@ export class WfsLayer extends LodGraphicLayer {
         };
         geometryName?: string;
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
         layer: string;
         IdField?: string;
         getCapabilities?: boolean;
@@ -18784,7 +18786,7 @@ export class WfsLayer extends LodGraphicLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GroupLayer extends BaseGraphicLayer {
+declare class GroupLayer extends BaseGraphicLayer {
     constructor(options?: {
         layers?: any;
         id?: string | number;
@@ -18881,9 +18883,9 @@ export class GroupLayer extends BaseGraphicLayer {
     /**
      * 获取图层内所有数据的 矩形边界值
      * @param [isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
-    getRectangle(isFormat?: boolean): Mars3dCesium.Rectangle | any;
+    getRectangle(isFormat?: boolean): Cesium.Rectangle | any;
 }
 
 /**
@@ -18900,11 +18902,11 @@ export class GroupLayer extends BaseGraphicLayer {
  * @param [options.name = ''] - 图层名称
  * @param [options.show = true] - 图层是否显示（多个地形服务时，请只设置一个TerrainLayer图层的show为tue）
  */
-export class TerrainLayer extends BaseLayer {
+declare class TerrainLayer extends BaseLayer {
     constructor(options?: {
         terrain: {
             type?: TerrainType;
-            url: string | Mars3dCesium.Resource;
+            url: string | Cesium.Resource;
             requestVertexNormals?: boolean;
             requestWaterMask?: boolean;
             requestMetadata?: boolean;
@@ -18991,9 +18993,9 @@ export class TerrainLayer extends BaseLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ArcGisCacheLayer extends BaseTileLayer {
+declare class ArcGisCacheLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         upperCase?: boolean;
         minimumLevel?: number;
@@ -19015,7 +19017,7 @@ export class ArcGisCacheLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -19026,10 +19028,10 @@ export class ArcGisCacheLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19061,10 +19063,10 @@ export class ArcGisCacheLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
-export namespace ArcGisLayer {
+declare namespace ArcGisLayer {
     /**
      * ArcGIS服务图层支持的{@link EventType}事件类型
      * @example
@@ -19111,6 +19113,7 @@ export namespace ArcGisLayer {
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.enablePickFeatures = true] - 如果为true，则请求 单击坐标处服务中对应的矢量数据 并尝试解释响应中包含的功能。为false时不去服务请求。
+ * @param [options.allowPick] - 是否允许鼠标穿透其他矢量图层，触发click和Popup
  * @param [options.maxLength = 5000] - 单击获取到的数据，最大数据长度。大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿。传-1时不限制
  * @param [options.highlight] - 鼠标单击高亮显示对应的矢量数据 及其样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.highlight.type] - 构造成的矢量数据类型。
@@ -19152,9 +19155,9 @@ export namespace ArcGisLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ArcGisLayer extends BaseTileLayer {
+declare class ArcGisLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         layers?: string;
         layerDefs?: string;
@@ -19162,7 +19165,7 @@ export class ArcGisLayer extends BaseTileLayer {
         maxTileLevel?: number;
         wkid?: number;
         token?: string;
-        tileDiscardPolicy?: Mars3dCesium.TileDiscardPolicy;
+        tileDiscardPolicy?: Cesium.TileDiscardPolicy;
         proxy?: string;
         templateValues?: any;
         queryParameters?: any;
@@ -19182,6 +19185,7 @@ export class ArcGisLayer extends BaseTileLayer {
         crs?: CRS;
         chinaCRS?: ChinaCRS;
         enablePickFeatures?: boolean;
+        allowPick?: boolean;
         maxLength?: number;
         highlight?: {
             type?: GraphicType | string;
@@ -19202,10 +19206,10 @@ export class ArcGisLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19259,7 +19263,7 @@ export class ArcGisLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -19330,7 +19334,7 @@ export class ArcGisLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ArcGisTileLayer extends BaseTileLayer {
+declare class ArcGisTileLayer extends BaseTileLayer {
     constructor(options?: {
         url: string;
         subdomains?: string | string[];
@@ -19353,7 +19357,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -19364,10 +19368,10 @@ export class ArcGisTileLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19399,7 +19403,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -19467,7 +19471,7 @@ export class ArcGisTileLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class BaiduLayer extends BaseTileLayer {
+declare class BaiduLayer extends BaseTileLayer {
     constructor(options?: {
         layer?: string;
         url?: string;
@@ -19501,10 +19505,10 @@ export class BaiduLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19536,10 +19540,10 @@ export class BaiduLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
-export namespace BaseTileLayer {
+declare namespace BaseTileLayer {
     /**
      * 当前栅格瓦片图层支持的{@link EventType}事件类型
      * @example
@@ -19635,7 +19639,7 @@ export namespace BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class BaseTileLayer extends BaseLayer {
+declare class BaseTileLayer extends BaseLayer {
     constructor(options?: {
         minimumLevel?: number;
         maximumLevel?: number;
@@ -19657,7 +19661,7 @@ export class BaseTileLayer extends BaseLayer {
         headers?: any;
         subdomains?: string | string[];
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -19668,10 +19672,10 @@ export class BaseTileLayer extends BaseLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19695,11 +19699,11 @@ export class BaseTileLayer extends BaseLayer {
     /**
      * 瓦片图层对应的内部ImageryLayer对象
      */
-    readonly layer: Mars3dCesium.ImageryLayer;
+    readonly layer: Cesium.ImageryLayer;
     /**
      * 瓦片图层对应的内部ImageryProvider对象
      */
-    readonly imageryProvider: Mars3dCesium.ImageryProvider;
+    readonly imageryProvider: Cesium.ImageryProvider;
     /**
      * 透明度，同opacity。从0.0到1.0。
      */
@@ -19735,13 +19739,13 @@ export class BaseTileLayer extends BaseLayer {
     /**
      * 瓦片数据范围
      */
-    rectangle: Mars3dCesium.Rectangle;
+    rectangle: Cesium.Rectangle;
     /**
      * 创建瓦片图层对应的ImageryProvider对象
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
     /**
      * 重新加载图层
      * @returns 无
@@ -19810,22 +19814,22 @@ export class BaseTileLayer extends BaseLayer {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
 }
 
 /**
  * 微软bing地图
  * @property [options.key = mars3d.Token.bing] - 您的应用程序的Bing Maps密钥，可以在{@link https://www.bingmapsportal.com/}中创建
- * @property [mapStyle = Mars3dCesium.BingMapsStyle.AERIAL] - 要加载的必应地图图像的类型。
+ * @property [mapStyle = Cesium.BingMapsStyle.AERIAL] - 要加载的必应地图图像的类型。
  * @property [tileProtocol] - 加载图块时要使用的协议，例如' http'或' https'。 默认情况下，将使用与页面相同的协议来加载图块。
  * @property [culture = 'zh-Hans'] - 请求Bing Maps图像时要使用的区域性标记。不支持所有文化。请参阅   {@link http://msdn.microsoft.com/en-us/library/hh441729.aspx}了解有关支持的文化的信息。
  * @param [options] - 参数对象，包括以下：
@@ -19885,10 +19889,10 @@ export class BaseTileLayer extends BaseLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class BingLayer extends BaseTileLayer {
+declare class BingLayer extends BaseTileLayer {
     constructor(options?: {
-        url?: Mars3dCesium.Resource | string;
-        tileDiscardPolicy?: Mars3dCesium.TileDiscardPolicy;
+        url?: Cesium.Resource | string;
+        tileDiscardPolicy?: Cesium.TileDiscardPolicy;
         minimumLevel?: number;
         maximumLevel?: number;
         minimumTerrainLevel?: number;
@@ -19909,7 +19913,7 @@ export class BingLayer extends BaseTileLayer {
         headers?: any;
         subdomains?: string | string[];
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -19920,10 +19924,10 @@ export class BingLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -19955,11 +19959,11 @@ export class BingLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
     /**
      * 要加载的必应地图图像的类型。
     */
-    mapStyle?: Mars3dCesium.BingMapsStyle;
+    mapStyle?: Cesium.BingMapsStyle;
     /**
      * 加载图块时要使用的协议，例如' http'或' https'。 默认情况下，将使用与页面相同的协议来加载图块。
     */
@@ -19997,7 +20001,7 @@ export class BingLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class EmptyTileLayer extends BaseTileLayer {
+declare class EmptyTileLayer extends BaseTileLayer {
     constructor(options?: {
         minimumLevel?: number;
         maximumLevel?: number;
@@ -20042,7 +20046,7 @@ export class EmptyTileLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20110,7 +20114,7 @@ export class EmptyTileLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GaodeLayer extends BaseTileLayer {
+declare class GaodeLayer extends BaseTileLayer {
     constructor(options?: {
         layer?: string;
         url?: string;
@@ -20134,7 +20138,7 @@ export class GaodeLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -20145,10 +20149,10 @@ export class GaodeLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20180,7 +20184,7 @@ export class GaodeLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20241,9 +20245,9 @@ export class GaodeLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GeeLayer extends BaseTileLayer {
+declare class GeeLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         minimumLevel?: number;
         maximumLevel?: number;
@@ -20264,7 +20268,7 @@ export class GeeLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -20275,10 +20279,10 @@ export class GeeLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20310,7 +20314,7 @@ export class GeeLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20378,7 +20382,7 @@ export class GeeLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GoogleLayer extends BaseTileLayer {
+declare class GoogleLayer extends BaseTileLayer {
     constructor(options?: {
         layer?: string;
         url?: string;
@@ -20402,7 +20406,7 @@ export class GoogleLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -20413,10 +20417,10 @@ export class GoogleLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20448,7 +20452,7 @@ export class GoogleLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20505,7 +20509,7 @@ export class GoogleLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class GridLayer extends BaseTileLayer {
+declare class GridLayer extends BaseTileLayer {
     constructor(options?: {
         cells?: number;
         color?: string;
@@ -20537,10 +20541,10 @@ export class GridLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20565,7 +20569,7 @@ export class GridLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20623,9 +20627,9 @@ export class GridLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class ImageLayer extends BaseTileLayer {
+declare class ImageLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         minimumLevel?: number;
         maximumLevel?: number;
@@ -20655,10 +20659,10 @@ export class ImageLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20690,7 +20694,7 @@ export class ImageLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20753,11 +20757,11 @@ export class ImageLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class IonLayer extends BaseTileLayer {
+declare class IonLayer extends BaseTileLayer {
     constructor(options?: {
         assetId: number;
         accessToken?: string;
-        server?: string | Mars3dCesium.Resource;
+        server?: string | Cesium.Resource;
         minimumLevel?: number;
         maximumLevel?: number;
         minimumTerrainLevel?: number;
@@ -20778,7 +20782,7 @@ export class IonLayer extends BaseTileLayer {
         headers?: any;
         subdomains?: string | string[];
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -20789,10 +20793,10 @@ export class IonLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20824,7 +20828,7 @@ export class IonLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -20890,9 +20894,9 @@ export class IonLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class MapboxLayer extends BaseTileLayer {
+declare class MapboxLayer extends BaseTileLayer {
     constructor(options?: {
-        url?: Mars3dCesium.Resource | string;
+        url?: Cesium.Resource | string;
         username?: string;
         styleId: string;
         accessToken?: string;
@@ -20918,7 +20922,7 @@ export class MapboxLayer extends BaseTileLayer {
         headers?: any;
         subdomains?: string | string[];
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -20929,10 +20933,10 @@ export class MapboxLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -20964,7 +20968,7 @@ export class MapboxLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21020,9 +21024,9 @@ export class MapboxLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class OsmLayer extends BaseTileLayer {
+declare class OsmLayer extends BaseTileLayer {
     constructor(options?: {
-        url?: Mars3dCesium.Resource | string;
+        url?: Cesium.Resource | string;
         subdomains?: string | string[];
         minimumLevel?: number;
         maximumLevel?: number;
@@ -21050,10 +21054,10 @@ export class OsmLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21085,7 +21089,7 @@ export class OsmLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21154,7 +21158,7 @@ export class OsmLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TdtLayer extends BaseTileLayer {
+declare class TdtLayer extends BaseTileLayer {
     constructor(options?: {
         layer?: string;
         key?: string[];
@@ -21187,10 +21191,10 @@ export class TdtLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21222,7 +21226,7 @@ export class TdtLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21287,7 +21291,7 @@ export class TdtLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TencentLayer extends BaseTileLayer {
+declare class TencentLayer extends BaseTileLayer {
     constructor(options?: {
         layer?: string;
         style?: string;
@@ -21320,10 +21324,10 @@ export class TencentLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21355,7 +21359,7 @@ export class TencentLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21405,7 +21409,7 @@ export class TencentLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TileInfoLayer extends BaseTileLayer {
+declare class TileInfoLayer extends BaseTileLayer {
     constructor(options?: {
         color?: string;
         minimumLevel?: number;
@@ -21430,10 +21434,10 @@ export class TileInfoLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21458,7 +21462,7 @@ export class TileInfoLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21521,9 +21525,9 @@ export class TileInfoLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TmsLayer extends BaseTileLayer {
+declare class TmsLayer extends BaseTileLayer {
     constructor(options?: {
-        url?: Mars3dCesium.Resource | string | Promise<Mars3dCesium.Resource> | Promise<string>;
+        url?: Cesium.Resource | string | Promise<Cesium.Resource> | Promise<string>;
         subdomains?: string | string[];
         fileExtension?: string;
         flipXY?: boolean;
@@ -21546,7 +21550,7 @@ export class TmsLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -21557,10 +21561,10 @@ export class TmsLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21592,7 +21596,7 @@ export class TmsLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
@@ -21601,7 +21605,7 @@ export class TmsLayer extends BaseTileLayer {
  * @param options.url - WMS服务的URL。
  * @param [options.subdomains] - URL模板中用于 {s} 占位符的子域。 如果此参数是单个字符串，则字符串中的每个字符都是一个子域。如果是 一个数组，数组中的每个元素都是一个子域。
  * @param options.layers - 要包含的图层，用逗号分隔。
- * @param [options.parameters = Mars3dCesium.WebMapServiceImageryProvider.DefaultParameters] - 要在URL中 传递给[WMS服务]{@link https://docs.geoserver.org/stable/en/user/services/wms/index.html}GetMap请求的其他参数。
+ * @param [options.parameters = Cesium.WebMapServiceImageryProvider.DefaultParameters] - 要在URL中 传递给[WMS服务]{@link https://docs.geoserver.org/stable/en/user/services/wms/index.html}GetMap请求的其他参数。
  * @param [options.parameters.format = 'image/jpeg'] - 瓦片格式
  * @param [options.parameters.transparent] - 是否透明
  * @param [options.parameters.cql_filter] - 筛选服务数据的SQL语句
@@ -21615,6 +21619,7 @@ export class TmsLayer extends BaseTileLayer {
  * @param [options.clock] - 一个时钟实例，用于确定时间维度的值。指定' times '时需要。
  * @param [options.times] - TimeIntervalCollection 的数据属性是一个包含时间动态维度及其值的对象。
  * @param [options.enablePickFeatures = true] - 如果为true，则请求 单击坐标处服务中对应的矢量数据 并尝试解释响应中包含的功能。为false时不去服务请求。
+ * @param [options.allowPick] - 是否允许鼠标穿透其他矢量图层，触发click和Popup
  * @param [options.maxLength = 5000] - 单击获取到的数据，最大数据长度。大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿。
  * @param [options.highlight] - 鼠标单击高亮显示对应的矢量数据 及其样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.highlight.type] - 构造成的矢量数据类型。
@@ -21665,12 +21670,12 @@ export class TmsLayer extends BaseTileLayer {
  * @param [options.center.alt] - 高度值
  * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
  * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360allowPick
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class WmsLayer extends BaseTileLayer {
+declare class WmsLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         layers: string;
         parameters?: {
@@ -21685,9 +21690,10 @@ export class WmsLayer extends BaseTileLayer {
         crs?: string | CRS;
         srs?: string;
         getCapabilities?: boolean;
-        clock?: Mars3dCesium.Clock;
-        times?: Mars3dCesium.TimeIntervalCollection;
+        clock?: Cesium.Clock;
+        times?: Cesium.TimeIntervalCollection;
         enablePickFeatures?: boolean;
+        allowPick?: boolean;
         maxLength?: number;
         highlight?: {
             type?: GraphicType | string;
@@ -21721,10 +21727,10 @@ export class WmsLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21778,7 +21784,7 @@ export class WmsLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
     /**
      * 对象添加到地图上的创建钩子方法，
      * 每次add时都会调用
@@ -21855,20 +21861,20 @@ export class WmsLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class WmtsLayer extends BaseTileLayer {
+declare class WmtsLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         subdomains?: string | string[];
         format?: string;
         layer: string;
         style: string;
         tileMatrixSetID: string;
         tileMatrixLabels?: string[];
-        clock?: Mars3dCesium.Clock;
-        times?: Mars3dCesium.TimeIntervalCollection;
+        clock?: Cesium.Clock;
+        times?: Cesium.TimeIntervalCollection;
         getCapabilities?: boolean;
         enablePickFeatures?: boolean;
-        pickFeaturesUrl?: Mars3dCesium.Resource | string;
+        pickFeaturesUrl?: Cesium.Resource | string;
         pickFeatures?: (...params: any[]) => any;
         highlight?: {
             type?: GraphicType | string;
@@ -21901,10 +21907,10 @@ export class WmtsLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -21936,7 +21942,7 @@ export class WmtsLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
     /**
      * 对象添加到地图上的创建钩子方法，
      * 每次add时都会调用
@@ -22000,7 +22006,7 @@ export class WmtsLayer extends BaseTileLayer {
  * @param [options.enablePickFeatures = true] - 如果为true，则 {@link UrlTemplateImageryProvider#pickFeatures} 请求 pickFeaturesUrl 并尝试解释响应中包含的功能。
  *        如果为 false{@link UrlTemplateImageryProvider#pickFeatures} 会立即返回未定义（表示没有可拾取的内容） 功能）而无需与服务器通信。如果您知道数据，则将此属性设置为false 源不支持选择功能，或者您不希望该提供程序的功能可供选择。注意 可以通过修改 {@link UriTemplateImageryProvider#enablePickFeatures}来动态覆盖 属性。
  * @param [options.pickFeaturesUrl] - 用于选择功能的URL模板。如果未指定此属性，
- *                 {@link Mars3dCesium.UrlTemplateImageryProvider#pickFeatures} 会立即返回undefined，表示没有 功能选择。
+ *                 {@link Cesium.UrlTemplateImageryProvider#pickFeatures} 会立即返回undefined，表示没有 功能选择。
  *      网址模板支持 <code>url</code>参数支持的所有关键字参数，以及以下内容:
  * <ul>
  *     <li><code>{i}</code>: 所选位置的像素列（水平坐标），其中最西端的像素为0。</li>
@@ -22047,9 +22053,9 @@ export class WmtsLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class XyzLayer extends BaseTileLayer {
+declare class XyzLayer extends BaseTileLayer {
     constructor(options?: {
-        url: Mars3dCesium.Resource | string;
+        url: Cesium.Resource | string;
         urlSchemeZeroPadding?: any;
         subdomains?: string | string[];
         tms?: boolean;
@@ -22072,8 +22078,8 @@ export class XyzLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        pickFeaturesUrl?: Mars3dCesium.Resource | string;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        pickFeaturesUrl?: Cesium.Resource | string;
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -22084,10 +22090,10 @@ export class XyzLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         invertColor?: boolean;
-        filterColor?: string | Mars3dCesium.Color;
+        filterColor?: string | Cesium.Color;
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -22119,13 +22125,13 @@ export class XyzLayer extends BaseTileLayer {
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
 }
 
 /**
  * 右键菜单 控件
  */
-export class ContextMenu extends BaseControl {
+declare class ContextMenu extends BaseControl {
     /**
      * 设置DOM容器的显示隐藏
      */
@@ -22135,7 +22141,7 @@ export class ContextMenu extends BaseControl {
 /**
  * 键盘漫游控制类
  */
-export class KeyboardRoam extends BaseControl {
+declare class KeyboardRoam extends BaseControl {
     /**
      * 平移步长 (米)
      */
@@ -22229,7 +22235,7 @@ export class KeyboardRoam extends BaseControl {
  * @param map - 地图对象
  * @param options - 控制参数
  */
-export class MouseEvent {
+declare class MouseEvent {
     constructor(map: Map, options: Map.mouseOptions);
     /**
      * 鼠标移动事件的延迟毫秒数
@@ -22256,7 +22262,7 @@ export class MouseEvent {
     getPicked(event: any): any | undefined;
 }
 
-export namespace Map {
+declare namespace Map {
     /**
      * 场景参数
      * @property [center] - 默认相机视角
@@ -22275,7 +22281,7 @@ export namespace Map {
      * @property [ionToken = null] - Cesium Ion服务的 Token令牌
      * @property [resolutionScale = 1.0] - 获取或设置渲染分辨率的缩放比例。小于1.0的值可以改善性能不佳的设备上的性能，而值大于1.0则将以更高的速度呈现分辨率，然后缩小比例，从而提高视觉保真度。例如，如果窗口小部件的尺寸为640x480，则将此值设置为0.5将导致场景以320x240渲染，然后在设置时按比例放大设置为2.0将导致场景以1280x960渲染，然后按比例缩小。
      *
-     * 以下是Mars3dCesium.Scene对象相关参数
+     * 以下是Cesium.Scene对象相关参数
      * @property [showSun] - 是否显示太阳，如修改对象可以用 [map.scene.sun]{@link http://mars3d.cn/api/cesium/Sun.html}
      * @property [showMoon] - 是否显示月亮，如修改对象可以用 [map.scene.moon]{@link http://mars3d.cn/api/cesium/Moon.html}
      * @property [showSkyBox] - 是否显示天空盒，如修改对象可以用 [map.scene.skyBox]{@link http://mars3d.cn/api/cesium/SkyBox.html}
@@ -22285,24 +22291,24 @@ export namespace Map {
      * @property [highDynamicRange] - 是否关闭高动态范围渲染(不关闭时地图会变暗)
      * @property [backgroundColor] - 空间背景色 ，css颜色值
      *
-     * 以下是Mars3dCesium.Viewer所支持的options【控件相关的写在另外的control属性中】
-     * @property [sceneMode = Mars3dCesium.SceneMode.SCENE3D] - 初始场景模式。
+     * 以下是Cesium.Viewer所支持的options【控件相关的写在另外的control属性中】
+     * @property [sceneMode = Cesium.SceneMode.SCENE3D] - 初始场景模式。
      * @property [scene3DOnly = false] - 为 true 时，每个几何实例将仅以3D渲染以节省GPU内存。
-     * @property [mapProjection = new Mars3dCesium.GeographicProjection()] - 在二维模式下地图的呈现坐标系，默认为EPSG4326坐标系，如果需要EPSG3857墨卡托坐标系展示，传 new Mars3dCesium.WebMercatorProjection() 即可
+     * @property [mapProjection = new Cesium.GeographicProjection()] - 在二维模式下地图的呈现坐标系，默认为EPSG4326坐标系，如果需要EPSG3857墨卡托坐标系展示，传 new Cesium.WebMercatorProjection() 即可
      * @property [shouldAnimate = true] - 是否开启时钟动画
      * @property [shadows = false] - 是否启用日照阴影
      * @property [useDefaultRenderLoop = true] - 如果此小部件应控制渲染循环，则为true，否则为false。
      * @property [targetFrameRate] - 使用默认渲染循环时的目标帧速率。
      * @property [useBrowserRecommendedResolution = true] - 如果为true，则以浏览器建议的分辨率渲染，并忽略 window.devicePixelRatio 。
      * @property [automaticallyTrackDataSourceClocks = true] - 如果为true，则此小部件将自动跟踪新添加的数据源的时钟设置，并在数据源的时钟发生更改时进行更新。如果要独立配置时钟，请将其设置为false。
-     * @property [contextOptions] - WebGL创建属性 传递给 Mars3dCesium.Scene 的 options 。{@link Mars3dCesium.Scene}.
+     * @property [contextOptions] - WebGL创建属性 传递给 Cesium.Scene 的 options 。{@link Cesium.Scene}.
      * @property [orderIndependentTranslucency = true] - 如果为true，并且配置支持它，则使用顺序无关的半透明性。
-     * @property [terrainShadows = Mars3dCesium.ShadowMode.RECEIVE_ONLY] - 确定地形是否投射或接收来自光源的阴影。
-     * @property [mapMode2D = Mars3dCesium.MapMode2D.INFINITE_SCROLL] - 确定2D地图是可旋转的还是可以在水平方向无限滚动。
+     * @property [terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY] - 确定地形是否投射或接收来自光源的阴影。
+     * @property [mapMode2D = Cesium.MapMode2D.INFINITE_SCROLL] - 确定2D地图是可旋转的还是可以在水平方向无限滚动。
      * @property [requestRenderMode = false] - 是否显示渲染，如果为真，渲染帧只会在需要时发生，这是由场景中的变化决定的。启用可以减少你的应用程序的CPU/GPU使用量，并且在移动设备上使用更少的电池，但是需要使用 {@link Scene#requestRender} 在这种模式下显式地渲染一个新帧。在许多情况下，在API的其他部分更改场景后，这是必要的。参见 {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
      * @property [maximumRenderTimeChange = 0.0] - 如果requestRenderMode为true，这个值定义了在请求渲染之前允许的模拟时间的最大变化。参见 {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
      *
-     * 以下是Mars3dCesium.Globe对象相关参数
+     * 以下是Cesium.Globe对象相关参数
      * @property [globe] - globe地球相关参数
      * @property [globe.show = true] - 是否显示地球
      * @property [globe.baseColor = '#546a53'] - 地球背景色 ，css颜色值
@@ -22313,7 +22319,7 @@ export namespace Map {
      * @property [globe.terrainExaggeration = 1.0] - 地形夸张倍率，用于放大地形的标量。请注意，地形夸张不会修改其他相对于椭球的图元。
      * @property [globe.terrainExaggerationRelativeHeight = 0.0] - 地形被夸大的高度。默认为0.0（相对于椭球表面缩放）。高于此高度的地形将向上缩放，低于此高度的地形将向下缩放。请注意，地形夸大不会修改任何其他图元，因为它们是相对于椭球体定位的。
      *
-     * 以下是Mars3dCesium.ScreenSpaceCameraController对象相关参数
+     * 以下是Cesium.ScreenSpaceCameraController对象相关参数
      * @property [cameraController] - 相机操作相关参数
      * @property [cameraController.zoomFactor = 3.0] - 鼠标滚轮放大的步长参数
      * @property [cameraController.constrainedAxis = true] - 为false时 解除在南北极区域鼠标操作限制
@@ -22326,7 +22332,7 @@ export namespace Map {
      * @property [cameraController.enableZoom = true] - 是否允许 用户放大和缩小视图
      * @property [cameraController.enableCollisionDetection = true] - 是否允许 地形相机的碰撞检测
      *
-     * 以下是Mars3dCesium.Clock时钟相关参数
+     * 以下是Cesium.Clock时钟相关参数
      * @property [clock] - 时钟相关参数
      * @property [clock.currentTime = null] - 当前的时间
      * @property [clock.multiplier = 1.0] - 当前的速度
@@ -22357,9 +22363,9 @@ export namespace Map {
         fxaa?: boolean;
         highDynamicRange?: boolean;
         backgroundColor?: string;
-        sceneMode?: Mars3dCesium.SceneMode;
+        sceneMode?: Cesium.SceneMode;
         scene3DOnly?: boolean;
-        mapProjection?: Mars3dCesium.MapProjection;
+        mapProjection?: Cesium.MapProjection;
         shouldAnimate?: boolean;
         shadows?: boolean;
         useDefaultRenderLoop?: boolean;
@@ -22368,8 +22374,8 @@ export namespace Map {
         automaticallyTrackDataSourceClocks?: boolean;
         contextOptions?: any;
         orderIndependentTranslucency?: boolean;
-        terrainShadows?: Mars3dCesium.ShadowMode;
-        mapMode2D?: Mars3dCesium.MapMode2D;
+        terrainShadows?: Cesium.ShadowMode;
+        mapMode2D?: Cesium.MapMode2D;
         requestRenderMode?: boolean;
         maximumRenderTimeChange?: number;
         globe?: {
@@ -22395,7 +22401,7 @@ export namespace Map {
             enableCollisionDetection?: boolean;
         };
         clock?: {
-            currentTime?: string | Mars3dCesium.JulianDate;
+            currentTime?: string | Cesium.JulianDate;
             multiplier?: number;
         };
     };
@@ -22415,7 +22421,7 @@ export namespace Map {
      * @property [overviewMap] - 鹰眼地图 控件, 对应{@link OverviewMap }构造参数
      * @property [mapSplit] - 卷帘对比 控件, 对应{@link MapSplit }构造参数
      *
-     * 以下是Mars3dCesium.Viewer所支持的控件相关的options
+     * 以下是Cesium.Viewer所支持的控件相关的options
      * @property [infoBox = true] - 是否显示 点击要素之后显示的信息
      * @property [selectionIndicator = true] - 选择模型时，是否显示绿色框
      * @property [animation = true] - 是否创建 左下角仪表动画面板
@@ -22451,7 +22457,7 @@ export namespace Map {
         baseLayerPicker?: boolean;
         fullscreenButton?: boolean;
         vrButton?: boolean;
-        geocoder?: boolean | Mars3dCesium.GeocoderService[];
+        geocoder?: boolean | Cesium.GeocoderService[];
         homeButton?: boolean;
         sceneModePicker?: boolean;
         projectionPicker?: boolean;
@@ -22514,7 +22520,7 @@ export namespace Map {
      */
     type terrainOptions = {
         type?: TerrainType;
-        url: string | Mars3dCesium.Resource;
+        url: string | Cesium.Resource;
         show?: boolean;
         requestVertexNormals?: boolean;
         requestWaterMask?: boolean;
@@ -22677,8 +22683,8 @@ export namespace Map {
  * @param [options.lang] - 使用的语言（如中文、英文等）。
  * @param [options.templateValues] - 图层中统一的url模版，比如可以将服务url前缀统一使用模板，方便修改或动态配置。
  */
-export class Map extends BaseClass {
-    constructor(id: string | Mars3dCesium.Viewer, options?: {
+declare class Map extends BaseClass {
+    constructor(id: string | Cesium.Viewer, options?: {
         scene?: Map.sceneOptions;
         control?: Map.controlOptions;
         mouse?: Map.mouseOptions;
@@ -22695,9 +22701,9 @@ export class Map extends BaseClass {
      */
     readonly options: any;
     /**
-     * 地图对应的Cesium原生的  [Mars3dCesium.Viewer对象]{@link http://mars3d.cn/api/cesium/Viewer.html}
+     * 地图对应的Cesium原生的  [Cesium.Viewer对象]{@link http://mars3d.cn/api/cesium/Viewer.html}
      */
-    readonly viewer: Mars3dCesium.Viewer;
+    readonly viewer: Cesium.Viewer;
     /**
      * 获取地图DOM容器。
      */
@@ -22712,45 +22718,45 @@ export class Map extends BaseClass {
      */
     readonly canvas: HTMLCanvasElement;
     /**
-     * 获取场景。 [Mars3dCesium.Scene]{@link http://mars3d.cn/api/cesium/Scene.html}
+     * 获取场景。 [Cesium.Scene]{@link http://mars3d.cn/api/cesium/Scene.html}
      */
-    readonly scene: Mars3dCesium.Scene;
+    readonly scene: Cesium.Scene;
     /**
-     * 获取相机 [Mars3dCesium.Camera]{@link http://mars3d.cn/api/cesium/Camera.html}
+     * 获取相机 [Cesium.Camera]{@link http://mars3d.cn/api/cesium/Camera.html}
      */
-    readonly camera: Mars3dCesium.Camera;
+    readonly camera: Cesium.Camera;
     /**
      * 获取将在地球上渲染的ImageryLayer图像图层的集合
      */
-    readonly imageryLayers: Mars3dCesium.ImageryLayerCollection;
+    readonly imageryLayers: Cesium.ImageryLayerCollection;
     /**
      * 获取要可视化的 DataSource 实例集。
      */
-    readonly dataSources: Mars3dCesium.DataSourceCollection;
+    readonly dataSources: Cesium.DataSourceCollection;
     /**
      * 获取未绑定到特定数据源的实体的集合。这是 dataSourceDisplay.defaultDataSource.entities 的快捷方式。
      */
-    readonly entities: Mars3dCesium.EntityCollection;
+    readonly entities: Cesium.EntityCollection;
     /**
-     * 获取时钟 [Mars3dCesium.Clock]{@link http://mars3d.cn/api/cesium/Clock.html}
+     * 获取时钟 [Cesium.Clock]{@link http://mars3d.cn/api/cesium/Clock.html}
      */
-    readonly clock: Mars3dCesium.Clock;
+    readonly clock: Cesium.Clock;
     /**
      * 当前时间
      */
-    currentTime: Mars3dCesium.JulianDate;
+    currentTime: Cesium.JulianDate;
     /**
      * 获取 CesiumWidget
      */
-    readonly cesiumWidget: Mars3dCesium.CesiumWidget;
+    readonly cesiumWidget: Cesium.CesiumWidget;
     /**
      * 获取或设置相机当前正在跟踪的Entity实例。
      */
-    trackedEntity: Mars3dCesium.Entity | BaseEntity | undefined | any;
+    trackedEntity: Cesium.Entity | BaseEntity | undefined | any;
     /**
      * 获取或设置当前的地形服务
      */
-    terrainProvider: Mars3dCesium.TerrainProvider;
+    terrainProvider: Cesium.TerrainProvider;
     /**
      * 是否开启地形
      */
@@ -22878,13 +22884,13 @@ export class Map extends BaseClass {
      * @param positions - 坐标  或 坐标数组
      * @returns 3dtiles模型对象
      */
-    pick3DTileset(positions: Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[]): Mars3dCesium.Cesium3DTileset | undefined;
+    pick3DTileset(positions: Cesium.Cartesian3 | Cesium.Cartesian3[]): Cesium.Cesium3DTileset | undefined;
     /**
      * 获取坐标位置的3dtiles模型图层
      * @param positions - 坐标  或 坐标数组
      * @returns 3dtiles模型图层
      */
-    pickTilesetLayer(positions: Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[]): TilesetLayer | undefined;
+    pickTilesetLayer(positions: Cesium.Cartesian3 | Cesium.Cartesian3[]): TilesetLayer | undefined;
     /**
      * 重新设置basemps底图图层，对options.basemaps重新赋值
      * @param arr - 底图图层配置
@@ -23102,8 +23108,8 @@ export class Map extends BaseClass {
     setPitch(pitch: number, options?: {
         heading?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
     }): void;
     /**
      * 停止视角定位等操作
@@ -23151,15 +23157,15 @@ export class Map extends BaseClass {
         roll: number;
     }, options?: {
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 将相机本身定位至指定位置，同 setCameraView 方法
@@ -23201,7 +23207,7 @@ export class Map extends BaseClass {
      * @param [options.flyOverLongitude] - 地球上的两点之间总有两条路。这个选项迫使相机选择战斗方向飞过那个经度。
      * @param [options.flyOverLongitudeWeight] - 仅在通过flyOverLongitude指定的lon上空飞行，只要该方式的时间不超过flyOverLongitudeWeight的短途时间。
      * @param [options.convert = true] - 是否将目的地从世界坐标转换为场景坐标（仅在不使用3D时相关）。
-     * @param [options.easingFunction = Mars3dCesium.EasingFunction.LINEAR_NONE] - 控制在飞行过程中如何插值时间。
+     * @param [options.easingFunction = Cesium.EasingFunction.LINEAR_NONE] - 控制在飞行过程中如何插值时间。
      * @returns 无
      */
     setCameraViewList(arr: {
@@ -23216,15 +23222,15 @@ export class Map extends BaseClass {
         onStart?: (...params: any[]) => any;
         onEnd?: (...params: any[]) => any;
     }[], options?: {
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 飞行至Cesium相关矢量对象处，是Cesium本身的flyTo方法。
@@ -23233,7 +23239,7 @@ export class Map extends BaseClass {
      * 偏移量是在以边界球中心为中心的局部东北向上参考框中的航向/俯仰/范围。航向角和俯仰角是在局部的东西向北参考系中定义的。航向是从y轴到x轴的角度。间距是从xy平面开始的旋转。正螺距角度在平面上方。负俯仰角在平面下方。范围是到中心的距离。如果范围是零，则将计算范围以使整个边界球都可见。
      *
      * 在2D模式下，必须有一个俯视图。摄像机将被放置在目标上方并向下看。上方的高度目标将是范围。航向将根据偏移量确定。如果标题不能根据偏移量确定，航向将为北。
-     * @param target - 需要定位的Cesium内部对象。您还可以传递一个： Mars3dCesium.Entity|Mars3dCesium.Entity[]|Mars3dCesium.EntityCollection|Mars3dCesium.DataSource|Mars3dCesium.ImageryLayer|Mars3dCesium.Cesium3DTileset|Mars3dCesium.TimeDynamicPointCloud|Promise.<Entity|Entity[]|Mars3dCesium.EntityCollection|Mars3dCesium.DataSource|Mars3dCesium.ImageryLayer|Mars3dCesium.Cesium3DTileset|Mars3dCesium.TimeDynamicPointCloud>
+     * @param target - 需要定位的Cesium内部对象。您还可以传递一个： Cesium.Entity|Cesium.Entity[]|Cesium.EntityCollection|Cesium.DataSource|Cesium.ImageryLayer|Cesium.Cesium3DTileset|Cesium.TimeDynamicPointCloud|Promise.<Entity|Entity[]|Cesium.EntityCollection|Cesium.DataSource|Cesium.ImageryLayer|Cesium.Cesium3DTileset|Cesium.TimeDynamicPointCloud>
      * @param [options] - 具有以下属性的对象:
      * @param [options.duration = 3.0] - 飞行持续时间（秒）。
      * @param [options.maximumHeight] - 飞行高峰时的最大高度。
@@ -23243,7 +23249,7 @@ export class Map extends BaseClass {
     flyTo(target: any, options?: {
         duration?: number;
         maximumHeight?: number;
-        offset?: Mars3dCesium.HeadingPitchRange;
+        offset?: Cesium.HeadingPitchRange;
     }): Promise<boolean>;
     /**
      * 飞行定位到 Graphic矢量对象 处
@@ -23277,15 +23283,15 @@ export class Map extends BaseClass {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 定位至坐标数组
@@ -23310,7 +23316,7 @@ export class Map extends BaseClass {
      * @param [options.easingFunction] - 控制在飞行过程中如何插值时间。
      * @returns 无
      */
-    flyToPositions(positions: Mars3dCesium.Cartesian3[], options?: {
+    flyToPositions(positions: Cesium.Cartesian3[], options?: {
         radius?: number;
         scale?: number;
         minHeight?: number;
@@ -23319,15 +23325,15 @@ export class Map extends BaseClass {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 相机飞行定位至矩形区域
@@ -23370,15 +23376,15 @@ export class Map extends BaseClass {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 定位至目标点(非相机位置)
@@ -23400,21 +23406,21 @@ export class Map extends BaseClass {
      * @param [options.easingFunction] - 控制在飞行过程中如何插值时间。
      * @returns 无
      */
-    flyToPoint(point: LngLatPoint | Mars3dCesium.Cartesian3 | number[], options?: {
+    flyToPoint(point: LngLatPoint | Cesium.Cartesian3 | number[], options?: {
         radius?: number;
         heading?: number;
         pitch?: number;
         roll?: number;
         duration?: number;
         clampToGround?: boolean;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 是否在调用了openFlyAnimation正在进行开场动画
@@ -23466,7 +23472,7 @@ export class Map extends BaseClass {
      * @param [options] - 配置参数
      * @returns 当前对象本身，可以链式调用
      */
-    openPopup(position: LngLatPoint | Mars3dCesium.Cartesian3 | number[], content: string | ((...params: any[]) => any) | BaseGraphic | BaseGraphicLayer, options?: Popup.StyleOptions): Map;
+    openPopup(position: LngLatPoint | Cesium.Cartesian3 | number[], content: string | ((...params: any[]) => any) | BaseGraphic | BaseGraphicLayer, options?: Popup.StyleOptions): Map;
     /**
      * 关闭Popup弹窗
      * @returns 当前对象本身，可以链式调用
@@ -23479,7 +23485,7 @@ export class Map extends BaseClass {
      * @param [options] - 配置参数
      * @returns 当前对象本身，可以链式调用
      */
-    openTooltip(position: LngLatPoint | Mars3dCesium.Cartesian3 | number[], content: string | ((...params: any[]) => any), options?: Tooltip.StyleOptions): Map;
+    openTooltip(position: LngLatPoint | Cesium.Cartesian3 | number[], content: string | ((...params: any[]) => any), options?: Tooltip.StyleOptions): Map;
     /**
      * 关闭Tooltip弹窗
      * @returns 当前对象本身，可以链式调用
@@ -23527,7 +23533,7 @@ export class Map extends BaseClass {
      * @param [position] - 显示的位置
      * @returns 当前对象本身，可以链式调用
      */
-    openContextMenu(position?: Mars3dCesium.Cartesian3): Map;
+    openContextMenu(position?: Cesium.Cartesian3): Map;
     /**
      * 关闭右键菜单
      * @returns 当前对象本身，可以链式调用
@@ -23539,7 +23545,7 @@ export class Map extends BaseClass {
      * @param message - 显示的内容
      * @returns 当前对象本身，可以链式调用
      */
-    openSmallTooltip(position: Mars3dCesium.Cartesian2 | Mars3dCesium.Cartesian3, message: any): Map;
+    openSmallTooltip(position: Cesium.Cartesian2 | Cesium.Cartesian3, message: any): Map;
     /**
      * 关闭小提示窗
      * @returns 当前对象本身，可以链式调用
@@ -23573,63 +23579,63 @@ export class Map extends BaseClass {
  * 材质属性(Entity使用) 基础类
  * @param options - 参数对象
  */
-export class BaseMaterialProperty {
+declare class BaseMaterialProperty {
     constructor(options: any);
     /**
      * 获取 材质名称
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
 }
 
 /**
  * 圆形扫描效果 材质属性
  * @param [options] - 参数对象，包括以下：
  * @param options.image - 背景图片URL
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 0.5))] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 0.5))] - 颜色
  */
-export class CircleScanMaterialProperty extends BaseMaterialProperty {
+declare class CircleScanMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
         image: string;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
     });
     /**
      * 获取 材质名称
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 背景图片URL
      */
@@ -23639,15 +23645,15 @@ export class CircleScanMaterialProperty extends BaseMaterialProperty {
 /**
  * 圆形扩散波纹效果 材质属性
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = Mars3dCesium.Color.YELLOW] - 颜色
+ * @param [options.color = Cesium.Color.YELLOW] - 颜色
  * @param [options.speed = 10] - 速度
  * @param [options.duration] - 播放总时长，单位：秒 （会覆盖speed参数）
  * @param [options.count = 1] - 圆圈个数
  * @param [options.gradient = 0.1] - 透明度的幂方（0-1）,0表示无虚化效果，1表示虚化成均匀渐变
  */
-export class CircleWaveMaterialProperty extends BaseMaterialProperty {
+declare class CircleWaveMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         speed?: number;
         duration?: number;
         count?: number;
@@ -23658,24 +23664,24 @@ export class CircleWaveMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 速度
      */
@@ -23693,14 +23699,14 @@ export class CircleWaveMaterialProperty extends BaseMaterialProperty {
 /**
  * 圆锥 波纹扩散效果 材质属性
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(2, 1, 0.0, 0.8)] - 颜色
+ * @param [options.color = new Cesium.Color(2, 1, 0.0, 0.8)] - 颜色
  * @param [options.repeat = 30] - 圈数量
  * @param [options.thickness = 0.3] - 圈的宽度比例
  * @param [options.frameRate = 60] - 每秒刷新次数
  */
-export class CylinderWaveMaterialProperty extends BaseMaterialProperty {
+declare class CylinderWaveMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         repeat?: number;
         thickness?: number;
         frameRate?: number;
@@ -23710,24 +23716,24 @@ export class CylinderWaveMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 重复次数
      */
@@ -23737,12 +23743,12 @@ export class CylinderWaveMaterialProperty extends BaseMaterialProperty {
 /**
  * 球体: 电弧球体效果  材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 5.0] - 速度，值越大越快
  */
-export class EllipsoidElectricMaterialProperty extends BaseMaterialProperty {
+declare class EllipsoidElectricMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
     });
     /**
@@ -23750,35 +23756,35 @@ export class EllipsoidElectricMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 球体: 波纹球体效果  材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 5.0] - 速度，值越大越快
  */
-export class EllipsoidWaveMaterialProperty extends BaseMaterialProperty {
+declare class EllipsoidWaveMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
     });
     /**
@@ -23786,24 +23792,24 @@ export class EllipsoidWaveMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
@@ -23811,33 +23817,33 @@ export class EllipsoidWaveMaterialProperty extends BaseMaterialProperty {
  * @param [options] - 参数对象，包括以下：
  * @param options.image - 背景图片URL
  * @param [options.opacity = 1] - 透明度
- * @param [options.color = Mars3dCesium.Color.WHITE] - 颜色
+ * @param [options.color = Cesium.Color.WHITE] - 颜色
  */
-export class Image2MaterialProperty extends BaseMaterialProperty {
+declare class Image2MaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
         image: string;
         opacity?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
     });
     /**
      * 获取 材质名称
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 透明度，0-1
      */
@@ -23851,12 +23857,12 @@ export class Image2MaterialProperty extends BaseMaterialProperty {
 /**
  * 线状: 闪烁线 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 2] - 速度，值越大越快
  */
-export class LineFlickerMaterialProperty extends BaseMaterialProperty {
+declare class LineFlickerMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
     });
     /**
@@ -23864,38 +23870,38 @@ export class LineFlickerMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 线状 流动效果 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 2] - 速度，值越大越快
  * @param [options.percent = 0.04] - 比例
  * @param [options.alpha = 0.1] - 透明程度 0.0-1.0
  * @param [options.startTime = 0] - 开始的时间系数
  */
-export class LineFlowColorMaterialProperty extends BaseMaterialProperty {
+declare class LineFlowColorMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
         percent?: number;
         alpha?: number;
@@ -23906,87 +23912,87 @@ export class LineFlowColorMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 线状 流动效果 材质
  * @param [options] - 参数对象，包括以下：
  * @param options.image - 背景图片URL
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
- * @param [options.repeat = new Mars3dCesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
+ * @param [options.repeat = new Cesium.Cartesian2(1.0, 1.0)] - 横纵方向重复次数
  * @param [options.axisY = false] - 是否Y轴朝上
  * @param [options.speed = 10] - 速度，建议取值范围1-100
  * @param [options.duration] - 播放总时长，单位：秒 （会覆盖speed参数）
  * @param [options.hasImage2 = false] - 是否有2张图片的混合模式
  * @param [options.image2] - 第2张背景图片URL地址
- * @param [options.color2 = new Mars3dCesium.Color(1, 1, 1)] - 第2张背景图片颜色
+ * @param [options.color2 = new Cesium.Color(1, 1, 1)] - 第2张背景图片颜色
  */
-export class LineFlowMaterialProperty extends BaseMaterialProperty {
+declare class LineFlowMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
         image: string;
-        color?: string | Mars3dCesium.Color;
-        repeat?: Mars3dCesium.Cartesian2;
+        color?: string | Cesium.Color;
+        repeat?: Cesium.Cartesian2;
         axisY?: boolean;
         speed?: number;
         duration?: number;
         hasImage2?: boolean;
         image2?: string;
-        color2?: string | Mars3dCesium.Color;
+        color2?: string | Cesium.Color;
     });
     /**
      * 获取 材质名称
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 线状: 轨迹线 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.bgColor] - 线的背景颜色
  * @param [options.speed = 5.0] - 速度，值越大越快
  */
-export class LineTrailMaterialProperty extends BaseMaterialProperty {
+declare class LineTrailMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
-        bgColor?: string | Mars3dCesium.Color;
+        color?: Cesium.Color;
+        bgColor?: string | Cesium.Color;
         speed?: number;
     });
     /**
@@ -23994,28 +24000,28 @@ export class LineTrailMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 背景颜色
      */
-    bgColor: Mars3dCesium.Color;
+    bgColor: Cesium.Color;
 }
 
 /**
@@ -24027,10 +24033,10 @@ export class LineTrailMaterialProperty extends BaseMaterialProperty {
  * @param [options.startTime = Math.random] - 开始的时间系数
  * @param [options.bidirectional = 0] - 运行形式：0 正向运动 1 反向运动 2 双向运动
  */
-export class ODLineMaterialProperty extends BaseMaterialProperty {
+declare class ODLineMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
-        bgColor?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
+        bgColor?: string | Cesium.Color;
         speed?: number;
         startTime?: number;
         bidirectional?: number;
@@ -24040,28 +24046,28 @@ export class ODLineMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 运动对象的颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 线的背景颜色
      */
-    bgColor: Mars3dCesium.Color;
+    bgColor: Cesium.Color;
     /**
      * 速度
      */
@@ -24071,13 +24077,13 @@ export class ODLineMaterialProperty extends BaseMaterialProperty {
 /**
  * 面状： 渐变面 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1.0, 1.0, 0.0, 0.5)] - 颜色
+ * @param [options.color = new Cesium.Color(1.0, 1.0, 0.0, 0.5)] - 颜色
  * @param [options.alphaPower = 1.5] - 透明度系数
  * @param [options.diffusePower = 1.6] - 漫射系数
  */
-export class PolyGradientMaterialProperty extends BaseMaterialProperty {
+declare class PolyGradientMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         alphaPower?: number;
         diffusePower?: number;
     });
@@ -24086,35 +24092,35 @@ export class PolyGradientMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 圆形: 雷达线(圆+旋转半径线) 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 5.0] - 速度，值越大越快
  */
-export class RadarLineMaterialProperty extends BaseMaterialProperty {
+declare class RadarLineMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
     });
     /**
@@ -24122,35 +24128,35 @@ export class RadarLineMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 圆形: 雷达线(圆+旋转半径线) 材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 颜色
  * @param [options.speed = 5.0] - 速度，值越大越快
  */
-export class RadarWaveMaterialProperty extends BaseMaterialProperty {
+declare class RadarWaveMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
     });
     /**
@@ -24158,38 +24164,38 @@ export class RadarWaveMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 矩形面： 轮播图  材质
  * @param [options] - 参数对象，包括以下：
  * @param options.image - 图片URL
- * @param [options.color = Mars3dCesium.Color.WHITE] - 颜色和透明度
+ * @param [options.color = Cesium.Color.WHITE] - 颜色和透明度
  * @param [options.speed = 1] - 速度，值越大越快
  * @param [options.pure = false] - 是否纯色
  */
-export class RectSlideMaterialProperty extends BaseMaterialProperty {
+declare class RectSlideMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
         image: string;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         speed?: number;
         pure?: boolean;
     });
@@ -24198,20 +24204,20 @@ export class RectSlideMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 背景图片URL
      */
@@ -24219,18 +24225,18 @@ export class RectSlideMaterialProperty extends BaseMaterialProperty {
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 面状: 用于面状对象的 扫描线放大效果 材质属性
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = Mars3dCesium.Color.YELLOW] - 颜色
+ * @param [options.color = Cesium.Color.YELLOW] - 颜色
  * @param [options.speed = 10] - 速度
  */
-export class ScanLineMaterialProperty extends BaseMaterialProperty {
+declare class ScanLineMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         speed?: number;
     });
     /**
@@ -24238,28 +24244,28 @@ export class ScanLineMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 速度
      */
-    speed: Mars3dCesium.Color;
+    speed: Cesium.Color;
 }
 
 /**
@@ -24275,16 +24281,16 @@ export class ScanLineMaterialProperty extends BaseMaterialProperty {
  * @param [options.fillColor = "#ffff00"] - 文本颜色
  * @param [options.color = "#ffff00"] - 文本颜色，同fillColor（别名）
  * @param [options.stroke = true] - 是否描边文本。
- * @param [options.strokeColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
+ * @param [options.strokeColor = new Cesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
  * @param [options.strokeWidth = 2] - 描边的宽度。
- * @param [options.backgroundColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
+ * @param [options.backgroundColor = new Cesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
  * @param [options.outlineWidth] - 边框的宽度。
  * @param [options.outlineColor = fillColor] - 矩形边框的颜色。
  * @param [options.padding = 10] - 要在文本周围添加的填充的像素大小。
  * @param [options.textBaseline = 'top'] - 文本的基线。
  * @param [options.onCustomCanvas] - 支持对生成后的Canvas做自定义处理。
  */
-export class TextMaterialProperty extends Image2MaterialProperty {
+declare class TextMaterialProperty extends Image2MaterialProperty {
     constructor(options?: {
         text?: string;
         font_family?: string;
@@ -24296,11 +24302,11 @@ export class TextMaterialProperty extends Image2MaterialProperty {
         fillColor?: string;
         color?: string;
         stroke?: boolean;
-        strokeColor?: Mars3dCesium.Color;
+        strokeColor?: Cesium.Color;
         strokeWidth?: number;
-        backgroundColor?: Mars3dCesium.Color;
+        backgroundColor?: Cesium.Color;
         outlineWidth?: number;
-        outlineColor?: Mars3dCesium.Color;
+        outlineColor?: Cesium.Color;
         padding?: number;
         textBaseline?: string;
         onCustomCanvas?: (...params: any[]) => any;
@@ -24319,14 +24325,14 @@ export class TextMaterialProperty extends Image2MaterialProperty {
  * 墙体:  走马灯围墙 材质
  * @param [options] - 参数对象，包括以下：
  * @param options.image - 背景图片URL
- * @param [options.color = new Mars3dCesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
+ * @param [options.color = new Cesium.Color(1, 0, 0, 1.0)] - 背景图片颜色
  * @param [options.count = 1] - 数量
  * @param [options.speed = 5.0] - 速度
  */
-export class WallScrollMaterialProperty extends BaseMaterialProperty {
+declare class WallScrollMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
         image: string;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         count?: number;
         speed?: number;
     });
@@ -24335,31 +24341,31 @@ export class WallScrollMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
 }
 
 /**
  * 水面效果材质
  * @param [options] - 参数对象，包括以下：
- * @param [options.baseWaterColor = new Mars3dCesium.Color(0.2, 0.3, 0.6, 1.0)] - 基础颜色
- * @param [options.blendColor = new Mars3dCesium.Color(0.0, 1.0, 0.699, 1.0)] - 从水中混合到非水域时使用的rgba颜色对象。
+ * @param [options.baseWaterColor = new Cesium.Color(0.2, 0.3, 0.6, 1.0)] - 基础颜色
+ * @param [options.blendColor = new Cesium.Color(0.0, 1.0, 0.699, 1.0)] - 从水中混合到非水域时使用的rgba颜色对象。
  * @param [options.specularMap] - 单一通道纹理用来指示水域的面积。
  * @param [options.normalMap] - 水正常扰动的法线图。
  * @param [options.frequency = 100] - 控制波数的数字。
@@ -24368,10 +24374,10 @@ export class WallScrollMaterialProperty extends BaseMaterialProperty {
  * @param [options.specularIntensity = 0.5] - 控制镜面反射强度的数字。
  * @param [options.fadeFactor = 1.0] - fadeFactor
  */
-export class WaterMaterialProperty extends BaseMaterialProperty {
+declare class WaterMaterialProperty extends BaseMaterialProperty {
     constructor(options?: {
-        baseWaterColor?: string | Mars3dCesium.Color;
-        blendColor?: string | Mars3dCesium.Color;
+        baseWaterColor?: string | Cesium.Color;
+        blendColor?: string | Cesium.Color;
         specularMap?: string;
         normalMap?: string;
         frequency?: number;
@@ -24385,28 +24391,28 @@ export class WaterMaterialProperty extends BaseMaterialProperty {
      * @param [time] - 检索值的时间。
      * @returns 材质名称
      */
-    getType(time?: Mars3dCesium.JulianDate): string;
+    getType(time?: Cesium.JulianDate): string;
     /**
      * 获取所提供时间的属性值。
      * @param [time] - 检索值的时间。
      * @param [result] - 用于存储值的对象，如果省略，则创建并返回一个新的实例。
      * @returns 修改的result参数或一个新的实例(如果没有提供result参数)。
      */
-    getValue(time?: Mars3dCesium.JulianDate, result?: any): any;
+    getValue(time?: Cesium.JulianDate, result?: any): any;
     /**
      * 将此属性与提供的属性进行比较并返回, 如果两者相等返回true，否则为false
      * @param [other] - 比较的对象
      * @returns 两者是同一个对象
      */
-    equals(other?: Mars3dCesium.Property): boolean;
+    equals(other?: Cesium.Property): boolean;
     /**
      * 基础颜色
      */
-    baseWaterColor: Mars3dCesium.Color;
+    baseWaterColor: Cesium.Color;
     /**
      * 从水中混合到非水域时使用的rgba颜色对象。
      */
-    blendColor: Mars3dCesium.Color;
+    blendColor: Cesium.Color;
     /**
      * 单一通道纹理用来指示水域的面积。
      */
@@ -24436,14 +24442,14 @@ export class WaterMaterialProperty extends BaseMaterialProperty {
  * })
  * graphicLayer.addGraphic(primitive)
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(2, 1, 0.0, 0.8)] - 颜色
+ * @param [options.color = new Cesium.Color(2, 1, 0.0, 0.8)] - 颜色
  * @param [options.repeat = 30] - 圈数量
  * @param [options.thickness = 0.3] - 圈的宽度比例
  * @param [options.frameRate = 60] - 每秒刷新次数
  */
-export class CylinderWaveMaterial extends Mars3dCesium.Material {
+declare class CylinderWaveMaterial extends Cesium.Material {
     constructor(options?: {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         repeat?: number;
         thickness?: number;
         frameRate?: number;
@@ -24476,18 +24482,18 @@ export class CylinderWaveMaterial extends Mars3dCesium.Material {
  * @param [options.font_style = "normal"] - 是否斜体 ,可选项：italic (解释：是),normal (解释：否),
  * @param [options.font = '30px normal normal 楷体'] - 上叙4个属性的一次性指定CSS字体的属性。
  * @param [options.fill = true] - 是否填充
- * @param [options.fillColor = new Mars3dCesium.Color(1.0, 1.0, 0.0, 1.0)] - 文本颜色
+ * @param [options.fillColor = new Cesium.Color(1.0, 1.0, 0.0, 1.0)] - 文本颜色
  * @param [options.color] - 文本颜色，同fillColor（别名）
  * @param [options.stroke = true] - 是否描边文本。
- * @param [options.strokeColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
+ * @param [options.strokeColor = new Cesium.Color(1.0, 1.0, 1.0, 0.8)] - 描边的颜色。
  * @param [options.strokeWidth = 2] - 描边的宽度。
- * @param [options.backgroundColor = new Mars3dCesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
+ * @param [options.backgroundColor = new Cesium.Color(1.0, 1.0, 1.0, 0.1)] - 画布的背景色。
  * @param [options.outlineWidth] - 边框的宽度。
  * @param [options.outlineColor = color] - 矩形边框的颜色。
  * @param [options.padding = 10] - 要在文本周围添加的填充的像素大小。
  * @param [options.textBaseline = 'top'] - 文本的基线。
  */
-export class TextMaterial extends Mars3dCesium.Material {
+declare class TextMaterial extends Cesium.Material {
     constructor(options?: {
         text?: string;
         font_family?: string;
@@ -24497,199 +24503,16 @@ export class TextMaterial extends Mars3dCesium.Material {
         font?: string;
         fill?: boolean;
         fillColor?: string;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         stroke?: boolean;
-        strokeColor?: Mars3dCesium.Color;
+        strokeColor?: Cesium.Color;
         strokeWidth?: number;
-        backgroundColor?: Mars3dCesium.Color;
+        backgroundColor?: Cesium.Color;
         outlineWidth?: number;
-        outlineColor?: Mars3dCesium.Color;
+        outlineColor?: Cesium.Color;
         padding?: number;
         textBaseline?: string;
     });
-}
-
-export namespace CanvasWindLayer {
-    /**
-     * Canvas风场图层， data数据结构
-     * @property rows - 行总数
-     * @property cols - 列总数
-     * @property xmin - 最小经度（度数，-180-180）
-     * @property xmax - 最大经度（度数，-180-180）
-     * @property ymin - 最小纬度（度数，-90-90）
-     * @property ymax - 最大纬度（度数，-90-90）
-     * @property udata - U值一维数组, 数组长度应该是 rows*cols 。也支持按rows行cols列构建好的二维数组。
-     * @property vdata - V值一维数组, 数组长度应该是 rows*cols 。也支持按rows行cols列构建好的二维数组。
-     */
-    type DataOptions = {
-        rows: number;
-        cols: number;
-        xmin: number;
-        xmax: number;
-        ymin: number;
-        ymax: number;
-        udata: number[] | any[][];
-        vdata: number[] | any[][];
-    };
-}
-
-/**
- * Canvas风场图层，
- * 基于Canvas绘制，【需要引入 mars3d-wind 插件库】
- * @param [options] - 参数对象，包括以下：
- * @param [options.data] - 风场数据
- * @param [options.speedRate = 50] - 风前进速率，意思是将当前风场横向纵向分成100份，再乘以风速就能得到移动位置，无论地图缩放到哪一级别都是一样的速度，可以用该数值控制线流动的快慢，值越大，越慢，
- * @param [options.particlesnumber = 4096] - 初始粒子总数
- * @param [options.maxAge = 120] - 每个粒子的最大生存周期
- * @param [options.frameRate = 10] - 每秒刷新次数，因为requestAnimationFrame固定每秒60次的渲染，所以如果不想这么快，就把该数值调小一些
- * @param [options.color = '#ffffff'] - 线颜色
- * @param [options.lineWidth = 1] - 线宽度
- * @param [options.fixedHeight = 0] - 点的固定的海拔高度
- * @param [options.reverseY = false] - 是否翻转纬度数组顺序，正常数据是从北往南的（纬度从大到小），如果反向时请传reverseY为true
- * @param [options.pointerEvents = false] - 图层是否可以进行鼠标交互，为false时可以穿透操作及缩放地图
- * @param [options.id = uuid()] - 图层id标识
- * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
- * @param [options.name = ''] - 图层名称
- * @param [options.show = true] - 图层是否显示
- * @param [options.eventParent] - 指定的事件冒泡对象，默认为map对象，false时不冒泡
- * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
- * @param options.center.lng - 经度值, 180 - 180
- * @param options.center.lat - 纬度值, -90 - 90
- * @param [options.center.alt] - 高度值
- * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
- * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
- * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
- * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
- */
-export class CanvasWindLayer extends BaseLayer {
-    constructor(options?: {
-        data?: CanvasWindLayer.DataOptions;
-        speedRate?: number;
-        particlesnumber?: number;
-        maxAge?: number;
-        frameRate?: number;
-        color?: string;
-        lineWidth?: number;
-        fixedHeight?: number;
-        reverseY?: boolean;
-        pointerEvents?: boolean;
-        id?: string | number;
-        pid?: string | number;
-        name?: string;
-        show?: boolean;
-        eventParent?: BaseClass | boolean;
-        center?: {
-            lng: number;
-            lat: number;
-            alt?: number;
-            heading?: number;
-            pitch?: number;
-            roll?: number;
-        };
-        flyTo?: boolean;
-    });
-    /**
-     * 图层对应的Canvas对象
-     */
-    readonly canvas: HTMLCanvasElement;
-    /**
-     * 线颜色
-     */
-    color: string;
-    /**
-     * 线宽度
-     */
-    lineWidth: number;
-    /**
-     * 点的固定的海拔高度
-     */
-    fixedHeight: number;
-    /**
-     * 是否翻转纬度数组顺序，正常数据是从北往南的（纬度从大到小），如果反向时请传reverseY为true
-     */
-    reverseY: boolean;
-    /**
-     * 图层对应的Canvas对象
-     */
-    readonly layer: HTMLCanvasElement;
-    /**
-     * Canvas对象宽度（单位：像素）
-     */
-    readonly canvasWidth: number;
-    /**
-     * Canvas对象高度（单位：像素）
-     */
-    readonly canvasHeight: number;
-    /**
-     * 图层是否可以鼠标交互，为false时可以穿透操作及缩放地图
-     */
-    pointerEvents: boolean;
-    /**
-     * 风前进速率，意思是将当前风场横向纵向分成100份，再乘以风速就能得到移动位置，无论地图缩放到哪一级别都是一样的速度，可以用该数值控制线流动的快慢，值越大，越慢，
-     */
-    speedRate: number;
-    /**
-     * 初始粒子总数
-     */
-    particlesnumber: number;
-    /**
-     * 每个粒子的最大生存周期
-     */
-    maxAge: number;
-    /**
-     * 风场数据，数据结构见类的构造方法说明
-     */
-    data: CanvasWindLayer.DataOptions;
-    /**
-     * 重绘，根据现有参数重新生成风场
-     * @returns 无
-     */
-    redraw(): void;
-    /**
-     * 设置 风场数据
-     * @param data - 风场数据
-     * @returns 无
-     */
-    setData(data: any): void;
-    /**
-     * 清除数据
-     * @returns 无
-     */
-    clear(): void;
-}
-
-/**
- * 风场相关 静态方法，【需要引入 mars3d-wind 插件库】
- */
-namespace WindUtil {
-    /**
-     * 风速风向 转 U值
-     * @param speed - 风速
-     * @param direction - 风向
-     * @returns U值
-     */
-    function getU(speed: number, direction: number): number;
-    /**
-     * 风速风向 转 V值
-     * @param speed - 风速
-     * @param direction - 风向
-     * @returns V值
-     */
-    function getV(speed: number, direction: number): number;
-    /**
-     * UV值 转 风速, 风速是uv分量的平方和
-     * @param u - U值
-     * @param v - V值
-     * @returns 风速
-     */
-    function getSpeed(u: number, v: number): number;
-    /**
-     * UV 转 风向
-     * @param u - U值
-     * @param v - V值
-     * @returns 风向
-     */
-    function getDirection(u: number, v: number): number;
 }
 
 /**
@@ -24715,7 +24538,7 @@ namespace WindUtil {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class EchartsLayer extends BaseLayer {
+declare class EchartsLayer extends BaseLayer {
     constructor(options?: {
         Echarts本身?: any;
         depthTest?: boolean;
@@ -24765,11 +24588,11 @@ export class EchartsLayer extends BaseLayer {
      * 获取图层内所有数据的 矩形边界值
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
 }
 
 /**
@@ -24807,9 +24630,9 @@ export class EchartsLayer extends BaseLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class HeatLayer extends BaseLayer {
+declare class HeatLayer extends BaseLayer {
     constructor(options: {
-        positions?: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any;
+        positions?: LngLatPoint[] | Cesium.Cartesian3[] | any;
         heatStyle?: {
             maxOpacity?: number;
             minOpacity?: number;
@@ -24858,7 +24681,7 @@ export class HeatLayer extends BaseLayer {
     /**
      * 数据位置坐标数组 （笛卡尔坐标）, 赋值时可以传入LatLngPoint数组对象
      */
-    positions: Mars3dCesium.Cartesian3[] | LngLatPoint[];
+    positions: Cesium.Cartesian3[] | LngLatPoint[];
     /**
      * 位置坐标(数组对象)，示例 [ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
@@ -24866,13 +24689,13 @@ export class HeatLayer extends BaseLayer {
     /**
      * 坐标数据对应的矩形边界
      */
-    readonly rectangle: Mars3dCesium.Rectangle;
+    readonly rectangle: Cesium.Rectangle;
     /**
      * 添加新的坐标点
      * @param item - 坐标点（含热力值）
      * @returns 无
      */
-    addPosition(item: Mars3dCesium.Cartesian3 | LngLatPoint): void;
+    addPosition(item: Cesium.Cartesian3 | LngLatPoint): void;
     /**
      * 清除矢量对象
      * @returns 无
@@ -24882,11 +24705,11 @@ export class HeatLayer extends BaseLayer {
      * 获取图层内所有数据的 矩形边界值
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
 }
 
 /**
@@ -24914,7 +24737,7 @@ export class HeatLayer extends BaseLayer {
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  * @param [dataSet] - mapv.DataSet数据集,可以参考[ MapV数据集对象说明]{@link https://github.com/huiyan-fe/mapv/blob/master/src/data/DataSet.md}
  */
-export class MapVLayer extends BaseLayer {
+declare class MapVLayer extends BaseLayer {
     constructor(options: {
         data?: any;
         depthTest?: boolean;
@@ -24936,7 +24759,7 @@ export class MapVLayer extends BaseLayer {
             roll?: number;
         };
         flyTo?: boolean;
-    }, dataSet?: any);
+    }|any, dataSet?: any);
     /**
      * 图层对应的Canvas对象
      */
@@ -24987,11 +24810,11 @@ export class MapVLayer extends BaseLayer {
      * 获取图层内所有数据的 矩形边界值
      * @param [options] - 控制参数
      * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
     getRectangle(options?: {
         isFormat?: boolean;
-    }): Mars3dCesium.Rectangle | any;
+    }): Cesium.Rectangle | any;
     /**
      * 从地图上移除，同map.removeThing
      * @param [destroy] - 是否调用destroy释放
@@ -25003,7 +24826,7 @@ export class MapVLayer extends BaseLayer {
 /**
  * 视锥体的类型
  */
-export const enum SensorType {
+declare const enum SensorType {
     /**
      * 四棱锥
      */
@@ -25020,7 +24843,7 @@ export const enum SensorType {
  * @param tle2 - 卫星两行轨道数（TLE） 的tle2，每行69个字符, 示例：'2 39150  97.9189  29.2064 0018076 220.9170 139.0692 14.76532215297913'
  * @param [name] - 卫星名称
  */
-export class Tle {
+declare class Tle {
     constructor(tle1: string, tle2: string, name?: string);
     /**
      * COSPAR国际代号,国际空间研究委员会制定.
@@ -25140,32 +24963,32 @@ export class Tle {
      * @param datetime - 指定的时间
      * @returns ECEF(地心地固坐标系) 坐标
      */
-    getEcfPosition(datetime: Date | Mars3dCesium.JulianDate | number): Mars3dCesium.Cartesian3 | undefined;
+    getEcfPosition(datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3 | undefined;
     /**
      * 获取卫星指定时间所在的 ECI惯性坐标
      * @param datetime - 指定的时间
      * @returns ECI(地心惯性坐标系)坐标
      */
-    getEciPosition(datetime: Date | Mars3dCesium.JulianDate | number): Mars3dCesium.Cartesian3 | undefined;
+    getEciPosition(datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3 | undefined;
     /**
      * 获取卫星指定时间所在的 ECI惯性坐标和地理坐标
      * @param datetime - 指定的时间
      * @returns ECI惯性坐标和地理坐标等信息
      */
-    getEciPositionAndGeodetic(datetime: Date | Mars3dCesium.JulianDate | number): any | undefined;
+    getEciPositionAndGeodetic(datetime: Date | Cesium.JulianDate | number): any | undefined;
     /**
      * 获取卫星指定时间 所在的位置坐标(经纬度)
      * @param datetime - 指定的时间
      * @returns 卫星当前经纬度位置
      */
-    getPoint(datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint | undefined;
+    getPoint(datetime: Date | Cesium.JulianDate | number): LngLatPoint | undefined;
     /**
      * 获取 地面地点 对卫星的 天文观测值
      * @param point - 地面地点经纬度坐标
      * @param datetime - 指定的时间
      * @returns 观测值
      */
-    getLookAngles(point: LngLatPoint, datetime: Date | Mars3dCesium.JulianDate | number): Tle.LookAngles;
+    getLookAngles(point: LngLatPoint, datetime: Date | Cesium.JulianDate | number): Tle.LookAngles;
     /**
      * 计算卫星指定时间所在的 经纬度位置
      * @param tle1 - 卫星TLE的第一行
@@ -25173,7 +24996,7 @@ export class Tle {
      * @param datetime - 指定的时间
      * @returns 卫星当前经纬度位置
      */
-    static getPoint(tle1: string, tle2: string, datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint | undefined;
+    static getPoint(tle1: string, tle2: string, datetime: Date | Cesium.JulianDate | number): LngLatPoint | undefined;
     /**
      * 获取卫星指定时间所在的 ECEF坐标
      * @param tle1 - 卫星TLE的第一行
@@ -25181,37 +25004,37 @@ export class Tle {
      * @param datetime - 指定的时间
      * @returns ECEF(地心地固坐标系) 坐标
      */
-    static getEcfPosition(tle1: string, tle2: string, datetime: Date | Mars3dCesium.JulianDate | number): Mars3dCesium.Cartesian3 | undefined;
+    static getEcfPosition(tle1: string, tle2: string, datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3 | undefined;
     /**
      * 获取 格林尼治恒星时(GMST)时间
      * @param datetime - 时间对象
      * @returns 格林尼治恒星时(GMST)时间
      */
-    static gstime(datetime: Date | Mars3dCesium.JulianDate): number;
+    static gstime(datetime: Date | Cesium.JulianDate): number;
     /**
      * ECI惯性系坐标 转换为 经纬度坐标
      * @param positionEci - ECI(地心惯性坐标系) 坐标
      * @param datetime - 指定时间, number时请传入格林尼治恒星时(GMST)时间
      * @returns 经纬度坐标
      */
-    static eciToGeodetic(positionEci: Mars3dCesium.Cartesian3, datetime: Date | Mars3dCesium.JulianDate | number): LngLatPoint;
+    static eciToGeodetic(positionEci: Cesium.Cartesian3, datetime: Date | Cesium.JulianDate | number): LngLatPoint;
     /**
      * ECI坐标 转换为 ECEF坐标
      * @param positionEci - ECI(地心惯性坐标系)坐标
      * @param datetime - 指定时间, number时请传入格林尼治恒星时(GMST)时间
      * @returns ECEF(地心地固坐标系) 坐标
      */
-    static eciToEcf(positionEci: Mars3dCesium.Cartesian3, datetime: Date | Mars3dCesium.JulianDate | number): Mars3dCesium.Cartesian3;
+    static eciToEcf(positionEci: Cesium.Cartesian3, datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3;
     /**
      * ECEF坐标 转换为 ECI坐标
      * @param positionEcf - ECEF(地心地固坐标系) 坐标
      * @param datetime - 指定时间, number时请传入格林尼治恒星时(GMST)时间
      * @returns ECI(地心惯性坐标系)坐标
      */
-    static ecfToEci(positionEcf: Mars3dCesium.Cartesian3, datetime: Date | Mars3dCesium.JulianDate | number): Mars3dCesium.Cartesian3;
+    static ecfToEci(positionEcf: Cesium.Cartesian3, datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3;
 }
 
-export namespace Tle {
+declare namespace Tle {
     /**
      * 从地面上某点的天文观测角度等值。
      * @property position - 卫星的当前位置
@@ -25220,26 +25043,26 @@ export namespace Tle {
      * @property elevation - 仰角，角度值
      */
     type LookAngles = {
-        position: Mars3dCesium.Cartesian3;
+        position: Cesium.Cartesian3;
         range: number;
         azimuth: number;
         elevation: number;
     };
 }
 
-export namespace CamberRadar {
+declare namespace CamberRadar {
     /**
      * 双曲面拱形雷达 支持的样式信息
      * @property [color = "#00FF00"] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = true] - 是否边线
-     * @property [outlineColor = new Mars3dCesium.Color(1.0, 0.0, 0.0)] - 边线颜色
+     * @property [outlineColor = new Cesium.Color(1.0, 0.0, 0.0)] - 边线颜色
      * @property startRadius - 内曲面半径 （单位：米）
      * @property radius - 外曲面半径 （单位：米）
-     * @property [startFovH = Mars3dCesium.Math.toRadians(-50)] - 左横截面角度（弧度值）
-     * @property [endFovH = Mars3dCesium.Math.toRadians(50)] - 右横截面角度（弧度值）
-     * @property [startFovV = Mars3dCesium.Math.toRadians(5)] - 垂直起始角度（弧度值）
-     * @property [endFovV = Mars3dCesium.Math.toRadians(85)] - 垂直结束角度（弧度值）
+     * @property [startFovH = Cesium.Math.toRadians(-50)] - 左横截面角度（弧度值）
+     * @property [endFovH = Cesium.Math.toRadians(50)] - 右横截面角度（弧度值）
+     * @property [startFovV = Cesium.Math.toRadians(5)] - 垂直起始角度（弧度值）
+     * @property [endFovV = Cesium.Math.toRadians(85)] - 垂直结束角度（弧度值）
      * @property [segmentH = 60] - 垂直方向(类似经度线)分割数
      * @property [segmentV = 20] - 水平方向(类似纬度线)分割数
      * @property [heading = 0] - 方向角 （度数值，0-360度）
@@ -25247,10 +25070,10 @@ export namespace CamberRadar {
      * @property [roll = 0] - 翻滚角（度数值，0-360度）
      */
     type StyleOptions = {
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         startRadius: number;
         radius: number;
         startFovH?: number;
@@ -25279,9 +25102,9 @@ export namespace CamberRadar {
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
  */
-export class CamberRadar extends BasePointPrimitive {
+declare class CamberRadar extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: CamberRadar.StyleOptions;
         attr?: any;
         id?: string | number;
@@ -25315,7 +25138,7 @@ export class CamberRadar extends BasePointPrimitive {
     endFovH: number;
 }
 
-export namespace ConicSensor {
+declare namespace ConicSensor {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -25337,7 +25160,7 @@ export namespace ConicSensor {
      * @property [heading = 0] - 方向角 （角度值 0-360）
      * @property [pitch = 0] - 俯仰角（角度值 0-360）
      * @property [roll = 0] - 翻滚角（角度值 0-360）
-     * @property [color = Mars3dCesium.Color.YELLOW] - 颜色
+     * @property [color = Cesium.Color.YELLOW] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否显示边线
      * @property [outlineColor = color] - 边线颜色
@@ -25353,10 +25176,10 @@ export namespace ConicSensor {
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         topShow?: boolean;
         topOutlineShow?: boolean;
         shadowShow?: boolean;
@@ -25373,19 +25196,19 @@ export namespace ConicSensor {
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.lookAt] - 椎体方向追踪的目标（椎体方向跟随变化，位置不变）
- * @param [options.fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+ * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
  * @param [options.revers = false] - 是否反转朝向
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class ConicSensor extends BasePointPrimitive {
+declare class ConicSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: ConicSensor.StyleOptions;
         attr?: any;
-        lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         revers?: boolean;
         id?: string | number;
         name?: string;
@@ -25394,15 +25217,15 @@ export class ConicSensor extends BasePointPrimitive {
     /**
      * 椎体方向追踪的目标（椎体方向跟随变化，位置不变）
      */
-    lookAt: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
+    lookAt: Cesium.Cartesian3 | Cesium.PositionProperty;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 边线颜色
      */
-    outlineColor: Mars3dCesium.Color;
+    outlineColor: Cesium.Color;
     /**
      * 是否显示边线
      */
@@ -25446,11 +25269,11 @@ export class ConicSensor extends BasePointPrimitive {
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly matrix: Mars3dCesium.Matrix4;
+    readonly matrix: Cesium.Matrix4;
     /**
      * 获取视锥体射出length半径长度后的点坐标
      */
-    readonly rayPosition: Mars3dCesium.Cartesian3;
+    readonly rayPosition: Cesium.Cartesian3;
     /**
      * 是否反向
      */
@@ -25468,10 +25291,10 @@ export class ConicSensor extends BasePointPrimitive {
      * 获取射线向地面与地球的4个交点坐标
      * @returns 坐标数组
      */
-    getRayEarthPositions(): Mars3dCesium.Cartesian3[];
+    getRayEarthPositions(): Cesium.Cartesian3[];
 }
 
-export namespace RectSensor {
+declare namespace RectSensor {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -25495,7 +25318,7 @@ export namespace RectSensor {
      * @property [heading = 0] - 方向角 （角度值 0-360）
      * @property [pitch = 0] - 俯仰角（角度值 0-360）
      * @property [roll = 0] - 翻滚角（角度值 0-360）
-     * @property [color = Mars3dCesium.Color.YELLOW] - 颜色
+     * @property [color = Cesium.Color.YELLOW] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否显示边线
      * @property [outlineColor = color] - 边线颜色
@@ -25513,10 +25336,10 @@ export namespace RectSensor {
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         topShow?: boolean;
         topOutlineShow?: boolean;
         topSteps?: number;
@@ -25533,19 +25356,19 @@ export namespace RectSensor {
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
  * @param [options.lookAt] - 椎体方向追踪的目标（椎体方向跟随变化，位置不变）
- * @param [options.fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+ * @param [options.fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
  * @param [options.revers = false] - 是否反转朝向
  * @param [options.id = uuid()] - 矢量数据id标识
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class RectSensor extends BasePointPrimitive {
+declare class RectSensor extends BasePointPrimitive {
     constructor(options: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: RectSensor.StyleOptions;
         attr?: any;
-        lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         revers?: boolean;
         id?: string | number;
         name?: string;
@@ -25554,15 +25377,15 @@ export class RectSensor extends BasePointPrimitive {
     /**
      * 椎体方向追踪的目标（椎体方向跟随变化，位置不变）
      */
-    lookAt: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
+    lookAt: Cesium.Cartesian3 | Cesium.PositionProperty;
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 边线颜色
      */
-    outlineColor: Mars3dCesium.Color;
+    outlineColor: Cesium.Color;
     /**
      * 是否显示边线
      */
@@ -25610,11 +25433,11 @@ export class RectSensor extends BasePointPrimitive {
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly matrix: Mars3dCesium.Matrix4;
+    readonly matrix: Cesium.Matrix4;
     /**
      * 获取视锥体射出length半径长度后的点坐标
      */
-    readonly rayPosition: Mars3dCesium.Cartesian3;
+    readonly rayPosition: Cesium.Cartesian3;
     /**
      * 是否反向
      */
@@ -25632,10 +25455,10 @@ export class RectSensor extends BasePointPrimitive {
      * 获取射线向地面与地球的4个交点坐标
      * @returns 坐标数组
      */
-    getRayEarthPositions(): Mars3dCesium.Cartesian3[];
+    getRayEarthPositions(): Cesium.Cartesian3[];
 }
 
-export namespace Satellite {
+declare namespace Satellite {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -25674,13 +25497,13 @@ export namespace Satellite {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class Satellite extends BaseGraphic {
+declare class Satellite extends BaseGraphic {
     constructor(options: {
         tle1: string;
         tle2: string;
         period?: number;
-        position: Mars3dCesium.SampledPositionProperty;
-        orientation?: Mars3dCesium.Property;
+        position: Cesium.SampledPositionProperty;
+        orientation?: Cesium.Property;
         model?: {
             autoHeading?: boolean;
         };
@@ -25692,7 +25515,7 @@ export class Satellite extends BaseGraphic {
             closure?: boolean;
         };
         shadingLine?: BillboardEntity.StyleOptions;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         frameRate?: number;
         id?: string | number;
         name?: string;
@@ -25701,7 +25524,7 @@ export class Satellite extends BaseGraphic {
     /**
      * 加载Entity数据的内部Cesium容器
      */
-    readonly dataSource: Mars3dCesium.CustomDataSource;
+    readonly dataSource: Cesium.CustomDataSource;
     /**
      * 卫星TLE算法类对象
      */
@@ -25733,15 +25556,15 @@ export class Satellite extends BaseGraphic {
     /**
      * 当前时间的卫星位置坐标 （笛卡尔坐标）
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
     /**
      * 获取当前时间转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly modelMatrix: Mars3dCesium.Matrix4;
+    readonly modelMatrix: Cesium.Matrix4;
     /**
      * 获取卫星方向 中心射线与地球相交点
      */
-    readonly groundPosition: Mars3dCesium.Cartesian3;
+    readonly groundPosition: Cesium.Cartesian3;
     /**
      * 获取当前已计算的轨道的开始时间和结束时间，格式为{start:'2021-01-01 00:00:00',end:'2021-01-01 12:01:02'}
      */
@@ -25749,7 +25572,7 @@ export class Satellite extends BaseGraphic {
     /**
      * 卫星凝视的目标（卫星方向一直朝向这个目标所在位置）
      */
-    lookAt: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
+    lookAt: Cesium.Cartesian3 | Cesium.PositionProperty;
     /**
      * 是否显示3个方向轴，用于对比测试
      */
@@ -25770,7 +25593,7 @@ export class Satellite extends BaseGraphic {
      * @param [arr] - 轨迹的原始数组，默认为内部记录的轨迹
      * @returns 对应的时间
      */
-    getPointTime(position: Mars3dCesium.Cartesian3, arr?: any): Date;
+    getPointTime(position: Cesium.Cartesian3, arr?: any): Date;
     /**
      * 更新角度
      * @param [newangle] - 新角度值
@@ -25808,14 +25631,14 @@ export class Satellite extends BaseGraphic {
         pitch?: number;
         roll?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): void;
     /**
      * 对象的id标识
@@ -25824,14 +25647,14 @@ export class Satellite extends BaseGraphic {
     /**
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
-    readonly czmObject: Mars3dCesium.Entity | Mars3dCesium.Primitive | Mars3dCesium.GroundPrimitive | Mars3dCesium.ClassificationPrimitive | any;
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
     /**
      * 当前类的构造参数
      */
     readonly options: any;
 }
 
-export namespace SatelliteSensor {
+declare namespace SatelliteSensor {
     /**
      * 卫星视锥综合体（圆锥或四凌锥） 支持的样式信息
      * @property [sensorType = SatelliteSensor.Type.Rect] - 视锥类型
@@ -25842,7 +25665,7 @@ export namespace SatelliteSensor {
      * @property [heading = 0] - 方向角 （角度值 0-360）
      * @property [pitch = 0] - 俯仰角（角度值 0-360）
      * @property [roll = 0] - 翻滚角（角度值 0-360）
-     * @property [color = Mars3dCesium.Color.YELLOW] - 颜色
+     * @property [color = Cesium.Color.YELLOW] - 颜色
      * @property [opacity = 1.0] - 透明度, 取值范围：0.0-1.0
      * @property [outline = false] - 是否显示边线
      * @property [outlineColor = color] - 边线颜色
@@ -25857,10 +25680,10 @@ export namespace SatelliteSensor {
         heading?: number;
         pitch?: number;
         roll?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         opacity?: number;
         outline?: boolean;
-        outlineColor?: string | Mars3dCesium.Color;
+        outlineColor?: string | Cesium.Color;
         rayEllipsoid?: boolean;
     };
     /**
@@ -25888,15 +25711,15 @@ export namespace SatelliteSensor {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  */
-export class SatelliteSensor extends BasePointPrimitive {
+declare class SatelliteSensor extends BasePointPrimitive {
     constructor(options?: {
-        position: LngLatPoint | Mars3dCesium.Cartesian3 | number[];
+        position: LngLatPoint | Cesium.Cartesian3 | number[];
         style: SatelliteSensor.StyleOptions;
         attr?: any;
-        lookAt?: Mars3dCesium.Cartesian3 | Mars3dCesium.PositionProperty;
-        trackedEntity?: Mars3dCesium.Entity;
+        lookAt?: Cesium.Cartesian3 | Cesium.PositionProperty;
+        trackedEntity?: Cesium.Entity;
         autoHeading?: boolean;
-        fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame;
+        fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame;
         revers?: boolean;
         id?: string | number;
         name?: string;
@@ -25909,11 +25732,11 @@ export class SatelliteSensor extends BasePointPrimitive {
     /**
      * 颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 边线颜色
      */
-    outlineColor: Mars3dCesium.Color;
+    outlineColor: Cesium.Color;
     /**
      * 夹角（angle1和angle2相同），半场角度，取值范围 0.1-89.9
      */
@@ -25945,19 +25768,19 @@ export class SatelliteSensor extends BasePointPrimitive {
     /**
      * 椎体跟随的卫星（椎体位置跟随变化，方向不变）
      */
-    trackedEntity: Mars3dCesium.Entity | ModelEntity;
+    trackedEntity: Cesium.Entity | ModelEntity;
     /**
      * 椎体方向追踪的目标（椎体方向跟随变化，位置不变）
      */
-    lookAt: Mars3dCesium.Entity;
+    lookAt: Cesium.Entity;
     /**
      * 获取当前转换计算模型矩阵。如果方向或位置未定义，则返回undefined。
      */
-    readonly matrix: Mars3dCesium.Matrix4;
+    readonly matrix: Cesium.Matrix4;
     /**
      * 获取视锥体方向中心射线与地球相交点
      */
-    readonly groundPosition: Mars3dCesium.Cartesian3;
+    readonly groundPosition: Cesium.Cartesian3;
     /**
      * 是否求交地球计算
      */
@@ -25975,7 +25798,7 @@ export class SatelliteSensor extends BasePointPrimitive {
     /**
      * 位置坐标 （笛卡尔坐标）, 赋值时可以传入LatLngPoint对象
      */
-    position: Mars3dCesium.Cartesian3;
+    position: Cesium.Cartesian3;
 }
 
 /**
@@ -26002,7 +25825,7 @@ export class SatelliteSensor extends BasePointPrimitive {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class S3MLayer extends BaseLayer {
+declare class S3MLayer extends BaseLayer {
     constructor(options?: {
         url: string;
         layername?: string;
@@ -26027,7 +25850,7 @@ export class S3MLayer extends BaseLayer {
         flyTo?: boolean;
     });
     /**
-     * 模型对应的Mars3dCesium.S3MTilesLayer图层组
+     * 模型对应的Cesium.S3MTilesLayer图层组
      */
     readonly layer: any;
     /**
@@ -26070,15 +25893,15 @@ export class S3MLayer extends BaseLayer {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
 }
 
@@ -26144,13 +25967,13 @@ export class S3MLayer extends BaseLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class SmImgLayer extends BaseTileLayer {
+declare class SmImgLayer extends BaseTileLayer {
     constructor(options?: {
         url: string;
         subdomains?: string | string[];
         tileFormat?: string;
         transparent?: boolean;
-        transparentBackColor?: string | Mars3dCesium.Color;
+        transparentBackColor?: string | Cesium.Color;
         transparentBackColorTolerance?: number;
         cacheKey?: string;
         minimumLevel?: number;
@@ -26172,7 +25995,7 @@ export class SmImgLayer extends BaseTileLayer {
         queryParameters?: any;
         headers?: any;
         enablePickFeatures?: boolean;
-        getFeatureInfoFormats?: Mars3dCesium.GetFeatureInfoFormat[];
+        getFeatureInfoFormats?: Cesium.GetFeatureInfoFormat[];
         opacity?: number;
         alpha?: number | ((...params: any[]) => any);
         nightAlpha?: number | ((...params: any[]) => any);
@@ -26183,8 +26006,8 @@ export class SmImgLayer extends BaseTileLayer {
         saturation?: number | ((...params: any[]) => any);
         gamma?: number | ((...params: any[]) => any);
         maximumAnisotropy?: number;
-        cutoutRectangle?: Mars3dCesium.Rectangle;
-        colorToAlpha?: Mars3dCesium.Color;
+        cutoutRectangle?: Cesium.Rectangle;
+        colorToAlpha?: Cesium.Color;
         colorToAlphaThreshold?: number;
         hasAlphaChannel?: boolean;
         tileWidth?: number;
@@ -26210,13 +26033,13 @@ export class SmImgLayer extends BaseTileLayer {
      * @param options - Provider参数，同图层构造参数。
      * @returns ImageryProvider类
      */
-    static createImageryProvider(options: any): Mars3dCesium.ImageryProvider;
+    static createImageryProvider(options: any): Cesium.ImageryProvider;
     /**
      * 创建瓦片图层对应的ImageryProvider对象
      * @param [options = {}] - 参数对象，具体每类瓦片图层都不一样。
      * @returns 创建完成的 ImageryProvider 对象
      */
-    _createImageryProvider(options?: any): Mars3dCesium.UrlTemplateImageryProvider | any;
+    _createImageryProvider(options?: any): Cesium.UrlTemplateImageryProvider | any;
     /**
      * 对象添加到地图上的创建钩子方法，
      * 每次add时都会调用
@@ -26249,7 +26072,7 @@ export class SmImgLayer extends BaseTileLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class SmMvtLayer extends BaseLayer {
+declare class SmMvtLayer extends BaseLayer {
     constructor(options?: {
         url: string;
         layer: string;
@@ -26273,7 +26096,7 @@ export class SmMvtLayer extends BaseLayer {
         flyTo?: boolean;
     });
     /**
-     * 对应的supermap图层 Mars3dCesium.VectorTilesLayer
+     * 对应的supermap图层 Cesium.VectorTilesLayer
      */
     readonly layer: any;
     /**
@@ -26303,15 +26126,15 @@ export class SmMvtLayer extends BaseLayer {
         radius?: number;
         scale?: number;
         duration?: number;
-        complete?: Mars3dCesium.Camera.FlightCompleteCallback;
-        cancel?: Mars3dCesium.Camera.FlightCancelledCallback;
-        endTransform?: Mars3dCesium.Matrix4;
+        complete?: Cesium.Camera.FlightCompleteCallback;
+        cancel?: Cesium.Camera.FlightCancelledCallback;
+        endTransform?: Cesium.Matrix4;
         maximumHeight?: number;
         pitchAdjustHeight?: number;
         flyOverLongitude?: number;
         flyOverLongitudeWeight?: number;
         convert?: boolean;
-        easingFunction?: Mars3dCesium.EasingFunction.Callback;
+        easingFunction?: Cesium.EasingFunction.Callback;
     }): BaseLayer;
 }
 
@@ -26336,7 +26159,7 @@ export class SmMvtLayer extends BaseLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class TdtDmLayer extends BaseLayer {
+declare class TdtDmLayer extends BaseLayer {
     constructor(options?: {
         url?: string;
         subdomains?: string;
@@ -26378,7 +26201,7 @@ export class TdtDmLayer extends BaseLayer {
  * @param [options.subdomains = '01234567'] - 服务负载子域
  * @param [options.key = mars3d.Token.tianditu] - 天地图服务token令牌
  */
-export class TdtTerrainProvider extends Mars3dCesium.TerrainProvider {
+declare class TdtTerrainProvider extends Cesium.TerrainProvider {
     constructor(options?: {
         url?: string;
         subdomains?: string;
@@ -26386,7 +26209,7 @@ export class TdtTerrainProvider extends Mars3dCesium.TerrainProvider {
     });
 }
 
-export namespace BaseWidget {
+declare namespace BaseWidget {
     /**
      * widget 配置参数
      * @property name - 必须，中文名称，用于标识和弹窗标题。
@@ -26493,7 +26316,7 @@ export namespace BaseWidget {
  * @param map - 地图对象
  * @param options - 配置参数
  */
-export class BaseWidget extends BaseClass {
+declare class BaseWidget extends BaseClass {
     constructor(map: Map, options: BaseWidget.widgetOptions);
     /**
      * 获取当前地图
@@ -26663,7 +26486,7 @@ export class BaseWidget extends BaseClass {
  * widget事件类型枚举, mars3d.widget.EventType
  * 【需要引入  mars3d-widget 插件库】
  */
-export const enum WidgetEventType {
+declare const enum WidgetEventType {
     /**
      * 在实例初始化之后、创建之前执行
      */
@@ -26706,7 +26529,7 @@ export const enum WidgetEventType {
  * widget模块化框架，公共处理类
  * 【需要引入  mars3d-widget 插件库】
  */
-namespace widget {
+declare namespace widget {
     /**
      * 初始化widget管理器，在构造完成map后调用一次即可。
      * @example
@@ -26862,19 +26685,19 @@ namespace widget {
     /**
      * 绑定指定类型事件监听器
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function on(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function on(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): void;
     /**
      * 解除绑定指定类型事件监听器
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function off(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function off(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): void;
     /**
      * 触发指定类型的事件。
      * @param type - 事件类型
@@ -26882,16 +26705,16 @@ namespace widget {
      * @param [propagate = null] - 将事件传播给父类 (用addEventParent设置)
      * @returns 无
      */
-    function fire(type: WidgetEventType, data: any, propagate?: BaseClass): void;
+    function fire(type: WidgetEventType, data: any, propagate?: BaseClass | any): void;
     /**
      * 绑定一次性执行的指定类型事件监听器
      * 与on类似，监听器只会被触发一次，然后被删除。
      * @param types - 事件类型
-     * @param fn - 绑定的监听器回调方法
-     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @param [fn] - 绑定的监听器回调方法
+     * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @returns 无
      */
-    function once(types: WidgetEventType | WidgetEventType[], fn: (...params: any[]) => any, context: any): void;
+    function once(types: WidgetEventType | WidgetEventType[], fn?: (...params: any[]) => any, context?: any): void;
     /**
      * 是否有绑定指定的事件
      * @param type - 事件类型
@@ -26901,7 +26724,190 @@ namespace widget {
     function listens(type: WidgetEventType, propagate?: BaseClass): boolean;
 }
 
-export namespace WindLayer {
+declare namespace CanvasWindLayer {
+    /**
+     * Canvas风场图层， data数据结构
+     * @property rows - 行总数
+     * @property cols - 列总数
+     * @property xmin - 最小经度（度数，-180-180）
+     * @property xmax - 最大经度（度数，-180-180）
+     * @property ymin - 最小纬度（度数，-90-90）
+     * @property ymax - 最大纬度（度数，-90-90）
+     * @property udata - U值一维数组, 数组长度应该是 rows*cols 。也支持按rows行cols列构建好的二维数组。
+     * @property vdata - V值一维数组, 数组长度应该是 rows*cols 。也支持按rows行cols列构建好的二维数组。
+     */
+    type DataOptions = {
+        rows: number;
+        cols: number;
+        xmin: number;
+        xmax: number;
+        ymin: number;
+        ymax: number;
+        udata: number[] | any[][];
+        vdata: number[] | any[][];
+    };
+}
+
+/**
+ * Canvas风场图层，
+ * 基于Canvas绘制，【需要引入 mars3d-wind 插件库】
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.data] - 风场数据
+ * @param [options.speedRate = 50] - 风前进速率，意思是将当前风场横向纵向分成100份，再乘以风速就能得到移动位置，无论地图缩放到哪一级别都是一样的速度，可以用该数值控制线流动的快慢，值越大，越慢，
+ * @param [options.particlesnumber = 4096] - 初始粒子总数
+ * @param [options.maxAge = 120] - 每个粒子的最大生存周期
+ * @param [options.frameRate = 10] - 每秒刷新次数，因为requestAnimationFrame固定每秒60次的渲染，所以如果不想这么快，就把该数值调小一些
+ * @param [options.color = '#ffffff'] - 线颜色
+ * @param [options.lineWidth = 1] - 线宽度
+ * @param [options.fixedHeight = 0] - 点的固定的海拔高度
+ * @param [options.reverseY = false] - 是否翻转纬度数组顺序，正常数据是从北往南的（纬度从大到小），如果反向时请传reverseY为true
+ * @param [options.pointerEvents = false] - 图层是否可以进行鼠标交互，为false时可以穿透操作及缩放地图
+ * @param [options.id = uuid()] - 图层id标识
+ * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
+ * @param [options.name = ''] - 图层名称
+ * @param [options.show = true] - 图层是否显示
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为map对象，false时不冒泡
+ * @param [options.center] - 图层自定义定位视角 {@link Map#setCameraView}
+ * @param options.center.lng - 经度值, 180 - 180
+ * @param options.center.lat - 纬度值, -90 - 90
+ * @param [options.center.alt] - 高度值
+ * @param [options.center.heading] - 方向角度值，绕垂直于地心的轴旋转角度, 0-360
+ * @param [options.center.pitch] - 俯仰角度值，绕纬度线旋转角度, 0-360
+ * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
+ * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
+ */
+declare class CanvasWindLayer extends BaseLayer {
+    constructor(options?: {
+        data?: CanvasWindLayer.DataOptions;
+        speedRate?: number;
+        particlesnumber?: number;
+        maxAge?: number;
+        frameRate?: number;
+        color?: string;
+        lineWidth?: number;
+        fixedHeight?: number;
+        reverseY?: boolean;
+        pointerEvents?: boolean;
+        id?: string | number;
+        pid?: string | number;
+        name?: string;
+        show?: boolean;
+        eventParent?: BaseClass | boolean;
+        center?: {
+            lng: number;
+            lat: number;
+            alt?: number;
+            heading?: number;
+            pitch?: number;
+            roll?: number;
+        };
+        flyTo?: boolean;
+    });
+    /**
+     * 图层对应的Canvas对象
+     */
+    readonly canvas: HTMLCanvasElement;
+    /**
+     * 线颜色
+     */
+    color: string;
+    /**
+     * 线宽度
+     */
+    lineWidth: number;
+    /**
+     * 点的固定的海拔高度
+     */
+    fixedHeight: number;
+    /**
+     * 是否翻转纬度数组顺序，正常数据是从北往南的（纬度从大到小），如果反向时请传reverseY为true
+     */
+    reverseY: boolean;
+    /**
+     * 图层对应的Canvas对象
+     */
+    readonly layer: HTMLCanvasElement;
+    /**
+     * Canvas对象宽度（单位：像素）
+     */
+    readonly canvasWidth: number;
+    /**
+     * Canvas对象高度（单位：像素）
+     */
+    readonly canvasHeight: number;
+    /**
+     * 图层是否可以鼠标交互，为false时可以穿透操作及缩放地图
+     */
+    pointerEvents: boolean;
+    /**
+     * 风前进速率，意思是将当前风场横向纵向分成100份，再乘以风速就能得到移动位置，无论地图缩放到哪一级别都是一样的速度，可以用该数值控制线流动的快慢，值越大，越慢，
+     */
+    speedRate: number;
+    /**
+     * 初始粒子总数
+     */
+    particlesnumber: number;
+    /**
+     * 每个粒子的最大生存周期
+     */
+    maxAge: number;
+    /**
+     * 风场数据，数据结构见类的构造方法说明
+     */
+    data: CanvasWindLayer.DataOptions;
+    /**
+     * 重绘，根据现有参数重新生成风场
+     * @returns 无
+     */
+    redraw(): void;
+    /**
+     * 设置 风场数据
+     * @param data - 风场数据
+     * @returns 无
+     */
+    setData(data: any): void;
+    /**
+     * 清除数据
+     * @returns 无
+     */
+    clear(): void;
+}
+
+/**
+ * 风场相关 静态方法，【需要引入 mars3d-wind 插件库】
+ */
+declare namespace WindUtil {
+    /**
+     * 风速风向 转 U值
+     * @param speed - 风速
+     * @param direction - 风向
+     * @returns U值
+     */
+    function getU(speed: number, direction: number): number;
+    /**
+     * 风速风向 转 V值
+     * @param speed - 风速
+     * @param direction - 风向
+     * @returns V值
+     */
+    function getV(speed: number, direction: number): number;
+    /**
+     * UV值 转 风速, 风速是uv分量的平方和
+     * @param u - U值
+     * @param v - V值
+     * @returns 风速
+     */
+    function getSpeed(u: number, v: number): number;
+    /**
+     * UV 转 风向
+     * @param u - U值
+     * @param v - V值
+     * @returns 风向
+     */
+    function getDirection(u: number, v: number): number;
+}
+
+declare namespace WindLayer {
     /**
      * 风场图层， data数据结构
      * @property rows - 行总数
@@ -26960,7 +26966,7 @@ export namespace WindLayer {
  * @param [options.center.roll] - 翻滚角度值，绕经度线旋转角度, 0-360
  * @param [options.flyTo] - 加载完成数据后是否自动飞行定位到数据所在的区域。
  */
-export class WindLayer extends BaseLayer {
+declare class WindLayer extends BaseLayer {
     constructor(options?: {
         data?: WindLayer.DataOptions;
         particlesnumber?: number;
@@ -26989,7 +26995,7 @@ export class WindLayer extends BaseLayer {
     /**
      * 存放风场粒子对象的容器
      */
-    readonly layer: Mars3dCesium.PrimitiveCollection;
+    readonly layer: Cesium.PrimitiveCollection;
     /**
      * 风场数据，数据结构见类的构造方法说明
      */
@@ -27015,12 +27021,12 @@ export class WindLayer extends BaseLayer {
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  */
-export class BaiduPOI {
+declare class BaiduPOI {
     constructor(options?: {
         key?: string[];
         city?: string;
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
     });
     /**
      * 百度key数组，内部轮询使用
@@ -27039,7 +27045,7 @@ export class BaiduPOI {
      * @returns 当前对象本身，可以链式调用
      */
     getAddress(queryOptions: {
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): BaiduPOI;
@@ -27056,7 +27062,7 @@ export class BaiduPOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         city?: string;
         citylimit?: boolean;
         success?: (...params: any[]) => any;
@@ -27113,7 +27119,7 @@ export class BaiduPOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         radius?: number;
         limit?: boolean;
         count?: number;
@@ -27131,11 +27137,11 @@ export class BaiduPOI {
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  */
-export class GaodePOI {
+declare class GaodePOI {
     constructor(options?: {
         key?: string[];
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
     });
     /**
      * 高德key数组，内部轮询使用
@@ -27154,7 +27160,7 @@ export class GaodePOI {
      * @returns 当前对象本身，可以链式调用
      */
     getAddress(queryOptions: {
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
     }): GaodePOI;
@@ -27171,7 +27177,7 @@ export class GaodePOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         city?: string;
         citylimit?: boolean;
         success?: (...params: any[]) => any;
@@ -27240,7 +27246,7 @@ export class GaodePOI {
     queryCircle(queryOptions: {
         text: string;
         types?: string;
-        location?: LngLatPoint | Mars3dCesium.Cartesian3 | string | any[] | any;
+        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         radius?: number;
         limit?: boolean;
         count?: number;
@@ -27281,11 +27287,11 @@ export class GaodePOI {
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  */
-export class GaodeRoute {
+declare class GaodeRoute {
     constructor(options?: {
         key?: string[];
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
     });
     /**
      * 高德key数组，内部轮询使用
@@ -27381,7 +27387,7 @@ export class GaodeRoute {
     }): void;
 }
 
-export namespace GaodeRoute {
+declare namespace GaodeRoute {
     /**
      * 路径规划方式
      */
@@ -27392,7 +27398,7 @@ export namespace GaodeRoute {
     }
 }
 
-export namespace QueryArcServer {
+declare namespace QueryArcServer {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -27426,12 +27432,12 @@ export namespace QueryArcServer {
  * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
  * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
-export class QueryArcServer extends BaseClass {
+declare class QueryArcServer extends BaseClass {
     constructor(options: {
         url: string;
         pageSize?: number;
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -27536,12 +27542,12 @@ export class QueryArcServer extends BaseClass {
  * @param [options.popup] - 赋予给layer图层，图层绑定的popup弹窗值，参考{@link GeoJsonLayer}
  * @param [options.tooltip] - 赋予给layer图层，图层绑定的tooltip弹窗值，参考{@link GeoJsonLayer}
  */
-export class QueryGeoServer extends BaseClass {
+declare class QueryGeoServer extends BaseClass {
     constructor(options: {
         url: string;
         layer: string;
         headers?: any;
-        proxy?: Mars3dCesium.Proxy;
+        proxy?: Cesium.Proxy;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -27614,7 +27620,7 @@ export class QueryGeoServer extends BaseClass {
     readonly options: any;
 }
 
-export namespace Measure {
+declare namespace Measure {
     /**
      * @example
      * //绑定监听事件
@@ -27699,7 +27705,7 @@ export namespace Measure {
  * @param [options.pid = -1] - 量算对应的图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 量算对应的图层名称
  */
-export class Measure extends BaseThing {
+declare class Measure extends BaseThing {
     constructor(options?: {
         hasEdit?: boolean;
         isAutoEditing?: boolean;
@@ -27809,7 +27815,7 @@ export class Measure extends BaseThing {
     /**
      * 体积测量（方量分析）
      * @param [options] - 控制参数
-     * @param [options.style] - 路线的样式
+     * @param [options.style] - 基准面的样式
      * @param [options.unit = 'auto'] - 计量单位,{@link MeasureUtil#formatArea}可选值：auto、m、km、mu、ha 。auto时根据面积值自动选用k或km
      * @param [options.splitNum = 10] - 插值数，将面分割的网格数
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
@@ -27818,8 +27824,8 @@ export class Measure extends BaseThing {
      * @param [options.height] - 可以指定基准面高度（单位：米），默认是绘制后的最低高度值
      * @param [options.heightLabel = true] - 是否显示各边界点高度值文本
      * @param [options.offsetLabel = false] - 是否显示各边界点高度差文本
-     * @param [options.polygon] - 面的样式
-     * @param [options.polygonJzmStyle] - 基准面的样式
+     * @param [options.showArea = true] - 是否显示横切面积
+     * @param [options.polygonWall] - 围合的墙样式
      * @param [options.labelHeight] - 各边界点高度结果文本的样式
      * @returns 体积测量控制类 对象
      */
@@ -27833,8 +27839,8 @@ export class Measure extends BaseThing {
         height?: number;
         heightLabel?: boolean;
         offsetLabel?: boolean;
-        polygon?: PolygonEntity.StyleOptions;
-        polygonJzmStyle?: PolygonEntity.StyleOptions;
+        showArea?: boolean;
+        polygonWall?: PolygonEntity.StyleOptions;
         labelHeight?: LabelEntity.StyleOptions;
     }): VolumeMeasure;
     /**
@@ -27908,7 +27914,7 @@ export class Measure extends BaseThing {
     destroy(noDel?: boolean): void;
 }
 
-export namespace Shadows {
+declare namespace Shadows {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -27934,7 +27940,7 @@ export namespace Shadows {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class Shadows extends BaseThing {
+declare class Shadows extends BaseThing {
     constructor(options?: {
         multiplier?: number;
         time?: Date;
@@ -27986,7 +27992,7 @@ export class Shadows extends BaseThing {
     clear(): void;
 }
 
-export namespace Sightline {
+declare namespace Sightline {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28006,18 +28012,18 @@ export namespace Sightline {
 /**
  * 通视分析
  * @param [options] - 参数对象，包括以下：
- * @param [options.visibleColor = new Mars3dCesium.Color(0, 1, 0, 1)] - 可视区域颜色
- * @param [options.hiddenColor = new Mars3dCesium.Color(1, 0, 0, 1)] - 不可视区域颜色
+ * @param [options.visibleColor = new Cesium.Color(0, 1, 0, 1)] - 可视区域颜色
+ * @param [options.hiddenColor = new Cesium.Color(1, 0, 0, 1)] - 不可视区域颜色
  * @param [options.depthFailColor] - 当线位于地形或被遮挡时的区域颜色
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class Sightline extends BaseThing {
+declare class Sightline extends BaseThing {
     constructor(options?: {
-        visibleColor?: Mars3dCesium.Color;
-        hiddenColor?: Mars3dCesium.Color;
-        depthFailColor?: Mars3dCesium.Color;
+        visibleColor?: Cesium.Color;
+        hiddenColor?: Cesium.Color;
+        depthFailColor?: Cesium.Color;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -28025,15 +28031,15 @@ export class Sightline extends BaseThing {
     /**
      * 可视区域颜色
      */
-    visibleColor: Mars3dCesium.Color;
+    visibleColor: Cesium.Color;
     /**
      * 不可视区域颜色
      */
-    hiddenColor: Mars3dCesium.Color;
+    hiddenColor: Cesium.Color;
     /**
      * 当线位于地形或被遮挡时的区域颜色
      */
-    depthFailColor: Mars3dCesium.Color;
+    depthFailColor: Cesium.Color;
     /**
      * 添加通视分析
      * @param origin - 起点（视点位置）
@@ -28042,7 +28048,7 @@ export class Sightline extends BaseThing {
      * @param [options.offsetHeight = 0] - 在起点增加的高度值，比如加上人的身高
      * @returns 分析结果
      */
-    add(origin: Mars3dCesium.Cartesian3, target: Mars3dCesium.Cartesian3, options?: {
+    add(origin: Cesium.Cartesian3, target: Cesium.Cartesian3, options?: {
         offsetHeight?: number;
     }): any;
     /**
@@ -28055,7 +28061,7 @@ export class Sightline extends BaseThing {
      * @param [options.minDistance] - 插值时的最小间隔(单位：米)，优先级高于splitNum
      * @returns 无,  分析结果在end事件中返回
      */
-    addAsync(origin: Mars3dCesium.Cartesian3, target: Mars3dCesium.Cartesian3, options?: {
+    addAsync(origin: Cesium.Cartesian3, target: Cesium.Cartesian3, options?: {
         offsetHeight?: number;
         splitNum?: number;
         minDistance?: number;
@@ -28070,15 +28076,15 @@ export class Sightline extends BaseThing {
 /**
  * 天际线 描边
  * @param [options] - 参数对象，包括以下：
- * @param [options.color = new Mars3dCesium.Color(1.0, 0.0, 0.0)] - 边际线颜色
+ * @param [options.color = new Cesium.Color(1.0, 0.0, 0.0)] - 边际线颜色
  * @param [options.width = 2] - 天际线宽度
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class Skyline extends BaseThing {
+declare class Skyline extends BaseThing {
     constructor(options?: {
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         width?: number;
         id?: string | number;
         enabled?: boolean;
@@ -28087,7 +28093,7 @@ export class Skyline extends BaseThing {
     /**
      * 边际线颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 天际线宽度
      */
@@ -28104,15 +28110,15 @@ export class Skyline extends BaseThing {
  * 地下模式类
  * @param [options] - 参数对象，包括以下：
  * @param [options.alpha = 0.5] - 透明度  0.0-1.0
- * @param [options.color = Mars3dCesium.Color.BLAC] - 当相机在地下或球体是半透明时，渲染球体背面的颜色
+ * @param [options.color = Cesium.Color.BLAC] - 当相机在地下或球体是半透明时，渲染球体背面的颜色
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class Underground extends BaseThing {
+declare class Underground extends BaseThing {
     constructor(options?: {
         alpha?: number;
-        color?: Mars3dCesium.Color;
+        color?: Cesium.Color;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -28120,7 +28126,7 @@ export class Underground extends BaseThing {
     /**
      * 控制球体透明度的Cesium内部对象
      */
-    readonly translucency: Mars3dCesium.GlobeTranslucency;
+    readonly translucency: Cesium.GlobeTranslucency;
     /**
      * 透明度
      */
@@ -28129,18 +28135,18 @@ export class Underground extends BaseThing {
      * 当相机在地下或球体是半透明时，渲染球体背面的颜色，将根据相机的距离与地球颜色混合。
      * 禁用地下着色时，可以设置为undefined。
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 获取或设置将color与Globe颜色混合的远近距离。
-     * alpha将插值在{@link Mars3dCesium.NearFarScalar#nearValue}和{@linkMars3dCesium.NearFarScalar#farValue}之间，
-     * 同时摄像机距离在指定的{@link Mars3dCesium.NearFarScalar#near}和{@link Mars3dCesium.NearFarScalar#far}的上下边界内。
+     * alpha将插值在{@link Cesium.NearFarScalar#nearValue}和{@linkCesium.NearFarScalar#farValue}之间，
+     * 同时摄像机距离在指定的{@link Cesium.NearFarScalar#near}和{@link Cesium.NearFarScalar#far}的上下边界内。
      * 在这些范围之外，alpha仍然被限制在最近的范围内。如果未定义，地下颜色将不会与地球颜色混合。
      * 当相机在椭球上方时，距离计算从椭球上最近的点而不是相机的位置。
      */
-    colorAlphaByDistance: Mars3dCesium.NearFarScalar;
+    colorAlphaByDistance: Cesium.NearFarScalar;
 }
 
-export namespace CameraHistory {
+declare namespace CameraHistory {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28167,11 +28173,11 @@ export namespace CameraHistory {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class CameraHistory extends BaseThing {
+declare class CameraHistory extends BaseThing {
     constructor(options?: {
         maxCacheCount?: number;
         limit?: {
-            position: Mars3dCesium.Cartesian3;
+            position: Cesium.Cartesian3;
             radius: number;
             debugExtent?: boolean;
         };
@@ -28217,7 +28223,7 @@ export class CameraHistory extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class FirstPersonRoam extends BaseThing {
+declare class FirstPersonRoam extends BaseThing {
     constructor(options?: {
         speed?: number;
         rotateSpeed?: number;
@@ -28255,7 +28261,7 @@ export class FirstPersonRoam extends BaseThing {
     stopAutoForward(): void;
 }
 
-export namespace RotateOut {
+declare namespace RotateOut {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28284,7 +28290,7 @@ export namespace RotateOut {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class RotateOut extends BaseThing {
+declare class RotateOut extends BaseThing {
     constructor(options?: {
         direction?: boolean;
         time?: number;
@@ -28309,7 +28315,7 @@ export class RotateOut extends BaseThing {
     stop(): void;
 }
 
-export namespace RotatePoint {
+declare namespace RotatePoint {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28339,7 +28345,7 @@ export namespace RotatePoint {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class RotatePoint extends BaseThing {
+declare class RotatePoint extends BaseThing {
     constructor(options?: {
         direction?: boolean;
         time?: number;
@@ -28358,7 +28364,7 @@ export class RotatePoint extends BaseThing {
      * @param point - 旋转的中心点
      * @returns 无
      */
-    start(point: LngLatPoint | Mars3dCesium.Cartesian3 | number[]): void;
+    start(point: LngLatPoint | Cesium.Cartesian3 | number[]): void;
     /**
      * 停止旋转
      * @returns 无
@@ -28382,7 +28388,7 @@ export class RotatePoint extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class StreetView extends BaseThing {
+declare class StreetView extends BaseThing {
     constructor(options?: {
         rotateSpeed?: number;
         heightStep?: number;
@@ -28414,7 +28420,7 @@ export class StreetView extends BaseThing {
  * @param [options.contourShow = true] - 是否显示等高线
  * @param [options.spacing = 100.0] - 等高线 间隔（单位：米）
  * @param [options.width = 1.5] - 等高线 线宽（单位：像素）
- * @param [options.color = Mars3dCesium.Color.RED] - 等高线 颜色
+ * @param [options.color = Cesium.Color.RED] - 等高线 颜色
  * @param [options.shadingType = 'none'] - 地表渲染效果，可选值: 无none, 高程 elevation, 坡度slope, 坡向aspect
  * @param [options.shadingAlpha = 0.6] - 地表渲染透明度，0.0-1.0
  * @param [options.colorScheme] - 地表渲染配色方案,默认值为：
@@ -28439,13 +28445,13 @@ export class StreetView extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class ContourLine extends TerrainEditBase {
+declare class ContourLine extends TerrainEditBase {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         contourShow?: boolean;
         spacing?: number;
         width?: number;
-        color?: Mars3dCesium.Color | string;
+        color?: Cesium.Color | string;
         shadingType?: string;
         shadingAlpha?: number;
         colorScheme?: any;
@@ -28479,7 +28485,7 @@ export class ContourLine extends TerrainEditBase {
     /**
      * 等高线 颜色
      */
-    color: Mars3dCesium.Color | string;
+    color: Cesium.Color | string;
     /**
      * 清除数据
      * @returns 无
@@ -28487,7 +28493,7 @@ export class ContourLine extends TerrainEditBase {
     clear(): void;
 }
 
-export namespace FloodByGraphic {
+declare namespace FloodByGraphic {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28520,9 +28526,9 @@ export namespace FloodByGraphic {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class FloodByGraphic extends BaseThing {
+declare class FloodByGraphic extends BaseThing {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         style?: PolygonEntity.StyleOptions;
         speed?: number;
         minHeight?: number;
@@ -28535,7 +28541,7 @@ export class FloodByGraphic extends BaseThing {
     /**
      * 淹没区域 坐标位置数组
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 淹没平面高度（单位：米）
      */
@@ -28582,7 +28588,7 @@ export class FloodByGraphic extends BaseThing {
     destroy(noDel?: boolean): void;
 }
 
-export namespace FloodByMaterial {
+declare namespace FloodByMaterial {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28607,7 +28613,7 @@ export namespace FloodByMaterial {
  * @param [options] - 参数对象，包括以下：
  * @param [options.positions] - 坐标位置数组，只显示单个区域【单个区域场景时使用】
  * @param [options.speed] - 淹没速度
- * @param [options.color = new Mars3dCesium.Color(0.15, 0.7, 0.95, 0.5)] - 淹没颜色
+ * @param [options.color = new Cesium.Color(0.15, 0.7, 0.95, 0.5)] - 淹没颜色
  * @param [options.minHeight] - 淹没起始的海拔高度（单位：米）
  * @param [options.maxHeight] - 淹没结束的海拔高度（单位：米）
  * @param [options.showElseArea = true] - 是否显示区域外的地图
@@ -28615,11 +28621,11 @@ export namespace FloodByMaterial {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class FloodByMaterial extends TerrainEditBase {
+declare class FloodByMaterial extends TerrainEditBase {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         speed?: number;
-        color?: Mars3dCesium.Color | string;
+        color?: Cesium.Color | string;
         minHeight?: number;
         maxHeight?: number;
         showElseArea?: boolean;
@@ -28638,7 +28644,7 @@ export class FloodByMaterial extends TerrainEditBase {
     /**
      * 淹没颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 重新赋值参数，同构造方法参数一致。
      * @param options - 参数,与类的构造方法参数相同
@@ -28667,7 +28673,7 @@ export class FloodByMaterial extends TerrainEditBase {
     clear(): void;
 }
 
-export namespace Slope {
+declare namespace Slope {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -28690,7 +28696,7 @@ export namespace Slope {
  * @param [options.positions] - 分析区域 坐标位置数组
  * @param [options.arrow] - 箭头线的样式，包括以下：
  * @param [options.arrow.show = true] - 是否显示箭头线
- * @param [options.arrow.color = Mars3dCesium.Color.YELLOW] - 颜色
+ * @param [options.arrow.color = Cesium.Color.YELLOW] - 颜色
  * @param [options.arrow.width = 15] - 箭头宽度值
  * @param [options.arrow.scale = 0.3] - 箭头长度的比例（网格大小），根据绘制区域的大小和插值数来计算实际长度值。
  * @param [options.arrow.length] - 箭头长度固定值,将覆盖scale参数
@@ -28702,12 +28708,12 @@ export namespace Slope {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class Slope extends BaseThing {
+declare class Slope extends BaseThing {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         arrow?: {
             show?: boolean;
-            color?: Mars3dCesium.Color;
+            color?: Cesium.Color;
             width?: number;
             scale?: number;
             length?: number;
@@ -28730,7 +28736,7 @@ export class Slope extends BaseThing {
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @returns 无，计算结果在 end事件中返回
      */
-    add(positions: any[][] | LngLatPoint[] | Mars3dCesium.Cartesian3[] | LngLatPoint | Mars3dCesium.Cartesian3, options?: {
+    add(positions: any[][] | LngLatPoint[] | Cesium.Cartesian3[] | LngLatPoint | Cesium.Cartesian3, options?: {
         splitNum?: number;
         radius?: number;
         count?: number;
@@ -28742,13 +28748,76 @@ export class Slope extends BaseThing {
      * @param c2 - 点2
      * @returns 坡度值
      */
-    getSlope(c1: Mars3dCesium.Cartesian3, c2: Mars3dCesium.Cartesian3): number;
+    getSlope(c1: Cesium.Cartesian3, c2: Cesium.Cartesian3): number;
     /**
      * 清除分析
      * @returns 无
      */
     clear(): void;
+    /**
+     * 异步计算点的坡度坡向
+     * @param options - 参数对象，具有以下属性:
+     * @param options.map - Map地图对象
+     * @param options.positions - 坐标数组
+     * @param options.radius - 缓冲半径（影响坡度坡向的精度）
+     * @param options.count - 缓冲的数量（影响坡度坡向的精度）会求周边(count*4)个点
+     * @param options.has3dtiles - 是否在3dtiles模型上分析（模型分析较慢，按需开启）
+     * @param options.endItem - 异步计算中，每计算完成1个点的坡度坡向后 的回调方法
+     * @param options.callback - 异步计算完成所有点的坡度坡向后 的回调方法
+     * @returns 坡度坡向分析类对象,分析完成方法内部会自动释放
+     */
+    static getSlope(options: {
+        map: Map;
+        positions: Cesium.Cartesian3[];
+        radius: number;
+        count: number;
+        has3dtiles: boolean;
+        endItem: getSlope_endItem;
+        callback: getSlope_callback;
+    }): Slope;
 }
+
+/**
+ * 异步计算完成所有点的坡度坡向后 的回调方法
+ * @param event - 参数对象，具有以下属性:
+ * @param event.data - 数组对象，数组中每一个值，具有以下属性:
+ * @param event.data.position - 坐标位置
+ * @param event.data.slope - 度数法值【 α(坡度)=arc tan (高程差/水平距离)】
+ * @param event.data.slopeStr1 - 度数法值字符串
+ * @param event.data.slopeStr2 - 百分比法值字符串【 坡度 = (高程差/水平距离)x100%】
+ * @param event.data.direction - 坡向值（0-360度）
+ */
+declare type getSlope_callback = (event: {
+    data: {
+        position: Cesium.Cartesian3;
+        slope: number;
+        slopeStr1: string;
+        slopeStr2: string;
+        direction: number;
+    }[];
+}) => void;
+
+/**
+ * 异步计算中，每计算完成1个点的坡度坡向后 的回调方法
+ * @param event - 参数对象，具有以下属性:
+ * @param event.index - 数组点中的index顺序
+ * @param event.data - 数据对象，具有以下属性:
+ * @param event.data.position - 坐标位置
+ * @param event.data.slope - 度数法值【 α(坡度)=arc tan (高程差/水平距离)】
+ * @param event.data.slopeStr1 - 度数法值字符串
+ * @param event.data.slopeStr2 - 百分比法值字符串【 坡度 = (高程差/水平距离)x100%】
+ * @param event.data.direction - 坡向值（0-360度）
+ */
+declare type getSlope_endItem = (event: {
+    index: number;
+    data: {
+        position: Cesium.Cartesian3;
+        slope: number;
+        slopeStr1: string;
+        slopeStr2: string;
+        direction: number;
+    };
+}) => void;
 
 /**
  * 地形开挖，
@@ -28764,9 +28833,9 @@ export class Slope extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TerrainClip extends TerrainEditBase {
+declare class TerrainClip extends TerrainEditBase {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         clipOutSide?: boolean;
         image?: string;
         imageBottom?: string;
@@ -28799,9 +28868,9 @@ export class TerrainClip extends TerrainEditBase {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TerrainEditBase extends BaseThing {
+declare class TerrainEditBase extends BaseThing {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -28817,7 +28886,7 @@ export class TerrainEditBase extends BaseThing {
     /**
      * 坐标位置数组，只显示单个区域【单个区域场景时使用】
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 已添加的区域个数
      */
@@ -28858,7 +28927,7 @@ export class TerrainEditBase extends BaseThing {
      * @param [options.diffHeight] - 开挖深度（地形开挖时，可以控制单个区域的开挖深度）
      * @returns 添加区域的记录对象
      */
-    addArea(positions: string[] | any[][] | LngLatPoint[] | Mars3dCesium.Cartesian3[], options?: {
+    addArea(positions: string[] | any[][] | LngLatPoint[] | Cesium.Cartesian3[], options?: {
         diffHeight?: any;
     }): any;
 }
@@ -28877,9 +28946,9 @@ export class TerrainEditBase extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TerrainPlanClip extends BaseThing {
+declare class TerrainPlanClip extends BaseThing {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         clipOutSide?: boolean;
         image?: string;
         imageBottom?: string;
@@ -28891,7 +28960,7 @@ export class TerrainPlanClip extends BaseThing {
     /**
      * 开挖区域的 坐标位置数组
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 设置所有区域的挖掘深度（单位：米）
      */
@@ -28918,12 +28987,12 @@ export class TerrainPlanClip extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class LimitHeight extends BaseThing {
+declare class LimitHeight extends BaseThing {
     constructor(options?: {
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         height?: number;
         bottomHeight?: number;
-        color?: string | Mars3dCesium.Color;
+        color?: string | Cesium.Color;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -28935,7 +29004,7 @@ export class LimitHeight extends BaseThing {
     /**
      * 分析区域坐标数组
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 限高高度（单位米）,相对于bottomHeight模型地面的海拔高度的相对高度。
      */
@@ -28962,21 +29031,21 @@ export class LimitHeight extends BaseThing {
  * @param [options.distance = 0] - 裁剪的距离
  * @param [options.clipOutSide = false] - 是否外裁剪
  * @param [options.edgeWidth = 0] - 裁剪区域边线宽度，0时不显示
- * @param [options.edgeColor = Mars3dCesium.Color.WHITE] - 裁剪区域边线颜色
+ * @param [options.edgeColor = Cesium.Color.WHITE] - 裁剪区域边线颜色
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class ModelPlanClip extends TilesetPlanClip {
+declare class ModelPlanClip extends TilesetPlanClip {
     constructor(options?: {
         graphic: ModelEntity;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         height?: number;
         type?: ClipType;
         distance?: number;
         clipOutSide?: boolean;
         edgeWidth?: number;
-        edgeColor?: Mars3dCesium.Color;
+        edgeColor?: Cesium.Color;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -28989,10 +29058,10 @@ export class ModelPlanClip extends TilesetPlanClip {
      * 获取当前转换计算模型逆矩阵，
      * 用于 局部坐标系 与 世界坐标系 的转换。
      */
-    readonly inverseMatrix: Mars3dCesium.Matrix4;
+    readonly inverseMatrix: Cesium.Matrix4;
 }
 
-export namespace ModelPlanClip {
+declare namespace ModelPlanClip {
     /**
      * 裁剪模型 类型 枚举 同{@link ClipType}
      */
@@ -29010,10 +29079,10 @@ export namespace ModelPlanClip {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TilesetClip extends TilesetEditBase {
+declare class TilesetClip extends TilesetEditBase {
     constructor(options?: {
         layer: TilesetLayer;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         clipOutSide?: boolean;
         id?: string | number;
         enabled?: boolean;
@@ -29034,10 +29103,10 @@ export class TilesetClip extends TilesetEditBase {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TilesetEditBase extends BaseThing {
+declare class TilesetEditBase extends BaseThing {
     constructor(options?: {
         layer: TilesetLayer;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -29053,7 +29122,7 @@ export class TilesetEditBase extends BaseThing {
     /**
      * 需要分析的模型 对应的 Cesium3DTileset 对象
      */
-    tileset: Mars3dCesium.Cesium3DTileset;
+    tileset: Cesium.Cesium3DTileset;
     /**
      * 压平高度 (单位：米)，基于压平区域最低点高度的偏移量
      */
@@ -29062,11 +29131,11 @@ export class TilesetEditBase extends BaseThing {
      * 获取当前转换计算模型逆矩阵，
      * 用于 局部坐标系 与 世界坐标系 的转换。
      */
-    readonly inverseMatrix: Mars3dCesium.Matrix4;
+    readonly inverseMatrix: Cesium.Matrix4;
     /**
      * 坐标位置数组，只显示单个区域【单个区域场景时使用】
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 已添加的区域个数
      */
@@ -29105,7 +29174,7 @@ export class TilesetEditBase extends BaseThing {
      * @param positions - 坐标位置数组
      * @returns 添加区域的记录对象
      */
-    addArea(positions: string[] | any[][] | LngLatPoint[] | Mars3dCesium.Cartesian3[]): any;
+    addArea(positions: string[] | any[][] | LngLatPoint[] | Cesium.Cartesian3[]): any;
 }
 
 /**
@@ -29118,10 +29187,10 @@ export class TilesetEditBase extends BaseThing {
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TilesetFlat extends TilesetEditBase {
+declare class TilesetFlat extends TilesetEditBase {
     constructor(options?: {
         layer: TilesetLayer;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         height?: number;
         id?: string | number;
         enabled?: boolean;
@@ -29133,7 +29202,7 @@ export class TilesetFlat extends TilesetEditBase {
     height: number;
 }
 
-export namespace TilesetFlood {
+declare namespace TilesetFlood {
     /**
      * 当前类支持的{@link EventType}事件类型
      * @example
@@ -29160,20 +29229,20 @@ export namespace TilesetFlood {
  * @param [options.speed] - 淹没速度，米/秒（默认刷新频率为55Hz）
  * @param [options.minHeight] - 淹没起始的海拔高度（单位：米）
  * @param [options.maxHeight] - 淹没结束的海拔高度（单位：米）
- * @param [options.color = new Mars3dCesium.Color(0.15, 0.7, 0.95, 0.5)] - 淹没颜色
+ * @param [options.color = new Cesium.Color(0.15, 0.7, 0.95, 0.5)] - 淹没颜色
  * @param [options.floodAll] - 是否对整个模型进行分析
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TilesetFlood extends TilesetEditBase {
+declare class TilesetFlood extends TilesetEditBase {
     constructor(options?: {
         layer: TilesetLayer;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         speed?: number;
         minHeight?: number;
         maxHeight?: number;
-        color?: Mars3dCesium.Color | string;
+        color?: Cesium.Color | string;
         floodAll?: boolean;
         id?: string | number;
         enabled?: boolean;
@@ -29194,7 +29263,7 @@ export class TilesetFlood extends TilesetEditBase {
     /**
      * 淹没颜色
      */
-    color: Mars3dCesium.Color;
+    color: Cesium.Color;
     /**
      * 重新赋值参数，同构造方法参数一致。
      * @param options - 参数,与类的构造方法参数相同
@@ -29234,23 +29303,23 @@ export class TilesetFlood extends TilesetEditBase {
  * @param [options.distance = 0] - 裁剪的距离
  * @param [options.clipOutSide = false] - 是否外裁剪
  * @param [options.edgeWidth = 0] - 裁剪区域边线宽度，0时不显示
- * @param [options.edgeColor = Mars3dCesium.Color.WHITE] - 裁剪区域边线颜色
+ * @param [options.edgeColor = Cesium.Color.WHITE] - 裁剪区域边线颜色
  * @param [options.showPlane = false] - 是否显示裁剪平面
  * @param [options.planeStyle] - 裁剪平面显示时的样式
  * @param [options.id = uuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
  */
-export class TilesetPlanClip extends BaseThing {
+declare class TilesetPlanClip extends BaseThing {
     constructor(options?: {
         layer: TilesetLayer;
-        positions?: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+        positions?: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
         height?: number;
         type?: ClipType;
         distance?: number;
         clipOutSide?: boolean;
         edgeWidth?: number;
-        edgeColor?: Mars3dCesium.Color;
+        edgeColor?: Cesium.Color;
         showPlane?: boolean;
         planeStyle?: PlaneEntity.StyleOptions;
         id?: string | number;
@@ -29264,17 +29333,17 @@ export class TilesetPlanClip extends BaseThing {
     /**
      * 裁剪面集合
      */
-    readonly planes: Mars3dCesium.ClippingPlaneCollection;
+    readonly planes: Cesium.ClippingPlaneCollection;
     /**
      * 获取当前转换计算模型逆矩阵，
      * 用于 局部坐标系 与 世界坐标系 的转换。
      */
-    readonly inverseMatrix: Mars3dCesium.Matrix4;
+    readonly inverseMatrix: Cesium.Matrix4;
     /**
      * 获取当前转换计算模型逆矩阵，
      * 用于 局部坐标系 与 世界坐标系 的转换。
      */
-    readonly center: Mars3dCesium.Matrix4;
+    readonly center: Cesium.Matrix4;
     /**
      * 更新最后一个面的 裁剪距离 (单位：米)
      */
@@ -29290,7 +29359,7 @@ export class TilesetPlanClip extends BaseThing {
     /**
      * 裁剪区域坐标数组(按面或线裁剪)
      */
-    positions: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[];
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
     /**
      * 是否外裁剪
      */
@@ -29317,7 +29386,7 @@ export class TilesetPlanClip extends BaseThing {
 /**
  * 控件相关 静态方法
  */
-namespace ControlUtil {
+declare namespace ControlUtil {
     /**
      * 注册控件类
      * @param type - 控件类型
@@ -29344,7 +29413,7 @@ namespace ControlUtil {
  * 通用材质 转换处理类
  * @param [options] - 控制参数
  */
-export class BaseMaterialConver extends BaseOptsConver {
+declare class BaseMaterialConver extends BaseOptsConver {
     constructor(options?: any);
     /**
      * 转换为Cesium相关属性值
@@ -29373,7 +29442,7 @@ export class BaseMaterialConver extends BaseOptsConver {
  * 图片材质 转换处理类
  * @param [options] - 控制参数
  */
-export class ImageOptsConver extends BaseMaterialConver {
+declare class ImageOptsConver extends BaseMaterialConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29395,7 +29464,7 @@ export class ImageOptsConver extends BaseMaterialConver {
  * 矢量数据style转换处理基类
  * @param [options] - 控制参数
  */
-export class BaseStyleConver extends BaseOptsConver {
+declare class BaseStyleConver extends BaseOptsConver {
     constructor(options?: any);
 }
 
@@ -29403,7 +29472,7 @@ export class BaseStyleConver extends BaseOptsConver {
  * Billboard 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class BillboardStyleConver extends BaseStyleConver {
+declare class BillboardStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29427,7 +29496,7 @@ export class BillboardStyleConver extends BaseStyleConver {
  * Box矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class BoxStyleConver extends BaseStyleConver {
+declare class BoxStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29451,7 +29520,7 @@ export class BoxStyleConver extends BaseStyleConver {
  * Circle 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class CircleStyleConver extends BaseStyleConver {
+declare class CircleStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29475,7 +29544,7 @@ export class CircleStyleConver extends BaseStyleConver {
  * Cloud 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class CloudStyleConver extends BaseStyleConver {
+declare class CloudStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29497,7 +29566,7 @@ export class CloudStyleConver extends BaseStyleConver {
  * Corridor 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class CorridorStyleConver extends BaseStyleConver {
+declare class CorridorStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29521,7 +29590,7 @@ export class CorridorStyleConver extends BaseStyleConver {
  * Cylinder 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class CylinderStyleConver extends BaseStyleConver {
+declare class CylinderStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29545,7 +29614,7 @@ export class CylinderStyleConver extends BaseStyleConver {
  * DivGraphic 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class DivGraphicStyleConver extends BaseStyleConver {
+declare class DivGraphicStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29567,7 +29636,7 @@ export class DivGraphicStyleConver extends BaseStyleConver {
  * Ellipsoid 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class EllipsoidStyleConver extends BaseStyleConver {
+declare class EllipsoidStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29591,7 +29660,7 @@ export class EllipsoidStyleConver extends BaseStyleConver {
  * Label 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class LabelStyleConver extends BaseStyleConver {
+declare class LabelStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换Ceium对象为json简单对象，用于导出
@@ -29606,7 +29675,7 @@ export class LabelStyleConver extends BaseStyleConver {
  * Model 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class ModelStyleConver extends BaseStyleConver {
+declare class ModelStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29630,7 +29699,7 @@ export class ModelStyleConver extends BaseStyleConver {
  * Path 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class PathStyleConver extends BaseStyleConver {
+declare class PathStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29654,7 +29723,7 @@ export class PathStyleConver extends BaseStyleConver {
  * Plane 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class PlaneStyleConver extends BaseStyleConver {
+declare class PlaneStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29678,7 +29747,7 @@ export class PlaneStyleConver extends BaseStyleConver {
  * Point 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class PointStyleConver extends BaseStyleConver {
+declare class PointStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29701,7 +29770,7 @@ export class PointStyleConver extends BaseStyleConver {
 /**
  * Polygon 矢量数据style转换处理类
  */
-export class PolygonStyleConver extends BaseStyleConver {
+declare class PolygonStyleConver extends BaseStyleConver {
     /**
      * style样式属性赋值到 entity
      * @param style - 样式
@@ -29709,7 +29778,7 @@ export class PolygonStyleConver extends BaseStyleConver {
      * @param isEntity - 是否为entity
      * @returns 矢量数据所需的Cesium内部对象
      */
-    static toCesiumVal(style: PolygonEntity.StyleOptions, entityGraphic: Mars3dCesium.PolygonGraphics | null, isEntity: boolean): Mars3dCesium.PolygonGraphics;
+    static toCesiumVal(style: PolygonEntity.StyleOptions, entityGraphic: Cesium.PolygonGraphics | null, isEntity: boolean): Cesium.PolygonGraphics;
     /**
      * 导出Cesium的样式对象到json可以保存的格式
      * @param czmVal - Cesium属性值
@@ -29724,7 +29793,7 @@ export class PolygonStyleConver extends BaseStyleConver {
  * Polyline 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class PolylineStyleConver extends BaseStyleConver {
+declare class PolylineStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29748,7 +29817,7 @@ export class PolylineStyleConver extends BaseStyleConver {
  * PolylineVolume 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class PolylineVolumeStyleConver extends BaseStyleConver {
+declare class PolylineVolumeStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29772,7 +29841,7 @@ export class PolylineVolumeStyleConver extends BaseStyleConver {
  * Rectangle 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class RectangleStyleConver extends BaseStyleConver {
+declare class RectangleStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29796,7 +29865,7 @@ export class RectangleStyleConver extends BaseStyleConver {
  * RectangularSensor 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class RectangularSensorStyleConver extends BaseStyleConver {
+declare class RectangularSensorStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29818,7 +29887,7 @@ export class RectangularSensorStyleConver extends BaseStyleConver {
  * Wall 矢量数据style转换处理类
  * @param [options] - 控制参数
  */
-export class WallStyleConver extends BaseStyleConver {
+declare class WallStyleConver extends BaseStyleConver {
     constructor(options?: any);
     /**
      * 转换style到Cesium对象需要的格式
@@ -29841,7 +29910,7 @@ export class WallStyleConver extends BaseStyleConver {
 /**
  * DOM操作 相关静态方法类
  */
-namespace DomUtil {
+declare namespace DomUtil {
     /**
      * 创建一个tagName的HTML元素，将其class设置为className，并可选择将其添加到container元素中
      * @param tagName - 元素类型，比如 div
@@ -29940,11 +30009,11 @@ namespace DomUtil {
 /**
  * 矢量数据标绘编辑相关常量
  */
-namespace DrawUtil {
+declare namespace DrawUtil {
     /**
      * 拖拽点分类
      */
-    let PointType: number;
+    const PointType: number;
     /**
      * 拖拽点颜色
      * @example
@@ -29954,7 +30023,7 @@ namespace DrawUtil {
      * mars3d.DrawUtil.PointColor.EditAttr = '#f73163' //辅助修改属性（如半径）的拖拽点
      * mars3d.DrawUtil.PointColor.AddMidPoint = 'rgba(4,194,201,0.3)' //增加新点，辅助拖拽点
      */
-    let PointColor: Mars3dCesium.Color;
+    const PointColor: Cesium.Color;
     /**
      * 设置编辑点的样式（color颜色除外）
      * @param value - 像素
@@ -29966,7 +30035,7 @@ namespace DrawUtil {
 /**
  * 特效相关 静态方法
  */
-namespace EffectUtil {
+declare namespace EffectUtil {
     /**
      * 注册特效类
      * @param type - 特效类型
@@ -29992,7 +30061,7 @@ namespace EffectUtil {
 /**
  * 矢量数据 相关静态方法
  */
-namespace GraphicUtil {
+declare namespace GraphicUtil {
     /**
      * 是否有指定类型矢量对象
      * @param type - 矢量数据类型
@@ -30050,7 +30119,7 @@ namespace GraphicUtil {
      * @param [options.attr = null] - 属性
      * @returns 创建完成的矢量数据对象
      */
-    function fromEntity(entity: Mars3dCesium.Entity, options: {
+    function fromEntity(entity: Cesium.Entity, options: {
         type: GraphicType | string;
         style: any;
         attr?: any;
@@ -30060,7 +30129,7 @@ namespace GraphicUtil {
 /**
  * 图层相关 静态方法
  */
-namespace LayerUtil {
+declare namespace LayerUtil {
     /**
      * 注册图层类
      * @param type - 图层类型
@@ -30110,7 +30179,7 @@ namespace LayerUtil {
      * 创建 无地形的 标准椭球体对象
      * @returns 无地形 标准椭球体对象
      */
-    function getNoTerrainProvider(): Mars3dCesium.EllipsoidTerrainProvider;
+    function getNoTerrainProvider(): Cesium.EllipsoidTerrainProvider;
     /**
      * 注册TerrainProvider类
      * @param type - Provider类型
@@ -30135,7 +30204,7 @@ namespace LayerUtil {
      */
     function createTerrainProvider(options: {
         type: TerrainType;
-        url: string | Mars3dCesium.Resource;
+        url: string | Cesium.Resource;
         proxy?: string;
         templateValues?: any;
         queryParameters?: any;
@@ -30143,19 +30212,19 @@ namespace LayerUtil {
         requestVertexNormals?: boolean;
         requestWaterMask?: boolean;
         requestMetadata?: boolean;
-    }, templateValues?: any): Mars3dCesium.CesiumTerrainProvider;
+    }, templateValues?: any): Cesium.CesiumTerrainProvider;
     /**
      * 获取baseLayerPicker使用的绑定地形列表
      * @param options - 地形参数,同{@link createTerrainProvider}方法参数
      * @returns 地形列表
      */
-    function getTerrainProviderViewModels(options: any): Mars3dCesium.ProviderViewModel[];
+    function getTerrainProviderViewModels(options: any): Cesium.ProviderViewModel[];
 }
 
 /**
  * SDK内部统一调用console.* 打印日志的控制类，在外部可以按需开启和关闭。
  */
-namespace Log {
+declare namespace Log {
     /**
      * 是否 console.log 打印普通日志信息，可以按需关闭或开启
      * @param val - 是否打印
@@ -30197,7 +30266,7 @@ namespace Log {
 /**
  * 矢量数据材质
  */
-namespace MaterialUtil {
+declare namespace MaterialUtil {
     /**
      * 注册自定义的材质
      * @param type - 类型名称
@@ -30217,33 +30286,33 @@ namespace MaterialUtil {
      * @param options - 创建参数,具体对照{@link MaterialType}的注释说明
      * @returns 材质对象
      */
-    function createMaterial(type: any, options: any): Mars3dCesium.Material;
+    function createMaterial(type: any, options: any): Cesium.Material;
     /**
      * 将材质对象转为Josn简单对象，用于保存。
      * @param material - 材质对象
      * @param style - 附加到的目标对象
      * @returns json简单对象
      */
-    function toJSON(material: Mars3dCesium.Material | BaseMaterialProperty, style: any): any;
+    function toJSON(material: Cesium.Material | BaseMaterialProperty, style: any): any;
 }
 
 /**
  * 图上量算 的 常用静态方法
  */
-namespace MeasureUtil {
+declare namespace MeasureUtil {
     /**
      * 求坐标数组的空间距离
      * @param positions - 坐标数组
      * @returns 距离（单位：米）
      */
-    function getDistance(positions: Mars3dCesium.Cartesian3[] | LngLatPoint[]): number;
+    function getDistance(positions: Cesium.Cartesian3[] | LngLatPoint[]): number;
     /**
      * 求坐标数组的 距离（地球表面弧度的）,
      * 比如北京到纽约（不能穿过球心，是贴地表的线的距离）
      * @param positions - 坐标数组
      * @returns 距离（单位：米）
      */
-    function getSurfaceDistance(positions: Mars3dCesium.Cartesian3[] | LngLatPoint[]): number;
+    function getSurfaceDistance(positions: Cesium.Cartesian3[] | LngLatPoint[]): number;
     /**
      * 异步计算贴地距离中，每计算完成2个点之间的距离后 的回调方法
      * @param options - 参数对象，具有以下属性:
@@ -30255,7 +30324,7 @@ namespace MeasureUtil {
      */
     type getClampDistance_endItem = (options: {
         index: number;
-        positions: Mars3dCesium.Cartesian3[];
+        positions: Cesium.Cartesian3[];
         distance: number;
         arrDistance: number[];
         all_distance: number;
@@ -30277,8 +30346,8 @@ namespace MeasureUtil {
      * @param options.callback - 异步计算贴地距离完成 的回调方法
      * @returns 无
      */
-    function getClampDistance(positions: Mars3dCesium.Cartesian3[] | LngLatPoint[], options: {
-        scene: Mars3dCesium.Scene;
+    function getClampDistance(positions: Cesium.Cartesian3[] | LngLatPoint[], options: {
+        scene: Cesium.Scene;
         splitNum?: number;
         has3dtiles?: boolean;
         endItem: getClampDistance_endItem;
@@ -30289,7 +30358,7 @@ namespace MeasureUtil {
      * @param positions - 坐标数组
      * @returns 面积，单位：平方米
      */
-    function getArea(positions: Mars3dCesium.Cartesian3[] | LngLatPoint[]): number;
+    function getArea(positions: Cesium.Cartesian3[] | LngLatPoint[]): number;
     /**
      * 计算三角形面积（空间平面）
      * @param pos1 - 三角形顶点坐标1
@@ -30297,7 +30366,7 @@ namespace MeasureUtil {
      * @param pos3 - 三角形顶点坐标3
      * @returns 面积，单位：平方米
      */
-    function getTriangleArea(pos1: Mars3dCesium.Cartesian3, pos2: Mars3dCesium.Cartesian3, pos3: Mars3dCesium.Cartesian3): number;
+    function getTriangleArea(pos1: Cesium.Cartesian3, pos2: Cesium.Cartesian3, pos3: Cesium.Cartesian3): number;
     /**
      * 异步精确计算贴地面积完成 的回调方法
      * @param area - 贴地面积，单位：平方米
@@ -30315,9 +30384,9 @@ namespace MeasureUtil {
      * @param options.callback - 异步计算贴地距离完成 的回调方法
      * @returns 仅 asyn:false 时返回面积，单位：平方米
      */
-    function getClampArea(positions: Mars3dCesium.Cartesian3[] | LngLatPoint[], options: {
+    function getClampArea(positions: Cesium.Cartesian3[] | LngLatPoint[], options: {
         asyn: boolean;
-        scene: Mars3dCesium.Scene;
+        scene: Cesium.Scene;
         splitNum?: number;
         has3dtiles?: boolean;
         callback: getClampArea_callback;
@@ -30329,68 +30398,7 @@ namespace MeasureUtil {
      * @param [isNorthZero = false] - 是否正东为0时的角度（如方位角）
      * @returns 返回角度值，0-360度
      */
-    function getAngle(startPosition: Mars3dCesium.Cartesian3, endPosition: Mars3dCesium.Cartesian3, isNorthZero?: boolean): number;
-    /**
-     * 异步计算中，每计算完成1个点的坡度坡向后 的回调方法
-     * @param event - 参数对象，具有以下属性:
-     * @param event.index - 数组点中的index顺序
-     * @param event.data - 数据对象，具有以下属性:
-     * @param event.data.position - 坐标位置
-     * @param event.data.slope - 度数法值【 α(坡度)=arc tan (高程差/水平距离)】
-     * @param event.data.slopeStr1 - 度数法值字符串
-     * @param event.data.slopeStr2 - 百分比法值字符串【 坡度 = (高程差/水平距离)x100%】
-     * @param event.data.direction - 坡向值（0-360度）
-     */
-    type getSlope_endItem = (event: {
-        index: number;
-        data: {
-            position: Mars3dCesium.Cartesian3;
-            slope: number;
-            slopeStr1: string;
-            slopeStr2: string;
-            direction: number;
-        };
-    }) => void;
-    /**
-     * 异步计算完成所有点的坡度坡向后 的回调方法
-     * @param event - 参数对象，具有以下属性:
-     * @param event.data - 数组对象，数组中每一个值，具有以下属性:
-     * @param event.data.position - 坐标位置
-     * @param event.data.slope - 度数法值【 α(坡度)=arc tan (高程差/水平距离)】
-     * @param event.data.slopeStr1 - 度数法值字符串
-     * @param event.data.slopeStr2 - 百分比法值字符串【 坡度 = (高程差/水平距离)x100%】
-     * @param event.data.direction - 坡向值（0-360度）
-     */
-    type getSlope_callback = (event: {
-        data: {
-            position: Mars3dCesium.Cartesian3;
-            slope: number;
-            slopeStr1: string;
-            slopeStr2: string;
-            direction: number;
-        }[];
-    }) => void;
-    /**
-     * 异步计算点的坡度坡向
-     * @param options - 参数对象，具有以下属性:
-     * @param options.map - Map地图对象
-     * @param options.positions - 坐标数组
-     * @param options.radius - 缓冲半径（影响坡度坡向的精度）
-     * @param options.count - 缓冲的数量（影响坡度坡向的精度）会求周边(count*4)个点
-     * @param options.has3dtiles - 是否在3dtiles模型上分析（模型分析较慢，按需开启）
-     * @param options.endItem - 异步计算中，每计算完成1个点的坡度坡向后 的回调方法
-     * @param options.callback - 异步计算完成所有点的坡度坡向后 的回调方法
-     * @returns 坡度坡向分析类对象,分析完成方法内部会自动释放
-     */
-    function getSlope(options: {
-        map: Map;
-        positions: Mars3dCesium.Cartesian3[];
-        radius: number;
-        count: number;
-        has3dtiles: boolean;
-        endItem: getSlope_endItem;
-        callback: getSlope_callback;
-    }): Slope;
+    function getAngle(startPosition: Cesium.Cartesian3, endPosition: Cesium.Cartesian3, isNorthZero?: boolean): number;
     /**
      * 格式化显示距离值, 可指定单位
      * @param val - 距离值，米
@@ -30421,7 +30429,7 @@ namespace MeasureUtil {
  * 坐标点的转换 相关静态方法。
  *  提供了cesium内部不同坐标系之间的坐标转换、提供了国内偏移坐标系与标准坐标的转换。
  */
-namespace PointTrans {
+declare namespace PointTrans {
     /**
      * 经度/纬度 十进制 转为 度分秒格式
      * @param value - 经度或纬度值
@@ -30475,7 +30483,7 @@ namespace PointTrans {
      * @param [noAlt] - 是否包含高度值
      * @returns 经纬度坐标,示例：[123.123456,32.654321,198.7]
      */
-    function cartesian2lonlat(cartesian: Mars3dCesium.Cartesian3, noAlt?: boolean): number[];
+    function cartesian2lonlat(cartesian: Cesium.Cartesian3, noAlt?: boolean): number[];
     /**
      * Cesium笛卡尔空间坐标数组 转 经纬度坐标数组
      * 常用于转换geojson
@@ -30483,33 +30491,33 @@ namespace PointTrans {
      * @param [noAlt] - 是否包含高度值
      * @returns 经纬度坐标数组,示例：[ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      */
-    function cartesians2lonlats(positions: Mars3dCesium.Cartesian3[], noAlt?: boolean): any[][];
+    function cartesians2lonlats(positions: Cesium.Cartesian3[], noAlt?: boolean): any[][];
     /**
      * Cesium笛卡尔空间坐标 转 WebMercator投影平面坐标
      * @param position - Cesium笛卡尔空间xyz坐标
      * @returns 墨卡托投影平面坐标,示例：[13048882,3741659,20.1]
      */
-    function cartesian2mercator(position: Mars3dCesium.Cartesian3): number[];
+    function cartesian2mercator(position: Cesium.Cartesian3): number[];
     /**
      * Cesium笛卡尔空间坐标数组 转 WebMercator投影平面坐标数组
      * @param positions - Cesium笛卡尔空间xyz坐标数组
      * @returns WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
      */
-    function cartesians2mercators(positions: Mars3dCesium.Cartesian3[]): any[][];
+    function cartesians2mercators(positions: Cesium.Cartesian3[]): any[][];
     /**
      * 经纬度坐标 转 Cesium笛卡尔空间xyz坐标
      * @param coord - 经纬度坐标,示例：[123.123456,32.654321,198.7]
      * @param [defHeight = 0] - 默认高度
      * @returns Cesium笛卡尔空间xyz坐标
      */
-    function lonlat2cartesian(coord: any[][], defHeight?: number): Mars3dCesium.Cartesian3;
+    function lonlat2cartesian(coord: any[][], defHeight?: number): Cesium.Cartesian3;
     /**
      * 经纬度坐标数组 转 Cesium笛卡尔空间xyz坐标数组
      * @param coords - 经纬度坐标数组,示例：[ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
      * @param [defHeight = 0] - 默认高度
      * @returns Cesium笛卡尔空间xyz坐标数组
      */
-    function lonlats2cartesians(coords: any[][], defHeight?: number): Mars3dCesium.Cartesian3[];
+    function lonlats2cartesians(coords: any[][], defHeight?: number): Cesium.Cartesian3[];
     /**
      * 经纬度地理坐标 转 投影平面坐标
      * @param lnglat - 经纬度坐标,示例：[123.123456,32.654321,20.1]
@@ -30528,14 +30536,14 @@ namespace PointTrans {
      * @param [height] - 赋值高度
      * @returns Cesium笛卡尔空间xyz坐标
      */
-    function mercator2cartesian(point: number[], height?: number): Mars3dCesium.Cartesian3;
+    function mercator2cartesian(point: number[], height?: number): Cesium.Cartesian3;
     /**
      * 投影平面坐标数组 转 Cesium笛卡尔空间xyz坐标数组
      * @param arr - WebMercator投影平面坐标数组,示例：[[13048882,3741659,20.1],[13048882,3741659,21.2] ]
      * @param [height] - 赋值高度
      * @returns Cesium笛卡尔空间xyz坐标数组
      */
-    function mercators2cartesians(arr: number[], height?: number): Mars3dCesium.Cartesian3;
+    function mercators2cartesians(arr: number[], height?: number): Cesium.Cartesian3;
     /**
      * 投影平面坐标 转 经纬度地理坐标
      * @param point - WebMercator投影平面坐标,示例：[13048882,3741659,20.1]
@@ -30606,7 +30614,7 @@ namespace PointTrans {
 /**
  * 单个坐标或位置矩阵相关的处理 静态方法
  */
-namespace PointUtil {
+declare namespace PointUtil {
     /**
      * 获取PointTrans中对应的坐标转换方法
      * srcCoordType 转 dstCoordType 对应的方法名称
@@ -30619,38 +30627,38 @@ namespace PointUtil {
      * 获取position的最终value值，
      * 因为cesium经常属性或绑定一层，通过该方法可以内部去判断是否有getValue或_value进行取最终value值。
      * @param position - 各种位置属性对象
-     * @param [time = Mars3dCesium.JulianDate.now()] - 指定的时间值
+     * @param [time = Cesium.JulianDate.now()] - 指定的时间值
      * @returns 具体的Cartesian3对象坐标值
      */
-    function getPositionValue(position: Mars3dCesium.Cartesian3 | Mars3dCesium.SampledPositionProperty | any, time?: Mars3dCesium.JulianDate): Mars3dCesium.Cartesian3;
+    function getPositionValue(position: Cesium.Cartesian3 | Cesium.SampledPositionProperty | any, time?: Cesium.JulianDate): Cesium.Cartesian3;
     /**
      * 获取 坐标数组 中 最高高程值
      * @param positions - 笛卡尔坐标数组
      * @param [defaultVal = 0] - 默认高程值
      * @returns 最高高程值
      */
-    function getMaxHeight(positions: Mars3dCesium.Cartesian3[], defaultVal?: number): number;
+    function getMaxHeight(positions: Cesium.Cartesian3[], defaultVal?: number): number;
     /**
      * 获取 坐标数组 中 最低高程值
      * @param positions - 笛卡尔坐标数组
      * @param [defaultVal = 0] - 默认高程值
      * @returns 最低高程值
      */
-    function getMinHeight(positions: Mars3dCesium.Cartesian3[], defaultVal?: number): number;
+    function getMinHeight(positions: Cesium.Cartesian3[], defaultVal?: number): number;
     /**
      * 对坐标（或坐标数组）增加 指定的海拔高度值
      * @param positions - 笛卡尔坐标数组
      * @param [addHeight = 0] - 增加的海拔高度值
      * @returns 增加高度后的坐标（或坐标数组）
      */
-    function addPositionsHeight(positions: Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[], addHeight?: number): Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[];
+    function addPositionsHeight(positions: Cesium.Cartesian3 | Cesium.Cartesian3[], addHeight?: number): Cesium.Cartesian3 | Cesium.Cartesian3[];
     /**
      * 对坐标（或坐标数组）赋值修改为 指定的海拔高度值
      * @param positions - 笛卡尔坐标数组
      * @param [height = 0] - 增加的海拔高度值
      * @returns 增加高度后的坐标（或坐标数组）
      */
-    function setPositionsHeight(positions: Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[], height?: number): Mars3dCesium.Cartesian3 | Mars3dCesium.Cartesian3[];
+    function setPositionsHeight(positions: Cesium.Cartesian3 | Cesium.Cartesian3[], height?: number): Cesium.Cartesian3 | Cesium.Cartesian3[];
     /**
      * 获取 坐标 的 贴地(或贴模型)高度
      * @example
@@ -30660,7 +30668,7 @@ namespace PointUtil {
      *    has3dtiles: true,   //是否先求贴模型上（无模型时改为false，提高效率）
      *    callback: function (newHeight, cartOld) {
      *       console.log("原始高度为：" + cartOld.height.toFixed(2) + ",贴地高度：" + newHeight.toFixed(2))
-     *       let positionNew = Mars3dCesium.Cartesian3.fromRadians(cartOld.longitude, cartOld.latitude, newHeight);
+     *       let positionNew = Cesium.Cartesian3.fromRadians(cartOld.longitude, cartOld.latitude, newHeight);
      *       graphic.position =positionNew
      *    }
      * });
@@ -30673,7 +30681,7 @@ namespace PointUtil {
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 仅 asyn:false 时返回高度值
      */
-    function getSurfaceHeight(scene: Mars3dCesium.Scene, position: Mars3dCesium.Cartesian3, options?: {
+    function getSurfaceHeight(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         asyn: boolean;
         has3dtiles?: boolean;
         objectsToExclude?: any;
@@ -30689,7 +30697,7 @@ namespace PointUtil {
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 仅 asyn:false 时返回高度值
      */
-    function getSurface3DTilesHeight(scene: Mars3dCesium.Scene, position: Mars3dCesium.Cartesian3, options?: {
+    function getSurface3DTilesHeight(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         asyn: boolean;
         objectsToExclude?: any;
         callback: Globe.getSurfaceHeight_callback;
@@ -30712,7 +30720,7 @@ namespace PointUtil {
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 仅 asyn:false 时返回高度值
      */
-    function getSurfaceTerrainHeight(scene: Mars3dCesium.Scene, position: Mars3dCesium.Cartesian3, options?: {
+    function getSurfaceTerrainHeight(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         asyn: boolean;
         callback: Globe.getSurfaceHeight_callback;
     }): number | void;
@@ -30722,47 +30730,47 @@ namespace PointUtil {
      * @param scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param position - 坐标
      * @param [options = {}] - 参数对象，具有以下属性:
-     * @param [options.relativeHeight = fasle] - 是否在地形上侧的高度，在对象具备Mars3dCesium.HeightReference.RELATIVE_TO_GROUND时，可以设置为ture
+     * @param [options.relativeHeight = fasle] - 是否在地形上侧的高度，在对象具备Cesium.HeightReference.RELATIVE_TO_GROUND时，可以设置为ture
      * @param [options.maxHeight] - 可以限定最高高度，当计算的结果大于maxHeight时，原样返回，可以屏蔽计算误差的数据。
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，
      * @returns 贴地坐标
      */
-    function getSurfacePosition(scene: Mars3dCesium.Scene, position: Mars3dCesium.Cartesian3, options?: {
+    function getSurfacePosition(scene: Cesium.Scene, position: Cesium.Cartesian3, options?: {
         relativeHeight?: boolean;
         maxHeight?: number;
         has3dtiles?: boolean;
         objectsToExclude?: any;
-    }): Mars3dCesium.Cartesian3;
+    }): Cesium.Cartesian3;
     /**
      * 获取 屏幕XY坐标 对应的 笛卡尔三维坐标
      * @example
      * //Cesium原生鼠标单击事件
-     * let handler = new Mars3dCesium.ScreenSpaceEventHandler(map.scene.canvas);
+     * let handler = new Cesium.ScreenSpaceEventHandler(map.scene.canvas);
      * handler.setInputAction(function (event) {
      *   let cartesian = mars3d.PointUtil.getCurrentMousePosition(map.scene, event.position);
      *   //继续写其他代码
-     * }, Mars3dCesium.ScreenSpaceEventType.LEFT_CLICK);
+     * }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
      * @param scene - 三维地图场景对象，一般用map.scene或viewer.scene
      * @param position - 屏幕XY坐标（如鼠标所在位置)
      * @param noPickEntity - 排除的不拾取矢量对象，主要用于绘制中，排除对自己本身的拾取
      * @returns 笛卡尔三维坐标
      */
-    function getCurrentMousePosition(scene: Mars3dCesium.Scene, position: Mars3dCesium.Cartesian2, noPickEntity: any): Mars3dCesium.Cartesian3;
+    function getCurrentMousePosition(scene: Cesium.Scene, position: Cesium.Cartesian2, noPickEntity: any): Cesium.Cartesian3;
     /**
      * 求2点的中间点（贴地表）
      * @param mpt1 - 点1坐标
      * @param mpt2 - 点2坐标
      * @returns 2个点是否为重复的点
      */
-    function getMidpoint(mpt1: Mars3dCesium.Cartesian3 | LngLatPoint, mpt2: Mars3dCesium.Cartesian3 | LngLatPoint): Mars3dCesium.Cartesian3;
+    function getMidpoint(mpt1: Cesium.Cartesian3 | LngLatPoint, mpt2: Cesium.Cartesian3 | LngLatPoint): Cesium.Cartesian3;
     /**
      * 判断2个点是否为重复的点，比如标绘中的双击会偶尔产生2个重复点
      * @param mpt1 - 点1坐标
      * @param mpt2 - 点2坐标
      * @returns 2个点是否为重复的点
      */
-    function isRepeatPoint(mpt1: Mars3dCesium.Cartesian3, mpt2: Mars3dCesium.Cartesian3): boolean;
+    function isRepeatPoint(mpt1: Cesium.Cartesian3, mpt2: Cesium.Cartesian3): boolean;
     /**
      * 获取 点point1 绕 点center 的地面法向量 旋转顺时针angle角度 后的 新坐标
      * @param center - 中心点坐标
@@ -30770,7 +30778,7 @@ namespace PointUtil {
      * @param angle - 旋转角度,顺时针方向 0-360度
      * @returns 计算得到的新坐标
      */
-    function getRotateCenterPoint(center: Mars3dCesium.Cartesian3, point1: Mars3dCesium.Cartesian3, angle: number): Mars3dCesium.Cartesian3;
+    function getRotateCenterPoint(center: Cesium.Cartesian3, point1: Cesium.Cartesian3, angle: number): Cesium.Cartesian3;
     /**
      * 求 p1指向p2方向线上，距离p1或p2指定长度的 新的点
      * @param p1 - 起点坐标
@@ -30779,17 +30787,17 @@ namespace PointUtil {
      * @param [addBS = false] - 标识len的参考目标
      * @returns 计算得到的新坐标
      */
-    function getOnLinePointByLen(p1: Mars3dCesium.Cartesian3, p2: Mars3dCesium.Cartesian3, len: number, addBS?: boolean): Mars3dCesium.Cartesian3;
+    function getOnLinePointByLen(p1: Cesium.Cartesian3, p2: Cesium.Cartesian3, len: number, addBS?: boolean): Cesium.Cartesian3;
     /**
      * 根据 坐标位置、hpr方向、偏移距离，计算目标点坐标
      * @param position - 坐标位置
      * @param offest - 偏移距离值, xyz值的单位：米
      * @param hpr - 方向值
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
-     * @param [fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
      * @returns 目标点坐标
      */
-    function getPositionByHprAndOffset(position: Mars3dCesium.Cartesian3 | LngLatPoint, offest: Mars3dCesium.Cartesian3, hpr: Mars3dCesium.HeadingPitchRoll, ellipsoid?: Mars3dCesium.Ellipsoid, fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame): Mars3dCesium.Cartesian3;
+    function getPositionByHprAndOffset(position: Cesium.Cartesian3 | LngLatPoint, offest: Cesium.Cartesian3, hpr: Cesium.HeadingPitchRoll, ellipsoid?: Cesium.Ellipsoid, fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame): Cesium.Cartesian3;
     /**
      * 根据观察点的方向角度和距离，计算目标点坐标
      * @param position - 观察点坐标
@@ -30797,7 +30805,7 @@ namespace PointUtil {
      * @param radius - 半径距离
      * @returns 目标点坐标
      */
-    function getPositionByDirectionAndLen(position: Mars3dCesium.Cartesian3 | LngLatPoint, angle: number, radius: number): Mars3dCesium.Cartesian3;
+    function getPositionByDirectionAndLen(position: Cesium.Cartesian3 | LngLatPoint, angle: number, radius: number): Cesium.Cartesian3;
     /**
      * 根据观察点的hpr方向和距离，计算目标点坐标
      * @param position - 观察点坐标
@@ -30805,64 +30813,64 @@ namespace PointUtil {
      * @param radiusZ - 半径距离
      * @returns 目标点坐标
      */
-    function getPositionByHprAndLen(position: Mars3dCesium.Cartesian3 | LngLatPoint, hpr: Mars3dCesium.HeadingPitchRoll, radiusZ: number): Mars3dCesium.Cartesian3;
+    function getPositionByHprAndLen(position: Cesium.Cartesian3 | LngLatPoint, hpr: Cesium.HeadingPitchRoll, radiusZ: number): Cesium.Cartesian3;
     /**
      * 按观察点坐标和orientation方向，求观察点射向地球与地球的交点
      * @param position - 观察点坐标
      * @param orientation - HeadingPitchRoll方向 或 四元数实例
      * @param reverse - 是否翻转射线方向
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
      * @returns 射线与地球的交点
      */
-    function getRayEarthPosition(position: Mars3dCesium.Cartesian3, orientation: Mars3dCesium.HeadingPitchRoll | Mars3dCesium.Quaternion, reverse: boolean, ellipsoid?: Mars3dCesium.Ellipsoid): Mars3dCesium.Cartesian3;
+    function getRayEarthPosition(position: Cesium.Cartesian3, orientation: Cesium.HeadingPitchRoll | Cesium.Quaternion, reverse: boolean, ellipsoid?: Cesium.Ellipsoid): Cesium.Cartesian3;
     /**
      * 按转换矩阵，求观察点射向地球与地球的交点
      * @param matrix - 转换矩阵
      * @param reverse - 是否翻转射线方向
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
      * @returns 射线与地球的交点
      */
-    function getRayEarthPositionByMatrix(matrix: Mars3dCesium.Matrix4, reverse: boolean, ellipsoid?: Mars3dCesium.Ellipsoid): Mars3dCesium.Cartesian3;
+    function getRayEarthPositionByMatrix(matrix: Cesium.Matrix4, reverse: boolean, ellipsoid?: Cesium.Ellipsoid): Cesium.Cartesian3;
     /**
      * 根据 position位置 和 orientation四元数实例 求 Heading Pitch Roll方向
      * @param position - 位置坐标
      * @param orientation - 四元数实例
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
-     * @param [fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
      * @returns Heading Pitch Roll方向
      */
-    function getHeadingPitchRollByOrientation(position: Mars3dCesium.Cartesian3, orientation: Mars3dCesium.Quaternion, ellipsoid?: Mars3dCesium.Ellipsoid, fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame): Mars3dCesium.HeadingPitchRoll;
+    function getHeadingPitchRollByOrientation(position: Cesium.Cartesian3, orientation: Cesium.Quaternion, ellipsoid?: Cesium.Ellipsoid, fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame): Cesium.HeadingPitchRoll;
     /**
      * 根据matrix转换矩阵 求 Heading Pitch Roll角度
      * @param matrix - 转换矩阵
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
-     * @param [fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
      * @param [result] - 可以先实例化返回的 Heading Pitch Roll角度对象
      * @returns Heading Pitch Roll角度
      */
-    function getHeadingPitchRollByMatrix(matrix: Mars3dCesium.Matrix4, ellipsoid?: Mars3dCesium.Ellipsoid, fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame, result?: Mars3dCesium.HeadingPitchRoll): Mars3dCesium.HeadingPitchRoll;
+    function getHeadingPitchRollByMatrix(matrix: Cesium.Matrix4, ellipsoid?: Cesium.Ellipsoid, fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame, result?: Cesium.HeadingPitchRoll): Cesium.HeadingPitchRoll;
     /**
      * 求 localStart点 到 localEnd点的 Heading Pitch Roll方向
      * @param localStart - 起点坐标
      * @param localEnd - 终点坐标
-     * @param [ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
-     * @param [fixedFrameTransform = Mars3dCesium.Transforms.eastNorthUpToFixedFrame] - 参考系
+     * @param [ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [fixedFrameTransform = Cesium.Transforms.eastNorthUpToFixedFrame] - 参考系
      * @returns Heading Pitch Roll方向
      */
-    function getHeadingPitchRollForLine(localStart: Mars3dCesium.Cartesian3 | LngLatPoint, localEnd: Mars3dCesium.Cartesian3 | LngLatPoint, ellipsoid?: Mars3dCesium.Ellipsoid, fixedFrameTransform?: Mars3dCesium.Transforms.LocalFrameToFixedFrame): Mars3dCesium.HeadingPitchRoll;
+    function getHeadingPitchRollForLine(localStart: Cesium.Cartesian3 | LngLatPoint, localEnd: Cesium.Cartesian3 | LngLatPoint, ellipsoid?: Cesium.Ellipsoid, fixedFrameTransform?: Cesium.Transforms.LocalFrameToFixedFrame): Cesium.HeadingPitchRoll;
 }
 
 /**
  * 多个点 或 线面数据 相关处理 静态方法
  */
-namespace PolyUtil {
+declare namespace PolyUtil {
     /**
      * 求坐标数组的中心点
      * @param arr - 坐标数组
      * @param height - 指定中心点的高度值，默认为所有点的最高高度
      * @returns 中心点坐标
      */
-    function centerOfMass(arr: any[][] | string[] | LngLatPoint[] | Mars3dCesium.Cartesian3[], height: number): Mars3dCesium.Cartesian3;
+    function centerOfMass(arr: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[], height: number): Cesium.Cartesian3;
     /**
      * 缓冲分析，求指定 点线面geojson对象 按width半径的 缓冲面对象
      * @param geojson - geojson格式对象
@@ -30878,14 +30886,14 @@ namespace PolyUtil {
      * @param [steps = 8] - 缓冲步幅
      * @returns 缓冲后的新坐标数组
      */
-    function bufferPoints(points: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], width: number, steps?: number): LngLatPoint[];
+    function bufferPoints(points: LngLatPoint[] | Cesium.Cartesian3[] | any[], width: number, steps?: number): LngLatPoint[];
     /**
      * 求坐标数组的矩形范围内 按 splitNum网格数插值的 granularity值
      * @param positions - 坐标数组
      * @param [splitNum = 10] - splitNum网格数
      * @returns granularity值
      */
-    function getGranularity(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], splitNum?: number): number;
+    function getGranularity(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], splitNum?: number): number;
     /**
      * 面内进行贴地(或贴模型)插值, 返回三角网等计算结果 的回调方法
      * @param [options = {}] - 参数对象:
@@ -30914,8 +30922,8 @@ namespace PolyUtil {
      * @returns 仅 asyn:false 时返回计算结果值
      */
     function interPolygon(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        scene: Cesium.Scene;
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         callback: interPolygon_callback;
         splitNum?: number;
         asyn?: boolean;
@@ -30933,7 +30941,7 @@ namespace PolyUtil {
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @returns 计算面内最大、最小高度值对象，结果示例：{ maxHeight: 100, minHeight: 21 }
      */
-    function getHeightRange(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], scene: Mars3dCesium.Scene, options?: {
+    function getHeightRange(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], scene: Cesium.Scene, options?: {
         splitNum?: number;
         has3dtiles?: boolean;
         objectsToExclude?: any;
@@ -30951,8 +30959,8 @@ namespace PolyUtil {
      * @returns 仅 asyn:false 时返回计算结果值
      */
     function computeVolume(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        scene: Cesium.Scene;
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         callback: VolumeResult;
         splitNum?: number;
         asyn?: boolean;
@@ -31007,52 +31015,52 @@ namespace PolyUtil {
      * @returns 边线上的坐标点数组
      */
     function getEllipseOuterPositions(options: {
-        position: Mars3dCesium.Cartesian3 | LngLatPoint;
+        position: Cesium.Cartesian3 | LngLatPoint;
         radius?: number;
         semiMajorAxis?: number;
         semiMinorAxis?: number;
         count?: number;
         granularity?: number;
         rotation?: number;
-    }): Mars3dCesium.Cartesian3[];
+    }): Cesium.Cartesian3[];
     /**
      * 格式化Rectangle矩形对象,返回经纬度值
      * @param rectangle - 矩形对象
      * @param [digits = 6] - 经纬度保留的小数位数
      * @returns 返回经纬度值，示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
      */
-    function formatRectangle(rectangle: Mars3dCesium.Rectangle, digits?: number): any;
+    function formatRectangle(rectangle: Cesium.Rectangle, digits?: number): any;
     /**
      * 获取 坐标数组 的 矩形边界值
      * @param positions - 坐标数组
      * @param [isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
-     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Mars3dCesium.Rectangle对象
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
      */
-    function getRectangle(positions: Mars3dCesium.Cartesian3[] | string[] | any[][] | LngLatPoint[], isFormat?: boolean): Mars3dCesium.Rectangle | any;
+    function getRectangle(positions: Cesium.Cartesian3[] | string[] | any[][] | LngLatPoint[], isFormat?: boolean): Cesium.Rectangle | any;
     /**
      * 获取坐标点数组的外接矩形的 4个顶点坐标点（数组）
      * @param positions - 坐标点数组
      * @param [rotation = 0] - 旋转的角度，弧度值
      * @returns 4个顶点坐标点
      */
-    function getPositionsRectVertex(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], rotation?: number): Mars3dCesium.Cartesian3[];
+    function getPositionsRectVertex(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], rotation?: number): Cesium.Cartesian3[];
     /**
      * 获取矩形（含旋转角度）的边线上的4个顶点坐标点数组
      * @param [options] - 参数对象:
      * @param options.rectangle - 矩形对象
      * @param [options.rotation = 0] - 旋转的角度，弧度值
      * @param [options.height = 0] - 坐标的高度
-     * @param [options.granularity = Mars3dCesium.Math.RADIANS_PER_DEGREE] - granularity值
-     * @param [options.ellipsoid = Mars3dCesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
+     * @param [options.granularity = Cesium.Math.RADIANS_PER_DEGREE] - granularity值
+     * @param [options.ellipsoid = Cesium.Ellipsoid.WGS84] - 变换中使用固定坐标系的椭球。
      * @returns 边线上的4个顶点坐标点数组
      */
     function getRectangleOuterPositions(options?: {
-        rectangle: Mars3dCesium.Rectangle;
+        rectangle: Cesium.Rectangle;
         rotation?: number;
         height?: number;
         granularity?: number;
-        ellipsoid?: Mars3dCesium.Ellipsoid;
-    }): Mars3dCesium.Cartesian3[];
+        ellipsoid?: Cesium.Ellipsoid;
+    }): Cesium.Cartesian3[];
     /**
      * 根据传入中心点、高宽或角度，计算矩形面的顶点坐标。
      * @param [options] - 参数对象:
@@ -31065,27 +31073,27 @@ namespace PolyUtil {
      * @returns 矩形面的顶点坐标数组
      */
     function getRectPositionsByCenter(options?: {
-        center: Mars3dCesium.Cartesian3 | LngLatPoint;
+        center: Cesium.Cartesian3 | LngLatPoint;
         width?: number;
         height?: number;
         rotation?: number;
         originX?: number;
         originY?: number;
-    }): Mars3dCesium.Cartesian3[];
+    }): Cesium.Cartesian3[];
     /**
      * 判断点是否 多边形内
      * @param position - 需要判断的点
      * @param coordinates - 多边形的边界点
      * @returns 是否在多边形内
      */
-    function isInPoly(position: Mars3dCesium.Cartesian3 | LngLatPoint, coordinates: Mars3dCesium.Cartesian3[] | LngLatPoint[]): boolean;
+    function isInPoly(position: Cesium.Cartesian3 | LngLatPoint, coordinates: Cesium.Cartesian3[] | LngLatPoint[]): boolean;
     /**
      * 求贝塞尔曲线坐标
      * @param positions - 坐标数组
      * @param [closure = fasle] - 是否闭合曲线
      * @returns 坐标数组
      */
-    function getBezierCurve(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], closure?: boolean): Mars3dCesium.Cartesian3[];
+    function getBezierCurve(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], closure?: boolean): Cesium.Cartesian3[];
     /**
      * 对路线进行平面等比插值，高度：指定的固定height值 或 按贴地高度。
      * @param [options = {}] - 参数对象:
@@ -31098,13 +31106,13 @@ namespace PolyUtil {
      * @returns 插值后的路线坐标数组
      */
     function interPolyline(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        scene: Cesium.Scene;
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         splitNum?: number;
         minDistance?: number;
         height?: number;
         surfaceHeight?: boolean;
-    }): Mars3dCesium.Cartesian3[];
+    }): Cesium.Cartesian3[];
     /**
      * 对路线进行按空间等比插值，高度：高度值按各点的高度等比计算
      * 比如：用于航线的插值运算
@@ -31114,10 +31122,10 @@ namespace PolyUtil {
      * @param [options.minDistance] - 插值时的最小间隔(单位：米)，优先级高于splitNum
      * @returns 插值后的坐标对象
      */
-    function interLine(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], options?: {
+    function interLine(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], options?: {
         splitNum?: number;
         minDistance?: number;
-    }): Mars3dCesium.Cartesian3[];
+    }): Cesium.Cartesian3[];
     /**
      * 求路线的贴地线坐标（插值）
      * @param [options = {}] - 参数对象:
@@ -31132,8 +31140,8 @@ namespace PolyUtil {
      * @returns 无
      */
     function computeSurfaceLine(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: Mars3dCesium.Cartesian3[] | LngLatPoint[];
+        scene: Cesium.Scene;
+        positions: Cesium.Cartesian3[] | LngLatPoint[];
         splitNum?: number;
         minDistance?: number;
         has3dtiles?: boolean;
@@ -31153,8 +31161,8 @@ namespace PolyUtil {
      * @returns 无
      */
     function computeSurfacePoints(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: Mars3dCesium.Cartesian3[] | LngLatPoint[];
+        scene: Cesium.Scene;
+        positions: Cesium.Cartesian3[] | LngLatPoint[];
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
@@ -31166,7 +31174,7 @@ namespace PolyUtil {
      * @param noHeight - 是否计算贴地高度失败，true时标识计算失败了
      * @param index - 坐标数组的index顺序
      */
-    type computeStepSurfaceLine_endItem = (raisedPositions: Mars3dCesium.Cartesian3[], noHeight: boolean, index: number) => void;
+    type computeStepSurfaceLine_endItem = (raisedPositions: Cesium.Cartesian3[], noHeight: boolean, index: number) => void;
     /**
      * 异步分段分步计算贴地距离中，每计算完成2个点之间的距离后 的回调方法
      * @param arrStepPoints - 二维数组坐标集合，各分段2点之间的贴地点数组的集合
@@ -31188,8 +31196,8 @@ namespace PolyUtil {
      * @returns 无
      */
     function computeStepSurfaceLine(options?: {
-        scene: Mars3dCesium.Scene;
-        positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[];
+        scene: Cesium.Scene;
+        positions: LngLatPoint[] | Cesium.Cartesian3[] | any[];
         splitNum?: number;
         minDistance?: number;
         has3dtiles?: boolean;
@@ -31207,14 +31215,14 @@ namespace PolyUtil {
      * @param numOfSingleLine - 点集数量
      * @returns 曲线坐标数组
      */
-    function getLinkedPointList(startPoint: Mars3dCesium.Cartesian3 | LngLatPoint, endPoint: Mars3dCesium.Cartesian3 | LngLatPoint, angularityFactor: number, numOfSingleLine: number): Mars3dCesium.Cartesian3[];
+    function getLinkedPointList(startPoint: Cesium.Cartesian3 | LngLatPoint, endPoint: Cesium.Cartesian3 | LngLatPoint, angularityFactor: number, numOfSingleLine: number): Cesium.Cartesian3[];
     /**
      * 计算平行线
      * @param positions - 原始线的坐标数组
      * @param offset - 偏移的距离（单位米），正负决定方向
      * @returns 平行线坐标数组
      */
-    function getOffsetLine(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], offset: number): Mars3dCesium.Cartesian3[];
+    function getOffsetLine(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], offset: number): Cesium.Cartesian3[];
     /**
      * 截取路线指定最大长度的新路线，
      * 在最后一个点往前截取maxDistance长度。
@@ -31225,9 +31233,9 @@ namespace PolyUtil {
      * @param [options.point = false] - 为true时 只返回计算的maxDistance处的坐标
      * @returns 指定长度的坐标数组 ，options.point为true时，只返回数组的第1个点。
      */
-    function sliceByMaxDistance(positions: LngLatPoint[] | Mars3dCesium.Cartesian3[] | any[], maxDistance: number, options?: {
+    function sliceByMaxDistance(positions: LngLatPoint[] | Cesium.Cartesian3[] | any[], maxDistance: number, options?: {
         point?: boolean;
-    }): Mars3dCesium.Cartesian3[] | Mars3dCesium.Cartesian3;
+    }): Cesium.Cartesian3[] | Cesium.Cartesian3;
     /**
      * 求 坐标点 的 外包围凸体面(简化只保留边界线坐标)
      * @param coordinates - 经纬度坐标数组,示例：[ [123.123456,32.654321,198.7], [111.123456,22.654321,50.7] ]
@@ -31239,7 +31247,7 @@ namespace PolyUtil {
 /**
  * 常用静态方法
  */
-namespace Util {
+declare namespace Util {
     /**
      * 判断对象是否为number类型
      * @param obj - 对象
@@ -31398,32 +31406,32 @@ namespace Util {
      * 因为cesium经常属性或绑定一层，通过本方法可以内部去判断是否有getValue或_value进行取最终value值。
      * @param obj - Cesium对象值
      * @param [ClasName = null] - Cesium的类名，方便识别判断
-     * @param [time = Mars3dCesium.JulianDate.now()] - 如果具有时间属于时，取指定的时间的值
+     * @param [time = Cesium.JulianDate.now()] - 如果具有时间属于时，取指定的时间的值
      * @returns 最终value值
      */
-    function getCesiumValue(obj: any, ClasName?: any, time?: Mars3dCesium.JulianDate): any;
+    function getCesiumValue(obj: any, ClasName?: any, time?: Cesium.JulianDate): any;
     /**
      * 获取Cesium颜色对象
      * @param color - Cesium的类名，方便识别判断
      * @param [defval] - 默认值
-     * @param [time = Mars3dCesium.JulianDate.now()] - 如果具有时间属于时，取指定的时间的值
+     * @param [time = Cesium.JulianDate.now()] - 如果具有时间属于时，取指定的时间的值
      * @returns 颜色值
      */
-    function getCesiumColor(color: string | Mars3dCesium.Color | ((...params: any[]) => any), defval?: Mars3dCesium.Color, time?: Mars3dCesium.JulianDate): Mars3dCesium.Color;
+    function getCesiumColor(color: string | Cesium.Color | ((...params: any[]) => any), defval?: Cesium.Color, time?: Cesium.JulianDate): Cesium.Color;
     /**
      * 根据配置信息获取Cesium颜色对象
      * @param style - 配置信息
      * @param style.color - 颜色值
      * @param [style.opacity] - 透明度
      * @param [style.randomColor] - 是否随机色
-     * @param [defval = Mars3dCesium.Color.YELLOW] - 默认值
+     * @param [defval = Cesium.Color.YELLOW] - 默认值
      * @returns 颜色值
      */
     function getColorByStyle(style: {
-        color: string | Mars3dCesium.Color;
+        color: string | Cesium.Color;
         opacity?: number;
         randomColor?: boolean;
-    }, defval?: Mars3dCesium.Color): Mars3dCesium.Color;
+    }, defval?: Cesium.Color): Cesium.Color;
     /**
      * 取属性值，简化Cesium内的属性，去掉getValue等，取最简的键值对。
      * 方便popup、tooltip等构造方法使用
@@ -31570,7 +31578,7 @@ namespace Util {
         templateValues?: any;
         queryParameters?: any;
         headers?: any;
-    }): Mars3dCesium.Resource;
+    }): Cesium.Resource;
     /**
      * 文字转base64图片
      * @param text - 文字内容
@@ -31578,11 +31586,11 @@ namespace Util {
      * @param [textStyle.font = '10px sans-serif'] - 使用的CSS字体。
      * @param [textStyle.textBaseline = 'bottom'] - 文本的基线。
      * @param [textStyle.fill = true] - 是否填充文本。
-     * @param [textStyle.fillColor = Mars3dCesium.Color.WHITE] - 填充颜色。
+     * @param [textStyle.fillColor = Cesium.Color.WHITE] - 填充颜色。
      * @param [textStyle.stroke = false] - 是否描边文本。
      * @param [textStyle.strokeWidth = 1] - 文本描边的宽度。
-     * @param [textStyle.strokeColor = Mars3dCesium.Color.BLACK] - 文本描边的颜色。
-     * @param [textStyle.backgroundColor = Mars3dCesium.Color.TRANSPARENT] - 画布的背景色。
+     * @param [textStyle.strokeColor = Cesium.Color.BLACK] - 文本描边的颜色。
+     * @param [textStyle.backgroundColor = Cesium.Color.TRANSPARENT] - 画布的背景色。
      * @param [textStyle.padding = 0] - 要在文本周围添加的填充的像素大小。
      * @param [textStyle.outlineWidth] - 边框的宽度。
      * @param [textStyle.outlineColor = fillColor] - 矩形边框的颜色。
@@ -31592,14 +31600,14 @@ namespace Util {
         font?: string;
         textBaseline?: string;
         fill?: boolean;
-        fillColor?: Mars3dCesium.Color;
+        fillColor?: Cesium.Color;
         stroke?: boolean;
         strokeWidth?: number;
-        strokeColor?: Mars3dCesium.Color;
-        backgroundColor?: Mars3dCesium.Color;
+        strokeColor?: Cesium.Color;
+        backgroundColor?: Cesium.Color;
         padding?: number;
         outlineWidth?: number;
-        outlineColor?: Mars3dCesium.Color;
+        outlineColor?: Cesium.Color;
     }): HTMLCanvasElement;
     /**
      * 获取用于EntityCluster聚合的圆形图标对象
@@ -31738,320 +31746,327 @@ namespace Util {
 
 
 
-  /**
-   * 控件类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/control.html
-   */
-  namespace control {
-    export { BaseControl }
-    export { LocationBar }
-    export { MouseDownView }
-    export { Zoom }
-    export { ToolButton }
-    export { Compass }
-    export { DistanceLegend }
-    export { MapSplit }
-    export { OverviewMap }
-    export { ClockAnimate }
-    export { Timeline }
-  }
-
-  /**
-   * 特效类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/effect.html
-   */
-  namespace effect {
-    export { BaseEffect }
-    export { FogEffect }
-    export { RainEffect }
-    export { SnowEffect }
-    export { SnowCoverEffect }
-    export { InvertedEffect }
-
-    export { NightVisionEffect }
-    export { BloomEffect }
-    export { BrightnessEffect }
-    export { BlackAndWhiteEffect }
-    export { MosaicEffect }
-    export { DepthOfFieldEffect }
-    export { OutlineEffect }
-  }
-
-
-  /**
-   * 材质类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/material.html
-   */
-  namespace material {
-    export { TextMaterial }
-    export { CylinderWaveMaterial }
-    export { BaseMaterialProperty }
-    export { CircleScanMaterialProperty }
-    export { CircleWaveMaterialProperty }
-    export { CylinderWaveMaterialProperty }
-    export { EllipsoidElectricMaterialProperty }
-    export { EllipsoidWaveMaterialProperty }
-    export { LineFlickerMaterialProperty }
-    export { LineFlowColorMaterialProperty }
-    export { LineFlowMaterialProperty }
-    export { LineTrailMaterialProperty }
-    export { ODLineMaterialProperty }
-    export { RadarLineMaterialProperty }
-    export { RadarWaveMaterialProperty }
-    export { ScanLineMaterialProperty }
-    export { TextMaterialProperty }
-    export { WallScrollMaterialProperty }
-    export { WaterMaterialProperty }
-    export { PolyGradientMaterialProperty }
-    export { RectSlideMaterialProperty }
-    export { Image2MaterialProperty }
-  }
-
-
-
-  /**
-   * 矢量数据类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/graphic.html
-   */
-  namespace graphic {
-    export { BaseGraphic }
-    export { BaseEntity }
-    export { BasePointEntity }
-    export { BasePolyEntity }
-    export { BasePrimitive }
-    export { BasePointPrimitive }
-    export { BasePolyPrimitive }
-
-    //基础entity
-    export { PointEntity }
-    export { BillboardEntity }
-    export { FontBillboardEntity }
-    export { DivBillboardEntity }
-    export { LabelEntity }
-    export { ModelEntity }
-    export { BoxEntity }
-    export { PlaneEntity }
-    export { CircleEntity }
-    export { CylinderEntity }
-    export { ConeTrack }
-    export { EllipsoidEntity }
-    export { PolylineEntity }
-    export { CurveEntity }
-    export { PolylineVolumeEntity }
-    export { PathEntity }
-    export { CorridorEntity }
-    export { WallEntity }
-    export { RectangleEntity }
-    export { PolygonEntity }
-    export { EllipseEntity }
-    export { RectangularSensor }
-    export { Video2D }
-
-    //polygon扩展的entity
-    export { AttackArrow }
-    export { AttackArrowPW }
-    export { AttackArrowYW }
-    export { CloseVurve }
-    export { DoubleArrow }
-    export { FineArrow }
-    export { FineArrowYW }
-    export { GatheringPlace }
-    export { IsosTriangle }
-    export { Lune }
-    export { Regular }
-    export { Sector }
-    export { StraightArrow }
-
-    //量算对象
-    export { PointMeasure }
-    export { DistanceMeasure }
-    export { DistanceSurfaceMeasure }
-    export { SectionMeasure }
-    export { AngleMeasure }
-    export { HeightMeasure }
-    export { HeightTriangleMeasure }
-    export { AreaMeasure }
-    export { AreaSurfaceMeasure }
-    export { VolumeMeasure }
-
-    //基础primitive
-    export { PointPrimitive }
-    export { BillboardPrimitive }
-    export { CloudPrimitive }
-    export { LabelPrimitive }
-    export { ModelPrimitive }
-    export { CirclePrimitive }
-    export { PlanePrimitive }
-    export { BoxPrimitive }
-    export { CylinderPrimitive }
-    export { ConeTrackPrimitive }
-    export { EllipsoidPrimitive }
-    export { PolylinePrimitive }
-    export { PolylineSimplePrimitive }
-    export { WallPrimitive }
-    export { CorridorPrimitive }
-    export { PolylineVolumePrimitive }
-    export { RectanglePrimitive }
-    export { PolygonPrimitive }
-    export { FrustumPrimitive }
-    //扩展的普通primitive
-    export { LightCone }
-    export { Water }
-    export { DiffuseWall }
-    export { ScrollWall }
-    export { DynamicRiver }
-    export { Road }
-    export { Pit }
-
-    //批量大数据primitive
-    export { BaseCombine }
-    export { FlatBillboard }
-    export { ModelCombine }
-    export { PlaneCombine }
-    export { BoxCombine }
-    export { CircleCombine }
-    export { CylinderCombine }
-    export { FrustumCombine }
-    export { EllipsoidCombine }
-    export { PolylineCombine }
-    export { PolylineVolumeCombine }
-    export { CorridorCombine }
-    export { WallCombine }
-    export { PolygonCombine }
-    export { WaterCombine }
-    export { RectangleCombine }
-
-    //自定义扩展：DIV
-    export { DivGraphic }
-    export { DivBoderLabel }
-    export { DivLightPoint }
-    export { DivUpLabel }
-    export { Popup }
-    export { Tooltip }
-
-    //自定义扩展：其他
-    export { ParticleSystem }
-    export { ArcFrustum }
-    export { Tetrahedron }
-    export { ViewShed }
-    export { Video3D }
-    export { DynamicRoamLine }
-    export { RoamLine }
-
-    export { CamberRadar }
-    export { ConicSensor }
-    export { RectSensor }
-    export { Satellite }
-    export { SatelliteSensor }
-  }
-
-  /**
-   * 图层类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/layer.html
-   */
-  namespace layer {
-    export { BaseLayer }
-    export { GroupLayer }
-    export { BaseTileLayer }
-    export { BaseGraphicLayer }
-
-    export { TerrainLayer }
-
-    export { ArcGisCacheLayer }
-    export { ArcGisTileLayer }
-    export { ArcGisLayer }
-    export { BaiduLayer }
-    export { BingLayer }
-    export { GaodeLayer }
-    export { GeeLayer }
-    export { GoogleLayer }
-    export { ImageLayer }
-    export { IonLayer }
-    export { MapboxLayer }
-    export { OsmLayer }
-    export { TdtLayer }
-    export { TencentLayer }
-    export { TmsLayer }
-    export { WmsLayer }
-    export { WmtsLayer }
-    export { XyzLayer }
-    export { GridLayer }
-    export { TileInfoLayer }
-    export { EmptyTileLayer }
-
-    export { CzmGeoJsonLayer }
-    export { KmlLayer }
-    export { CzmlLayer }
-
-    export { GraphicLayer }
-    export { GraphicLayer as DivLayer }
-    export { GraphicGroupLayer }
-    export { GeoJsonLayer }
-    export { ModelLayer }
-    export { TilesetLayer }
-    export { OsmBuildingsLayer }
-    export { GraticuleLayer }
-    export { LodGraphicLayer }
-    export { GeodePoiLayer }
-    export { WfsLayer }
-    export { ArcGisWfsLayer }
-    export { ArcGisWfsSingleLayer }
-
-    export { CanvasWindLayer }
-    export { WindLayer }
-    export { EchartsLayer }
-    export { HeatLayer }
-    export { MapVLayer }
-    export { S3MLayer }
-    export { SmImgLayer }
-    export { SmMvtLayer }
-    export { TdtDmLayer }
-  }
-
-  /**
-   * 服务查询类 命名空间
-   */
-  namespace query {
-    export { BaiduPOI }
-    export { GaodePOI }
-    export { GaodeRoute }
-    export { QueryGeoServer }
-    export { QueryArcServer }
-  }
-
-
-  /**
-   * 管理或分析类 命名空间，
-   * 教程 http://mars3d.cn/dev/guide/map/thing.html
-   */
-  namespace thing {
-    export { Underground }
-    export { Sightline }
-    export { Skyline }
-    export { Shadows }
-    export { Measure }
-
-    export { FloodByGraphic }
-    export { Slope }
-    export { TerrainPlanClip }
-
-    export { FloodByMaterial }
-    export { TerrainClip }
-    export { ContourLine }
-
-    export { LimitHeight }
-    export { TilesetPlanClip }
-    export { ModelPlanClip }
-
-    export { TilesetClip }
-    export { TilesetFlat }
-    export { TilesetFlood }
-
-    export { FirstPersonRoam }
-    export { StreetView }
-    export { CameraHistory }
-    export { RotatePoint }
-    export { RotateOut }
-  }
-
+/**
+ * 控件类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/control.html
+ */
+declare namespace control {
+  export { BaseControl }
+  export { LocationBar }
+  export { MouseDownView }
+  export { Zoom }
+  export { ToolButton }
+  export { Compass }
+  export { DistanceLegend }
+  export { MapSplit }
+  export { OverviewMap }
+  export { ClockAnimate }
+  export { Timeline }
 }
+
+/**
+ * 特效类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/effect.html
+ */
+declare namespace effect {
+  export { BaseEffect }
+  export { FogEffect }
+  export { RainEffect }
+  export { SnowEffect }
+  export { SnowCoverEffect }
+  export { InvertedEffect }
+
+  export { NightVisionEffect }
+  export { BloomEffect }
+  export { BrightnessEffect }
+  export { BlackAndWhiteEffect }
+  export { MosaicEffect }
+  export { DepthOfFieldEffect }
+  export { OutlineEffect }
+}
+
+
+/**
+ * 材质类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/material.html
+ */
+declare namespace material {
+  export { TextMaterial }
+  export { CylinderWaveMaterial }
+  export { BaseMaterialProperty }
+  export { CircleScanMaterialProperty }
+  export { CircleWaveMaterialProperty }
+  export { CylinderWaveMaterialProperty }
+  export { EllipsoidElectricMaterialProperty }
+  export { EllipsoidWaveMaterialProperty }
+  export { LineFlickerMaterialProperty }
+  export { LineFlowColorMaterialProperty }
+  export { LineFlowMaterialProperty }
+  export { LineTrailMaterialProperty }
+  export { ODLineMaterialProperty }
+  export { RadarLineMaterialProperty }
+  export { RadarWaveMaterialProperty }
+  export { ScanLineMaterialProperty }
+  export { TextMaterialProperty }
+  export { WallScrollMaterialProperty }
+  export { WaterMaterialProperty }
+  export { PolyGradientMaterialProperty }
+  export { RectSlideMaterialProperty }
+  export { Image2MaterialProperty }
+}
+
+
+
+/**
+ * 矢量数据类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/graphic.html
+ */
+declare namespace graphic {
+  export { BaseGraphic }
+  export { BaseEntity }
+  export { BasePointEntity }
+  export { BasePolyEntity }
+  export { BasePrimitive }
+  export { BasePointPrimitive }
+  export { BasePolyPrimitive }
+
+  //基础entity
+  export { PointEntity }
+  export { BillboardEntity }
+  export { FontBillboardEntity }
+  export { DivBillboardEntity }
+  export { LabelEntity }
+  export { ModelEntity }
+  export { BoxEntity }
+  export { PlaneEntity }
+  export { CircleEntity }
+  export { CylinderEntity }
+  export { ConeTrack }
+  export { EllipsoidEntity }
+  export { PolylineEntity }
+  export { CurveEntity }
+  export { PolylineVolumeEntity }
+  export { PathEntity }
+  export { CorridorEntity }
+  export { WallEntity }
+  export { RectangleEntity }
+  export { PolygonEntity }
+  export { EllipseEntity }
+  export { RectangularSensor }
+  export { Video2D }
+
+  //polygon扩展的entity
+  export { AttackArrow }
+  export { AttackArrowPW }
+  export { AttackArrowYW }
+  export { CloseVurve }
+  export { DoubleArrow }
+  export { FineArrow }
+  export { FineArrowYW }
+  export { GatheringPlace }
+  export { IsosTriangle }
+  export { Lune }
+  export { Regular }
+  export { Sector }
+  export { StraightArrow }
+
+  //量算对象
+  export { PointMeasure }
+  export { DistanceMeasure }
+  export { DistanceSurfaceMeasure }
+  export { SectionMeasure }
+  export { AngleMeasure }
+  export { HeightMeasure }
+  export { HeightTriangleMeasure }
+  export { AreaMeasure }
+  export { AreaSurfaceMeasure }
+  export { VolumeMeasure }
+
+  //基础primitive
+  export { PointPrimitive }
+  export { BillboardPrimitive }
+  export { CloudPrimitive }
+  export { LabelPrimitive }
+  export { ModelPrimitive }
+  export { CirclePrimitive }
+  export { PlanePrimitive }
+  export { BoxPrimitive }
+  export { CylinderPrimitive }
+  export { ConeTrackPrimitive }
+  export { EllipsoidPrimitive }
+  export { PolylinePrimitive }
+  export { PolylineSimplePrimitive }
+  export { WallPrimitive }
+  export { CorridorPrimitive }
+  export { PolylineVolumePrimitive }
+  export { RectanglePrimitive }
+  export { PolygonPrimitive }
+  export { FrustumPrimitive }
+  //扩展的普通primitive
+  export { LightCone }
+  export { Water }
+  export { DiffuseWall }
+  export { ScrollWall }
+  export { DynamicRiver }
+  export { Road }
+  export { Pit }
+
+  //批量大数据primitive
+  export { BaseCombine }
+  export { FlatBillboard }
+  export { ModelCombine }
+  export { PlaneCombine }
+  export { BoxCombine }
+  export { CircleCombine }
+  export { CylinderCombine }
+  export { FrustumCombine }
+  export { EllipsoidCombine }
+  export { PolylineCombine }
+  export { PolylineVolumeCombine }
+  export { CorridorCombine }
+  export { WallCombine }
+  export { PolygonCombine }
+  export { WaterCombine }
+  export { RectangleCombine }
+
+  //自定义扩展：DIV
+  export { DivGraphic }
+  export { DivBoderLabel }
+  export { DivLightPoint }
+  export { DivUpLabel }
+  export { Popup }
+  export { Tooltip }
+
+  //自定义扩展：其他
+  export { ParticleSystem }
+  export { ArcFrustum }
+  export { Tetrahedron }
+  export { ViewShed }
+  export { Video3D }
+  export { DynamicRoamLine }
+  export { RoamLine }
+
+  export { CamberRadar }
+  export { ConicSensor }
+  export { RectSensor }
+  export { Satellite }
+  export { SatelliteSensor }
+}
+
+/**
+ * 图层类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/layer.html
+ */
+declare namespace layer {
+  export { BaseLayer }
+  export { GroupLayer }
+  export { BaseTileLayer }
+  export { BaseGraphicLayer }
+
+  export { TerrainLayer }
+
+  export { ArcGisCacheLayer }
+  export { ArcGisTileLayer }
+  export { ArcGisLayer }
+  export { BaiduLayer }
+  export { BingLayer }
+  export { GaodeLayer }
+  export { GeeLayer }
+  export { GoogleLayer }
+  export { ImageLayer }
+  export { IonLayer }
+  export { MapboxLayer }
+  export { OsmLayer }
+  export { TdtLayer }
+  export { TencentLayer }
+  export { TmsLayer }
+  export { WmsLayer }
+  export { WmtsLayer }
+  export { XyzLayer }
+  export { GridLayer }
+  export { TileInfoLayer }
+  export { EmptyTileLayer }
+
+  export { CzmGeoJsonLayer }
+  export { KmlLayer }
+  export { CzmlLayer }
+
+  export { GraphicLayer }
+  export { GraphicLayer as DivLayer }
+  export { GraphicGroupLayer }
+  export { GeoJsonLayer }
+  export { ModelLayer }
+  export { TilesetLayer }
+  export { OsmBuildingsLayer }
+  export { GraticuleLayer }
+  export { LodGraphicLayer }
+  export { GeodePoiLayer }
+  export { WfsLayer }
+  export { ArcGisWfsLayer }
+  export { ArcGisWfsSingleLayer }
+
+  export { CanvasWindLayer }
+  export { WindLayer }
+  export { EchartsLayer }
+  export { HeatLayer }
+  export { MapVLayer }
+  export { S3MLayer }
+  export { SmImgLayer }
+  export { SmMvtLayer }
+  export { TdtDmLayer }
+}
+
+/**
+ * 服务查询类 命名空间
+ */
+declare namespace query {
+  export { BaiduPOI }
+  export { GaodePOI }
+  export { GaodeRoute }
+  export { QueryGeoServer }
+  export { QueryArcServer }
+}
+
+
+/**
+ * 管理或分析类 命名空间，
+ * 教程 http://mars3d.cn/dev/guide/map/thing.html
+ */
+declare namespace thing {
+  export { Underground }
+  export { Sightline }
+  export { Skyline }
+  export { Shadows }
+  export { Measure }
+
+  export { FloodByGraphic }
+  export { Slope }
+  export { TerrainPlanClip }
+
+  export { FloodByMaterial }
+  export { TerrainClip }
+  export { ContourLine }
+
+  export { LimitHeight }
+  export { TilesetPlanClip }
+  export { ModelPlanClip }
+
+  export { TilesetClip }
+  export { TilesetFlat }
+  export { TilesetFlood }
+
+  export { FirstPersonRoam }
+  export { StreetView }
+  export { CameraHistory }
+  export { RotatePoint }
+  export { RotateOut }
+}
+
+export {
+  name, update, version, proj4,
+  BaseClass, BaseThing, LngLatPoint, LngLatArray, GroundSkyBox, LocalWorldTransform, CRS, ChinaCRS, EventType, State, Token, MaterialType, GraphicType, LayerType, ControlType, EffectType, Lang, LangType, MoveType, ClipType,
+  DomUtil, MeasureUtil, PointUtil, PolyUtil, PointTrans, Util, Log, MaterialUtil, GraphicUtil, DrawUtil, LayerUtil, ControlUtil, EffectUtil,
+  BaseMaterialConver, BaseStyleConver, BillboardStyleConver, CloudStyleConver, BoxStyleConver, CircleStyleConver, CorridorStyleConver, CylinderStyleConver, DivGraphicStyleConver, EllipsoidStyleConver, LabelStyleConver, ModelStyleConver, PathStyleConver, PlaneStyleConver, PointStyleConver, PolygonStyleConver, PolylineStyleConver, PolylineVolumeStyleConver, RectangleStyleConver, RectangularSensorStyleConver, WallStyleConver,
+  material, graphic, provider, layer, thing, effect, control, query,
+  Map,
+};

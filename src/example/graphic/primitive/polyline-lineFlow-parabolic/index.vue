@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="178">
     <a-form-item label="速度:">
       <mars-slider @change="formStateChange" v-model:value="slideStep" :min="1" :max="100" :step="1" />
     </a-form-item>

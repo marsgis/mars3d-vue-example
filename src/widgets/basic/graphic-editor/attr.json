@@ -322,7 +322,7 @@
       },
       { "name": "silhouetteColor", "isImpact": true, "label": "轮廓颜色", "type": "color", "defval": "#ff0000" },
       { "name": "silhouetteSize", "isImpact": true, "label": "轮廓宽度", "type": "number", "step": 1, "defval": 2.0 },
-      { "name": "silhouetteAlpha", "isImpact": true, "label": "轮廓透明度", "type": "slider", "defval": 0.8, "min": 0, "max": 1, "step": 0.01 },
+      { "name": "silhouetteAlpha", "isImpact": true, "label": "轮廓透明度", "type": "slider", "defval": 0.8, "min": 0.01, "max": 1, "step": 0.01 },
 
       {
         "name": "distanceDisplayCondition",

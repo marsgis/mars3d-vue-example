@@ -7,7 +7,7 @@ let queryGaodePOI
 let drawGraphic // 限定区域
 let resultList = [] // 查询结果
 let lastQueryOptions // 上一次请求参数，用于 下一页使用
-
+let graphic
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
@@ -168,7 +168,7 @@ function addDemoGraphics(arr) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
 
-    const graphic = new mars3d.graphic.BillboardEntity({
+    graphic = new mars3d.graphic.BillboardEntity({
       position: Cesium.Cartesian3.fromDegrees(item.lng, item.lat),
       style: {
         image: "img/marker/mark3.png",
@@ -258,4 +258,13 @@ export function drawPolygon() {
       console.log("多边行：", drawGraphic.toGeoJSON())
     }
   })
+}
+
+// 飞向视角
+// export function flytoView() {
+//   map.flyTo()
+// }
+export function flyToGraphic() {
+  // map.flyToPositions(graphic.position)
+  map.flyToGraphic(graphic)
 }

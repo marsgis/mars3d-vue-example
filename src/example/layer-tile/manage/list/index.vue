@@ -81,8 +81,7 @@ function initTree() {
         key: layer.uuid,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid,
-        group: layer.type === "group"
+        uuid: layer.uuid
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)

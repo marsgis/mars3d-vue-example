@@ -130,6 +130,12 @@ const query = () => {
   mapWork.clearAll(radioFanwei.value === "3")
 
   mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
+
+  // 视角操作
+  setTimeout(function () {
+    mapWork.flyToGraphic()
+  }, 1000)
+
 }
 
 // 城市的数据
@@ -169,7 +175,6 @@ mapWork.eventTarget.on("tableData", (e: any) => {
   })
 })
 
-
 // 清除数据
 const removeAll = () => {
   show.value = false
@@ -177,5 +182,4 @@ const removeAll = () => {
   mapWork.clearAll()
 }
 </script>
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

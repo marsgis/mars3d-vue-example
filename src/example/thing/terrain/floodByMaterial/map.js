@@ -147,6 +147,11 @@ export function startPlay() {
   }
 }
 
+// 是否显示非淹没区域
+export function onChangeElse(val) {
+  floodByMaterial.showElseArea = val
+}
+
 export function clearDraw() {
   floodByMaterial.clear()
   map.graphicLayer.clear()

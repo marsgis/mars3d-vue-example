@@ -12,10 +12,10 @@
     </div>
   </mars-pannel>
 
-  <mars-pannel :visible="true" right="10" top="100" bottom="40" width="220">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+  <mars-pannel :visible="true" right="10" top="100" width="220" customClass="pannel">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
-        <span class="tree-style" :title="title">{{ title }}</span>
+        <span :title="title">{{ title }}</span>
       </template>
     </mars-tree>
   </mars-pannel>
@@ -36,6 +36,8 @@ const treeData = ref<any[]>([
 ])
 
 const checkedKeys = ref<string[]>([])
+const expandedKeys = ref<any[]>([])
+expandedKeys.value.push(0)
 
 let layersObj: any = {}
 
@@ -129,15 +131,9 @@ const showSafetyNotice = () => {
   mapWork.showSafetyNotice()
 }
 </script>
-<style scoped lang="less">
-:deep(.ant-form-item) {
-  margin-bottom: 10px;
-}
-.tree-style {
-  width: 90px;
-  display: inline-block;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+<style lang="less">
+.pannel {
+  max-height: 750px;
+  overflow-y: auto;
 }
 </style>

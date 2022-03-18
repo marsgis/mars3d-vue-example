@@ -471,6 +471,15 @@ export function startDrawGraphic() {
       color: "#55ff33",
       opacity: 0.8,
       diffHeight: 800
+      // label: {
+      //   show: true,
+      //   text: "警戒线",
+      //   font_size: 18,
+      //   color: "#55ff33",
+      //   distanceDisplayCondition: true,
+      //   distanceDisplayCondition_far: 500000,
+      //   distanceDisplayCondition_near: 0
+      // }
     }
   })
 }

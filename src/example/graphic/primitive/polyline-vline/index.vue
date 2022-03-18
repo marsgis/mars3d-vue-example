@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="385">
+  <mars-pannel :visible="true" right="10" top="10" bottom="auto" width="386">
     <div class="populationView">
       <!-- 实有人口 -->
       <div class="realPopulation">
@@ -347,13 +347,34 @@ function initAging(dom: any) {
 .populationView {
   height: calc(100% - 80px);
 }
-.realPopulation,
-.populationStructure,
-.aging {
+.realPopulation{
   width: 100%;
   /* height: 35.5%; */
   border: 1px solid rgb(11, 59, 75);
   margin-bottom: 1.066667rem;
+  background: linear-gradient(to left, #3897cf, #3897cf) left top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left top no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) right top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) right top no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) left bottom no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left bottom no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat, linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat;
+  background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.populationStructure{
+width: 100%;
+  /* height: 35.5%; */
+  border: 1px solid rgb(11, 59, 75);
+  margin-bottom: 1.066667rem;
+  background: linear-gradient(to left, #3897cf, #3897cf) left top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left top no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) right top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) right top no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) left bottom no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left bottom no-repeat,
+    linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat, linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat;
+  background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.aging {
+  width: 100%;
+  /* height: 35.5%; */
+  border: 1px solid rgb(11, 59, 75);
   background: linear-gradient(to left, #3897cf, #3897cf) left top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left top no-repeat,
     linear-gradient(to left, #3897cf, #3897cf) right top no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) right top no-repeat,
     linear-gradient(to left, #3897cf, #3897cf) left bottom no-repeat, linear-gradient(to bottom, #3897cf, #3897cf) left bottom no-repeat,

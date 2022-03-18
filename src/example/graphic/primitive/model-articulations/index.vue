@@ -5,7 +5,7 @@
         <mars-select ref="select" v-model:value="groupName" style="width: 200px" :options="selectGroups" @change="onChangeGroup"></mars-select>
       </div>
 
-      <div v-for="rg in currStates" :key="rg.name">
+      <div class="f-pt" v-for="rg in currStates" :key="rg.name">
         <a-space>
           <span class="mars-pannel-item-label">{{ rg.name_cn }}</span>
           <mars-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current" @change="onChangeStage(rg)" />
@@ -19,7 +19,7 @@
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
-const groupName = ref<any>("火箭整体")
+const groupName = ref("火箭整体")
 
 const selectGroups = ref<any[]>([])
 
@@ -38,12 +38,17 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
       states: data.stages
     })
   }
+  const defualt = selectGroups.value.filter((item: any) => item.value === groupName.value)
+  group(groupName.value, defualt[0])
 })
 
 let selectedGroup: any
-
 // 下拉列表切换，更新参数输入面板
 const onChangeGroup = (_value: any, option: any) => {
+  group(_value, option)
+}
+
+function group(_value: any, option: any) {
   selectedGroup = option
   currStates.value = option.states
 }

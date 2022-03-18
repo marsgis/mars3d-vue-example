@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="auto">
     <a-space>
       <mars-button @click="startRotate">开始</mars-button>
       <mars-button @click="stopRotate">停止</mars-button>
