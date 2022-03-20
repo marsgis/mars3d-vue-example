@@ -5,7 +5,7 @@ let limitHeight
 
 export const mapOptions = {
   scene: {
-    center: { lat: 25.092295, lng: 102.64431, alt: 2815, heading: 104, pitch: -32 }
+    center: { lat: 31.794547, lng: 117.21215, alt: 1672, heading: 18, pitch: -33 }
   }
 }
 
@@ -22,9 +22,12 @@ export function onMounted(mapInstance) {
 
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
-    url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
-    maximumScreenSpaceError: 6,
-    maximumMemoryUsage: 2048
+    name: "合肥天鹅湖",
+    type: "3dtiles",
+    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
+    position: { lng: 117.218434, lat: 31.81807, alt: 163 },
+    maximumScreenSpaceError: 8,
+    maximumMemoryUsage: 2024
   })
   map.addLayer(tilesetLayer)
 
@@ -32,12 +35,13 @@ export function onMounted(mapInstance) {
   limitHeight = new mars3d.thing.LimitHeight({
     color: "rgba(255,0,0,0.5)",
     height: 80, // 限高
-    bottomHeight: 1865, // 模型地面的海拔高度（单位：米）
+    bottomHeight: 32, // 模型地面的海拔高度（单位：米）
     positions: [
-      [102.662083, 25.09593, 0],
-      [102.665105, 25.078242, 0],
-      [102.650108, 25.085209, 0],
-      [102.655136, 25.097225, 0]
+      [117.210446, 31.829032, 0],
+      [117.226334, 31.826662, 0],
+      [117.226694, 31.807882, 0],
+      [117.209776, 31.808359, 0],
+      [117.209778, 31.808341, 0]
     ]
   })
   map.addThing(limitHeight)

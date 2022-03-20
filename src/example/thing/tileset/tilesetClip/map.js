@@ -5,7 +5,7 @@ let tilesetClip
 
 export const mapOptions = {
   scene: {
-    center: { lat: 25.074712, lng: 102.65196, alt: 3122, heading: 28, pitch: -41 }
+    center: { lat: 31.826361, lng: 117.223374, alt: 805, heading: 206, pitch: -38 }
   }
 }
 
@@ -23,20 +23,22 @@ export function onMounted(mapInstance) {
 
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
-    url: "//data.mars3d.cn/3dtiles/qx-xiaoqu/tileset.json",
-    maximumScreenSpaceError: 6,
-    maximumMemoryUsage: 2048,
-    flyTo: true
+    name: "合肥天鹅湖",
+    type: "3dtiles",
+    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
+    position: { lng: 117.218434, lat: 31.81807, alt: 163 },
+    maximumScreenSpaceError: 8,
+    maximumMemoryUsage: 2024
   })
   map.addLayer(tilesetLayer)
   // 模型开挖处理类
   tilesetClip = new mars3d.thing.TilesetClip({
     layer: tilesetLayer,
     positions: [
-      [102.656385, 25.087349, 1865],
-      [102.660091, 25.085633, 1865],
-      [102.658175, 25.081644, 1865],
-      [102.654452, 25.084029, 1865]
+      [117.217219, 31.81957, 33.1],
+      [117.220855, 31.818821, 31.8],
+      [117.220938, 31.817249, 30.6],
+      [117.21743, 31.816218, 31.7]
     ]
   })
   map.addThing(tilesetClip)

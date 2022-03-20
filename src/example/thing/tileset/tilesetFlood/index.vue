@@ -71,8 +71,8 @@ onMounted(() => {
 })
 interface FormState {
   radio: string
-  minHeight: any
-  maxHeight: any
+  minHeight: number
+  maxHeight: number
   speed: number
 }
 
@@ -81,8 +81,8 @@ const labelAlign = "left"
 
 const formState: UnwrapRef<FormState> = reactive({
   radio: "2",
-  minHeight: "1894",
-  maxHeight: "2000",
+  minHeight: 26,
+  maxHeight: 200,
   speed: 10
 })
 // 修改分析方式

@@ -47,7 +47,7 @@ class Geolocation extends mars3d.control.ToolButton {
       })
       AMap.event.addListener(this.geolocation, "error", (data) => {
         // 定位出错,参考：https://lbs.amap.com/faq/js-api/map-js-api/position-related
-        globalMsg(data.message, "定位失败")
+        globalMsg("定位失败")
       })
     })
   }
