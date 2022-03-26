@@ -41,7 +41,11 @@ function addLayer() {
     position: { lng: 117.218434, lat: 31.81807, alt: 163 },
     flatHeight: 120,
     maximumScreenSpaceError: 16,
-    maximumMemoryUsage: 2024
+    maximumMemoryUsage: 1024,
+    dynamicScreenSpaceError: true,
+    cullWithChildrenBounds: false,
+    skipLevelOfDetail: true,
+    preferLeaves: true
   })
   map.addLayer(tilesetLayer)
 

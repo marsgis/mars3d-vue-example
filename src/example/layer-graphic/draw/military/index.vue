@@ -93,7 +93,7 @@ const editor = ref()
 const isEditable = ref(true)
 const isEditableChange = () => {
   if (!isEditable.value) {
-    editor.value.hideEditor()
+    mapWork.graphicLayer.hasEdit = isEditable.value
   }
 }
 
@@ -124,7 +124,7 @@ const onChangeTooltip = () => {
 }
 
 // 是否绑定右键菜单
-const enabledRightMenu = ref(false)
+const enabledRightMenu = ref(true)
 const onChangeContextMenu = () => {
   if (enabledRightMenu.value) {
     mapWork.bindLayerContextMenu()
@@ -165,6 +165,7 @@ const onClickImpFile = (info: FileInfo) => {
 }
 
 const fileList = ref([])
+
 
 const drawPolygon = (type: any) => {
   mapWork.drawPolygon(type)

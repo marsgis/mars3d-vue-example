@@ -69,7 +69,7 @@ function addTilesetLayer() {
   map.addLayer(tiles3dLayer)
 
   // 模型裁剪
-  const modelThing = new mars3d.thing.TilesetClip({
+  const modelThing = new mars3d.thing.TilesetPlanClip({
     layer: tiles3dLayer,
     positions: [
       [117.22648, 31.827441],

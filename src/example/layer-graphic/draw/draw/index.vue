@@ -126,6 +126,7 @@ interface FileInfo {
   fileList: FileItem[]
 }
 
+
 // 显示隐藏
 const enabledShowHide = ref(true)
 const onChangeShow = () => {
@@ -153,7 +154,7 @@ const onChangeTooltip = () => {
 }
 
 // 是否绑定右键菜单
-const enabledRightMenu = ref(false)
+const enabledRightMenu = ref(true)
 const onChangeContextMenu = () => {
   if (enabledRightMenu.value) {
     mapWork.bindLayerContextMenu()
@@ -166,7 +167,7 @@ const onChangeContextMenu = () => {
 const enabledEdit = ref(true)
 const onChangeHasEdit = () => {
   if (!enabledEdit.value) {
-    disable("graphic-editor")
+    mapWork.graphicLayer.hasEdit = enabledEdit.value
   }
 }
 

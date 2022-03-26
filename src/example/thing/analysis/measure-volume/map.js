@@ -58,6 +58,22 @@ function addMeasure() {
     height: 450
   })
 
+  // 有模型时
+  // tiles3dLayer.readyPromise.then((layer) => {
+  //   // 关键代码,等模型readyPromise加载后执行volume
+  //   measureVolume = measure.volume({
+  //     positions: mars3d.PointTrans.lonlats2cartesians([
+  //       [119.033856, 33.591473, 14.5],
+  //       [119.033098, 33.591836, 13.2],
+  //       [119.033936, 33.592146, 16.9]
+  //     ]),
+  //     has3dtiles: true, //关键代码，标识有模型
+  //     splitNum: 6,
+  //     height: 150
+  //   })
+  // })
+
+
   measure.on(mars3d.EventType.start, function (event) {
     console.log("开始分析", event)
     clearInterResult()
