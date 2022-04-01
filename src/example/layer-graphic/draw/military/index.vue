@@ -28,6 +28,7 @@
               :file-list="fileList"
               :showUploadList="false"
               :supportServerRender="true"
+              :beforeUpload="() => false"
               @change="onClickImpFile"
             >
               <mars-button> 打开GeoJSON </mars-button>
@@ -92,9 +93,7 @@ const editor = ref()
 // 是否可编辑
 const isEditable = ref(true)
 const isEditableChange = () => {
-  if (!isEditable.value) {
-    mapWork.graphicLayer.hasEdit = isEditable.value
-  }
+  mapWork.graphicLayer.hasEdit = isEditable.value
 }
 
 // 显示隐藏
@@ -166,7 +165,6 @@ const onClickImpFile = (info: FileInfo) => {
 
 const fileList = ref([])
 
-
 const drawPolygon = (type: any) => {
   mapWork.drawPolygon(type)
 }
@@ -175,7 +173,6 @@ const drawExtrudedPolygon = (type: any) => {
 }
 
 // 开始编辑
-
 const showEditor = (e: any) => {
   if (!isActivate("graphic-editor")) {
     activate({

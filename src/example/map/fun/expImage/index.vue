@@ -4,6 +4,7 @@
       <mars-button @click="showMapImg">查看场景出图</mars-button>
       <mars-button @click="downLoad">下载场景出图</mars-button>
       <mars-button @click="downLoad2">下载场景缩略图</mars-button>
+      <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
     </a-space>
   </mars-pannel>
 
@@ -34,6 +35,10 @@ const downLoad = () => {
 }
 const downLoad2 = () => {
   mapWork.downLoad2()
+}
+
+const downLoadDiv = () => {
+  mapWork.downLoadDiv()
 }
 </script>
 <style scoped lang="less"></style>

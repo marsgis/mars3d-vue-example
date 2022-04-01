@@ -139,7 +139,7 @@ function loadData(queryOptions, text) {
     success: function (res) {
       const data = res.list
       resultList = resultList.concat(data)
-
+      console.log(res)
       addDemoGraphics(data)
 
       eventTarget.fire("tableData", { data }) // 抛出数据给vue

@@ -1,9 +1,8 @@
 import * as mars3d from "mars3d"
-// export * as kgUtil from "kml-geojson"
-export const kgUtil = window.kgUtil
 
 let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
+export const kgUtil = window.kgUtil
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -86,7 +85,9 @@ function bindLayerEvent() {
 
   // 数据编辑相关事件，用于属性弹窗的交互
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    eventTarget.fire("graphicEditor-start", e)
+    if (graphicLayer.hasEdit) {
+      eventTarget.fire("graphicEditor-start", e)
+    }
   })
   graphicLayer.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],

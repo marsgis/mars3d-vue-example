@@ -166,9 +166,9 @@ const onChangeContextMenu = () => {
 // 是否可编辑
 const enabledEdit = ref(true)
 const onChangeHasEdit = () => {
-  if (!enabledEdit.value) {
+
     mapWork.graphicLayer.hasEdit = enabledEdit.value
-  }
+
 }
 
 // 是否仅在3dtiles上标绘

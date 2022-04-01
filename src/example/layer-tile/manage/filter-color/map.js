@@ -58,3 +58,13 @@ export function removeLayer() {
     tileLayer = null
   }
 }
+
+
+export function setFilterColor(color) {
+  if (tileLayer) {
+    tileLayer.setOptions({
+      filterColor: color
+    })
+  }
+}
+

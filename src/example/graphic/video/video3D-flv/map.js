@@ -1,4 +1,5 @@
 import * as mars3d from "mars3d"
+import { $message } from "@mars/components/mars-ui/index"
 
 let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
@@ -96,31 +97,17 @@ function createVideoDom() {
   videoElement.setAttribute("controls", "")
   videoElement.style.display = "none"
 
-  const sourceContainer = mars3d.DomUtil.create("source", "", videoElement)
-  sourceContainer.setAttribute("src", "http://data.mars3d.cn/file/video/lukou.mp4")
-  sourceContainer.setAttribute("type", "video/mp4")
-
-  hls()
-}
-
-// let hlsUrl = "http://ivi.bupt.edu.cn/hls/cctv13.m3u8";
-// const hlsUrl = "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-const hlsUrl = "http://1252093142.vod2.myqcloud.com/4704461fvodcq1252093142/f865d8a05285890787810776469/playlist.f3.m3u8"
-
-function hls() {
-  // 加HLS演示数据
-  if (window.Hls.isSupported()) {
-    const hls = new window.Hls()
-    hls.loadSource(hlsUrl)
-    hls.attachMedia(videoElement)
-    hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
-      videoElement.play()
+  // 加FLV演示数据
+  if (window.flvjs.isSupported()) {
+    const flvPlayer = window.flvjs.createPlayer({
+      type: "flv",
+      url: "http://img.ksbbs.com/asset/Mon_1704/15868902d399b87.flv"
     })
-  } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-    videoElement.src = hlsUrl
-    videoElement.addEventListener("loadedmetadata", function () {
-      videoElement.play()
-    })
+    flvPlayer.attachMediaElement(videoElement)
+    flvPlayer.load()
+    flvPlayer.play()
+  } else {
+    $message("不支持flv格式视频")
   }
 }
 

@@ -80,14 +80,7 @@ const clear = () => {
 
 // 打开JSON
 const openGeoJSON = (info: FileInfo) => {
-  const item = info.file
-  const fileName = item.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
-
-  if (fileType !== "json") {
-    alert("文件类型不合法,请选择json格式标注文件！")
-  }
-  mapWork.openGeoJSON(item)
+  mapWork.openGeoJSON(info.file)
 }
 // 点击保存GeoJSON
 const saveGeoJSON = () => {

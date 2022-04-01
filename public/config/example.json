@@ -1525,6 +1525,13 @@
             "main": "graphic/divGraphic/divLightPoint"
           },
           {
+            "name": "时序位置坐标",
+            "thumbnail": "graphic-divGraphic-dynamic.jpg",
+            "main_es5": "graphic-divGraphic-dynamic",
+            "main": "graphic/divGraphic/dynamic",
+            "resources": ["/temp/styles/divGraphic.css"]
+          },
+          {
             "name": "标注点样式(油气站)",
             "thumbnail": "graphic-divGraphic-ident.jpg",
             "main_es5": "graphic-divGraphic-ident",
@@ -1617,6 +1624,14 @@
             "libs": ["hls", "mars3d"]
           },
           {
+            "name": "视频材质(FLV协议)",
+            "thumbnail": "graphic-video-material-flv.jpg",
+            "main_es5": "graphic-video-material-flv",
+            "main": "graphic/video/material-flv",
+            "vuePanel": true,
+            "libs": ["flv", "mars3d"]
+          },
+          {
             "name": "视频2D投射",
             "thumbnail": "graphic-video-video2D.jpg",
             "main_es5": "graphic-video-video2D",
@@ -1632,6 +1647,14 @@
             "libs": ["hls", "mars3d"]
           },
           {
+            "name": "视频2D投射(FLV协议)",
+            "thumbnail": "graphic-video-video2D-flv.jpg",
+            "main_es5": "graphic-video-video2D-flv",
+            "main": "graphic/video/video2D-flv",
+            "vuePanel": true,
+            "libs": ["flv", "mars3d"]
+          },
+          {
             "name": "视频3D贴物投射",
             "thumbnail": "graphic-video-video3D.jpg",
             "main_es5": "graphic-video-video3D",
@@ -1645,6 +1668,14 @@
             "main": "graphic/video/video3D-hls",
             "vuePanel": true,
             "libs": ["hls", "mars3d"]
+          },
+          {
+            "name": "视频3D贴物投射(FLV协议)",
+            "thumbnail": "graphic-video-video3D-flv.jpg",
+            "main_es5": "graphic-video-video3D-flv",
+            "main": "graphic/video/video3D-flv",
+            "vuePanel": true,
+            "libs": ["flv", "mars3d"]
           }
         ]
       },
@@ -1922,6 +1953,13 @@
             "resources": ["district2.css"]
           },
           {
+            "name": "红蓝对抗演习",
+            "thumbnail": "graphic-apply-exercise.jpg",
+            "main_es5": "graphic-apply-exercise",
+            "main": "graphic/apply/exercise"
+          },
+
+          {
             "name": "台风轨迹",
             "thumbnail": "graphic-apply-typhoon.jpg",
             "main_es5": "graphic-apply-typhoon",
@@ -2093,7 +2131,8 @@
             "thumbnail": "layer3d-type-list.jpg",
             "main_es5": "layer3d-type-list",
             "main": "layer-tileset/type/list",
-            "vuePanel": true
+            "vuePanel": true,
+            "resources": ["city.css"]
           },
           {
             "name": "县城城区（倾斜摄影）",
@@ -2292,17 +2331,24 @@
         "name": "模型相关分析",
         "children": [
           {
-            "name": "3dtiles模型Plan剖切(BIM)",
+            "name": "模型Plan剖切(BIM)",
             "thumbnail": "thing-tileset-tilesetPlanClip.jpg",
             "main_es5": "thing-tileset-tilesetPlanClip",
             "main": "thing/tileset/tilesetPlanClip",
             "vuePanel": true
           },
           {
-            "name": "3dtiles模型Plan剖切(倾斜摄影)",
+            "name": "模型Plan剖切(倾斜摄影)",
             "thumbnail": "thing-tileset-tilesetPlanClip-qx.jpg",
             "main_es5": "thing-tileset-tilesetPlanClip-qx",
             "main": "thing/tileset/tilesetPlanClip-qx",
+            "vuePanel": true
+          },
+          {
+            "name": "模型Box盒子裁剪",
+            "thumbnail": "thing-tileset-tilesetBoxClip.jpg",
+            "main_es5": "thing-tileset-tilesetBoxClip",
+            "main": "thing/tileset/tilesetBoxClip",
             "vuePanel": true
           },
           {
@@ -2401,7 +2447,8 @@
             "thumbnail": "map-fun-expImage.jpg",
             "main_es5": "map-fun-expImage",
             "main": "map/fun/expImage",
-            "vuePanel": true
+            "vuePanel": true,
+            "resources": ["/temp/styles/divGraphic.css", "/lib/dom2img/dom-to-image.js"]
           },
           {
             "name": "自定义空间背景图",

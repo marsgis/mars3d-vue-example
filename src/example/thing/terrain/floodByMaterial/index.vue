@@ -39,7 +39,14 @@
       <div class="f-mb">
         <a-space>
           <span>高度选择</span>
-          <a-slider v-model:value="formState.height" @change="onChangeHeight()" :min="0" :max="1000" :step="0.1" />
+          <a-slider
+            tooltipPlacement="bottom"
+            v-model:value="formState.height"
+            @change="onChangeHeight()"
+            :min="formState.minHeight"
+            :max="formState.maxHeight"
+            :step="0.1"
+          />
         </a-space>
       </div>
 
@@ -64,16 +71,16 @@ import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
-  minHeight: any
-  maxHeight: any
+  minHeight: number
+  maxHeight: number
   speed: number
   height: number
   enabledShowElse: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  minHeight: "",
-  maxHeight: "",
+  minHeight: 0,
+  maxHeight: 0,
   height: 0,
   speed: 80,
   enabledShowElse: true
@@ -98,8 +105,8 @@ mapWork.eventTarget.on("heightChange", (e: any) => {
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent((min: any, max: any) => {
     if (floodByMaterial.length > 0) {
-      min = Math.min(min, Number(formState.minHeight))
-      max = Math.max(max, Number(formState.maxHeight))
+      min = Math.min(min, formState.minHeight)
+      max = Math.max(max, formState.maxHeight)
     }
 
     formState.minHeight = min
@@ -116,14 +123,14 @@ const btnDraw = () => {
 const clearDraw = () => {
   mapWork.clearDraw()
 
-  formState.minHeight = ""
-  formState.maxHeight = ""
+  formState.minHeight = 0
+  formState.maxHeight = 0
 }
 
 // 开始淹没
 const begin = () => {
-  isShow.value = true
   mapWork.begin(formState)
+  isShow.value = true
 }
 
 // 高度改变
@@ -139,8 +146,8 @@ const startPlay = () => {
 
 const goBack = () => {
   mapWork.clearDraw()
-  formState.minHeight = ""
-  formState.maxHeight = ""
+  formState.minHeight = 0
+  formState.maxHeight = 0
   isShow.value = false
   isStart.value = true
   formState.enabledShowElse = true

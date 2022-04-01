@@ -13,7 +13,7 @@
       :file-list="fileList"
       :showUploadList="false"
       :supportServerRender="true"
-      :beforeUpload="beforeUploade"
+      :beforeUpload="() => false"
       @change="onClickImpFile"
     >
       <mars-button title="打开GeoJSON">
@@ -69,10 +69,6 @@ const onClickExpFile = () => {
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
 // 打开geojson
-const beforeUploade = (file: FileItem) => {
-  // fileList.value = [file]
-  return false
-}
 const onClickImpFile = (info: any) => {
   const graphicLayer = mapWork.graphicLayer
 

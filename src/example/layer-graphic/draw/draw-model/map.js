@@ -113,6 +113,8 @@ export function openGeoJSON(file) {
 
   if (fileType === "json" || fileType === "geojson") {
     const reader = new FileReader()
+    console.log("reader")
+    console.log(reader)
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const json = this.result

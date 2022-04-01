@@ -12,7 +12,7 @@
     <div v-if="value === '1'">
       <a-space>
         <mars-button @click="drawPolygon">单体化面</mars-button>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" :beforeUpload="() => false" @change="openGeoJSON">
           <mars-button> 打开... </mars-button>
         </a-upload>
         <mars-button @click="saveGeoJSON">保存</mars-button>

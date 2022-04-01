@@ -5,7 +5,7 @@
  * @author 木遥 2021-11-26
  */
 window.configLibs = {
-  //////////////////////////Mars3D及其插件////////////////////////
+  /// ///////////////////////Mars3D及其插件////////////////////////
   mars3d: [
     // 三维地球“主库”
     "Cesium/Widgets/widgets.css", // cesium
@@ -45,12 +45,12 @@ window.configLibs = {
     "mars3d/plugins/tdt/mars3d-tdt.js"
   ],
   "mars3d-supermap": [
-    //超图S3M服务
-    "mars3d/plugins/supermap/SuperMap3D.js", //s3m支持原生cesium的独立插件
-    "mars3d/plugins/supermap/mars3d-supermap.js",//mars3d-supermap简化调用封装
+    // 超图S3M服务
+    "mars3d/plugins/supermap/SuperMap3D.js", // s3m支持原生cesium的独立插件
+    "mars3d/plugins/supermap/mars3d-supermap.js" // mars3d-supermap简化调用封装
   ],
 
-  //////////////////////////cesium相关第3方插件////////////////////////
+  /// ///////////////////////cesium相关第3方插件////////////////////////
   "cesium-pbf": [
     // pbf矢量瓦片支持
     "mars3d/thirdParty/pbf/ol.js",
@@ -64,35 +64,35 @@ window.configLibs = {
     "mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
   ],
   "cesium-meshVisualizer": [
-    //ammo物理引擎支持
+    // ammo物理引擎支持
     "three/three.js",
     "ammo/ammo.js",
-    "ammo/ex/ConvexObjectBreaker.js", //仅convexBreak使用
-    "ammo/ex/QuickHull.js", //仅convexBreak使用
-    "ammo/ex/geometries/ConvexGeometry.js", //仅convexBreak使用
+    "ammo/ex/ConvexObjectBreaker.js", // 仅convexBreak使用
+    "ammo/ex/QuickHull.js", // 仅convexBreak使用
+    "ammo/ex/geometries/ConvexGeometry.js", // 仅convexBreak使用
     "mars3d/thirdParty/meshVisualizer/CesiumMeshVisualizer.js"
   ],
   "cesium-sensorVolumes": [
-    //支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
+    // 支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
     "mars3d/thirdParty/sensorVolumes/cesium-sensor-volumes.js"
   ],
-  'olcesium': [
+  olcesium: [
     "ol/ol.css",
     "ol/ol.js",
-    "ol/ol-cesium/olcesium.js",
+    "ol/ol-cesium/olcesium.js"
   ],
 
-  //////////////////////////mars2d及其插件////////////////////////
+  /// ///////////////////////mars2d及其插件////////////////////////
   mars2d: [
-    //地图 主库
-    "https://unpkg.com/leaflet/dist/leaflet.css", //leaflet
+    // 地图 主库
+    "https://unpkg.com/leaflet/dist/leaflet.css", // leaflet
     "https://unpkg.com/leaflet/dist/leaflet.js",
-    "http://mars2d.cn/lib/mars2d/mars2d.css", //mars2d
+    "http://mars2d.cn/lib/mars2d/mars2d.css", // mars2d
     "http://mars2d.cn/lib/mars2d/mars2d.js",
     "http://mars2d.cn/lib/mars2d/plugins/esri/mars2d-esri.js"
   ],
 
-  //////////////////////////其他地图渲染相关库////////////////////////
+  /// ///////////////////////其他地图渲染相关库////////////////////////
   echarts: ["echarts/echarts.min.js", "echarts/dark.js"],
   "echarts-gl": ["echarts/echarts.min.js", "echarts/echarts-gl/echarts-gl.min.js"],
   "echarts-liquidfill": ["echarts/echarts.min.js", "echarts/echarts-liquidfill/echarts-liquidfill.js"],
@@ -103,29 +103,7 @@ window.configLibs = {
   ],
   kriging: ["kriging/kriging.min.js"],
   three: ["three/three.js"],
-  hls: ["video/hls/hls.js"]
+  hls: ["video/hls/hls.js"],
+  flv: ["video/flv/flv.min.js"]
 }
 
-// 官网发布时用CDN服务
-if (window.location.hostname.indexOf("mars") !== -1) {
-  window.cdnLibsPath = "http://cdn.marsgis.cn/lib/"
-}
-
-//本地测试  localStorage.setItem("muyao-debugger",1)
-if (localStorage.getItem("muyao-debugger") === "1") {
-  for (let key in configLibs) {
-    if (key.startsWith("mars3d")) {
-      let arrUrl = configLibs[key]
-      for (let index = 0; index < arrUrl.length; index++) {
-        const url = arrUrl[index]
-        const fileName = url?.substring(url.lastIndexOf("/") + 1, url.length)
-        if (fileName.startsWith("mars3d")) {
-          arrUrl[index] = arrUrl[index].replace(".js", "-src.js").replace(".css", "-src.css")
-        } else  if (fileName.indexOf("Cesium")!=-1) {
-          // arrUrl[index] = arrUrl[index].replace("Cesium", "CesiumUnminified")
-        }
-      }
-    }
-  }
-  console.log("正在使用SDK调试版本")
-}
