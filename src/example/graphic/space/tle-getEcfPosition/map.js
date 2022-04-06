@@ -50,7 +50,7 @@ function queryTleChinaApiData() {
       tleArr = data.data
       console.log("卫星数量：" + tleArr.length)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

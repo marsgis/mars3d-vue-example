@@ -52,7 +52,7 @@ export function onMounted(mapInstance) {
       arrData = res.data
       addFeature(graphicLayer, arrData)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

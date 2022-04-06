@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
     .then(function (json) {
       addOrbitList(json)
     })
-    .otherwise(function (e) {
+    .catch(function (e) {
       console.log("加载出错", e)
     })
 }

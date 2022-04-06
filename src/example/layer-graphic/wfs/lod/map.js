@@ -48,7 +48,7 @@ function LodGraphicLayer() {
         .then(function (data) {
           callback(grid, data) // 执行回调，回传数据
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           console.log("加载JSON出错", error)
         })
     },

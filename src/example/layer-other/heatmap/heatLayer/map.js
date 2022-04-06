@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
       }
       showHeatMap(arrPoints)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

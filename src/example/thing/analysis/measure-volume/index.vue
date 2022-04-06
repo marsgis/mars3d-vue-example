@@ -79,20 +79,11 @@ const txtMaxHeight = () => {
 // 点选高度
 const selHeight = () => {
   mapWork.selHeight()
-
-  mapWork.eventTarget.on("heightVal", function (event: any) {
-    baseValue.value = event.baseHeight
-    bottomValue.value = event.minHeight
-    topValue.value = event.maxHeight
-  })
 }
-
-onMounted(() => {
-  mapWork.eventTarget.on("endMeasure", function (item: any) {
-    showResult()
-    baseValue.value = item.event.sourceTarget.options.height.toFixed(1)
-    bottomValue.value = item.event.minHeight.toFixed(1)
-    topValue.value = item.event.maxHeight.toFixed(1)
-  })
+mapWork.eventTarget.on("heightVal", function (event: any) {
+  showResult()
+  baseValue.value = event.baseHeight
+  bottomValue.value = event.minHeight
+  topValue.value = event.maxHeight
 })
 </script>

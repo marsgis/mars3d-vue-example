@@ -144,7 +144,7 @@ function addGraphics() {
         graphicLayer.addGraphic(graphic)
       }
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

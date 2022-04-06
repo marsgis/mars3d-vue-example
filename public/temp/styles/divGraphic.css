@@ -84,6 +84,82 @@
   border-right: 3px solid yellow;
 }
 
+
+.hot-spot {
+  background-image: url("../../img/marker/16-12-53.png");
+  position: absolute;
+  background-repeat: no-repeat;
+  user-select: none;
+  z-index: 999;
+  width: 70px;
+  height: 44px;
+  background-size: cover;
+  left: 0px;
+  bottom: 0px;
+}
+
+  .hot-spot-board {
+    background-image: url("../../img/marker/16-12-10.png");
+    top: -215px;
+    transform: translateX(-30%);
+    width: 180px;
+    height: 52px;
+    padding: 15px 0;
+    background-position: 50%;
+    background-size: contain;
+    cursor: pointer;
+    position: absolute;
+    background-repeat: no-repeat;
+  }
+
+  .hot-spot-board:hover {
+    background-image: url("../../img/marker/16-13-12.png");
+  }
+
+  .hot-spot-line {
+    position: absolute;
+    top: -158px;
+    left: 35px;
+    width: 2px;
+    height: 180px;
+    background: linear-gradient(180deg, #38c9ff, transparent);
+  }
+
+
+  .hot-spot-line:before {
+      height: 40%;
+      left: 6px;
+      animation: rise 3s linear 1s infinite;
+      -webkit-animation: rise 3s linear 1s infinite;
+      content: "";
+      display: block;
+      width: 1px;
+      background: linear-gradient(180deg, #38c9ff, transparent);
+      position: absolute;
+      cursor: pointer;
+    }
+
+  .hot-spot-line:after {
+      content: "";
+      display: block;
+      width: 1px;
+      background: linear-gradient(180deg, #38c9ff, transparent);
+      position: absolute;
+      cursor: pointer;
+      height: 60%;
+      left: -5px;
+      animation: rise 3s linear infinite;
+      -webkit-animation: rise 3s linear infinite;
+    }
+    .hot-spot-board h5{
+      width: 100%;
+      text-align: center;
+      line-height: 24px;
+      color: #beedff;
+      font-size: 16px;
+      margin: 0;
+    }
+
 /**************** 一个简洁文本面板,中间竖直连线 ****************/
 .marsGreenGradientPnl {
   width: 100px;

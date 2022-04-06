@@ -44,7 +44,7 @@ export function onMounted(mapInstance) {
         creteaPointPrimitive(graphicLayer, rs)
       }, 1000)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       globalAlert(error, "加载数据出错")
     })
 }

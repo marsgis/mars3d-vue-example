@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
       eventTarget.fire("loadOk", { tableData })
       showCarList(tableData)
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("查询信息失败")
     })
 }
@@ -238,7 +238,7 @@ function getPathList(beginTime, endTime) {
         }
       })
     })
-    .otherwise(() => {
+    .catch(() => {
       globalMsg("实时查询车辆路径信息失败，请稍候再试")
     })
 }

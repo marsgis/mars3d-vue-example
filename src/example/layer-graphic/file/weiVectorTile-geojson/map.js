@@ -21,7 +21,7 @@ export function onMounted(mapInstance) {
     .then(function (geojson) {
       showBJXLine(geojson.features[0])
     })
-    .otherwise(function () {
+    .catch(function () {
       globalAlert("Json文件加载失败！")
     })
 
@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
     .then(function (geojson) {
       showGeoJsonVectorTile(geojson)
     })
-    .otherwise(function () {
+    .catch(function () {
       globalAlert("Json文件加载失败！")
     })
 }

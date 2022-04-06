@@ -35,7 +35,7 @@ export function onMounted(mapInstance) {
         color: Cesium.Color.DEEPSKYBLUE
       })
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("实时查询信息失败，请稍候再试")
     })
 }

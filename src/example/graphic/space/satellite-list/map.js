@@ -47,7 +47,7 @@ export function onMounted(mapInstance) {
     .then(function (data) {
       createSatelliteList(data.data)
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("获取卫星信息异常！")
     })
 }

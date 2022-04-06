@@ -63,7 +63,7 @@ export function onMounted(mapInstance) {
       showYearZT(res.data) // 柱状图
       bindHaihuaiPopup()
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("获取信息失败，请稍候再试")
     })
 

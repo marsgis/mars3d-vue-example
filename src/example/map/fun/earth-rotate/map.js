@@ -31,7 +31,7 @@ export function onMounted(mapInstance) {
     .then(function (json) {
       addDemoGraphics(json)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

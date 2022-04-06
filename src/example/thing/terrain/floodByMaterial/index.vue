@@ -45,7 +45,7 @@
             @change="onChangeHeight()"
             :min="formState.minHeight"
             :max="formState.maxHeight"
-            :step="0.1"
+            :step="1"
           />
         </a-space>
       </div>
@@ -98,7 +98,8 @@ mapWork.eventTarget.on("loadOk", (e: any) => {
 
 // 监听到高度发生变化
 mapWork.eventTarget.on("heightChange", (e: any) => {
-  formState.height = e.height.toFixed(1)
+  isShow.value = true
+  formState.height = Math.ceil(e.height)
 })
 
 // 添加矩形
@@ -130,7 +131,6 @@ const clearDraw = () => {
 // 开始淹没
 const begin = () => {
   mapWork.begin(formState)
-  isShow.value = true
 }
 
 // 高度改变

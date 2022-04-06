@@ -24,7 +24,7 @@ export function onMounted(mapInstance) {
     .then(function (data) {
       showData(data)
     })
-    .otherwise(function (data) {
+    .catch(function (data) {
       console.log("ajax请求出错", data)
     })
 }

@@ -144,7 +144,7 @@ function queryWindPointApiData() {
           arrWind = result.data
           resolve(arrWind)
         })
-        .otherwise(function (error) {
+        .catch(function (error) {
           console.log("加载JSON出错", error)
         })
     }

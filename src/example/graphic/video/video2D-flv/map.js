@@ -4,7 +4,7 @@ import { $message } from "@mars/components/mars-ui/index"
 let map // mars3d.Map三维地图对象
 export let graphicLayer
 
-let selectedView
+let video2D
 let videoElement
 
 // 事件对象，用于抛出事件给vue
@@ -42,7 +42,6 @@ export function onMounted(mapInstance) {
 
   // 2.在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    selectedView = event.graphic
     console.log("监听layer，单击了矢量对象", event)
   })
 
@@ -75,7 +74,7 @@ export function onUnmounted() {
   map = null
 }
 
-function createVideoDom(callback) {
+function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
   videoElement.setAttribute("autoplay", "autoplay")
@@ -99,7 +98,7 @@ function createVideoDom(callback) {
 
 // 加载已配置好的视频（此参数为界面上“打印参数”按钮获取的）
 function addDemoGraphic1() {
-  const video2D = new mars3d.graphic.Video2D({
+  video2D = new mars3d.graphic.Video2D({
     position: [117.205459, 31.842988, 64.3],
     style: {
       container: videoElement,
@@ -113,23 +112,22 @@ function addDemoGraphic1() {
   })
   graphicLayer.addGraphic(video2D)
 
-  selectedView = video2D // 记录下
-
   eventTarget.fire("loadVideo", {
     value: {
-      cameraAngle: selectedView.angle,
-      cameraAngle2: selectedView.angle2,
-      heading: selectedView.heading,
-      pitchValue: selectedView.pitch,
-      distanceValue: selectedView.distance,
-      opcity: selectedView.opacity,
-      ckdFrustum: selectedView.showFrustum
+      cameraAngle: video2D.angle,
+      cameraAngle2: video2D.angle2,
+      heading: video2D.heading,
+      pitchValue: video2D.pitch,
+      distanceValue: video2D.distance,
+      opcity: video2D.opacity,
+      ckdFrustum: video2D.showFrustum
     }
   })
 }
 
 // 投射视频
 export function addVideo(data) {
+  graphicLayer.clear()
   // 开始绘制
   graphicLayer.startDraw({
     type: "video2D",
@@ -146,13 +144,14 @@ export function addVideo(data) {
     success: function (graphic) {
       console.log("绘制完成", graphic)
 
-      selectedView = graphic // 记录下
+      video2D = graphic // 记录下
     }
   })
 }
 
 // 按当前相机投射视频
 export function addThisCamera(data) {
+  graphicLayer.clear()
   // 取屏幕中心点
   const targetPosition = map.getCenter({ format: false })
   if (!targetPosition) {
@@ -162,7 +161,7 @@ export function addThisCamera(data) {
   const cameraPosition = Cesium.clone(map.camera.position)
 
   // 构造投射体
-  const video2D = new mars3d.graphic.Video2D({
+  video2D = new mars3d.graphic.Video2D({
     position: cameraPosition,
     targetPosition: targetPosition,
     style: {
@@ -174,52 +173,50 @@ export function addThisCamera(data) {
     }
   })
   graphicLayer.addGraphic(video2D)
-
-  selectedView = video2D // 记录下
 }
 
 // 清除
 export function clear() {
   graphicLayer.clear()
-  selectedView = null
+  video2D = null
 }
 
 export function playOrpause() {
-  selectedView.play = !selectedView.play
+  video2D.play = !video2D.play
 }
 
 // 改变水平角度
 export function onChangeAngle(value) {
-  if (selectedView) {
-    selectedView.angle = value
+  if (video2D) {
+    video2D.angle = value
   }
 }
 
 // 改变垂直角度
 export function onChangeAngle2(value) {
-  if (selectedView) {
-    selectedView.angle2 = value
+  if (video2D) {
+    video2D.angle2 = value
   }
 }
 
 // 改变投射距离
 export function onChangeDistance(value) {
-  if (selectedView) {
-    selectedView.distance = value
+  if (video2D) {
+    video2D.distance = value
   }
 }
 
 // 改变四周距离
 export function onChangeHeading(value) {
-  if (selectedView) {
-    selectedView.heading = value
+  if (video2D) {
+    video2D.heading = value
   }
 }
 
 // 改变俯仰角度
 export function onChangePitch(value) {
-  if (selectedView) {
-    selectedView.pitch = value
+  if (video2D) {
+    video2D.pitch = value
   }
 }
 
@@ -230,15 +227,15 @@ export function onChangePitch(value) {
  * @returns {void}
  */
 export function showFrustum(isCheckde) {
-  if (selectedView) {
-    selectedView.showFrustum = isCheckde
+  if (video2D) {
+    video2D.showFrustum = isCheckde
   }
 }
 
 // 改变视频透明度
 export function onChangeOpacity(value) {
-  if (selectedView) {
-    selectedView.opacity = value
+  if (video2D) {
+    video2D.opacity = value
   }
 }
 
@@ -249,29 +246,29 @@ export function onChangeOpacity(value) {
  * @returns {void}
  */
 export function rotateDeg(num) {
-  if (selectedView) {
-    selectedView.setStyle({ stRotationDegree: num })
+  if (video2D) {
+    video2D.setStyle({ stRotationDegree: num })
   }
 }
 
 // 定位至视频位置
 export function locate() {
-  if (selectedView) {
-    selectedView.setView()
+  if (video2D) {
+    video2D.setView()
   }
 }
 // 打印参数
 export function printParameters() {
-  if (!selectedView) {
+  if (!video2D) {
     return
   }
 
-  const params = selectedView.toJSON()
+  const params = video2D.toJSON()
   console.log("Video2D构造参数为", JSON.stringify(params))
 }
 // 视频位置
 export function selCamera() {
-  if (selectedView == null) {
+  if (video2D == null) {
     return
   }
 
@@ -281,14 +278,14 @@ export function selCamera() {
       const point = graphic.point
       graphic.remove() // 删除绘制的点
 
-      selectedView.position = point
+      video2D.position = point
     }
   })
 }
 
 // 四周视角选点
 export function onClickSelView() {
-  if (!selectedView) {
+  if (!video2D) {
     return
   }
 
@@ -298,7 +295,7 @@ export function onClickSelView() {
       const point = graphic.point
       graphic.remove() // 删除绘制的点
 
-      selectedView.targetPosition = point
+      video2D.targetPosition = point
     }
   })
 }

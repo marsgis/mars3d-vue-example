@@ -85,7 +85,7 @@ function addDemoGraphic1() {
       })
       graphicLayer.addGraphic(primitive)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("服务出错", error)
     })
 }
@@ -129,7 +129,7 @@ function addDemoGraphic1() {
 //       });
 //       graphicLayer.addGraphic(primitive);
 //     })
-//     .otherwise(function (error) {
+//     .catch(function (error) {
 //       globalAlert("服务出错", error);
 //     });
 // }

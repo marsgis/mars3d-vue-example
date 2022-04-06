@@ -35,7 +35,7 @@ export function onMounted(mapInstance) {
     .then(function (data) {
       eventTarget.fire("loadOk", { data })
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
   bindLayerEvent()

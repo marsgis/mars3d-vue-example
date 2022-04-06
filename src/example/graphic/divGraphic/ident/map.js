@@ -147,3 +147,29 @@ export function divGraphicWhite() {
     graphicLayer.addGraphic(divGraphic)
   }
 }
+
+// 效果四
+export function divGraphicHotSpot() {
+  graphicLayer.clear()
+
+  for (let i = 0; i < arrData.length; i++) {
+    const item = arrData[i]
+
+    const divGraphic = new mars3d.graphic.DivGraphic({
+      position: item.position,
+      style: {
+        html: `<div class="hot-spot">
+        <div class="hot-spot-board">
+        <h5>${item.name}</h5>
+        </div>
+        <div class="hot-spot-line"></div>
+      </div>`,
+        offsetY: -60,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.BTOOM
+      }
+    })
+    graphicLayer.addGraphic(divGraphic)
+  }
+
+}

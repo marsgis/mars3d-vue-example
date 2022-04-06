@@ -131,8 +131,8 @@ npm run build
 - [TypeScript](https://www.typescriptlang.org/) - 熟悉`TypeScript`基本语法
 - [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
 - [Ant Design Vue](https://next.antdv.com/components/overview-cn/)：UI 控件库 
-- [ESlint](https://eslint.bootcss.com/)：代码检查工具
-- [iconify](https://icon-sets.iconify.design/)：UI 图标库
+- [ESlint](https://eslint.bootcss.com/)：代码检查工具 
+- [IconPark](https://iconpark.oceanengine.com/official)：UI 图标库 
 
 > 需要有一定的知识储备，包括 vue3.0 中的 composition Api 模式等，建议浏览下[Web前端知识视频讲解](https://www.bilibili.com/video/BV1xr4y1U73r/)
 

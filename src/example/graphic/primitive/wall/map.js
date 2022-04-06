@@ -278,7 +278,7 @@ function queryAreasData() {
     .then(function (data) {
       addDemoGraphic9(data)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

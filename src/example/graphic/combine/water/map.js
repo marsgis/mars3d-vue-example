@@ -83,7 +83,7 @@ function addDemoGraphic1(graphicLayer) {
       })
       graphicLayer.addGraphic(primitive)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("服务出错", error)
     })
 }

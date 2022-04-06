@@ -161,7 +161,7 @@ export function addCityGraphics(graphicLayer) {
         graphicLayer.addGraphic(coneGlow)
       }
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 
@@ -251,7 +251,7 @@ export function addGraphics(graphicLayer) {
         graphicLayer.addGraphic(graphic)
       }
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

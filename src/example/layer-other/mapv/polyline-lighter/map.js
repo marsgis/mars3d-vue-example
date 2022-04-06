@@ -25,7 +25,7 @@ export function onMounted(mapInstance) {
       // 创建Mapv
       createMapvLayer(data.features)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

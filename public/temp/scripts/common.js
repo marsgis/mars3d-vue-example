@@ -32,7 +32,7 @@ function init() {
       // vueGlobal._mapInstance = initMapFun(json.map3d)
       // vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
       globalAlert(error ? error.message : "加载JSON出错")
     })

@@ -55,7 +55,7 @@ export function onMounted(mapInstance) {
     .then(function (arr) {
       initData(arr.list)
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("获取空间目标轨道数据异常！")
     })
 

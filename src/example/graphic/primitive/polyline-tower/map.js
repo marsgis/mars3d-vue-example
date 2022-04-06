@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
     .then(function (res) {
       showData(res.data)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

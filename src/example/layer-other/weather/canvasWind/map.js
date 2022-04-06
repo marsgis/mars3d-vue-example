@@ -95,7 +95,7 @@ export function loadEarthData() {
       earthWindData = res
       canvasWindLayer.data = earthWindData
     })
-    .otherwise(function (err) {
+    .catch(function (err) {
       console.log("请求数据失败!", err)
     })
 }
@@ -123,7 +123,7 @@ export function loadDongnanData() {
       dongnanWindData = convertWindData(res.data)
       canvasWindLayer.data = dongnanWindData
     })
-    .otherwise(function () {
+    .catch(function () {
       globalMsg("实时查询气象信息失败，请稍候再试")
     })
 }

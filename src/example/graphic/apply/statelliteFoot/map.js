@@ -44,7 +44,7 @@ export function onMounted(mapInstance) {
       const swathWidth = swathWidthDict[satelliteEntity.id]
       satelliteFoot.start(satelliteEntity, swathWidth)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       globalAlert(error, "加载数据出错")
     })
 }

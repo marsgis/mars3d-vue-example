@@ -35,7 +35,7 @@ export const mapOptions = {
     })
     map.addLayer(tileLayer)
   })
-  .otherwise(function(error) {
+  .catch(function(error) {
     console.log("构造出错了", error)
   })
 }

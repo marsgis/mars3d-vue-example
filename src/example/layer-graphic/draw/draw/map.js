@@ -602,7 +602,7 @@ function loadDemoData() {
     .then(function (json) {
       graphicLayer.loadGeoJSON(json, { clear: true, flyTo: true })
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

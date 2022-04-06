@@ -35,7 +35,7 @@ function queryLineroadApiData() {
     .then(function (json) {
       createEchartsLayer(json.data)
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("加载JSON出错", error)
     })
 }

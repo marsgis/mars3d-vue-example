@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.2
- * 编译日期：2022-04-01 18:07:42
+ * 版本信息：v3.3.3
+ * 编译日期：2022-04-06 15:49:51
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -1572,7 +1572,7 @@ declare class MapSplit extends BaseControl {
      * @param splitDirection - 图层显示的方向
      * @returns 无
      */
-    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection: Cesium.ImagerySplitDirection): void;
+    setLayerSplitDirection(layer: BaseTileLayer | GroupLayer, splitDirection: Cesium.SplitDirection): void;
     /**
      * 控件类型
      */
@@ -2589,8 +2589,8 @@ declare class SnowEffect extends BaseEffect {
 declare namespace Globe {
     /**
      * Popup或Tooltip配置的数组方式对象
-     * @property field - 字段名称
-     * @property name - 显示的对应自定义名称
+     * @property [field] - 字段名称
+     * @property [name] - 显示的对应自定义名称
      * @property [type] - 默认为label文本，也可以支持：'button'按钮，'html' html内容。
      * @property [callback] - 当type为'button'按钮时，单击后触发的事件。
      * @property [html] - 当type为'html'时，对于拼接的html内容。
@@ -2599,8 +2599,8 @@ declare namespace Globe {
      * @property [className] - 自定义样式名称
      */
     type getTemplateHtml_template = {
-        field: string;
-        name: string;
+        field?: string;
+        name?: string;
         type?: string;
         callback?: string;
         html?: string;
@@ -5027,6 +5027,19 @@ declare class DivGraphic extends BaseGraphic {
      */
     closeHighlight(): void;
     /**
+     * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
+     * @param [options = {}] - 参数对象:
+     * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
+     * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
+     * @param options.callback - 异步计算高度完成后 的回调方法
+     * @returns 当前对象本身，可以链式调用
+     */
+    autoSurfaceHeight(options?: {
+        has3dtiles?: boolean;
+        objectsToExclude?: any;
+        callback: Globe.getSurfaceHeight_callback;
+    }): BasePointEntity;
+    /**
      * 开始绘制创建矢量数据，绘制的数据会加载在layer图层。
      * @param layer - 图层
      * @returns 无
@@ -5849,14 +5862,14 @@ declare class BasePointEntity extends BaseEntity {
      */
     addDynamicPosition(point: LngLatPoint | Cesium.Cartesian3 | number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointEntity;
     /**
-     * 异步计算更新坐标进行贴地(或贴模型)
+     * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
-    clampToGround(options?: {
+    autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         callback: Globe.getSurfaceHeight_callback;
@@ -5999,7 +6012,7 @@ declare class BasePolyEntity extends BaseEntity {
      */
     isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
-     * 异步计算更新坐标进行贴地(或贴模型)
+     * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PolyUtil#computeSurfacePoints}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -6007,7 +6020,7 @@ declare class BasePolyEntity extends BaseEntity {
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
-    clampToGround(options?: {
+    autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
@@ -11578,14 +11591,14 @@ declare class BasePointPrimitive extends BasePrimitive {
      */
     addDynamicPosition(point: LngLatPoint | Cesium.Cartesian3 | number[], currTime?: Cesium.JulianDate | Date | string | number): BasePointPrimitive;
     /**
-     * 异步计算更新坐标进行贴地(或贴模型)
+     * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PointUtil#getSurfaceHeight}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
-    clampToGround(options?: {
+    autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         callback: Globe.getSurfaceHeight_callback;
@@ -11708,7 +11721,7 @@ declare class BasePolyPrimitive extends BasePrimitive {
      */
     isInPoly(position: Cesium.Cartesian3 | LngLatPoint): boolean;
     /**
-     * 异步计算更新坐标进行贴地(或贴模型)
+     * 异步计算更新坐标高度进行贴地(或贴模型)，内部自动调用{@link PolyUtil#computeSurfacePoints}方法处理。
      * @param [options = {}] - 参数对象:
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
@@ -11716,7 +11729,7 @@ declare class BasePolyPrimitive extends BasePrimitive {
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @returns 当前对象本身，可以链式调用
      */
-    clampToGround(options?: {
+    autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         offset?: number;
@@ -17690,14 +17703,14 @@ declare class GraphicLayer extends BaseGraphicLayer {
      * @param [options.objectsToExclude = null] - 贴模型分析时，排除的不进行贴模型计算的模型对象，可以是： primitives, entities, 或 3D Tiles features
      * @param options.callback - 异步计算高度完成后 的回调方法
      * @param options.endItem - 异步计算高度完成后 的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 绘制创建完成的Promise,等价于callback参数
      */
-    clampToGround(options?: {
+    autoSurfaceHeight(options?: {
         has3dtiles?: boolean;
         objectsToExclude?: any;
         callback: (...params: any[]) => any;
         endItem: (...params: any[]) => any;
-    }): GraphicLayer;
+    }): Promise<BaseGraphic | any>;
     /**
      * 开始绘制矢量数据，绘制的数据会加载在当前图层。
      * @example

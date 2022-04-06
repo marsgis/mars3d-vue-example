@@ -43,20 +43,24 @@ function addMeasure() {
   map.addThing(measure)
 
   // 直接传入坐标分析
-  measureVolume = measure.volume({
-    positions: mars3d.PointTrans.lonlats2cartesians([
-      [116.191817, 30.864845, 309.3],
-      [116.192869, 30.8757, 521.81],
-      [116.190478, 30.886266, 672.79],
-      [116.19247, 30.893748, 448.91],
-      [116.200836, 30.889954, 379.92],
-      [116.204063, 30.882578, 532.5],
-      [116.203027, 30.873828, 498.8],
-      [116.201795, 30.865941, 443.06]
-    ]),
-    splitNum: 6,
-    height: 450
-  })
+  measure
+    .volume({
+      positions: mars3d.PointTrans.lonlats2cartesians([
+        [116.191817, 30.864845, 309.3],
+        [116.192869, 30.8757, 521.81],
+        [116.190478, 30.886266, 672.79],
+        [116.19247, 30.893748, 448.91],
+        [116.200836, 30.889954, 379.92],
+        [116.204063, 30.882578, 532.5],
+        [116.203027, 30.873828, 498.8],
+        [116.201795, 30.865941, 443.06]
+      ]),
+      splitNum: 6,
+      height: 450
+    })
+    .then((e) => {
+      measureVolume = e
+    })
 
   // 有模型时
   // tiles3dLayer.readyPromise.then((layer) => {
@@ -73,7 +77,6 @@ function addMeasure() {
   //   })
   // })
 
-
   measure.on(mars3d.EventType.start, function (event) {
     console.log("开始分析", event)
     clearInterResult()
@@ -85,9 +88,6 @@ function addMeasure() {
     console.log("分析完成", event)
     hideLoading()
     showHeightVal(event.sourceTarget)
-
-    // 自定义事件 endMeasure ，初始化vue面板中的数值
-    eventTarget.fire("endMeasure", { event })
   })
 }
 
@@ -108,10 +108,16 @@ function getFixedNum(val) {
 // 方量分析
 export function analysisMeasure() {
   // 手动绘制的方式分析
-  measureVolume = measure.volume({
-    splitNum: 6 // 面内插值次数，控制精度[注意精度越大，分析时间越长]
-    // minHeight: 50  //可以设置一个固定的最低高度
-  })
+  measure
+    .volume({
+      splitNum: 6 // 面内插值次数，控制精度[注意精度越大，分析时间越长]
+      // minHeight: 50  //可以设置一个固定的最低高度
+    })
+    .then((e) => {
+      console.log("e")
+      console.log(e)
+      measureVolume = e
+    })
 }
 
 // 清除

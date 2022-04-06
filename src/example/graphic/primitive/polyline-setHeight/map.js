@@ -61,7 +61,7 @@ function addDemoGraphics(graphicLayer) {
         graphicLayer.addGraphic(primitive)
       })
     })
-    .otherwise(function (error) {
+    .catch(function (error) {
       console.log("获取单个卡车详情失败", error)
     })
 }

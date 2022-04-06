@@ -73,3 +73,43 @@ export function isPc() {
   }
   return flag
 }
+
+/**
+ * 将指定的异步方法转为Promise
+ *
+ * @param {*} context
+ * @param {string} apiName
+ * @param {string} [success="success"]
+ * @param {string} [error="error"]
+ * @return {*} Promise
+ */
+export function apiToSync(context: any, apiName: string, success = "success", error = "error") {
+  return apiArrayToSync(context, [apiName], success, error)[0]
+}
+
+/**
+ * 将指定的多个异步方法转为Promise
+ *
+ * @param {*} context
+ * @param {string[]} apiNames
+ * @param {string} [success="success"]
+ * @param {string} [error="error"]
+ * @return {*} Promise[]
+ */
+export function apiArrayToSync(context: any, apiNames: string[], success = "success", error = "error") {
+  return apiNames.map((name) => {
+    const apiFunc = context[name]
+
+    return (options: any) =>
+      new Promise((resolve, reject) => {
+        options[success] = function (result: any) {
+          resolve(result)
+        }
+        options[error] = function (error) {
+          reject(error)
+        }
+        console.log("zhix", options)
+        apiFunc.call(context, options)
+      })
+  })
+}
