@@ -6,7 +6,7 @@ import { InjectionKey, ComputedRef } from "vue"
  * @copyright 火星科技 mars3d.cn
  * @author 火星吴彦祖 2022-2-19
  */
-declare module "@mars/common/store/widget" {
+declare module "@mars/widgets/common/store/widget" {
   // 为 store state 声明类型
   export interface DefaultOption {
     autoDisable?: boolean

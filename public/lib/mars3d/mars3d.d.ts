@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.3
- * 编译日期：2022-04-06 15:49:51
+ * 版本信息：v3.3.4
+ * 编译日期：2022-04-06 18:48:53
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -27931,7 +27931,7 @@ declare class Measure extends BaseThing {
      * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数
      * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
      * @param [options.showAddText = true] - 是否显示每一段的增加部分距离，如（+10.1km）
-     * @returns 长度测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 长度测量控制类 对象
      */
     distance(options?: {
         style?: PolylineEntity.StyleOptions;
@@ -27939,7 +27939,7 @@ declare class Measure extends BaseThing {
         maxPointNum?: number;
         addHeight?: number;
         showAddText?: boolean;
-    }): DistanceMeasure;
+    }): Promise<DistanceMeasure | any>;
     /**
      * 测量 贴地长度
      * @param [options] - 控制参数
@@ -27950,7 +27950,7 @@ declare class Measure extends BaseThing {
      * @param [options.showAddText = true] - 是否显示每一段的增加部分距离，如（+10.1km）
      * @param [options.splitNum = 100] - 插值数，将线段分割的个数
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @returns 贴地长度测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 贴地长度测量控制类 对象
      */
     distanceSurface(options?: {
         style?: PolylineEntity.StyleOptions;
@@ -27960,7 +27960,7 @@ declare class Measure extends BaseThing {
         showAddText?: boolean;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): DistanceSurfaceMeasure;
+    }): Promise<DistanceSurfaceMeasure | any>;
     /**
      * 剖面分析，测量线插值点的高程数据
      * @param [options] - 控制参数
@@ -27970,7 +27970,7 @@ declare class Measure extends BaseThing {
      * @param [options.addHeight] - 在绘制时，在绘制点的基础上增加的高度值
      * @param [options.splitNum = 200] - 插值数，将线段分割的个数
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @returns 剖面分析控制类 对象
+     * @returns 绘制创建完成的Promise，返回 剖面分析控制类矢量对象
      */
     section(options?: {
         style?: PolylineEntity.StyleOptions;
@@ -27979,18 +27979,18 @@ declare class Measure extends BaseThing {
         addHeight?: number;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): SectionMeasure;
+    }): Promise<SectionMeasure | any>;
     /**
      * 面积测量（水平面）
      * @param [options] - 控制参数
      * @param [options.style] - 面的样式
      * @param [options.unit = 'auto'] - 计量单位,{@link MeasureUtil#formatArea}可选值：auto、m、km、mu、ha 。auto时根据面积值自动选用k或km
-     * @returns 面积测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 面积测量控制类 对象
      */
     area(options?: {
         style?: PolygonEntity.StyleOptions;
         unit?: string;
-    }): AreaMeasure;
+    }): Promise<AreaMeasure | any>;
     /**
      * 贴地面积测量
      * @param [options] - 控制参数
@@ -27998,14 +27998,14 @@ declare class Measure extends BaseThing {
      * @param [options.unit = 'auto'] - 计量单位,{@link MeasureUtil#formatArea}可选值：auto、m、km、mu、ha 。auto时根据面积值自动选用k或km
      * @param [options.splitNum = 10] - 插值数，将面分割的网格数
      * @param [options.has3dtiles = auto] - 是否在3dtiles模型上分析（模型分析较慢，按需开启）,默认内部根据点的位置自动判断（但可能不准）
-     * @returns 面积测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 面积测量控制类 对象
      */
     areaSurface(options?: {
         style?: PolygonEntity.StyleOptions;
         unit?: string;
         splitNum?: number;
         has3dtiles?: boolean;
-    }): AreaSurfaceMeasure;
+    }): Promise<AreaSurfaceMeasure | any>;
     /**
      * 体积测量（方量分析）
      * @param [options] - 控制参数
@@ -28021,7 +28021,7 @@ declare class Measure extends BaseThing {
      * @param [options.showArea = true] - 是否显示横切面积
      * @param [options.polygonWall] - 围合的墙样式
      * @param [options.labelHeight] - 各边界点高度结果文本的样式
-     * @returns 体积测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 体积测量控制类 对象
      */
     volume(options?: {
         style?: PolygonEntity.StyleOptions;
@@ -28036,48 +28036,48 @@ declare class Measure extends BaseThing {
         showArea?: boolean;
         polygonWall?: PolygonEntity.StyleOptions;
         labelHeight?: LabelEntity.StyleOptions;
-    }): VolumeMeasure;
+    }): Promise<VolumeMeasure | any>;
     /**
      * 高度测量
      * @param [options] - 控制参数
      * @param [options.style] - 路线的样式
      * @param [options.unit = 'auto'] - 计量单位,{@link MeasureUtil#formatDistance}可选值：auto、m、km、mile、zhang 。auto时根据距离值自动选用k或km
-     * @returns 高度测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 高度测量 对象
      */
     height(options?: {
         style?: PolylineEntity.StyleOptions;
         unit?: string;
-    }): HeightMeasure;
+    }): Promise<HeightMeasure | any>;
     /**
      * 三角高度测量，
      * 包括水平距离、空间距离、高度差。
      * @param [options] - 控制参数
      * @param [options.style] - 路线的样式
      * @param [options.unit = 'auto'] - 计量单位,{@link MeasureUtil#formatDistance}可选值：auto、m、km、mile、zhang 。auto时根据距离值自动选用k或km
-     * @returns 三角高度测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 三角高度测量控制类 对象
      */
     heightTriangle(options?: {
         style?: PolylineEntity.StyleOptions;
         unit?: string;
-    }): HeightTriangleMeasure;
+    }): Promise<HeightTriangleMeasure | any>;
     /**
      * 角度测量
      * @param [options] - 控制参数
      * @param [options.style] - 路线的样式，默认为箭头线
-     * @returns 角度测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 角度测量控制类 对象
      */
     angle(options?: {
         style?: PolylineEntity.StyleOptions;
-    }): AngleMeasure;
+    }): Promise<AngleMeasure | any>;
     /**
      * 坐标测量
      * @param [options] - 控制参数
      * @param [options.style] - 点的样式
-     * @returns 坐标测量控制类 对象
+     * @returns 绘制创建完成的Promise，返回 坐标测量控制类 对象
      */
     point(options?: {
         style?: PointEntity.StyleOptions;
-    }): PointMeasure;
+    }): Promise<PointMeasure | any>;
     /**
      * 取消并停止绘制，如有未完成的绘制会自动删除
      * @returns 当前对象本身,可以链式调用

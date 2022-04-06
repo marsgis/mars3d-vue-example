@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ref } from "vue"
 import { isLonLat } from "@mars/utils/mars-util"
-import useLifecycle from "@mars/common/uses/use-lifecycle"
+import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { $message, $alert } from "@mars/components/mars-ui/index"
 

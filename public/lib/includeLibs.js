@@ -60,7 +60,7 @@ window.configLibs = {
   ],
   "cesium-weiVectorTile": [
     // 项目矢量瓦片方式加载GeoJson插件
-    "mars3d/thirdParty/weiVectorTile/CesiumVectorTile.min.js",
+    "mars3d/thirdParty/weiVectorTile/CesiumVectorTile.js",
     "mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
   ],
   "cesium-meshVisualizer": [

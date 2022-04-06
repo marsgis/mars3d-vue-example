@@ -33,6 +33,8 @@ export function onMounted(mapInstance) {
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
+  globalNotify("已知问题提示", "SuperMap3D.js不兼容Cesium 1.92 暂停对s3m图层的直接兼容", { duration: null })
+
   showMaxNiaochaoDemo()
 }
 

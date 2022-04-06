@@ -2867,12 +2867,12 @@ export class CatmullRomSpline {
  * A {@link TerrainProvider} that accesses terrain data in a Cesium terrain format.
  * @example
  * // Create Arctic DEM terrain with normals.
-const viewer = new Cesium.Viewer('cesiumContainer', {
-    terrainProvider : new Cesium.CesiumTerrainProvider({
-        url : Cesium.IonResource.fromAssetId(3956),
-        requestVertexNormals : true
-    })
-});
+ * const viewer = new Cesium.Viewer('cesiumContainer', {
+ *     terrainProvider : new Cesium.CesiumTerrainProvider({
+ *         url : Cesium.IonResource.fromAssetId(3956),
+ *         requestVertexNormals : true
+ *     })
+ * });
  * @param options - Object with the following properties:
  * @param options.url - The URL of the Cesium terrain server.
  * @param [options.requestVertexNormals = false] - Flag that indicates if the client should request additional lighting information from the server, in the form of per vertex normals if available.
@@ -2892,31 +2892,31 @@ export class CesiumTerrainProvider {
     });
     /**
      * Requests the geometry for a given tile.  This function should not be called before
-    {@link CesiumTerrainProvider#ready} returns true.  The result must include terrain data and
-    may optionally include a water mask and an indication of which child tiles are available.
+     * {@link CesiumTerrainProvider#ready} returns true.  The result must include terrain data and
+     * may optionally include a water mask and an indication of which child tiles are available.
      * @param x - The X coordinate of the tile for which to request geometry.
      * @param y - The Y coordinate of the tile for which to request geometry.
      * @param level - The level of the tile for which to request geometry.
      * @param [request] - The request object. Intended for internal use only.
      * @returns A promise for the requested geometry.  If this method
-             returns undefined instead of a promise, it is an indication that too many requests are already
-             pending and the request will be retried later.
+     *          returns undefined instead of a promise, it is an indication that too many requests are already
+     *          pending and the request will be retried later.
      */
     requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData> | undefined;
     /**
      * Gets an event that is raised when the terrain provider encounters an asynchronous error.  By subscribing
-    to the event, you will be notified of the error and can potentially recover from it.  Event listeners
-    are passed an instance of {@link TileProviderError}.
+     * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
+     * are passed an instance of {@link TileProviderError}.
      */
     readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
-    the source of the terrain.  This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+     * the source of the terrain.  This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
-    not be called before {@link CesiumTerrainProvider#ready} returns true.
+     * not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly tilingScheme: GeographicTilingScheme;
     /**
@@ -2929,47 +2929,47 @@ export class CesiumTerrainProvider {
     readonly readyPromise: Promise<boolean>;
     /**
      * Gets a value indicating whether or not the provider includes a water mask.  The water mask
-    indicates which areas of the globe are water rather than land, so they can be rendered
-    as a reflective surface with animated waves.  This function should not be
-    called before {@link CesiumTerrainProvider#ready} returns true.
+     * indicates which areas of the globe are water rather than land, so they can be rendered
+     * as a reflective surface with animated waves.  This function should not be
+     * called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
-    This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+     * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasVertexNormals: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include metadata.
-    This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+     * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasMetadata: boolean;
     /**
      * Boolean flag that indicates if the client should request vertex normals from the server.
-    Vertex normals data is appended to the standard tile mesh data only if the client requests the vertex normals and
-    if the server provides vertex normals.
+     * Vertex normals data is appended to the standard tile mesh data only if the client requests the vertex normals and
+     * if the server provides vertex normals.
      */
     readonly requestVertexNormals: boolean;
     /**
      * Boolean flag that indicates if the client should request a watermask from the server.
-    Watermask data is appended to the standard tile mesh data only if the client requests the watermask and
-    if the server provides a watermask.
+     * Watermask data is appended to the standard tile mesh data only if the client requests the watermask and
+     * if the server provides a watermask.
      */
     readonly requestWaterMask: boolean;
     /**
      * Boolean flag that indicates if the client should request metadata from the server.
-    Metadata is appended to the standard tile mesh data only if the client requests the metadata and
-    if the server provides a metadata.
+     * Metadata is appended to the standard tile mesh data only if the client requests the metadata and
+     * if the server provides a metadata.
      */
     readonly requestMetadata: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
-    at points and in rectangles.  This function should not be called before
-    {@link CesiumTerrainProvider#ready} returns true.  This property may be undefined if availability
-    information is not available. Note that this reflects tiles that are known to be available currently.
-    Additional tiles may be discovered to be available in the future, e.g. if availability information
-    exists deeper in the tree rather than it all being discoverable at the root. However, a tile that
-    is available now will not become unavailable in the future.
+     * at points and in rectangles.  This function should not be called before
+     * {@link CesiumTerrainProvider#ready} returns true.  This property may be undefined if availability
+     * information is not available. Note that this reflects tiles that are known to be available currently.
+     * Additional tiles may be discovered to be available in the future, e.g. if availability information
+     * exists deeper in the tree rather than it all being discoverable at the root. However, a tile that
+     * is available now will not become unavailable in the future.
      */
     readonly availability: TileAvailability;
     /**
@@ -22289,7 +22289,7 @@ export class ModelVisualizer {
     constructor(scene: Scene, entityCollection: EntityCollection);
     /**
      * Updates models created this visualizer to match their
-    Entity counterpart at the given time.
+     * Entity counterpart at the given time.
      * @param time - The time to update to.
      * @returns This function always returns true.
      */
@@ -38223,88 +38223,88 @@ export enum PostProcessStageSampleMode {
 
 /**
  * A primitive represents geometry in the {@link Scene}.  The geometry can be from a single {@link GeometryInstance}
-as shown in example 1 below, or from an array of instances, even if the geometry is from different
-geometry types, e.g., an {@link RectangleGeometry} and an {@link EllipsoidGeometry} as shown in Code Example 2.
-<p>
-A primitive combines geometry instances with an {@link Appearance} that describes the full shading, including
-{@link Material} and {@link RenderState}.  Roughly, the geometry instance defines the structure and placement,
-and the appearance defines the visual characteristics.  Decoupling geometry and appearance allows us to mix
-and match most of them and add a new geometry or appearance independently of each other.
-</p>
-<p>
-Combining multiple instances into one primitive is called batching, and significantly improves performance for static data.
-Instances can be individually picked; {@link Scene#pick} returns their {@link GeometryInstance#id}.  Using
-per-instance appearances like {@link PerInstanceColorAppearance}, each instance can also have a unique color.
-</p>
-<p>
-{@link Geometry} can either be created and batched on a web worker or the main thread. The first two examples
-show geometry that will be created on a web worker by using the descriptions of the geometry. The third example
-shows how to create the geometry on the main thread by explicitly calling the <code>createGeometry</code> method.
-</p>
+ * as shown in example 1 below, or from an array of instances, even if the geometry is from different
+ * geometry types, e.g., an {@link RectangleGeometry} and an {@link EllipsoidGeometry} as shown in Code Example 2.
+ * <p>
+ * A primitive combines geometry instances with an {@link Appearance} that describes the full shading, including
+ * {@link Material} and {@link RenderState}.  Roughly, the geometry instance defines the structure and placement,
+ * and the appearance defines the visual characteristics.  Decoupling geometry and appearance allows us to mix
+ * and match most of them and add a new geometry or appearance independently of each other.
+ * </p>
+ * <p>
+ * Combining multiple instances into one primitive is called batching, and significantly improves performance for static data.
+ * Instances can be individually picked; {@link Scene#pick} returns their {@link GeometryInstance#id}.  Using
+ * per-instance appearances like {@link PerInstanceColorAppearance}, each instance can also have a unique color.
+ * </p>
+ * <p>
+ * {@link Geometry} can either be created and batched on a web worker or the main thread. The first two examples
+ * show geometry that will be created on a web worker by using the descriptions of the geometry. The third example
+ * shows how to create the geometry on the main thread by explicitly calling the <code>createGeometry</code> method.
+ * </p>
  * @example
  * // 1. Draw a translucent ellipse on the surface with a checkerboard pattern
-const instance = new Cesium.GeometryInstance({
-  geometry : new Cesium.EllipseGeometry({
-      center : Cesium.Cartesian3.fromDegrees(-100.0, 20.0),
-      semiMinorAxis : 500000.0,
-      semiMajorAxis : 1000000.0,
-      rotation : Cesium.Math.PI_OVER_FOUR,
-      vertexFormat : Cesium.VertexFormat.POSITION_AND_ST
-  }),
-  id : 'object returned when this instance is picked and to get/set per-instance attributes'
-});
-scene.primitives.add(new Cesium.Primitive({
-  geometryInstances : instance,
-  appearance : new Cesium.EllipsoidSurfaceAppearance({
-    material : Cesium.Material.fromType('Checkerboard')
-  })
-}));
+ * const instance = new Cesium.GeometryInstance({
+ *   geometry : new Cesium.EllipseGeometry({
+ *       center : Cesium.Cartesian3.fromDegrees(-100.0, 20.0),
+ *       semiMinorAxis : 500000.0,
+ *       semiMajorAxis : 1000000.0,
+ *       rotation : Cesium.Math.PI_OVER_FOUR,
+ *       vertexFormat : Cesium.VertexFormat.POSITION_AND_ST
+ *   }),
+ *   id : 'object returned when this instance is picked and to get/set per-instance attributes'
+ * });
+ * scene.primitives.add(new Cesium.Primitive({
+ *   geometryInstances : instance,
+ *   appearance : new Cesium.EllipsoidSurfaceAppearance({
+ *     material : Cesium.Material.fromType('Checkerboard')
+ *   })
+ * }));
  * @example
  * // 2. Draw different instances each with a unique color
-const rectangleInstance = new Cesium.GeometryInstance({
-  geometry : new Cesium.RectangleGeometry({
-    rectangle : Cesium.Rectangle.fromDegrees(-140.0, 30.0, -100.0, 40.0),
-    vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT
-  }),
-  id : 'rectangle',
-  attributes : {
-    color : new Cesium.ColorGeometryInstanceAttribute(0.0, 1.0, 1.0, 0.5)
-  }
-});
-const ellipsoidInstance = new Cesium.GeometryInstance({
-  geometry : new Cesium.EllipsoidGeometry({
-    radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
-    vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
-  }),
-  modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
-    Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
-  id : 'ellipsoid',
-  attributes : {
-    color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
-  }
-});
-scene.primitives.add(new Cesium.Primitive({
-  geometryInstances : [rectangleInstance, ellipsoidInstance],
-  appearance : new Cesium.PerInstanceColorAppearance()
-}));
+ * const rectangleInstance = new Cesium.GeometryInstance({
+ *   geometry : new Cesium.RectangleGeometry({
+ *     rectangle : Cesium.Rectangle.fromDegrees(-140.0, 30.0, -100.0, 40.0),
+ *     vertexFormat : Cesium.PerInstanceColorAppearance.VERTEX_FORMAT
+ *   }),
+ *   id : 'rectangle',
+ *   attributes : {
+ *     color : new Cesium.ColorGeometryInstanceAttribute(0.0, 1.0, 1.0, 0.5)
+ *   }
+ * });
+ * const ellipsoidInstance = new Cesium.GeometryInstance({
+ *   geometry : new Cesium.EllipsoidGeometry({
+ *     radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
+ *     vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
+ *   }),
+ *   modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
+ *     Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
+ *   id : 'ellipsoid',
+ *   attributes : {
+ *     color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
+ *   }
+ * });
+ * scene.primitives.add(new Cesium.Primitive({
+ *   geometryInstances : [rectangleInstance, ellipsoidInstance],
+ *   appearance : new Cesium.PerInstanceColorAppearance()
+ * }));
  * @example
  * // 3. Create the geometry on the main thread.
-scene.primitives.add(new Cesium.Primitive({
-  geometryInstances : new Cesium.GeometryInstance({
-    geometry : Cesium.EllipsoidGeometry.createGeometry(new Cesium.EllipsoidGeometry({
-      radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
-      vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
-    })),
-    modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
-      Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
-    id : 'ellipsoid',
-    attributes : {
-      color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
-    }
-  }),
-  appearance : new Cesium.PerInstanceColorAppearance(),
-  asynchronous : false
-}));
+ * scene.primitives.add(new Cesium.Primitive({
+ *   geometryInstances : new Cesium.GeometryInstance({
+ *     geometry : Cesium.EllipsoidGeometry.createGeometry(new Cesium.EllipsoidGeometry({
+ *       radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
+ *       vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
+ *     })),
+ *     modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
+ *       Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
+ *     id : 'ellipsoid',
+ *     attributes : {
+ *       color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
+ *     }
+ *   }),
+ *   appearance : new Cesium.PerInstanceColorAppearance(),
+ *   asynchronous : false
+ * }));
  * @param [options] - Object with the following properties:
  * @param [options.geometryInstances] - The geometry instances - or a single geometry instance - to render.
  * @param [options.appearance] - The appearance used to render the primitive.
@@ -38340,67 +38340,67 @@ export class Primitive {
     });
     /**
      * The geometry instances rendered with this primitive.  This may
-    be <code>undefined</code> if <code>options.releaseGeometryInstances</code>
-    is <code>true</code> when the primitive is constructed.
-    <p>
-    Changing this property after the primitive is rendered has no effect.
-    </p>
+     * be <code>undefined</code> if <code>options.releaseGeometryInstances</code>
+     * is <code>true</code> when the primitive is constructed.
+     * <p>
+     * Changing this property after the primitive is rendered has no effect.
+     * </p>
      */
     readonly geometryInstances: GeometryInstance[] | GeometryInstance;
     /**
      * The {@link Appearance} used to shade this primitive. Each geometry
-    instance is shaded with the same appearance.  Some appearances, like
-    {@link PerInstanceColorAppearance} allow giving each instance unique
-    properties.
+     * instance is shaded with the same appearance.  Some appearances, like
+     * {@link PerInstanceColorAppearance} allow giving each instance unique
+     * properties.
      */
     appearance: Appearance;
     /**
      * The {@link Appearance} used to shade this primitive when it fails the depth test. Each geometry
-    instance is shaded with the same appearance.  Some appearances, like
-    {@link PerInstanceColorAppearance} allow giving each instance unique
-    properties.
-    
-    <p>
-    When using an appearance that requires a color attribute, like PerInstanceColorAppearance,
-    add a depthFailColor per-instance attribute instead.
-    </p>
-    
-    <p>
-    Requires the EXT_frag_depth WebGL extension to render properly. If the extension is not supported,
-    there may be artifacts.
-    </p>
+     * instance is shaded with the same appearance.  Some appearances, like
+     * {@link PerInstanceColorAppearance} allow giving each instance unique
+     * properties.
+     *
+     * <p>
+     * When using an appearance that requires a color attribute, like PerInstanceColorAppearance,
+     * add a depthFailColor per-instance attribute instead.
+     * </p>
+     *
+     * <p>
+     * Requires the EXT_frag_depth WebGL extension to render properly. If the extension is not supported,
+     * there may be artifacts.
+     * </p>
      */
     depthFailAppearance: Appearance;
     /**
      * The 4x4 transformation matrix that transforms the primitive (all geometry instances) from model to world coordinates.
-    When this is the identity matrix, the primitive is drawn in world coordinates, i.e., Earth's WGS84 coordinates.
-    Local reference frames can be used by providing a different transformation matrix, like that returned
-    by {@link Transforms.eastNorthUpToFixedFrame}.
-    
-    <p>
-    This property is only supported in 3D mode.
-    </p>
+     * When this is the identity matrix, the primitive is drawn in world coordinates, i.e., Earth's WGS84 coordinates.
+     * Local reference frames can be used by providing a different transformation matrix, like that returned
+     * by {@link Transforms.eastNorthUpToFixedFrame}.
+     *
+     * <p>
+     * This property is only supported in 3D mode.
+     * </p>
      * @example
      * const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
-    p.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+     * p.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
      */
     modelMatrix: Matrix4;
     /**
      * Determines if the primitive will be shown.  This affects all geometry
-    instances in the primitive.
+     * instances in the primitive.
      */
     show: boolean;
     /**
      * When <code>true</code>, the renderer frustum culls and horizon culls the primitive's commands
-    based on their bounding volume.  Set this to <code>false</code> for a small performance gain
-    if you are manually culling the primitive.
+     * based on their bounding volume.  Set this to <code>false</code> for a small performance gain
+     * if you are manually culling the primitive.
      */
     cull: boolean;
     /**
      * This property is for debugging only; it is not for production use nor is it optimized.
-    <p>
-    Draws the bounding sphere for each draw command in the primitive.
-    </p>
+     * <p>
+     * Draws the bounding sphere for each draw command in the primitive.
+     * </p>
      */
     debugShowBoundingVolume: boolean;
     /**
@@ -38433,8 +38433,8 @@ export class Primitive {
     readonly compressVertices: boolean;
     /**
      * Determines if the primitive is complete and ready to render.  If this property is
-    true, the primitive will be rendered the next time that {@link Primitive#update}
-    is called.
+     * true, the primitive will be rendered the next time that {@link Primitive#update}
+     * is called.
      */
     readonly ready: boolean;
     /**
@@ -38443,42 +38443,42 @@ export class Primitive {
     readonly readyPromise: Promise<Primitive>;
     /**
      * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
-    get the draw commands needed to render this primitive.
-    <p>
-    Do not call this function directly.  This is documented just to
-    list the exceptions that may be propagated when the scene is rendered:
-    </p>
+     * get the draw commands needed to render this primitive.
+     * <p>
+     * Do not call this function directly.  This is documented just to
+     * list the exceptions that may be propagated when the scene is rendered:
+     * </p>
      */
     update(): void;
     /**
      * Returns the modifiable per-instance attributes for a {@link GeometryInstance}.
      * @example
      * const attributes = primitive.getGeometryInstanceAttributes('an id');
-    attributes.color = Cesium.ColorGeometryInstanceAttribute.toValue(Cesium.Color.AQUA);
-    attributes.show = Cesium.ShowGeometryInstanceAttribute.toValue(true);
-    attributes.distanceDisplayCondition = Cesium.DistanceDisplayConditionGeometryInstanceAttribute.toValue(100.0, 10000.0);
-    attributes.offset = Cesium.OffsetGeometryInstanceAttribute.toValue(Cartesian3.IDENTITY);
+     * attributes.color = Cesium.ColorGeometryInstanceAttribute.toValue(Cesium.Color.AQUA);
+     * attributes.show = Cesium.ShowGeometryInstanceAttribute.toValue(true);
+     * attributes.distanceDisplayCondition = Cesium.DistanceDisplayConditionGeometryInstanceAttribute.toValue(100.0, 10000.0);
+     * attributes.offset = Cesium.OffsetGeometryInstanceAttribute.toValue(Cartesian3.IDENTITY);
      * @param id - The id of the {@link GeometryInstance}.
      * @returns The typed array in the attribute's format or undefined if the is no instance with id.
      */
     getGeometryInstanceAttributes(id: any): any;
     /**
      * Returns true if this object was destroyed; otherwise, false.
-    <p>
-    If this object was destroyed, it should not be used; calling any function other than
-    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-    </p>
+     * <p>
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     * </p>
      * @returns <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
      */
     isDestroyed(): boolean;
     /**
      * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-    <p>
-    Once an object is destroyed, it should not be used; calling any function other than
-    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-    assign the return value (<code>undefined</code>) to the object as done in the example.
-    </p>
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <p>
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     * </p>
      * @example
      * e = e && e.destroy();
      */
