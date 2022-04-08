@@ -27,6 +27,25 @@ export function onMounted(mapInstance) {
     leftLayer: _alllayers[1]
   })
   map.addControl(mapSplit)
+
+  // 加载模型图层
+  const tiles3dLayer = new mars3d.layer.TilesetLayer({
+    name: "县城社区",
+    url: "//data.mars3d.cn/3dtiles/qx-shequ/tileset.json",
+    position: { alt: 11.5 },
+    maximumScreenSpaceError: 1,
+    maximumMemoryUsage: 1024,
+    dynamicScreenSpaceError: true,
+    cullWithChildrenBounds: false,
+    skipLevelOfDetail: true,
+    preferLeaves: true,
+    center: { lat: 28.434174, lng: 119.475236, alt: 728, heading: 23, pitch: -39 },
+    flyTo: true
+  })
+  map.addLayer(tiles3dLayer)
+
+  // 对模型分屏卷帘
+  mapSplit.setLayerSplitDirection(tiles3dLayer, Cesium.SplitDirection.RIGHT)
 }
 
 /**

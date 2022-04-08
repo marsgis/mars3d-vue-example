@@ -3,7 +3,7 @@
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+        <mars-icon icon="down-c" class="icon-vertical-a" />
       </template>
       <!-- 数据处理面板 -->
       <a-collapse-panel key="1" header="地下模式">

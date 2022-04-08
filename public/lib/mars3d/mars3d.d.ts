@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.3.4
- * 编译日期：2022-04-06 18:48:53
+ * 编译日期：2022-04-08 12:27:54
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -716,8 +716,10 @@ declare enum Lang {
     "_单击开始绘制" = "[\"\u5355\u51FB\u5F00\u59CB\u7ED8\u5236\",\"\u55AE\u64CA\u958B\u59CB\u7E6A\u5236\",\"Click to start drawing\"]",
     "_单击完成绘制" = "[\"\u5355\u51FB\u5B8C\u6210\u7ED8\u5236\",\"\u55AE\u64CA\u5B8C\u6210\u7E6A\u5236\",\"Click to finish drawing\"]",
     "_双击完成绘制" = "[\"\u53CC\u51FB\u5B8C\u6210\u7ED8\u5236\",\"\u96D9\u64CA\u5B8C\u6210\u7E6A\u5236\",\"Double click to finish drawing\"]",
-    "_单击增加点右击删除点" = "[\"\u5355\u51FB\u589E\u52A0\u70B9\uFF0C\u53F3\u51FB\u5220\u9664\u70B9\",\"\u55AE\u64CA\u589E\u52A0\u9EDE\uFF0C\u53F3\u64CA\u522A\u9664\u9EDE\",\"left click add point, right click delete point\"]",
-    "_激活编辑提示" = "[\"\u5355\u51FB\u540E \u6FC0\u6D3B\u7F16\u8F91<br/>\u53F3\u51FB\u83DC\u5355\u5220\u9664\",\"\u55AE\u64CA\u5F8C \u6FC0\u6D3B\u7DE8\u8F2F<br/>\u53F3\u64CA\u83DC\u55AE\u522A\u9664\",\"Click to activate editing <br/> Right click menu to delete\"]",
+    "_单击增加点" = "[\"\u5355\u51FB\u589E\u52A0\u70B9\",\"\u55AE\u64CA\u589E\u52A0\u9EDE\",\"left click add point\"]",
+    "_右击删除点" = "[\"\u53F3\u51FB\u5220\u9664\u70B9\",\"\u53F3\u64CA\u522A\u9664\u9EDE\",\"right click delete point\"]",
+    "_单击后激活编辑" = "[\"\u5355\u51FB\u540E\u6FC0\u6D3B\u7F16\u8F91\",\"\u55AE\u64CA\u5F8C \u6FC0\u6D3B\u7DE8\u8F2F\",\"Click to activate editing\"]",
+    "_右击菜单删除" = "[\"\u53F3\u51FB\u83DC\u5355\u5220\u9664\",\"\u53F3\u64CA\u83DC\u55AE\u522A\u9664\",\"Right click menu to delete\"]",
     "_释放后完成修改" = "[\"\u91CA\u653E\u540E\u5B8C\u6210\u4FEE\u6539\",\"\u91CB\u653E\u5F8C\u5B8C\u6210\u4FEE\u6539\",\"Complete the modification after release\"]",
     "_该对象不允许编辑" = "[\"\u8BE5\u5BF9\u8C61\u4E0D\u5141\u8BB8\u7F16\u8F91\",\"\u8A72\u5C0D\u8C61\u4E0D\u5141\u8A31\u7DE8\u8F2F\",\"This object does not allow editing\"]",
     "_拖动该点后" = "[\"\u62D6\u52A8\u8BE5\u70B9\u540E\",\"\u62D6\u52D5\u8A72\u9EDE\u5F8C\",\"Drag that point\"]",
@@ -731,7 +733,6 @@ declare enum Lang {
     "_修改宽度" = "[\"\u4FEE\u6539\u5BBD\u5EA6(Y\u65B9\u5411)\",\"\u4FEE\u6539\u5BEC\u5EA6(Y\u65B9\u5411)\",\"Change the width(Y direction)\"]",
     "_修改方向" = "[\"\u4FEE\u6539\u65B9\u5411\",\"\u4FEE\u6539\u65B9\u5411\",\"Change direction\"]",
     "_修改缩放比例" = "[\"\u4FEE\u6539\u7F29\u653E\u6BD4\u4F8B\",\"\u4FEE\u6539\u7E2E\u653E\u6BD4\u4F8B\",\"Modify the Scale\"]",
-    "_右击删除该点" = "[\"\u53F3\u51FB\u5220\u9664\u8BE5\u70B9\",\"\u53F3\u64CA\u522A\u9664\u8A72\u9EDE\",\"Right click to delete the point\"]",
     "_无法删除不能少于最小点数" = "[\"\u65E0\u6CD5\u5220\u9664\uFF0C\u70B9\u6570\u91CF\u4E0D\u80FD\u5C11\u4E8E\",\"\u7121\u6CD5\u522A\u9664\uFF0C\u9EDE\u6578\u91CF\u4E0D\u80FD\u5C11\u4E8E\",\"Cannot delete, the number of dots cannot be less than\"]",
     "_删除" = "[\"\u5220\u9664\",\"\u522A\u9664\",\"Delete\"]",
     "_加载模型中" = "[\"\u52A0\u8F7D\u6A21\u578B\u4E2D\u2026\",\"\u52A0\u8F7D\u6A21\u578B\u4E2D\u2026\",\"Load Model\u2026\"]"
@@ -16007,6 +16008,14 @@ declare class BaseLayer extends BaseClass {
      */
     readonly isDestroy: boolean;
     /**
+     * 获取图层完成解析加载完成的Promise承诺, 等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
+     * @example
+     * tiles3dLayer.readyPromise.then(function(layer) {
+     *     console.log("load完成", layer)
+     *   })
+     */
+    readonly readyPromise: Promise<BaseLayer | any>;
+    /**
      * 显示隐藏状态
      */
     show: boolean;
@@ -16256,14 +16265,6 @@ declare class CzmGeoJsonLayer extends BaseGraphicLayer {
      * Entity矢量数据 集合
      */
     readonly entities: Cesium.EntityCollection;
-    /**
-     * 数据加载完成后抛出,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
-     * @example
-     * geojsonLayer.readyPromise.then(function(layer) {
-     *     console.log("load完成", layer)
-     *   })
-     */
-    readonly readyPromise: Promise<CzmGeoJsonLayer | any>;
     /**
      * 当存在 文字primitive 数据的内部Cesium容器
      */
@@ -17151,14 +17152,6 @@ declare class GeoJsonLayer extends GraphicLayer {
         };
         flyTo?: boolean;
     });
-    /**
-     * 数据加载完成后抛出,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
-     * @example
-     * geojsonLayer.readyPromise.then(function(layer) {
-     *     console.log("load完成", layer)
-     *   })
-     */
-    readonly readyPromise: Promise<GeoJsonLayer | any>;
     /**
      * 加载新数据 或 刷新数据
      * @param [newOptions] - 新设定的参数，会与类的构造参数合并。
@@ -18593,15 +18586,6 @@ declare class TilesetLayer extends BaseGraphicLayer {
      * 模型对应的 Cesium3DTileset对象
      */
     readonly tileset: Cesium.Cesium3DTileset;
-    /**
-     * 获取将在加载瓦片集的根瓦片并准备渲染该瓦片集时并init完成解析的Promise承诺,
-     * 这个Promise承诺在渲染tileset的第一帧之前的帧结束时被解析,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
-     * @example
-     * tiles3dLayer.readyPromise.then(function(layer) {
-     *     console.log("load完成", layer)
-     *   })
-     */
-    readonly readyPromise: Promise<TilesetLayer | any>;
     /**
      * 鼠标移入或单击(type:'click')后的对应高亮的部分样式,空值时不高亮
      */
@@ -26047,15 +26031,6 @@ declare class S3MLayer extends BaseLayer {
      * 模型对应的Cesium.S3MTilesLayer图层组
      */
     readonly layer: any;
-    /**
-     * 获取将在加载瓦片集的根瓦片并准备渲染该瓦片集时并init完成解析的Promise承诺,
-     * 这个Promise承诺在渲染tileset的第一帧之前的帧结束时被解析,等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
-     * @example
-     * s3mLayer.readyPromise.then(function(layer) {
-     *     console.log("load完成", layer)
-     *   })
-     */
-    readonly readyPromise: Promise<S3MLayer | any>;
     /**
      * 设置S3M图层本身支持的参数
      */

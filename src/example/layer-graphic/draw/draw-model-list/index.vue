@@ -5,9 +5,9 @@
         <a-space>
           <span>模型列表： </span>
           <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-            <i title="打开GeoJSON文件"><mars-icon icon="icon-park-outline:folder-upload" width="19" /></i>
+            <i title="打开GeoJSON文件"><mars-icon icon="folder-upload" width="19" /></i>
           </a-upload>
-          <i title="保存GeoJSON"><mars-icon icon="icon-park-outline:disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
+          <i title="保存GeoJSON"><mars-icon icon="disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
         </a-space>
       </div>
 

@@ -1,7 +1,7 @@
 <template>
   <mars-pannel :visible="showClockAnimate" left="60" bottom="50">
     <p class="closePannel f-mb">
-      <mars-icon icon="eva:close-outline" width="24" @click="onClickHiddenTime" />
+      <mars-icon icon="close" width="24" @click="onClickHiddenTime" />
     </p>
     <div class="f-mb">
       <a-space>

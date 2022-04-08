@@ -21469,76 +21469,92 @@ export class KmlCamera {
 export namespace KmlDataSource {
     /**
      * Initialization options for the `load` method.
-     * @property camera - The camera that is used for viewRefreshModes and sending camera properties to network links.
-     * @property canvas - The canvas that is used for sending viewer properties to network links.
      * @property [sourceUri] - Overrides the url to use for resolving relative links and other KML network features.
      * @property [clampToGround = false] - true if we want the geometry features (Polygons, LineStrings and LinearRings) clamped to the ground.
      * @property [ellipsoid = Ellipsoid.WGS84] - The global ellipsoid used for geographical calculations.
-     * @property [credit] - A credit for the data source, which is displayed on the canvas.
      * @property [screenOverlayContainer] - A container for ScreenOverlay images.
      */
     type LoadOptions = {
-        camera: Camera;
-        canvas: HTMLCanvasElement;
         sourceUri?: string;
         clampToGround?: boolean;
         ellipsoid?: Ellipsoid;
+        screenOverlayContainer?: Element | string;
+    };
+    /**
+     * Options for constructing a new KmlDataSource, or calling the static `load` method.
+     * @property [camera] - The camera that is used for viewRefreshModes and sending camera properties to network links.
+     * @property [canvas] - The canvas that is used for sending viewer properties to network links.
+     * @property [credit] - A credit for the data source, which is displayed on the canvas.
+     * @property [sourceUri] - Overrides the url to use for resolving relative links and other KML network features.
+     * @property [clampToGround = false] - true if we want the geometry features (Polygons, LineStrings and LinearRings) clamped to the ground.
+     * @property [ellipsoid = Ellipsoid.WGS84] - The global ellipsoid used for geographical calculations.
+     * @property [screenOverlayContainer] - A container for ScreenOverlay images.
+     */
+    type ConstructorOptions = {
+        camera?: Camera;
+        canvas?: HTMLCanvasElement;
         credit?: Credit | string;
+        sourceUri?: string;
+        clampToGround?: boolean;
+        ellipsoid?: Ellipsoid;
         screenOverlayContainer?: Element | string;
     };
 }
 
 /**
  * A {@link DataSource} which processes Keyhole Markup Language 2.2 (KML).
-<p>
-KML support in Cesium is incomplete, but a large amount of the standard,
-as well as Google's <code>gx</code> extension namespace, is supported. See Github issue
-{@link https://github.com/CesiumGS/cesium/issues/873|#873} for a
-detailed list of what is and isn't supported. Cesium will also write information to the
-console when it encounters most unsupported features.
-</p>
-<p>
-Non visual feature data, such as <code>atom:author</code> and <code>ExtendedData</code>
-is exposed via an instance of {@link KmlFeatureData}, which is added to each {@link Entity}
-under the <code>kml</code> property.
-</p>
+ * <p>
+ * KML support in Cesium is incomplete, but a large amount of the standard,
+ * as well as Google's <code>gx</code> extension namespace, is supported. See Github issue
+ * {@link https://github.com/CesiumGS/cesium/issues/873|#873} for a
+ * detailed list of what is and isn't supported. Cesium will also write information to the
+ * console when it encounters most unsupported features.
+ * </p>
+ * <p>
+ * Non visual feature data, such as <code>atom:author</code> and <code>ExtendedData</code>
+ * is exposed via an instance of {@link KmlFeatureData}, which is added to each {@link Entity}
+ * under the <code>kml</code> property.
+ * </p>
  * @example
  * const viewer = new Cesium.Viewer('cesiumContainer');
-viewer.dataSources.add(Cesium.KmlDataSource.load('../../SampleData/facilities.kmz',
-     {
-          camera: viewer.scene.camera,
-          canvas: viewer.scene.canvas
-     })
-);
- * @param options - An object with the following properties:
- * @param options.camera - The camera that is used for viewRefreshModes and sending camera properties to network links.
- * @param options.canvas - The canvas that is used for sending viewer properties to network links.
- * @param [options.ellipsoid = Ellipsoid.WGS84] - The global ellipsoid used for geographical calculations.
- * @param [options.credit] - A credit for the data source, which is displayed on the canvas.
+ * viewer.dataSources.add(Cesium.KmlDataSource.load('../../SampleData/facilities.kmz',
+ *      {
+ *           camera: viewer.scene.camera,
+ *           canvas: viewer.scene.canvas
+ *      })
+ * );
+ * @param [options] - Object describing initialization options
  */
 export class KmlDataSource {
-    constructor(options: {
-        camera: Camera;
-        canvas: HTMLCanvasElement;
-        ellipsoid?: Ellipsoid;
-        credit?: Credit | string;
-    });
+    constructor(options?: KmlDataSource.ConstructorOptions);
+    /**
+     * The current size of this Canvas will be used to populate the Link parameters
+     * for client height and width.
+     */
+    canvas: HTMLCanvasElement | undefined;
+    /**
+     * The position and orientation of this {@link Camera} will be used to
+     * populate various camera parameters when making network requests.
+     * Camera movement will determine when to trigger NetworkLink refresh if
+     * <code>viewRefreshMode</code> is <code>onStop</code>.
+     */
+    camera: Camera | undefined;
     /**
      * Creates a Promise to a new instance loaded with the provided KML data.
      * @param data - A url, parsed KML document, or Blob containing binary KMZ data or a parsed KML document.
      * @param [options] - An object specifying configuration options
      * @returns A promise that will resolve to a new KmlDataSource instance once the KML is loaded.
      */
-    static load(data: Resource | string | Document | Blob, options?: KmlDataSource.LoadOptions): Promise<KmlDataSource>;
+    static load(data: Resource | string | Document | Blob, options?: KmlDataSource.ConstructorOptions): Promise<KmlDataSource>;
     /**
      * Gets or sets a human-readable name for this instance.
-    This will be automatically be set to the KML document name on load.
+     * This will be automatically be set to the KML document name on load.
      */
     name: string;
     /**
      * Gets the clock settings defined by the loaded KML. This represents the total
-    availability interval for all time-dynamic data. If the KML does not contain
-    time-dynamic data, this value is undefined.
+     * availability interval for all time-dynamic data. If the KML does not contain
+     * time-dynamic data, this value is undefined.
      */
     clock: DataSourceClock;
     /**
@@ -21588,19 +21604,10 @@ export class KmlDataSource {
     /**
      * Asynchronously loads the provided KML data, replacing any existing data.
      * @param data - A url, parsed KML document, or Blob containing binary KMZ data or a parsed KML document.
-     * @param [options] - An object with the following properties:
-     * @param [options.sourceUri] - Overrides the url to use for resolving relative links and other KML network features.
-     * @param [options.clampToGround = false] - true if we want the geometry features (Polygons, LineStrings and LinearRings) clamped to the ground. If true, lines will use corridors so use Entity.corridor instead of Entity.polyline.
-     * @param [options.ellipsoid = Ellipsoid.WGS84] - The global ellipsoid used for geographical calculations.
-     * @param [options.screenOverlayContainer] - A container for ScreenOverlay images.
+     * @param [options] - An object specifying configuration options
      * @returns A promise that will resolve to this instances once the KML is loaded.
      */
-    load(data: Resource | string | Document | Blob, options?: {
-        sourceUri?: Resource | string;
-        clampToGround?: boolean;
-        ellipsoid?: Ellipsoid;
-        screenOverlayContainer?: Element | string;
-    }): Promise<KmlDataSource>;
+    load(data: Resource | string | Document | Blob, options?: KmlDataSource.LoadOptions): Promise<KmlDataSource>;
     /**
      * Cleans up any non-entity elements created by the data source. Currently this only affects ScreenOverlay elements.
      */
@@ -21640,8 +21647,8 @@ export class KmlFeatureData {
     snippet: string;
     /**
      * Gets the extended data, parsed into a JSON object.
-    Currently only the <code>Data</code> property is supported.
-    <code>SchemaData</code> and custom data are ignored.
+     * Currently only the <code>Data</code> property is supported.
+     * <code>SchemaData</code> and custom data are ignored.
      */
     extendedData: string;
 }
@@ -25216,19 +25223,19 @@ export enum Axis {
 
 /**
  * A viewport-aligned image positioned in the 3D scene, that is created
-and rendered using a {@link BillboardCollection}.  A billboard is created and its initial
-properties are set by calling {@link BillboardCollection#add}.
-<br /><br />
-<div align='center'>
-<img src='Images/Billboard.png' width='400' height='300' /><br />
-Example billboards
-</div>
+ * and rendered using a {@link BillboardCollection}.  A billboard is created and its initial
+ * properties are set by calling {@link BillboardCollection#add}.
+ * <br /><br />
+ * <div align='center'>
+ * <img src='Images/Billboard.png' width='400' height='300' /><br />
+ * Example billboards
+ * </div>
  */
 export class Billboard {
     constructor();
     /**
      * Determines if this billboard will be shown.  Use this to hide or show a billboard, instead
-    of removing it and re-adding it to the collection.
+     * of removing it and re-adding it to the collection.
      */
     show: boolean;
     /**
@@ -25241,159 +25248,159 @@ export class Billboard {
     heightReference: HeightReference;
     /**
      * Gets or sets the pixel offset in screen space from the origin of this billboard.  This is commonly used
-    to align multiple billboards and labels at the same position, e.g., an image and text.  The
-    screen space origin is the top, left corner of the canvas; <code>x</code> increases from
-    left to right, and <code>y</code> increases from top to bottom.
-    <br /><br />
-    <div align='center'>
-    <table border='0' cellpadding='5'><tr>
-    <td align='center'><code>default</code><br/><img src='Images/Billboard.setPixelOffset.default.png' width='250' height='188' /></td>
-    <td align='center'><code>b.pixeloffset = new Cartesian2(50, 25);</code><br/><img src='Images/Billboard.setPixelOffset.x50y-25.png' width='250' height='188' /></td>
-    </tr></table>
-    The billboard's origin is indicated by the yellow point.
-    </div>
+     * to align multiple billboards and labels at the same position, e.g., an image and text.  The
+     * screen space origin is the top, left corner of the canvas; <code>x</code> increases from
+     * left to right, and <code>y</code> increases from top to bottom.
+     * <br /><br />
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>default</code><br/><img src='Images/Billboard.setPixelOffset.default.png' width='250' height='188' /></td>
+     * <td align='center'><code>b.pixeloffset = new Cartesian2(50, 25);</code><br/><img src='Images/Billboard.setPixelOffset.x50y-25.png' width='250' height='188' /></td>
+     * </tr></table>
+     * The billboard's origin is indicated by the yellow point.
+     * </div>
      */
     pixelOffset: Cartesian2;
     /**
      * Gets or sets near and far scaling properties of a Billboard based on the billboard's distance from the camera.
-    A billboard's scale will interpolate between the {@link NearFarScalar#nearValue} and
-    {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
-    of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
-    Outside of these ranges the billboard's scale remains clamped to the nearest bound.  If undefined,
-    scaleByDistance will be disabled.
+     * A billboard's scale will interpolate between the {@link NearFarScalar#nearValue} and
+     * {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
+     * of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
+     * Outside of these ranges the billboard's scale remains clamped to the nearest bound.  If undefined,
+     * scaleByDistance will be disabled.
      * @example
      * // Example 1.
-    // Set a billboard's scaleByDistance to scale by 1.5 when the
-    // camera is 1500 meters from the billboard and disappear as
-    // the camera distance approaches 8.0e6 meters.
-    b.scaleByDistance = new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0);
+     * // Set a billboard's scaleByDistance to scale by 1.5 when the
+     * // camera is 1500 meters from the billboard and disappear as
+     * // the camera distance approaches 8.0e6 meters.
+     * b.scaleByDistance = new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0);
      * @example
      * // Example 2.
-    // disable scaling by distance
-    b.scaleByDistance = undefined;
+     * // disable scaling by distance
+     * b.scaleByDistance = undefined;
      */
     scaleByDistance: NearFarScalar;
     /**
      * Gets or sets near and far translucency properties of a Billboard based on the billboard's distance from the camera.
-    A billboard's translucency will interpolate between the {@link NearFarScalar#nearValue} and
-    {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
-    of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
-    Outside of these ranges the billboard's translucency remains clamped to the nearest bound.  If undefined,
-    translucencyByDistance will be disabled.
+     * A billboard's translucency will interpolate between the {@link NearFarScalar#nearValue} and
+     * {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
+     * of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
+     * Outside of these ranges the billboard's translucency remains clamped to the nearest bound.  If undefined,
+     * translucencyByDistance will be disabled.
      * @example
      * // Example 1.
-    // Set a billboard's translucency to 1.0 when the
-    // camera is 1500 meters from the billboard and disappear as
-    // the camera distance approaches 8.0e6 meters.
-    b.translucencyByDistance = new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0);
+     * // Set a billboard's translucency to 1.0 when the
+     * // camera is 1500 meters from the billboard and disappear as
+     * // the camera distance approaches 8.0e6 meters.
+     * b.translucencyByDistance = new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0);
      * @example
      * // Example 2.
-    // disable translucency by distance
-    b.translucencyByDistance = undefined;
+     * // disable translucency by distance
+     * b.translucencyByDistance = undefined;
      */
     translucencyByDistance: NearFarScalar;
     /**
      * Gets or sets near and far pixel offset scaling properties of a Billboard based on the billboard's distance from the camera.
-    A billboard's pixel offset will be scaled between the {@link NearFarScalar#nearValue} and
-    {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
-    of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
-    Outside of these ranges the billboard's pixel offset scale remains clamped to the nearest bound.  If undefined,
-    pixelOffsetScaleByDistance will be disabled.
+     * A billboard's pixel offset will be scaled between the {@link NearFarScalar#nearValue} and
+     * {@link NearFarScalar#farValue} while the camera distance falls within the lower and upper bounds
+     * of the specified {@link NearFarScalar#near} and {@link NearFarScalar#far}.
+     * Outside of these ranges the billboard's pixel offset scale remains clamped to the nearest bound.  If undefined,
+     * pixelOffsetScaleByDistance will be disabled.
      * @example
      * // Example 1.
-    // Set a billboard's pixel offset scale to 0.0 when the
-    // camera is 1500 meters from the billboard and scale pixel offset to 10.0 pixels
-    // in the y direction the camera distance approaches 8.0e6 meters.
-    b.pixelOffset = new Cesium.Cartesian2(0.0, 1.0);
-    b.pixelOffsetScaleByDistance = new Cesium.NearFarScalar(1.5e2, 0.0, 8.0e6, 10.0);
+     * // Set a billboard's pixel offset scale to 0.0 when the
+     * // camera is 1500 meters from the billboard and scale pixel offset to 10.0 pixels
+     * // in the y direction the camera distance approaches 8.0e6 meters.
+     * b.pixelOffset = new Cesium.Cartesian2(0.0, 1.0);
+     * b.pixelOffsetScaleByDistance = new Cesium.NearFarScalar(1.5e2, 0.0, 8.0e6, 10.0);
      * @example
      * // Example 2.
-    // disable pixel offset by distance
-    b.pixelOffsetScaleByDistance = undefined;
+     * // disable pixel offset by distance
+     * b.pixelOffsetScaleByDistance = undefined;
      */
     pixelOffsetScaleByDistance: NearFarScalar;
     /**
      * Gets or sets the 3D Cartesian offset applied to this billboard in eye coordinates.  Eye coordinates is a left-handed
-    coordinate system, where <code>x</code> points towards the viewer's right, <code>y</code> points up, and
-    <code>z</code> points into the screen.  Eye coordinates use the same scale as world and model coordinates,
-    which is typically meters.
-    <br /><br />
-    An eye offset is commonly used to arrange multiple billboards or objects at the same position, e.g., to
-    arrange a billboard above its corresponding 3D model.
-    <br /><br />
-    Below, the billboard is positioned at the center of the Earth but an eye offset makes it always
-    appear on top of the Earth regardless of the viewer's or Earth's orientation.
-    <br /><br />
-    <div align='center'>
-    <table border='0' cellpadding='5'><tr>
-    <td align='center'><img src='Images/Billboard.setEyeOffset.one.png' width='250' height='188' /></td>
-    <td align='center'><img src='Images/Billboard.setEyeOffset.two.png' width='250' height='188' /></td>
-    </tr></table>
-    <code>b.eyeOffset = new Cartesian3(0.0, 8000000.0, 0.0);</code><br /><br />
-    </div>
+     * coordinate system, where <code>x</code> points towards the viewer's right, <code>y</code> points up, and
+     * <code>z</code> points into the screen.  Eye coordinates use the same scale as world and model coordinates,
+     * which is typically meters.
+     * <br /><br />
+     * An eye offset is commonly used to arrange multiple billboards or objects at the same position, e.g., to
+     * arrange a billboard above its corresponding 3D model.
+     * <br /><br />
+     * Below, the billboard is positioned at the center of the Earth but an eye offset makes it always
+     * appear on top of the Earth regardless of the viewer's or Earth's orientation.
+     * <br /><br />
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><img src='Images/Billboard.setEyeOffset.one.png' width='250' height='188' /></td>
+     * <td align='center'><img src='Images/Billboard.setEyeOffset.two.png' width='250' height='188' /></td>
+     * </tr></table>
+     * <code>b.eyeOffset = new Cartesian3(0.0, 8000000.0, 0.0);</code><br /><br />
+     * </div>
      */
     eyeOffset: Cartesian3;
     /**
      * Gets or sets the horizontal origin of this billboard, which determines if the billboard is
-    to the left, center, or right of its anchor position.
-    <br /><br />
-    <div align='center'>
-    <img src='Images/Billboard.setHorizontalOrigin.png' width='648' height='196' /><br />
-    </div>
+     * to the left, center, or right of its anchor position.
+     * <br /><br />
+     * <div align='center'>
+     * <img src='Images/Billboard.setHorizontalOrigin.png' width='648' height='196' /><br />
+     * </div>
      * @example
      * // Use a bottom, left origin
-    b.horizontalOrigin = Cesium.HorizontalOrigin.LEFT;
-    b.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
+     * b.horizontalOrigin = Cesium.HorizontalOrigin.LEFT;
+     * b.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
      */
     horizontalOrigin: HorizontalOrigin;
     /**
      * Gets or sets the vertical origin of this billboard, which determines if the billboard is
-    to the above, below, or at the center of its anchor position.
-    <br /><br />
-    <div align='center'>
-    <img src='Images/Billboard.setVerticalOrigin.png' width='695' height='175' /><br />
-    </div>
+     * to the above, below, or at the center of its anchor position.
+     * <br /><br />
+     * <div align='center'>
+     * <img src='Images/Billboard.setVerticalOrigin.png' width='695' height='175' /><br />
+     * </div>
      * @example
      * // Use a bottom, left origin
-    b.horizontalOrigin = Cesium.HorizontalOrigin.LEFT;
-    b.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
+     * b.horizontalOrigin = Cesium.HorizontalOrigin.LEFT;
+     * b.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
      */
     verticalOrigin: VerticalOrigin;
     /**
      * Gets or sets the uniform scale that is multiplied with the billboard's image size in pixels.
-    A scale of <code>1.0</code> does not change the size of the billboard; a scale greater than
-    <code>1.0</code> enlarges the billboard; a positive scale less than <code>1.0</code> shrinks
-    the billboard.
-    <br /><br />
-    <div align='center'>
-    <img src='Images/Billboard.setScale.png' width='400' height='300' /><br/>
-    From left to right in the above image, the scales are <code>0.5</code>, <code>1.0</code>,
-    and <code>2.0</code>.
-    </div>
+     * A scale of <code>1.0</code> does not change the size of the billboard; a scale greater than
+     * <code>1.0</code> enlarges the billboard; a positive scale less than <code>1.0</code> shrinks
+     * the billboard.
+     * <br /><br />
+     * <div align='center'>
+     * <img src='Images/Billboard.setScale.png' width='400' height='300' /><br/>
+     * From left to right in the above image, the scales are <code>0.5</code>, <code>1.0</code>,
+     * and <code>2.0</code>.
+     * </div>
      */
     scale: number;
     /**
      * Gets or sets the color that is multiplied with the billboard's texture.  This has two common use cases.  First,
-    the same white texture may be used by many different billboards, each with a different color, to create
-    colored billboards.  Second, the color's alpha component can be used to make the billboard translucent as shown below.
-    An alpha of <code>0.0</code> makes the billboard transparent, and <code>1.0</code> makes the billboard opaque.
-    <br /><br />
-    <div align='center'>
-    <table border='0' cellpadding='5'><tr>
-    <td align='center'><code>default</code><br/><img src='Images/Billboard.setColor.Alpha255.png' width='250' height='188' /></td>
-    <td align='center'><code>alpha : 0.5</code><br/><img src='Images/Billboard.setColor.Alpha127.png' width='250' height='188' /></td>
-    </tr></table>
-    </div>
-    <br />
-    The red, green, blue, and alpha values are indicated by <code>value</code>'s <code>red</code>, <code>green</code>,
-    <code>blue</code>, and <code>alpha</code> properties as shown in Example 1.  These components range from <code>0.0</code>
-    (no intensity) to <code>1.0</code> (full intensity).
+     * the same white texture may be used by many different billboards, each with a different color, to create
+     * colored billboards.  Second, the color's alpha component can be used to make the billboard translucent as shown below.
+     * An alpha of <code>0.0</code> makes the billboard transparent, and <code>1.0</code> makes the billboard opaque.
+     * <br /><br />
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>default</code><br/><img src='Images/Billboard.setColor.Alpha255.png' width='250' height='188' /></td>
+     * <td align='center'><code>alpha : 0.5</code><br/><img src='Images/Billboard.setColor.Alpha127.png' width='250' height='188' /></td>
+     * </tr></table>
+     * </div>
+     * <br />
+     * The red, green, blue, and alpha values are indicated by <code>value</code>'s <code>red</code>, <code>green</code>,
+     * <code>blue</code>, and <code>alpha</code> properties as shown in Example 1.  These components range from <code>0.0</code>
+     * (no intensity) to <code>1.0</code> (full intensity).
      * @example
      * // Example 1. Assign yellow.
-    b.color = Cesium.Color.YELLOW;
+     * b.color = Cesium.Color.YELLOW;
      * @example
      * // Example 2. Make a billboard 50% translucent.
-    b.color = new Cesium.Color(1.0, 1.0, 1.0, 0.5);
+     * b.color = new Cesium.Color(1.0, 1.0, 1.0, 0.5);
      */
     color: Color;
     /**
@@ -25402,20 +25409,20 @@ export class Billboard {
     rotation: number;
     /**
      * Gets or sets the aligned axis in world space. The aligned axis is the unit vector that the billboard up vector points towards.
-    The default is the zero vector, which means the billboard is aligned to the screen up vector.
+     * The default is the zero vector, which means the billboard is aligned to the screen up vector.
      * @example
      * // Example 1.
-    // Have the billboard up vector point north
-    billboard.alignedAxis = Cesium.Cartesian3.UNIT_Z;
+     * // Have the billboard up vector point north
+     * billboard.alignedAxis = Cesium.Cartesian3.UNIT_Z;
      * @example
      * // Example 2.
-    // Have the billboard point east.
-    billboard.alignedAxis = Cesium.Cartesian3.UNIT_Z;
-    billboard.rotation = -Cesium.Math.PI_OVER_TWO;
+     * // Have the billboard point east.
+     * billboard.alignedAxis = Cesium.Cartesian3.UNIT_Z;
+     * billboard.rotation = -Cesium.Math.PI_OVER_TWO;
      * @example
      * // Example 3.
-    // Reset the aligned axis
-    billboard.alignedAxis = Cesium.Cartesian3.ZERO;
+     * // Reset the aligned axis
+     * billboard.alignedAxis = Cesium.Cartesian3.ZERO;
      */
     alignedAxis: Cartesian3;
     /**
@@ -25428,7 +25435,7 @@ export class Billboard {
     height: number;
     /**
      * Gets or sets if the billboard size is in meters or pixels. <code>true</code> to size the billboard in meters;
-    otherwise, the size is in pixels.
+     * otherwise, the size is in pixels.
      */
     sizeInMeters: boolean;
     /**
@@ -25437,7 +25444,7 @@ export class Billboard {
     distanceDisplayCondition: DistanceDisplayCondition;
     /**
      * Gets or sets the distance from the camera at which to disable the depth test to, for example, prevent clipping against terrain.
-    When set to zero, the depth test is always applied. When set to Number.POSITIVE_INFINITY, the depth test is never applied.
+     * When set to zero, the depth test is always applied. When set to Number.POSITIVE_INFINITY, the depth test is never applied.
      */
     disableDepthTestDistance: number;
     /**
@@ -25446,72 +25453,72 @@ export class Billboard {
     id: any;
     /**
      * <p>
-    Gets or sets the image to be used for this billboard.  If a texture has already been created for the
-    given image, the existing texture is used.
-    </p>
-    <p>
-    This property can be set to a loaded Image, a URL which will be loaded as an Image automatically,
-    a canvas, or another billboard's image property (from the same billboard collection).
-    </p>
+     * Gets or sets the image to be used for this billboard.  If a texture has already been created for the
+     * given image, the existing texture is used.
+     * </p>
+     * <p>
+     * This property can be set to a loaded Image, a URL which will be loaded as an Image automatically,
+     * a canvas, or another billboard's image property (from the same billboard collection).
+     * </p>
      * @example
      * // load an image from a URL
-    b.image = 'some/image/url.png';
-    
-    // assuming b1 and b2 are billboards in the same billboard collection,
-    // use the same image for both billboards.
-    b2.image = b1.image;
+     * b.image = 'some/image/url.png';
+     *
+     * // assuming b1 and b2 are billboards in the same billboard collection,
+     * // use the same image for both billboards.
+     * b2.image = b1.image;
      */
     image: string;
     /**
      * When <code>true</code>, this billboard is ready to render, i.e., the image
-    has been downloaded and the WebGL resources are created.
+     * has been downloaded and the WebGL resources are created.
      */
     readonly ready: boolean;
     /**
      * <p>
-    Sets the image to be used for this billboard.  If a texture has already been created for the
-    given id, the existing texture is used.
-    </p>
-    <p>
-    This function is useful for dynamically creating textures that are shared across many billboards.
-    Only the first billboard will actually call the function and create the texture, while subsequent
-    billboards created with the same id will simply re-use the existing texture.
-    </p>
-    <p>
-    To load an image from a URL, setting the {@link Billboard#image} property is more convenient.
-    </p>
+     * Sets the image to be used for this billboard.  If a texture has already been created for the
+     * given id, the existing texture is used.
+     * </p>
+     * <p>
+     * This function is useful for dynamically creating textures that are shared across many billboards.
+     * Only the first billboard will actually call the function and create the texture, while subsequent
+     * billboards created with the same id will simply re-use the existing texture.
+     * </p>
+     * <p>
+     * To load an image from a URL, setting the {@link Billboard#image} property is more convenient.
+     * </p>
      * @example
      * // create a billboard image dynamically
-    function drawImage(id) {
-      // create and draw an image using a canvas
-      const canvas = document.createElement('canvas');
-      const context2D = canvas.getContext('2d');
-      // ... draw image
-      return canvas;
-    }
-    // drawImage will be called to create the texture
-    b.setImage('myImage', drawImage);
-    
-    // subsequent billboards created in the same collection using the same id will use the existing
-    // texture, without the need to create the canvas or draw the image
-    b2.setImage('myImage', drawImage);
+     * function drawImage(id) {
+     *   // create and draw an image using a canvas
+     *   const canvas = document.createElement('canvas');
+     *   const context2D = canvas.getContext('2d');
+     *   // ... draw image
+     *   return canvas;
+     * }
+     * // drawImage will be called to create the texture
+     * b.setImage('myImage', drawImage);
+     *
+     * // subsequent billboards created in the same collection using the same id will use the existing
+     * // texture, without the need to create the canvas or draw the image
+     * b2.setImage('myImage', drawImage);
      * @param id - The id of the image.  This can be any string that uniquely identifies the image.
      * @param image - The image to load.  This parameter
-           can either be a loaded Image or Canvas, a URL which will be loaded as an Image automatically,
-           or a function which will be called to create the image if it hasn't been loaded already.
+     *        can either be a loaded Image or Canvas, a URL which will be loaded as an Image automatically,
+     *        or a function which will be called to create the image if it hasn't been loaded already.
      */
     setImage(id: string, image: HTMLImageElement | HTMLCanvasElement | string | Resource | Billboard.CreateImageCallback): void;
     /**
      * Uses a sub-region of the image with the given id as the image for this billboard,
-    measured in pixels from the bottom-left.
+     * measured in pixels from the bottom-left.
      * @param id - The id of the image to use.
      * @param subRegion - The sub-region of the image.
      */
     setImageSubRegion(id: string, subRegion: BoundingRectangle): void;
     /**
      * Computes the screen-space position of the billboard's origin, taking into account eye and pixel offsets.
-    The screen space origin is the top, left corner of the canvas; <code>x</code> increases from
-    left to right, and <code>y</code> increases from top to bottom.
+     * The screen space origin is the top, left corner of the canvas; <code>x</code> increases from
+     * left to right, and <code>y</code> increases from top to bottom.
      * @example
      * console.log(b.computeScreenSpacePosition(scene).toString());
      * @param scene - The scene.
@@ -25521,7 +25528,7 @@ export class Billboard {
     computeScreenSpacePosition(scene: Scene, result?: Cartesian2): Cartesian2;
     /**
      * Determines if this billboard equals another billboard.  Billboards are equal if all their properties
-    are equal.  Billboards in different collections can be equal.
+     * are equal.  Billboards in different collections can be equal.
      * @param other - The billboard to compare for equality.
      * @returns <code>true</code> if the billboards are equal; otherwise, <code>false</code>.
      */
@@ -31144,8 +31151,8 @@ export namespace GoogleEarthEnterpriseImageryProvider {
      * @property metadata - A metadata object that can be used to share metadata requests with a GoogleEarthEnterpriseTerrainProvider.
      * @property [ellipsoid] - The ellipsoid.  If not specified, the WGS84 ellipsoid is used.
      * @property [tileDiscardPolicy] - The policy that determines if a tile
-           is invalid and should be discarded. If this value is not specified, a default
-           is to discard tiles that fail to download.
+     *        is invalid and should be discarded. If this value is not specified, a default
+     *        is to discard tiles that fail to download.
      * @property [credit] - A credit for the data source, which is displayed on the canvas.
      */
     type ConstructorOptions = {
@@ -31159,41 +31166,41 @@ export namespace GoogleEarthEnterpriseImageryProvider {
 
 /**
  * Provides tiled imagery using the Google Earth Enterprise REST API.
-
-Notes: This provider is for use with the 3D Earth API of Google Earth Enterprise,
-       {@link GoogleEarthEnterpriseMapsProvider} should be used with 2D Maps API.
+ *
+ * Notes: This provider is for use with the 3D Earth API of Google Earth Enterprise,
+ *        {@link GoogleEarthEnterpriseMapsProvider} should be used with 2D Maps API.
  * @example
  * const geeMetadata = new GoogleEarthEnterpriseMetadata('http://www.earthenterprise.org/3d');
-const gee = new Cesium.GoogleEarthEnterpriseImageryProvider({
-    metadata : geeMetadata
-});
+ * const gee = new Cesium.GoogleEarthEnterpriseImageryProvider({
+ *     metadata : geeMetadata
+ * });
  * @param options - Object describing initialization options
  */
 export class GoogleEarthEnterpriseImageryProvider {
     constructor(options: GoogleEarthEnterpriseImageryProvider.ConstructorOptions);
     /**
      * The default alpha blending value of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultAlpha: number | undefined;
     /**
      * The default alpha blending value on the night side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultNightAlpha: number | undefined;
     /**
      * The default alpha blending value on the day side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultDayAlpha: number | undefined;
     /**
      * The default brightness of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0
-    makes the imagery darker while greater than 1.0 makes it brighter.
+     * makes the imagery darker while greater than 1.0 makes it brighter.
      */
     defaultBrightness: number | undefined;
     /**
      * The default contrast of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0 reduces
-    the contrast while greater than 1.0 increases it.
+     * the contrast while greater than 1.0 increases it.
      */
     defaultContrast: number | undefined;
     /**
@@ -31202,7 +31209,7 @@ export class GoogleEarthEnterpriseImageryProvider {
     defaultHue: number | undefined;
     /**
      * The default saturation of this provider. 1.0 uses the unmodified imagery color. Less than 1.0 reduces the
-    saturation while greater than 1.0 increases it.
+     * saturation while greater than 1.0 increases it.
      */
     defaultSaturation: number | undefined;
     /**
@@ -31227,45 +31234,45 @@ export class GoogleEarthEnterpriseImageryProvider {
     readonly proxy: Proxy;
     /**
      * Gets the width of each tile, in pixels. This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly tileWidth: number;
     /**
      * Gets the height of each tile, in pixels.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly tileHeight: number;
     /**
      * Gets the maximum level-of-detail that can be requested.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly maximumLevel: number | undefined;
     /**
      * Gets the minimum level-of-detail that can be requested.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly minimumLevel: number;
     /**
      * Gets the tiling scheme used by this provider.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly tilingScheme: TilingScheme;
     /**
      * Gets the rectangle, in radians, of the imagery provided by this instance.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly rectangle: Rectangle;
     /**
      * Gets the tile discard policy.  If not undefined, the discard policy is responsible
-    for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
-    returns undefined, no tiles are filtered.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
+     * returns undefined, no tiles are filtered.  This function should
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly tileDiscardPolicy: TileDiscardPolicy;
     /**
      * Gets an event that is raised when the imagery provider encounters an asynchronous error.  By subscribing
-    to the event, you will be notified of the error and can potentially recover from it.  Event listeners
-    are passed an instance of {@link TileProviderError}.
+     * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
+     * are passed an instance of {@link TileProviderError}.
      */
     readonly errorEvent: Event;
     /**
@@ -31278,15 +31285,15 @@ export class GoogleEarthEnterpriseImageryProvider {
     readonly readyPromise: Promise<boolean>;
     /**
      * Gets the credit to display when this imagery provider is active.  Typically this is used to credit
-    the source of the imagery.  This function should not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * the source of the imagery.  This function should not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      */
     readonly credit: Credit;
     /**
      * Gets a value indicating whether or not the images provided by this imagery provider
-    include an alpha channel.  If this property is false, an alpha channel, if present, will
-    be ignored.  If this property is true, any images without an alpha channel will be treated
-    as if their alpha is 1.0 everywhere.  Setting this property to false reduces memory usage
-    and texture upload time.
+     * include an alpha channel.  If this property is false, an alpha channel, if present, will
+     * be ignored.  If this property is true, any images without an alpha channel will be treated
+     * as if their alpha is 1.0 everywhere.  Setting this property to false reduces memory usage
+     * and texture upload time.
      */
     readonly hasAlphaChannel: boolean;
     /**
@@ -31299,29 +31306,29 @@ export class GoogleEarthEnterpriseImageryProvider {
     getTileCredits(x: number, y: number, level: number): Credit[];
     /**
      * Requests the image for a given tile.  This function should
-    not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
+     * not be called before {@link GoogleEarthEnterpriseImageryProvider#ready} returns true.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param [request] - The request object. Intended for internal use only.
      * @returns A promise for the image that will resolve when the image is available, or
-             undefined if there are too many active requests to the server, and the request
-             should be retried later.  The resolved image may be either an
-             Image or a Canvas DOM object.
+     *          undefined if there are too many active requests to the server, and the request
+     *          should be retried later.  The resolved image may be either an
+     *          Image or a Canvas DOM object.
      */
     requestImage(x: number, y: number, level: number, request?: Request): Promise<HTMLImageElement | HTMLCanvasElement> | undefined;
     /**
      * Picking features is not currently supported by this imagery provider, so this function simply returns
-    undefined.
+     * undefined.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param longitude - The longitude at which to pick features.
      * @param latitude - The latitude at which to pick features.
      * @returns A promise for the picked features that will resolve when the asynchronous
-                      picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
-                      instances.  The array may be empty if no features are found at the given location.
-                      It may also be undefined if picking is not supported.
+     *                   picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
+     *                   instances.  The array may be empty if no features are found at the given location.
+     *                   It may also be undefined if picking is not supported.
      */
     pickFeatures(x: number, y: number, level: number, longitude: number, latitude: number): Promise<ImageryLayerFeatureInfo[]> | undefined;
 }
@@ -31571,8 +31578,8 @@ export namespace GridImageryProvider {
      * Initialization options for the GridImageryProvider constructor
      * @property [tilingScheme = new GeographicTilingScheme()] - The tiling scheme for which to draw tiles.
      * @property [ellipsoid] - The ellipsoid.  If the tilingScheme is specified,
-                       this parameter is ignored and the tiling scheme's ellipsoid is used instead. If neither
-                       parameter is specified, the WGS84 ellipsoid is used.
+     *                    this parameter is ignored and the tiling scheme's ellipsoid is used instead. If neither
+     *                    parameter is specified, the WGS84 ellipsoid is used.
      * @property [cells = 8] - The number of grids cells.
      * @property [color = Color(1.0, 1.0, 1.0, 0.4)] - The color to draw grid lines.
      * @property [glowColor = Color(0.0, 1.0, 0.0, 0.05)] - The color to draw glow for grid lines.
@@ -31598,34 +31605,34 @@ export namespace GridImageryProvider {
 
 /**
  * An {@link ImageryProvider} that draws a wireframe grid on every tile with controllable background and glow.
-May be useful for custom rendering effects or debugging terrain.
+ * May be useful for custom rendering effects or debugging terrain.
  * @param options - Object describing initialization options
  */
 export class GridImageryProvider {
     constructor(options: GridImageryProvider.ConstructorOptions);
     /**
      * The default alpha blending value of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultAlpha: number | undefined;
     /**
      * The default alpha blending value on the night side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultNightAlpha: number | undefined;
     /**
      * The default alpha blending value on the day side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultDayAlpha: number | undefined;
     /**
      * The default brightness of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0
-    makes the imagery darker while greater than 1.0 makes it brighter.
+     * makes the imagery darker while greater than 1.0 makes it brighter.
      */
     defaultBrightness: number | undefined;
     /**
      * The default contrast of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0 reduces
-    the contrast while greater than 1.0 increases it.
+     * the contrast while greater than 1.0 increases it.
      */
     defaultContrast: number | undefined;
     /**
@@ -31634,7 +31641,7 @@ export class GridImageryProvider {
     defaultHue: number | undefined;
     /**
      * The default saturation of this provider. 1.0 uses the unmodified imagery color. Less than 1.0 reduces the
-    saturation while greater than 1.0 increases it.
+     * saturation while greater than 1.0 increases it.
      */
     defaultSaturation: number | undefined;
     /**
@@ -31655,45 +31662,45 @@ export class GridImageryProvider {
     readonly proxy: Proxy;
     /**
      * Gets the width of each tile, in pixels. This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly tileWidth: number;
     /**
      * Gets the height of each tile, in pixels.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly tileHeight: number;
     /**
      * Gets the maximum level-of-detail that can be requested.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly maximumLevel: number | undefined;
     /**
      * Gets the minimum level-of-detail that can be requested.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly minimumLevel: number;
     /**
      * Gets the tiling scheme used by this provider.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly tilingScheme: TilingScheme;
     /**
      * Gets the rectangle, in radians, of the imagery provided by this instance.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly rectangle: Rectangle;
     /**
      * Gets the tile discard policy.  If not undefined, the discard policy is responsible
-    for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
-    returns undefined, no tiles are filtered.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
+     * returns undefined, no tiles are filtered.  This function should
+     * not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly tileDiscardPolicy: TileDiscardPolicy;
     /**
      * Gets an event that is raised when the imagery provider encounters an asynchronous error.  By subscribing
-    to the event, you will be notified of the error and can potentially recover from it.  Event listeners
-    are passed an instance of {@link TileProviderError}.
+     * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
+     * are passed an instance of {@link TileProviderError}.
      */
     readonly errorEvent: Event;
     /**
@@ -31706,15 +31713,15 @@ export class GridImageryProvider {
     readonly readyPromise: Promise<boolean>;
     /**
      * Gets the credit to display when this imagery provider is active.  Typically this is used to credit
-    the source of the imagery.  This function should not be called before {@link GridImageryProvider#ready} returns true.
+     * the source of the imagery.  This function should not be called before {@link GridImageryProvider#ready} returns true.
      */
     readonly credit: Credit;
     /**
      * Gets a value indicating whether or not the images provided by this imagery provider
-    include an alpha channel.  If this property is false, an alpha channel, if present, will
-    be ignored.  If this property is true, any images without an alpha channel will be treated
-    as if their alpha is 1.0 everywhere.  When this property is false, memory usage
-    and texture upload time are reduced.
+     * include an alpha channel.  If this property is false, an alpha channel, if present, will
+     * be ignored.  If this property is true, any images without an alpha channel will be treated
+     * as if their alpha is 1.0 everywhere.  When this property is false, memory usage
+     * and texture upload time are reduced.
      */
     readonly hasAlphaChannel: boolean;
     /**
@@ -31735,29 +31742,29 @@ export class GridImageryProvider {
     getTileCredits(x: number, y: number, level: number): Credit[];
     /**
      * Requests the image for a given tile.  This function should
-    not be called before {@link GridImageryProvider#ready} returns true.
+     * not be called before {@link GridImageryProvider#ready} returns true.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param [request] - The request object. Intended for internal use only.
      * @returns A promise for the image that will resolve when the image is available, or
-             undefined if there are too many active requests to the server, and the request
-             should be retried later.  The resolved image may be either an
-             Image or a Canvas DOM object.
+     *          undefined if there are too many active requests to the server, and the request
+     *          should be retried later.  The resolved image may be either an
+     *          Image or a Canvas DOM object.
      */
     requestImage(x: number, y: number, level: number, request?: Request): Promise<HTMLImageElement | HTMLCanvasElement> | undefined;
     /**
      * Picking features is not currently supported by this imagery provider, so this function simply returns
-    undefined.
+     * undefined.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param longitude - The longitude at which to pick features.
      * @param latitude - The latitude at which to pick features.
      * @returns A promise for the picked features that will resolve when the asynchronous
-                      picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
-                      instances.  The array may be empty if no features are found at the given location.
-                      It may also be undefined if picking is not supported.
+     *                   picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
+     *                   instances.  The array may be empty if no features are found at the given location.
+     *                   It may also be undefined if picking is not supported.
      */
     pickFeatures(x: number, y: number, level: number, longitude: number, latitude: number): Promise<ImageryLayerFeatureInfo[]> | undefined;
 }
@@ -33396,33 +33403,33 @@ export class Label {
 
 /**
  * A renderable collection of labels.  Labels are viewport-aligned text positioned in the 3D scene.
-Each label can have a different font, color, scale, etc.
-<br /><br />
-<div align='center'>
-<img src='Images/Label.png' width='400' height='300' /><br />
-Example labels
-</div>
-<br /><br />
-Labels are added and removed from the collection using {@link LabelCollection#add}
-and {@link LabelCollection#remove}.
+ * Each label can have a different font, color, scale, etc.
+ * <br /><br />
+ * <div align='center'>
+ * <img src='Images/Label.png' width='400' height='300' /><br />
+ * Example labels
+ * </div>
+ * <br /><br />
+ * Labels are added and removed from the collection using {@link LabelCollection#add}
+ * and {@link LabelCollection#remove}.
  * @example
  * // Create a label collection with two labels
-const labels = scene.primitives.add(new Cesium.LabelCollection());
-labels.add({
-  position : new Cesium.Cartesian3(1.0, 2.0, 3.0),
-  text : 'A label'
-});
-labels.add({
-  position : new Cesium.Cartesian3(4.0, 5.0, 6.0),
-  text : 'Another label'
-});
+ * const labels = scene.primitives.add(new Cesium.LabelCollection());
+ * labels.add({
+ *   position : new Cesium.Cartesian3(1.0, 2.0, 3.0),
+ *   text : 'A label'
+ * });
+ * labels.add({
+ *   position : new Cesium.Cartesian3(4.0, 5.0, 6.0),
+ *   text : 'Another label'
+ * });
  * @param [options] - Object with the following properties:
  * @param [options.modelMatrix = Matrix4.IDENTITY] - The 4x4 transformation matrix that transforms each label from model to world coordinates.
  * @param [options.debugShowBoundingVolume = false] - For debugging only. Determines if this primitive's commands' bounding spheres are shown.
  * @param [options.scene] - Must be passed in for labels that use the height reference property or will be depth tested against the globe.
  * @param [options.blendOption = BlendOption.OPAQUE_AND_TRANSLUCENT] - The label blending option. The default
-is used for rendering both opaque and translucent labels. However, if either all of the labels are completely opaque or all are completely translucent,
-setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve performance by up to 2x.
+ * is used for rendering both opaque and translucent labels. However, if either all of the labels are completely opaque or all are completely translucent,
+ * setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve performance by up to 2x.
  * @param [options.show = true] - Determines if the labels in the collection will be shown.
  */
 export class LabelCollection {
@@ -33439,85 +33446,85 @@ export class LabelCollection {
     show: boolean;
     /**
      * The 4x4 transformation matrix that transforms each label in this collection from model to world coordinates.
-    When this is the identity matrix, the labels are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
-    Local reference frames can be used by providing a different transformation matrix, like that returned
-    by {@link Transforms.eastNorthUpToFixedFrame}.
+     * When this is the identity matrix, the labels are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
+     * Local reference frames can be used by providing a different transformation matrix, like that returned
+     * by {@link Transforms.eastNorthUpToFixedFrame}.
      * @example
      * const center = Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883);
-    labels.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
-    labels.add({
-      position : new Cesium.Cartesian3(0.0, 0.0, 0.0),
-      text     : 'Center'
-    });
-    labels.add({
-      position : new Cesium.Cartesian3(1000000.0, 0.0, 0.0),
-      text     : 'East'
-    });
-    labels.add({
-      position : new Cesium.Cartesian3(0.0, 1000000.0, 0.0),
-      text     : 'North'
-    });
-    labels.add({
-      position : new Cesium.Cartesian3(0.0, 0.0, 1000000.0),
-      text     : 'Up'
-    });
+     * labels.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
+     * labels.add({
+     *   position : new Cesium.Cartesian3(0.0, 0.0, 0.0),
+     *   text     : 'Center'
+     * });
+     * labels.add({
+     *   position : new Cesium.Cartesian3(1000000.0, 0.0, 0.0),
+     *   text     : 'East'
+     * });
+     * labels.add({
+     *   position : new Cesium.Cartesian3(0.0, 1000000.0, 0.0),
+     *   text     : 'North'
+     * });
+     * labels.add({
+     *   position : new Cesium.Cartesian3(0.0, 0.0, 1000000.0),
+     *   text     : 'Up'
+     * });
      */
     modelMatrix: Matrix4;
     /**
      * This property is for debugging only; it is not for production use nor is it optimized.
-    <p>
-    Draws the bounding sphere for each draw command in the primitive.
-    </p>
+     * <p>
+     * Draws the bounding sphere for each draw command in the primitive.
+     * </p>
      */
     debugShowBoundingVolume: boolean;
     /**
      * The label blending option. The default is used for rendering both opaque and translucent labels.
-    However, if either all of the labels are completely opaque or all are completely translucent,
-    setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve
-    performance by up to 2x.
+     * However, if either all of the labels are completely opaque or all are completely translucent,
+     * setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve
+     * performance by up to 2x.
      */
     blendOption: BlendOption;
     /**
      * Returns the number of labels in this collection.  This is commonly used with
-    {@link LabelCollection#get} to iterate over all the labels
-    in the collection.
+     * {@link LabelCollection#get} to iterate over all the labels
+     * in the collection.
      */
     length: number;
     /**
      * Creates and adds a label with the specified initial properties to the collection.
-    The added label is returned so it can be modified or removed from the collection later.
+     * The added label is returned so it can be modified or removed from the collection later.
      * @example
      * // Example 1:  Add a label, specifying all the default values.
-    const l = labels.add({
-      show : true,
-      position : Cesium.Cartesian3.ZERO,
-      text : '',
-      font : '30px sans-serif',
-      fillColor : Cesium.Color.WHITE,
-      outlineColor : Cesium.Color.BLACK,
-      outlineWidth : 1.0,
-      showBackground : false,
-      backgroundColor : new Cesium.Color(0.165, 0.165, 0.165, 0.8),
-      backgroundPadding : new Cesium.Cartesian2(7, 5),
-      style : Cesium.LabelStyle.FILL,
-      pixelOffset : Cesium.Cartesian2.ZERO,
-      eyeOffset : Cesium.Cartesian3.ZERO,
-      horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
-      verticalOrigin : Cesium.VerticalOrigin.BASELINE,
-      scale : 1.0,
-      translucencyByDistance : undefined,
-      pixelOffsetScaleByDistance : undefined,
-      heightReference : HeightReference.NONE,
-      distanceDisplayCondition : undefined
-    });
+     * const l = labels.add({
+     *   show : true,
+     *   position : Cesium.Cartesian3.ZERO,
+     *   text : '',
+     *   font : '30px sans-serif',
+     *   fillColor : Cesium.Color.WHITE,
+     *   outlineColor : Cesium.Color.BLACK,
+     *   outlineWidth : 1.0,
+     *   showBackground : false,
+     *   backgroundColor : new Cesium.Color(0.165, 0.165, 0.165, 0.8),
+     *   backgroundPadding : new Cesium.Cartesian2(7, 5),
+     *   style : Cesium.LabelStyle.FILL,
+     *   pixelOffset : Cesium.Cartesian2.ZERO,
+     *   eyeOffset : Cesium.Cartesian3.ZERO,
+     *   horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
+     *   verticalOrigin : Cesium.VerticalOrigin.BASELINE,
+     *   scale : 1.0,
+     *   translucencyByDistance : undefined,
+     *   pixelOffsetScaleByDistance : undefined,
+     *   heightReference : HeightReference.NONE,
+     *   distanceDisplayCondition : undefined
+     * });
      * @example
      * // Example 2:  Specify only the label's cartographic position,
-    // text, and font.
-    const l = labels.add({
-      position : Cesium.Cartesian3.fromRadians(longitude, latitude, height),
-      text : 'Hello World',
-      font : '24px Helvetica',
-    });
+     * // text, and font.
+     * const l = labels.add({
+     *   position : Cesium.Cartesian3.fromRadians(longitude, latitude, height),
+     *   text : 'Hello World',
+     *   font : '24px Helvetica',
+     * });
      * @param [options] - A template describing the label's properties as shown in Example 1.
      * @returns The label that was added to the collection.
      */
@@ -33526,7 +33533,7 @@ export class LabelCollection {
      * Removes a label from the collection.  Once removed, a label is no longer usable.
      * @example
      * const l = labels.add(...);
-    labels.remove(l);  // Returns true
+     * labels.remove(l);  // Returns true
      * @param label - The label to remove.
      * @returns <code>true</code> if the label was removed; <code>false</code> if the label was not found in the collection.
      */
@@ -33535,8 +33542,8 @@ export class LabelCollection {
      * Removes all labels from the collection.
      * @example
      * labels.add(...);
-    labels.add(...);
-    labels.removeAll();
+     * labels.add(...);
+     * labels.removeAll();
      */
     removeAll(): void;
     /**
@@ -33547,36 +33554,36 @@ export class LabelCollection {
     contains(label: Label): boolean;
     /**
      * Returns the label in the collection at the specified index.  Indices are zero-based
-    and increase as labels are added.  Removing a label shifts all labels after
-    it to the left, changing their indices.  This function is commonly used with
-    {@link LabelCollection#length} to iterate over all the labels
-    in the collection.
+     * and increase as labels are added.  Removing a label shifts all labels after
+     * it to the left, changing their indices.  This function is commonly used with
+     * {@link LabelCollection#length} to iterate over all the labels
+     * in the collection.
      * @example
      * // Toggle the show property of every label in the collection
-    const len = labels.length;
-    for (let i = 0; i < len; ++i) {
-      const l = billboards.get(i);
-      l.show = !l.show;
-    }
+     * const len = labels.length;
+     * for (let i = 0; i < len; ++i) {
+     *   const l = billboards.get(i);
+     *   l.show = !l.show;
+     * }
      * @param index - The zero-based index of the billboard.
      * @returns The label at the specified index.
      */
     get(index: number): Label;
     /**
      * Returns true if this object was destroyed; otherwise, false.
-    <br /><br />
-    If this object was destroyed, it should not be used; calling any function other than
-    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      * @returns True if this object was destroyed; otherwise, false.
      */
     isDestroyed(): boolean;
     /**
      * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-    <br /><br />
-    Once an object is destroyed, it should not be used; calling any function other than
-    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-    assign the return value (<code>undefined</code>) to the object as done in the example.
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
      * @example
      * labels = labels && labels.destroy();
      */
@@ -40155,8 +40162,8 @@ export namespace TileCoordinatesImageryProvider {
      * Initialization options for the TileCoordinatesImageryProvider constructor
      * @property [tilingScheme = new GeographicTilingScheme()] - The tiling scheme for which to draw tiles.
      * @property [ellipsoid] - The ellipsoid.  If the tilingScheme is specified,
-                       this parameter is ignored and the tiling scheme's ellipsoid is used instead. If neither
-                       parameter is specified, the WGS84 ellipsoid is used.
+     *                    this parameter is ignored and the tiling scheme's ellipsoid is used instead. If neither
+     *                    parameter is specified, the WGS84 ellipsoid is used.
      * @property [color = Color.YELLOW] - The color to draw the tile box and label.
      * @property [tileWidth = 256] - The width of the tile for level-of-detail selection purposes.
      * @property [tileHeight = 256] - The height of the tile for level-of-detail selection purposes.
@@ -40172,35 +40179,35 @@ export namespace TileCoordinatesImageryProvider {
 
 /**
  * An {@link ImageryProvider} that draws a box around every rendered tile in the tiling scheme, and draws
-a label inside it indicating the X, Y, Level coordinates of the tile.  This is mostly useful for
-debugging terrain and imagery rendering problems.
+ * a label inside it indicating the X, Y, Level coordinates of the tile.  This is mostly useful for
+ * debugging terrain and imagery rendering problems.
  * @param [options] - Object describing initialization options
  */
 export class TileCoordinatesImageryProvider {
     constructor(options?: TileCoordinatesImageryProvider.ConstructorOptions);
     /**
      * The default alpha blending value of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultAlpha: number | undefined;
     /**
      * The default alpha blending value on the night side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultNightAlpha: number | undefined;
     /**
      * The default alpha blending value on the day side of the globe of this provider, with 0.0 representing fully transparent and
-    1.0 representing fully opaque.
+     * 1.0 representing fully opaque.
      */
     defaultDayAlpha: number | undefined;
     /**
      * The default brightness of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0
-    makes the imagery darker while greater than 1.0 makes it brighter.
+     * makes the imagery darker while greater than 1.0 makes it brighter.
      */
     defaultBrightness: number | undefined;
     /**
      * The default contrast of this provider.  1.0 uses the unmodified imagery color.  Less than 1.0 reduces
-    the contrast while greater than 1.0 increases it.
+     * the contrast while greater than 1.0 increases it.
      */
     defaultContrast: number | undefined;
     /**
@@ -40209,7 +40216,7 @@ export class TileCoordinatesImageryProvider {
     defaultHue: number | undefined;
     /**
      * The default saturation of this provider. 1.0 uses the unmodified imagery color. Less than 1.0 reduces the
-    saturation while greater than 1.0 increases it.
+     * saturation while greater than 1.0 increases it.
      */
     defaultSaturation: number | undefined;
     /**
@@ -40230,45 +40237,45 @@ export class TileCoordinatesImageryProvider {
     readonly proxy: Proxy;
     /**
      * Gets the width of each tile, in pixels. This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly tileWidth: number;
     /**
      * Gets the height of each tile, in pixels.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly tileHeight: number;
     /**
      * Gets the maximum level-of-detail that can be requested.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly maximumLevel: number | undefined;
     /**
      * Gets the minimum level-of-detail that can be requested.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly minimumLevel: number;
     /**
      * Gets the tiling scheme used by this provider.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly tilingScheme: TilingScheme;
     /**
      * Gets the rectangle, in radians, of the imagery provided by this instance.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly rectangle: Rectangle;
     /**
      * Gets the tile discard policy.  If not undefined, the discard policy is responsible
-    for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
-    returns undefined, no tiles are filtered.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * for filtering out "missing" tiles via its shouldDiscardImage function.  If this function
+     * returns undefined, no tiles are filtered.  This function should
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly tileDiscardPolicy: TileDiscardPolicy;
     /**
      * Gets an event that is raised when the imagery provider encounters an asynchronous error.  By subscribing
-    to the event, you will be notified of the error and can potentially recover from it.  Event listeners
-    are passed an instance of {@link TileProviderError}.
+     * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
+     * are passed an instance of {@link TileProviderError}.
      */
     readonly errorEvent: Event;
     /**
@@ -40281,15 +40288,15 @@ export class TileCoordinatesImageryProvider {
     readonly readyPromise: Promise<boolean>;
     /**
      * Gets the credit to display when this imagery provider is active.  Typically this is used to credit
-    the source of the imagery.  This function should not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * the source of the imagery.  This function should not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      */
     readonly credit: Credit;
     /**
      * Gets a value indicating whether or not the images provided by this imagery provider
-    include an alpha channel.  If this property is false, an alpha channel, if present, will
-    be ignored.  If this property is true, any images without an alpha channel will be treated
-    as if their alpha is 1.0 everywhere.  Setting this property to false reduces memory usage
-    and texture upload time.
+     * include an alpha channel.  If this property is false, an alpha channel, if present, will
+     * be ignored.  If this property is true, any images without an alpha channel will be treated
+     * as if their alpha is 1.0 everywhere.  Setting this property to false reduces memory usage
+     * and texture upload time.
      */
     readonly hasAlphaChannel: boolean;
     /**
@@ -40302,29 +40309,29 @@ export class TileCoordinatesImageryProvider {
     getTileCredits(x: number, y: number, level: number): Credit[];
     /**
      * Requests the image for a given tile.  This function should
-    not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
+     * not be called before {@link TileCoordinatesImageryProvider#ready} returns true.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param [request] - The request object. Intended for internal use only.
      * @returns A promise for the image that will resolve when the image is available, or
-             undefined if there are too many active requests to the server, and the request
-             should be retried later.  The resolved image may be either an
-             Image or a Canvas DOM object.
+     *          undefined if there are too many active requests to the server, and the request
+     *          should be retried later.  The resolved image may be either an
+     *          Image or a Canvas DOM object.
      */
     requestImage(x: number, y: number, level: number, request?: Request): Promise<HTMLImageElement | HTMLCanvasElement> | undefined;
     /**
      * Picking features is not currently supported by this imagery provider, so this function simply returns
-    undefined.
+     * undefined.
      * @param x - The tile X coordinate.
      * @param y - The tile Y coordinate.
      * @param level - The tile level.
      * @param longitude - The longitude at which to pick features.
      * @param latitude - The latitude at which to pick features.
      * @returns A promise for the picked features that will resolve when the asynchronous
-                      picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
-                      instances.  The array may be empty if no features are found at the given location.
-                      It may also be undefined if picking is not supported.
+     *                   picking completes.  The resolved value is an array of {@link ImageryLayerFeatureInfo}
+     *                   instances.  The array may be empty if no features are found at the given location.
+     *                   It may also be undefined if picking is not supported.
      */
     pickFeatures(x: number, y: number, level: number, longitude: number, latitude: number): Promise<ImageryLayerFeatureInfo[]> | undefined;
 }

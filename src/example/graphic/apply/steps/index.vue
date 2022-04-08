@@ -3,19 +3,19 @@
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
         <a-sapce>
-          <mars-icon icon="ic:round-not-started" class="icon-vertical-a" />
+          <mars-icon icon="handle-triangle" class="icon-vertical-a" />
           <span>{{ isPause ? "继续" : "开始" }}</span>
         </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay && !isPause" @click="pause">
         <a-sapce>
-          <mars-icon icon="ic:baseline-pause-circle-outline" class="icon-vertical-a" />
+          <mars-icon icon="pause-one" class="icon-vertical-a" />
           <span>暂停</span>
         </a-sapce>
       </mars-button>
       <mars-button v-if="isPlay" @click="stop">
         <a-sapce>
-          <mars-icon icon="tabler:power" class="icon-vertical-a" />
+          <mars-icon icon="power" class="icon-vertical-a" />
           <span>停止</span>
         </a-sapce>
       </mars-button>

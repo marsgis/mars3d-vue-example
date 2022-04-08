@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(tiles3dLayer)
 
-  setStyle3()
+  setStyle1()
 }
 
 /**
@@ -43,7 +43,7 @@ export function onUnmounted() {
 
 export function setStyle1() {
   tiles3dLayer.customShader = undefined
-  tiles3dLayer.reload()
+  tiles3dLayer.style = undefined
 }
 
 export function setStyle2() {
@@ -119,7 +119,7 @@ export function setStyle3() {
       }
     }`
   })
-  tiles3dLayer.reload()
+  // tiles3dLayer.reload()
 }
 
 export function selectColor(col) {

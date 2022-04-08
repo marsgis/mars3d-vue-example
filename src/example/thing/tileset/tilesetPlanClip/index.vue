@@ -3,7 +3,7 @@
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
-        <mars-icon icon="bx:bx-chevron-down-circle" class="icon-vertical-a" />
+        <mars-icon icon="down-c" class="icon-vertical-a" />
       </template>
       <a-collapse-panel key="1" header="单个裁剪面">
         <div class="f-mb">

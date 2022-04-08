@@ -37,11 +37,11 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <div class="male">
-          <mars-icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
+          <mars-icon icon="boy-two" width="35" color="#00f6ff" />
           <span>男性</span>
         </div>
         <div class="female">
-          <mars-icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
+          <mars-icon icon="girl" width="35" color="#ff6ac4" />
           <span>女性</span>
         </div>
         <div id="structure" class="structure"></div>
@@ -54,17 +54,17 @@
           <span class="firstBox text_icon">/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/&nbsp;/</span>
         </div>
         <span class="man_icon">
-          <mars-icon icon="icon-park-outline:boy-two" width="35" color="#00f6ff" />
+          <mars-icon icon="boy-two" width="35" color="#00f6ff" />
         </span>
         <span class="woman_icon">
-          <mars-icon icon="icon-park-outline:girl" width="35" color="#ff6ac4" />
+          <mars-icon icon="girl" width="35" color="#ff6ac4" />
         </span>
         <div class="man_display">
-          <mars-icon icon="icon-park-outline:boy-two" color="#00f6ff" />
+          <mars-icon icon="boy-two" color="#00f6ff" />
           <span>38.53%</span>
         </div>
         <div class="woman_display">
-          <mars-icon icon="icon-park-outline:girl" color="#ff6ac4" />
+          <mars-icon icon="girl" color="#ff6ac4" />
           <span>61.49%</span>
         </div>
 

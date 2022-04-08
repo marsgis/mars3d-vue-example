@@ -60,6 +60,7 @@ function addMeasure() {
     })
     .then((e) => {
       measureVolume = e
+      showHeightVal()
     })
 
   // 有模型时
@@ -87,7 +88,6 @@ function addMeasure() {
   measure.on(mars3d.EventType.end, function (event) {
     console.log("分析完成", event)
     hideLoading()
-    showHeightVal(event.sourceTarget)
   })
 }
 
@@ -114,9 +114,8 @@ export function analysisMeasure() {
       // minHeight: 50  //可以设置一个固定的最低高度
     })
     .then((e) => {
-      console.log("e")
-      console.log(e)
       measureVolume = e
+      showHeightVal()
     })
 }
 

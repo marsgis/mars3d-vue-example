@@ -14,10 +14,10 @@
           <template v-if="column.key === 'caozuo'">
             <a-space>
               <mars-button type="link">
-                <mars-icon icon="icon-park-outline:move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
               </mars-button>
               <mars-button type="link">
-                <mars-icon icon="ep:delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
               </mars-button>
             </a-space>
           </template>
