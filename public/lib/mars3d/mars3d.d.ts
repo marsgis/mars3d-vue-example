@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.3.4
- * 编译日期：2022-04-08 12:27:54
+ * 编译日期：2022-04-09 14:06:16
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -31968,6 +31968,23 @@ declare namespace Util {
         queryParameters?: any;
         proxy?: string;
         templateValues?: any;
+        headers?: any;
+    }): Promise<any>;
+    /**
+     * 请求服务返回结果，方法是基于axios库精简的
+     * @param options - 请求参数
+     * @param options.url - 服务URL地址
+     * @param [options.queryParameters] - 与请求一起发送的 URL 参数,例如 {id: 1987 }
+     * @param [options.method = "get"] - 请求类型
+     * @param [options.timeout = 0] - 是否超时
+     * @param [options.headers] - 一个对象，将发送的其他HTTP标头。比如：headers: { 'X-My-Header': 'valueOfHeader' }
+     * @returns 返回Promise异步处理结果，对象为response对象
+     */
+    function sendAjax(options: {
+        url: string;
+        queryParameters?: any;
+        method?: string;
+        timeout?: number;
         headers?: any;
     }): Promise<any>;
     /**

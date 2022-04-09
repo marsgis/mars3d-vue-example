@@ -92,11 +92,9 @@ export function onMounted(mapInstance) {
 
   setMapView(22, () => {
     map.setCameraView({ lat: 31.252058, lng: 117.988745, alt: 95026, heading: 340, pitch: -49 })
-    map.off()
   })
   setMapView(55, () => {
     $message("红方获得胜利")
-    map.off()
   })
 }
 

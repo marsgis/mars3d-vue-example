@@ -41,10 +41,6 @@ declare module "@mars/widgets/common/store/widget" {
 
   export const useWidget: () => {
     currentWidget:any
-    // 本页面widget配置数组
-    widgets: ComputedRef<Widget[]>
-    // 默认开启的widget
-    openAtStart: ComputedRef<string[]>
     // 获取指定的widget
     getWidget: (name: string) => any
     // 出发对应widget的onUpdate

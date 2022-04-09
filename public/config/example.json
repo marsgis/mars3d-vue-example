@@ -134,7 +134,7 @@
             "main_es5": "map-terrain-terrainProvider-tdt",
             "main": "map/terrain/terrainProvider-tdt",
             "vuePanel": true,
-            "libs": ["mars3d", "mars3d-tdt"]
+            "libs": ["mars3d", "cesium-comp","mars3d-tdt"]
           },
           {
             "name": "地形夸张",
@@ -639,7 +639,7 @@
             "thumbnail": "layero-s3m-basis.jpg",
             "main_es5": "layero-s3m-basis",
             "main": "layer-other/s3m/basis",
-            "libs": ["mars3d", "mars3d-supermap"],
+            "libs": ["mars3d","cesium-comp", "mars3d-supermap"],
             "vuePanel": true
           }
         ]
@@ -767,7 +767,7 @@
             "thumbnail": "layerg-other-tdtDm.jpg",
             "main_es5": "layerg-other-tdtDm",
             "main": "layer-graphic/other/tdtDm",
-            "libs": ["mars3d", "mars3d-tdt"]
+            "libs": ["mars3d", "cesium-comp","mars3d-tdt"]
           },
           {
             "name": "矢量瓦片方式加载GeoJson",

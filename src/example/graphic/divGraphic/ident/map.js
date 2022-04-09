@@ -44,6 +44,8 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+
   // 初始加载
   divGraphicYellow()
 }
@@ -158,11 +160,11 @@ export function divGraphicHotSpot() {
     const divGraphic = new mars3d.graphic.DivGraphic({
       position: item.position,
       style: {
-        html: `<div class="hot-spot">
-        <div class="hot-spot-board">
+        html: `<div class="mars-spot">
+        <div class="mars-spot-board">
         <h5>${item.name}</h5>
         </div>
-        <div class="hot-spot-line"></div>
+        <div class="mars-spot-line"></div>
       </div>`,
         offsetY: -60,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
@@ -173,3 +175,16 @@ export function divGraphicHotSpot() {
   }
 
 }
+
+// 在图层绑定Popup弹窗
+export function bindLayerPopup() {
+  graphicLayer.bindPopup(function (event) {
+    const attr = event.graphic.attr || {}
+    attr["类型"] = event.graphic.type
+    attr["来源"] = "我是layer上绑定的Popup"
+    attr["备注"] = "我支持鼠标交互"
+
+    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+  })
+}
+
