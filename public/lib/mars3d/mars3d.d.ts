@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.3.4
- * 编译日期：2022-04-09 14:06:16
+ * 版本信息：v3.3.5
+ * 编译日期：2022-04-18 13:51:12
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -3102,7 +3102,7 @@ declare class BaseCombine extends BasePrimitive {
  * @param [options.name = ''] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡事件
- * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取*
+ * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  */
 declare class BasePolyCombine extends BaseCombine {
     constructor(options: {
@@ -8889,9 +8889,9 @@ declare namespace PolylineEntity {
      * @property [outline = false] - 是否衬色
      * @property [outlineColor = "#ffffff"] - 衬色颜色
      * @property [outlineWidth = 2] - 衬色宽度
-     * @property [depthFail = false] - 是否显示遮挡
-     * @property [depthFailColor = "#ff0000"] - 遮挡处颜色
-     * @property [depthFailOpacity = 0.2] - 遮挡处透明度
+     * @property [depthFail] - 是否显示遮挡
+     * @property [depthFailColor] - 遮挡处颜色
+     * @property [depthFailOpacity] - 遮挡处透明度
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
@@ -12085,6 +12085,7 @@ declare namespace CirclePrimitive {
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
+     * @property [outlineStyle] - 边框的样式，会覆盖outlineColor、outlineOpacity
      * @property [materialSupport = Cesium.MaterialAppearance.MaterialSupport.TEXTURED] - 将被支持的材质类型。
      * @property [clampToGround = false] - 是否贴地
      * @property [classificationType = Cesium.ClassificationType.BOTH] - 指定贴地时的覆盖类型，是只对地形、3dtiles 或 两者同时。
@@ -12119,6 +12120,7 @@ declare namespace CirclePrimitive {
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
+        outlineStyle?: PolylinePrimitive.StyleOptions;
         materialSupport?: Cesium.MaterialAppearance.MaterialSupportType;
         clampToGround?: boolean;
         classificationType?: Cesium.ClassificationType;
@@ -13941,6 +13943,7 @@ declare namespace PolygonPrimitive {
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
+     * @property [outlineStyle] - 边框的样式，会覆盖outlineColor、outlineOpacity
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
@@ -13983,6 +13986,7 @@ declare namespace PolygonPrimitive {
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
+        outlineStyle?: PolylinePrimitive.StyleOptions;
         height?: number;
         diffHeight?: number;
         extrudedHeight?: number;
@@ -14093,6 +14097,9 @@ declare namespace PolylinePrimitive {
      * @property [colors] - 定义每顶点或每段颜色 的数组。
      * @property [colorsPerVertex = false] - 用于确定颜色在线条的每一段上是平坦的还是在顶点上插值的。
      * @property [closure = false] - 是否闭合
+     * @property [depthFail] - 是否显示遮挡
+     * @property [depthFailColor] - 遮挡处颜色
+     * @property [depthFailOpacity] - 遮挡处透明度
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。
      * @property [distanceDisplayCondition_far = 100000] - 最大距离
      * @property [distanceDisplayCondition_near = 0] - 最小距离
@@ -14120,6 +14127,9 @@ declare namespace PolylinePrimitive {
         colors?: Cesium.Color[];
         colorsPerVertex?: boolean;
         closure?: boolean;
+        depthFail?: boolean;
+        depthFailColor?: string;
+        depthFailOpacity?: number;
         distanceDisplayCondition?: boolean | Cesium.DistanceDisplayCondition;
         distanceDisplayCondition_far?: number;
         distanceDisplayCondition_near?: number;
@@ -14380,6 +14390,7 @@ declare namespace RectanglePrimitive {
      * @property [outline = false] - 是否边框
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
+     * @property [outlineStyle] - 边框的样式，会覆盖outlineColor、outlineOpacity
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
      * @property [diffHeight = 100] - 高度差（走廊本身的高度），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
@@ -14406,6 +14417,7 @@ declare namespace RectanglePrimitive {
         outline?: boolean;
         outlineColor?: string | Cesium.Color;
         outlineOpacity?: number;
+        outlineStyle?: PolylinePrimitive.StyleOptions;
         height?: number;
         diffHeight?: number;
         extrudedHeight?: number;
@@ -16065,11 +16077,6 @@ declare class BaseLayer extends BaseClass {
      * @returns 当前对象本身，可以链式调用
      */
     showError(title: string, error: any): BaseLayer;
-    /**
-     * 入场动画后再执行flyTo，直接调用flyTo可能造成入场动画失败。
-     * @returns 当前对象本身，可以链式调用
-     */
-    flyToByAnimationEnd(): BaseLayer;
     /**
      * 飞行定位至图层数据所在的视角
      * @param [options = {}] - 参数对象:
@@ -18587,6 +18594,14 @@ declare class TilesetLayer extends BaseGraphicLayer {
      */
     readonly tileset: Cesium.Cesium3DTileset;
     /**
+     * 变换矩阵。
+     */
+    readonly modelMatrix: Cesium.Matrix4;
+    /**
+     * 逆变换矩阵。
+     */
+    readonly inverseMatrix: Cesium.Matrix4;
+    /**
      * 鼠标移入或单击(type:'click')后的对应高亮的部分样式,空值时不高亮
      */
     readonly highlight: any;
@@ -18852,7 +18867,7 @@ declare class WfsLayer extends LodGraphicLayer {
         url: string;
         parameters?: {
             maxFeatures?: number;
-            cql_filter?: boolean;
+            cql_filter?: string;
             service?: string;
             version?: string;
         };
@@ -19281,8 +19296,7 @@ declare namespace ArcGisLayer {
  * @param [options.crs = CRS.EPSG:3857] - 瓦片数据的坐标系信息，默认为墨卡托投影
  * @param [options.chinaCRS] - 标识瓦片的国内坐标系（用于自动纠偏或加偏），自动将瓦片转为map对应的chinaCRS类型坐标系。
  * @param [options.enablePickFeatures = true] - 如果为true，则请求 单击坐标处服务中对应的矢量数据 并尝试解释响应中包含的功能。为false时不去服务请求。
- * @param [options.allowPick] - 是否允许鼠标穿透其他矢量图层，触发click和Popup
- * @param [options.maxLength = 5000] - 单击获取到的数据，最大数据长度。大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿。传-1时不限制
+ * @param [options.graphicConver] - 单击获取到的数据进行按需筛选解析，大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿，number类型时代表字符串长度值。
  * @param [options.highlight] - 鼠标单击高亮显示对应的矢量数据 及其样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.highlight.type] - 构造成的矢量数据类型。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
@@ -19353,8 +19367,7 @@ declare class ArcGisLayer extends BaseTileLayer {
         crs?: CRS;
         chinaCRS?: ChinaCRS;
         enablePickFeatures?: boolean;
-        allowPick?: boolean;
-        maxLength?: number;
+        graphicConver?: number | boolean | ((...params: any[]) => any);
         highlight?: {
             type?: GraphicType | string;
         };
@@ -21787,10 +21800,8 @@ declare class TmsLayer extends BaseTileLayer {
  * @param [options.clock] - 一个时钟实例，用于确定时间维度的值。指定' times '时需要。
  * @param [options.times] - TimeIntervalCollection 的数据属性是一个包含时间动态维度及其值的对象。
  * @param [options.enablePickFeatures = true] - 如果为true，则请求 单击坐标处服务中对应的矢量数据 并尝试解释响应中包含的功能。为false时不去服务请求。
- * @param [options.allowPick] - 是否允许鼠标穿透其他矢量图层，触发click和Popup
- * @param [options.maxLength = 5000] - 单击获取到的数据，最大数据长度。大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿。
- * @param [options.highlight] - 鼠标单击高亮显示对应的矢量数据 及其样式，具体见各{@link GraphicType}矢量数据的style参数。
- * @param [options.highlight.type] - 构造成的矢量数据类型。
+ * @param [options.graphicConver] - 单击获取到的数据进行按需筛选解析，大数据解析很卡，可以设定阀值屏蔽大数据，避免卡顿，number类型时代表字符串长度值。
+ * @param [options.highlight] - 鼠标单击高亮显示对应的矢量数据 及其样式，包括type参数指定构造的类型，其他参数见各{@link GraphicType}矢量数据的style参数项。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数,还包括：
  * @param [options.popupOptions.title] - 固定的标题名称
@@ -21849,7 +21860,7 @@ declare class WmsLayer extends BaseTileLayer {
         parameters?: {
             format?: string;
             transparent?: boolean;
-            cql_filter?: boolean;
+            cql_filter?: string;
             service?: string;
             version?: string;
             request?: string;
@@ -21861,11 +21872,8 @@ declare class WmsLayer extends BaseTileLayer {
         clock?: Cesium.Clock;
         times?: Cesium.TimeIntervalCollection;
         enablePickFeatures?: boolean;
-        allowPick?: boolean;
-        maxLength?: number;
-        highlight?: {
-            type?: GraphicType | string;
-        };
+        graphicConver?: number | boolean | ((...params: any[]) => any);
+        highlight?: any;
         popup?: string | Globe.getTemplateHtml_template[] | ((...params: any[]) => any);
         popupOptions?: {
             title?: string;
@@ -26036,6 +26044,13 @@ declare class S3MLayer extends BaseLayer {
      */
     s3mOptions: any;
     /**
+     * 遍历每一个子图层并将其作为参数传递给回调函数
+     * @param method - 回调方法
+     * @param context - 侦听器的上下文(this关键字将指向的对象)。
+     * @returns 当前对象本身,可以链式调用
+     */
+    eachLayer(method: (...params: any[]) => any, context: any): GroupLayer;
+    /**
      * 设置透明度
      * @param value - 透明度
      * @returns 无
@@ -27211,13 +27226,13 @@ declare class BaiduPOI {
      * @param [queryOptions.location = null] - 经纬度坐标
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     getAddress(queryOptions: {
         location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): BaiduPOI;
+    }): Promise<any>;
     /**
      * 搜索提示查询
      * @param queryOptions - 查询参数
@@ -27227,7 +27242,7 @@ declare class BaiduPOI {
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     autoTip(queryOptions: {
         text: string;
@@ -27236,7 +27251,7 @@ declare class BaiduPOI {
         citylimit?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): BaiduPOI;
+    }): Promise<any>;
     /**
      * 关键字搜索
      * @param queryOptions - 查询参数
@@ -27253,7 +27268,7 @@ declare class BaiduPOI {
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryText(queryOptions: {
         text: string;
@@ -27270,7 +27285,7 @@ declare class BaiduPOI {
         count?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): BaiduPOI;
+    }): Promise<any>;
     /**
      * 周边搜索(圆形搜索)
      * @param queryOptions - 查询参数
@@ -27283,7 +27298,7 @@ declare class BaiduPOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryCircle(queryOptions: {
         text: string;
@@ -27295,7 +27310,7 @@ declare class BaiduPOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): BaiduPOI;
+    }): Promise<any>;
 }
 
 /**
@@ -27326,13 +27341,13 @@ declare class GaodePOI {
      * @param [queryOptions.location] - 经纬度坐标
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     getAddress(queryOptions: {
         location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
     /**
      * 高德搜索提示
      * @param queryOptions - 查询参数
@@ -27342,7 +27357,7 @@ declare class GaodePOI {
      * @param [queryOptions.citylimit = false] - 取值为"true"，仅返回city中指定城市检索结果
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     autoTip(queryOptions: {
         text: string;
@@ -27351,7 +27366,7 @@ declare class GaodePOI {
         citylimit?: boolean;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
     /**
      * 按限定区域搜索
      * @param queryOptions - 查询参数
@@ -27363,7 +27378,7 @@ declare class GaodePOI {
      * @param [queryOptions.count = 20] - 单次召回POI数量，默认为10条记录，最大返回20条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.error] - 查询失败的回调方法
      * @param [queryOptions.success] - 查询完成的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     query(queryOptions: {
         text: string;
@@ -27374,7 +27389,20 @@ declare class GaodePOI {
         count?: number;
         error?: (...params: any[]) => any;
         success?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
+    /**
+     * 根据ID获取POI点详情
+     * @param queryOptions - 查询参数
+     * @param queryOptions.id - AOI唯一标识， 最多可以传入1个id，传入目标区域的poiid即可
+     * @param [queryOptions.success] - 查询完成的回调方法
+     * @param [queryOptions.error] - 查询失败的回调方法
+     * @returns 查询完成的Promise,等价于success参数
+     */
+    detail(queryOptions: {
+        id: string;
+        success?: (...params: any[]) => any;
+        error?: (...params: any[]) => any;
+    }): Promise<any>;
     /**
      * 关键字搜索
      * @param queryOptions - 查询参数
@@ -27386,7 +27414,7 @@ declare class GaodePOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryText(queryOptions: {
         text: string;
@@ -27397,7 +27425,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
     /**
      * 周边搜索(圆形搜索)
      * @param queryOptions - 查询参数
@@ -27410,7 +27438,7 @@ declare class GaodePOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryCircle(queryOptions: {
         text: string;
@@ -27422,7 +27450,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
     /**
      * 多边形搜索
      * @param queryOptions - 查询参数
@@ -27434,7 +27462,7 @@ declare class GaodePOI {
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryPolygon(queryOptions: {
         text: string;
@@ -27445,7 +27473,7 @@ declare class GaodePOI {
         page?: number;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodePOI;
+    }): Promise<any>;
 }
 
 /**
@@ -27477,14 +27505,14 @@ declare class GaodeRoute {
      * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 当前对象本身，可以链式调用
+     * @returns 查询完成的Promise,等价于success参数
      */
     query(queryOptions: {
         type: GaodeRoute.RouteType | number;
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): GaodeRoute;
+    }): Promise<any>;
     /**
      * 按指定类别自动查询(多个路线数组，递归处理)
      * @param queryOptions - 查询参数
@@ -27495,14 +27523,14 @@ declare class GaodeRoute {
      * ]
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 无
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryArr(queryOptions: {
         type: GaodeRoute.RouteType;
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): Promise<any>;
     /**
      * 计算结果中的最短距离的导航路径
      * @param data - queryArr返回的结果数组
@@ -27515,26 +27543,26 @@ declare class GaodeRoute {
      * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 无
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryWalking(queryOptions: {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): Promise<any>;
     /**
      * 骑行路径查询 (单个查询)
      * @param queryOptions - 查询参数
      * @param queryOptions.points - 按起点、终点 顺序的坐标数组,如[[117.500244, 40.417801],[117.500244, 40.417801]]
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 无
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryBicycling(queryOptions: {
         points: any[][];
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): Promise<any>;
     /**
      * 驾车路径规划查询
      * @param queryOptions - 查询参数
@@ -27544,7 +27572,7 @@ declare class GaodeRoute {
      * @param [queryOptions.strategy = 0] - 驾车选择策略，参考高德官网说明，默认为0：速度优先，不考虑当时路况，此路线不一定距离最短
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
-     * @returns 无
+     * @returns 查询完成的Promise,等价于success参数
      */
     queryDriving(queryOptions: {
         points: any[][];
@@ -27553,7 +27581,7 @@ declare class GaodeRoute {
         strategy?: string;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
-    }): void;
+    }): Promise<any>;
 }
 
 declare namespace GaodeRoute {
@@ -27699,6 +27727,7 @@ declare class QueryArcServer extends BaseClass {
  * @param options - 参数对象，包括以下：
  * @param options.url - GeoServer服务地址, 示例：'http://server.mars3d.cn/geoserver/mars/wfs'
  * @param options.layer - 图层名称（命名空间:图层名称），多个图层名称用逗号隔开
+ * @param [options.crs = "EPSG:4326"] - 服务数据的坐标系，如'EPSG:4326' （可以从 {@link http://epsg.io }查询）
  * @param [options.headers = {}] - 将被添加到HTTP请求头。
  * @param [options.proxy] - 加载资源时使用的代理。
  *
@@ -27715,6 +27744,7 @@ declare class QueryGeoServer extends BaseClass {
     constructor(options: {
         url: string;
         layer: string;
+        crs?: string;
         headers?: any;
         proxy?: Cesium.Proxy;
         id?: string | number;
@@ -27759,7 +27789,7 @@ declare class QueryGeoServer extends BaseClass {
     /**
      * 查询服务，基于cql_filter条件
      * @param queryOptions - 查询参数
-     * @param queryOptions.parameters.cql_filter - 筛选服务数据的[SQL语句]{@link https://docs.geoserver.org/2.12.2/user/services/wfs/vendor.html#wfs-vendor-parameters}
+     * @param queryOptions.cql_filter - 筛选服务数据的[SQL语句]{@link https://docs.geoserver.org/2.12.2/user/services/wfs/vendor.html#wfs-vendor-parameters}
      * @param [queryOptions.graphic] - 限定的搜索区域,自动转换后加入到cql_filter中，也可以外部自行处理
      * @param [queryOptions.geometryName = 'the_geom'] - 限定的搜索区域时，对应的geometry字段名称
      * @param [queryOptions.maxFeatures = 1000] - 返回结果最大数量
@@ -27770,6 +27800,7 @@ declare class QueryGeoServer extends BaseClass {
      * @returns 当前对象本身，可以链式调用
      */
     queryBySql(queryOptions: {
+        cql_filter: string;
         graphic?: BaseGraphic | any;
         geometryName?: string;
         maxFeatures?: number;
@@ -29362,16 +29393,11 @@ declare class TilesetEditBase extends BaseThing {
     /**
      * 需要分析的模型 对应的 Cesium3DTileset 对象
      */
-    tileset: Cesium.Cesium3DTileset;
+    readonly tileset: Cesium.Cesium3DTileset;
     /**
      * 压平高度 (单位：米)，基于压平区域最低点高度的偏移量
      */
     readonly layerHeight: number;
-    /**
-     * 获取当前转换计算模型逆矩阵，
-     * 用于 局部坐标系 与 世界坐标系 的转换。
-     */
-    readonly inverseMatrix: Cesium.Matrix4;
     /**
      * 坐标位置数组，只显示单个区域【单个区域场景时使用】
      */
@@ -29437,9 +29463,72 @@ declare class TilesetFlat extends TilesetEditBase {
         eventParent?: BaseClass | boolean;
     });
     /**
+     * 区域 列表
+     */
+    readonly list: any;
+    /**
+     * 需要分析的模型（3dtiles图层）
+     */
+    layer: TilesetLayer;
+    /**
+     * 需要分析的模型 对应的 Cesium3DTileset 对象
+     */
+    readonly tileset: Cesium.Cesium3DTileset;
+    /**
+     * 压平高度 (单位：米)，基于压平区域最低点高度的偏移量
+     */
+    readonly layerHeight: number;
+    /**
+     * 坐标位置数组，只显示单个区域【单个区域场景时使用】
+     */
+    positions: any[][] | string[] | LngLatPoint[] | Cesium.Cartesian3[];
+    /**
+     * 已添加的区域个数
+     */
+    readonly length: number;
+    /**
+     * 添加单个区域
+     * @param positions - 坐标位置数组
+     * @param [options = {}] - 控制的参数
+     * @param [options.height] - 开挖深度（地形开挖时，可以控制单个区域的开挖深度）
+     * @returns 添加区域的记录对象
+     */
+    addArea(positions: string[] | any[][] | LngLatPoint[] | Cesium.Cartesian3[], options?: {
+        height?: any;
+    }): any;
+    /**
+     * 根据id获取区域对象
+     * @param id - id值
+     * @returns 区域对象
+     */
+    getAreaById(id: number): any;
+    /**
+     * 隐藏单个区域
+     * @param id - 区域id值
+     * @returns 无
+     */
+    hideArea(id: number): void;
+    /**
+     * 显示单个区域
+     * @param id - 区域id值
+     * @returns 无
+     */
+    showArea(id: number): void;
+    /**
+     * 移除单个区域
+     * @param item - 区域的id，或 addArea返回的区域对象
+     * @returns 无
+     */
+    removeArea(item: number | any): void;
+    /**
      * 压平高度 (单位：米)，基于压平区域最低点高度的偏移量
      */
     height: number;
+    /**
+     * 清除分析
+     * @returns 无
+     */
+    clear(): void;
 }
 
 declare namespace TilesetFlood {

@@ -2867,12 +2867,12 @@ export class CatmullRomSpline {
  * A {@link TerrainProvider} that accesses terrain data in a Cesium terrain format.
  * @example
  * // Create Arctic DEM terrain with normals.
- * const viewer = new Cesium.Viewer('cesiumContainer', {
- *     terrainProvider : new Cesium.CesiumTerrainProvider({
- *         url : Cesium.IonResource.fromAssetId(3956),
- *         requestVertexNormals : true
- *     })
- * });
+const viewer = new Cesium.Viewer('cesiumContainer', {
+    terrainProvider : new Cesium.CesiumTerrainProvider({
+        url : Cesium.IonResource.fromAssetId(3956),
+        requestVertexNormals : true
+    })
+});
  * @param options - Object with the following properties:
  * @param options.url - The URL of the Cesium terrain server.
  * @param [options.requestVertexNormals = false] - Flag that indicates if the client should request additional lighting information from the server, in the form of per vertex normals if available.
@@ -2892,31 +2892,31 @@ export class CesiumTerrainProvider {
     });
     /**
      * Requests the geometry for a given tile.  This function should not be called before
-     * {@link CesiumTerrainProvider#ready} returns true.  The result must include terrain data and
-     * may optionally include a water mask and an indication of which child tiles are available.
+    {@link CesiumTerrainProvider#ready} returns true.  The result must include terrain data and
+    may optionally include a water mask and an indication of which child tiles are available.
      * @param x - The X coordinate of the tile for which to request geometry.
      * @param y - The Y coordinate of the tile for which to request geometry.
      * @param level - The level of the tile for which to request geometry.
      * @param [request] - The request object. Intended for internal use only.
      * @returns A promise for the requested geometry.  If this method
-     *          returns undefined instead of a promise, it is an indication that too many requests are already
-     *          pending and the request will be retried later.
+             returns undefined instead of a promise, it is an indication that too many requests are already
+             pending and the request will be retried later.
      */
     requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData> | undefined;
     /**
      * Gets an event that is raised when the terrain provider encounters an asynchronous error.  By subscribing
-     * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
-     * are passed an instance of {@link TileProviderError}.
+    to the event, you will be notified of the error and can potentially recover from it.  Event listeners
+    are passed an instance of {@link TileProviderError}.
      */
     readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
-     * the source of the terrain.  This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+    the source of the terrain.  This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
-     * not be called before {@link CesiumTerrainProvider#ready} returns true.
+    not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly tilingScheme: GeographicTilingScheme;
     /**
@@ -2929,47 +2929,47 @@ export class CesiumTerrainProvider {
     readonly readyPromise: Promise<boolean>;
     /**
      * Gets a value indicating whether or not the provider includes a water mask.  The water mask
-     * indicates which areas of the globe are water rather than land, so they can be rendered
-     * as a reflective surface with animated waves.  This function should not be
-     * called before {@link CesiumTerrainProvider#ready} returns true.
+    indicates which areas of the globe are water rather than land, so they can be rendered
+    as a reflective surface with animated waves.  This function should not be
+    called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
-     * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+    This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasVertexNormals: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include metadata.
-     * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
+    This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
     readonly hasMetadata: boolean;
     /**
      * Boolean flag that indicates if the client should request vertex normals from the server.
-     * Vertex normals data is appended to the standard tile mesh data only if the client requests the vertex normals and
-     * if the server provides vertex normals.
+    Vertex normals data is appended to the standard tile mesh data only if the client requests the vertex normals and
+    if the server provides vertex normals.
      */
     readonly requestVertexNormals: boolean;
     /**
      * Boolean flag that indicates if the client should request a watermask from the server.
-     * Watermask data is appended to the standard tile mesh data only if the client requests the watermask and
-     * if the server provides a watermask.
+    Watermask data is appended to the standard tile mesh data only if the client requests the watermask and
+    if the server provides a watermask.
      */
     readonly requestWaterMask: boolean;
     /**
      * Boolean flag that indicates if the client should request metadata from the server.
-     * Metadata is appended to the standard tile mesh data only if the client requests the metadata and
-     * if the server provides a metadata.
+    Metadata is appended to the standard tile mesh data only if the client requests the metadata and
+    if the server provides a metadata.
      */
     readonly requestMetadata: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
-     * at points and in rectangles.  This function should not be called before
-     * {@link CesiumTerrainProvider#ready} returns true.  This property may be undefined if availability
-     * information is not available. Note that this reflects tiles that are known to be available currently.
-     * Additional tiles may be discovered to be available in the future, e.g. if availability information
-     * exists deeper in the tree rather than it all being discoverable at the root. However, a tile that
-     * is available now will not become unavailable in the future.
+    at points and in rectangles.  This function should not be called before
+    {@link CesiumTerrainProvider#ready} returns true.  This property may be undefined if availability
+    information is not available. Note that this reflects tiles that are known to be available currently.
+    Additional tiles may be discovered to be available in the future, e.g. if availability information
+    exists deeper in the tree rather than it all being discoverable at the root. However, a tile that
+    is available now will not become unavailable in the future.
      */
     readonly availability: TileAvailability;
     /**
@@ -8725,20 +8725,20 @@ export class IonResource extends Resource {
     clone(result?: Resource): Resource;
     /**
      * Asynchronously loads the given image resource.  Returns a promise that will resolve to
-     * an {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap|ImageBitmap} if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement|Image} once loaded, or reject if the image failed to load.
+    an {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap|ImageBitmap} if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
+    {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement|Image} once loaded, or reject if the image failed to load.
      * @example
      * // load a single image asynchronously
-     * resource.fetchImage().then(function(image) {
-     *     // use the loaded image
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
-     *
-     * // load several images in parallel
-     * Promise.all([resource1.fetchImage(), resource2.fetchImage()]).then(function(images) {
-     *     // images is an array containing all the loaded images
-     * });
+    resource.fetchImage().then(function(image) {
+        // use the loaded image
+    }).catch(function(error) {
+        // an error occurred
+    });
+    
+    // load several images in parallel
+    Promise.all([resource1.fetchImage(), resource2.fetchImage()]).then(function(images) {
+        // images is an array containing all the loaded images
+    });
      * @param [options] - An object with the following properties.
      * @param [options.preferBlob = false] - If true, we will load the image via a blob.
      * @param [options.preferImageBitmap = false] - If true, image will be decoded during fetch and an <code>ImageBitmap</code> is returned.
@@ -14750,33 +14750,33 @@ export enum RequestType {
  * A resource that includes the location and any other parameters we need to retrieve it or create derived resources. It also provides the ability to retry requests.
  * @example
  * function refreshTokenRetryCallback(resource, error) {
- *   if (error.statusCode === 403) {
- *     // 403 status code means a new token should be generated
- *     return getNewAccessToken()
- *       .then(function(token) {
- *         resource.queryParameters.access_token = token;
- *         return true;
- *       })
- *       .catch(function() {
- *         return false;
- *       });
- *   }
- *
- *   return false;
- * }
- *
- * const resource = new Resource({
- *    url: 'http://server.com/path/to/resource.json',
- *    proxy: new DefaultProxy('/proxy/'),
- *    headers: {
- *      'X-My-Header': 'valueOfHeader'
- *    },
- *    queryParameters: {
- *      'access_token': '123-435-456-000'
- *    },
- *    retryCallback: refreshTokenRetryCallback,
- *    retryAttempts: 1
- * });
+  if (error.statusCode === 403) {
+    // 403 status code means a new token should be generated
+    return getNewAccessToken()
+      .then(function(token) {
+        resource.queryParameters.access_token = token;
+        return true;
+      })
+      .catch(function() {
+        return false;
+      });
+  }
+
+  return false;
+}
+
+const resource = new Resource({
+   url: 'http://server.com/path/to/resource.json',
+   proxy: new DefaultProxy('/proxy/'),
+   headers: {
+     'X-My-Header': 'valueOfHeader'
+   },
+   queryParameters: {
+     'access_token': '123-435-456-000'
+   },
+   retryCallback: refreshTokenRetryCallback,
+   retryAttempts: 1
+});
  * @param options - A url or an object with the following properties
  * @param options.url - The url of the resource.
  * @param [options.queryParameters] - An object containing query parameters that will be sent when retrieving the resource.
@@ -14856,7 +14856,7 @@ export class Resource {
     hasHeaders: boolean;
     /**
      * Override Object#toString so that implicit string conversion gives the
-     * complete URL represented by this Resource.
+    complete URL represented by this Resource.
      * @returns The URL represented by this Resource
      */
     toString(): string;
@@ -14869,20 +14869,20 @@ export class Resource {
     getUrlComponent(query?: boolean, proxy?: boolean): string;
     /**
      * Combines the specified object and the existing query parameters. This allows you to add many parameters at once,
-     *  as opposed to adding them one at a time to the queryParameters property. If a value is already set, it will be replaced with the new value.
+     as opposed to adding them one at a time to the queryParameters property. If a value is already set, it will be replaced with the new value.
      * @param params - The query parameters
      * @param [useAsDefault = false] - If true the params will be used as the default values, so they will only be set if they are undefined.
      */
     setQueryParameters(params: any, useAsDefault?: boolean): void;
     /**
      * Combines the specified object and the existing query parameters. This allows you to add many parameters at once,
-     *  as opposed to adding them one at a time to the queryParameters property.
+     as opposed to adding them one at a time to the queryParameters property.
      * @param params - The query parameters
      */
     appendQueryParameters(params: any): void;
     /**
      * Combines the specified object and the existing template values. This allows you to add many values at once,
-     *  as opposed to adding them one at a time to the templateValues property. If a value is already set, it will become an array and the new value will be appended.
+     as opposed to adding them one at a time to the templateValues property. If a value is already set, it will become an array and the new value will be appended.
      * @param template - The template values
      * @param [useAsDefault = false] - If true the values will be used as the default values, so they will only be set if they are undefined.
      */
@@ -14930,16 +14930,16 @@ export class Resource {
     appendForwardSlash(): void;
     /**
      * Asynchronously loads the resource as raw binary data.  Returns a promise that will resolve to
-     * an ArrayBuffer once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    an ArrayBuffer once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * // load a single URL asynchronously
-     * resource.fetchArrayBuffer().then(function(arrayBuffer) {
-     *     // use the data
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+    resource.fetchArrayBuffer().then(function(arrayBuffer) {
+        // use the data
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchArrayBuffer(): Promise<ArrayBuffer> | undefined;
@@ -14968,16 +14968,16 @@ export class Resource {
     }): Promise<ArrayBuffer> | undefined;
     /**
      * Asynchronously loads the given resource as a blob.  Returns a promise that will resolve to
-     * a Blob once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    a Blob once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * // load a single URL asynchronously
-     * resource.fetchBlob().then(function(blob) {
-     *     // use the data
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+    resource.fetchBlob().then(function(blob) {
+        // use the data
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchBlob(): Promise<Blob> | undefined;
@@ -15006,20 +15006,20 @@ export class Resource {
     }): Promise<Blob> | undefined;
     /**
      * Asynchronously loads the given image resource.  Returns a promise that will resolve to
-     * an {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap|ImageBitmap} if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement|Image} once loaded, or reject if the image failed to load.
+    an {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap|ImageBitmap} if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
+    {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement|Image} once loaded, or reject if the image failed to load.
      * @example
      * // load a single image asynchronously
-     * resource.fetchImage().then(function(image) {
-     *     // use the loaded image
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
-     *
-     * // load several images in parallel
-     * Promise.all([resource1.fetchImage(), resource2.fetchImage()]).then(function(images) {
-     *     // images is an array containing all the loaded images
-     * });
+    resource.fetchImage().then(function(image) {
+        // use the loaded image
+    }).catch(function(error) {
+        // an error occurred
+    });
+    
+    // load several images in parallel
+    Promise.all([resource1.fetchImage(), resource2.fetchImage()]).then(function(images) {
+        // images is an array containing all the loaded images
+    });
      * @param [options] - An object with the following properties.
      * @param [options.preferBlob = false] - If true, we will load the image via a blob.
      * @param [options.preferImageBitmap = false] - If true, image will be decoded during fetch and an <code>ImageBitmap</code> is returned.
@@ -15066,22 +15066,22 @@ export class Resource {
     }): Promise<ImageBitmap> | Promise<HTMLImageElement> | undefined;
     /**
      * Asynchronously loads the given resource as text.  Returns a promise that will resolve to
-     * a String once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    a String once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * // load text from a URL, setting a custom header
-     * const resource = new Resource({
-     *   url: 'http://someUrl.com/someJson.txt',
-     *   headers: {
-     *     'X-Custom-Header' : 'some value'
-     *   }
-     * });
-     * resource.fetchText().then(function(text) {
-     *     // Do something with the text
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+    const resource = new Resource({
+      url: 'http://someUrl.com/someJson.txt',
+      headers: {
+        'X-Custom-Header' : 'some value'
+      }
+    });
+    resource.fetchText().then(function(text) {
+        // Do something with the text
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchText(): Promise<string> | undefined;
@@ -15110,17 +15110,17 @@ export class Resource {
     }): Promise<string> | undefined;
     /**
      * Asynchronously loads the given resource as JSON.  Returns a promise that will resolve to
-     * a JSON object once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled. This function
-     * adds 'Accept: application/json,&#42;&#47;&#42;;q=0.01' to the request headers, if not
-     * already specified.
+    a JSON object once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled. This function
+    adds 'Accept: application/json,&#42;&#47;&#42;;q=0.01' to the request headers, if not
+    already specified.
      * @example
      * resource.fetchJson().then(function(jsonData) {
-     *     // Do something with the JSON object
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+        // Do something with the JSON object
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchJson(): Promise<any> | undefined;
@@ -15149,18 +15149,18 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously loads the given resource as XML.  Returns a promise that will resolve to
-     * an XML Document once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    an XML Document once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * // load XML from a URL, setting a custom header
-     * Cesium.loadXML('http://someUrl.com/someXML.xml', {
-     *   'X-Custom-Header' : 'some value'
-     * }).then(function(document) {
-     *     // Do something with the document
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+    Cesium.loadXML('http://someUrl.com/someXML.xml', {
+      'X-Custom-Header' : 'some value'
+    }).then(function(document) {
+        // Do something with the document
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchXML(): Promise<XMLDocument> | undefined;
@@ -15191,11 +15191,11 @@ export class Resource {
      * Requests a resource using JSONP.
      * @example
      * // load a data asynchronously
-     * resource.fetchJsonp().then(function(data) {
-     *     // use the loaded data
-     * }).catch(function(error) {
-     *     // an error occurred
-     * });
+    resource.fetchJsonp().then(function(data) {
+        // use the loaded data
+    }).catch(function(error) {
+        // an error occurred
+    });
      * @param [callbackParameterName = 'callback'] - The callback parameter name that the server expects.
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
@@ -15227,17 +15227,17 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously loads the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled. It's recommended that you use
-     * the more specific functions eg. fetchJson, fetchBlob, etc.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled. It's recommended that you use
+    the more specific functions eg. fetchJson, fetchBlob, etc.
      * @example
      * resource.fetch()
-     *   .then(function(body) {
-     *       // use the data
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(body) {
+          // use the data
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
      * @param [options.headers] - Additional HTTP headers to send with the request, if any.
@@ -15278,16 +15278,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously deletes the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.delete()
-     *   .then(function(body) {
-     *       // use the data
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(body) {
+          // use the data
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
      * @param [options.headers] - Additional HTTP headers to send with the request, if any.
@@ -15330,16 +15330,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously gets headers the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.head()
-     *   .then(function(headers) {
-     *       // use the data
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(headers) {
+          // use the data
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
      * @param [options.headers] - Additional HTTP headers to send with the request, if any.
@@ -15380,16 +15380,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously gets options the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.options()
-     *   .then(function(headers) {
-     *       // use the data
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(headers) {
+          // use the data
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
      * @param [options.headers] - Additional HTTP headers to send with the request, if any.
@@ -15430,16 +15430,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously posts data to the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.post(data)
-     *   .then(function(result) {
-     *       // use the result
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(result) {
+          // use the result
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param data - Data that is posted with the resource.
      * @param [options] - Object with the following properties:
      * @param [options.data] - Data that is posted with the resource.
@@ -15485,16 +15485,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously puts data to the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.put(data)
-     *   .then(function(result) {
-     *       // use the result
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(result) {
+          // use the result
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param data - Data that is posted with the resource.
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
@@ -15538,16 +15538,16 @@ export class Resource {
     }): Promise<any> | undefined;
     /**
      * Asynchronously patches data to the given resource.  Returns a promise that will resolve to
-     * the result once loaded, or reject if the resource failed to load.  The data is loaded
-     * using XMLHttpRequest, which means that in order to make requests to another origin,
-     * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
+    the result once loaded, or reject if the resource failed to load.  The data is loaded
+    using XMLHttpRequest, which means that in order to make requests to another origin,
+    the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
      * @example
      * resource.patch(data)
-     *   .then(function(result) {
-     *       // use the result
-     *   }).catch(function(error) {
-     *       // an error occurred
-     *   });
+      .then(function(result) {
+          // use the result
+      }).catch(function(error) {
+          // an error occurred
+      });
      * @param data - Data that is posted with the resource.
      * @param [options] - Object with the following properties:
      * @param [options.responseType] - The type of response.  This controls the type of item returned.
@@ -27497,32 +27497,32 @@ export class Cesium3DTilePointFeature {
 
 /**
  * A {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification|3D Tiles tileset},
- * used for streaming massive heterogeneous 3D geospatial datasets.
+used for streaming massive heterogeneous 3D geospatial datasets.
  * @example
  * const tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
- *      url : 'http://localhost:8002/tilesets/Seattle/tileset.json'
- * }));
+     url : 'http://localhost:8002/tilesets/Seattle/tileset.json'
+}));
  * @example
  * // Common setting for the skipLevelOfDetail optimization
- * const tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
- *      url : 'http://localhost:8002/tilesets/Seattle/tileset.json',
- *      skipLevelOfDetail : true,
- *      baseScreenSpaceError : 1024,
- *      skipScreenSpaceErrorFactor : 16,
- *      skipLevels : 1,
- *      immediatelyLoadDesiredLevelOfDetail : false,
- *      loadSiblings : false,
- *      cullWithChildrenBounds : true
- * }));
+const tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
+     url : 'http://localhost:8002/tilesets/Seattle/tileset.json',
+     skipLevelOfDetail : true,
+     baseScreenSpaceError : 1024,
+     skipScreenSpaceErrorFactor : 16,
+     skipLevels : 1,
+     immediatelyLoadDesiredLevelOfDetail : false,
+     loadSiblings : false,
+     cullWithChildrenBounds : true
+}));
  * @example
  * // Common settings for the dynamicScreenSpaceError optimization
- * const tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
- *      url : 'http://localhost:8002/tilesets/Seattle/tileset.json',
- *      dynamicScreenSpaceError : true,
- *      dynamicScreenSpaceErrorDensity : 0.00278,
- *      dynamicScreenSpaceErrorFactor : 4.0,
- *      dynamicScreenSpaceErrorHeightFalloff : 0.25
- * }));
+const tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
+     url : 'http://localhost:8002/tilesets/Seattle/tileset.json',
+     dynamicScreenSpaceError : true,
+     dynamicScreenSpaceErrorDensity : 0.00278,
+     dynamicScreenSpaceErrorFactor : 4.0,
+     dynamicScreenSpaceErrorHeightFalloff : 0.25
+}));
  * @param options - Object with the following properties:
  * @param options.url - The url to a tileset JSON file.
  * @param [options.show = true] - Determines if the tileset will be shown.
@@ -27668,68 +27668,68 @@ export class Cesium3DTileset {
     preloadFlightDestinations: boolean;
     /**
      * Optimization option. Whether the tileset should refine based on a dynamic screen space error. Tiles that are further
-     * away will be rendered with lower detail than closer tiles. This improves performance by rendering fewer
-     * tiles and making less requests, but may result in a slight drop in visual quality for tiles in the distance.
-     * The algorithm is biased towards "street views" where the camera is close to the ground plane of the tileset and looking
-     * at the horizon. In addition results are more accurate for tightly fitting bounding volumes like box and region.
+    away will be rendered with lower detail than closer tiles. This improves performance by rendering fewer
+    tiles and making less requests, but may result in a slight drop in visual quality for tiles in the distance.
+    The algorithm is biased towards "street views" where the camera is close to the ground plane of the tileset and looking
+    at the horizon. In addition results are more accurate for tightly fitting bounding volumes like box and region.
      */
     dynamicScreenSpaceError: boolean;
     /**
      * Optimization option. Prioritize loading tiles in the center of the screen by temporarily raising the
-     * screen space error for tiles around the edge of the screen. Screen space error returns to normal once all
-     * the tiles in the center of the screen as determined by the {@link Cesium3DTileset#foveatedConeSize} are loaded.
+    screen space error for tiles around the edge of the screen. Screen space error returns to normal once all
+    the tiles in the center of the screen as determined by the {@link Cesium3DTileset#foveatedConeSize} are loaded.
      */
     foveatedScreenSpaceError: boolean;
     /**
      * Gets or sets a callback to control how much to raise the screen space error for tiles outside the foveated cone,
-     * interpolating between {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation} and {@link Cesium3DTileset#maximumScreenSpaceError}.
+    interpolating between {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation} and {@link Cesium3DTileset#maximumScreenSpaceError}.
      */
     foveatedInterpolationCallback: Cesium3DTileset.foveatedInterpolationCallback;
     /**
      * Optimization option. Used when {@link Cesium3DTileset#foveatedScreenSpaceError} is true to control
-     * how long in seconds to wait after the camera stops moving before deferred tiles start loading in.
-     * This time delay prevents requesting tiles around the edges of the screen when the camera is moving.
-     * Setting this to 0.0 will immediately request all tiles in any given view.
+    how long in seconds to wait after the camera stops moving before deferred tiles start loading in.
+    This time delay prevents requesting tiles around the edges of the screen when the camera is moving.
+    Setting this to 0.0 will immediately request all tiles in any given view.
      */
     foveatedTimeDelay: number;
     /**
      * A scalar that determines the density used to adjust the dynamic screen space error, similar to {@link Fog}. Increasing this
-     * value has the effect of increasing the maximum screen space error for all tiles, but in a non-linear fashion.
-     * The error starts at 0.0 and increases exponentially until a midpoint is reached, and then approaches 1.0 asymptotically.
-     * This has the effect of keeping high detail in the closer tiles and lower detail in the further tiles, with all tiles
-     * beyond a certain distance all roughly having an error of 1.0.
-     * <p>
-     * The dynamic error is in the range [0.0, 1.0) and is multiplied by <code>dynamicScreenSpaceErrorFactor</code> to produce the
-     * final dynamic error. This dynamic error is then subtracted from the tile's actual screen space error.
-     * </p>
-     * <p>
-     * Increasing <code>dynamicScreenSpaceErrorDensity</code> has the effect of moving the error midpoint closer to the camera.
-     * It is analogous to moving fog closer to the camera.
-     * </p>
+    value has the effect of increasing the maximum screen space error for all tiles, but in a non-linear fashion.
+    The error starts at 0.0 and increases exponentially until a midpoint is reached, and then approaches 1.0 asymptotically.
+    This has the effect of keeping high detail in the closer tiles and lower detail in the further tiles, with all tiles
+    beyond a certain distance all roughly having an error of 1.0.
+    <p>
+    The dynamic error is in the range [0.0, 1.0) and is multiplied by <code>dynamicScreenSpaceErrorFactor</code> to produce the
+    final dynamic error. This dynamic error is then subtracted from the tile's actual screen space error.
+    </p>
+    <p>
+    Increasing <code>dynamicScreenSpaceErrorDensity</code> has the effect of moving the error midpoint closer to the camera.
+    It is analogous to moving fog closer to the camera.
+    </p>
      */
     dynamicScreenSpaceErrorDensity: number;
     /**
      * A factor used to increase the screen space error of tiles for dynamic screen space error. As this value increases less tiles
-     * are requested for rendering and tiles in the distance will have lower detail. If set to zero, the feature will be disabled.
+    are requested for rendering and tiles in the distance will have lower detail. If set to zero, the feature will be disabled.
      */
     dynamicScreenSpaceErrorFactor: number;
     /**
      * A ratio of the tileset's height at which the density starts to falloff. If the camera is below this height the
-     * full computed density is applied, otherwise the density falls off. This has the effect of higher density at
-     * street level views.
-     * <p>
-     * Valid values are between 0.0 and 1.0.
-     * </p>
+    full computed density is applied, otherwise the density falls off. This has the effect of higher density at
+    street level views.
+    <p>
+    Valid values are between 0.0 and 1.0.
+    </p>
      */
     dynamicScreenSpaceErrorHeightFalloff: number;
     /**
      * Determines whether the tileset casts or receives shadows from light sources.
-     * <p>
-     * Enabling shadows has a performance impact. A tileset that casts shadows must be rendered twice, once from the camera and again from the light's point of view.
-     * </p>
-     * <p>
-     * Shadows are rendered only when {@link Viewer#shadows} is <code>true</code>.
-     * </p>
+    <p>
+    Enabling shadows has a performance impact. A tileset that casts shadows must be rendered twice, once from the camera and again from the light's point of view.
+    </p>
+    <p>
+    Shadows are rendered only when {@link Viewer#shadows} is <code>true</code>.
+    </p>
      */
     shadows: ShadowMode;
     /**
@@ -27738,212 +27738,212 @@ export class Cesium3DTileset {
     show: boolean;
     /**
      * Defines how per-feature colors set from the Cesium API or declarative styling blend with the source colors from
-     * the original feature, e.g. glTF material or per-point color in the tile.
+    the original feature, e.g. glTF material or per-point color in the tile.
      */
     colorBlendMode: Cesium3DTileColorBlendMode;
     /**
      * Defines the value used to linearly interpolate between the source color and feature color when the {@link Cesium3DTileset#colorBlendMode} is <code>MIX</code>.
-     * A value of 0.0 results in the source color while a value of 1.0 results in the feature color, with any value in-between
-     * resulting in a mix of the source color and feature color.
+    A value of 0.0 results in the source color while a value of 1.0 results in the feature color, with any value in-between
+    resulting in a mix of the source color and feature color.
      */
     colorBlendAmount: number;
     /**
      * The event fired to indicate progress of loading new tiles.  This event is fired when a new tile
-     * is requested, when a requested tile is finished downloading, and when a downloaded tile has been
-     * processed and is ready to render.
-     * <p>
-     * The number of pending tile requests, <code>numberOfPendingRequests</code>, and number of tiles
-     * processing, <code>numberOfTilesProcessing</code> are passed to the event listener.
-     * </p>
-     * <p>
-     * This event is fired at the end of the frame after the scene is rendered.
-     * </p>
+    is requested, when a requested tile is finished downloading, and when a downloaded tile has been
+    processed and is ready to render.
+    <p>
+    The number of pending tile requests, <code>numberOfPendingRequests</code>, and number of tiles
+    processing, <code>numberOfTilesProcessing</code> are passed to the event listener.
+    </p>
+    <p>
+    This event is fired at the end of the frame after the scene is rendered.
+    </p>
      * @example
      * tileset.loadProgress.addEventListener(function(numberOfPendingRequests, numberOfTilesProcessing) {
-     *     if ((numberOfPendingRequests === 0) && (numberOfTilesProcessing === 0)) {
-     *         console.log('Stopped loading');
-     *         return;
-     *     }
-     *
-     *     console.log('Loading: requests: ' + numberOfPendingRequests + ', processing: ' + numberOfTilesProcessing);
-     * });
+        if ((numberOfPendingRequests === 0) && (numberOfTilesProcessing === 0)) {
+            console.log('Stopped loading');
+            return;
+        }
+    
+        console.log('Loading: requests: ' + numberOfPendingRequests + ', processing: ' + numberOfTilesProcessing);
+    });
      */
     loadProgress: Event;
     /**
      * The event fired to indicate that all tiles that meet the screen space error this frame are loaded. The tileset
-     * is completely loaded for this view.
-     * <p>
-     * This event is fired at the end of the frame after the scene is rendered.
-     * </p>
+    is completely loaded for this view.
+    <p>
+    This event is fired at the end of the frame after the scene is rendered.
+    </p>
      * @example
      * tileset.allTilesLoaded.addEventListener(function() {
-     *     console.log('All tiles are loaded');
-     * });
+        console.log('All tiles are loaded');
+    });
      */
     allTilesLoaded: Event;
     /**
      * The event fired to indicate that all tiles that meet the screen space error this frame are loaded. This event
-     * is fired once when all tiles in the initial view are loaded.
-     * <p>
-     * This event is fired at the end of the frame after the scene is rendered.
-     * </p>
+    is fired once when all tiles in the initial view are loaded.
+    <p>
+    This event is fired at the end of the frame after the scene is rendered.
+    </p>
      * @example
      * tileset.initialTilesLoaded.addEventListener(function() {
-     *     console.log('Initial tiles are loaded');
-     * });
+        console.log('Initial tiles are loaded');
+    });
      */
     initialTilesLoaded: Event;
     /**
      * The event fired to indicate that a tile's content was loaded.
-     * <p>
-     * The loaded {@link Cesium3DTile} is passed to the event listener.
-     * </p>
-     * <p>
-     * This event is fired during the tileset traversal while the frame is being rendered
-     * so that updates to the tile take effect in the same frame.  Do not create or modify
-     * Cesium entities or primitives during the event listener.
-     * </p>
+    <p>
+    The loaded {@link Cesium3DTile} is passed to the event listener.
+    </p>
+    <p>
+    This event is fired during the tileset traversal while the frame is being rendered
+    so that updates to the tile take effect in the same frame.  Do not create or modify
+    Cesium entities or primitives during the event listener.
+    </p>
      * @example
      * tileset.tileLoad.addEventListener(function(tile) {
-     *     console.log('A tile was loaded.');
-     * });
+        console.log('A tile was loaded.');
+    });
      */
     tileLoad: Event;
     /**
      * The event fired to indicate that a tile's content was unloaded.
-     * <p>
-     * The unloaded {@link Cesium3DTile} is passed to the event listener.
-     * </p>
-     * <p>
-     * This event is fired immediately before the tile's content is unloaded while the frame is being
-     * rendered so that the event listener has access to the tile's content.  Do not create
-     * or modify Cesium entities or primitives during the event listener.
-     * </p>
+    <p>
+    The unloaded {@link Cesium3DTile} is passed to the event listener.
+    </p>
+    <p>
+    This event is fired immediately before the tile's content is unloaded while the frame is being
+    rendered so that the event listener has access to the tile's content.  Do not create
+    or modify Cesium entities or primitives during the event listener.
+    </p>
      * @example
      * tileset.tileUnload.addEventListener(function(tile) {
-     *     console.log('A tile was unloaded from the cache.');
-     * });
+        console.log('A tile was unloaded from the cache.');
+    });
      */
     tileUnload: Event;
     /**
      * The event fired to indicate that a tile's content failed to load.
-     * <p>
-     * If there are no event listeners, error messages will be logged to the console.
-     * </p>
-     * <p>
-     * The error object passed to the listener contains two properties:
-     * <ul>
-     * <li><code>url</code>: the url of the failed tile.</li>
-     * <li><code>message</code>: the error message.</li>
-     * </ul>
-     * <p>
-     * If multiple contents are present, this event is raised once per inner content with errors.
-     * </p>
+    <p>
+    If there are no event listeners, error messages will be logged to the console.
+    </p>
+    <p>
+    The error object passed to the listener contains two properties:
+    <ul>
+    <li><code>url</code>: the url of the failed tile.</li>
+    <li><code>message</code>: the error message.</li>
+    </ul>
+    <p>
+    If multiple contents are present, this event is raised once per inner content with errors.
+    </p>
      * @example
      * tileset.tileFailed.addEventListener(function(error) {
-     *     console.log('An error occurred loading tile: ' + error.url);
-     *     console.log('Error: ' + error.message);
-     * });
+        console.log('An error occurred loading tile: ' + error.url);
+        console.log('Error: ' + error.message);
+    });
      */
     tileFailed: Event;
     /**
      * This event fires once for each visible tile in a frame.  This can be used to manually
-     * style a tileset.
-     * <p>
-     * The visible {@link Cesium3DTile} is passed to the event listener.
-     * </p>
-     * <p>
-     * This event is fired during the tileset traversal while the frame is being rendered
-     * so that updates to the tile take effect in the same frame.  Do not create or modify
-     * Cesium entities or primitives during the event listener.
-     * </p>
+    style a tileset.
+    <p>
+    The visible {@link Cesium3DTile} is passed to the event listener.
+    </p>
+    <p>
+    This event is fired during the tileset traversal while the frame is being rendered
+    so that updates to the tile take effect in the same frame.  Do not create or modify
+    Cesium entities or primitives during the event listener.
+    </p>
      * @example
      * tileset.tileVisible.addEventListener(function(tile) {
-     *     if (tile.content instanceof Cesium.Batched3DModel3DTileContent) {
-     *         console.log('A Batched 3D Model tile is visible.');
-     *     }
-     * });
+        if (tile.content instanceof Cesium.Batched3DModel3DTileContent) {
+            console.log('A Batched 3D Model tile is visible.');
+        }
+    });
      * @example
      * // Apply a red style and then manually set random colors for every other feature when the tile becomes visible.
-     * tileset.style = new Cesium.Cesium3DTileStyle({
-     *     color : 'color("red")'
-     * });
-     * tileset.tileVisible.addEventListener(function(tile) {
-     *     const content = tile.content;
-     *     const featuresLength = content.featuresLength;
-     *     for (let i = 0; i < featuresLength; i+=2) {
-     *         content.getFeature(i).color = Cesium.Color.fromRandom();
-     *     }
-     * });
+    tileset.style = new Cesium.Cesium3DTileStyle({
+        color : 'color("red")'
+    });
+    tileset.tileVisible.addEventListener(function(tile) {
+        const content = tile.content;
+        const featuresLength = content.featuresLength;
+        for (let i = 0; i < featuresLength; i+=2) {
+            content.getFeature(i).color = Cesium.Color.fromRandom();
+        }
+    });
      */
     tileVisible: Event;
     /**
      * Optimization option. Determines if level of detail skipping should be applied during the traversal.
-     * <p>
-     * The common strategy for replacement-refinement traversal is to store all levels of the tree in memory and require
-     * all children to be loaded before the parent can refine. With this optimization levels of the tree can be skipped
-     * entirely and children can be rendered alongside their parents. The tileset requires significantly less memory when
-     * using this optimization.
-     * </p>
+    <p>
+    The common strategy for replacement-refinement traversal is to store all levels of the tree in memory and require
+    all children to be loaded before the parent can refine. With this optimization levels of the tree can be skipped
+    entirely and children can be rendered alongside their parents. The tileset requires significantly less memory when
+    using this optimization.
+    </p>
      */
     skipLevelOfDetail: boolean;
     /**
      * The screen space error that must be reached before skipping levels of detail.
-     * <p>
-     * Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
-     * </p>
+    <p>
+    Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
+    </p>
      */
     baseScreenSpaceError: number;
     /**
      * Multiplier defining the minimum screen space error to skip.
-     * For example, if a tile has screen space error of 100, no tiles will be loaded unless they
-     * are leaves or have a screen space error <code><= 100 / skipScreenSpaceErrorFactor</code>.
-     * <p>
-     * Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
-     * </p>
+    For example, if a tile has screen space error of 100, no tiles will be loaded unless they
+    are leaves or have a screen space error <code><= 100 / skipScreenSpaceErrorFactor</code>.
+    <p>
+    Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
+    </p>
      */
     skipScreenSpaceErrorFactor: number;
     /**
      * Constant defining the minimum number of levels to skip when loading tiles. When it is 0, no levels are skipped.
-     * For example, if a tile is level 1, no tiles will be loaded unless they are at level greater than 2.
-     * <p>
-     * Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
-     * </p>
+    For example, if a tile is level 1, no tiles will be loaded unless they are at level greater than 2.
+    <p>
+    Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
+    </p>
      */
     skipLevels: number;
     /**
      * When true, only tiles that meet the maximum screen space error will ever be downloaded.
-     * Skipping factors are ignored and just the desired tiles are loaded.
-     * <p>
-     * Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
-     * </p>
+    Skipping factors are ignored and just the desired tiles are loaded.
+    <p>
+    Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
+    </p>
      */
     immediatelyLoadDesiredLevelOfDetail: boolean;
     /**
      * Determines whether siblings of visible tiles are always downloaded during traversal.
-     * This may be useful for ensuring that tiles are already available when the viewer turns left/right.
-     * <p>
-     * Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
-     * </p>
+    This may be useful for ensuring that tiles are already available when the viewer turns left/right.
+    <p>
+    Only used when {@link Cesium3DTileset#skipLevelOfDetail} is <code>true</code>.
+    </p>
      */
     loadSiblings: boolean;
     /**
      * The light color when shading models. When <code>undefined</code> the scene's light color is used instead.
-     * <p>
-     * For example, disabling additional light sources by setting <code>model.imageBasedLighting.imageBasedLightingFactor = new Cartesian2(0.0, 0.0)</code> will make the
-     * model much darker. Here, increasing the intensity of the light source will make the model brighter.
-     * </p>
+    <p>
+    For example, disabling additional light sources by setting <code>model.imageBasedLighting.imageBasedLightingFactor = new Cartesian2(0.0, 0.0)</code> will make the
+    model much darker. Here, increasing the intensity of the light source will make the model brighter.
+    </p>
      */
     lightColor: Cartesian3;
     /**
      * Whether to cull back-facing geometry. When true, back face culling is determined
-     * by the glTF material's doubleSided property; when false, back face culling is disabled.
+    by the glTF material's doubleSided property; when false, back face culling is disabled.
      */
     backFaceCulling: boolean;
     /**
      * Whether to display the outline for models using the
-     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
-     * When true, outlines are displayed. When false, outlines are not displayed.
+    {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
+    When true, outlines are displayed. When false, outlines are not displayed.
      */
     readonly showOutline: boolean;
     /**
@@ -27952,79 +27952,79 @@ export class Cesium3DTileset {
     splitDirection: SplitDirection;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * Determines if only the tiles from last frame should be used for rendering.  This
-     * effectively "freezes" the tileset to the previous frame so it is possible to zoom
-     * out and see what was rendered.
-     * </p>
+    <p>
+    Determines if only the tiles from last frame should be used for rendering.  This
+    effectively "freezes" the tileset to the previous frame so it is possible to zoom
+    out and see what was rendered.
+    </p>
      */
     debugFreezeFrame: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, assigns a random color to each tile.  This is useful for visualizing
-     * what features belong to what tiles, especially with additive refinement where features
-     * from parent tiles may be interleaved with features from child tiles.
-     * </p>
+    <p>
+    When true, assigns a random color to each tile.  This is useful for visualizing
+    what features belong to what tiles, especially with additive refinement where features
+    from parent tiles may be interleaved with features from child tiles.
+    </p>
      */
     debugColorizeTiles: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, renders each tile's content as a wireframe.
-     * </p>
+    <p>
+    When true, renders each tile's content as a wireframe.
+    </p>
      */
     debugWireframe: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, renders the bounding volume for each visible tile.  The bounding volume is
-     * white if the tile has a content bounding volume or is empty; otherwise, it is red.  Tiles that don't meet the
-     * screen space error and are still refining to their descendants are yellow.
-     * </p>
+    <p>
+    When true, renders the bounding volume for each visible tile.  The bounding volume is
+    white if the tile has a content bounding volume or is empty; otherwise, it is red.  Tiles that don't meet the
+    screen space error and are still refining to their descendants are yellow.
+    </p>
      */
     debugShowBoundingVolume: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, renders the bounding volume for each visible tile's content. The bounding volume is
-     * blue if the tile has a content bounding volume; otherwise it is red.
-     * </p>
+    <p>
+    When true, renders the bounding volume for each visible tile's content. The bounding volume is
+    blue if the tile has a content bounding volume; otherwise it is red.
+    </p>
      */
     debugShowContentBoundingVolume: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, renders the viewer request volume for each tile.
-     * </p>
+    <p>
+    When true, renders the viewer request volume for each tile.
+    </p>
      */
     debugShowViewerRequestVolume: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, draws labels to indicate the geometric error of each tile.
-     * </p>
+    <p>
+    When true, draws labels to indicate the geometric error of each tile.
+    </p>
      */
     debugShowGeometricError: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, draws labels to indicate the number of commands, points, triangles and features of each tile.
-     * </p>
+    <p>
+    When true, draws labels to indicate the number of commands, points, triangles and features of each tile.
+    </p>
      */
     debugShowRenderingStatistics: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, draws labels to indicate the geometry and texture memory usage of each tile.
-     * </p>
+    <p>
+    When true, draws labels to indicate the geometry and texture memory usage of each tile.
+    </p>
      */
     debugShowMemoryUsage: boolean;
     /**
      * This property is for debugging only; it is not optimized for production use.
-     * <p>
-     * When true, draws labels to indicate the url of each tile.
-     * </p>
+    <p>
+    When true, draws labels to indicate the url of each tile.
+    </p>
      */
     debugShowUrl: boolean;
     /**
@@ -28033,10 +28033,10 @@ export class Cesium3DTileset {
     examineVectorLinesFunction: (...params: any[]) => any;
     /**
      * Gets the tileset's asset object property, which contains metadata about the tileset.
-     * <p>
-     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-asset|asset schema reference}
-     * in the 3D Tiles spec for the full set of properties.
-     * </p>
+    <p>
+    See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-asset|asset schema reference}
+    in the 3D Tiles spec for the full set of properties.
+    </p>
      */
     readonly asset: any;
     /**
@@ -28049,40 +28049,40 @@ export class Cesium3DTileset {
     clippingPlanes: ClippingPlaneCollection;
     /**
      * Gets the tileset's properties dictionary object, which contains metadata about per-feature properties.
-     * <p>
-     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-properties|properties schema reference}
-     * in the 3D Tiles spec for the full set of properties.
-     * </p>
+    <p>
+    See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-properties|properties schema reference}
+    in the 3D Tiles spec for the full set of properties.
+    </p>
      * @example
      * console.log('Maximum building height: ' + tileset.properties.height.maximum);
-     * console.log('Minimum building height: ' + tileset.properties.height.minimum);
+    console.log('Minimum building height: ' + tileset.properties.height.minimum);
      */
     readonly properties: any;
     /**
      * When <code>true</code>, the tileset's root tile is loaded and the tileset is ready to render.
-     * This is set to <code>true</code> right before {@link Cesium3DTileset#readyPromise} is resolved.
+    This is set to <code>true</code> right before {@link Cesium3DTileset#readyPromise} is resolved.
      */
     readonly ready: boolean;
     /**
      * Gets the promise that will be resolved when the tileset's root tile is loaded and the tileset is ready to render.
-     * <p>
-     * This promise is resolved at the end of the frame before the first frame the tileset is rendered in.
-     * </p>
+    <p>
+    This promise is resolved at the end of the frame before the first frame the tileset is rendered in.
+    </p>
      * @example
      * tileset.readyPromise.then(function(tileset) {
-     *     // tile.properties is not defined until readyPromise resolves.
-     *     const properties = tileset.properties;
-     *     if (Cesium.defined(properties)) {
-     *         for (const name in properties) {
-     *             console.log(properties[name]);
-     *         }
-     *     }
-     * });
+        // tile.properties is not defined until readyPromise resolves.
+        const properties = tileset.properties;
+        if (Cesium.defined(properties)) {
+            for (const name in properties) {
+                console.log(properties[name]);
+            }
+        }
+    });
      */
     readonly readyPromise: Promise<Cesium3DTileset>;
     /**
      * When <code>true</code>, all tiles that meet the screen space error this frame are loaded. The tileset is
-     * completely loaded for this view.
+    completely loaded for this view.
      */
     readonly tilesLoaded: boolean;
     /**
@@ -28095,82 +28095,82 @@ export class Cesium3DTileset {
     readonly basePath: string;
     /**
      * The style, defined using the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language},
-     * applied to each feature in the tileset.
-     * <p>
-     * Assign <code>undefined</code> to remove the style, which will restore the visual
-     * appearance of the tileset to its default when no style was applied.
-     * </p>
-     * <p>
-     * The style is applied to a tile before the {@link Cesium3DTileset#tileVisible}
-     * event is raised, so code in <code>tileVisible</code> can manually set a feature's
-     * properties (e.g. color and show) after the style is applied. When
-     * a new style is assigned any manually set properties are overwritten.
-     * </p>
-     * <p>
-     * Use an always "true" condition to specify the Color for all objects that are not
-     * overridden by pre-existing conditions. Otherwise, the default color Cesium.Color.White
-     * will be used. Similarly, use an always "true" condition to specify the show property
-     * for all objects that are not overridden by pre-existing conditions. Otherwise, the
-     * default show value true will be used.
-     * </p>
+    {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language},
+    applied to each feature in the tileset.
+    <p>
+    Assign <code>undefined</code> to remove the style, which will restore the visual
+    appearance of the tileset to its default when no style was applied.
+    </p>
+    <p>
+    The style is applied to a tile before the {@link Cesium3DTileset#tileVisible}
+    event is raised, so code in <code>tileVisible</code> can manually set a feature's
+    properties (e.g. color and show) after the style is applied. When
+    a new style is assigned any manually set properties are overwritten.
+    </p>
+    <p>
+    Use an always "true" condition to specify the Color for all objects that are not
+    overridden by pre-existing conditions. Otherwise, the default color Cesium.Color.White
+    will be used. Similarly, use an always "true" condition to specify the show property
+    for all objects that are not overridden by pre-existing conditions. Otherwise, the
+    default show value true will be used.
+    </p>
      * @example
      * tileset.style = new Cesium.Cesium3DTileStyle({
-     *    color : {
-     *        conditions : [
-     *            ['${Height} >= 100', 'color("purple", 0.5)'],
-     *            ['${Height} >= 50', 'color("red")'],
-     *            ['true', 'color("blue")']
-     *        ]
-     *    },
-     *    show : '${Height} > 0',
-     *    meta : {
-     *        description : '"Building id ${id} has height ${Height}."'
-     *    }
-     * });
+       color : {
+           conditions : [
+               ['${Height} >= 100', 'color("purple", 0.5)'],
+               ['${Height} >= 50', 'color("red")'],
+               ['true', 'color("blue")']
+           ]
+       },
+       show : '${Height} > 0',
+       meta : {
+           description : '"Building id ${id} has height ${Height}."'
+       }
+    });
      */
     style: Cesium3DTileStyle | undefined;
     /**
      * A custom shader to apply to all tiles in the tileset. Only used for
-     * contents that use {@link ModelExperimental}. Using custom shaders with a
-     * {@link Cesium3DTileStyle} may lead to undefined behavior.
-     * <p>
-     * To enable {@link ModelExperimental}, set {@link ExperimentalFeatures.enableModelExperimental} or tileset.enableModelExperimental to <code>true</code>.
-     * </p>
+    contents that use {@link ModelExperimental}. Using custom shaders with a
+    {@link Cesium3DTileStyle} may lead to undefined behavior.
+    <p>
+    To enable {@link ModelExperimental}, set {@link ExperimentalFeatures.enableModelExperimental} or tileset.enableModelExperimental to <code>true</code>.
+    </p>
      */
     customShader: CustomShader | undefined;
     /**
      * The maximum screen space error used to drive level of detail refinement.  This value helps determine when a tile
-     * refines to its descendants, and therefore plays a major role in balancing performance with visual quality.
-     * <p>
-     * A tile's screen space error is roughly equivalent to the number of pixels wide that would be drawn if a sphere with a
-     * radius equal to the tile's <b>geometric error</b> were rendered at the tile's position. If this value exceeds
-     * <code>maximumScreenSpaceError</code> the tile refines to its descendants.
-     * </p>
-     * <p>
-     * Depending on the tileset, <code>maximumScreenSpaceError</code> may need to be tweaked to achieve the right balance.
-     * Higher values provide better performance but lower visual quality.
-     * </p>
+    refines to its descendants, and therefore plays a major role in balancing performance with visual quality.
+    <p>
+    A tile's screen space error is roughly equivalent to the number of pixels wide that would be drawn if a sphere with a
+    radius equal to the tile's <b>geometric error</b> were rendered at the tile's position. If this value exceeds
+    <code>maximumScreenSpaceError</code> the tile refines to its descendants.
+    </p>
+    <p>
+    Depending on the tileset, <code>maximumScreenSpaceError</code> may need to be tweaked to achieve the right balance.
+    Higher values provide better performance but lower visual quality.
+    </p>
      */
     maximumScreenSpaceError: number;
     /**
      * The maximum amount of GPU memory (in MB) that may be used to cache tiles. This value is estimated from
-     * geometry, textures, and batch table textures of loaded tiles. For point clouds, this value also
-     * includes per-point metadata.
-     * <p>
-     * Tiles not in view are unloaded to enforce this.
-     * </p>
-     * <p>
-     * If decreasing this value results in unloading tiles, the tiles are unloaded the next frame.
-     * </p>
-     * <p>
-     * If tiles sized more than <code>maximumMemoryUsage</code> are needed
-     * to meet the desired screen space error, determined by {@link Cesium3DTileset#maximumScreenSpaceError},
-     * for the current view, then the memory usage of the tiles loaded will exceed
-     * <code>maximumMemoryUsage</code>.  For example, if the maximum is 256 MB, but
-     * 300 MB of tiles are needed to meet the screen space error, then 300 MB of tiles may be loaded.  When
-     * these tiles go out of view, they will be unloaded.
-     * </p>
+    geometry, textures, and batch table textures of loaded tiles. For point clouds, this value also
+    includes per-point metadata.
+    <p>
+    Tiles not in view are unloaded to enforce this.
+    </p>
+    <p>
+    If decreasing this value results in unloading tiles, the tiles are unloaded the next frame.
+    </p>
+    <p>
+    If tiles sized more than <code>maximumMemoryUsage</code> are needed
+    to meet the desired screen space error, determined by {@link Cesium3DTileset#maximumScreenSpaceError},
+    for the current view, then the memory usage of the tiles loaded will exceed
+    <code>maximumMemoryUsage</code>.  For example, if the maximum is 256 MB, but
+    300 MB of tiles are needed to meet the screen space error, then 300 MB of tiles may be loaded.  When
+    these tiles go out of view, they will be unloaded.
+    </p>
      */
     maximumMemoryUsage: number;
     /**
@@ -28185,26 +28185,26 @@ export class Cesium3DTileset {
      * The tileset's bounding sphere.
      * @example
      * const tileset = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
-     *     url : 'http://localhost:8002/tilesets/Seattle/tileset.json'
-     * }));
-     *
-     * tileset.readyPromise.then(function(tileset) {
-     *     // Set the camera to view the newly added tileset
-     *     viewer.camera.viewBoundingSphere(tileset.boundingSphere, new Cesium.HeadingPitchRange(0, -0.5, 0));
-     * });
+        url : 'http://localhost:8002/tilesets/Seattle/tileset.json'
+    }));
+    
+    tileset.readyPromise.then(function(tileset) {
+        // Set the camera to view the newly added tileset
+        viewer.camera.viewBoundingSphere(tileset.boundingSphere, new Cesium.HeadingPitchRange(0, -0.5, 0));
+    });
      */
     readonly boundingSphere: BoundingSphere;
     /**
      * A 4x4 transformation matrix that transforms the entire tileset.
      * @example
      * // Adjust a tileset's height from the globe's surface.
-     * const heightOffset = 20.0;
-     * const boundingSphere = tileset.boundingSphere;
-     * const cartographic = Cesium.Cartographic.fromCartesian(boundingSphere.center);
-     * const surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
-     * const offset = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
-     * const translation = Cesium.Cartesian3.subtract(offset, surface, new Cesium.Cartesian3());
-     * tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
+    const heightOffset = 20.0;
+    const boundingSphere = tileset.boundingSphere;
+    const cartographic = Cesium.Cartographic.fromCartesian(boundingSphere.center);
+    const surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);
+    const offset = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, heightOffset);
+    const translation = Cesium.Cartesian3.subtract(offset, surface, new Cesium.Cartesian3());
+    tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
      */
     modelMatrix: Matrix4;
     /**
@@ -28213,28 +28213,28 @@ export class Cesium3DTileset {
     readonly timeSinceLoad: number;
     /**
      * The total amount of GPU memory in bytes used by the tileset. This value is estimated from
-     * geometry, texture, and batch table textures of loaded tiles. For point clouds, this value also
-     * includes per-point metadata.
+    geometry, texture, and batch table textures of loaded tiles. For point clouds, this value also
+    includes per-point metadata.
      */
     readonly totalMemoryUsageInBytes: number;
     /**
      * Determines whether terrain, 3D Tiles or both will be classified by this tileset.
-     * <p>
-     * This option is only applied to tilesets containing batched 3D models, geometry data, or vector data. Even when undefined, vector data and geometry data
-     * must render as classifications and will default to rendering on both terrain and other 3D Tiles tilesets.
-     * </p>
-     * <p>
-     * When enabled for batched 3D model tilesets, there are a few requirements/limitations on the glTF:
-     * <ul>
-     *     <li>POSITION and _BATCHID semantics are required.</li>
-     *     <li>All indices with the same batch id must occupy contiguous sections of the index buffer.</li>
-     *     <li>All shaders and techniques are ignored. The generated shader simply multiplies the position by the model-view-projection matrix.</li>
-     *     <li>The only supported extensions are CESIUM_RTC and WEB3D_quantized_attributes.</li>
-     *     <li>Only one node is supported.</li>
-     *     <li>Only one mesh per node is supported.</li>
-     *     <li>Only one primitive per mesh is supported.</li>
-     * </ul>
-     * </p>
+    <p>
+    This option is only applied to tilesets containing batched 3D models, geometry data, or vector data. Even when undefined, vector data and geometry data
+    must render as classifications and will default to rendering on both terrain and other 3D Tiles tilesets.
+    </p>
+    <p>
+    When enabled for batched 3D model tilesets, there are a few requirements/limitations on the glTF:
+    <ul>
+        <li>POSITION and _BATCHID semantics are required.</li>
+        <li>All indices with the same batch id must occupy contiguous sections of the index buffer.</li>
+        <li>All shaders and techniques are ignored. The generated shader simply multiplies the position by the model-view-projection matrix.</li>
+        <li>The only supported extensions are CESIUM_RTC and WEB3D_quantized_attributes.</li>
+        <li>Only one node is supported.</li>
+        <li>Only one mesh per node is supported.</li>
+        <li>Only one primitive per mesh is supported.</li>
+    </ul>
+    </p>
      */
     readonly classificationType: ClassificationType;
     /**
@@ -28243,18 +28243,18 @@ export class Cesium3DTileset {
     readonly ellipsoid: Ellipsoid;
     /**
      * Optimization option. Used when {@link Cesium3DTileset#foveatedScreenSpaceError} is true to control the cone size that determines which tiles are deferred.
-     * Tiles that are inside this cone are loaded immediately. Tiles outside the cone are potentially deferred based on how far outside the cone they are and {@link Cesium3DTileset#foveatedInterpolationCallback} and {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation}.
-     * Setting this to 0.0 means the cone will be the line formed by the camera position and its view direction. Setting this to 1.0 means the cone encompasses the entire field of view of the camera, essentially disabling the effect.
+    Tiles that are inside this cone are loaded immediately. Tiles outside the cone are potentially deferred based on how far outside the cone they are and {@link Cesium3DTileset#foveatedInterpolationCallback} and {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation}.
+    Setting this to 0.0 means the cone will be the line formed by the camera position and its view direction. Setting this to 1.0 means the cone encompasses the entire field of view of the camera, essentially disabling the effect.
      */
     foveatedConeSize: number;
     /**
      * Optimization option. Used when {@link Cesium3DTileset#foveatedScreenSpaceError} is true to control the starting screen space error relaxation for tiles outside the foveated cone.
-     * The screen space error will be raised starting with this value up to {@link Cesium3DTileset#maximumScreenSpaceError} based on the provided {@link Cesium3DTileset#foveatedInterpolationCallback}.
+    The screen space error will be raised starting with this value up to {@link Cesium3DTileset#maximumScreenSpaceError} based on the provided {@link Cesium3DTileset#foveatedInterpolationCallback}.
      */
     foveatedMinimumScreenSpaceErrorRelaxation: number;
     /**
      * Returns the <code>extras</code> property at the top-level of the tileset JSON, which contains application specific metadata.
-     * Returns <code>undefined</code> if <code>extras</code> does not exist.
+    Returns <code>undefined</code> if <code>extras</code> does not exist.
      */
     readonly extras: any;
     /**
@@ -28263,25 +28263,25 @@ export class Cesium3DTileset {
     imageBasedLighting: ImageBasedLighting;
     /**
      * Cesium adds lighting from the earth, sky, atmosphere, and star skybox. This cartesian is used to scale the final
-     * diffuse and specular lighting contribution from those sources to the final color. A value of 0.0 will disable those light sources.
+    diffuse and specular lighting contribution from those sources to the final color. A value of 0.0 will disable those light sources.
      */
     imageBasedLightingFactor: Cartesian2;
     /**
      * The sun's luminance at the zenith in kilo candela per meter squared to use for this model's procedural environment map.
-     * This is used when {@link Cesium3DTileset#specularEnvironmentMaps} and {@link Cesium3DTileset#sphericalHarmonicCoefficients} are not defined.
+    This is used when {@link Cesium3DTileset#specularEnvironmentMaps} and {@link Cesium3DTileset#sphericalHarmonicCoefficients} are not defined.
      */
     luminanceAtZenith: number;
     /**
      * The third order spherical harmonic coefficients used for the diffuse color of image-based lighting. When <code>undefined</code>, a diffuse irradiance
-     * computed from the atmosphere color is used.
-     * <p>
-     * There are nine <code>Cartesian3</code> coefficients.
-     * The order of the coefficients is: L<sub>0,0</sub>, L<sub>1,-1</sub>, L<sub>1,0</sub>, L<sub>1,1</sub>, L<sub>2,-2</sub>, L<sub>2,-1</sub>, L<sub>2,0</sub>, L<sub>2,1</sub>, L<sub>2,2</sub>
-     * </p>
-     *
-     * These values can be obtained by preprocessing the environment map using the <code>cmgen</code> tool of
-     * {@link https://github.com/google/filament/releases|Google's Filament project}. This will also generate a KTX file that can be
-     * supplied to {@link Cesium3DTileset#specularEnvironmentMaps}.
+    computed from the atmosphere color is used.
+    <p>
+    There are nine <code>Cartesian3</code> coefficients.
+    The order of the coefficients is: L<sub>0,0</sub>, L<sub>1,-1</sub>, L<sub>1,0</sub>, L<sub>1,1</sub>, L<sub>2,-2</sub>, L<sub>2,-1</sub>, L<sub>2,0</sub>, L<sub>2,1</sub>, L<sub>2,2</sub>
+    </p>
+    
+    These values can be obtained by preprocessing the environment map using the <code>cmgen</code> tool of
+    {@link https://github.com/google/filament/releases|Google's Filament project}. This will also generate a KTX file that can be
+    supplied to {@link Cesium3DTileset#specularEnvironmentMaps}.
      */
     sphericalHarmonicCoefficients: Cartesian3[];
     /**
@@ -28294,7 +28294,7 @@ export class Cesium3DTileset {
     vectorClassificationOnly: boolean;
     /**
      * Whether vector tiles should keep decoded positions in memory.
-     * This is used with {@link Cesium3DTileFeature.getPolylinePositions}.
+    This is used with {@link Cesium3DTileFeature.getPolylinePositions}.
      */
     vectorKeepDecodedPositions: boolean;
     /**
@@ -28303,52 +28303,52 @@ export class Cesium3DTileset {
     showCreditsOnScreen: boolean;
     /**
      * Label of the feature ID set to use for picking and styling.
-     * <p>
-     * For EXT_mesh_features, this is the feature ID's label property, or
-     * "featureId_N" (where N is the index in the featureIds array) when not
-     * specified. EXT_feature_metadata did not have a label field, so such
-     * feature ID sets are always labeled "featureId_N" where N is the index in
-     * the list of all feature Ids, where feature ID attributes are listed before
-     * feature ID textures.
-     * </p>
-     * <p>
-     * If featureIdLabel is set to an integer N, it is converted to
-     * the string "featureId_N" automatically. If both per-primitive and
-     * per-instance feature IDs are present, the instance feature IDs take
-     * priority.
-     * </p>
+    <p>
+    For EXT_mesh_features, this is the feature ID's label property, or
+    "featureId_N" (where N is the index in the featureIds array) when not
+    specified. EXT_feature_metadata did not have a label field, so such
+    feature ID sets are always labeled "featureId_N" where N is the index in
+    the list of all feature Ids, where feature ID attributes are listed before
+    feature ID textures.
+    </p>
+    <p>
+    If featureIdLabel is set to an integer N, it is converted to
+    the string "featureId_N" automatically. If both per-primitive and
+    per-instance feature IDs are present, the instance feature IDs take
+    priority.
+    </p>
      */
     featureIdLabel: string;
     /**
      * Label of the instance feature ID set used for picking and styling.
-     * <p>
-     * If instanceFeatureIdLabel is set to an integer N, it is converted to
-     * the string "instanceFeatureId_N" automatically.
-     * If both per-primitive and per-instance feature IDs are present, the
-     * instance feature IDs take priority.
-     * </p>
+    <p>
+    If instanceFeatureIdLabel is set to an integer N, it is converted to
+    the string "instanceFeatureId_N" automatically.
+    If both per-primitive and per-instance feature IDs are present, the
+    instance feature IDs take priority.
+    </p>
      */
     instanceFeatureIdLabel: string;
     /**
      * Provides a hook to override the method used to request the tileset json
-     * useful when fetching tilesets from remote servers
+    useful when fetching tilesets from remote servers
      * @param tilesetUrl - The url of the json file to be fetched
      * @returns A promise that resolves with the fetched json data
      */
     static loadJson(tilesetUrl: Resource | string): Promise<object>;
     /**
      * Marks the tileset's {@link Cesium3DTileset#style} as dirty, which forces all
-     * features to re-evaluate the style in the next frame each is visible.
+    features to re-evaluate the style in the next frame each is visible.
      */
     makeStyleDirty(): void;
     /**
      * Unloads all tiles that weren't selected the previous frame.  This can be used to
-     * explicitly manage the tile cache and reduce the total number of tiles loaded below
-     * {@link Cesium3DTileset#maximumMemoryUsage}.
-     * <p>
-     * Tile unloads occur at the next frame to keep all the WebGL delete calls
-     * within the render loop.
-     * </p>
+    explicitly manage the tile cache and reduce the total number of tiles loaded below
+    {@link Cesium3DTileset#maximumMemoryUsage}.
+    <p>
+    Tile unloads occur at the next frame to keep all the WebGL delete calls
+    within the render loop.
+    </p>
      */
     trimLoadedTiles(): void;
     /**
@@ -28359,19 +28359,19 @@ export class Cesium3DTileset {
     hasExtension(extensionName: string): boolean;
     /**
      * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+    <br /><br />
+    If this object was destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      * @returns <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
      */
     isDestroyed(): boolean;
     /**
      * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
+    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+    <br /><br />
+    Once an object is destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+    assign the return value (<code>undefined</code>) to the object as done in the example.
      * @example
      * tileset = tileset && tileset.destroy();
      */
@@ -28381,7 +28381,7 @@ export class Cesium3DTileset {
 export namespace Cesium3DTileset {
     /**
      * Optimization option. Used as a callback when {@link Cesium3DTileset#foveatedScreenSpaceError} is true to control how much to raise the screen space error for tiles outside the foveated cone,
-     * interpolating between {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation} and {@link Cesium3DTileset#maximumScreenSpaceError}.
+    interpolating between {@link Cesium3DTileset#foveatedMinimumScreenSpaceErrorRelaxation} and {@link Cesium3DTileset#maximumScreenSpaceError}.
      * @param p - The start value to interpolate.
      * @param q - The end value to interpolate.
      * @param time - The time of interpolation generally in the range <code>[0.0, 1.0]</code>.
@@ -32284,85 +32284,85 @@ export class ImageBasedLighting {
 
 /**
  * An imagery layer that displays tiled image data from a single imagery provider
- * on a {@link Globe}.
+on a {@link Globe}.
  * @param imageryProvider - The imagery provider to use.
  * @param [options] - Object with the following properties:
  * @param [options.rectangle = imageryProvider.rectangle] - The rectangle of the layer.  This rectangle
- *        can limit the visible portion of the imagery provider.
+       can limit the visible portion of the imagery provider.
  * @param [options.alpha = 1.0] - The alpha blending value of this layer, from 0.0 to 1.0.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the alpha is required, and it is expected to return
- *                          the alpha value to use for the tile.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the alpha is required, and it is expected to return
+                         the alpha value to use for the tile.
  * @param [options.nightAlpha = 1.0] - The alpha blending value of this layer on the night side of the globe, from 0.0 to 1.0.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the alpha is required, and it is expected to return
- *                          the alpha value to use for the tile. This only takes effect when <code>enableLighting</code> is <code>true</code>.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the alpha is required, and it is expected to return
+                         the alpha value to use for the tile. This only takes effect when <code>enableLighting</code> is <code>true</code>.
  * @param [options.dayAlpha = 1.0] - The alpha blending value of this layer on the day side of the globe, from 0.0 to 1.0.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the alpha is required, and it is expected to return
- *                          the alpha value to use for the tile. This only takes effect when <code>enableLighting</code> is <code>true</code>.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the alpha is required, and it is expected to return
+                         the alpha value to use for the tile. This only takes effect when <code>enableLighting</code> is <code>true</code>.
  * @param [options.brightness = 1.0] - The brightness of this layer.  1.0 uses the unmodified imagery
- *                          color.  Less than 1.0 makes the imagery darker while greater than 1.0 makes it brighter.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the brightness is required, and it is expected to return
- *                          the brightness value to use for the tile.  The function is executed for every
- *                          frame and for every tile, so it must be fast.
+                         color.  Less than 1.0 makes the imagery darker while greater than 1.0 makes it brighter.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the brightness is required, and it is expected to return
+                         the brightness value to use for the tile.  The function is executed for every
+                         frame and for every tile, so it must be fast.
  * @param [options.contrast = 1.0] - The contrast of this layer.  1.0 uses the unmodified imagery color.
- *                          Less than 1.0 reduces the contrast while greater than 1.0 increases it.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the contrast is required, and it is expected to return
- *                          the contrast value to use for the tile.  The function is executed for every
- *                          frame and for every tile, so it must be fast.
+                         Less than 1.0 reduces the contrast while greater than 1.0 increases it.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the contrast is required, and it is expected to return
+                         the contrast value to use for the tile.  The function is executed for every
+                         frame and for every tile, so it must be fast.
  * @param [options.hue = 0.0] - The hue of this layer.  0.0 uses the unmodified imagery color.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates
- *                          of the imagery tile for which the hue is required, and it is expected to return
- *                          the contrast value to use for the tile.  The function is executed for every
- *                          frame and for every tile, so it must be fast.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates
+                         of the imagery tile for which the hue is required, and it is expected to return
+                         the contrast value to use for the tile.  The function is executed for every
+                         frame and for every tile, so it must be fast.
  * @param [options.saturation = 1.0] - The saturation of this layer.  1.0 uses the unmodified imagery color.
- *                          Less than 1.0 reduces the saturation while greater than 1.0 increases it.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates
- *                          of the imagery tile for which the saturation is required, and it is expected to return
- *                          the contrast value to use for the tile.  The function is executed for every
- *                          frame and for every tile, so it must be fast.
+                         Less than 1.0 reduces the saturation while greater than 1.0 increases it.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates
+                         of the imagery tile for which the saturation is required, and it is expected to return
+                         the contrast value to use for the tile.  The function is executed for every
+                         frame and for every tile, so it must be fast.
  * @param [options.gamma = 1.0] - The gamma correction to apply to this layer.  1.0 uses the unmodified imagery color.
- *                          This can either be a simple number or a function with the signature
- *                          <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
- *                          current frame state, this layer, and the x, y, and level coordinates of the
- *                          imagery tile for which the gamma is required, and it is expected to return
- *                          the gamma value to use for the tile.  The function is executed for every
- *                          frame and for every tile, so it must be fast.
+                         This can either be a simple number or a function with the signature
+                         <code>function(frameState, layer, x, y, level)</code>.  The function is passed the
+                         current frame state, this layer, and the x, y, and level coordinates of the
+                         imagery tile for which the gamma is required, and it is expected to return
+                         the gamma value to use for the tile.  The function is executed for every
+                         frame and for every tile, so it must be fast.
  * @param [options.splitDirection = SplitDirection.NONE] - The {@link SplitDirection} split to apply to this layer.
  * @param [options.minificationFilter = TextureMinificationFilter.LINEAR] - The
- *                                    texture minification filter to apply to this layer. Possible values
- *                                    are <code>TextureMinificationFilter.LINEAR</code> and
- *                                    <code>TextureMinificationFilter.NEAREST</code>.
+                                   texture minification filter to apply to this layer. Possible values
+                                   are <code>TextureMinificationFilter.LINEAR</code> and
+                                   <code>TextureMinificationFilter.NEAREST</code>.
  * @param [options.magnificationFilter = TextureMagnificationFilter.LINEAR] - The
- *                                     texture minification filter to apply to this layer. Possible values
- *                                     are <code>TextureMagnificationFilter.LINEAR</code> and
- *                                     <code>TextureMagnificationFilter.NEAREST</code>.
+                                    texture minification filter to apply to this layer. Possible values
+                                    are <code>TextureMagnificationFilter.LINEAR</code> and
+                                    <code>TextureMagnificationFilter.NEAREST</code>.
  * @param [options.show = true] - True if the layer is shown; otherwise, false.
  * @param [options.maximumAnisotropy = maximum supported] - The maximum anisotropy level to use
- *        for texture filtering.  If this parameter is not specified, the maximum anisotropy supported
- *        by the WebGL stack will be used.  Larger values make the imagery look better in horizon
- *        views.
+       for texture filtering.  If this parameter is not specified, the maximum anisotropy supported
+       by the WebGL stack will be used.  Larger values make the imagery look better in horizon
+       views.
  * @param [options.minimumTerrainLevel] - The minimum terrain level-of-detail at which to show this imagery layer,
- *                 or undefined to show it at all levels.  Level zero is the least-detailed level.
+                or undefined to show it at all levels.  Level zero is the least-detailed level.
  * @param [options.maximumTerrainLevel] - The maximum terrain level-of-detail at which to show this imagery layer,
- *                 or undefined to show it at all levels.  Level zero is the least-detailed level.
+                or undefined to show it at all levels.  Level zero is the least-detailed level.
  * @param [options.cutoutRectangle] - Cartographic rectangle for cutting out a portion of this ImageryLayer.
  * @param [options.colorToAlpha] - Color to be used as alpha.
  * @param [options.colorToAlphaThreshold = 0.004] - Threshold for color-to-alpha.
@@ -32391,27 +32391,27 @@ export class ImageryLayer {
     });
     /**
      * The alpha blending value of this layer, with 0.0 representing fully transparent and
-     * 1.0 representing fully opaque.
+    1.0 representing fully opaque.
      */
     alpha: number;
     /**
      * The alpha blending value of this layer on the night side of the globe, with 0.0 representing fully transparent and
-     * 1.0 representing fully opaque. This only takes effect when {@link Globe#enableLighting} is <code>true</code>.
+    1.0 representing fully opaque. This only takes effect when {@link Globe#enableLighting} is <code>true</code>.
      */
     nightAlpha: number;
     /**
      * The alpha blending value of this layer on the day side of the globe, with 0.0 representing fully transparent and
-     * 1.0 representing fully opaque. This only takes effect when {@link Globe#enableLighting} is <code>true</code>.
+    1.0 representing fully opaque. This only takes effect when {@link Globe#enableLighting} is <code>true</code>.
      */
     dayAlpha: number;
     /**
      * The brightness of this layer.  1.0 uses the unmodified imagery color.  Less than 1.0
-     * makes the imagery darker while greater than 1.0 makes it brighter.
+    makes the imagery darker while greater than 1.0 makes it brighter.
      */
     brightness: number;
     /**
      * The contrast of this layer.  1.0 uses the unmodified imagery color.  Less than 1.0 reduces
-     * the contrast while greater than 1.0 increases it.
+    the contrast while greater than 1.0 increases it.
      */
     contrast: number;
     /**
@@ -32420,7 +32420,7 @@ export class ImageryLayer {
     hue: number;
     /**
      * The saturation of this layer. 1.0 uses the unmodified imagery color. Less than 1.0 reduces the
-     * saturation while greater than 1.0 increases it.
+    saturation while greater than 1.0 increases it.
      */
     saturation: number;
     /**
@@ -32433,20 +32433,20 @@ export class ImageryLayer {
     splitDirection: SplitDirection;
     /**
      * The {@link TextureMinificationFilter} to apply to this layer.
-     * Possible values are {@link TextureMinificationFilter.LINEAR} (the default)
-     * and {@link TextureMinificationFilter.NEAREST}.
-     *
-     * To take effect, this property must be set immediately after adding the imagery layer.
-     * Once a texture is loaded it won't be possible to change the texture filter used.
+    Possible values are {@link TextureMinificationFilter.LINEAR} (the default)
+    and {@link TextureMinificationFilter.NEAREST}.
+    
+    To take effect, this property must be set immediately after adding the imagery layer.
+    Once a texture is loaded it won't be possible to change the texture filter used.
      */
     minificationFilter: TextureMinificationFilter;
     /**
      * The {@link TextureMagnificationFilter} to apply to this layer.
-     * Possible values are {@link TextureMagnificationFilter.LINEAR} (the default)
-     * and {@link TextureMagnificationFilter.NEAREST}.
-     *
-     * To take effect, this property must be set immediately after adding the imagery layer.
-     * Once a texture is loaded it won't be possible to change the texture filter used.
+    Possible values are {@link TextureMagnificationFilter.LINEAR} (the default)
+    and {@link TextureMagnificationFilter.NEAREST}.
+    
+    To take effect, this property must be set immediately after adding the imagery layer.
+    Once a texture is loaded it won't be possible to change the texture filter used.
      */
     magnificationFilter: TextureMagnificationFilter;
     /**
@@ -32471,92 +32471,92 @@ export class ImageryLayer {
     readonly imageryProvider: ImageryProvider;
     /**
      * Gets the rectangle of this layer.  If this rectangle is smaller than the rectangle of the
-     * {@link ImageryProvider}, only a portion of the imagery provider is shown.
+    {@link ImageryProvider}, only a portion of the imagery provider is shown.
      */
     readonly rectangle: Rectangle;
     /**
      * This value is used as the default brightness for the imagery layer if one is not provided during construction
-     * or by the imagery provider. This value does not modify the brightness of the imagery.
+    or by the imagery provider. This value does not modify the brightness of the imagery.
      */
     static DEFAULT_BRIGHTNESS: number;
     /**
      * This value is used as the default contrast for the imagery layer if one is not provided during construction
-     * or by the imagery provider. This value does not modify the contrast of the imagery.
+    or by the imagery provider. This value does not modify the contrast of the imagery.
      */
     static DEFAULT_CONTRAST: number;
     /**
      * This value is used as the default hue for the imagery layer if one is not provided during construction
-     * or by the imagery provider. This value does not modify the hue of the imagery.
+    or by the imagery provider. This value does not modify the hue of the imagery.
      */
     static DEFAULT_HUE: number;
     /**
      * This value is used as the default saturation for the imagery layer if one is not provided during construction
-     * or by the imagery provider. This value does not modify the saturation of the imagery.
+    or by the imagery provider. This value does not modify the saturation of the imagery.
      */
     static DEFAULT_SATURATION: number;
     /**
      * This value is used as the default gamma for the imagery layer if one is not provided during construction
-     * or by the imagery provider. This value does not modify the gamma of the imagery.
+    or by the imagery provider. This value does not modify the gamma of the imagery.
      */
     static DEFAULT_GAMMA: number;
     /**
      * This value is used as the default split for the imagery layer if one is not provided during construction
-     * or by the imagery provider.
+    or by the imagery provider.
      */
     static DEFAULT_SPLIT: SplitDirection;
     /**
      * This value is used as the default texture minification filter for the imagery layer if one is not provided
-     * during construction or by the imagery provider.
+    during construction or by the imagery provider.
      */
     static DEFAULT_MINIFICATION_FILTER: TextureMinificationFilter;
     /**
      * This value is used as the default texture magnification filter for the imagery layer if one is not provided
-     * during construction or by the imagery provider.
+    during construction or by the imagery provider.
      */
     static DEFAULT_MAGNIFICATION_FILTER: TextureMagnificationFilter;
     /**
      * This value is used as the default threshold for color-to-alpha if one is not provided
-     * during construction or by the imagery provider.
+    during construction or by the imagery provider.
      */
     static DEFAULT_APPLY_COLOR_TO_ALPHA_THRESHOLD: number;
     /**
      * Gets a value indicating whether this layer is the base layer in the
-     * {@link ImageryLayerCollection}.  The base layer is the one that underlies all
-     * others.  It is special in that it is treated as if it has global rectangle, even if
-     * it actually does not, by stretching the texels at the edges over the entire
-     * globe.
+    {@link ImageryLayerCollection}.  The base layer is the one that underlies all
+    others.  It is special in that it is treated as if it has global rectangle, even if
+    it actually does not, by stretching the texels at the edges over the entire
+    globe.
      * @returns true if this is the base layer; otherwise, false.
      */
     isBaseLayer(): boolean;
     /**
      * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+    <br /><br />
+    If this object was destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      * @returns True if this object was destroyed; otherwise, false.
      */
     isDestroyed(): boolean;
     /**
      * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
+    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+    <br /><br />
+    Once an object is destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+    assign the return value (<code>undefined</code>) to the object as done in the example.
      * @example
      * imageryLayer = imageryLayer && imageryLayer.destroy();
      */
     destroy(): void;
     /**
      * Computes the intersection of this layer's rectangle with the imagery provider's availability rectangle,
-     * producing the overall bounds of imagery that can be produced by this layer.
+    producing the overall bounds of imagery that can be produced by this layer.
      * @example
      * // Zoom to an imagery layer.
-     * imageryLayer.getViewableRectangle().then(function (rectangle) {
-     *     return camera.flyTo({
-     *         destination: rectangle
-     *     });
-     * });
+    imageryLayer.getViewableRectangle().then(function (rectangle) {
+        return camera.flyTo({
+            destination: rectangle
+        });
+    });
      * @returns A promise to a rectangle which defines the overall bounds of imagery that can be produced by this layer.
      */
     getViewableRectangle(): Promise<Rectangle>;
@@ -34580,56 +34580,56 @@ export namespace MaterialAppearance {
 
 /**
  * A 3D model based on glTF, the runtime asset format for WebGL, OpenGL ES, and OpenGL.
- * <p>
- * Cesium includes support for geometry and materials, glTF animations, and glTF skinning.
- * In addition, individual glTF nodes are pickable with {@link Scene#pick} and animatable
- * with {@link Model#getNode}.  glTF cameras and lights are not currently supported.
- * </p>
- * <p>
- * An external glTF asset is created with {@link Model.fromGltf}.  glTF JSON can also be
- * created at runtime and passed to this constructor function.  In either case, the
- * {@link Model#readyPromise} is resolved when the model is ready to render, i.e.,
- * when the external binary, image, and shader files are downloaded and the WebGL
- * resources are created.
- * </p>
- * <p>
- * Cesium supports glTF assets with the following extensions:
- * <ul>
- * <li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_binary_glTF/README.md|KHR_binary_glTF (glTF 1.0)}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_materials_common/README.md|KHR_materials_common (glTF 1.0)}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/WEB3D_quantized_attributes/README.md|WEB3D_quantized_attributes (glTF 1.0)}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/AGI_articulations/README.md|AGI_articulations}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/pull/1302|KHR_blend (draft)}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_draco_mesh_compression/README.md|KHR_draco_mesh_compression}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_pbrSpecularGlossiness/README.md|KHR_materials_pbrSpecularGlossiness}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_unlit/README.md|KHR_materials_unlit}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
- * </li><li>
- * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu|KHR_texture_basisu}
- * </li>
- * </ul>
- * </p>
- * <p>
- * Note: for models with compressed textures using the KHR_texture_basisu extension, we recommend power of 2 textures in both dimensions
- * for maximum compatibility. This is because some samplers require power of 2 textures ({@link https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL|Using textures in WebGL})
- * and KHR_texture_basisu requires multiple of 4 dimensions ({@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md#additional-requirements|KHR_texture_basisu additional requirements}).
- * </p>
- * <p>
- * For high-precision rendering, Cesium supports the {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/CESIUM_RTC/README.md|CESIUM_RTC} extension, which introduces the
- * CESIUM_RTC_MODELVIEW parameter semantic that says the node is in WGS84 coordinates translated
- * relative to a local origin.
- * </p>
+<p>
+Cesium includes support for geometry and materials, glTF animations, and glTF skinning.
+In addition, individual glTF nodes are pickable with {@link Scene#pick} and animatable
+with {@link Model#getNode}.  glTF cameras and lights are not currently supported.
+</p>
+<p>
+An external glTF asset is created with {@link Model.fromGltf}.  glTF JSON can also be
+created at runtime and passed to this constructor function.  In either case, the
+{@link Model#readyPromise} is resolved when the model is ready to render, i.e.,
+when the external binary, image, and shader files are downloaded and the WebGL
+resources are created.
+</p>
+<p>
+Cesium supports glTF assets with the following extensions:
+<ul>
+<li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_binary_glTF/README.md|KHR_binary_glTF (glTF 1.0)}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_materials_common/README.md|KHR_materials_common (glTF 1.0)}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/WEB3D_quantized_attributes/README.md|WEB3D_quantized_attributes (glTF 1.0)}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/AGI_articulations/README.md|AGI_articulations}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/pull/1302|KHR_blend (draft)}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_draco_mesh_compression/README.md|KHR_draco_mesh_compression}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_pbrSpecularGlossiness/README.md|KHR_materials_pbrSpecularGlossiness}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_unlit/README.md|KHR_materials_unlit}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
+</li><li>
+{@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu|KHR_texture_basisu}
+</li>
+</ul>
+</p>
+<p>
+Note: for models with compressed textures using the KHR_texture_basisu extension, we recommend power of 2 textures in both dimensions
+for maximum compatibility. This is because some samplers require power of 2 textures ({@link https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL|Using textures in WebGL})
+and KHR_texture_basisu requires multiple of 4 dimensions ({@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md#additional-requirements|KHR_texture_basisu additional requirements}).
+</p>
+<p>
+For high-precision rendering, Cesium supports the {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/CESIUM_RTC/README.md|CESIUM_RTC} extension, which introduces the
+CESIUM_RTC_MODELVIEW parameter semantic that says the node is in WGS84 coordinates translated
+relative to a local origin.
+</p>
  * @param [options] - Object with the following properties:
  * @param [options.gltf] - A glTF JSON object, or a binary glTF buffer.
  * @param [options.basePath = ''] - The base path that paths in the glTF JSON are relative to.
@@ -34721,30 +34721,30 @@ export class Model {
     silhouetteSize: number;
     /**
      * The 4x4 transformation matrix that transforms the model from model to world coordinates.
-     * When this is the identity matrix, the model is drawn in world coordinates, i.e., Earth's WGS84 coordinates.
-     * Local reference frames can be used by providing a different transformation matrix, like that returned
-     * by {@link Transforms.eastNorthUpToFixedFrame}.
+    When this is the identity matrix, the model is drawn in world coordinates, i.e., Earth's WGS84 coordinates.
+    Local reference frames can be used by providing a different transformation matrix, like that returned
+    by {@link Transforms.eastNorthUpToFixedFrame}.
      * @example
      * const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
-     * m.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+    m.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
      */
     modelMatrix: Matrix4;
     /**
      * A uniform scale applied to this model before the {@link Model#modelMatrix}.
-     * Values greater than <code>1.0</code> increase the size of the model; values
-     * less than <code>1.0</code> decrease.
+    Values greater than <code>1.0</code> increase the size of the model; values
+    less than <code>1.0</code> decrease.
      */
     scale: number;
     /**
      * The approximate minimum pixel size of the model regardless of zoom.
-     * This can be used to ensure that a model is visible even when the viewer
-     * zooms out.  When <code>0.0</code>, no minimum size is enforced.
+    This can be used to ensure that a model is visible even when the viewer
+    zooms out.  When <code>0.0</code>, no minimum size is enforced.
      */
     minimumPixelSize: number;
     /**
      * The maximum scale size for a model. This can be used to give
-     * an upper limit to the {@link Model#minimumPixelSize}, ensuring that the model
-     * is never an unreasonable scale.
+    an upper limit to the {@link Model#minimumPixelSize}, ensuring that the model
+    is never an unreasonable scale.
      */
     maximumScale: number;
     /**
@@ -34777,21 +34777,21 @@ export class Model {
     colorBlendMode: ColorBlendMode;
     /**
      * Value used to determine the color strength when the <code>colorBlendMode</code> is <code>MIX</code>.
-     * A value of 0.0 results in the model's rendered color while a value of 1.0 results in a solid color, with
-     * any value in-between resulting in a mix of the two.
+    A value of 0.0 results in the model's rendered color while a value of 1.0 results in a solid color, with
+    any value in-between resulting in a mix of the two.
      */
     colorBlendAmount: number;
     /**
      * Whether to cull back-facing geometry. When true, back face culling is
-     * determined by the material's doubleSided property; when false, back face
-     * culling is disabled. Back faces are not culled if {@link Model#color} is
-     * translucent or {@link Model#silhouetteSize} is greater than 0.0.
+    determined by the material's doubleSided property; when false, back face
+    culling is disabled. Back faces are not culled if {@link Model#color} is
+    translucent or {@link Model#silhouetteSize} is greater than 0.0.
      */
     backFaceCulling: boolean;
     /**
      * Whether to display the outline for models using the
-     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
-     * When true, outlines are displayed. When false, outlines are not displayed.
+    {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
+    When true, outlines are displayed. When false, outlines are not displayed.
      */
     readonly showOutline: boolean;
     /**
@@ -34800,66 +34800,66 @@ export class Model {
     splitDirection: SplitDirection;
     /**
      * This property is for debugging only; it is not for production use nor is it optimized.
-     * <p>
-     * Draws the bounding sphere for each draw command in the model.  A glTF primitive corresponds
-     * to one draw command.  A glTF mesh has an array of primitives, often of length one.
-     * </p>
+    <p>
+    Draws the bounding sphere for each draw command in the model.  A glTF primitive corresponds
+    to one draw command.  A glTF mesh has an array of primitives, often of length one.
+    </p>
      */
     debugShowBoundingVolume: boolean;
     /**
      * This property is for debugging only; it is not for production use nor is it optimized.
-     * <p>
-     * Draws the model in wireframe.
-     * </p>
+    <p>
+    Draws the model in wireframe.
+    </p>
      */
     debugWireframe: boolean;
     /**
      * The object for the glTF JSON, including properties with default values omitted
-     * from the JSON provided to this model.
+    from the JSON provided to this model.
      */
     readonly gltf: any;
     /**
      * The base path that paths in the glTF JSON are relative to.  The base
-     * path is the same path as the path containing the .gltf file
-     * minus the .gltf file, when binary, image, and shader files are
-     * in the same directory as the .gltf.  When this is <code>''</code>,
-     * the app's base path is used.
+    path is the same path as the path containing the .gltf file
+    minus the .gltf file, when binary, image, and shader files are
+    in the same directory as the .gltf.  When this is <code>''</code>,
+    the app's base path is used.
      */
     readonly basePath: string;
     /**
      * The model's bounding sphere in its local coordinate system.  This does not take into
-     * account glTF animations and skins nor does it take into account {@link Model#minimumPixelSize}.
+    account glTF animations and skins nor does it take into account {@link Model#minimumPixelSize}.
      * @example
      * // Center in WGS84 coordinates
-     * const center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, model.boundingSphere.center, new Cesium.Cartesian3());
+    const center = Cesium.Matrix4.multiplyByPoint(model.modelMatrix, model.boundingSphere.center, new Cesium.Cartesian3());
      */
     readonly boundingSphere: BoundingSphere;
     /**
      * When <code>true</code>, this model is ready to render, i.e., the external binary, image,
-     * and shader files were downloaded and the WebGL resources were created.  This is set to
-     * <code>true</code> right before {@link Model#readyPromise} is resolved.
+    and shader files were downloaded and the WebGL resources were created.  This is set to
+    <code>true</code> right before {@link Model#readyPromise} is resolved.
      */
     readonly ready: boolean;
     /**
      * Gets the promise that will be resolved when this model is ready to render, i.e., when the external binary, image,
-     * and shader files were downloaded and the WebGL resources were created.
-     * <p>
-     * This promise is resolved at the end of the frame before the first frame the model is rendered in.
-     * </p>
+    and shader files were downloaded and the WebGL resources were created.
+    <p>
+    This promise is resolved at the end of the frame before the first frame the model is rendered in.
+    </p>
      * @example
      * // Play all animations at half-speed when the model is ready to render
-     * Promise.resolve(model.readyPromise).then(function(model) {
-     *   model.activeAnimations.addAll({
-     *     multiplier : 0.5
-     *   });
-     * }).catch(function(error){
-     *   window.alert(error);
-     * });
+    Promise.resolve(model.readyPromise).then(function(model) {
+      model.activeAnimations.addAll({
+        multiplier : 0.5
+      });
+    }).catch(function(error){
+      window.alert(error);
+    });
      */
     readonly readyPromise: Promise<Model>;
     /**
      * Determines if model WebGL resource creation will be spread out over several frames or
-     * block until completion once all glTF files are loaded.
+    block until completion once all glTF files are loaded.
      */
     readonly asynchronous: boolean;
     /**
@@ -34884,10 +34884,10 @@ export class Model {
     clippingPlanes: ClippingPlaneCollection;
     /**
      * The light color when shading the model. When <code>undefined</code> the scene's light color is used instead.
-     * <p>
-     * For example, disabling additional light sources by setting <code>model.imageBasedLightingFactor = new Cesium.Cartesian2(0.0, 0.0)</code> will make the
-     * model much darker. Here, increasing the intensity of the light source will make the model brighter.
-     * </p>
+    <p>
+    For example, disabling additional light sources by setting <code>model.imageBasedLightingFactor = new Cesium.Cartesian2(0.0, 0.0)</code> will make the
+    model much darker. Here, increasing the intensity of the light source will make the model brighter.
+    </p>
      */
     lightColor: Cartesian3;
     /**
@@ -34896,25 +34896,25 @@ export class Model {
     imageBasedLighting: ImageBasedLighting;
     /**
      * Cesium adds lighting from the earth, sky, atmosphere, and star skybox. This cartesian is used to scale the final
-     * diffuse and specular lighting contribution from those sources to the final color. A value of 0.0 will disable those light sources.
+    diffuse and specular lighting contribution from those sources to the final color. A value of 0.0 will disable those light sources.
      */
     imageBasedLightingFactor: Cartesian2;
     /**
      * The sun's luminance at the zenith in kilo candela per meter squared to use for this model's procedural environment map.
-     * This is used when {@link Model#specularEnvironmentMaps} and {@link Model#sphericalHarmonicCoefficients} are not defined.
+    This is used when {@link Model#specularEnvironmentMaps} and {@link Model#sphericalHarmonicCoefficients} are not defined.
      */
     luminanceAtZenith: number;
     /**
      * The third order spherical harmonic coefficients used for the diffuse color of image-based lighting. When <code>undefined</code>, a diffuse irradiance
-     * computed from the atmosphere color is used.
-     * <p>
-     * There are nine <code>Cartesian3</code> coefficients.
-     * The order of the coefficients is: L<sub>0,0</sub>, L<sub>1,-1</sub>, L<sub>1,0</sub>, L<sub>1,1</sub>, L<sub>2,-2</sub>, L<sub>2,-1</sub>, L<sub>2,0</sub>, L<sub>2,1</sub>, L<sub>2,2</sub>
-     * </p>
-     *
-     * These values can be obtained by preprocessing the environment map using the <code>cmgen</code> tool of
-     * {@link https://github.com/google/filament/releases|Google's Filament project}. This will also generate a KTX file that can be
-     * supplied to {@link Model#specularEnvironmentMaps}.
+    computed from the atmosphere color is used.
+    <p>
+    There are nine <code>Cartesian3</code> coefficients.
+    The order of the coefficients is: L<sub>0,0</sub>, L<sub>1,-1</sub>, L<sub>1,0</sub>, L<sub>1,1</sub>, L<sub>2,-2</sub>, L<sub>2,-1</sub>, L<sub>2,0</sub>, L<sub>2,1</sub>, L<sub>2,2</sub>
+    </p>
+    
+    These values can be obtained by preprocessing the environment map using the <code>cmgen</code> tool of
+    {@link https://github.com/google/filament/releases|Google's Filament project}. This will also generate a KTX file that can be
+    supplied to {@link Model#specularEnvironmentMaps}.
      */
     sphericalHarmonicCoefficients: Cartesian3[];
     /**
@@ -34937,71 +34937,71 @@ export class Model {
     static silhouetteSupported(scene: Scene): boolean;
     /**
      * <p>
-     * Creates a model from a glTF asset.  When the model is ready to render, i.e., when the external binary, image,
-     * and shader files are downloaded and the WebGL resources are created, the {@link Model#readyPromise} is resolved.
-     * </p>
-     * <p>
-     * The model can be a traditional glTF asset with a .gltf extension or a Binary glTF using the .glb extension.
-     * </p>
-     * <p>
-     * Cesium supports glTF assets with the following extensions:
-     * <ul>
-     * <li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_binary_glTF/README.md|KHR_binary_glTF (glTF 1.0)}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_materials_common/README.md|KHR_materials_common (glTF 1.0)}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/WEB3D_quantized_attributes/README.md|WEB3D_quantized_attributes (glTF 1.0)}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/AGI_articulations/README.md|AGI_articulations}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/pull/1302|KHR_blend (draft)}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_draco_mesh_compression/README.md|KHR_draco_mesh_compression}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_pbrSpecularGlossiness/README.md|KHR_materials_pbrSpecularGlossiness}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_unlit/README.md|KHR_materials_unlit}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
-     * </li><li>
-     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md|KHR_texture_basisu}
-     * </li>
-     * </ul>
-     * </p>
-     * <p>
-     * For high-precision rendering, Cesium supports the {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/CESIUM_RTC/README.md|CESIUM_RTC} extension, which introduces the
-     * CESIUM_RTC_MODELVIEW parameter semantic that says the node is in WGS84 coordinates translated
-     * relative to a local origin.
-     * </p>
+    Creates a model from a glTF asset.  When the model is ready to render, i.e., when the external binary, image,
+    and shader files are downloaded and the WebGL resources are created, the {@link Model#readyPromise} is resolved.
+    </p>
+    <p>
+    The model can be a traditional glTF asset with a .gltf extension or a Binary glTF using the .glb extension.
+    </p>
+    <p>
+    Cesium supports glTF assets with the following extensions:
+    <ul>
+    <li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_binary_glTF/README.md|KHR_binary_glTF (glTF 1.0)}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Khronos/KHR_materials_common/README.md|KHR_materials_common (glTF 1.0)}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/WEB3D_quantized_attributes/README.md|WEB3D_quantized_attributes (glTF 1.0)}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/AGI_articulations/README.md|AGI_articulations}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/pull/1302|KHR_blend (draft)}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_draco_mesh_compression/README.md|KHR_draco_mesh_compression}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_pbrSpecularGlossiness/README.md|KHR_materials_pbrSpecularGlossiness}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_unlit/README.md|KHR_materials_unlit}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
+    </li><li>
+    {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md|KHR_texture_basisu}
+    </li>
+    </ul>
+    </p>
+    <p>
+    For high-precision rendering, Cesium supports the {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/CESIUM_RTC/README.md|CESIUM_RTC} extension, which introduces the
+    CESIUM_RTC_MODELVIEW parameter semantic that says the node is in WGS84 coordinates translated
+    relative to a local origin.
+    </p>
      * @example
      * // Example 1. Create a model from a glTF asset
-     * const model = scene.primitives.add(Cesium.Model.fromGltf({
-     *   url : './duck/duck.gltf'
-     * }));
+    const model = scene.primitives.add(Cesium.Model.fromGltf({
+      url : './duck/duck.gltf'
+    }));
      * @example
      * // Example 2. Create model and provide all properties and events
-     * const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
-     * const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
-     *
-     * const model = scene.primitives.add(Cesium.Model.fromGltf({
-     *   url : './duck/duck.gltf',
-     *   show : true,                     // default
-     *   modelMatrix : modelMatrix,
-     *   scale : 2.0,                     // double size
-     *   minimumPixelSize : 128,          // never smaller than 128 pixels
-     *   maximumScale: 20000,             // never larger than 20000 * model size (overrides minimumPixelSize)
-     *   allowPicking : false,            // not pickable
-     *   debugShowBoundingVolume : false, // default
-     *   debugWireframe : false
-     * }));
-     *
-     * model.readyPromise.then(function(model) {
-     *   // Play all animations when the model is ready to render
-     *   model.activeAnimations.addAll();
-     * });
+    const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
+    const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+    
+    const model = scene.primitives.add(Cesium.Model.fromGltf({
+      url : './duck/duck.gltf',
+      show : true,                     // default
+      modelMatrix : modelMatrix,
+      scale : 2.0,                     // double size
+      minimumPixelSize : 128,          // never smaller than 128 pixels
+      maximumScale: 20000,             // never larger than 20000 * model size (overrides minimumPixelSize)
+      allowPicking : false,            // not pickable
+      debugShowBoundingVolume : false, // default
+      debugWireframe : false
+    }));
+    
+    model.readyPromise.then(function(model) {
+      // Play all animations when the model is ready to render
+      model.activeAnimations.addAll();
+    });
      * @param options - Object with the following properties:
      * @param options.url - The url to the .gltf file.
      * @param [options.basePath] - The base path that paths in the glTF JSON are relative to.
@@ -35079,11 +35079,11 @@ export class Model {
     }): Model;
     /**
      * Returns the glTF node with the given <code>name</code> property.  This is used to
-     * modify a node's transform for animation outside of glTF animations.
+    modify a node's transform for animation outside of glTF animations.
      * @example
      * // Apply non-uniform scale to node LOD3sp
-     * const node = model.getNode('LOD3sp');
-     * node.matrix = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(5.0, 1.0, 1.0), node.matrix);
+    const node = model.getNode('LOD3sp');
+    node.matrix = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(5.0, 1.0, 1.0), node.matrix);
      * @param name - The glTF name of the node.
      * @returns The node or <code>undefined</code> if no node with <code>name</code> exists.
      */
@@ -35102,40 +35102,40 @@ export class Model {
     getMaterial(name: string): ModelMaterial;
     /**
      * Sets the current value of an articulation stage.  After setting one or multiple stage values, call
-     * Model.applyArticulations() to cause the node matrices to be recalculated.
+    Model.applyArticulations() to cause the node matrices to be recalculated.
      * @param articulationStageKey - The name of the articulation, a space, and the name of the stage.
      * @param value - The numeric value of this stage of the articulation.
      */
     setArticulationStage(articulationStageKey: string, value: number): void;
     /**
      * Applies any modified articulation stages to the matrix of each node that participates
-     * in any articulation.  Note that this will overwrite any nodeTransformations on participating nodes.
+    in any articulation.  Note that this will overwrite any nodeTransformations on participating nodes.
      */
     applyArticulations(): void;
     /**
      * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
-     * get the draw commands needed to render this primitive.
-     * <p>
-     * Do not call this function directly.  This is documented just to
-     * list the exceptions that may be propagated when the scene is rendered:
-     * </p>
+    get the draw commands needed to render this primitive.
+    <p>
+    Do not call this function directly.  This is documented just to
+    list the exceptions that may be propagated when the scene is rendered:
+    </p>
      */
     update(): void;
     /**
      * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+    <br /><br />
+    If this object was destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
      * @returns <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
      */
     isDestroyed(): boolean;
     /**
      * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
+    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+    <br /><br />
+    Once an object is destroyed, it should not be used; calling any function other than
+    <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+    assign the return value (<code>undefined</code>) to the object as done in the example.
      * @example
      * model = model && model.destroy();
      */

@@ -5,7 +5,7 @@ let tilesetFlat
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.826361, lng: 117.223374, alt: 805, heading: 206, pitch: -38 }
+    center: { lat: 34.215539, lng: 108.959582, alt: 817, heading: 2, pitch: -46 }
   }
 }
 
@@ -35,17 +35,11 @@ export function onUnmounted() {
 function addLayer() {
   // 加模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
-    name: "合肥天鹅湖",
-    type: "3dtiles",
-    url: "//data.mars3d.cn/3dtiles/qx-teh/tileset.json",
-    position: { lng: 117.218434, lat: 31.81807, alt: 163 },
-    flatHeight: 120,
-    maximumScreenSpaceError: 16,
-    maximumMemoryUsage: 1024,
-    dynamicScreenSpaceError: true,
-    cullWithChildrenBounds: false,
-    skipLevelOfDetail: true,
-    preferLeaves: true
+    name: "大雁塔",
+    url: "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json",
+    position: { alt: -27 },
+    maximumScreenSpaceError: 1,
+    maximumMemoryUsage: 1024
   })
   map.addLayer(tilesetLayer)
 
@@ -53,10 +47,10 @@ function addLayer() {
   tilesetFlat = new mars3d.thing.TilesetFlat({
     layer: tilesetLayer,
     positions: [
-      [117.217219, 31.81957, 33.1],
-      [117.220855, 31.818821, 31.8],
-      [117.220938, 31.817249, 30.6],
-      [117.21743, 31.816218, 31.7]
+      [108.959062, 34.220134, 397.3],
+      [108.959802, 34.220147, 397.6],
+      [108.959779, 34.219506, 398.7],
+      [108.959106, 34.21953, 398.1]
     ],
     height: 0
   })

@@ -92,6 +92,15 @@ export function bindLayerDemo() {
     const container = event.container // tooltip对应的DOM
     console.log("图层上移除了tooltip", container)
   })
+
+  // geoJsonLayer.on(mars3d.EventType.popupOpen, function (event) {
+  //   const container = event.container // popup对应的DOM
+  //   console.log("图层上打开了popup", container)
+  // })
+  // geoJsonLayer.on(mars3d.EventType.popupClose, function (event) {
+  //   const container = event.container // popup对应的DOM
+  //   console.log("图层上移除了popup", container)
+  // })
 }
 
 // 2.在layer图层上预定义Popup单击弹窗

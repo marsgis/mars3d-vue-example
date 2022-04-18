@@ -23,13 +23,11 @@ export const mapOptions = {
       name: "全国省界",
       url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
       symbol: {
-        type: "polygonCombine",
+        type: "polylineCombine",
         styleOptions: {
-          fill: false,
-          outline: true,
-          outlineWidth: 2,
-          outlineColor: "#cccccc",
-          outlineOpacity: 0.8
+          width: 2,
+          color: "#cccccc",
+          opacity: 0.8
         }
       },
       show: true

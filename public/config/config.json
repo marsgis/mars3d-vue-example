@@ -289,8 +289,6 @@
         "layers": "mars:hfjy",
         "crs": "EPSG:4326",
         "parameters": { "transparent": "true", "format": "image/png" },
-        "highlight": { "clampToGround": true },
-        "center": { "lat": 31.743214, "lng": 117.277097, "alt": 47197.7, "heading": 0.3, "pitch": -78.8 },
         "popup": "名称：{项目名称}<br />类型：{设施类型}<br />面积：{用地面积}亩<br />位置：{具体位置}",
         "mapSplit": false,
         "show": false,
