@@ -42,7 +42,7 @@ function initMap() {
         icon: "img/basemaps/tdt_img.png",
         type: "tdt",
         layer: "img_d",
-        key: ["9ae78c51a0a28f06444d541148496e36"],
+        key: ["789e558be762ff832392a0393fd8a4f1"],
         show: true
       }
     ]
