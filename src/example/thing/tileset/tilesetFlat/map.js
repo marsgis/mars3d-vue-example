@@ -56,18 +56,19 @@ function addLayer() {
   })
   map.addThing(tilesetFlat)
 
-  // 模型加载完成
-  tilesetLayer.on(mars3d.EventType.load, function () {
+  // 模型加载完成方法一
+  tilesetLayer.readyPromise.then((e) => {
+    console.log(tilesetFlat.list)
     eventTarget.fire("dataLoaded", { list: tilesetFlat.list })
   })
 
-  // 会执行多次，重新加载一次完成后都会回调
-  tilesetLayer.on(mars3d.EventType.allTilesLoaded, function (event) {
-    console.log("触发allTilesLoaded事件", event)
-  })
+  // 模型加载完成方法二
+  // tilesetLayer.on(mars3d.EventType.load, function () {
+  //   setTimeout(() => {
+  //     eventTarget.fire("dataLoaded", { list: tilesetFlat.list })
+  //   }, 10)
+  // })
 }
-
-
 
 // 添加矩形
 export function btnDrawExtent(chkShowLine) {
@@ -156,7 +157,6 @@ function addTestLine(chkShowLine, positions) {
 function addTableItem(item) {
   eventTarget.fire("addItem", { item })
 }
-
 
 export function showHideArea(id, selected) {
   if (selected) {

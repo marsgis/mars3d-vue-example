@@ -38,6 +38,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic8(graphicLayer)
   addDemoGraphic9(graphicLayer)
   addDemoGraphic10(graphicLayer)
+  addDemoGraphic11(graphicLayer)
 }
 
 /**
@@ -310,6 +311,28 @@ function addDemoGraphic10(graphicLayer) {
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
+function addDemoGraphic11(graphicLayer) {
+  const primitive = new mars3d.graphic.PolygonPrimitive({
+    positions: [
+      [117.232633, 31.816532, 31.2],
+      [117.247045, 31.816953, 25.8],
+      [117.246916, 31.815743, 23.5],
+      [117.243156, 31.811025, 25.7],
+      [117.232491, 31.811307, 27.3]
+    ],
+    style: {
+      materialType: mars3d.MaterialType.WaterLight,
+      specularMap: "img/textures/excavate_side_min.jpg",
+      alpha: 0.6,
+      clampToGround: true
+    },
+    attr: { remark: "示例3" }
+  })
+  graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
+}
+
+
+
 // 生成数据
 export function addPrimitiveData(count) {
   graphicLayer.clear()
@@ -357,7 +380,6 @@ function random(min, max) {
 
 // 清除数据
 
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -369,8 +391,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 在图层级处理一些事物
 function bindLayerEvent() {
@@ -428,6 +448,3 @@ export function bindLayerContextMenu() {
     }
   ])
 }
-
-
-

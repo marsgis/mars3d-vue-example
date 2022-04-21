@@ -134,6 +134,41 @@ function addSatellite() {
       eventTarget.fire("realData", weixinData)
     }
   })
+
+  // 动态扫描视锥体
+  const saomiaoSensor = new mars3d.graphic.SatelliteSensor({
+    position: weixin.property,
+    autoHeading: true,
+    style: {
+      sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
+      angle1: 4.5,
+      angle2: 0.01,
+      heading: weixin.heading,
+      roll: weixin.roll,
+      pitch: 0,
+      color: "rgba(255,0,0,0.4)"
+    }
+  })
+  graphicLayer.addGraphic(saomiaoSensor)
+
+  // 动态pitch角
+  const maxHeight = 9
+  const step = 0.1
+  let currPitch = maxHeight
+  let isUp = -1
+
+  const update_old = saomiaoSensor.update
+  saomiaoSensor.update = function(frameState) {
+    if (currPitch <= -maxHeight && isUp !== 1) {
+      isUp = 1
+    } else if (currPitch >= maxHeight && isUp !== -1) {
+      isUp = -1
+    }
+    currPitch += step * isUp
+    saomiaoSensor.pitch = currPitch
+
+   return update_old.bind(this)(frameState)
+  }
 }
 
 // 定位至卫星

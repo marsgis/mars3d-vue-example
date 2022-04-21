@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.3.5
- * 编译日期：2022-04-18 13:51:12
+ * 编译日期：2022-04-18 17:39:29
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -18643,6 +18643,10 @@ declare class TilesetLayer extends BaseGraphicLayer {
      * 模型的边界球体。
      */
     readonly boundingSphere: Cesium.BoundingSphere;
+    /**
+     * 模型的向上轴，比如Cesium.Axis.Z 或 Cesium.Axis.Y
+     */
+    readonly upAxis: Cesium.Axis;
     /**
      * 旋转方向，示例：{ x: 0, y: 0, z: 0 }
      */
