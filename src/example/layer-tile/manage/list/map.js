@@ -29,7 +29,7 @@ export const eventTarget = new mars3d.BaseClass()
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  eventTarget.fire("loadOK")
+  eventTarget.fire("loadEnd")
 }
 
 /**
@@ -38,6 +38,14 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+// 获取图层
+export function getLayers() {
+  return map.getLayers({
+    basemaps: true, // 是否取config.json中的basempas
+    layers: true // 是否取config.json中的layers
+  })
 }
 
 export function addLayer(layer) {

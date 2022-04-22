@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-     <div class="f-mb">
+    <div class="f-mb">
       <layer-state />
     </div>
     <div class="f-mb">
@@ -63,6 +63,7 @@ const clear = () => {
 const videoPlay = () => {
   mapWork.videoPlay()
 }
+
 const videoStop = () => {
   mapWork.videoStop()
 }

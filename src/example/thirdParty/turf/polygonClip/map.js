@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let polygonLayer
-export let graphicLayer
+let graphicLayer
 
 export const mapOptions = {
   scene: {
@@ -33,10 +33,14 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
+export function clearGraphicLayer() {
+  graphicLayer.clear()
+}
 
 // 绘制线
 export function drawLine() {
-  graphicLayer.clear()
+  clearGraphicLayer()
+
   graphicLayer.startDraw({
     type: "polyline",
     maxPointNum: 2,
@@ -139,34 +143,12 @@ function clipAllPolygon(clipLine) {
   })
 }
 
-// 交点样式
-function intersectsStyle(slicedClipLine) {
-  const positions = slicedClipLine.geometry.coordinates
-  for (let i = 0; i < positions.length; i++) {
-    const pointGraphic = new mars3d.graphic.PointPrimitive({
-      positions: [positions[i]],
-      style: {
-        color: "#ccc",
-        opacity: 1,
-        outline: true,
-        outlineWidth: 3,
-        outlineColor: "#ccc",
-        clampToGround: true
-      }
-    })
-    polygonLayer.addGraphic(pointGraphic)
-  }
-}
-
 /**
  * geoJson数据处理模块(需要引入turf.js)
  * 输入输出数据均为标准geoJson格式
  */
 const geoUtil = {
-  /**
-   * 合并多边形
-   */
-
+  // 合并多边形
   unionPolygon: function (polygons) {
     let polygon = polygons[0]
     for (let i = 0; i < polygons.length; i++) {
@@ -180,7 +162,6 @@ const geoUtil = {
    * 面类型只能是polygon 但可以是环
    * 注:线与多边形必须有两个交点
    */
-
   polygonClipByLine: function (polygon, clipLine) {
     if (polygon.geometry.type === "Polygon") {
       const polyLine = turf.polygonToLine(polygon)
@@ -318,7 +299,6 @@ const geoUtil = {
    * 连接两条线
    * 方法会将两条线段最近的一段直接连接
    */
-
   connectLine: function (line1, line2) {
     const line2_length = line2.geometry.coordinates.length
     const line1_startPoint = line1.geometry.coordinates[0]
@@ -346,7 +326,6 @@ const geoUtil = {
    * 判断点是否在线里面
    * 注：线组成的坐标对比
    */
-
   isOnLine: function (point, line) {
     for (let i = 0; i < line.geometry.coordinates.length; i++) {
       const coordinate = line.geometry.coordinates[i]
@@ -360,7 +339,6 @@ const geoUtil = {
   /**
    * 获得两条线交点
    */
-
   getIntersectPoints: function (line1, line2) {
     return turf.lineIntersect(line1, line2)
   },
@@ -390,7 +368,6 @@ const geoUtil = {
    * polygons转multiPolygon,不涉及属性，只输出属性为{}
    * 考虑polygons中就存在多面的情况
    */
-
   polygons2MultiPolygon: function (geoJson) {
     const newGeoJson = {
       type: "FeatureCollection",

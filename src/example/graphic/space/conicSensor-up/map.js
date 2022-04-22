@@ -1,8 +1,6 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let graphicLayer
-
 let conicSensor
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -12,8 +10,6 @@ export const mapOptions = {
     center: { lat: 25.987821, lng: 122.076928, alt: 1295307, heading: 327, pitch: -59 }
   }
 }
-
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -25,7 +21,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
-  graphicLayer = new mars3d.layer.GraphicLayer()
+  const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
   // 加个模型
@@ -41,7 +37,7 @@ export function onMounted(mapInstance) {
   })
   graphicLayer.addGraphic(graphic)
 
-  eventTarget.fire("loadOk")
+  addConicSensor(graphicLayer)
 }
 
 /**
@@ -51,21 +47,14 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 }
-/**
- * 初始化 添加一个双椎体
- *
- * @export
- * @param {number} angle 角度
- * @param {number} length 半径
- * @returns {void}
- */
-export function addConicSensor(angle, length) {
-  // 圆锥体
+
+// 初始化 添加一个双椎体
+function addConicSensor(graphicLayer) {
   conicSensor = new mars3d.graphic.ConicSensor({
     position: [117.170264, 31.840312, 363],
     style: {
-      angle: angle,
-      length: length,
+      angle: 25,
+      length: 300000,
       color: "rgba(255,0,0,0.4)",
       outlineColor: "rgba(255,255,255,0.9)"
     }

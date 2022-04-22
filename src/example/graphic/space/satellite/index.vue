@@ -124,18 +124,16 @@ const formState: UnwrapRef<FormState> = reactive({
   td_gd: "0米"
 })
 
-onMounted(() => {
-  mapWork.eventTarget.on("loadOk", function (event: any) {
-    const nowData = event.weixinData
-    const height = formatLength(nowData.td_gd)
-    formState.name = nowData.name
-    formState.tle1 = nowData.tle1
-    formState.tle2 = nowData.tle2
-    formState.time = nowData.time
-    formState.td_jd = nowData.td_jd
-    formState.td_wd = nowData.td_wd
-    formState.td_gd = height
-  })
+mapWork.eventTarget.on("satelliteChange", function (event: any) {
+  const nowData = event.weixinData
+  const height = formatLength(nowData.td_gd)
+  formState.name = nowData.name
+  formState.tle1 = nowData.tle1
+  formState.tle2 = nowData.tle2
+  formState.time = nowData.time
+  formState.td_jd = nowData.td_jd
+  formState.td_wd = nowData.td_wd
+  formState.td_gd = height
 })
 
 // 数据处理

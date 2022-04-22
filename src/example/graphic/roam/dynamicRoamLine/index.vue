@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 interface DataItem {
@@ -26,29 +26,25 @@ const rowKeys = ref<string[]>([]) // Check here to configure the default column
 
 const msg = ref<string[]>([])
 
-onMounted(() => {
-  const arr: DataItem[] = []
-  const arrKey: string[] = []
+const arr: DataItem[] = []
+const arrKey: string[] = []
 
-  mapWork.eventTarget.on("loadOk", function (event: any) {
-    msg.value.push(event.log)
-
-    event.tableData.forEach((item: any, index: number) => {
-      arr.push({
-        key: item.id,
-        num: index + 1,
-        carNumber: item.name,
-        type: item.type === "1" ? "土方车" : "挖掘机"
-      })
-      arrKey.push(item.id)
+mapWork.eventTarget.on("carList", function (event: any) {
+  event.tableData.forEach((item: any, index: number) => {
+    arr.push({
+      key: item.id,
+      num: index + 1,
+      carNumber: item.name,
+      type: item.type === "1" ? "土方车" : "挖掘机"
     })
-    dataSource.value = arr
-    rowKeys.value = arrKey
+    arrKey.push(item.id)
   })
+  dataSource.value = arr
+  rowKeys.value = arrKey
 })
 
-mapWork.eventTarget.on("showMsg", function (event: any) {
-  msg.value.push(event.log)
+mapWork.eventTarget.on("showPath", function (event: any) {
+  msg.value.push(event.path)
 })
 
 const columns: any[] = [

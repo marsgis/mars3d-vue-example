@@ -44,22 +44,9 @@ export function onUnmounted() {
   map = null
 }
 
-/**
- * 初始化创建一个卫星视锥体
- *
- * @export
- * @param {number} x 经度
- * @param {number} y 纬度
- * @param {number} z 高度
- * @param {number} heading 轨迹方向
- * @param {number} pitch 前后侧摆
- * @param {number} roll 左右侧摆
- * @param {number} angle1 夹角1
- * @param {number} angle2 夹角2
- * @returns {void}
- */
-export function addModelGraphic(x, y, z, heading, pitch, roll, angle1, angle2) {
-  const position = Cesium.Cartesian3.fromDegrees(x, y, z)
+// 初始化创建一个卫星视锥体
+export function addModelGraphic(sensorParams) {
+  const position = Cesium.Cartesian3.fromDegrees(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
   // 加个模型
   modelGraphic = new mars3d.graphic.ModelEntity({
     name: "卫星模型",
@@ -68,9 +55,9 @@ export function addModelGraphic(x, y, z, heading, pitch, roll, angle1, angle2) {
       url: "//data.mars3d.cn/gltf/mars/weixin.gltf",
       scale: 1,
       minimumPixelSize: 150,
-      heading: heading,
-      pitch: pitch,
-      roll: roll
+      heading: sensorParams.headingValue,
+      pitch: sensorParams.pitchValue,
+      roll: sensorParams.rollValue
     }
   })
   graphicLayer.addGraphic(modelGraphic)
@@ -83,11 +70,11 @@ export function addModelGraphic(x, y, z, heading, pitch, roll, angle1, angle2) {
     position: position,
     style: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
-      angle1: angle1,
-      angle2: angle2,
-      heading: heading,
-      pitch: pitch,
-      roll: roll,
+      angle1: sensorParams.angleValue1,
+      angle2: sensorParams.angleValue2,
+      heading: sensorParams.headingValue,
+      pitch: sensorParams.pitchValue,
+      roll: sensorParams.rollValue,
       color: "rgba(0,255,255,0.7)"
     },
     fixedFrameTransform: converter,
@@ -199,7 +186,6 @@ export function getRegion() {
     })
     map.graphicLayer.addGraphic(primitive)
   })
-
 }
 
 export function getCenter() {

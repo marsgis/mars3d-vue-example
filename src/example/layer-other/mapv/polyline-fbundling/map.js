@@ -31,8 +31,6 @@ export function onUnmounted() {
 }
 
 function createMapvLayer() {
-  // let randomCount = 500;
-
   const nodeData = {
     0: {
       x: 108.154518,
@@ -133,12 +131,14 @@ function createMapvLayer() {
     shadowColor: "rgba(55, 50, 250, 0.5)",
     shadowBlur: 10,
     lineWidth: 1.0,
-    draw: "simple"
+    draw: "simple",
+    data: data // 数据
   }
-  const dataSet1 = new this.mapv.DataSet(data)
+
   // 创建MapV图层
-  const mapVLayer1 = new mars3d.layer.MapVLayer(options1, dataSet1)
+  const mapVLayer1 = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer1)
+
 
   const options2 = {
     fillStyle: "rgba(255, 250, 250, 0.9)",
@@ -153,11 +153,12 @@ function createMapvLayer() {
       trails: 1,
       duration: 5
     },
-    draw: "simple"
+    draw: "simple",
+    data: timeData // 数据
   }
-  const dataSet2 = new this.mapv.DataSet(timeData)
 
   // 创建MapV图层
-  const mapVLayer2 = new mars3d.layer.MapVLayer(options2, dataSet2)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
+
 }

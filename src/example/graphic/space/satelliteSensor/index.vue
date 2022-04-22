@@ -3,85 +3,81 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
-        <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+        <a-checkbox v-model:checked="sensorParams.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
         <mars-button @click="locate">定位至卫星</mars-button>
         <mars-button href="editor.html?id=graphic/space/satelliteSensor-multi" target="_blank">双锥体示例</mars-button>
       </a-space>
     </div>
 
-    <!-- <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">经度:</span>
-         <mars-input-number @change="xChange" v-model:value="model_x" class="inputNum"></mars-input-number> 纬度:<mars-input-number
-          @change="yChange"
-          v-model:value="model_y"
-          class="inputNum"
-        ></mars-input-number>
-        高度:<mars-input-number @change="zChange" v-model:value="model_z" class="inputNum"></mars-input-number>
-      </a-space>
-    </div> -->
-
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="xChange" v-model:value="model_x" class="inputNum"></mars-input-number>
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_x" class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="yChange" v-model:value="model_y" class="inputNum"></mars-input-number>
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_y" class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">高度:</span>
-        <mars-input-number @change="zChange" v-model:value="model_z" class="inputNum"></mars-input-number
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_z" class="inputNum"></mars-input-number
       ></a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轨迹方向:</span>
-        <mars-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="1" />当前值{{ headingValue }}
+        <mars-slider @change="headingChange" v-model:value="sensorParams.headingValue" :min="0" :max="360" :step="1" />当前值{{
+          sensorParams.headingValue
+        }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆:</span>
-        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />当前值{{ pitchValue }}
+        <mars-slider @change="pitchChange" v-model:value="sensorParams.pitchValue" :min="-180" :max="180" :step="1" />当前值{{
+          sensorParams.pitchValue
+        }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆:</span>
-        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />当前值{{ rollValue }}
+        <mars-slider @change="rollChange" v-model:value="sensorParams.rollValue" :min="-180" :max="180" :step="1" />当前值{{ sensorParams.rollValue }}
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">参考系轴:</span>
-        <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
-        <a-checkbox v-show="formState.enabledShowHide" v-model:checked="formState.enabledIntersect" @change="chkUnderground">求交地球</a-checkbox>
+        <a-checkbox v-model:checked="sensorParams.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
+        <a-checkbox v-show="sensorParams.enabledShowHide" v-model:checked="sensorParams.enabledIntersect" @change="chkUnderground"
+          >求交地球</a-checkbox
+        >
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轴长度:</span>
-        <mars-slider @change="lengthChange" v-model:value="matrixLength" :min="1" :max="10000" :step="1" />当前值{{ matrixLength }}
+        <mars-slider @change="lengthChange" v-model:value="sensorParams.matrixLength" :min="1" :max="10000" :step="1" />当前值{{
+          sensorParams.matrixLength
+        }}
       </a-space>
     </div>
 
-    <div class="showHide" v-show="formState.enabledShowHide">
+    <div class="showHide" v-show="sensorParams.enabledShowHide">
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">类型:</span>
-          <a-radio-group v-model:value="value" name="radioGroup" @change="chkSensorType">
+          <a-radio-group v-model:value="sensorType" name="radioGroup" @change="chkSensorType">
             <a-radio value="1">圆锥体</a-radio>
             <a-radio value="2">四棱锥体</a-radio>
           </a-radio-group>
@@ -91,14 +87,18 @@
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">夹角1:</span>
-          <mars-slider @change="angle1" v-model:value="angleValue1" :min="0" :max="89" :step="0.001" />当前值{{ angleValue1 }}
+          <mars-slider @change="angle1" v-model:value="sensorParams.angleValue1" :min="0" :max="89" :step="0.001" />当前值{{
+            sensorParams.angleValue1
+          }}
         </a-space>
       </div>
 
-      <div class="f-mb" v-if="value === '2'">
+      <div class="f-mb" v-if="sensorType === '2'">
         <a-space>
           <span class="mars-pannel-item-label">夹角2:</span>
-          <mars-slider @change="angle2" v-model:value="angleValue2" :min="0" :max="89" :step="0.001" />当前值{{ angleValue2 }}
+          <mars-slider @change="angle2" v-model:value="sensorParams.angleValue2" :min="0" :max="89" :step="0.001" />当前值{{
+            sensorParams.angleValue2
+          }}
         </a-space>
       </div>
 
@@ -116,89 +116,85 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
-interface FormState {
+const sensorType = ref<string>("2")
+
+interface SatelliteSensor {
   enabledShowHide: boolean
   enabledIntersect: boolean
   enabledShowMatrix: boolean // 参考轴系
+
+  model_x: number
+  model_y: number
+  model_z: number
+  matrixLength: number
+  angleValue1: number // 角度
+  angleValue2: number
+  headingValue: number // 方向
+  pitchValue: number // 仰角s
+  rollValue: number // 左右
 }
 
-const value = ref<string>("2")
-const model_x = ref<number>(117.169969)
-const model_y = ref<number>(31.840886)
-const model_z = ref<number>(9980000)
-const matrixLength = ref<number>(30)
-// 角度
-const angleValue1 = ref<number>(5)
-const angleValue2 = ref<number>(10)
-const headingValue = ref<number>(0) // 方向
-const pitchValue = ref<number>(0) // 仰角
-const rollValue = ref<number>(0) // 左右
-
-const formState: UnwrapRef<FormState> = reactive({
+const sensorParams = reactive<SatelliteSensor>({
   enabledShowHide: true,
   enabledIntersect: false,
-  enabledShowMatrix: true
+  enabledShowMatrix: true,
+
+  model_x: 117.169969, // 经度
+  model_y: 31.840886, // 纬度
+  model_z: 9980000, // 高度
+  matrixLength: 30,
+  // 角度
+  angleValue1: 5, // 夹角1
+  angleValue2: 10, // 夹角2
+  headingValue: 0, // 轨迹方向
+  pitchValue: 9, //  前后侧摆
+  rollValue: 0 // 左右侧摆
 })
 
 mapWork.eventTarget.on("loadOk", () => {
-  mapWork.addModelGraphic(
-    model_x.value,
-    model_y.value,
-    model_z.value,
-    headingValue.value,
-    pitchValue.value,
-    rollValue.value,
-    angleValue1.value,
-    angleValue2.value
-  )
+  mapWork.addModelGraphic(sensorParams)
 })
 
 // 显示/隐藏
 const sensorShowHide = () => {
-  mapWork.sensorShowHide(formState.enabledShowHide)
+  mapWork.sensorShowHide(sensorParams.enabledShowHide)
 }
 
 // 方向角
 const headingChange = () => {
-  mapWork.headingChange(headingValue.value)
+  mapWork.headingChange(sensorParams.headingValue)
 }
 
 // 俯仰角
 const pitchChange = () => {
-  mapWork.pitchChange(pitchValue.value)
+  mapWork.pitchChange(sensorParams.pitchValue)
 }
 
 // 左右角
 const rollChange = () => {
-  mapWork.rollChange(rollValue.value)
+  mapWork.rollChange(sensorParams.rollValue)
 }
 const lengthChange = () => {
-  mapWork.lengthChange(matrixLength.value)
+  mapWork.lengthChange(sensorParams.matrixLength)
 }
 
 // 夹角
 const angle1 = () => {
-  mapWork.angle1(angleValue1.value)
+  mapWork.angle1(sensorParams.angleValue1)
 }
 const angle2 = () => {
-  mapWork.angle2(angleValue2.value)
+  mapWork.angle2(sensorParams.angleValue2)
 }
 // 定位至模型
 const locate = () => {
   mapWork.locate()
 }
 
-const xChange = () => {
-  mapWork.updatePosition(model_x.value, model_y.value, model_z.value)
-}
-const yChange = () => {
-  mapWork.updatePosition(model_x.value, model_y.value, model_z.value)
-}
-const zChange = () => {
-  mapWork.updatePosition(model_x.value, model_y.value, model_z.value)
+// 坐标改变
+const positionChange = () => {
+  mapWork.updatePosition(sensorParams.model_x, sensorParams.model_y, sensorParams.model_z)
 }
 
 const clear = () => {
@@ -214,17 +210,17 @@ const getCenter = () => {
 
 // 参考轴系显示与隐藏
 const chkShowModelMatrix = () => {
-  mapWork.chkShowModelMatrix(formState.enabledShowMatrix)
+  mapWork.chkShowModelMatrix(sensorParams.enabledShowMatrix)
 }
 
 // 是否与地球相交
 const chkUnderground = () => {
-  mapWork.chkUnderground(formState.enabledIntersect)
+  mapWork.chkUnderground(sensorParams.enabledIntersect)
 }
 
 // 类型选择
 const chkSensorType = () => {
-  mapWork.chkSensorType(value.value)
+  mapWork.chkSensorType(sensorType.value)
 }
 </script>
 <style scoped lang="less">

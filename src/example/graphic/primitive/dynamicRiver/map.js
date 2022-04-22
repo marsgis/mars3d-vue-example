@@ -95,26 +95,23 @@ export function drawLine(width, height, speed) {
 
 // 宽发生改变
 export function widthChange(value) {
-  if (!dynamicRiver) {
-    return
+  if (dynamicRiver) {
+    dynamicRiver.width = value
   }
-  dynamicRiver.width = value
 }
 
 // 高发生改变
 export function heightChange(value) {
-  if (!dynamicRiver) {
-    return
+  if (dynamicRiver) {
+    dynamicRiver.height = value
   }
-  dynamicRiver.height = value
 }
 
 // 速度发生改变
 export function speedChange(value) {
-  if (!dynamicRiver) {
-    return
+  if (dynamicRiver) {
+    dynamicRiver.speed = value
   }
-  dynamicRiver.speed = value
 }
 
 let onOff = true

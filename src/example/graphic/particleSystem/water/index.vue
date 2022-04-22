@@ -78,11 +78,16 @@ const treeData = ref<any[]>([
   }
 ])
 
-const tree = treeData.value[0].children
-tree.forEach((element: any) => {
-  checkedKeys.value.push(element.key)
-  expandedKeys.value.push(element.key)
-})
+// 初始化树
+const initTree = () => {
+  const tree = treeData.value[0].children
+  tree.forEach((element: any) => {
+    checkedKeys.value.push(element.key)
+    expandedKeys.value.push(element.key)
+  })
+}
+
+initTree()
 
 const checkedChange = (keys: string[], checkedNodes: any) => {
   const chilrenAll = checkedNodes.node.children

@@ -19,7 +19,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.basemap = 2017 // 蓝色底图
 
-  queryWeibo2ApiData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo2.json" })
     .then(function (json) {
       // 创建Mapv
       createMapvLayer(json)
@@ -39,10 +39,6 @@ export function onUnmounted() {
   map = null
 }
 
-// 访问后端接口，取数据
-function queryWeibo2ApiData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo2.json" })
-}
 function createMapvLayer(rs) {
   const data = []
   for (let i = 0; i < rs[0].length; i++) {
@@ -74,11 +70,12 @@ function createMapvLayer(rs) {
       },
       trails: 1,
       duration: 6
-    }
+    },
+
+    data: data // 数据
   }
-  const dataSet = new this.mapv.DataSet(data)
 
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }

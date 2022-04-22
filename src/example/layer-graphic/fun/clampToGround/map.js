@@ -99,7 +99,7 @@ export function getDataSurfaceHeight() {
         percent: index + 1,
         percentAll: len
       }
-      eventTarget.fire("loadOk", { resultData })
+      eventTarget.fire("computedResult", { resultData })
     },
     callback: function () {
       hideLoading()

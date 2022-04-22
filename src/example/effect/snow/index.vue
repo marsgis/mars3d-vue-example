@@ -1,7 +1,7 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="254">
     <div style="width: 232px">
-      <div class="f-mb">
+      <div class="f-mb f-tac">
         <a-space>
           <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果</a-checkbox>
           <a-checkbox @change="onChangeCoverState" v-model:checked="formState.enabledCover">积雪效果</a-checkbox>

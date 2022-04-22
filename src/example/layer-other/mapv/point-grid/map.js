@@ -66,12 +66,12 @@ function createMapvLayer() {
       0.85: "yellow",
       1.0: "rgb(255,0,0)"
     },
-    draw: "grid"
+    draw: "grid",
+    data: geojson // 数据
   }
-  const dataSet = new this.mapv.DataSet(geojson)
 
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }
 

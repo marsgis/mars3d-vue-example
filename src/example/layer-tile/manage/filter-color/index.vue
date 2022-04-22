@@ -15,9 +15,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import * as mapWork from "./map.js"
-import { useWidget } from "@mars/widgets/common/store/widget"
 
-const { activate } = useWidget()
+const color = ref("#4e70a6")
 
 const addLayer = () => {
   mapWork.addLayer()
@@ -27,8 +26,6 @@ const removeLayer = () => {
   mapWork.removeLayer()
 }
 
-
-const color = ref("#4e70a6")
 const selectColor = () => {
   mapWork.setFilterColor(color.value)
 }

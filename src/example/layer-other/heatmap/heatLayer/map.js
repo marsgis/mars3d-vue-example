@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  queryWindyuvApiData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
     .then(function (data) {
       const arrPoints = []
       for (let i = 0; i < data.Data.length; i++) {
@@ -38,11 +38,6 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-}
-
-// 访问后端接口，取数据
-function queryWindyuvApiData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/heat.json" })
 }
 
 function showHeatMap(arrPoints) {

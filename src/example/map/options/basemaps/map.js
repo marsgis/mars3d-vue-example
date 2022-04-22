@@ -43,27 +43,25 @@ function initMap() {
   // map.basemap = '离线地图'
 }
 
+// basemaps说支持的图层类型（tileLayer）
+// "type": "image"
+// "type": "xyz"
+// "type": "wms"
+// "type": "wmts"
+// "type": "tms"
+// "type": "arcgis"
+// "type": "arcgis_cache"
+// "type": "gee"
 
+// "type": "tileinfo" 瓦片信息（一般用于测试）
+// "type": "grid"   网格线（一般用于无地图模式）
 
-  // basemaps说支持的图层类型（tileLayer）
-  // "type": "image"
-  // "type": "xyz"
-  // "type": "wms"
-  // "type": "wmts"
-  // "type": "tms"
-  // "type": "arcgis"
-  // "type": "arcgis_cache"
-  // "type": "gee"
-
-  // "type": "tileinfo" 瓦片信息（一般用于测试）
-  // "type": "grid"   网格线（一般用于无地图模式）
-
-  // "type": "tdt"
-  // "type": "gaode"
-  // "type": "baidu"
-  // "type": "tencent"
-  // "type": "osm"
-  // "type": "google"
-  // "type": "bing"
-  // "type": "mapbox"
-  // "type": "ion"
+// "type": "tdt"
+// "type": "gaode"
+// "type": "baidu"
+// "type": "tencent"
+// "type": "osm"
+// "type": "google"
+// "type": "bing"
+// "type": "mapbox"
+// "type": "ion"

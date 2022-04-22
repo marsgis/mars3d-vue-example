@@ -52,7 +52,7 @@ export function onMounted(mapInstance) {
 
   const tileWorldImagery = new ol.layer.Tile({
     source: new ol.source.XYZ({
-      url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      url: "https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
       crossOrigin: "Anonymous"
     })
   })

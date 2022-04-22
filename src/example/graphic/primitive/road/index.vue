@@ -1,19 +1,21 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-    <layer-state />
     <div class="f-mb">
       <span>建议：顺着道路方向选点，直线时多采集点</span>
     </div>
-    <div class="f-mb">
+
+    <layer-state />
+
+    <div class="f-mb f-pt">
       <a-space>
         <span class="mars-pannel-item-label">路宽度(米):</span>
-        <mars-input-number @change="widthChange" v-model:value="widthValue"></mars-input-number>
+        <mars-input-number @change="widthChange" v-model:value="widthValue" :min="0"></mars-input-number>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">路高度(米):</span>
-        <mars-input-number @change="heightChange" v-model:value="heightValue"></mars-input-number>
+        <mars-input-number @change="heightChange" v-model:value="heightValue" :min="0"></mars-input-number>
       </a-space>
     </div>
 
@@ -24,7 +26,7 @@
       </a-space>
     </div>
 
-    <div>
+    <div class="f-tac">
       <a-space>
         <mars-button @click="drawLine">绘制道路</mars-button>
         <mars-button @click="clear">清除</mars-button>
@@ -38,27 +40,20 @@ import { ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
-// 宽度
-const widthValue = ref<number>(20)
+const widthValue = ref(20) // 宽度
+const alphaValue = ref(1) // 透明度
+const heightValue = ref(1) // 高度
 
 const widthChange = () => {
-  if (!widthValue.value && widthValue.value !== 0) {
-    widthValue.value = 20
-  }
   mapWork.widthChange(widthValue.value)
 }
 
 // 高度
-const heightValue = ref<number>(1)
 const heightChange = () => {
-  if (!heightValue.value && heightValue.value !== 0) {
-    heightValue.value = 1
-  }
   mapWork.heightChange(heightValue.value)
 }
 
 // 透明度
-const alphaValue = ref<number>(1)
 const alphaChange = () => {
   mapWork.alphaChange(alphaValue.value)
 }

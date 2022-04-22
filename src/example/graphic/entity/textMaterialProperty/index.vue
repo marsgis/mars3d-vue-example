@@ -47,21 +47,24 @@ const onChangeSlider = () => {
 const onClickDrawWall = () => {
   mapWork.onClickDrawWall()
 }
+
 const onClickDrawRectangle = () => {
   mapWork.onClickDrawRectangle()
 }
+
 const onClickDrawPoint = () => {
   mapWork.onClickDrawPoint()
 }
+
 const removeAll = () => {
   mapWork.removeAll()
 }
+
 const onClickSure = () => {
   mapWork.onClickSure(formState.inputText)
 }
 
 // 属性面板
-
 const showEditor = (e: any) => {
   if (!isActivate("graphic-editor")) {
     activate({

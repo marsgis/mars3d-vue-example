@@ -88,8 +88,6 @@ export function onMounted(mapInstance) {
       break
     default:
   }
-
-  // showQxShequDemo()
 }
 
 /**
@@ -121,18 +119,6 @@ function isPCBroswer() {
   } else {
     return true
   }
-}
-
-function getRequestByName(name, defval, target) {
-  try {
-    target = target || window
-    const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i")
-    const r = target.location.search.substr(1).match(reg)
-    if (r != null) {
-      return decodeURI(r[2])
-    }
-  } catch (e) {}
-  return defval
 }
 
 // 绑定事件
@@ -258,11 +244,6 @@ export function showQxSimiaoDemo() {
   // 加载的事件 只执行一次
   tiles3dLayer.on(mars3d.EventType.initialTilesLoaded, function (event) {
     console.log("触发initialTilesLoaded事件", event)
-  })
-
-  // 会执行多次，重新加载一次完成后都会回调
-  tiles3dLayer.on(mars3d.EventType.allTilesLoaded, function (event) {
-    console.log("触发allTilesLoaded事件", event)
   })
 }
 

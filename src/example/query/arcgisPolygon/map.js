@@ -135,7 +135,6 @@ export function queryData(queryVal) {
   queryMapserver.query({
     column: "用地名称",
     text: queryVal,
-
     graphic: drawGraphic,
     page: false,
     success: (result) => {
@@ -205,7 +204,7 @@ function calculateArea(arr) {
     const area = mars3d.Util.formatNum(objTemp[type].area, 2)
     arrTable.push({ type: type, area: area, count: objTemp[type].count })
   }
-  eventTarget.fire("loadOk", { list: arrTable })
+  eventTarget.fire("tableData", { list: arrTable })
 }
 
 // 规划面着色配置

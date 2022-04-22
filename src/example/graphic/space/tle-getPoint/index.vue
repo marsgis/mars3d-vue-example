@@ -6,10 +6,10 @@
       </a-form-item>
 
       <a-form-item label="开始时间:">
-        <mars-date-picker v-model:value="startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+        <mars-date-picker v-model:value="formState.startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
       <a-form-item label="结束时间:">
-        <mars-date-picker v-model:value="endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+        <mars-date-picker v-model:value="formState.endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
 
       <a-form-item label="区域颜色:">
@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import dayjs, { Dayjs } from "dayjs"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -51,7 +50,7 @@ interface FormState {
   guidaoJ: boolean
 }
 
-const formState: UnwrapRef<FormState> = reactive({
+const formState = reactive<FormState>({
   slideAngle: 10,
   slideOpacity: 0.4,
   startTime: null,
@@ -61,12 +60,11 @@ const formState: UnwrapRef<FormState> = reactive({
   guidaoJ: true
 })
 
-const startTime = ref()
-const endTime = ref()
+
 
 mapWork.eventTarget.on("loadOK", (event: any) => {
-  startTime.value = dayjs(event.startTime, "YYYY-MM-DD HH:mm:ss")
-  endTime.value = dayjs(event.endTime, "YYYY-MM-DD HH:mm:ss")
+  formState.startTime = dayjs(event.startTime, "YYYY-MM-DD HH:mm:ss")
+  formState.endTime = dayjs(event.endTime, "YYYY-MM-DD HH:mm:ss")
 })
 
 const changeAngle = () => {
@@ -85,7 +83,7 @@ const changeColorOpacity = () => {
 }
 
 const btnAdd = () => {
-  mapWork.btnAdd(formState, startTime.value, endTime.value)
+  mapWork.btnAdd(formState)
 }
 const btnRemoveAll = () => {
   mapWork.btnRemoveAll()

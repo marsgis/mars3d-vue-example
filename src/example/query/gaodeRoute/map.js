@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-let routeLayer
-let gaodeRoute
+let routeLayer // 矢量数据图层
+let gaodeRoute // 高德 路径规划
 
 // 当前页面业务相关
 let startGraphic, endGraphic
@@ -78,25 +78,24 @@ export function startPoint(type) {
     startGraphic = null
   }
 
-  map.graphicLayer.startDraw({
-    type: "billboard",
-    style: {
-      image: "img/marker/start.png",
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-    },
-    success: function (graphic) {
+  return map.graphicLayer
+    .startDraw({
+      type: "billboard",
+      style: {
+        image: "img/marker/start.png",
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      }
+    })
+    .then((graphic) => {
       startGraphic = graphic
-
       const point = graphic.point
       point.format()
-
       // 触发自定义事件，改变输入框的值
-      eventTarget.fire("start", { point })
-
       queryRoute(type)
-    }
-  })
+
+      return point
+    })
 }
 
 /**
@@ -112,25 +111,22 @@ export function endPoint(type) {
     endGraphic = null
   }
 
-  map.graphicLayer.startDraw({
-    type: "billboard",
-    style: {
-      image: "img/marker/end.png",
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-    },
-    success: function (graphic) {
+  return map.graphicLayer
+    .startDraw({
+      type: "billboard",
+      style: {
+        image: "img/marker/end.png",
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      }
+    })
+    .then((graphic) => {
       endGraphic = graphic
-
       const point = graphic.point
       point.format()
-
-      // 触发自定义事件，改变输入框的值
-      eventTarget.fire("end", { point })
-
       queryRoute(type)
-    }
-  })
+      return point
+    })
 }
 
 function queryRoute(type) {

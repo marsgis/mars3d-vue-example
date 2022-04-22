@@ -59,9 +59,9 @@ interface FormState {
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  count: 5000,
-  age: 120,
-  speed: 60,
+  count: 4096,
+  age: 60,
+  speed: 10,
   linewidth: 1,
   color: "#4696db"
 })

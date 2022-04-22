@@ -38,7 +38,17 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(tilesetLayer)
 
-  eventTarget.fire("shadows")
+  shadows = new mars3d.thing.Shadows({
+    multiplier: 1600
+  })
+  map.addThing(shadows)
+
+  shadows.on(mars3d.EventType.change, function () {
+    const shadowTime = shadows.time
+    eventTarget.fire("changeShadows", { shadowTime })
+  })
+
+  eventTarget.fire("loadOk")
 }
 
 /**
@@ -52,39 +62,36 @@ export function onUnmounted() {
 export function stopPlay() {
   if (shadows && shadows.isStart) {
     shadows.pause()
-    shadows = null
   }
 }
 
-export function startPlay(timeVal, currTime) {
-  const currentTime = setShadows(timeVal, currTime)
+/**
+ * 开始播放
+ *
+ * @export
+ * @param {*} date 年月日
+ * @param {number} hours 小时
+ * @param {number} minutes 分钟
+ */
+export function startPlay(date, hours, minutes) {
+  const currentTime = setShadows(date, hours, minutes)
+  const startDate = new Date(date + " 00:00:00")
+  const endDate = new Date(date + " 23:59:59")
 
-  shadows.on(mars3d.EventType.change, function () {
-    const shadowTime = shadows.time
-    eventTarget.fire("loadOk", { shadowTime })
-  })
-
-  const startDate = new Date(currTime + " 00:00:00")
-  const endDate = new Date(currTime + " 23:59:59")
-
-  if (currentTime >= endDate) {
-    globalMsg("开始时间必须小于结束时间！")
-    return
-  }
   shadows.start(startDate, endDate, currentTime)
 }
 
-export function setShadows(value, date) {
-  const hours = Number.parseInt(value / 60)
-  const minutes = Number.parseInt(value % 60)
-  const strDateTime = `${date} ${hours}:${minutes}:00`
-  const dateTime = new Date(strDateTime)
-
-  shadows = new mars3d.thing.Shadows({
-    multiplier: 1600,
-    time: dateTime
-  })
-  map.addThing(shadows)
+/**
+ * 修改shadows 当前时间
+ *
+ * @export
+ * @param {*} date 年月日
+ * @param {number} hours 小时
+ * @param {number} minutes 分钟
+ */
+export function setShadows(date, hours, minutes) {
+  const dateTime = new Date(`${date} ${hours}:${minutes}:00`)
+  shadows.time = dateTime
 
   return dateTime
 }

@@ -126,7 +126,6 @@ interface FileInfo {
   fileList: FileItem[]
 }
 
-
 // 显示隐藏
 const enabledShowHide = ref(true)
 const onChangeShow = () => {
@@ -166,9 +165,7 @@ const onChangeContextMenu = () => {
 // 是否可编辑
 const enabledEdit = ref(true)
 const onChangeHasEdit = () => {
-
-    mapWork.graphicLayer.hasEdit = enabledEdit.value
-
+  mapWork.graphicLayer.hasEdit = enabledEdit.value
 }
 
 // 是否仅在3dtiles上标绘
@@ -216,6 +213,7 @@ const showEditor = (e: any) => {
     })
   }
 }
+
 mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
   if (enabledEdit.value) {
     showEditor(e)

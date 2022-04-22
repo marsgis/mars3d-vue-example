@@ -47,10 +47,17 @@ export function onMounted(mapInstance) {
   })
   map.addThing(tilesetClip)
 
-  // 模型加载完成
-  tilesetLayer.on(mars3d.EventType.load, function () {
+  // 模型加载完成方法一
+  tilesetLayer.readyPromise.then((e) => {
     eventTarget.fire("dataLoaded", { list: tilesetClip.list })
   })
+
+  // 模型加载完成方法二
+  /* tilesetLayer.on(mars3d.EventType.load, function () {
+    setTimeout(function () {
+      eventTarget.fire("dataLoaded", { list: tilesetClip.list })
+    }, 100)
+  }) */
 
   // 会执行多次，重新加载一次完成后都会回调
   tilesetLayer.on(mars3d.EventType.allTilesLoaded, function (event) {

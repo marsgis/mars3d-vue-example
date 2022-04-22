@@ -62,9 +62,11 @@ const clear = () => {
 const videoPlay = () => {
   mapWork.videoPlay()
 }
+
 const videoStop = () => {
   mapWork.videoStop()
 }
+
 </script>
 <style scoped lang="less">
 .ant-slider {

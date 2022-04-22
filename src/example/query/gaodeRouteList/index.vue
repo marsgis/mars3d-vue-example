@@ -28,7 +28,7 @@
         </a-space>
       </div>
 
-      <div v-show="wayShow">
+      <div v-show="dataSource.length > 0">
         <a-table
           :pagination="false"
           :dataSource="dataSource"
@@ -59,7 +59,6 @@ interface DataItem {
 const strat = ref("")
 const count = ref(0)
 const selectWay = ref("1")
-const wayShow = ref(false)
 
 // 表格数据
 const dataSource = ref<any[]>([])
@@ -86,6 +85,7 @@ const columns = [
     key: "time"
   }
 ]
+
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
@@ -96,6 +96,7 @@ const customRow = (record: DataItem) => {
 // 下拉菜单
 const selectWayOptions = ref([
   {
+    // 1-步行路线
     value: "1",
     label: "步行路线查询"
   },
@@ -107,31 +108,27 @@ const selectWayOptions = ref([
 ])
 
 // 起点
-const stratPoint = () => {
-  mapWork.stratPoint()
+const stratPoint = async () => {
+  const endPoint: any = await mapWork.stratPoint()
+  strat.value = endPoint.lng + "," + endPoint.lat
 }
-mapWork.eventTarget.on("star", function (event: any) {
-  strat.value = event.point.lng + "," + event.point.lat
-})
+
 // 终点POI
 const endPoint = () => {
   mapWork.endPoint()
-  wayShow.value = false
 }
-mapWork.eventTarget.on("end", function (event: any) {
+
+mapWork.eventTarget.on("end", (event: any) => {
   count.value = event.count
 })
+
 // 开始分析
 const btnAnalyse = () => {
-  wayShow.value = false
   dataSource.value = []
-
   mapWork.btnAnalyse(selectWay.value, count.value)
 }
 
-mapWork.eventTarget.on("analyse", function (event: any) {
-  wayShow.value = true
-
+mapWork.eventTarget.on("analyse", (event: any) => {
   dataSource.value.push({
     key: event.i,
     index: event.i + 1,
@@ -147,7 +144,6 @@ const removeAll = () => {
   mapWork.removeAll()
   strat.value = ""
   count.value = 0
-  wayShow.value = false
 }
 </script>
 <style scoped lang="less">

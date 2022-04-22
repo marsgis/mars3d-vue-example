@@ -19,7 +19,9 @@
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <mars-gui :options="options"></mars-gui>
+
+    <!-- <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">水平张角:</span>
         <mars-slider @change="onChangeAngle" v-model:value="video.cameraAngle" :min="1" :max="60" :step="0.1" />
@@ -74,10 +76,11 @@
         <span class="mars-pannel-item-label">视频角度:</span>
         <mars-slider @change="rotateDeg" v-model:value="video.videoRotate" :min="0" :max="360" :step="1" />
       </a-space>
-    </div>
+    </div> -->
 
     <div class="f-tac">
       <a-space>
+        <mars-button @click="onClickSelView">图上选点</mars-button>
         <mars-button @click="playOrpause">播放暂停</mars-button>
         <mars-button @click="locate">返回相机视点</mars-button>
         <mars-button @click="printParameters">打印参数</mars-button>
@@ -90,6 +93,103 @@
 import { reactive } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+
+const options: GuiItem[] = [
+  {
+    type: "slider",
+    field: "cameraAngle",
+    label: "水平张角",
+    step: 0.1,
+    min: 1,
+    max: 60,
+    value: 46.3,
+    change(data) {
+       mapWork.onChangeAngle(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "cameraAngle2",
+    label: "垂直张角",
+    step: 0.1,
+    min: 10,
+    max: 30,
+    value: 15.5,
+    change(data) {
+      mapWork.onChangeAngle2(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "distanceValue",
+    label: "投射距离",
+    step: 0.1,
+    min: 1,
+    max: 1000,
+    value: 78,
+    change(data) {
+      mapWork.onChangeDistance(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "heading",
+    label: "四周方向",
+    step: 0.1,
+    min: 0,
+    max: 360,
+    value: 178.5,
+    change(data) {
+      mapWork.onChangeHeading(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "pitchValue",
+    label: "俯仰角度",
+    step: 0.1,
+    min: -180,
+    max: 180,
+    value: 8.2,
+    change(data) {
+      mapWork.onChangePitch(data)
+    }
+  },
+  {
+    type: "switch",
+    field: "ckdFrustum",
+    label: "显示视椎框线",
+    value: true,
+    change(data) {
+      mapWork.showFrustum(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "opcity",
+    label: "视频透明度",
+    step: 0.1,
+    min: 0,
+    max: 1,
+    value: 1,
+    change(data) {
+      mapWork.onChangeOpacity(data)
+    }
+  },
+  {
+    type: "slider",
+    field: "videoRotate",
+    label: "视频角度",
+    step: 1,
+    min: 0,
+    max: 360,
+    value: 0,
+    change(data) {
+      mapWork.rotateDeg(data)
+    }
+  }
+]
 
 interface Video {
   ckdFrustum: boolean // 是否显示视椎线
@@ -115,6 +215,7 @@ const video = reactive<Video>({
 
 mapWork.eventTarget.on("loadVideo", (e) => {
   const data = e.value
+  console.log(data)
   video.ckdFrustum = data.ckdFrustum
   video.cameraAngle = data.cameraAngle
   video.cameraAngle2 = data.cameraAngle2

@@ -67,7 +67,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -86,7 +85,7 @@ const angleValue = ref<number>(10)
 const pitchValue = ref<number>(0) // 仰角
 const rollValue = ref<number>(0) // 左右
 
-const formState: UnwrapRef<FormState> = reactive({
+const formState = reactive<FormState>({
   enabledShowHide: false,
   name: "",
   tle1: "",
@@ -96,6 +95,7 @@ const formState: UnwrapRef<FormState> = reactive({
   td_wd: 0,
   td_gd: 0
 })
+
 mapWork.eventTarget.on("realData", (event: any) => {
   mapWork.centerPoint(angleValue.value)
   formState.name = event.name

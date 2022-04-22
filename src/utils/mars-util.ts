@@ -55,6 +55,7 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
 export function getQueryString(parameter: string): string | null {
   return new URL(window.location.href).searchParams.get(parameter)
 }
+
 /**
  * 判断是否是pc端
  *

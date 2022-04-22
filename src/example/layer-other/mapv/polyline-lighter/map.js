@@ -20,7 +20,7 @@ export function onMounted(mapInstance) {
 
   map.basemap = 2017 // 蓝色底图
 
-  queryMapvLayerData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-road.json" })
     .then(function (data) {
       // 创建Mapv
       createMapvLayer(data.features)
@@ -36,11 +36,6 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-}
-
-// 获取数据
-function queryMapvLayerData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/hefei-road.json" })
 }
 
 // 创建mapv图层
@@ -68,12 +63,12 @@ function createMapvLayer(rs) {
     shadowBlur: 3,
     lineWidth: 3.0,
     draw: "simple",
-    depthTest: false
+    depthTest: false,
+    data: rs // 数据
   }
-  const dataSet1 = new this.mapv.DataSet(rs)
 
   // 创建MapV图层  线图层
-  const mapVLayer1 = new mars3d.layer.MapVLayer(options1, dataSet1)
+  const mapVLayer1 = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer1)
 
   const options2 = {
@@ -89,11 +84,11 @@ function createMapvLayer(rs) {
       duration: 5
     },
     draw: "simple",
-    depthTest: false
+    depthTest: false,
+    data: timeData // 数据
   }
-  const dataSet2 = new this.mapv.DataSet(timeData)
 
   // 创建MapV图层  动态轨迹图层
-  const mapVLayer2 = new mars3d.layer.MapVLayer(options2, dataSet2)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
 }

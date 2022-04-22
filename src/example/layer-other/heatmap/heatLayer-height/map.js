@@ -18,7 +18,6 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   map.basemap = 2017 // 蓝色底图
 
   // 图层1

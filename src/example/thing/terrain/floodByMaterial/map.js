@@ -37,10 +37,12 @@ export function onMounted(mapInstance) {
   floodByMaterial.on(mars3d.EventType.start, function (e) {
     console.log("开始分析", e)
   })
+
   floodByMaterial.on(mars3d.EventType.change, function (e) {
     const height = e.height
     eventTarget.fire("heightChange", { height })
   })
+
   floodByMaterial.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })

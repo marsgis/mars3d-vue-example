@@ -22,7 +22,7 @@ export function onMounted(mapInstance) {
   })
 
   // 加载气象
-  queryWindpointApiData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
     .then(function (res) {
       showWindLine(res.data)
     })
@@ -42,22 +42,11 @@ export function onUnmounted() {
 const colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"]
 const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 
-// 访问后端接口，取数据
-function queryWindpointApiData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
-}
-
 // 等值线面
 function showWindLine(arr) {
-  // let min = arr[0].speed
-  // let max = arr[0].speed
-
   const pointGrid = []
   for (let i = 0, len = arr.length; i < len; i++) {
     const item = arr[i]
-
-    // if (min > item.speed) min = item.speed
-    // if (max < item.speed) max = item.speed
 
     pointGrid.push({
       type: "Feature",
@@ -68,12 +57,6 @@ function showWindLine(arr) {
       }
     })
   }
-
-  // breaks = []
-  // let step = (max - min) / 10
-  // for (let i = min; i <= max; i += step) {
-  //   breaks.push(Number(i.toFixed(1)))
-  // }
 
   const points = {
     type: "FeatureCollection",

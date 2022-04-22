@@ -24,12 +24,25 @@
             "thumbnail": "map-create-cesium.jpg",
             "main_es5": "map-create-cesium",
             "main": "map/create/cesium"
-          },
+          }
+        ]
+      },
+      {
+        "name": "UI控件样板",
+        "details": "当前所有示例涉及的UI控件及交互演示",
+        "children": [
           {
-            "name": "UI控件及交互演示样板",
+            "name": "普通UI控件",
             "thumbnail": "map-create-ui.jpg",
             "main_es5": "map-create-ui",
             "main": "map/create/ui",
+            "vuePanel": true
+          },
+          {
+            "name": "GUI属性控件",
+            "thumbnail": "map-create-gui.jpg",
+            "main_es5": "map-create-gui",
+            "main": "map/create/gui",
             "vuePanel": true
           }
         ]
@@ -134,7 +147,7 @@
             "main_es5": "map-terrain-terrainProvider-tdt",
             "main": "map/terrain/terrainProvider-tdt",
             "vuePanel": true,
-            "libs": ["mars3d", "cesium-comp","mars3d-tdt"]
+            "libs": ["mars3d", "cesium-comp", "mars3d-tdt"]
           },
           {
             "name": "地形夸张",
@@ -639,7 +652,7 @@
             "thumbnail": "layero-s3m-basis.jpg",
             "main_es5": "layero-s3m-basis",
             "main": "layer-other/s3m/basis",
-            "libs": ["mars3d","cesium-comp", "mars3d-supermap"],
+            "libs": ["mars3d", "cesium-comp", "mars3d-supermap"],
             "vuePanel": true
           }
         ]
@@ -767,7 +780,7 @@
             "thumbnail": "layerg-other-tdtDm.jpg",
             "main_es5": "layerg-other-tdtDm",
             "main": "layer-graphic/other/tdtDm",
-            "libs": ["mars3d", "cesium-comp","mars3d-tdt"]
+            "libs": ["mars3d", "cesium-comp", "mars3d-tdt"]
           },
           {
             "name": "矢量瓦片方式加载GeoJson",
@@ -3073,7 +3086,6 @@
             "thumbnail": "thirdParty-ammo-vehicle.gif",
             "main_es5": "thirdParty-ammo-vehicle",
             "main": "thirdParty/ammo/vehicle",
-            "vuePanel": true,
             "libs": ["mars3d", "cesium-meshVisualizer"]
           },
           {
@@ -3081,7 +3093,6 @@
             "thumbnail": "thirdParty-ammo-turnCloth.jpg",
             "main_es5": "thirdParty-ammo-turnCloth",
             "main": "thirdParty/ammo/turnCloth",
-            "vuePanel": true,
             "libs": ["mars3d", "cesium-meshVisualizer"]
           },
           {
@@ -3089,7 +3100,6 @@
             "thumbnail": "thirdParty-ammo-turnRope.jpg",
             "main_es5": "thirdParty-ammo-turnRope",
             "main": "thirdParty/ammo/turnRope",
-            "vuePanel": true,
             "libs": ["mars3d", "cesium-meshVisualizer"]
           },
           {
@@ -3097,7 +3107,6 @@
             "thumbnail": "thirdParty-ammo-softbodyVolume.jpg",
             "main_es5": "thirdParty-ammo-softbodyVolume",
             "main": "thirdParty/ammo/softbodyVolume",
-            "vuePanel": true,
             "libs": ["mars3d", "cesium-meshVisualizer"]
           },
           {
@@ -3105,7 +3114,6 @@
             "thumbnail": "thirdParty-ammo-convexBreak.jpg",
             "main_es5": "thirdParty-ammo-convexBreak",
             "main": "thirdParty/ammo/convexBreak",
-            "vuePanel": true,
             "libs": ["mars3d", "cesium-meshVisualizer"]
           }
         ]

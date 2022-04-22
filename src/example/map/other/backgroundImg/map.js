@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+let dom
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -29,6 +30,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+  dom = mars3d.DomUtil.get("mars3dContainer")
 }
 
 /**
@@ -40,21 +42,17 @@ export function onUnmounted() {
 }
 
 export function show() {
-  const dom = mars3d.DomUtil.get("mars3dContainer")
   dom.style.backgroundImage = "none"
 }
 
 export function show1() {
-  const dom = mars3d.DomUtil.get("mars3dContainer")
   dom.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
 }
 
 export function show2() {
-  const dom = mars3d.DomUtil.get("mars3dContainer")
   dom.style.backgroundImage = "url(//data.mars3d.cn/file/img/world/world.jpg)"
 }
 
 export function show3() {
-  const dom = mars3d.DomUtil.get("mars3dContainer")
   dom.style.backgroundImage = "url(/img/tietu/bg4.jpg)"
 }

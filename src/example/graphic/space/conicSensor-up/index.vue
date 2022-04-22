@@ -44,7 +44,6 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -53,17 +52,14 @@ interface FormState {
   enabledModelArea: boolean
 }
 
-const angleValue = ref<number>(25)
-const radiusValue = ref<number>(300000)
-const formState: UnwrapRef<FormState> = reactive({
+const formState = reactive<FormState>({
   enabledShowHide: true,
   enabledShowModelTop: true,
   enabledModelArea: false
 })
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
-  mapWork.addConicSensor(angleValue.value, radiusValue.value)
-})
+const angleValue = ref(25)
+const radiusValue = ref(300000)
 
 // 显示/隐藏
 const sensorShowHide = () => {

@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  queryMapvChinaData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mapvchina.json" })
     .then(function (data) {
       createMapvLayer(data)
     })
@@ -35,13 +35,9 @@ export function onUnmounted() {
   map = null
 }
 
-// 数据获取
-function queryMapvChinaData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/mapvchina.json" })
-}
 // 创建mapv图层
 function createMapvLayer(geojson) {
-  let geojsonDataSet = this.mapv.geojson.getDataSet(geojson)
+  const geojsonDataSet = this.mapv.geojson.getDataSet(geojson)
 
   const to = "北京"
   const qianxi = new this.mapv.DataSet([
@@ -173,7 +169,6 @@ function createMapvLayer(geojson) {
       return true
     }
   })
-  geojsonDataSet = new this.mapv.DataSet(data)
 
   const geojsonOptions = {
     gradient: {
@@ -182,14 +177,12 @@ function createMapvLayer(geojson) {
     },
     max: 354551,
     draw: "intensity",
-    depthTest: false
+    depthTest: false,
+    data: data // 数据
   }
-
-  // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions, geojsonDataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(geojsonOptions) // 创建MapV图层
   map.addLayer(mapVLayer)
 
-  const textDataSet = new this.mapv.DataSet(textData)
   const textOptions = {
     draw: "text",
     font: "14px Arial",
@@ -197,10 +190,10 @@ function createMapvLayer(geojson) {
     shadowColor: "yellow",
     shadowBlue: 10,
     zIndex: 11,
-    shadowBlur: 10
+    shadowBlur: 10,
+    data: textData // 数据
   }
-  // 创建MapV图层
-  const textmapVLayer = new mars3d.layer.MapVLayer(textOptions, textDataSet)
+  const textmapVLayer = new mars3d.layer.MapVLayer(textOptions) // 创建MapV图层
   map.addLayer(textmapVLayer)
 
   const lineOptions = {
@@ -209,11 +202,10 @@ function createMapvLayer(geojson) {
     shadowBlur: 20,
     lineWidth: 2,
     zIndex: 100,
-    draw: "simple"
+    draw: "simple",
+    data: lineData // 数据
   }
-  const lineDataSet = new this.mapv.DataSet(lineData)
-  // 创建MapV图层
-  const linemapVLayer = new mars3d.layer.MapVLayer(lineOptions, lineDataSet)
+  const linemapVLayer = new mars3d.layer.MapVLayer(lineOptions) // 创建MapV图层
   map.addLayer(linemapVLayer)
 
   const pointOptions = {
@@ -222,14 +214,12 @@ function createMapvLayer(geojson) {
     shadowBlur: 10,
     size: 5,
     zIndex: 10,
-    draw: "simple"
+    draw: "simple",
+    data: pointData // 数据
   }
-  const pointDataSet = new this.mapv.DataSet(pointData)
-  // 创建MapV图层
-  const pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions, pointDataSet)
+  const pointmapVLayer = new mars3d.layer.MapVLayer(pointOptions) // 创建MapV图层
   map.addLayer(pointmapVLayer)
 
-  const timeDataSet = new this.mapv.DataSet(timeData)
   const timeOptions = {
     fillStyle: "rgba(255, 250, 250, 0.5)",
     zIndex: 200,
@@ -243,10 +233,9 @@ function createMapvLayer(geojson) {
       trails: 10,
       duration: 2
     },
-    draw: "simple"
+    draw: "simple",
+    data: timeData // 数据
   }
-
-  // 创建MapV图层
-  const timemapVLayer = new mars3d.layer.MapVLayer(timeOptions, timeDataSet)
+  const timemapVLayer = new mars3d.layer.MapVLayer(timeOptions) // 创建MapV图层
   map.addLayer(timemapVLayer)
 }

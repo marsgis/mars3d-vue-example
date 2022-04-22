@@ -138,25 +138,26 @@ function addSatellite() {
   eventTarget.fire("loadOK", { startTime, endTime })
 }
 
-export function btnAdd(data, bt, et) {
+export function btnAdd(data) {
   const weixin = map.graphicLayer.getGraphicByAttr("name", "GAOFEN 1")
-  const _starttime = bt
-  const _endTime = et
-  const _color = data.areaColor
-  const _opacity = data.slideOpacity
-  const _angle = data.slideAngle
+  const startTime = data.startTime
+  const endTime = data.endTime
+  const areaColor = data.areaColor
+  const slideOpacity = data.slideOpacity
+  const slideAngle = data.slideAngle
 
   addTimeShading(weixin, {
-    startTime: _starttime,
-    endTime: _endTime,
-    color: _color,
-    opacity: _opacity,
-    angle: _angle
+    startTime: startTime,
+    endTime: endTime,
+    color: areaColor,
+    opacity: slideOpacity,
+    angle: slideAngle
   })
 }
 export function btnRemoveAll() {
   graphicLayer.clear()
 }
+
 export function changeColorOpacity(data) {
   graphicLayer.eachGraphic(function (graphic) {
     graphic.setColorStyle({ color: data.areaColor, opacity: data.slideOpacity })

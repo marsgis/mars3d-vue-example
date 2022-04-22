@@ -26,30 +26,30 @@
         </a-space>
       </div>
 
-      <div v-show="wayShow" class="showRoam">
+      <div v-if="allDiatance" class="showRoam">
         <p style="color: #cad1d1">总距离：{{ allDiatance }}</p>
         <p style="color: #cad1d1">预计时间：{{ useTime }}</p>
-        <p style="color: #cad1d1">导航：{{ dh }}</p>
+        <p style="color: #cad1d1">导航：{{ routePath }}</p>
       </div>
     </a-form>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")
 const end = ref("")
 const selectWay = ref("1")
-const wayShow = ref(false)
 const allDiatance = ref("")
 const useTime = ref("")
-const dh = ref("")
+const routePath = ref("")
 
 // 下拉菜单
 const selectWayOptions = ref([
   {
+    // 1-步行路线
     value: "1",
     label: "步行路线查询"
   },
@@ -61,41 +61,36 @@ const selectWayOptions = ref([
 ])
 
 mapWork.eventTarget.on("analyse", function (event: any) {
-  wayShow.value = true
-
   useTime.value = event.allTime
   allDiatance.value = event.allDistance
-  dh.value = event.dhHtml
+  routePath.value = event.dhHtml
 })
 
 // 起点
-const startPoint = () => {
-  mapWork.startPoint(selectWay.value)
+const startPoint = async () => {
+  const startPoint: any = await mapWork.startPoint(toRaw(selectWay.value))
+  strat.value = startPoint.lng + "," + startPoint.lat
 }
-mapWork.eventTarget.on("start", function (event: any) {
-  strat.value = event.point.lng + "," + event.point.lat
-  wayShow.value = false
-})
+
 // 终点
-const endPoint = () => {
-  mapWork.endPoint(selectWay.value)
+const endPoint = async () => {
+  const endPoint: any = await mapWork.endPoint(toRaw(selectWay.value))
+  end.value = endPoint.lng + "," + endPoint.lat
 }
-mapWork.eventTarget.on("end", function (event: any) {
-  end.value = event.point.lng + "," + event.point.lat
-  wayShow.value = false
-})
 
 // 开始分析
 const btnAnalyse = () => {
-  mapWork.btnAnalyse(selectWay.value)
+  mapWork.btnAnalyse(toRaw(selectWay.value))
 }
+
 // 清除数据
 const removeAll = () => {
   mapWork.removeAll()
-
-  wayShow.value = false
   strat.value = ""
   end.value = ""
+  allDiatance.value = ""
+  useTime.value = ""
+  routePath.value = ""
 }
 
 // 保存GeoJSON

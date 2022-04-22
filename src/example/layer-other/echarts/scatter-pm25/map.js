@@ -1047,6 +1047,8 @@ function getEchartsOption() {
     visualMap: {
       min: 0,
       max: 200,
+      right: 10,
+      bottom: 40,
       calculable: true,
       color: ["#d94e5d", "#eac736", "#50a3ba"],
       textStyle: {

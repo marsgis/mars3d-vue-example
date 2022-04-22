@@ -49,11 +49,6 @@ export function onlyPickModelPosition(val) {
   map.onlyPickModelPosition = val
 }
 
-// 外部控制，完成绘制，比如手机端无法双击结束
-function endDraw() {
-  measure.endDraw()
-}
-
 export function removeAll() {
   measure.clear()
 }

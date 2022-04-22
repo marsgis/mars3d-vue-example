@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  queryQianxiTimeApiData()
+  Cesium.Resource.fetchText({ url: "//data.mars3d.cn/file/apidemo/qianxi-time.txt" })
     .then(function (json) {
       // 创建Mapv
       createMapvLayer(json)
@@ -36,10 +36,6 @@ export function onUnmounted() {
   map = null
 }
 
-// 访问后端接口，取数据
-function queryQianxiTimeApiData() {
-  return Cesium.Resource.fetchText({ url: "//data.mars3d.cn/file/apidemo/qianxi-time.txt" })
-}
 
 function createMapvLayer(rs) {
   const data = []
@@ -105,11 +101,11 @@ function createMapvLayer(rs) {
       1: "rgba(55, 50, 250, 1)"
     },
     lineWidth: 0.2,
-    draw: "intensity"
+    draw: "intensity",
+    data: data // 数据
   }
-  const dataSet1 = new this.mapv.DataSet(data)
   // 线图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options1, dataSet1)
+  const mapVLayer = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer)
 
   const options2 = {
@@ -124,10 +120,10 @@ function createMapvLayer(rs) {
       trails: 1,
       duration: 5
     },
-    draw: "simple"
+    draw: "simple",
+    data: timeData // 数据
   }
-  const dataSet2 = new this.mapv.DataSet(timeData)
   // 创建MapV图层 动画图层
-  const mapVLayer2 = new mars3d.layer.MapVLayer(options2, dataSet2)
+  const mapVLayer2 = new mars3d.layer.MapVLayer(options2)
   map.addLayer(mapVLayer2)
 }

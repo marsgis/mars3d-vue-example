@@ -83,8 +83,7 @@ function addGraphicLayer() {
       heading: 0,
       radius: 500
     },
-    clampToGround: true,
-    has3dtiles: true // 区别在has3dtiles标识，true时贴模型表面
+    clampToTileset: true // 标识贴模型漫游
   })
 
   graphicLayer.addGraphic(roamLine)

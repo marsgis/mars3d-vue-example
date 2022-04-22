@@ -18,7 +18,13 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  queryLineroadApiData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/lineroad.json" })
+    .then(function (json) {
+      createEchartsLayer(json.data)
+    })
+    .catch(function (error) {
+      console.log("加载JSON出错", error)
+    })
 }
 
 /**
@@ -27,17 +33,6 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
-}
-
-// 访问后端接口，取数据
-function queryLineroadApiData() {
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/lineroad.json" })
-    .then(function (json) {
-      createEchartsLayer(json.data)
-    })
-    .catch(function (error) {
-      console.log("加载JSON出错", error)
-    })
 }
 
 /**

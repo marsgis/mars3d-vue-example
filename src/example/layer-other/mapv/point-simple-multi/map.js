@@ -18,7 +18,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  queryWeiboApiData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo.json" })
     .then(function (json) {
       // 创建Mapv
       createMapvLayer(json)
@@ -36,9 +36,6 @@ export function onUnmounted() {
   map = null
 }
 
-function queryWeiboApiData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/weibo.json" })
-}
 function createMapvLayer(rs) {
   const data1 = []
   const data2 = []
@@ -97,10 +94,10 @@ function addMapvLayer(data, color, size, animation) {
     size: size,
     draw: "simple",
     depthTest: false,
-    ...animation
+    ...animation,
+    data: data // 数据
   }
-  const dataSet = new this.mapv.DataSet(data)
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options1, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options1)
   map.addLayer(mapVLayer)
 }

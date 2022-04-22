@@ -88,11 +88,11 @@ function createMapvLayer() {
     shadowColor: "rgba(255, 250, 50, 1)",
     shadowBlur: 20,
     lineWidth: 0.7,
-    draw: "simple"
+    draw: "simple",
+    data: data // 数据
   }
-  const dataSet = new this.mapv.DataSet(data)
 
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
 }

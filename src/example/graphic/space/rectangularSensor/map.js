@@ -55,17 +55,17 @@ export function onUnmounted() {
  * @param {number} yValue 左右夹角
  * @returns {void}
  */
-export function addDemoGraphic1(heading, pitch, roll, radius, xValue, yValue) {
+export function addDemoGraphic1(params) {
   rectangularSensor = new mars3d.graphic.RectangularSensor({
     position: [117.218875, 31.817812, 138],
     style: {
-      heading: heading,
-      pitch: pitch,
-      roll: roll,
+      heading: params.headingValue,
+      pitch: params.pitchValue,
+      roll: params.rollValue,
 
-      radius: radius, // 传感器的半径
-      xHalfAngleDegree: xValue, // 传感器水平半角
-      yHalfAngleDegree: yValue, // 传感器垂直半角
+      radius: params.radius, // 传感器的半径
+      xHalfAngleDegree: params.xValue, // 传感器水平半角
+      yHalfAngleDegree: params.yValue, // 传感器垂直半角
 
       color: "#00ffff",
       opacity: 0.4,
@@ -185,18 +185,18 @@ export function ShowScanPlane(value) {
  * @param {number} yHalfAngle 左右夹角
  * @returns {void}
  */
-export function startDraw(heading, pitch, roll, radius, xHalfAngle, yHalfAngle) {
+export function startDraw(params) {
   // 开始绘制
   graphicLayer.startDraw({
     type: "rectangularSensor",
     style: {
-      heading: heading,
-      pitch: pitch,
-      roll: roll,
+      heading: params.headingValue,
+      pitch: params.pitchValue,
+      roll: params.rollValue,
 
-      radius: radius, // 传感器的半径
-      xHalfAngleDegree: xHalfAngle, // 传感器水平半角
-      yHalfAngleDegree: yHalfAngle, // 传感器垂直半角
+      radius: params.radius, // 传感器的半径
+      xHalfAngleDegree: params.xValue, // 传感器水平半角
+      yHalfAngleDegree: params.yValue, // 传感器垂直半角
 
       color: "#00ffff",
       opacity: 0.4,

@@ -30,6 +30,20 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(tilesetLayer)
 
+  map.on(mars3d.EventType.load, () => {
+    addWfsLayer()
+  })
+}
+
+/**
+ * 释放当前地图业务的生命周期函数
+ * @returns {void} 无
+ */
+export function onUnmounted() {
+  map = null
+}
+
+function addWfsLayer() {
   // 单体化图层【支持geoserver的wfs服务配置dth属性】
   const wfsLayer = new mars3d.layer.WfsLayer({
     name: "建筑物面",
@@ -84,12 +98,4 @@ export function onMounted(mapInstance) {
   //   }
   // })
   // map.addLayer(wfsLayer)
-}
-
-/**
- * 释放当前地图业务的生命周期函数
- * @returns {void} 无
- */
-export function onUnmounted() {
-  map = null
 }

@@ -58,7 +58,6 @@ function addLayer() {
 
   // 模型加载完成方法一
   tilesetLayer.readyPromise.then((e) => {
-    console.log(tilesetFlat.list)
     eventTarget.fire("dataLoaded", { list: tilesetFlat.list })
   })
 

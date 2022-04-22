@@ -258,17 +258,6 @@ function getEchartsOption() {
     return res
   }
 
-  /* let convertedData = [
-    convertData(data),
-    convertData(
-      data
-        .sort(function (a, b) {
-          return b.value - a.value;
-        })
-        .slice(0, 6)
-    ),
-  ]; */
-
   // 图表的数字从大到小向下排序
   data.sort(function (a, b) {
     return a.value - b.value

@@ -75,7 +75,6 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue"
 import roamlinePanel from "@mars/components/mars-sample/roamline-panel.vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -94,7 +93,7 @@ interface FormState {
   slideRollStep: number
 }
 
-const formState: UnwrapRef<FormState> = reactive({
+const formState = reactive<FormState>({
   showBtn: "",
   showFollowedX: "",
   showFollowedZ: "",

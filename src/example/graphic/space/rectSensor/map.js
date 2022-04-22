@@ -16,7 +16,6 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -44,7 +43,7 @@ export function onMounted(mapInstance) {
   })
   graphicLayer.addGraphic(graphic)
 
-  eventTarget.fire("loadOk")
+  addConicSensor()
 }
 
 /**
@@ -55,33 +54,22 @@ export function onUnmounted() {
   map = null
 }
 
-/**
- * 初始化创建一个四棱锥体
- *
- * @export
- * @param {number} heading 方向角
- * @param {number} pitch 俯仰角
- * @param {number} roll 左右角
- * @param {number} angle1 夹角1
- * @param {number} angle2 夹角1
- * @param {number} length 长度
- * @returns {void}
- */
-export function addConicSensor(heading, pitch, roll, angle1, angle2, length) {
+// 初始化创建一个四棱锥体
+function addConicSensor() {
   // 四棱锥体
   rectSensor = new mars3d.graphic.RectSensor({
     position: [117.170264, 31.840312, 363],
     style: {
-      angle1: angle1,
-      angle2: angle2,
-      length: length,
+      angle1: 30,
+      angle2: 30,
+      length: 700000,
       // length: new Cesium.CallbackProperty(function (time) {
       //   length += 100 //测试动态length
       //   return length
       // }, false),
-      heading: heading,
-      pitch: pitch,
-      roll: roll,
+      heading: 0,
+      pitch: 40,
+      roll: 0,
       color: "rgba(0,255,0,0.4)",
       outline: true,
       topShow: true,

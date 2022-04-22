@@ -44,7 +44,7 @@ export function onMounted(mapInstance) {
   })
   graphicLayer.addGraphic(graphic)
 
-  eventTarget.fire("loadOk")
+  addConicSensor()
 }
 
 /**
@@ -55,30 +55,20 @@ export function onUnmounted() {
   map = null
 }
 
-/**
- * 初始化创建一个圆柱体
- *
- * @export
- * @param {number} heading  方向角
- * @param {number} pitch 仰角
- * @param {number} roll 左右（row）
- * @param {number} angle 夹角
- * @param {number} length 长度
- * @returns {void}
- */
-export function addConicSensor(heading, pitch, roll, angle, length) {
+// 初始化创建一个圆柱体
+function addConicSensor() {
   conicSensor = new mars3d.graphic.ConicSensor({
     position: [117.170264, 31.840312, 363],
     style: {
-      angle: angle,
-      length: length,
+      angle: 5,
+      length: 700000,
       // length: new Cesium.CallbackProperty(function (time) {
       //   length += 100 //测试动态length
       //   return length
       // }, false),
-      heading: heading,
-      pitch: pitch,
-      roll: roll,
+      heading: 0,
+      pitch: 40,
+      roll: 0,
       color: "rgba(255,0,0,0.4)",
       outlineColor: "rgba(255,255,255,0.9)"
     }

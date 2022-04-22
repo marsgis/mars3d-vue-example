@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
     console.log("开始分析", e)
   })
   floodByGraphic.on(mars3d.EventType.change, function (e) {
-    onChangeHeight(e.height)
+    console.log("高度发生了变化", e.height)
   })
   floodByGraphic.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -49,10 +49,6 @@ export function onUnmounted() {
   clearDraw()
   floodByGraphic.remove()
   floodByGraphic = null
-}
-
-function onChangeHeight(height) {
-  console.log("高度发生了变化", height)
 }
 
 // 绘制矩形

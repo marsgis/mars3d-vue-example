@@ -82,13 +82,12 @@
 <script setup lang="ts">
 import { ref, markRaw } from "vue"
 import LocationTo from "@mars/components/mars-sample/location-to.vue"
-import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import * as mapWork from "./map.js"
 
 const { activate, disable, isActivate, updateWidget } = useWidget()
 
-const editor = ref()
 
 // 是否可编辑
 const isEditable = ref(true)

@@ -93,7 +93,7 @@ const video = reactive<Video>({
   videoRotate: 0
 })
 
-mapWork.eventTarget.on("loadVideo", (e) => {
+mapWork.eventTarget.on("addViewShedValue", (e) => {
   const data = e.value
   // video.showFrustum = data.showFrustum
   video.cameraAngle = data.cameraAngle

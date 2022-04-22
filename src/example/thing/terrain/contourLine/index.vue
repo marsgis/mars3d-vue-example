@@ -1,102 +1,129 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="350">
-    <div class="contour-line-contain">
-      <a-row :gutter="[1, 10]">
-        <a-col :span="24">
-          <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-space>
-              <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-              <mars-button @click="btnDraw">添加多边形</mars-button>
-              <mars-button @click="clearAll">清除</mars-button>
-            </a-space>
-          </a-form-item>
-        </a-col>
+    <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
+      <a-space>
+        <mars-button @click="btnDrawExtent">添加矩形</mars-button>
+        <mars-button @click="btnDraw">添加多边形</mars-button>
+        <mars-button @click="clearAll">清除</mars-button>
+      </a-space>
+    </a-form-item>
 
-        <a-col :span="24">
-          <a-form-item label="等高线:" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-space>
-              <a-checkbox v-model:checked="formState.chkEnabled" @change="showDengGX">显示</a-checkbox>
-            </a-space>
-          </a-form-item>
-        </a-col>
+    <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
 
-        <a-col :span="24" v-show="formState.chkEnabled">
-          <a-form-item label="颜色" :labelCol="labelCol" :labelAlign="labelAlign">
-            <mars-color-picker v-model:value="formState.color" @change="changeColor" />
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="24" v-show="formState.chkEnabled">
-          <a-form-item label="间隔" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-space>
-              <a-slider v-model:value="formState.txtSpacing" @change="changeSpacing" :min="10.0" :max="500.0" :step="1.0" />
-              <span>（米）</span>
-            </a-space>
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="24" v-show="formState.chkEnabled">
-          <a-form-item label="线宽" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-space>
-              <a-slider v-model:value="formState.txtWidth" @change="changeWidth" :min="1.0" :max="10.0" :step="0.1" />
-              <span>（px）</span>
-            </a-space>
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="24">
-          <a-form-item label="地表渲染:" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-radio-group v-model:value="formState.radio" @change="changeShadingType">
-              <a-radio value="none">无</a-radio>
-              <a-radio value="elevation">高程</a-radio>
-              <a-radio value="slope">坡度</a-radio>
-              <a-radio value="aspect">坡向</a-radio>
-            </a-radio-group>
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="24">
-          <a-form-item label="状态控制:" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-checkbox v-model:checked="formState.showElse" @change="chkClippingPlanes"> 显示其他区域 </a-checkbox>
-          </a-form-item>
-        </a-col>
-
-        <a-col :span="24">
-          <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'caozuo'">
-                <mars-button type="link">
-                  <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                </mars-button>
-                <mars-button type="link">
-                  <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                </mars-button>
-              </template>
-              <template v-else>
-                {{ record.name }}
-              </template>
-            </template>
-          </a-table>
-        </a-col>
-      </a-row>
-    </div>
+    <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'caozuo'">
+          <mars-button type="link">
+            <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+          </mars-button>
+          <mars-button type="link">
+            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+          </mars-button>
+        </template>
+        <template v-else>
+          {{ record.name }}
+        </template>
+      </template>
+    </a-table>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from "vue"
-
-import type { UnwrapRef } from "vue"
+import { nextTick, ref } from "vue"
 import * as mapWork from "./map.js"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 
-interface FormState {
-  chkEnabled: boolean
-  color: string
-  txtSpacing: number
-  txtWidth: number
-  radio: string
-  showElse: boolean
-}
+const marsGuiRef = ref()
+const options: GuiItem[] = [
+  {
+    type: "switch",
+    field: "type",
+    label: "等高线",
+    value: true,
+    change(data) {
+      mapWork.showDengGX(data)
+      marsGuiRef.value.updateField("type", data)
+    }
+  },
+  {
+    type: "color",
+    field: "colorValue",
+    label: "颜色",
+    value: "#FF0F00",
+    change(data) {
+      mapWork.changeColor(data)
+    },
+    show(data) {
+      return data.type !== false
+    }
+  },
+  {
+    type: "slider",
+    field: "gapValue",
+    label: "间隔(米)",
+    step: 1.0,
+    min: 10.0,
+    max: 500.0,
+    value: 80,
+    change(data) {
+      mapWork.changeSpacing(data)
+    },
+    show(data) {
+      return data.type !== false
+    }
+  },
+  {
+    type: "slider",
+    field: "lineWidth",
+    label: "线宽(px)",
+    step: 0.1,
+    min: 1.0,
+    max: 10.0,
+    value: 2.3,
+    change(data) {
+      mapWork.changeWidth(data)
+    },
+    show(data) {
+      return data.type !== false
+    }
+  },
+  {
+    type: "radio",
+    field: "xrValue",
+    label: "地表渲染",
+    value: "none",
+    data: [
+      {
+        label: "无",
+        value: "none"
+      },
+      {
+        label: "高程",
+        value: "elevation"
+      },
+      {
+        label: "坡度",
+        value: "slope"
+      },
+      {
+        label: "坡向",
+        value: "aspect"
+      }
+    ],
+    change(data) {
+      mapWork.changeShadingType(data)
+    }
+  },
+  {
+    type: "switch",
+    field: "control",
+    label: "状态控制",
+    value: true,
+    change(data) {
+      mapWork.chkClippingPlanes(data)
+    }
+  }
+]
 
 interface TableItem {
   key: number
@@ -105,15 +132,6 @@ interface TableItem {
 
 const labelCol = ref({ span: 5 })
 const labelAlign = ref("left")
-
-const formState: UnwrapRef<FormState> = reactive({
-  chkEnabled: true,
-  color: "red",
-  txtSpacing: 100,
-  txtWidth: 1.5,
-  radio: "none",
-  showElse: true
-})
 
 // 表格数据
 const columns = ref([
@@ -176,36 +194,9 @@ const btnDraw = () => {
 const clearAll = () => {
   mapWork.clearAll()
 
-  formState.showElse = true
+  // formState.showElse = true
   // 清除表格
   dataSource.value = []
-}
-
-// 滑动条控制
-const changeWidth = () => {
-  mapWork.changeWidth(formState.txtWidth)
-}
-const changeSpacing = () => {
-  mapWork.changeSpacing(formState.txtSpacing)
-}
-
-// 改变颜色
-const changeColor = () => {
-  mapWork.changeColor(formState.color)
-}
-
-// 等高线控制
-const showDengGX = () => {
-  mapWork.showDengGX(formState.chkEnabled)
-}
-// 状态控制
-const chkClippingPlanes = () => {
-  mapWork.chkClippingPlanes(formState.showElse)
-}
-
-// 改变阴影
-const changeShadingType = () => {
-  mapWork.changeShadingType(formState.radio)
 }
 </script>
 <style scoped lang="less">
@@ -215,8 +206,5 @@ const changeShadingType = () => {
 .miFont {
   margin-top: 6px;
   margin-left: -11px;
-}
-.contour-line-contain {
-  width: 326px;
 }
 </style>

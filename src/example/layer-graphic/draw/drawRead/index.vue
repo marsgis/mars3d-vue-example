@@ -16,9 +16,11 @@ import * as mapWork from "./map.js"
 const startPoint = () => {
   mapWork.startPoint()
 }
+
 const halfWayPoint = () => {
   mapWork.halfWayPoint()
 }
+
 const endPoint = () => {
   mapWork.endPoint()
 }

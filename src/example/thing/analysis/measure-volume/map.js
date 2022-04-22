@@ -246,28 +246,3 @@ function showInterResult(list) {
     interGraphicLayer.addGraphic(primitiveLine)
   }
 }
-
-function showInterLineResult(list) {
-  // 分析结果用于测试分析的，不做太多处理，直接清除之前的，只保留最后一个
-  clearInterResult()
-
-  const colorList = [Cesium.Color.fromCssColorString("#ffff00"), Cesium.Color.fromCssColorString("#00ffff")]
-
-  for (let i = 1, len = list.length; i < len; i++) {
-    const pt1 = list[i - 1]
-    const pt2 = list[i]
-
-    const color = colorList[i % 2]
-
-    const graphic = new mars3d.graphic.PolylineEntity({
-      positions: [pt1, pt2],
-      style: {
-        width: 3,
-        material: color,
-        depthFailMaterial: color.withAlpha(0.3)
-      }
-    })
-    interGraphicLayer.addGraphic(graphic)
-    graphic.bindTooltip("长度:" + mars3d.MeasureUtil.formatDistance(Cesium.Cartesian3.distance(pt1, pt2)) + "(第" + i + "段)")
-  }
-}

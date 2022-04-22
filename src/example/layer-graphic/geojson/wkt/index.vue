@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" height="46" >
+  <mars-pannel :visible="true" right="10" top="10" height="46">
     <layer-state />
   </mars-pannel>
 
@@ -30,7 +30,7 @@ const expandedKeys = ref<any[]>([])
 expandedKeys.value.push(0)
 let layersObj: any = {}
 
-mapWork.treeEvent.on("tree", function (event: any) {
+mapWork.treeEvent.on("tree", (event: any) => {
   initTree(event.data)
 })
 
@@ -86,9 +86,3 @@ function initTree(dataItems: any) {
   })
 }
 </script>
-
-<style lang="less">
-.mars-pannel-item-label {
-  width: auto;
-}
-</style>

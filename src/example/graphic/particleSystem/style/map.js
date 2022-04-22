@@ -103,6 +103,7 @@ export function txtTargetHeight(val) {
     updateTarget(targetPosition, val)
   }
 }
+
 export function btnSelectTarget(val) {
   map.graphicLayer.startDraw({
     type: "point",

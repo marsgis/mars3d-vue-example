@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { reactive } from "vue"
 import * as mapWork from "./map.js"
 import { $alert } from "@mars/components/mars-ui/index"
 
@@ -98,17 +98,15 @@ let currJD: number
 let currWD: number
 let currGD: number
 
-onMounted(() => {
-  // 默认显示地图中心点坐标
-  mapWork.eventTarget.on("loadOK", function (event: any) {
-    const point = event.point
-    currJD = point.lng
-    currWD = point.lat
-    currGD = point.alt
-    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
-    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
-    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
-  })
+// 默认显示地图中心点坐标
+mapWork.eventTarget.on("loadOK", function (event: any) {
+  const point = event.point
+  currJD = point.lng
+  currWD = point.lat
+  currGD = point.alt
+  formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+  formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+  formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
 })
 
 const changeJWD = () => {
@@ -159,20 +157,21 @@ const changeFendai = () => {
 
 const bindMourseClick = () => {
   mapWork.bindMourseClick()
-
-  mapWork.eventTarget.on("clickMap", (event: any) => {
-    currJD = event.point.lng
-    currWD = event.point.lat
-    currGD = event.point.alt
-
-    formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
-    formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
-    formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
-    changeFanwei()
-    // 更新面板
-    mapWork.updateMarker(false, currJD, currWD, currGD)
-  })
 }
+
+mapWork.eventTarget.on("clickMap", (event: any) => {
+  currJD = event.point.lng
+  currWD = event.point.lat
+  currGD = event.point.alt
+
+  formState.jd = mapWork.marsUtilFormtNum(currJD, 6)
+  formState.wd = mapWork.marsUtilFormtNum(currWD, 6)
+  formState.alt = mapWork.marsUtilFormtNum(currGD, 6)
+  changeFanwei()
+  // 更新面板
+  mapWork.updateMarker(false, currJD, currWD, currGD)
+})
+
 const submitCenter = () => {
   if (formState.jd > 180 || formState.jd < -180) {
     $alert("请输入有效的经度值！")

@@ -70,13 +70,17 @@ function createMapvLayer() {
       0.85: "yellow",
       1.0: "rgb(255,0,0)"
     },
-    draw: "honeycomb"
+    draw: "honeycomb",
+    data: geojson // 数据
   }
-  const dataSet = new this.mapv.DataSet(geojson)
 
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
+
+  mapVLayer.on("click", function (event) {
+    console.log("单击了图层", event)
+  })
 }
 
 function random(min, max) {

@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, markRaw, toRaw } from "vue"
+import { ref, toRaw, computed } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -62,37 +62,44 @@ const serverName = ref("")
 const allLength = ref(0)
 const nowPage = ref(0)
 const allPage = ref(0)
-const show = ref(false)
+const show = computed(() => dataSource.value.length > 0)
 
 // 表格数据
 const dataSource = ref([])
-onMounted(() => {
-  mapWork.eventTarget.on("beforUI", function (event: any) {
-    show.value = true
-    dataSource.value = []
-    event.list.forEach((item: any, index: number) => {
-      dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
-    })
-  })
-})
 
 const columns = ref([
   {
     title: "名称",
     dataIndex: "name",
-    key: "name"
+    key: "name",
+    align: "center"
   },
   {
     title: "类型",
     dataIndex: "type",
-    key: "type"
+    key: "type",
+    align: "center"
   },
   {
     title: "住址",
     dataIndex: "address",
-    key: "address"
+    key: "address",
+    align: "center"
   }
 ])
+
+mapWork.eventTarget.on("beforUI", function (event: any) {
+  dataSource.value = []
+  event.list.forEach((item: any, index: number) => {
+    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
+  })
+})
+
+mapWork.eventTarget.on("result", (e: any) => {
+  allLength.value = e.result.allCount
+  allPage.value = e.result.allPage
+  nowPage.value = e.result.pageIndex
+})
 
 const customRow = (record: DataItem) => {
   return {
@@ -108,47 +115,37 @@ const customRow = (record: DataItem) => {
 
 // 绘制范围
 const drawRectangle = () => {
-  show.value = false
   mapWork.drawRectangle()
 }
+
 const drawCircle = () => {
-  show.value = false
   mapWork.drawCircle()
 }
+
 const drawPolygon = () => {
-  show.value = false
   mapWork.drawPolygon()
 }
 
 // 查询数据
 const query = () => {
-  show.value = false
-  const inputText = markRaw({
-    text: serverName.value
-  })
-  mapWork.query(inputText)
+  mapWork.query(toRaw(serverName.value))
 }
-
-mapWork.eventTarget.on("result", (e: any) => {
-  allLength.value = e.result.allCount
-  allPage.value = e.result.allPage
-  nowPage.value = e.result.pageIndex
-})
 
 // 清除数据
 const removeAll = () => {
-  show.value = false
   dataSource.value = []
-  mapWork.removeAll()
+  mapWork.clearAll()
 }
 
 // 操作查询的数据
 const showFirstPage = () => {
   mapWork.showFirstPage()
 }
+
 const showPretPage = () => {
   mapWork.showPretPage()
 }
+
 const showNextPage = () => {
   mapWork.showNextPage()
 }

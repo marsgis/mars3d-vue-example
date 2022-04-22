@@ -9,18 +9,16 @@ import { onMounted } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
-
 let myChart: any = null
 let option: any = null
 
-onMounted(() => {
-  mapWork.eventTarget.on("dataLoaded", renderEcharts)
-  mapWork.eventTarget.on("dataUpdated", updateEcharts)
-})
+mapWork.eventTarget.on("dataLoaded", renderEcharts)
+mapWork.eventTarget.on("dataUpdated", updateEcharts)
 
 function renderEcharts(event: any) {
   myChart = echarts.init(document.getElementById("chart-container")!)
   const { heightArray, heightTDArray, distanceArray } = event
+
   option = {
     title: {
       text: "断面图",
@@ -83,11 +81,6 @@ function renderEcharts(event: any) {
         }
       }
     ],
-    //  visualMap: {
-    //      show: false,
-    //      dimension: 0,
-    //      pieces: [{ "gt": 0, "lte": 635 }]
-    //  },
     series: [
       {
         name: "地形高程",
@@ -141,5 +134,4 @@ function updateEcharts(event: any) {
   })
 }
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

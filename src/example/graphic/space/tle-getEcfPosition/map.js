@@ -298,7 +298,6 @@ function showResult(newSatelliteArr) {
   globalMsg("分析完成，共" + tableList.length + "条过境记录")
 }
 
-const corridor = []
 
 function showCorridor(data) {
   const primitive = new mars3d.graphic.CorridorPrimitive({

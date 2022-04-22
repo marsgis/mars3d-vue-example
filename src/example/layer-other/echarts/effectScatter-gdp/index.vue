@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" left="10" top="10">
+  <mars-pannel :visible="true" zIndex="999" left="10" top="10" height="46">
     <a-checkbox v-model:checked="pointerEvents" @change="chkPointerEvents"> 启用Echars交互 </a-checkbox>
   </mars-pannel>
 </template>

@@ -200,6 +200,7 @@ const startPlay = () => {
   mapWork.startPlay()
   formState.play = true
 }
+
 const stopPlay = () => {
   mapWork.stopPlay()
   formState.play = false

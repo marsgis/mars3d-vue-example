@@ -1,81 +1,97 @@
 <template>
   <!--查询条件面板-->
   <mars-pannel :visible="formState.viewContorUi === true" right="10" top="10" width="355">
-  <div style="width: 330px;">
-    <a-form>
-      <a-form-item label="名称">
-        <mars-input v-model:value="formState.name" :allowClear="true" @change="selectSatellites" />
-      </a-form-item>
-      <a-form-item label="系列卫星">
-        <mars-select v-model:value="formState.selXiLie" :options="selXiLieOptions" @change="selectSatellites"> </mars-select>
-      </a-form-item>
-      <a-form-item label="所属国家">
-        <mars-select v-model:value="formState.selCountry" :options="selectCountryOptions" @change="selectSatellites"> </mars-select>
-      </a-form-item>
-      <a-form-item label="对象类型">
-        <mars-select v-model:value="formState.selType" :options="selTypeOptions" @change="selectSatellites"> </mars-select>
-      </a-form-item>
+    <div style="width: 330px">
+      <a-form>
+        <a-form-item label="名称">
+          <mars-input v-model:value="formState.name" :allowClear="true" @change="selectSatellites" />
+        </a-form-item>
+        <a-form-item label="系列卫星">
+          <mars-select v-model:value="formState.selXiLie" :options="selXiLieOptions" @change="selectSatellites"> </mars-select>
+        </a-form-item>
+        <a-form-item label="所属国家">
+          <mars-select v-model:value="formState.selCountry" :options="selectCountryOptions" @change="selectSatellites"> </mars-select>
+        </a-form-item>
+        <a-form-item label="对象类型">
+          <mars-select v-model:value="formState.selType" :options="selTypeOptions" @change="selectSatellites"> </mars-select>
+        </a-form-item>
 
-      <a-form-item label="雷达截面">
-        <mars-slider range v-model:value="formState.sliRcs" :marks="{ 0: '0', 1000: '1000' }" :min="0" :max="1000" :step="1" @change="changeSlider" />
-      </a-form-item>
-      <a-form-item label="发射日期">
-        <mars-slider
-          range
-          v-model:value="formState.sliLaunchdate"
-          :marks="{ 1950: '50', 2022: '22' }"
-          :min="1950"
-          :max="2022"
-          :step="1"
-          @change="changeSlider"
-        />
-      </a-form-item>
-      <a-form-item label="轨道周期">
-        <mars-slider range v-model:value="formState.sliPeriod" :marks="{ 0: '0', 60000: '6w' }" :min="0" :max="60000" :step="1" @change="changeSlider" />
-      </a-form-item>
+        <a-form-item label="雷达截面">
+          <mars-slider
+            range
+            v-model:value="formState.sliRcs"
+            :marks="{ 0: '0', 1000: '1000' }"
+            :min="0"
+            :max="1000"
+            :step="1"
+            @change="changeSlider"
+          />
+        </a-form-item>
+        <a-form-item label="发射日期">
+          <mars-slider
+            range
+            v-model:value="formState.sliLaunchdate"
+            :marks="{ 1950: '50', 2022: '22' }"
+            :min="1950"
+            :max="2022"
+            :step="1"
+            @change="changeSlider"
+          />
+        </a-form-item>
+        <a-form-item label="轨道周期">
+          <mars-slider
+            range
+            v-model:value="formState.sliPeriod"
+            :marks="{ 0: '0', 60000: '6w' }"
+            :min="0"
+            :max="60000"
+            :step="1"
+            @change="changeSlider"
+          />
+        </a-form-item>
 
-      <a-form-item label="轨道类型">
-        <mars-select v-model:value="formState.selGuidao" :options="selGuidaoOptions" @change="selectSatellites"> </mars-select>
-      </a-form-item>
+        <a-form-item label="轨道类型">
+          <mars-select v-model:value="formState.selGuidao" :options="selGuidaoOptions" @change="selectSatellites"> </mars-select>
+        </a-form-item>
 
-      <a-form-item label="倾斜角度">
-        <mars-slider
-          range
-          v-model:value="formState.sliInclination"
-          :marks="{ 0: '0°', 150: '150°' }"
-          :min="0"
-          :max="150"
-          :step="1"
-          @change="changeSlider"
-        />
-      </a-form-item>
-      <a-form-item label="远地点高度">
-        <mars-slider
-          range
-          v-model:value="formState.sliApogee"
-          :marks="{ 0: '0', 600000: '600km' }"
-          :min="0"
-          :max="600000"
-          :step="1"
-          @change="changeSlider"
-        />
-      </a-form-item>
-      <a-form-item label="近地点高度">
-        <mars-slider
-          range
-          v-model:value="formState.sliPerigee"
-          :marks="{ 0: '0', 500000: '500km' }"
-          :min="0"
-          :max="500000"
-          :step="1000"
-          @change="changeSlider"
-        />
-      </a-form-item>
+        <a-form-item label="倾斜角度">
+          <mars-slider
+            range
+            v-model:value="formState.sliInclination"
+            :marks="{ 0: '0°', 150: '150°' }"
+            :min="0"
+            :max="150"
+            :step="1"
+            @change="changeSlider"
+          />
+        </a-form-item>
+        <a-form-item label="远地点高度">
+          <mars-slider
+            range
+            v-model:value="formState.sliApogee"
+            :marks="{ 0: '0', 600000: '600km' }"
+            :min="0"
+            :max="600000"
+            :step="1"
+            @change="changeSlider"
+          />
+        </a-form-item>
+        <a-form-item label="近地点高度">
+          <mars-slider
+            range
+            v-model:value="formState.sliPerigee"
+            :marks="{ 0: '0', 500000: '500km' }"
+            :min="0"
+            :max="500000"
+            :step="1000"
+            @change="changeSlider"
+          />
+        </a-form-item>
 
-      <a-form-item style="text-align: center">
-        <mars-button @click="reset">重置</mars-button>
-      </a-form-item>
-    </a-form>
+        <a-form-item style="text-align: center">
+          <mars-button @click="reset">重置</mars-button>
+        </a-form-item>
+      </a-form>
     </div>
   </mars-pannel>
 
@@ -93,7 +109,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -111,7 +126,7 @@ interface FormState {
   pointInfo: boolean
   viewContorUi: boolean
 }
-const formState: UnwrapRef<FormState> = reactive({
+const formState = reactive<FormState>({
   name: "",
   selXiLie: "",
   selCountry: "",
@@ -127,20 +142,18 @@ const formState: UnwrapRef<FormState> = reactive({
   viewContorUi: true
 })
 
-onMounted(() => {
-  mapWork.eventTarget.on("clickWeixin", function (event: any) {
-    formState.pointInfo = false
-    formState.viewContorUi = true
-    formState.pointInfo = true
-    formState.viewContorUi = false
-    weixinValueList.value = event.weixinList
-  })
+mapWork.eventTarget.on("clickWeixin", function (event: any) {
+  formState.pointInfo = false
+  formState.viewContorUi = true
+  formState.pointInfo = true
+  formState.viewContorUi = false
+  weixinValueList.value = event.weixinList
+})
 
-  // 单击地图空白处
-  mapWork.eventTarget.on("clickMap", function () {
-    formState.pointInfo = false
-    formState.viewContorUi = true
-  })
+// 单击地图空白处
+mapWork.eventTarget.on("clickMap", function () {
+  formState.pointInfo = false
+  formState.viewContorUi = true
 })
 
 // 卫星详情面板
@@ -344,7 +357,6 @@ const highlightSatellite = () => {
 }
 </script>
 <style scoped lang="less">
-
 :deep(.ant-form-item-label) {
   width: 75px;
 }

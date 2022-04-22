@@ -11,8 +11,7 @@
 </template>
 
 <script setup lang="ts">
- import * as mapWork from "./map.js"
-
+import * as mapWork from "./map.js"
 
 const drawRectangle = () => {
   mapWork.drawRectangle()
@@ -30,4 +29,3 @@ const removeAll = () => {
   mapWork.removeAll()
 }
 </script>
-

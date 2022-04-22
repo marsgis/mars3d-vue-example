@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue"
+import { nextTick, ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
@@ -40,8 +40,8 @@ expandedKeys.value.push(0)
 
 const layersObj: any = {}
 
-onMounted(() => {
-  initTree()
+mapWork.treeEvent.on("tree", (event: any) => {
+  initTree(event)
 })
 
 const checkedChange = (_keys: string[], checkedNodes: any) => {
@@ -66,30 +66,29 @@ const checkedChange = (_keys: string[], checkedNodes: any) => {
   mapWork.flyToEntity()
 }
 
-function initTree() {
-  mapWork.treeEvent.on("tree", function (event: any) {
-    const modelList = event.treeData
+// 初始化树控件
+function initTree(event: any) {
+  const modelList = event.treeData
 
-    const tree = []
-    const selects: string[] = []
-    for (let i = 0; i < modelList.length; i++) {
-      const node = modelList[i].graphic
+  const tree = []
+  const selects: string[] = []
+  for (let i = 0; i < modelList.length; i++) {
+    const node = modelList[i].graphic
 
-      if (node) {
-        const nodeList: any = {
-          title: node.name || "未命名",
-          key: node.id
-        }
-        tree.push(nodeList)
-        selects.push(nodeList.key)
-        layersObj[nodeList.key] = node
+    if (node) {
+      const nodeList: any = {
+        title: node.name || "未命名",
+        key: node.id
       }
+      tree.push(nodeList)
+      selects.push(nodeList.key)
+      layersObj[nodeList.key] = node
     }
-    treeData.value[0].children = tree
+  }
+  treeData.value[0].children = tree
 
-    nextTick(() => {
-      selectedKeys.value = selects
-    })
+  nextTick(() => {
+    selectedKeys.value = selects
   })
 }
 

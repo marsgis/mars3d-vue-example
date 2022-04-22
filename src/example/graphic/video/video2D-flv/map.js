@@ -259,12 +259,10 @@ export function locate() {
 }
 // 打印参数
 export function printParameters() {
-  if (!video2D) {
-    return
+  if (video2D) {
+    const params = video2D.toJSON()
+    console.log("Video2D构造参数为", JSON.stringify(params))
   }
-
-  const params = video2D.toJSON()
-  console.log("Video2D构造参数为", JSON.stringify(params))
 }
 // 视频位置
 export function selCamera() {

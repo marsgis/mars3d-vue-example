@@ -1,9 +1,7 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="450">
-    <div class="f-mb">
-      <layer-state />
-    </div>
-    <div class="f-mb">
+    <layer-state />
+    <div class="f-mb f-pt">
       <a-row>
         <a-col :span="4">点状:</a-col>
         <a-col :span="19">
@@ -14,7 +12,7 @@
       </a-row>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-row>
         <a-col :span="4">线面状:</a-col>
         <a-col :span="19">
@@ -28,25 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
-import type { UnwrapRef } from "vue"
-
-import * as mapWork from "./map.js"
-
-interface FormState {
-  enabledShowHide: boolean
-  enabledPopup: boolean
-  enabledTooltip: boolean
-  enabledRightMenu: boolean
-}
-
-const formState: UnwrapRef<FormState> = reactive({
-  enabledShowHide: true,
-  enabledPopup: true,
-  enabledTooltip: false,
-  enabledRightMenu: true
-})
 
 const arrPoint = ["文字", "点", "图标点", "平面", "盒子", "圆", "圆锥", "球", "小模型"]
 const arrPolyline = ["线", "管道", "走廊", "墙", "矩形", "面"]

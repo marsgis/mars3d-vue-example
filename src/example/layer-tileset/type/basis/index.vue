@@ -35,7 +35,6 @@
         </div>
       </a-collapse-panel>
     </a-collapse>
-    <a-form> </a-form>
   </mars-pannel>
 </template>
 

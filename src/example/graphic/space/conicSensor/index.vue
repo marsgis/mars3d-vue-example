@@ -3,126 +3,120 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">圆锥体:</span>
-        <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+        <a-checkbox v-model:checked="sensorParams.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">长度:</span>
-        <mars-input-number @change="sensorLength" v-model:value="lengthValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
+        <mars-input-number @change="sensorLength" v-model:value="sensorParams.lengthValue" :min="1" :max="999999999" :step="1.0"></mars-input-number>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">方向角:</span>
-        <mars-slider @change="headingChange" v-model:value="headingValue" :min="0" :max="360" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ headingValue }}°</span>
+        <mars-slider @change="headingChange" v-model:value="sensorParams.headingValue" :min="0" :max="360" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ sensorParams.headingValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">俯仰角:</span>
-        <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ pitchValue }}°</span>
+        <mars-slider @change="pitchChange" v-model:value="sensorParams.pitchValue" :min="-180" :max="180" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ sensorParams.pitchValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右角:</span>
-        <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ rollValue }}°</span>
+        <mars-slider @change="rollChange" v-model:value="sensorParams.rollValue" :min="-180" :max="180" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ sensorParams.rollValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">夹角:</span>
-        <mars-slider @change="angle" v-model:value="angleValue" :min="0.01" :max="89" :step="0.01" />
-        <span class="mars-pannel-item-value">值{{ angleValue }}°</span>
+        <mars-slider @change="angle" v-model:value="sensorParams.angleValue" :min="0.01" :max="89" :step="0.01" />
+        <span class="mars-pannel-item-value">值{{ sensorParams.angleValue }}°</span>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">顶盖:</span>
-        <a-checkbox @change="sensorTop" v-model:checked="formState.enabledShowModelTop">是否显示</a-checkbox>
+        <a-checkbox @change="sensorTop" v-model:checked="sensorParams.enabledShowModelTop">是否显示</a-checkbox>
       </a-space>
     </div>
   </mars-pannel>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue"
-import type { UnwrapRef } from "vue"
+import { reactive, toRaw } from "vue"
 import * as mapWork from "./map.js"
 
-interface FormState {
+// 圆柱体参数
+interface Sensor {
   enabledShowHide: boolean
   enabledShowModelTop: boolean
+
+  angleValue: number
+  lengthValue: number
+  headingValue: number
+  pitchValue: number
+  rollValue: number
 }
 
-// 角度
-const angleValue = ref<number>(5)
-
-// 长度（米）
-const lengthValue = ref<number>(700000)
-
-const headingValue = ref<number>(0) // 方向
-
-const pitchValue = ref<number>(40) // 仰角
-
-const rollValue = ref<number>(0) // 左右
-
-const formState: UnwrapRef<FormState> = reactive({
+const sensorParams = reactive<Sensor>({
   enabledShowHide: true,
-  enabledShowModelTop: true
-})
+  enabledShowModelTop: true,
 
-mapWork.eventTarget.on("loadOk", () => {
-  mapWork.addConicSensor(headingValue.value, pitchValue.value, rollValue.value, angleValue.value, lengthValue.value)
+  angleValue: 5,
+  lengthValue: 700000,
+  headingValue: 0,
+  pitchValue: 40,
+  rollValue: 0
 })
 
 // 显示/隐藏
 const sensorShowHide = () => {
-  mapWork.sensorShowHide(formState.enabledShowHide)
+  mapWork.sensorShowHide(sensorParams.enabledShowHide)
 }
 
 // 半径
 const sensorLength = () => {
-  mapWork.sensorLength(lengthValue.value)
+  mapWork.sensorLength(sensorParams.lengthValue)
 }
 
 // 方向角
 const headingChange = () => {
-  mapWork.headingChange(headingValue.value)
+  mapWork.headingChange(sensorParams.headingValue)
 }
 
 // 俯仰角
 const pitchChange = () => {
-  mapWork.pitchChange(pitchValue.value)
+  mapWork.pitchChange(sensorParams.pitchValue)
 }
 
 // 左右角
 const rollChange = () => {
-  mapWork.rollChange(rollValue.value)
+  mapWork.rollChange(sensorParams.rollValue)
 }
 
 // 夹角
 const angle = () => {
-  mapWork.angle(angleValue.value)
+  mapWork.angle(sensorParams.angleValue)
 }
 
 // 顶部显示隐藏
 const sensorTop = () => {
-  mapWork.sensorTop(formState.enabledShowModelTop)
+  mapWork.sensorTop(sensorParams.enabledShowModelTop)
 }
 </script>
 <style scoped lang="less">
 .mars-pannel-item-label {
-  display: block;
-  text-align: right;
   width: 40px;
 }
 .ant-slider {

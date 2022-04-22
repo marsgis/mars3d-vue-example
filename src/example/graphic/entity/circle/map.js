@@ -349,8 +349,6 @@ export function bindLayerPopup() {
   })
 }
 
-
-
 // 绑定右键菜单
 export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([

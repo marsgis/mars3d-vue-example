@@ -154,7 +154,7 @@ function addFeature(graphicLayer, arr) {
 }
 
 // 计算贴地高度示例代码，可以将获取到的高度更新到数据库内，后续不用重复计算。
-function getDataSurfaceHeight() {
+export function getDataSurfaceHeight() {
   if (!arrData) {
     globalMsg("数据尚未加载成功！")
     return
@@ -173,7 +173,7 @@ function getDataSurfaceHeight() {
     const latitude = Number(item[latCol])
     const height = Number(item[heightCol] || 0)
 
-    const position = Cesium.Cartesian3.fromDegrees(longitude, latitude)
+    const position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
     positions.push(position)
   }
 
@@ -201,6 +201,7 @@ function getDataSurfaceHeight() {
     }
   })
 }
-function enabledAggressive(val) {
+
+export function enabledAggressive(val) {
   graphicLayer.clustering = val
 }

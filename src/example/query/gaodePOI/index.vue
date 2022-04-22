@@ -34,7 +34,7 @@
         </a-space>
       </a-form-item>
 
-      <div v-show="show">
+      <div v-show="tableShow">
         <a-form-item>
           <a-table
             :pagination="true"
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue"
+import { computed, onBeforeMount, ref, toRaw } from "vue"
 import axios from "axios"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
@@ -64,12 +64,18 @@ interface DataItem {
 }
 
 const radioFanwei = ref("1")
-const serverName = ref<string>("")
+const serverName = ref("")
 const citySheng = ref("安徽省")
 const cityShi = ref("合肥市")
-const show = ref(false)
+const tableShow = computed(() => dataSource.value.length > 0)
 
 const columns = ref([
+  {
+    title: "序号",
+    dataIndex: "key",
+    key: "key",
+    width: 35
+  },
   {
     title: "名称",
     dataIndex: "name",
@@ -94,48 +100,28 @@ const customRow = (record: DataItem) => {
         $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      record.graphic.openHighlight()
-      record.graphic.flyTo({
-        radius: 1000, // 点数据：radius控制视距距离
-        scale: 1.5, // 线面数据：scale控制边界的放大比例
-        complete: () => {
-          record.graphic.openPopup()
-        }
-      })
+      mapWork.flyToGraphic(toRaw(record.graphic))
     }
   }
 }
 
 // 绘制范围
 const drawRectangle = () => {
-  show.value = false
   mapWork.drawRectangle()
 }
 
 const drawCircle = () => {
-  show.value = false
   mapWork.drawCircle()
 }
 
 const drawPolygon = () => {
-  show.value = false
   mapWork.drawPolygon()
 }
 
 // 查询数据
 const query = () => {
-  show.value = false
   mapWork.clearAll(true)
-
-  mapWork.clearAll(radioFanwei.value === "3")
-
   mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
-
-  // 视角操作
-  setTimeout(function () {
-    mapWork.flyToGraphic()
-  }, 1000)
-
 }
 
 // 城市的数据
@@ -168,18 +154,21 @@ const onChange = (_value: string, selectedOptions: Option[]) => {
 const dataSource = ref<any>([])
 
 mapWork.eventTarget.on("tableData", (e: any) => {
-  show.value = true
   dataSource.value = []
+
   e.data.forEach((item: any, index: number) => {
+    console.log(index)
+
     dataSource.value.push({ key: index, name: item.name, type: item.type, address: item.address, graphic: item.graphic })
   })
+  console.log("eee", dataSource)
 })
 
 // 清除数据
 const removeAll = () => {
-  show.value = false
   dataSource.value = []
   mapWork.clearAll()
 }
+
 </script>
 <style scoped lang="less"></style>

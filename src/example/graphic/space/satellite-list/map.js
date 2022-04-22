@@ -39,6 +39,16 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
+  graphicLayer.on(mars3d.EventType.click, function (event) {
+    console.log("单击了卫星", event)
+    // 单击事件
+    highlightSatellite(event.graphic)
+  })
+  graphicLayer.on(mars3d.EventType.change, function (event) {
+    // 位置变化事件
+    processInArea(event.graphic)
+  })
+
   bindLayerPopup()
 
   creatreDmzList()
@@ -65,16 +75,6 @@ function createSatelliteList(arr) {
   // 单击地图空白处
   map.on(mars3d.EventType.clickMap, function (event) {
     highlightSatellite()
-  })
-
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("单击了卫星", event)
-    // 单击事件
-    highlightSatellite(event.graphic)
-  })
-  graphicLayer.on(mars3d.EventType.change, function (event) {
-    // 位置变化事件
-    processInArea(event.graphic)
   })
 
   for (let i = 0; i < arr.length; i++) {

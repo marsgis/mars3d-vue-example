@@ -19,6 +19,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  globalNotify("操作提示", `Q 逆时针摆动、 A 顺时针摆动`, { duration: null })
   addDemo()
 }
 

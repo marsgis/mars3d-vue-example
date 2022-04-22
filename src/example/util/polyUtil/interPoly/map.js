@@ -142,7 +142,6 @@ function showInterResult(list) {
   clearInterResult()
 
   let pt1, pt2, pt3
-  // var geometryInstances = [];
   for (let i = 0, len = list.length; i < len; i++) {
     const item = list[i]
 

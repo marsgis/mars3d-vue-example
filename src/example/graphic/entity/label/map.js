@@ -148,18 +148,18 @@ function bindLayerEvent() {
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
     eventTarget.fire("graphicEditor-start", e)
   })
+
   graphicLayer.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
     function (e) {
       eventTarget.fire("graphicEditor-update", e)
     }
   )
+
   graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
     eventTarget.fire("graphicEditor-stop", e)
   })
 }
-
-
 
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
@@ -172,8 +172,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {
@@ -241,7 +239,6 @@ export function bindLayerContextMenu() {
 }
 
 // 按钮事件
-
 export function updateLayerHasEdit(val) {
   graphicLayer.hasEdit = val
 }
@@ -260,6 +257,7 @@ export function startDrawGraphic() {
     }
   })
 }
+
 export function onClickStartBounce() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.startBounce) {
@@ -267,6 +265,7 @@ export function onClickStartBounce() {
     }
   })
 }
+
 export function onClickStartBounce2() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.startBounce) {
@@ -278,6 +277,7 @@ export function onClickStartBounce2() {
     }
   })
 }
+
 export function onClickStopBounce() {
   graphicLayer.eachGraphic((graphic) => {
     if (graphic.stopBounce) {

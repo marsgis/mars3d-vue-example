@@ -20,7 +20,7 @@
         </a-space>
       </a-form-item>
 
-      <div v-show="show">
+      <div v-show="showTable">
         <a-form-item>
           <a-table
             :pagination="true"
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRaw } from "vue"
+import { computed, ref, toRaw } from "vue"
 import * as mapWork from "./map.js"
 import { $message } from "@mars/components/mars-ui/index"
 
@@ -51,18 +51,15 @@ interface DataItem {
 }
 
 const serverName = ref("")
-const show = ref(false)
+const showTable = computed(() => dataSource.value.length > 0)
 
 // 表格数据
 const dataSource = ref([])
 
-onMounted(() => {
-  mapWork.eventTarget.on("befortUI", function (event: any) {
-    show.value = true
-    dataSource.value = []
-    event.list.forEach((item: any, index: number) => {
-      dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
-    })
+mapWork.eventTarget.on("befortUI", function (event: any) {
+  dataSource.value = []
+  event.list.forEach((item: any, index: number) => {
+    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
   })
 })
 
@@ -84,29 +81,6 @@ const columns = ref([
   }
 ])
 
-const rowSelection = ref({
-  hideSelectAll: true,
-  hideDefaultSelections: true,
-  onSelect: (record: DataItem, selected: boolean) => {
-    if (record.graphic == null) {
-      $message(record.name + " 无经纬度坐标信息！")
-      return
-    }
-    if (selected) {
-      record.graphic.openHighlight()
-      record.graphic.flyTo({
-        radius: 1000, // 点数据：radius控制视距距离
-        scale: 1.5, // 线面数据：scale控制边界的放大比例
-        complete: () => {
-          record.graphic.openPopup()
-        }
-      })
-    } else {
-      record.graphic.closeHighlight()
-    }
-  }
-})
-
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
@@ -121,30 +95,27 @@ const customRow = (record: DataItem) => {
 
 // 绘制范围
 const drawRectangle = () => {
-  show.value = false
   mapWork.drawRectangle()
 }
 
 const drawCircle = () => {
-  show.value = false
   mapWork.drawCircle()
 }
 
 const drawPolygon = () => {
-  show.value = false
   mapWork.drawPolygon()
 }
+
 // 查询数据
 const query = () => {
-  show.value = false
   mapWork.clearAll(true)
-  mapWork.query(serverName.value)
+  mapWork.query(toRaw(serverName.value))
 }
+
 // 清除数据
 const removeAll = () => {
-  show.value = false
   dataSource.value = []
-  mapWork.removeAll()
+  mapWork.clearAll()
 }
 </script>
 <style scoped lang="less">

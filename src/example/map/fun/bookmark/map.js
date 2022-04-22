@@ -33,10 +33,9 @@ export function onUnmounted() {
 }
 
 // 添加书签
-export function butAddTxtName(index, name) {
+export function butAddTxtName(name) {
   // 动态的获取index
   const item = {
-    id: index,
     name: name,
     center: map.getCameraView()
   }
@@ -54,25 +53,6 @@ export function butAddTxtName(index, name) {
 // 飞向视角
 export function flytoView(center) {
   map.setCameraView(center)
-}
-
-// 保存历史记录
-export function setLocalStorage(imgObject) {
-  localStorage.setItem("bookmark", JSON.stringify(imgObject))
-}
-
-// 读取历史记录
-export function getLocalStorage() {
-  try {
-    const data = JSON.parse(localStorage.getItem("bookmark"))
-    if (data && data.length > 0) {
-      console.log("历史数据", data)
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i]
-        eventTarget.fire("localStorage", item)
-      }
-    }
-  } catch (err) {}
 }
 
 export function removeLocalStorage() {

@@ -19,7 +19,6 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-
   map.basemap = 2017 // 蓝色底图
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
@@ -95,10 +94,9 @@ export function setStyle2() {
   tiles3dLayer.reload()
 }
 
-
-// 不改动cesium源码 夜景贴图
+//  夜景贴图
 export function setStyle3() {
-  globalMsg(`当前效果是：动态渐变+动态光环的特效`)
+  globalMsg(`当前效果是：夜景贴图的特效`)
 
   tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,

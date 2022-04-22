@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
+import { onMounted, reactive } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 import { $notify } from "@mars/components/mars-ui/index"
@@ -48,10 +48,8 @@ const formState: UnwrapRef<FormState> = reactive({
   txtHeight: 30
 })
 
-mapWork.eventTarget.on("loadOk", (e: any) => {
+mapWork.eventTarget.on("hasAddLayer", (e: any) => {
   e.terrainPlanClip.diffHeight = formState.txtHeight
-
-  $notify("已知问题提示", "（1）因为使用clippingPlanes接口，绘制多边形时，部分围合角度时会存在效果不对")
 })
 
 // 是否挖地

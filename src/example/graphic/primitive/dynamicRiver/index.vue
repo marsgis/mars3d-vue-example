@@ -50,9 +50,6 @@ const widthChange = () => {
 // 高度
 const heightValue = ref<number>(30)
 const heightChange = () => {
-  if (!heightValue.value) {
-    heightValue.value = 30
-  }
   mapWork.heightChange(heightValue.value)
 }
 

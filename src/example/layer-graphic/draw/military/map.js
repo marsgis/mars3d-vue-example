@@ -261,7 +261,7 @@ function simplifyGeoJSON(geojson) {
   try {
     geojson = turf.simplify(geojson, { tolerance: 0.000001, highQuality: true, mutate: true })
   } catch (e) {
-    //
+    console.log("加载出错", e)
   }
   return geojson
 }

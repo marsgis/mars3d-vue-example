@@ -9,37 +9,34 @@
   </mars-pannel>
 
   <!-- 视频 面板 -->
-  <div class="videoWrap" v-show="formState.openVideo == true">
-    <div class="openPanel" v-show="formState.openPannel === true">
+  <div class="videoWrap" v-show="satelliteParams.openVideo == true">
+    <div class="openPanel" v-show="satelliteParams.openPannel === true">
       <div class="closeAction" @click="closePannel">收缩&gt;</div>
       <video width="420" :muted="true" :autoplay="true">
         <source src="//data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
       </video>
     </div>
-    <div v-show="formState.openPannel === false">
+    <div v-show="satelliteParams.openPannel === false">
       <mars-button @click="openPanel">查看视频</mars-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
-import type { UnwrapRef } from "vue"
+import { reactive } from "vue"
 import * as mapWork from "./map.js"
 
-interface FormState {
+interface Satellite {
   openVideo: boolean
   openPannel: boolean
 }
-const formState: UnwrapRef<FormState> = reactive({
+const satelliteParams = reactive<Satellite>({
   openVideo: false,
   openPannel: true
 })
 
-onMounted(() => {
-  mapWork.eventTarget.on("video", function (e: any) {
-    formState.openVideo = e.openVideo
-  })
+mapWork.eventTarget.on("video", (item: any) => {
+  satelliteParams.openVideo = item.openVideo
 })
 
 // 框选查询 矩形
@@ -57,15 +54,15 @@ const drawPolygon = () => {
 // 清除
 const drawClear = () => {
   mapWork.drawClear()
-  formState.openVideo = false
+  satelliteParams.openVideo = false
 }
 
 // 视屏面板的控制
 const openPanel = () => {
-  formState.openPannel = true
+  satelliteParams.openPannel = true
 }
 const closePannel = () => {
-  formState.openPannel = false
+  satelliteParams.openPannel = false
 }
 </script>
 

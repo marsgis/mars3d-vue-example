@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -40,7 +40,7 @@ const args = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   addLayer()
 }
@@ -54,8 +54,6 @@ export function onUnmounted() {
 }
 
 function addLayer() {
-
-
   // 创建Graphic图层
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)

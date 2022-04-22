@@ -62,7 +62,7 @@ function addLayer() {
     console.log("开始分析", e)
   })
   tilesetFlood.on(mars3d.EventType.change, function (e) {
-    // onChangeHeight(e.height)
+    // console.log("分析高度", e.height)
   })
   tilesetFlood.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
@@ -134,7 +134,7 @@ export function begin(data) {
   const minValue = Number(data.minHeight)
   const maxValue = Number(data.maxHeight)
   const speed = Number(data.speed)
-  if (minValue <= 1800) {
+  if (minValue <= 27) {
     globalMsg("最低海拔过低，请耐心等候几秒")
   }
   if (minValue > maxValue) {

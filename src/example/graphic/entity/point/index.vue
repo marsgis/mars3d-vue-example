@@ -1,10 +1,7 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <layer-state />
-    </div>
-
-    <div class="f-mb">
+    <layer-state />
+    <div class="f-mb f-pt">
       <a-space>
         <span class="mars-pannel-item-label">数据维护:</span>
         <mars-button @click="onClickStartDraw">图上标绘</mars-button>

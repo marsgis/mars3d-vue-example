@@ -22,7 +22,7 @@ export function onMounted(mapInstance) {
     layer.brightness = 0.3
   })
 
-  queryMapvLayerData()
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/buildings-hf.json" })
     .then(function (data) {
       createMapvLayer(data.features)
     })
@@ -39,11 +39,6 @@ export function onUnmounted() {
   map = null
 }
 
-// 获取数据
-function queryMapvLayerData() {
-  return mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/buildings-hf.json" })
-}
-
 // 创建mapv图层
 function createMapvLayer(geojson) {
   const options = {
@@ -52,11 +47,12 @@ function createMapvLayer(geojson) {
     size: 3,
     lineWidth: 1,
     draw: "simple",
-    depthTest: false // 是否进行计算深度（大数据时，需要关闭）
+    depthTest: false, // 是否进行计算深度（大数据时，需要关闭）
+    data: geojson // 数据
   }
-  const dataSet = new this.mapv.DataSet(geojson)
 
   // 创建MapV图层
-  const mapVLayer = new mars3d.layer.MapVLayer(options, dataSet)
+  const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
+
 }

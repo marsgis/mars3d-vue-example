@@ -78,7 +78,7 @@ export function onMounted(mapInstance) {
   })
   map.addEffect(bloomEffect)
 
-  setStyle1()
+  setStyleDef()
 
   eventTarget.fire("loadOk")
 }
@@ -91,6 +91,7 @@ export function onUnmounted() {
   map = null
 }
 
+// 开启亮度
 export function addbrightnessEffect(brightness) {
   brightnessEffect = new mars3d.effect.BrightnessEffect({
     enabled: true,
@@ -103,7 +104,6 @@ export function setStyleDef() {
   if (tiles3dLayer) {
     tiles3dLayer.remove()
   }
-
   // 模型
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     type: "3dtiles",
@@ -164,11 +164,7 @@ export function setStyle1() {
 
 // 不改动cesium源码版本的建筑物样式
 export function setStyle2() {
-  if (tiles3dLayer) {
-    tiles3dLayer.remove()
-  }
-
-  const customShader = new Cesium.CustomShader({
+  tiles3dLayer.customShader = new Cesium.CustomShader({
     lightingModel: Cesium.LightingModel.UNLIT,
     fragmentShaderText: `
     void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
@@ -195,17 +191,7 @@ export function setStyle2() {
       material.diffuse += material.diffuse * (1.0 - mars_diff);
     } `
   })
-
-  tiles3dLayer = new mars3d.layer.TilesetLayer({
-    name: "合肥市建筑物",
-    url: "//data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
-    maximumScreenSpaceError: 1,
-    maximumMemoryUsage: 1024,
-    customShader: customShader,
-    popup: "all"
-  })
-  map.addLayer(tiles3dLayer)
-
+  tiles3dLayer.reload()
 }
 
 // 不改动cesium源码 夜景贴图

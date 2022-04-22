@@ -131,9 +131,11 @@ const selCamera = () => {
 const onChangeAngle = () => {
   mapWork.onChangeAngle(video.cameraAngle)
 }
+
 const onChangeAngle2 = () => {
   mapWork.onChangeAngle2(video.cameraAngle2)
 }
+
 const onChangeDistance = () => {
   mapWork.onChangeDistance(video.distanceValue)
 }

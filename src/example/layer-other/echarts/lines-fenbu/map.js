@@ -31,13 +31,6 @@ export function onUnmounted() {
 }
 
 function createEchartsLayer() {
-  /* let geoCoorddata = {
-    武汉: [114.30539299999998, 30.593099],
-    深圳: [114.05786499999999, 22.543096],
-    北京: [116.40739499999995, 39.904211],
-    阿克苏: [80.26338699999997, 41.167548],
-  }; */
-
   const options = getEchartsOption()
   const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)

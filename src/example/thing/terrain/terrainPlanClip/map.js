@@ -65,7 +65,7 @@ function addLayer() {
   })
   map.addThing(terrainPlanClip)
 
-  eventTarget.fire("loadOk", { terrainPlanClip })
+  eventTarget.fire("hasAddLayer", { terrainPlanClip })
 }
 
 // 是否挖地

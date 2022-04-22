@@ -45,7 +45,7 @@
         </a-col>
 
         <a-col :span="24">
-          <a-form-item label="线颜色" :labelCol="labelCol" :labelAlign="labelAlign">
+          <a-form-item label="lineColor" :labelCol="labelCol" :labelAlign="labelAlign">
             <mars-color-picker v-model:value="formState.color" @change="changeColor" />
           </a-form-item>
         </a-col>

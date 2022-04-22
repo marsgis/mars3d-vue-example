@@ -2,22 +2,22 @@
   <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
-        <a-sapce>
+        <a-space>
           <mars-icon icon="handle-triangle" class="icon-vertical-a" />
           <span>{{ isPause ? "继续" : "开始" }}</span>
-        </a-sapce>
+        </a-space>
       </mars-button>
       <mars-button v-if="isPlay && !isPause" @click="pause">
-        <a-sapce>
+        <a-space>
           <mars-icon icon="pause-one" class="icon-vertical-a" />
           <span>暂停</span>
-        </a-sapce>
+        </a-space>
       </mars-button>
       <mars-button v-if="isPlay" @click="stop">
-        <a-sapce>
+        <a-space>
           <mars-icon icon="power" class="icon-vertical-a" />
           <span>停止</span>
-        </a-sapce>
+        </a-space>
       </mars-button>
     </a-space>
     <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
@@ -245,6 +245,4 @@ onMounted(() => {
 .show-time {
   color: @mars-basecolor;
 }
-
-
 </style>

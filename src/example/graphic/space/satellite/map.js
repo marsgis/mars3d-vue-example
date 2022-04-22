@@ -132,7 +132,7 @@ function addGraphicLayer() {
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = point.alt
-      eventTarget.fire("loadOk", { weixinData })
+      eventTarget.fire("satelliteChange", { weixinData })
     }
   })
 }

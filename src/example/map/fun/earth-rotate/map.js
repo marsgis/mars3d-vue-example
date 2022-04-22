@@ -57,7 +57,7 @@ export function stopRotate() {
 let previousTime
 
 // 地球旋转
-function map_onClockTick(clock) {
+function map_onClockTick() {
   const spinRate = 1
 
   const currentTime = map.clock.currentTime.secondsOfDay

@@ -40,19 +40,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onMounted, ref, computed, toRaw } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 import { setAutoHeight } from "@mars/utils/mars-util"
 
 const serverName = ref("")
-const show = ref<boolean>(false)
 const activeKey = ref("1")
+const show = computed(() => dataSource.value.length > 0) // 表格显示 隐藏
 
 // 表格数据
 const dataSource = ref([])
 // 取到js中的数据
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("tableData", function (event: any) {
   const arrPie = [] // 饼状图:名称+面积
   const arrTable = [] // 表格: 名称+面积+数量
   const arrType = [] // 柱状图:名称
@@ -170,12 +170,6 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
     ]
   }
   histogramECharts.setOption(histogramOption)
-
-  if (dataSource.value.length !== 0) {
-    show.value = true
-  } else {
-    show.value = false
-  }
 })
 
 const columns = ref([
@@ -213,22 +207,22 @@ const drawPolygon = () => {
 }
 // 查询数据
 const query = () => {
-  mapWork.queryData(serverName.value)
+  mapWork.queryData(toRaw(serverName.value))
 }
 
 // 清除数据
 const removeAll = () => {
-  show.value = false
+  dataSource.value = []
   mapWork.clearAll()
 }
 
 const tableScrollHeight = ref(0)
-
 onMounted(() => {
   setAutoHeight((height) => {
     tableScrollHeight.value = height
   }, 400)
 })
+
 </script>
 <style scoped lang="less">
 :deep(.ant-tabs-tab-btn) {

@@ -26,7 +26,6 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-
   // 加个模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "地下管网",
@@ -77,11 +76,13 @@ export function centerAtDX2() {
 // 是否开启地下模式
 export function chkUnderground(val, alphaVal) {
   // 地下模式
-  underground = new mars3d.thing.Underground({
-    alpha: alphaVal,
-    enabled: val
-  })
-  map.addThing(underground)
+  if (!underground) {
+    underground = new mars3d.thing.Underground({
+      alpha: alphaVal,
+      enabled: val
+    })
+    map.addThing(underground)
+  }
 
   underground.enabled = val
 }

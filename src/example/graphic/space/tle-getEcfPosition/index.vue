@@ -31,7 +31,7 @@
       </a-space>
     </div>
 
-    <a-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="data">
+    <a-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="pathData">
       <template #bodyCell="{ column, text }">
         <template v-if="column.dataIndex === 'name'">
           <a>{{ text }}</a>
@@ -76,10 +76,10 @@ const columns = [
 
 const startTime = ref<Dayjs>(dayjs())
 const endTime = ref<Dayjs>(dayjs().add(60, "minute"))
-const data = ref([])
+const pathData = ref([])
 
 mapWork.eventTarget.on("dataList", (e: any) => {
-  data.value = e.tableList
+  pathData.value = e.tableList
 })
 
 // 框选查询 矩形
@@ -100,7 +100,7 @@ const drawClear = () => {
 }
 
 const clearResult = () => {
-  data.value = []
+  pathData.value = []
   mapWork.clearResult()
 }
 

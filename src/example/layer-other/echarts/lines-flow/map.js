@@ -32,8 +32,16 @@ export function onUnmounted() {
 
 function createEchartsLayer() {
   const options = getEchartsOption()
+  // options.pointerEvents = true // 使用单击
+
   const echartsLayer = new mars3d.layer.EchartsLayer(options)
   map.addLayer(echartsLayer)
+
+  if (options.pointerEvents) {
+    echartsLayer.on("click", function (event) {
+      console.log("单击了图层", event)
+    })
+  }
 
   // 图表自适应
   window.addEventListener("resize", function () {

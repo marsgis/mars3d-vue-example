@@ -17,6 +17,6 @@ const drawLine = () => {
 
 // 清除
 const clearAll = () => {
-  mapWork.graphicLayer.clear()
+  mapWork.clearGraphicLayer()
 }
 </script>

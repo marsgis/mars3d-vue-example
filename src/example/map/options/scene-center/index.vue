@@ -17,8 +17,6 @@
         </a-space>
       </a-collapse-panel>
     </a-collapse>
-    <!-- <div class="f-mb"></div>
-    <div></div> -->
   </mars-pannel>
 </template>
 

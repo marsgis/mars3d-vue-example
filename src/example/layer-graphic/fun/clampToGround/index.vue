@@ -11,11 +11,16 @@
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
-const percent = ref(0) // 声明ref响应式数据，js中需要 *.value 来操作其值
-const percentAll = ref(0) // 声明ref响应式数据，js中需要 *.value 来操作其值
+const percent = ref(0)
+const percentAll = ref(0)
 
 mapWork.eventTarget.on("loadOk", function (event: any) {
   percentAll.value = event.geojsonLength
+})
+
+mapWork.eventTarget.on("computedResult", function (event: any) {
+  percent.value = event.resultData.percent
+  percentAll.value = event.resultData.percentAll
 })
 
 // 保存为Geojson文件
@@ -26,9 +31,5 @@ const toGeojson = () => {
 // 异步计算贴地高度
 const getDataSurfaceHeight = () => {
   mapWork.getDataSurfaceHeight()
-  mapWork.eventTarget.on("loadOk", function (event: any) {
-    percent.value = event.resultData.percent
-    percentAll.value = event.resultData.percentAll
-  })
 }
 </script>

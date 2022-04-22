@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-export let graphicLayer
+let graphicLayer
 let selectedView
 
 // 事件对象，用于抛出事件给vue
@@ -70,7 +70,7 @@ function addDemoGraphic1() {
 
   selectedView = viewShed // 记录下
 
-  eventTarget.fire("loadVideo", {
+  eventTarget.fire("addViewShedValue", {
     value: {
       cameraAngle: selectedView.angle,
       cameraAngle2: selectedView.angle2,
@@ -99,7 +99,7 @@ export function addViewShed(data) {
 
       selectedView = graphic // 记录下
 
-      eventTarget.fire("loadVideo", {
+      eventTarget.fire("addViewShedValue", {
         value: {
           cameraAngle: selectedView.angle,
           cameraAngle2: selectedView.angle2,

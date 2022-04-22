@@ -74,7 +74,6 @@ mapWork.eventTarget.on("loadOk", function (event: any) {
   nextTick(() => {
     selectedKeys.value = selects
   })
-  // console.log(treeData.value)
 })
 
 const checkedChange = (keys: any, item: any) => {
@@ -132,12 +131,3 @@ const showFireDrill = () => {
   mapWork.showFireDrill()
 }
 </script>
-<style scoped lang="less">
-.treeView {
-  right: 10px !important;
-  top: 100px !important;
-  width: 200px;
-  max-height: calc(100% - 180px) !important;
-  overflow-y: auto !important;
-}
-</style>

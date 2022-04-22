@@ -90,23 +90,23 @@ export function stratPoint() {
   }
   routeLayer.clear()
 
-  map.graphicLayer.startDraw({
-    type: "billboard",
-    style: {
-      image: "img/marker/start.png",
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-    },
-    success: function (graphic) {
+  return map.graphicLayer
+    .startDraw({
+      type: "billboard",
+      style: {
+        image: "img/marker/start.png",
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      }
+    })
+    .then((graphic) => {
       startGraphic = graphic
-
       const point = graphic.point
       point.format()
-
-      eventTarget.fire("star", { point })
-    }
-  })
+      return point
+    })
 }
+
 // 终点
 export function endPoint() {
   showLoading()
@@ -154,15 +154,15 @@ export function btnAnalyse(type, count) {
 
 function queryRoute(type) {
   const startPoint = startGraphic.coordinate
-  const arr = []
-  for (let i = 0; i < endPointArr.length; i++) {
-    const item = endPointArr[i]
-    arr.push([startPoint, [item.x, item.y]])
-  }
+  const points = []
+
+  endPointArr.forEach((item) => {
+    points.push([startPoint, [item.x, item.y]])
+  })
 
   gaodeRoute.queryArr({
     type: Number(type), // GaodeRouteType枚举类型
-    points: arr,
+    points: points,
     success: function (data) {
       hideLoading()
 
@@ -174,6 +174,7 @@ function queryRoute(type) {
     }
   })
 }
+
 function showRouteResult(data) {
   for (let i = 0; i < data.length; i++) {
     const item = data[i]

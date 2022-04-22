@@ -38,9 +38,9 @@ function addLayer() {
   })
   map.addThing(underground)
 
-  // 地下颜色的个性化处理
-  // underground.color = Cesium.Color.BLACK
-  // underground.colorAlphaByDistance = new Cesium.NearFarScalar(1000.0, 0.0, 1000000.0, 1.0)
+  /* // 地下颜色的个性化处理
+  underground.color = Cesium.Color.BLACK
+  underground.colorAlphaByDistance = new Cesium.NearFarScalar(1000.0, 0.0, 1000000.0, 1.0) */
 
   // 加个模型
   const tiles3dLayer = new mars3d.layer.TilesetLayer({

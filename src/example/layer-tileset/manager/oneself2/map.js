@@ -38,9 +38,9 @@ export const mapOptions = function (option) {
       }
     }
   }
-  delete mapOptions.terrain
-  delete mapOptions.basemaps
-  delete mapOptions.layers
+  delete option.terrain
+  delete option.basemaps
+  delete option.layers
 
   return option
 }

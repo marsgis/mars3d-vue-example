@@ -45,13 +45,6 @@ const onUnBindGraphicDemo = () => {
 }
 </script>
 <style scoped lang="less">
-.history-layer {
-  width: 100%;
-  height: 90%;
-  top: 70px;
-  left: 0;
-  overflow: hidden;
-}
 .ant-space {
   display: grid;
 }

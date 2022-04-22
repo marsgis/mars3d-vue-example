@@ -106,7 +106,6 @@ function addWaterGate() {
 
 // 单个闸门控制
 export function onChangeGate(id, checked) {
-  // const id = Number(item.value)
   const particleSystem = graphicLayer.getGraphicById(id)
   if (particleSystem) {
     particleSystem.show = !checked

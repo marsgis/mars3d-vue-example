@@ -32,37 +32,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import dayjs from "dayjs"
 import * as mapWork from "./map.js"
 
+const currDate = ref<string>(dayjs().format("YYYY-MM-DD"))
 const timeVal = ref<number>(420)
 
-const currDate = ref<string>(dayjs().format("YYYY-MM-DD"))
-const currTime = ref(0)
+const hours = computed(() => Math.floor(timeVal.value / 60))
+const minutes = computed(() => Math.floor(timeVal.value % 60))
 
-const hours = computed(() => Math.floor(currTime.value / 60))
-const minutes = computed(() => Math.floor(currTime.value % 60))
-
-mapWork.eventTarget.on("loadOk", (event: any) => {
+mapWork.eventTarget.on("changeShadows", (event: any) => {
   const date = event.shadowTime
-
-  currTime.value = date.getHours() * 60 + date.getMinutes()
-
-  timeVal.value = currTime.value
+  timeVal.value = date.getHours() * 60 + date.getMinutes()
 })
 
-mapWork.eventTarget.on("shadows", () => {
+mapWork.eventTarget.on("loadOk", () => {
   timeChange()
 })
 
 const timeChange = () => {
-  mapWork.setShadows(timeVal.value, currDate.value)
-  currTime.value = timeVal.value
+  mapWork.setShadows(currDate.value, hours.value, minutes.value)
 }
 
 const startPlay = () => {
-  mapWork.startPlay(timeVal.value, currDate.value)
+  mapWork.startPlay(currDate.value, hours.value, minutes.value)
 }
 const stopPlay = () => {
   mapWork.stopPlay()

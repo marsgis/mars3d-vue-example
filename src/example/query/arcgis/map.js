@@ -35,10 +35,10 @@ export function onUnmounted() {
   map = null
 }
 
-export function query(item) {
+export function query(keyWords) {
   queryMapserver.query({
     column: "项目名称",
-    text: item.text,
+    text: keyWords,
     graphic: drawGraphic,
     success: (result) => {
       if (result.count === 0) {
@@ -173,12 +173,7 @@ export function flyToGraphic(graphic) {
   })
 }
 
-// 清除按钮
-export function removeAll() {
-  clearAll()
-}
-
-function clearAll() {
+export function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()

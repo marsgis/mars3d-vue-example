@@ -59,9 +59,6 @@ import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 import { $notify } from "@mars/components/mars-ui/index"
 
-console.log(window.mapWork === mapWork)
-console.log(mapWork.btnDrawExtent)
-
 interface FormState {
   enabledWadi: boolean
   enabledWaiqiege: boolean
@@ -118,6 +115,7 @@ mapWork.eventTabel.on("loadOk", (e: any) => {
 
   $notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
 })
+
 mapWork.eventTabel.on("tableObject", function (event: any) {
   dataSource.value = []
   nextTick(() => {

@@ -139,7 +139,6 @@ function loadData(queryOptions, text) {
     success: function (res) {
       const data = res.list
       resultList = resultList.concat(data)
-      console.log(res)
       addDemoGraphics(data)
 
       eventTarget.fire("tableData", { data }) // 抛出数据给vue
@@ -260,11 +259,13 @@ export function drawPolygon() {
   })
 }
 
-// 飞向视角
-// export function flytoView() {
-//   map.flyTo()
-// }
-export function flyToGraphic() {
-  // map.flyToPositions(graphic.position)
-  map.flyToGraphic(graphic)
+export function flyToGraphic(graphic) {
+  graphic.openHighlight()
+  graphic.flyTo({
+    radius: 1000, // 点数据：radius控制视距距离
+    scale: 1.5, // 线面数据：scale控制边界的放大比例
+    complete: () => {
+      graphic.openPopup()
+    }
+  })
 }

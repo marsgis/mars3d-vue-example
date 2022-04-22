@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
 let terrainPlanClip
-let tilesetPlanClip
+let tilesetPlanClip // 模型裁剪事件
 let underground
 let terrainClip
 
@@ -99,11 +99,13 @@ function addPlanClipThing(tiles3dLayer) {
 // 是否开启地下模式
 export function chkUnderground(val, alphaVal) {
   // 地下模式
-  underground = new mars3d.thing.Underground({
-    alpha: alphaVal,
-    enabled: val
-  })
-  map.addThing(underground)
+  if (!underground) {
+    underground = new mars3d.thing.Underground({
+      alpha: alphaVal,
+      enabled: val
+    })
+    map.addThing(underground)
+  }
 
   underground.enabled = val
 }

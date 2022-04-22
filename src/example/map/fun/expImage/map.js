@@ -7,7 +7,6 @@ export const mapOptions = {
   scene: {
     center: { lat: 30.309522, lng: 116.275765, alt: 69659, heading: 0, pitch: -45 }
   },
-
   layers: [
     {
       type: "geojson",
@@ -50,6 +49,7 @@ export function onMounted(mapInstance) {
   // 创建DIV数据图层
   const graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
+
   addGraphic_06(graphicLayer)
   addGraphic_08(graphicLayer)
   addGraphic_09(graphicLayer)
@@ -173,7 +173,6 @@ function addGraphic_08(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-// 倾斜指向左下角的面板样式
 // 倾斜指向左下角的面板样式
 function addGraphic_09(graphicLayer) {
   const graphic = new mars3d.graphic.DivGraphic({

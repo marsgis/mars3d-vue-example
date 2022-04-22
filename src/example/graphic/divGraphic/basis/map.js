@@ -466,8 +466,6 @@ export function bindLayerPopup() {
   })
 }
 
-
-
 // 绑定右键菜单
 export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
@@ -534,9 +532,6 @@ export function bindLayerContextMenu() {
   ])
 }
 
-export function updateLayerHasEdit(val) {
-  graphicLayer.hasEdit = val
+export function updateLayerHasEdit(enabledEdit) {
+  graphicLayer.hasEdit = enabledEdit
 }
-
-
-

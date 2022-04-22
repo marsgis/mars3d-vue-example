@@ -6,7 +6,7 @@ let canvasWindLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 17.262069, lng: 118.610529, alt: 21466323, heading: 359, pitch: -89 }
+    center: { lat: 16.490922, lng: 101.305158, alt: 31274431, heading: 0, pitch: -88 }
   }
 }
 
@@ -23,11 +23,11 @@ export function onMounted(mapInstance) {
   // 风场
   canvasWindLayer = new mars3d.layer.CanvasWindLayer({
     color: "#ffffff", // 颜色
-    frameRate: 20, // 每秒刷新次数
-    speedRate: 60, // 风前进速率
-    particlesNumber: 5000,
-    maxAge: 120,
-    lineWidth: 1
+    frameRate: 10, // 每秒刷新次数
+    speedRate: 120, // 风前进速率
+    particlesNumber: 3000,
+    maxAge: 60,
+    lineWidth: 1.5
   })
   map.addLayer(canvasWindLayer)
 

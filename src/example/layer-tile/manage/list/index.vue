@@ -19,7 +19,7 @@ const checkedKeys = ref<string[]>([])
 
 const layersObj: any = {}
 
-mapWork.eventTarget.on("loadOK", () => {
+mapWork.eventTarget.on("loadEnd", () => {
   initTree()
 })
 
@@ -65,11 +65,9 @@ function renderChildNode(keys: string[], children: any[]) {
   })
 }
 
-function initTree() {
-  const layers = window.mapWork.map.getLayers({
-    basemaps: true, // 是否取config.json中的basempas
-    layers: true // 是否取config.json中的layers
-  })
+// 初始化树构件
+const initTree = () => {
+  const layers = mapWork.getLayers()
 
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {

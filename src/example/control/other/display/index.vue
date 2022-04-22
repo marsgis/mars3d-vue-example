@@ -1,125 +1,129 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span>按钮:</span>
-        <a-checkbox v-model:checked="formState.enabledPOI" @change="onBindPOI">POI搜索</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledView" @change="onBindView">视角复位</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledSceneModePicker" @change="onBindSceneModePicker">二三维切换</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledBaseLayerPicker" @change="onBindBaseLayerPicker">地图切换</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledFullScreen" @change="onBindFullScreen">全屏切换</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledVR" @change="onBindVR">VR模式</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledHelpButton" @change="onBindHelpButton">帮助</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledZoom" @change="onBindZoom">地图缩放</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledLayer" @change="onBindLayer">图层控制</a-checkbox>
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span>面板:</span>
-        <a-checkbox v-model:checked="formState.enabledLocation" @change="onBindLocation">位置信息状态栏</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledClock" @change="onBindClock">时钟面板（左下角）</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledTimeLine" @change="onBindTimeLine">时间刻度线</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledNav" @change="onBindNav">导航球</a-checkbox>
-        <a-checkbox v-model:checked="formState.enabledLegend" @change="onBindLegend">比例尺</a-checkbox>
-      </a-space>
-    </div>
+      <mars-gui :options="options"></mars-gui>
   </mars-pannel>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
-import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 import { useWidget } from "@mars/widgets/common/store/widget"
-const { activate, isActivate, disable } = useWidget()
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+const { activate, disable } = useWidget()
 
-interface FormState {
-  enabledPOI: boolean
-  enabledView: boolean
-  enabledSceneModePicker: boolean
-  enabledBaseLayerPicker: boolean
-  enabledFullScreen: boolean
-  enabledVR: boolean
-  enabledHelpButton: boolean
-  enabledLayer: boolean
-
-  enabledLocation: boolean
-  enabledClock: boolean
-  enabledTimeLine: boolean
-  enabledNav: boolean
-  enabledLegend: boolean
-  enabledZoom: boolean
-}
-
-const formState: UnwrapRef<FormState> = reactive({
-  enabledPOI: true,
-  enabledView: true,
-  enabledSceneModePicker: true,
-  enabledBaseLayerPicker: true,
-  enabledFullScreen: true,
-  enabledVR: true,
-  enabledHelpButton: true,
-  enabledZoom: true,
-  enabledLayer: true,
-
-  enabledLocation: true,
-  enabledClock: true,
-  enabledTimeLine: true,
-  enabledNav: true,
-  enabledLegend: true
-})
+const options: GuiItem[] = [
+  {
+    type: "checkbox",
+    field: "button",
+    label: "按钮",
+    value: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    change(data) {
+      chooseButton(data)
+    },
+    data: [
+      {
+        label: "POI搜索",
+        value: "1"
+      },
+      {
+        label: "视角复位",
+        value: "2"
+      },
+      {
+        label: "二三维切换",
+        value: "3"
+      },
+      {
+        label: "地图切换",
+        value: "4"
+      },
+      {
+        label: "全屏切换",
+        value: "5"
+      },
+      {
+        label: "VR模式",
+        value: "6"
+      },
+      {
+        label: "帮助",
+        value: "7"
+      },
+      {
+        label: "地图缩放",
+        value: "8"
+      },
+      {
+        label: "图层控制",
+        value: "9"
+      }
+    ]
+  },
+  {
+    type: "checkbox",
+    field: "pannel",
+    label: "面板",
+    value: ["1", "2", "3", "4", "5"],
+    change(data) {
+      choosePannel(data)
+    },
+    data: [
+      {
+        label: "位置信息状态栏",
+        value: "1"
+      },
+      {
+        label: "时钟面板（左下角）",
+        value: "2"
+      },
+      {
+        label: "导航球",
+        value: "3"
+      },
+      {
+        label: "时间刻度线",
+        value: "4"
+      },
+      {
+        label: "比例尺",
+        value: "5"
+      }
+    ]
+  }
+]
 
 // 按钮
-const onBindPOI = () => {
-  mapWork.bindPOI(formState.enabledPOI)
-}
-const onBindView = () => {
-  mapWork.bindView(formState.enabledView)
-}
-const onBindSceneModePicker = () => {
-  mapWork.bindSceneModePicker(formState.enabledSceneModePicker)
-}
-const onBindBaseLayerPicker = () => {
-  mapWork.bindBaseLayerPicker(formState.enabledBaseLayerPicker)
-}
-const onBindFullScreen = () => {
-  mapWork.bindFullScreen(formState.enabledFullScreen)
-}
-const onBindVR = () => {
-  mapWork.bindVR(formState.enabledVR)
-}
-const onBindHelpButton = () => {
-  mapWork.bindHelpButton(formState.enabledHelpButton)
-}
-const onBindZoom = () => {
-  mapWork.bindZoom(formState.enabledZoom)
-}
-
-const onBindLayer = () => {
-  if (formState.enabledLayer) {
-    activate("tools-button")
-
-  } else {
-    disable("tools-button")
-
-  }
+const chooseButton = (data) => {
+  mapWork.bindPOI(findValue(data, "1"))
+  mapWork.bindView(findValue(data, "2"))
+  mapWork.bindSceneModePicker(findValue(data, "3"))
+  mapWork.bindBaseLayerPicker(findValue(data, "4"))
+  mapWork.bindFullScreen(findValue(data, "5"))
+  mapWork.bindVR(findValue(data, "6"))
+  mapWork.bindHelpButton(findValue(data, "7"))
+  mapWork.bindZoom(findValue(data, "8"))
+  onBindLayer(findValue(data, "9"))
 }
 
 // 面板
-const onBindLocation = () => {
-  mapWork.bindLocation(formState.enabledLocation)
+const choosePannel = (data) => {
+  mapWork.bindLocation(findValue(data, "1"))
+  mapWork.bindClock(findValue(data, "2"))
+  mapWork.bindNav(findValue(data, "3"))
+  mapWork.bindTimeLine(findValue(data, "4"))
+  mapWork.bindLegend(findValue(data, "5"))
 }
-const onBindClock = () => {
-  mapWork.bindClock(formState.enabledClock)
+
+const findValue = (data, index) => {
+  return data.find((item) => {
+    return item === index
+  })
 }
-const onBindTimeLine = () => {
-  mapWork.bindTimeLine(formState.enabledTimeLine)
-}
-const onBindNav = () => {
-  mapWork.bindNav(formState.enabledNav)
-}
-const onBindLegend = () => {
-  mapWork.bindLegend(formState.enabledLegend)
+
+const onBindLayer = (e) => {
+  if (e) {
+    activate("tools-button")
+  } else {
+    disable("tools-button")
+  }
 }
 </script>

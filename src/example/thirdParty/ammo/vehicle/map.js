@@ -18,6 +18,8 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+  globalNotify("操作提示", `W 前进、S 后退、 A 左转弯、D 右转弯`, { duration: null })
   creatDemo()
 }
 

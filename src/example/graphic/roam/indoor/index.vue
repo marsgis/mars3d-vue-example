@@ -9,7 +9,7 @@
     </div>
 
     <a-space>
-      <span >室内视角:</span>
+      <span>室内视角:</span>
       <mars-button @click="centerAtDX1">教室</mars-button>
       <mars-button @click="centerAtDX2">走廊</mars-button>
       <mars-button @click="centerAtDX3">楼梯间</mars-button>

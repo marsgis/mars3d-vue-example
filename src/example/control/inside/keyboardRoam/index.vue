@@ -11,7 +11,7 @@
           <span title="平移的步长（单位：米）" class="tip-name" > 平移步长:</span>
         </a-col>
         <a-col :span="7">
-          <mars-slider v-model:value="slideStep" @change="onChangeSlider" :min="0" :max="300" :step="0.01" />
+          <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
         </a-col>
       </a-row>
 

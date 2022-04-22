@@ -42,6 +42,8 @@ export function onUnmounted() {
   map = null
 }
 
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
 // 加载图层
 export function createTileLayer(options) {
   const params = {
@@ -139,8 +141,9 @@ export function btnDrawExtent(options) {
       outlineColor: "#ff0000"
     },
     success: function (graphic) {
-      const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
-      options.rectangle = JSON.stringify(rectangle)
+      const rectangle = JSON.stringify(mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw))
+      options.rectangle = rectangle
+      eventTarget.fire("rectangle", { rectangle })
       createTileLayer(options)
     }
   })

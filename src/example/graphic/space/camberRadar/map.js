@@ -59,30 +59,22 @@ export function onUnmounted() {
  * 地图加载完成，添加一个双曲面雷达
  *
  * @export
- * @param {number} heading 方向角 0~360°
- * @param {number} pitch 俯仰角 -180°~180°
- * @param {number} roll  翻滚角  -180°~180°
- * @param {number} radius 外曲面半径
- * @param {number} startRadius  内曲面半径
- * @param {number} startFovH  左横截面角度
- * @param {number} endFovH 右横截面角度
- * @param {number} startFovV 垂直起始角度
- * @param {number} endFovV 垂直结束角度
+ * @param {Object} radarParsms
  * @returns {void}
  */
-export function getViewConfig(heading, pitch, roll, radius, startRadius, startFovH, endFovH, startFovV, endFovV) {
+export function getViewConfig(radarParsms) {
   const style = {
-    radius: radius,
-    startRadius: startRadius,
+    radius: radarParsms.outerRadius,
+    startRadius: radarParsms.innerRadius,
 
-    heading: heading,
-    pitch: pitch,
-    roll: roll,
+    heading: radarParsms.headingValue,
+    pitch: radarParsms.pitchValue,
+    roll: radarParsms.rollValue,
 
-    startFovH: Cesium.Math.toRadians(startFovH),
-    endFovH: Cesium.Math.toRadians(endFovH),
-    startFovV: Cesium.Math.toRadians(startFovV),
-    endFovV: Cesium.Math.toRadians(endFovV)
+    startFovH: Cesium.Math.toRadians(radarParsms.startFovH),
+    endFovH: Cesium.Math.toRadians(radarParsms.endFovH),
+    startFovV: Cesium.Math.toRadians(radarParsms.startFovV),
+    endFovV: Cesium.Math.toRadians(radarParsms.endFovV)
   }
 
   camberRadar = new mars3d.graphic.CamberRadar({

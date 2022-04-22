@@ -22,7 +22,6 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
   showGeoJsonLayer()
 }
 
@@ -121,6 +120,7 @@ export function drawRectangle() {
     }
   })
 }
+
 // 框选查询   圆
 export function drawCircle() {
   clearAll()
@@ -139,6 +139,7 @@ export function drawCircle() {
     }
   })
 }
+
 // 框选查询   多边行
 export function drawPolygon() {
   clearAll()
@@ -157,12 +158,7 @@ export function drawPolygon() {
     }
   })
 }
-// 清除按钮
-export function removeAll() {
-  clearAll()
-}
 
-// 定位
 export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null

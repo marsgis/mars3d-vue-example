@@ -1,8 +1,8 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
-export let graphicLayer
-let graphic
+let graphicLayer // 矢量图层
+let graphic // 矢量数据
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）

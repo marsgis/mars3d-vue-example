@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
   })
     .then(function (res) {
       const tableData = res.data
-      eventTarget.fire("loadOk", { tableData })
+      eventTarget.fire("carList", { tableData })
       showCarList(tableData)
     })
     .catch(function () {
@@ -113,9 +113,7 @@ function showCarList(arr) {
 
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
-
     item.show = true
-
     let modelParam
     switch (item.type) {
       case 1:
@@ -219,7 +217,10 @@ function getPathList(beginTime, endTime) {
         return thistime >= d_beginTime && thistime <= d_endTime
       })
 
-      addLog(`${endTime} 获取到 ${list.length} 条GPS坐标记录`)
+      const path = `${endTime} 获取到 ${list.length} 条GPS坐标记录`
+
+      eventTarget.fire("showPath", { path })
+
       // 循环车辆
       graphicLayer.eachGraphic((car) => {
         // 取出对应车辆的轨迹列表
@@ -241,10 +242,6 @@ function getPathList(beginTime, endTime) {
     .catch(() => {
       globalMsg("实时查询车辆路径信息失败，请稍候再试")
     })
-}
-
-function addLog(log) {
-  eventTarget.fire("showMsg", { log })
 }
 
 export function onSelect(data, selected) {
@@ -272,10 +269,6 @@ export function onChange(data) {
 // 点击行
 export function flyToModel(data) {
   const car = graphicLayer.getGraphicById(data.key)
-  if (!car) {
-    return
-  }
-
   if (car) {
     car.flyToPoint({ radius: 900 })
   }
