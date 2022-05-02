@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="200">
+  <mars-pannel :visible="true" right="10" top="10" width="202">
     超图S3M图层：
     <mars-button @click="showMaxNiaochaoDemo">人工建模(鸟巢)</mars-button>
     <mars-button @click="showMaxCBDDemo">人工建模(CBD)</mars-button>

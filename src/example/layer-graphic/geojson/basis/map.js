@@ -186,7 +186,7 @@ export function showChinaLine() {
     name: "全国省界",
     url: "//data.mars3d.cn/file/geojson/areas/100000_full.json",
     symbol: {
-      type: "polylineCombine",
+      type: "polylineP", // polylineCombine，material添加材质方法不同
       styleOptions: {
         width: 2,
         material: mars3d.MaterialUtil.createMaterial(mars3d.MaterialType.LineFlow, {
@@ -197,6 +197,7 @@ export function showChinaLine() {
         }),
         label: {
           text: "{name}",
+          position: "{center}", // 省会位置center
           font_size: 30,
           color: "#ffffff",
           outline: true,
@@ -209,8 +210,6 @@ export function showChinaLine() {
           distanceDisplayCondition: true,
           distanceDisplayCondition_far: 12000000,
           distanceDisplayCondition_near: 0,
-
-          position: "{center}", // 省会位置center
           setHeight: 10000
         }
       }

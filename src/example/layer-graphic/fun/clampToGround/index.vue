@@ -14,13 +14,12 @@ import * as mapWork from "./map.js"
 const percent = ref(0)
 const percentAll = ref(0)
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("geoJsonLayerLoad", function (event: any) {
   percentAll.value = event.geojsonLength
 })
 
 mapWork.eventTarget.on("computedResult", function (event: any) {
   percent.value = event.resultData.percent
-  percentAll.value = event.resultData.percentAll
 })
 
 // 保存为Geojson文件

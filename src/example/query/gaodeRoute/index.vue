@@ -2,7 +2,7 @@
   <mars-pannel customClass="gaodeRoutePannel" :visible="true">
     <a-form>
       <a-form-item label="方式">
-        <mars-select v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
+        <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
       </a-form-item>
 
       <a-form-item label="起点">
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw } from "vue"
+import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 const strat = ref("")
@@ -60,6 +60,11 @@ const selectWayOptions = ref([
   }
 ])
 
+const onHiddenRoam = () => {
+  if (strat.value && end.value) {
+    mapWork.btnAnalyse(selectWay.value)
+  }
+}
 mapWork.eventTarget.on("analyse", function (event: any) {
   useTime.value = event.allTime
   allDiatance.value = event.allDistance
@@ -68,19 +73,17 @@ mapWork.eventTarget.on("analyse", function (event: any) {
 
 // 起点
 const startPoint = async () => {
-  const startPoint: any = await mapWork.startPoint(toRaw(selectWay.value))
-  strat.value = startPoint.lng + "," + startPoint.lat
+  strat.value = await mapWork.startPoint(selectWay.value)
 }
 
 // 终点
 const endPoint = async () => {
-  const endPoint: any = await mapWork.endPoint(toRaw(selectWay.value))
-  end.value = endPoint.lng + "," + endPoint.lat
+  end.value = await mapWork.endPoint(selectWay.value)
 }
 
 // 开始分析
 const btnAnalyse = () => {
-  mapWork.btnAnalyse(toRaw(selectWay.value))
+  mapWork.btnAnalyse(selectWay.value)
 }
 
 // 清除数据

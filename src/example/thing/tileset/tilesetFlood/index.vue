@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="320">
-    <div style="width: 280px">
+    <div style="width: 280px" v-if="!isShow">
       <a-row :gutter="[2, 10]">
         <a-col :span="24">
           <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
@@ -45,10 +45,36 @@
         <a-col :span="21">
           <a-space>
             <mars-button @click="begin">开始分析</mars-button>
-            <mars-button @click="stop">结束分析</mars-button>
           </a-space>
         </a-col>
       </a-row>
+    </div>
+
+    <div v-else>
+      <div class="f-mb">
+        <a-space>
+          <span>高度选择</span>
+          <a-slider
+            tooltipPlacement="bottom"
+            v-model:value="formState.height"
+            @change="onChangeHeight()"
+            :min="formState.minHeight"
+            :max="formState.maxHeight"
+            :step="1"
+          />
+        </a-space>
+      </div>
+
+      <div class="f-mb">
+        <span>当前高度:{{ formState.height }}</span>
+      </div>
+
+      <div class="f-tac">
+        <a-space>
+          <mars-button @click="startPlay">{{ isStart ? "暂停" : "播放" }}</mars-button>
+          <mars-button @click="goBack">返回</mars-button>
+        </a-space>
+      </div>
     </div>
   </mars-pannel>
 </template>
@@ -74,17 +100,46 @@ interface FormState {
   minHeight: number
   maxHeight: number
   speed: number
+  height: number
 }
 
 const labelCol = { span: 8 }
 const labelAlign = "left"
+const isStart = ref(true) // 开始播放
+const isShow = ref(false) // 显示进度面板
 
 const formState: UnwrapRef<FormState> = reactive({
   radio: "2",
   minHeight: 26,
   maxHeight: 200,
-  speed: 10
+  speed: 10,
+  height: 0
 })
+
+// 监听到高度发生变化
+mapWork.eventTarget.on("heightChange", (e: any) => {
+  isShow.value = true
+  formState.height = Math.ceil(e.height)
+})
+
+// 高度改变
+const onChangeHeight = () => {
+  mapWork.onChangeHeight(formState.height)
+}
+
+// 默认自动播放
+const startPlay = () => {
+  isStart.value = !isStart.value
+  mapWork.begin(formState)
+}
+
+const goBack = () => {
+  mapWork.stop()
+
+  isShow.value = false
+  isStart.value = true
+}
+
 // 修改分析方式
 const changeFloodType = () => {
   mapWork.changeFloodType(formState.radio)
@@ -107,3 +162,8 @@ const stop = () => {
   mapWork.stop()
 }
 </script>
+<style scoped lang="less">
+.ant-slider {
+  width: 200px;
+}
+</style>

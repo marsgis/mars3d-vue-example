@@ -178,7 +178,7 @@ mars3d-vue-example
 {
   "name": "天地图地形",
   "main": "terrain/terrainTDT",
-  "vuePanel": true,
+  "hasPannel": true,
   "libs": ["mars3d", "mars3d-tdt"],
   "thumbnail": "b10_terrain_tdt.jpg"
 }
@@ -230,7 +230,7 @@ mars3d-vue-example
 {
   "name": "示例名称",
   "main": "map/sample", //示例的相对路径
-  "vuePanel": true, // 可选参数，表示是否存在ui面板，默认false
+  "hasPannel": true, // 可选参数，表示是否存在ui面板，默认false
   "libs": [], // 通用依赖项，可选参数 默认 ["mars3d"]
   "resources": ["cesiumControl.css"], // 个性化依赖项, 可选参数，默认 []
   "thumbnail": "thumbnail.jpg" // 缩略图可选, 默认为 thumbnail.jpg

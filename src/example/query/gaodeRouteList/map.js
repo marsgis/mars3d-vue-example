@@ -34,11 +34,11 @@ export function onMounted(mapInstance) {
   map.addLayer(routeLayer)
 
   gaodeRoute = new mars3d.query.GaodeRoute({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+
   })
 
   queryGaodePOI = new mars3d.query.GaodePOI({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+
   })
 
   // 创建矢量数据图层

@@ -61,8 +61,6 @@ export const mapOptions = function (option) {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  eventTarget.fire("loadOk")
 }
 
 /**

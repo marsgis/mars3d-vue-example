@@ -29,9 +29,7 @@ export function onMounted(mapInstance) {
   routeLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(routeLayer)
 
-  gaodeRoute = new mars3d.query.GaodeRoute({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
-  })
+  gaodeRoute = new mars3d.query.GaodeRoute({})
 }
 
 /**
@@ -70,7 +68,7 @@ export function removeAll() {
  *
  * @export
  * @param {string} type 不同方式路线查询
- * @returns {void}
+ * @returns {string}
  */
 export function startPoint(type) {
   if (startGraphic) {
@@ -94,7 +92,7 @@ export function startPoint(type) {
       // 触发自定义事件，改变输入框的值
       queryRoute(type)
 
-      return point
+      return point.lng + "," + point.lat
     })
 }
 
@@ -103,7 +101,7 @@ export function startPoint(type) {
  *
  * @export
  * @param {string} type 不同方式路线查询
- * @returns {void}
+ * @returns {string}
  */
 export function endPoint(type) {
   if (endGraphic) {
@@ -125,7 +123,8 @@ export function endPoint(type) {
       const point = graphic.point
       point.format()
       queryRoute(type)
-      return point
+
+      return point.lng + "," + point.lat
     })
 }
 

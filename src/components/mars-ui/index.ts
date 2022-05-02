@@ -76,6 +76,7 @@ const components = [
   MarsSelect,
   MarsButton,
   MarsInput,
+  MarsInputGroup,
   MarsInputNumber,
   MarsDatePicker,
   MarsRangePicker,
@@ -88,8 +89,7 @@ const components = [
   MarsTextarea,
   MarsSwitch,
   MarsSlider,
-  MarsGui,
-  MarsInputGroup
+  MarsGui
 ]
 
 let marsUIConfig: Record<string, any>

@@ -1037,8 +1037,8 @@ function getEchartsOption() {
     },
     legend: {
       orient: "vertical",
-      y: "bottom",
-      x: "right",
+      right: 6,
+      bottom: 25,
       data: ["pm2.5"],
       textStyle: {
         color: "#fff"
@@ -1048,7 +1048,7 @@ function getEchartsOption() {
       min: 0,
       max: 200,
       right: 10,
-      bottom: 40,
+      bottom: 45,
       calculable: true,
       color: ["#d94e5d", "#eac736", "#50a3ba"],
       textStyle: {
@@ -1063,18 +1063,13 @@ function getEchartsOption() {
         coordinateSystem: "mars3dMap",
         data: convertData(datapoint),
         symbolSize: 12,
-        label: {
-          normal: {
-            show: false
-          },
-          emphasis: {
-            show: false
-          }
-        },
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             borderColor: "#fff",
             borderWidth: 1
+          },
+          label: {
+            show: false
           }
         }
       }

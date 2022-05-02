@@ -94,6 +94,6 @@ export function blueSky() {
   currSkyBox = lantianSkybox
 }
 
-export function mr() {
+export function defaultSky() {
   currSkyBox = defaultSkybox
 }

@@ -36,6 +36,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic6(graphicLayer)
   addDemoGraphic7(graphicLayer)
   addDemoGraphic8(graphicLayer)
+  addDemoGraphic9(graphicLayer)
 }
 
 /**
@@ -249,6 +250,84 @@ function addDemoGraphic8(graphicLayer) {
   })
 }
 
+function addDemoGraphic9(graphicLayer) {
+  const point = [116.257171, 31.218046, 962.1]
+
+  const graphicN = new mars3d.graphic.EllipsoidEntity({
+    position: point,
+    style: {
+      radii: 4000,
+      maximumConeDegree: 90,
+      color: "rgba(231,6,16,0.2)",
+      label: {
+        text: "最小半径",
+        color: "blue",
+        background: true,
+        backgroundColor: "rgba(255,255,255,0.4)",
+        setHeight: 4000,
+        visibleDepth: false,
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 100000
+      }
+    },
+    hasEdit: false
+  })
+  graphicLayer.addGraphic(graphicN)
+
+  const graphicZ = new mars3d.graphic.EllipsoidEntity({
+    position: point,
+    style: {
+      radii: 6000,
+      maximumConeDegree: 90,
+      color: "rgba(26,144,255,0.2)",
+      label: {
+        text: "中间半径",
+        color: "blue",
+        background: true,
+        backgroundColor: "rgba(255,255,255,0.4)",
+        setHeight: 6000,
+        visibleDepth: false,
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 100000
+      }
+    },
+    hasEdit: false
+  })
+  graphicLayer.addGraphic(graphicZ)
+
+  const graphicW = new mars3d.graphic.EllipsoidEntity({
+    position: point,
+    style: {
+      radii: 8000,
+      maximumConeDegree: 90,
+      color: "rgba(82,196,26,0.2)",
+      label: {
+        text: "最大半径",
+        color: "blue",
+        background: true,
+        backgroundColor: "rgba(255,255,255,0.4)",
+        setHeight: 8000,
+        visibleDepth: false,
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 100000
+      }
+    },
+    linkage: [graphicN, graphicZ] // 联动的对象
+  })
+  graphicLayer.addGraphic(graphicW)
+
+  // 绑定事件
+  graphicW.on(mars3d.EventType.editMouseMove, (event) => {
+    const linkage = event.graphic?.options?.linkage // 联动的对象
+    if (linkage) {
+      const position = event.graphic.position
+      linkage.forEach((element) => {
+        element.position = position
+      })
+    }
+  })
+}
+
 // 在图层级处理一些事物
 function bindLayerEvent() {
   // 在layer上绑定监听事件
@@ -263,8 +342,6 @@ function bindLayerEvent() {
   }) */
 }
 
-
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -276,8 +353,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {
@@ -344,10 +419,7 @@ export function bindLayerContextMenu() {
   ])
 }
 
-
 // 按钮事件
-
-
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {

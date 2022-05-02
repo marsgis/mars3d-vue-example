@@ -14,12 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const url = ref<any>()
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   // 历史记录模型地址
   const modelUrl = localStorage.getItem("onlyModel2")
   if (modelUrl) {
@@ -30,7 +30,7 @@ mapWork.eventTarget.on("loadOk", () => {
 
   setTimeout(() => {
     mapWork.showModel(url.value)
-  }, 1000)
+  }, 500)
 })
 
 const showModel = () => {

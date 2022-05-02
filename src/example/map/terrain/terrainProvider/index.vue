@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" width="173px">
     <mars-gui :options="options"></mars-gui>
   </mars-pannel>
 </template>
@@ -57,12 +57,16 @@ const options: GuiItem[] = [
       }
     ],
     change(value) {
-       mapWork.enabledTerrain(value.find((item) => {
-        return item === "1"
-      }))
-        mapWork.enabledTerrainSJW(value.find((item) => {
-        return item === "2"
-      }))
+      mapWork.enabledTerrain(
+        value.find((item) => {
+          return item === "1"
+        })
+      )
+      mapWork.enabledTerrainSJW(
+        value.find((item) => {
+          return item === "2"
+        })
+      )
     }
   }
 ]

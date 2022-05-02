@@ -1,5 +1,5 @@
 <template>
-  <PannelComponent v-if="loaded" @vnode-mounted="onChildMounted" @vnode-unmounted="onChildUnmounted" />
+  <PannelComponent v-if="loaded" @vnode-before-mount="onChildMounted" @vnode-unmounted="onChildUnmounted" />
 </template>
 <script lang="ts" setup>
 /**

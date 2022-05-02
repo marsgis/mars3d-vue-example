@@ -58,7 +58,6 @@ export function onMounted(mapInstance) {
   a.style.backgroundImage = "url(/img/tietu/backGroundImg.jpg)"
   a.style.backgroundRepeat = "no-repeat"
   a.style.backgroundSize = "100% 100%"
-  eventTarget.fire("loadOk")
 }
 
 /**

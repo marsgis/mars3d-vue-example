@@ -9,6 +9,8 @@ export const mapOptions = {
   }
 }
 
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -62,11 +64,17 @@ function addLayer() {
     console.log("开始分析", e)
   })
   tilesetFlood.on(mars3d.EventType.change, function (e) {
-    // console.log("分析高度", e.height)
+    const height = e.height
+    eventTarget.fire("heightChange", { height })
   })
   tilesetFlood.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })
+}
+
+// 高度选择
+export function onChangeHeight(height) {
+  tilesetFlood.height = height
 }
 
 // 修改分析方式
@@ -92,6 +100,7 @@ export function btnDrawExtent() {
     success: function (graphic) {
       // 绘制成功后回调
       const positions = graphic.getOutlinePositions(false)
+
       tilesetFlood.addArea(positions)
     }
   })
@@ -110,6 +119,7 @@ export function btnDraw() {
     success: function (graphic) {
       // 绘制成功后回调
       const positions = graphic.positionsShow
+
       tilesetFlood.addArea(positions)
 
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
@@ -118,13 +128,7 @@ export function btnDraw() {
 }
 
 // 开始分析
-let tf = false
 export function begin(data) {
-  if (tf) {
-    globalMsg("请先结束当前分析")
-    return
-  }
-
   if (!tilesetFlood.floodAll && tilesetFlood.length === 0) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -151,10 +155,8 @@ export function begin(data) {
   })
 
   tilesetFlood.start()
-  tf = true
 }
 
 export function stop() {
-  tf = false
   tilesetFlood.clear()
 }

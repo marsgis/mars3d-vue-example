@@ -65,13 +65,13 @@ export function onUnmounted() {
 
 // 查看场景出图
 export function showMapImg() {
-  map.expImage({
-    download: false,
-    callback: function (base64, size) {
-      // 回调
-      eventTarget.fire("loadOk", { base64 })
-    }
-  })
+  return map
+    .expImage({
+      download: false
+    })
+    .then((base64) => {
+      return base64.image
+    })
 }
 
 // 下载场景出图

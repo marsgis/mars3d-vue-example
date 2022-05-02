@@ -73,7 +73,7 @@ function addLayer() {
   // 绑定事件
   geoJsonLayer.on(mars3d.EventType.load, function (event) {
     const geojsonLength = geoJsonLayer.length
-    eventTarget.fire("loadOk", { geojsonLength })
+    eventTarget.fire("geoJsonLayerLoad", { geojsonLength })
     console.log("数据加载完成", event)
   })
 }

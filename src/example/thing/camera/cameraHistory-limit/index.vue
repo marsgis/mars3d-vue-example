@@ -18,11 +18,9 @@ const formState = reactive({
   allLength: 0,
   chkUnderground: true
 })
-onMounted(() => {
-  // 触发自定义事件，接收数据
-  mapWork.eventTarget.on("changeCamera", function (event: any) {
-    formState.allLength = event.count
-  })
+// 触发自定义事件，接收数据
+mapWork.eventTarget.on("changeCamera", function (event: any) {
+  formState.allLength = event.count
 })
 
 const chkUnderground = () => {

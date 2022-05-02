@@ -271,6 +271,8 @@ export function onClickDrawPoint() {
         }
       })
       graphicLayer.addGraphic(rectangleEntity)
+
+      eventTarget.fire("graphicEditor-start", { graphic: rectangleEntity })
     }
   })
 }

@@ -22,6 +22,9 @@ export function onMounted(mapInstance) {
 
   // 限定pitch角度： max ，min(默认-90)
   map.setPitchRange(-10)
+
+  // 设置鼠标操作习惯,更换中键和右键
+  map.changeMouseModel(true)
 }
 
 /**
@@ -40,5 +43,3 @@ export function shadingMaterials(val) {
     map.changeMouseModel(false)
   }
 }
-
-

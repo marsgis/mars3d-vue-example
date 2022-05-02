@@ -15,7 +15,6 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
-  eventTarget.fire("loadOk")
 }
 
 /**

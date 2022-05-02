@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 let map // mars3d.Map三维地图对象
+let graphicLayer // 矢量图层对象,用于graphic绑定展示
 let tilesetFlat
 
 export const mapOptions = {
@@ -19,6 +20,10 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
+
+  // 创建矢量数据图层
+  graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
   addLayer()
@@ -129,9 +134,9 @@ export function changeFlatHeight(val) {
 
 // 是否显示测试边界线
 export function chkShowLine(val) {
-  if (!val) {
-    map.graphicLayer.clear()
-  }
+  graphicLayer.eachGraphic((graphic) => {
+    graphic.show = val
+  })
 }
 
 function addTestLine(chkShowLine, positions) {
@@ -149,7 +154,7 @@ function addTestLine(chkShowLine, positions) {
       clampToGround: true
     }
   })
-  map.graphicLayer.addGraphic(graphic)
+  graphicLayer.addGraphic(graphic)
 }
 
 // 触发自定义事件 addItem

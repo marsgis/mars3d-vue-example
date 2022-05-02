@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted } from "vue"
+import { ref, provide, onMounted, toRaw } from "vue"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import MarsStyles from "./mars-styles.vue"
 import graphicAttr from "./attr.json"
@@ -44,23 +44,23 @@ onMounted(() => {
 })
 
 // 监听到矢量数据发生变化
-function updataLayer(graphicLayer?: any) {
+function updataLayer(curr?: any) {
   let gp: any
-  if (graphicLayer) {
-    gp = graphicLayer
+  if (curr) {
+    gp = curr
   } else {
     gp = graphic
   }
-  if (gp && gp.isEditing) {
+  if (gp) {
     style.value = _.cloneDeep(gp.style)
-    const config = (graphicAttr as any)[gp.options.edittype || gp.type] || {}
+    const config = (graphicAttr as any)[gp.options?.edittype || gp.type] || {}
     styleConfig.value = config
   }
 }
 
 if (currentWidget) {
   currentWidget.onUpdate((e) => {
-    updataLayer(e)
+    updataLayer(e.graphic)
   })
 }
 
@@ -83,7 +83,8 @@ function getGeoJson() {
 }
 
 function styleChange(style: any) {
-  graphic.setStyle(style)
+  console.log("修改了style样式", style)
+  graphic.setStyle(toRaw(style))
 }
 </script>
 <style lang="less" scoped>

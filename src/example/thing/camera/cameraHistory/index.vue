@@ -6,7 +6,7 @@
     </div>
     <div>
       <a-space>
-        <mars-button @click="lastView">上个视图</mars-button>
+        <mars-button @click="lastView">上一个视图</mars-button>
         <mars-button @click="nextView">下一个视图</mars-button>
       </a-space>
     </div>

@@ -1,22 +1,22 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="380">
     <div class="mars-particle">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">所在位置：</span>
-        <mars-button @click="btnSelectPosition">图上选点</mars-button>
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">发射目标方向:</span>
-        <mars-button @click="btnSelectTarget">图上选点</mars-button>
-      </a-space>
-    </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">所在位置：</span>
+          <mars-button @click="btnSelectPosition">图上选点</mars-button>
+        </a-space>
+      </div>
+      <div class="f-mb">
+        <a-space>
+          <span class="mars-pannel-item-label">发射目标方向:</span>
+          <mars-button @click="btnSelectTarget">图上选点</mars-button>
+        </a-space>
+      </div>
 
-    <div class="f-mb">
-      <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
-    </div>
+      <div class="f-mb">
+        <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
+      </div>
     </div>
   </mars-pannel>
 </template>
@@ -28,10 +28,10 @@ import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 const marsGuiRef = ref()
 const options: GuiItem[] = [
   {
-    type: "input",
+    type: "number",
     field: "pointHeight",
     label: "点高度:",
-    value: "10.0",
+    value: 10.0,
     change(data) {
       marsGuiRef.value.updateField("pointHeight", data)
       mapWork.txtTargetHeight(data)
@@ -181,7 +181,7 @@ const btnSelectPosition = () => {
 .ant-input {
   width: 70px !important;
 }
-.mars-particle{
-  width:  350px;
+.mars-particle {
+  width: 350px;
 }
 </style>

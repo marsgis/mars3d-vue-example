@@ -23,7 +23,7 @@
 
     <div class="f-mb">
       <a-space>
-        <mars-button @click="sePoint">设置摄像头位置</mars-button>
+        <mars-button @click="setPoint">设置摄像头位置</mars-button>
         <mars-button @click="getCenter">计算与地面交点</mars-button>
         <a-checkbox @change="testTerrain" v-model:checked="isChecked">深度检测</a-checkbox>
       </a-space>
@@ -32,30 +32,38 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { reactive, ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
-const headingVal = ref<number>(220)
+interface params {
+  headingVal: number
+  pitchVal: number
+  rollVal: number
+}
 
-const pitchVal = ref<number>(75)
-
-const rollVal = ref<number>(0)
+const modelParams = reactive<params>({
+  headingVal: 220,
+  pitchVal: 75,
+  rollVal: 0
+})
 
 const isChecked = ref<boolean>(false)
 
 mapWork.eventTarget.on("loadOK", () => {
-  mapWork.updateModel(headingVal.value, pitchVal.value, rollVal.value)
+  mapWork.updateModel(modelParams)
 })
 
+
+
 const headingChange = () => {
-  mapWork.updateModel(headingVal.value, pitchVal.value, rollVal.value)
+  mapWork.updateModel(modelParams)
 }
 const pitchChange = () => {
-  mapWork.updateModel(headingVal.value, pitchVal.value, rollVal.value)
+  mapWork.updateModel(modelParams)
 }
 
 const rollChange = () => {
-  mapWork.updateModel(headingVal.value, pitchVal.value, rollVal.value)
+  mapWork.updateModel(modelParams)
 }
 
 const testTerrain = () => {
@@ -63,7 +71,7 @@ const testTerrain = () => {
 }
 
 // 设置摄像头位置
-const sePoint = () => {
+const setPoint = () => {
   mapWork.sePoint()
 }
 

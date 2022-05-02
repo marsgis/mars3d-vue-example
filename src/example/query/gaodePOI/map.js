@@ -56,7 +56,7 @@ export function onMounted(mapInstance) {
   })
 
   queryGaodePOI = new mars3d.query.GaodePOI({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+
   })
 }
 

@@ -21,13 +21,11 @@ const showImg = ref<boolean>(false)
 
 const imges = ref()
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
-  imges.value = event.base64
-  showImg.value = true
-})
-
 const showMapImg = () => {
-  mapWork.showMapImg()
+  mapWork.showMapImg().then((image) => {
+    imges.value = image
+    showImg.value = true
+  })
 }
 
 const downLoad = () => {

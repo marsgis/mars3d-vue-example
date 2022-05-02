@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const url = ref<any>()
@@ -62,7 +62,7 @@ const enableHasTerrain = ref<boolean>(false)
 
 const enableTestTerrain = ref<boolean>(false)
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   // url传入模型地址
   const modelUrl = localStorage.getItem("3dtiles_move")
   if (modelUrl) {

@@ -1,6 +1,6 @@
 <template>
   <div class="divPanel">
-    <img src="/img/legend/heatmap.png" />
+    <img style="width: 40px; height: 180px" src="/img/legend/heatmap.png" />
   </div>
 </template>
 
@@ -10,9 +10,5 @@
   position: absolute;
   bottom: 40px;
   right: 20px;
-}
-.divPanel img {
-  width: 40px;
-  height: 180px;
 }
 </style>

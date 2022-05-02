@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-      <mars-gui :options="options"></mars-gui>
+      <mars-gui :options="options" labelCol="1" ></mars-gui>
   </mars-pannel>
 </template>
 

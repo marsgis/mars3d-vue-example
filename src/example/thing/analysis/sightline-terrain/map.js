@@ -170,21 +170,17 @@ export function testTerrain(val) {
   }
 }
 
-/**
- *  更新模型数据
- *
- * @export
- * @param {number} heading 轨迹方向
- * @param {number} pitch 前后侧摆角度
- * @param {number} roll 左右侧摆角度
- * @returns {void}
- */
-export function updateModel(heading, pitch, roll) {
+// 更新模型数据
+export function updateModel(params) {
   if (!positionSXT) {
     return
   }
 
-  const hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll))
+  const hpr = new Cesium.HeadingPitchRoll(
+    Cesium.Math.toRadians(params.heading),
+    Cesium.Math.toRadians(params.pitch),
+    Cesium.Math.toRadians(params.roll)
+  )
   positionDM = mars3d.PointUtil.getRayEarthPosition(positionSXT, hpr, true, map.scene.globe.ellipsoid)
 
   if (!positionDM) {

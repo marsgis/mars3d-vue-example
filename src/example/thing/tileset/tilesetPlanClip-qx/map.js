@@ -103,6 +103,8 @@ export function drawExtent() {
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
+      console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
+
       tilesetPlanClip.positions = positions
     }
   })

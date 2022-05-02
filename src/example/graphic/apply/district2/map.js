@@ -119,11 +119,10 @@ function addAnhui() {
     name: "安徽各市边界线",
     url: "//data.mars3d.cn/file/geojson/areas/340000_full.json",
     symbol: {
-      type: "polylineCombine",
+      type: "polyline",
       styleOptions: {
         color: "rgba(255,255,255,0.3)",
         width: 2,
-        clampToGround: true,
         label: {
           text: "{name}",
           position: "center",

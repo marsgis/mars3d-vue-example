@@ -37,18 +37,19 @@ function showWeiVectorTileLayer() {
   // shp 国界线
 
   Promise.all([
-    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.shp"),
-    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.dbf"),
-    Cesium.Resource.fetchBlob("//data.mars3d.cn/file/shp/hefei_xz.prj")
+    Cesium.Resource.fetchBlob({ url: "//data.mars3d.cn/file/shp/hefei_xz.shp" }),
+    Cesium.Resource.fetchBlob({ url: "//data.mars3d.cn/file/shp/hefei_xz.dbf" }),
+    Cesium.Resource.fetchBlob({ url: "//data.mars3d.cn/file/shp/hefei_xz.prj" })
   ]).then(function (files) {
-      files[0].name = "hefei_xz.shp"
-      files[1].name = "hefei_xz.dbf"
-      files[2].name = "hefei_xz.prj"
+      files[0].name = "hefei.shp"
+      files[1].name = "hefei.dbf"
+      files[2].name = "hefei.prj"
 
       const tileLayer = new mars3d.layer.WeiVectorTileLayer({
         source: files,
         removeDuplicate: false,
         zIndex: 2,
+        encoding: "gbk",
         defaultStyle: {
           // 参考api文档的Cesium.VectorStyle类
           tileCacheSize: 200,
@@ -77,9 +78,13 @@ function showWeiVectorTileLayer() {
         allowPick: true, // 允许单击
         // 以下为mars3d参数,API参考http://mars3d.cn/api/BaseTileLayer.html#.ConstructorOptions
         maxLength: -1,
-        popup: "{NAME}"
+        popup: "名称：{name} <br /> 日期：{address}"
       })
       map.addLayer(tileLayer)
+
+      tileLayer.on(mars3d.EventType.click, function(event) {
+        console.log("单击了图层", event)
+      })
     }
   )
 }

@@ -30,20 +30,20 @@ function initMap() {
         name: "天地图注记",
         type: "tdt",
         layer: "img_z",
-        key: ["789e558be762ff832392a0393fd8a4f1"],
         show: true
       }
     ]
   })
 
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
-  const layer = new mars3d.layer.XyzLayer({
-    name: "行政区划界线",
-    url: "https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=789e558be762ff832392a0393fd8a4f1",
-    subdomains: "01234567",
-    maximumLevel: 10
+  const tileLayer = new mars3d.layer.XyzLayer({
+    url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+    minimumLevel: 0,
+    maximumLevel: 10,
+    rectangle: { xmin: 69.706929, xmax: 136.560941, ymin: 15.831038, ymax: 52.558005 },
+    opacity: 0.7
   })
-  map.addLayer(layer)
+  map.addLayer(tileLayer)
 
   // 方式3：在创建地球后调用addLayer添加图层(用 mars3d.layer.create工厂方法创建)
   const layerImg = mars3d.LayerUtil.create({

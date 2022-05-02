@@ -75,7 +75,7 @@ onMounted(async () => {
       set(value) {
         mapWork = value // 赋值后vue中使用
         marsOnload(window._mapInstance)
-        if (config.vuePanel) {
+        if (config.hasPannel) {
           // 开始构造vue面板
           showPannel.value = true
         } else {

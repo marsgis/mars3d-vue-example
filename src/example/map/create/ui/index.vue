@@ -187,7 +187,7 @@ const onTextChange = () => {
 
 // 渲染模型
 const onClickDrawExtent = () => {
-  mapWork.drawExtent(formState.extent)
+  mapWork.drawExtent()
 }
 mapWork.eventTarget.on("drawExtent", function (event: any) {
   formState.extent = event.extent

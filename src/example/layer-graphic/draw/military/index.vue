@@ -173,14 +173,20 @@ const drawExtrudedPolygon = (type: any) => {
 
 // 开始编辑
 const showEditor = (e: any) => {
+  const graphic = e.graphic
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true // 只处理一次
+  }
+
   if (!isActivate("graphic-editor")) {
     activate({
       name: "graphic-editor",
-      data: { graphic: markRaw(e.graphic) }
+      data: { graphic: graphic }
     })
   } else {
     updateWidget("graphic-editor", {
-      data: { graphic: markRaw(e.graphic) }
+      data: { graphic: graphic }
     })
   }
 }

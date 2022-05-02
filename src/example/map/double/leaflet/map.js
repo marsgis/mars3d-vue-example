@@ -11,8 +11,12 @@ let map2d
  */
 export function onMounted(mapInstance) {
   map3d = mapInstance // 记录map
+  map3d.camera.percentageChanged = 0.01
 
   creatMap2D()
+
+
+  globalNotify("已知问题：", `(1) 三维事件目前监听不灵敏，视角同步不够平滑。 `)
 }
 
 /**
@@ -126,6 +130,7 @@ export function viewTo2d() {
   to3dDom.style.display = "none"
   to2dDom.style.display = "block"
   to2dDom.style.width = "100%"
+
   if (map2d) {
     map2d.invalidateSize(false)
   }
