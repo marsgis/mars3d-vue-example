@@ -3,21 +3,21 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轨迹方向</span>
-        <mars-slider @change="headingChange" v-model:value="headingVal" :min="0" :max="360" :step="0.01" />值{{ headingVal }}
+        <mars-slider @change="headingChange" v-model:value="modelParams.headingVal" :min="0" :max="360" :step="0.01" />值{{ modelParams.headingVal }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆</span>
-        <mars-slider @change="pitchChange" v-model:value="pitchVal" :min="-180" :max="180" :step="0.01" />值{{ pitchVal }}
+        <mars-slider @change="pitchChange" v-model:value="modelParams.pitchVal" :min="-180" :max="180" :step="0.01" />值{{ modelParams.pitchVal }}
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">左右侧摆</span>
-        <mars-slider @change="rollChange" v-model:value="rollVal" :min="-180" :max="180" :step="0.01" />值{{ rollVal }}
+        <mars-slider @change="rollChange" v-model:value="modelParams.rollVal" :min="-180" :max="180" :step="0.01" />值{{ modelParams.rollVal }}
       </a-space>
     </div>
 
