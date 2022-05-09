@@ -22,7 +22,7 @@
     this._hasAlphaChannel = Cesium.defaultValue(options.hasAlphaChannel, true)
 
     this._errorEvent = new Cesium.Event()
-    this._readyPromise = Cesium.when.resolve(true)
+    this._readyPromise = Cesium.defer()
     this._credit = undefined
     this._ready = true
 

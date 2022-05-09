@@ -13,7 +13,7 @@
         </a-space>
       </a-form-item>
 
-      <a-form-item label="范围">
+      <a-form-item label="操作">
         <a-space>
           <mars-button @click="query">查询</mars-button>
           <mars-button @click="removeAll">清除</mars-button>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, toRaw } from "vue"
+import { onMounted, ref, computed } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 import { setAutoHeight } from "@mars/utils/mars-util"
@@ -133,7 +133,7 @@ mapWork.eventTarget.on("tableData", function (event: any) {
     },
     grid: {
       left: "3%",
-      right: "4%",
+      right: "15%",
       bottom: "3%",
       containLabel: true
     },
@@ -207,7 +207,8 @@ const drawPolygon = () => {
 }
 // 查询数据
 const query = () => {
-  mapWork.queryData(toRaw(serverName.value))
+  dataSource.value = []
+  mapWork.queryData(serverName.value)
 }
 
 // 清除数据
@@ -222,7 +223,6 @@ onMounted(() => {
     tableScrollHeight.value = height
   }, 400)
 })
-
 </script>
 <style scoped lang="less">
 :deep(.ant-tabs-tab-btn) {

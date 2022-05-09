@@ -33,7 +33,6 @@ export function onMounted(mapInstance) {
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
-
   showMaxNiaochaoDemo()
 }
 
@@ -95,6 +94,7 @@ export function showMaxCBDDemo() {
 // 示例：  地下管网
 export function showMaxPipeDemo() {
   removeLayer()
+  globalMsg("插件版暂不支持 “fillForeColor” 参数的修改")
 
   s3mLayer = new mars3d.layer.S3MLayer({
     name: "地下管网",

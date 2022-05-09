@@ -41,10 +41,6 @@ function addMeasure() {
   })
   map.addThing(measureObj)
 
-  map.on(mars3d.EventType.click, function (e) {
-    hideTipMarker()
-  })
-
   // 触发事件：开始分析前
   measureObj.on(mars3d.EventType.start, function (e) {
     console.log("开始分析", e)
@@ -57,15 +53,16 @@ function addMeasure() {
 
     hideLoading()
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
-      eventTarget.fire("end", e)
+      eventTarget.fire("measureEnd", e)
     }
   })
 
   measureObj.on(mars3d.EventType.click, function (e) {
     console.log("单击了对象", e)
+    hideTipMarker()
 
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
-      eventTarget.fire("click", e)
+      eventTarget.fire("measureClick", { value: e.graphic?.measured })
     }
   })
 }

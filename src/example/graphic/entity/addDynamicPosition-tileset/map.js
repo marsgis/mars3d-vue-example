@@ -137,7 +137,7 @@ export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
-      iconCls: "fa fa-edit",
+      icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
@@ -157,7 +157,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "停止编辑对象",
-      iconCls: "fa fa-edit",
+      icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
         if (!graphic) {
@@ -177,7 +177,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {

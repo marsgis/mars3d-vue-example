@@ -93,6 +93,7 @@ function createCollection(count) {
       style: {
         heading: 270,
         scale: 30
+        // scaleZ: 50
       },
       attr: {
         name: "第" + j + "个模型",

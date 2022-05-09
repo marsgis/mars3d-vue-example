@@ -129,8 +129,12 @@ const onChangeHeight = () => {
 
 // 默认自动播放
 const startPlay = () => {
+  if (!isStart.value) {
+    mapWork.tilesetFlood.start()
+  } else {
+    mapWork.tilesetFlood.stop()
+  }
   isStart.value = !isStart.value
-  mapWork.begin(formState)
 }
 
 const goBack = () => {
@@ -157,9 +161,6 @@ const btnDraw = () => {
 // 开始淹没
 const begin = () => {
   mapWork.begin(formState)
-}
-const stop = () => {
-  mapWork.stop()
 }
 </script>
 <style scoped lang="less">

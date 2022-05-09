@@ -37,7 +37,8 @@ export function onMounted(mapInstance) {
   addDemoGraphic6(graphicLayer)
   addDemoGraphic7(graphicLayer)
   addDemoGraphic8(graphicLayer)
-  addDemoGraphic9(graphicLayer)
+  // addDemoGraphic9(graphicLayer)
+  addDemoGraphic10(graphicLayer)
 }
 
 /**
@@ -308,6 +309,32 @@ function addDemoGraphic9(graphicLayer) {
   graphicLayer.addGraphic(circleEntity)
 }
 
+function addDemoGraphic10(graphicLayer) {
+  const graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LatLngPoint(116.365776, 30.963614, 1090.7),
+    style: {
+      radius: 500,
+      opacity: 0.4,
+      color: "#02D4FD",
+      outline: false,
+      outlineColor: "#8A99B4",
+      outlineWidth: 2,
+      outlineOpacity: 1,
+      clampToGround: true
+    }
+  })
+  graphicLayer.addGraphic(graphic)
+
+  let newRadius = 500
+
+  graphic.radius = new Cesium.CallbackProperty(function (time) {
+    if (newRadius < 2000) {
+      newRadius += 10
+    }
+    return newRadius
+  }, false)
+}
+
 // 在图层级处理一些事物
 function bindLayerEvent() {
   // 在layer上绑定监听事件
@@ -336,7 +363,6 @@ function bindLayerEvent() {
   })
 }
 
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -354,7 +380,7 @@ export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
-      iconCls: "fa fa-edit",
+      icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
         if (!graphic || !graphic.startEditing) {
@@ -374,7 +400,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "停止编辑对象",
-      iconCls: "fa fa-edit",
+      icon: "fa fa-edit",
       show: function (e) {
         const graphic = e.graphic
         if (!graphic) {
@@ -394,7 +420,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {
@@ -413,7 +439,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "计算周长",
-      iconCls: "fa fa-medium",
+      icon: "fa fa-medium",
       callback: function (e) {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
@@ -422,7 +448,7 @@ export function bindLayerContextMenu() {
     },
     {
       text: "计算面积",
-      iconCls: "fa fa-reorder",
+      icon: "fa fa-reorder",
       callback: function (e) {
         const graphic = e.graphic
         const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
@@ -477,8 +503,6 @@ export function onClickDrawModelExtruded() {
   })
 }
 
-
-
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {
   // 3.在graphic上绑定监听事件
@@ -511,7 +535,7 @@ function initGraphicManager(graphic) {
   graphic.bindContextMenu([
     {
       text: "删除对象[graphic绑定的]",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const graphic = e.graphic
         if (graphic) {

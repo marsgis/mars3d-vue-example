@@ -62,7 +62,7 @@ function addModel() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const graphic = e.graphic
         if (graphic) {

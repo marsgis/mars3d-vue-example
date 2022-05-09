@@ -45,7 +45,7 @@ export function onMounted(mapInstance) {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const primitive = e.graphic
         if (primitive) {

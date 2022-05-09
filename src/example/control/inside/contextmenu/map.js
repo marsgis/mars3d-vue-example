@@ -13,6 +13,8 @@ let graphic // 矢量数据
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
+  bindMapDemo()
+
   map.on(mars3d.EventType.contextMenuOpen, function (event) {
     console.log("打开了右键菜单")
   })
@@ -94,7 +96,9 @@ export function bindMapDemo() {
   const mapContextmenuItems = [
     {
       text: "显示此处经纬度",
-      iconCls: "fa fa-info-circle",
+      icon: `<svg class="iconsvg" aria-hidden="true">
+              <use xlink:href="#marsgis-qjsjdb"></use>
+            </svg>`, // 支持iconfont的symbol方式图标（svg）
       show: function (e) {
         return Cesium.defined(e.cartesian)
       },
@@ -105,7 +109,7 @@ export function bindMapDemo() {
     },
     {
       text: "查看当前视角",
-      iconCls: "fa fa-camera-retro",
+      icon: "fa fa-camera-retro", // 支持 font-class 的字体方式图标
       callback: function (e) {
         const mpt = JSON.stringify(map.getCameraView())
         globalAlert(mpt, "当前视角信息")
@@ -113,7 +117,7 @@ export function bindMapDemo() {
     },
     {
       text: "开启深度监测",
-      iconCls: "fa fa-eye-slash",
+      icon: "img/icon/监测建筑.png", // 支持base64或url图片
       show: function () {
         return !map.scene.globe.depthTestAgainstTerrain
       },
@@ -123,7 +127,7 @@ export function bindMapDemo() {
     },
     {
       text: "关闭深度监测",
-      iconCls: "fa fa-eye",
+      icon: "fa fa-eye",
       show: function () {
         return map.scene.globe.depthTestAgainstTerrain
       },
@@ -133,11 +137,12 @@ export function bindMapDemo() {
     },
     {
       text: "视角切换",
-      iconCls: "fa fa-street-view",
+      // 也支持直接的svg代码
+      icon: `<svg t="1651975482546" class="iconsvg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2783" width="200" height="200"><path d="M714.4 300.3L419.6 104.1 125 300.3l-28.7 19.2L391 515.8l28.7 19.2 28.7-19.2 294.8-196.3-28.8-19.2zM419.6 496.7L153.7 319.5l265.9-177.1 266 177.1-266 177.2z m0 0" p-id="2784"></path><path d="M685.6 319.5l-266 177.2-265.9-177.2 265.9-177.1 266 177.1z m0 0" p-id="2785"></path><path d="M830.3 958.3h-63.8V830.7H638.9v-63.9h127.7V639.2h63.8v127.6h127.7v63.9H830.3v127.6z m0 0" p-id="2786"></path><path d="M742.8 279.7L419.4 64.2 95.9 279.7 64 300.9v357.3l323.5 215.4 31.9 21.3 31.9-21.3L575 791.2v-76.6L451.3 797V550.6l259.6-173v197.8h63.8V300.9l-31.9-21.2zM387.5 797.2l-259.7-173V377.6l259.6 172.9 0.1 246.7z m31.9-302L153.4 318l265.9-177.1 266 177.1-265.9 177.2zM702.7 703v-73.3l-110 73.3h110z m0 0" p-id="2787"></path><path d="M830.3 958.3h-63.8V830.7H638.9v-63.9h127.7V639.2h63.8v127.6h127.7v63.9H830.3v127.6z m0 0" p-id="2788"></path></svg>`,
       children: [
         {
           text: "移动到此处",
-          iconCls: "fa fa-send-o",
+          icon: "fa fa-send-o",
           show: function (e) {
             return Cesium.defined(e.cartesian)
           },
@@ -166,7 +171,7 @@ export function bindLayerDemo() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const graphic = e.graphic
         if (graphic) {
@@ -176,7 +181,7 @@ export function bindLayerDemo() {
     },
     {
       text: "计算长度",
-      iconCls: "fa fa-medium",
+      icon: "fa fa-medium",
       show: function (e) {
         const graphic = e.graphic
         return (
@@ -195,7 +200,7 @@ export function bindLayerDemo() {
     },
     {
       text: "计算周长",
-      iconCls: "fa fa-medium",
+      icon: "fa fa-medium",
       show: function (e) {
         const graphic = e.graphic
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
@@ -208,7 +213,7 @@ export function bindLayerDemo() {
     },
     {
       text: "计算面积",
-      iconCls: "fa fa-reorder",
+      icon: "fa fa-reorder",
       show: function (e) {
         const graphic = e.graphic
         return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
@@ -232,7 +237,7 @@ export function bindGraphicDemo() {
   graphic.bindContextMenu([
     {
       text: "删除对象[graphic绑定的]",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const graphic = e.graphic
         if (graphic) {

@@ -42,7 +42,7 @@ export function onMounted(mapInstance) {
     [
       {
         text: "查看摄像头",
-        iconCls: "fa fa-trash-o",
+        icon: "fa fa-trash-o",
         callback: function (e) {
           const graphic = e.graphic
 

@@ -488,7 +488,8 @@
             "thumbnail": "control-inside-contextmenu.jpg",
             "main_es5": "control-inside-contextmenu",
             "main": "control/inside/contextmenu",
-            "hasPannel": true
+            "hasPannel": true,
+            "resources": ["/lib/fonts/font-awesome/css/font-awesome.min.css", "//at.alicdn.com/t/font_887615_6g5dbv18yaw.js", "index.css"]
           },
           {
             "name": "Popup鼠标单击信息窗",

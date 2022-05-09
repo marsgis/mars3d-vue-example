@@ -177,9 +177,9 @@ export function updateModel(params) {
   }
 
   const hpr = new Cesium.HeadingPitchRoll(
-    Cesium.Math.toRadians(params.heading),
-    Cesium.Math.toRadians(params.pitch),
-    Cesium.Math.toRadians(params.roll)
+    Cesium.Math.toRadians(params.headingVal),
+    Cesium.Math.toRadians(params.pitchVal),
+    Cesium.Math.toRadians(params.rollVal)
   )
   positionDM = mars3d.PointUtil.getRayEarthPosition(positionSXT, hpr, true, map.scene.globe.ellipsoid)
 

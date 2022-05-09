@@ -25,8 +25,6 @@ export const mapOptions = {
   ]
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
-
 // mvt另外的实现方式可以参考：https://github.com/robbo1975/MapboxVectorTileImageryProvider
 
 /**
@@ -37,8 +35,6 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-
-  eventTarget.fire("mapLoaded")
 }
 
 /**

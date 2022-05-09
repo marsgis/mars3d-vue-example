@@ -33,13 +33,9 @@ export function onMounted(mapInstance) {
   routeLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(routeLayer)
 
-  gaodeRoute = new mars3d.query.GaodeRoute({
+  gaodeRoute = new mars3d.query.GaodeRoute({})
 
-  })
-
-  queryGaodePOI = new mars3d.query.GaodePOI({
-
-  })
+  queryGaodePOI = new mars3d.query.GaodePOI({})
 
   // 创建矢量数据图层
   poiLayer = new mars3d.layer.GraphicLayer()
@@ -103,7 +99,8 @@ export function stratPoint() {
       startGraphic = graphic
       const point = graphic.point
       point.format()
-      return point
+
+      return point.lng + "," + point.lat
     })
 }
 

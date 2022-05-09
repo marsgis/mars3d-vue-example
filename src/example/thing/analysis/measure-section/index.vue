@@ -24,7 +24,6 @@ import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
 const isShow = ref<boolean>(false)
-const data = ref()
 
 let myChart1: echarts.ECharts
 
@@ -37,19 +36,17 @@ onMounted(() => {
   myChart1 = echarts.init(document.getElementById("echartsView1")!)
 })
 
-mapWork.eventTarget.on("end", function (event: any) {
-  data.value = event
+mapWork.eventTarget.on("measureEnd", function (event: any) {
   nextTick(() => {
-    setEchartsData(data.value)
+    setEchartsData(event)
   })
   isShow.value = true
 })
 
-mapWork.eventTarget.on("click", function (event: any) {
-  data.value = event.graphic?.measured
-  if (data.value) {
+mapWork.eventTarget.on("measureClick", function (event: any) {
+  if (event.value) {
     nextTick(() => {
-      setEchartsData(data.value)
+      setEchartsData(event.value)
     })
   }
 })
@@ -168,21 +165,21 @@ function setEchartsData(data: any) {
 
   myChart1.setOption(option)
   myChart1.resize()
+}
 
-  function getMinZ(arr: any) {
-    let minz = "dataMin"
-    if (arr == null || arr.length === 0) {
-      return minz
-    }
-
-    minz = arr[0].alt
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].alt < minz) {
-        minz = arr[i].alt
-      }
-    }
+function getMinZ(arr: any) {
+  let minz = "dataMin"
+  if (arr == null || arr.length === 0) {
     return minz
   }
+
+  minz = arr[0].alt
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].alt < minz) {
+      minz = arr[i].alt
+    }
+  }
+  return minz
 }
 </script>
 <style scoped lang="less">

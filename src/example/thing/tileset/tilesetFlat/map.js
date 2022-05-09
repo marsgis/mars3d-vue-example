@@ -89,12 +89,12 @@ export function btnDrawExtent(chkShowLine) {
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
 
-      addTestLine(chkShowLine, positions)
+      const id = addTestLine(chkShowLine, positions)
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const item = tilesetFlat.addArea(positions)
 
-      addTableItem(item)
+      addTableItem({ id: id, item: item })
     }
   })
 }
@@ -112,12 +112,12 @@ export function btnDraw(chkShowLine) {
       const positions = graphic.positionsShow
       map.graphicLayer.clear()
 
-      addTestLine(chkShowLine, positions)
+      const id = addTestLine(chkShowLine, positions)
       console.log("绘制坐标为", JSON.stringify(mars3d.PointTrans.cartesians2lonlats(positions))) // 方便测试拷贝坐标
 
       const item = tilesetFlat.addArea(positions)
 
-      addTableItem(item)
+      addTableItem({ id: id, item: item })
     }
   })
 }
@@ -125,6 +125,9 @@ export function btnDraw(chkShowLine) {
 export function removeAll() {
   tilesetFlat.clear()
   map.graphicLayer.clear()
+  graphicLayer.eachGraphic((graphic) => {
+    graphicLayer.removeGraphic(graphic)
+  })
 }
 
 // 改变压平的高度
@@ -140,10 +143,7 @@ export function chkShowLine(val) {
 }
 
 function addTestLine(chkShowLine, positions) {
-  if (!chkShowLine) {
-    return
-  }
-
+  console.log("外框")
   const graphic = new mars3d.graphic.PolylineEntity({
     positions: positions,
     style: {
@@ -152,14 +152,17 @@ function addTestLine(chkShowLine, positions) {
       opacity: 0.8,
       width: 2,
       clampToGround: true
-    }
+    },
+    show: chkShowLine
   })
   graphicLayer.addGraphic(graphic)
+
+  return graphic.id
 }
 
 // 触发自定义事件 addItem
-function addTableItem(item) {
-  eventTarget.fire("addItem", { item })
+function addTableItem(data) {
+  eventTarget.fire("addItem", { data })
 }
 
 export function showHideArea(id, selected) {
@@ -177,8 +180,9 @@ export function flyToGraphic(item) {
 }
 
 // 删除模型
-export function deletedGraphic(item) {
-  const graphic = tilesetFlat.getAreaById(item)
+export function deletedGraphic(key, id) {
+  const graphic = tilesetFlat.getAreaById(key)
   tilesetFlat.removeArea(graphic)
-  map.graphicLayer.clear()
+  const graphicLine = graphicLayer.getGraphicById(id)
+  graphicLayer.removeGraphic(graphicLine)
 }

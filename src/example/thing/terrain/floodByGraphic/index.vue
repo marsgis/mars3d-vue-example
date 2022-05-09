@@ -2,36 +2,38 @@
   <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <span>分析区域</span>
+        <span class="mars-pannel-item-label">分析区域</span>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
         <mars-button @click="btnDraw">绘制多边形</mars-button>
-        <mars-button @click="clearDraw">清除</mars-button>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span>最低海拔</span>
-        <mars-input-number v-model:value="formState.minHeight" :step="1" />米
+        <span class="mars-pannel-item-label">最低海拔（米）</span>
+        <mars-input-number v-model:value="formState.minHeight" :step="1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span>最高海拔</span>
-        <mars-input-number v-model:value="formState.maxHeight" :step="1" />米
+        <span class="mars-pannel-item-label">最高海拔（米）</span>
+        <mars-input-number v-model:value="formState.maxHeight" :step="1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span>淹没速度</span>
-        <mars-input-number v-model:value="formState.speed" :step="1" />米/秒
+        <span class="mars-pannel-item-label">淹没速度（米/秒）</span>
+        <mars-input-number v-model:value="formState.speed" :step="1" />
       </a-space>
     </div>
 
     <div class="f-tac">
-      <mars-button @click="begin">开始分析</mars-button>
+      <a-space>
+        <mars-button @click="begin">开始分析</mars-button>
+        <mars-button @click="clearDraw">清除</mars-button>
+      </a-space>
     </div>
   </mars-pannel>
 </template>
@@ -48,8 +50,8 @@ interface FormState {
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  minHeight: "",
-  maxHeight: "",
+  minHeight: 0,
+  maxHeight: 0,
   speed: 10
 })
 
@@ -74,8 +76,8 @@ const btnDraw = () => {
 const clearDraw = () => {
   mapWork.clearDraw()
 
-  formState.minHeight = ""
-  formState.maxHeight = ""
+  formState.minHeight = 0
+  formState.maxHeight = 0
 }
 
 // 开始淹没
@@ -86,5 +88,8 @@ const begin = () => {
 <style scoped lang="less">
 .infoView {
   width: 320px;
+}
+.mars-pannel-item-label {
+  width: 100px;
 }
 </style>

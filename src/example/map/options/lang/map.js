@@ -54,7 +54,7 @@ export function onMounted(mapInstance) {
   drawLayer.bindContextMenu([
     {
       text: map.getLangText("_删除"),
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {

@@ -187,7 +187,7 @@ export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
         if (!graphic || graphic.isDestroy) {

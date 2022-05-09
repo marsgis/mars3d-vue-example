@@ -22,9 +22,6 @@
 
  这是一个基于 Vue3.0 开发的 Mars3D 功能示例 演示项目。
 
- > 如果您不熟悉Vue，对原生JS比较熟悉，可以阅读： 
- [功能示例原生版教程](http://mars3d.cn/dev/guide/start/example-old.html) 、
- [mars3d-es5-example代码](https://gitee.com/marsgis/mars3d-es5-example) 
 
  
 ## 项目特性 
@@ -84,6 +81,7 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 
 
 ### 运行命令
+请将机器Node版本升级到v14及以上版本
 
 #### 首次运行前安装依赖
 ```
@@ -119,8 +117,7 @@ npm run build
 - 欢迎在github或gitee上[提交PR](https://www.baidu.com/s?wd=在GitHub上提交PR) 
 - 如果对git不熟悉，也可以整理示例代码发送邮件到 wh@marsgis.cn 由我们来整理集成。
 
-
-
+ 
 
 
 ## 项目架构
@@ -197,6 +194,7 @@ mars3d-vue-example
 }
 ```
 同级目录下只需要配置文件名，不在同级目录的 需配置打包后文件位置的绝对路径如 `/example/graphic/apply/typhoon/Typhoon.js`
+
 
 
 ## 单个示例的内部结构
@@ -284,7 +282,7 @@ hideLoading(type) // 关闭loading
 在目录下新增`index.vue`文件，该文件主要是用于 UI 面板相关的业务代码。
 创建控件 Vue 面板，可以参考已有示例加上相关业务面板。
 
-同时在example.json中的对应示例增加配置`vuePanel:true`
+同时在example.json中的对应示例增加配置`hasPannel:true`
 
 最简模板如下:
 ```html

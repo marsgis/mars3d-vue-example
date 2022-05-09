@@ -53,8 +53,6 @@ mapWork.eventTarget.on("loadOK", () => {
   mapWork.updateModel(modelParams)
 })
 
-
-
 const headingChange = () => {
   mapWork.updateModel(modelParams)
 }

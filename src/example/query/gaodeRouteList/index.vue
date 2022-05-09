@@ -2,7 +2,7 @@
   <mars-pannel :visible="true" right="10" top="10" width="300">
     <a-form>
       <a-form-item label="方式">
-        <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions"> </mars-select>
+        <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
       </a-form-item>
 
       <a-form-item label="起点">
@@ -109,8 +109,8 @@ const selectWayOptions = ref([
 
 // 起点
 const stratPoint = async () => {
-  const endPoint: any = await mapWork.stratPoint()
-  strat.value = endPoint.lng + "," + endPoint.lat
+  const stratPoint: any = await mapWork.stratPoint()
+  strat.value = stratPoint
 }
 
 // 终点POI
@@ -122,6 +122,11 @@ mapWork.eventTarget.on("end", (event: any) => {
   count.value = event.count
 })
 
+const onHiddenRoam = (data) => {
+  if (strat.value && count.value !== 0) {
+    btnAnalyse()
+  }
+}
 // 开始分析
 const btnAnalyse = () => {
   dataSource.value = []
@@ -142,6 +147,7 @@ mapWork.eventTarget.on("analyse", (event: any) => {
 // 清除数据
 const removeAll = () => {
   mapWork.removeAll()
+  dataSource.value = []
   strat.value = ""
   count.value = 0
 }

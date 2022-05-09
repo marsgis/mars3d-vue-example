@@ -108,8 +108,9 @@ const drawPolygon = () => {
 
 // 查询数据
 const query = () => {
+  dataSource.value = []
   mapWork.clearAll(true)
-  mapWork.query(toRaw(serverName.value))
+  mapWork.query(serverName.value)
 }
 
 // 清除数据

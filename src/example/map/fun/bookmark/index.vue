@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" bottom="40">
-    <div class="f-mb">
+    <div class="f-mb f-tac">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
         <mars-button @click="butAddTxtName">添加</mars-button>
@@ -10,9 +10,8 @@
       <div v-bind:class="formState.found ? 'addNewImg' : 'noFound'" :key="value.name" v-for="(value, index) in formState.imgObject">
         <img class="markImg" :src="value.img" @click="flytoView(value)" v-show="formState.found" />
         <p>{{ value.name }}</p>
-        <mars-button class="deleteImg" @click="butDeleteTxtName(index)" v-show="formState.found">
-          <img src="/img/icon/delete.svg" />
-        </mars-button>
+
+        <mars-icon icon="delete" class="deleteImg" color="#f2f2f2" @click="butDeleteTxtName(index)" v-show="formState.found" />
       </div>
     </div>
   </mars-pannel>
@@ -69,8 +68,6 @@ const butAddTxtName = () => {
   }
 
   // 不能使用相同名称
-  console.log(formState.imgObject.some((item) => item.name === name))
-
   if (formState.imgObject.some((item) => item.name === name)) {
     $message(name + " 已存在，请更换名称!")
     return
@@ -173,8 +170,8 @@ const butDeleteTxtName = (index: number) => {
   height: 19px;
   border: none;
   position: absolute;
-  top: 154px;
-  right: -7px;
+  top: 164px;
+  right: -25px;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }

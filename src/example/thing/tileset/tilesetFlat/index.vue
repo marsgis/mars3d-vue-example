@@ -77,6 +77,7 @@ interface FormState {
 interface TableItem {
   key: number
   name: string
+  lineId: string
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -120,8 +121,10 @@ mapWork.eventTarget.on("dataLoaded", function (event: any) {
 })
 
 mapWork.eventTarget.on("addItem", function (event: any) {
-  const item = event.item
-  dataSource.value.push({ key: item.id, name: "压平区" + item.id })
+  const item = event.data.item
+  const id = event.data.id
+
+  dataSource.value.push({ key: item.id, name: "压平区" + item.id, lineId: id })
   rowKeys.value.push(item.id)
 })
 
@@ -131,7 +134,7 @@ const flyto = (record: TableItem) => {
 }
 // 移除对应的表格数据
 const deleted = (record: TableItem) => {
-  mapWork.deletedGraphic(record.key)
+  mapWork.deletedGraphic(record.key, record.lineId)
 
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
 }

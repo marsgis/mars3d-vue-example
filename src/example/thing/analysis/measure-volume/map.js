@@ -171,7 +171,7 @@ export function selHeight() {
     globalMsg("请先开始方量分析")
     return
   }
-  measureVolume.selecteHeight(showHeightVal())
+  measureVolume.selecteHeight(showHeightVal)
 }
 
 // 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比

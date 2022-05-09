@@ -183,13 +183,23 @@ function bindLayerEvent() {
     console.log("监听layer，单击了矢量对象", event)
   })
 
-  // 数据编辑相关事件， 用于属性弹窗的交互
+  // 创建完成，事件监听
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    // 绘制点，计算矩形的生成，特殊处理一下，点的话不用弹出属性面板
+    if (e.drawtype === "point") {
+      return
+    }
     eventTarget.fire("graphicEditor-start", e)
   })
+
+  // 数据编辑相关事件， 用于属性弹窗的交互
   graphicLayer.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
     function (e) {
+      // 绘制点，计算矩形的生成，特殊处理一下，点的话不用弹出属性面板
+      if (e.edittype === "point") {
+        return
+      }
       eventTarget.fire("graphicEditor-update", e)
     }
   )
@@ -200,7 +210,7 @@ function bindLayerEvent() {
   graphicLayer.bindContextMenu([
     {
       text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      icon: "fa fa-trash-o",
       callback: function (e) {
         const graphic = e.graphic
         if (graphic) {
@@ -253,8 +263,6 @@ export function onClickDrawPoint() {
     },
     success: function (graphic) {
       const position = graphic.positionShow
-      graphic.remove()
-
       const positions = mars3d.PolyUtil.getRectPositionsByCenter({
         center: position,
         width: 60,
