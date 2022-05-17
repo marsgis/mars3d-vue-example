@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let modelPlanClip
 
 export const mapOptions = {
@@ -113,7 +113,9 @@ export function drawExtent() {
     style: {
       color: "#007be6",
       opacity: 0.8,
-      outline: false
+      outline: true,
+      outlineWidth: 2,
+      addHeight: 0.5
     },
     success: function (graphic) {
       // 绘制成功后回调
@@ -134,7 +136,9 @@ export function drawPoly() {
     style: {
       color: "#007be6",
       opacity: 0.5,
-      clampToGround: true
+      outline: true,
+      outlineWidth: 2,
+      addHeight: 0.5
     },
     success: function (graphic) {
       // 绘制成功后回调
@@ -153,7 +157,9 @@ export function drawPoly2() {
     style: {
       color: "#007be6",
       opacity: 0.5,
-      clampToGround: true
+      outline: true,
+      outlineWidth: 2,
+      addHeight: 0.5
     },
     success: function (graphic) {
       // 绘制成功后回调

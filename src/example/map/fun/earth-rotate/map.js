@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -23,17 +23,11 @@ export function onMounted(mapInstance) {
 
   // 按shift键+鼠标左键 拖拽 地球到合适区域，通过下面代码获取视角参数，拷贝到mapOptions的center参数中。
   const center = JSON.stringify(map.getCameraView({ simplify: false }))
+  console.log("center视角为：", center)
 
   startRotate()
 
-  // 获取演示数据并加载
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/100000_full.json" })
-    .then(function (json) {
-      addDemoGraphics(json)
-    })
-    .catch(function (error) {
-      console.log("加载JSON出错", error)
-    })
+  getGeojsonStart()
 }
 
 /**
@@ -44,18 +38,16 @@ export function onUnmounted() {
   map = null
 }
 
+let previousTime
+
 export function startRotate() {
   stopRotate()
   previousTime = map.clock.currentTime.secondsOfDay
   map.on(mars3d.EventType.clockTick, map_onClockTick)
 }
-
 export function stopRotate() {
   map.off(mars3d.EventType.clockTick, map_onClockTick)
 }
-
-let previousTime
-
 // 地球旋转
 function map_onClockTick() {
   const spinRate = 1
@@ -67,6 +59,18 @@ function map_onClockTick() {
 }
 
 // 加载 演示数据
+export function getGeojsonStart() {
+  startRotate()
+  // 获取演示数据并加载
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/geojson/areas/100000_full.json" })
+    .then(function (json) {
+      addDemoGraphics(json)
+    })
+    .catch(function (error) {
+      console.log("加载JSON出错", error)
+    })
+}
+
 function addDemoGraphics(geojson) {
   const center = Cesium.Cartesian3.fromDegrees(117.203932, 31.856794, 31.8)
   // 公司位置 矢量对象标记

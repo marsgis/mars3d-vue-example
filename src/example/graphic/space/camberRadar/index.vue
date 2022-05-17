@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
+import { reactive, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
 // 双曲面雷达参数
@@ -109,7 +109,7 @@ const raderParsms = reactive<Rader>({
   endFovV: 90
 })
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   mapWork.getViewConfig(raderParsms)
 })
 

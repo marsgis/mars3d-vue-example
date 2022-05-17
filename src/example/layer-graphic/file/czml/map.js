@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -28,7 +28,7 @@ export const eventTarget = new mars3d.BaseClass()
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // url传入模型地址
   const type = mars3d.Util.getRequestByName("data")
@@ -80,7 +80,7 @@ export function showAircraft() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -103,7 +103,7 @@ export function showCar() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -125,7 +125,7 @@ export function showShip() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -155,7 +155,7 @@ export function showBDSatellite() {
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
 
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -184,7 +184,7 @@ export function showSatellite() {
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
 
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -211,7 +211,7 @@ export function showRocket() {
     // 火星发射时，锁定火箭模型对象
     map.trackedEntity = data.dataSource.entities.getById("Vulcan")
 
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)
@@ -234,7 +234,7 @@ export function showFireDrill() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (data) {
     console.log("数据加载完成", data)
-    eventTarget.fire("loadOk", { data })
+    eventTarget.fire("loadGraphicLayer", { data })
   })
   graphicLayer.on(mars3d.EventType.click, function (event) {
     console.log("单击了图层", event)

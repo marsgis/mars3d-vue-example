@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tilesetPlanClip
 let terrainPlanClip
 
@@ -50,6 +50,23 @@ export function onMounted(mapInstance) {
   layerWorkBIM.on(mars3d.EventType.click, function (event) {
     console.log("单击了3dtiles图层", event)
   })
+
+
+  // 遍历取出所有的feature，并查询其属性
+  // layerWorkBIM.readyPromise.then(function (e) {
+  //   const allTileObj = {}
+  //   layerWorkBIM.tileset.tileVisible.addEventListener((tile) => {
+  //     const content = tile.content
+  //     const featuresLength = content.featuresLength
+  //     for (let i = 0; i < featuresLength; i++) {
+  //       const feature = content.getFeature(i)
+  //       const attr = layerWorkBIM._getFeatureProperties(feature)
+  //       allTileObj[attr.id] = attr
+  //     }
+  //     // 后续使用allTileObj即可
+  //     console.log(allTileObj)
+  //   })
+  // })
 
   // 键盘漫游
   map.keyboardRoam.setOptions({

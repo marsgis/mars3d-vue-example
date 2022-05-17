@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -9,7 +9,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,8 +19,6 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
-  eventTarget.fire("loadOk")
 }
 
 /**
@@ -282,9 +280,7 @@ function getEchartsOption() {
         text: "散点图态势",
         subtext: "san dian tu taishi",
         left: "center",
-        textStyle: {
-          color: "#fff"
-        }
+        color: "#fff"
       },
       {
         id: "statistic",
@@ -292,10 +288,8 @@ function getEchartsOption() {
         right: 120,
         top: 40,
         width: 100,
-        textStyle: {
-          color: "#fff",
-          fontSize: 16
-        }
+        color: "#fff",
+        fontSize: 16
       }
     ],
 
@@ -324,9 +318,7 @@ function getEchartsOption() {
       },
       axisLabel: {
         margin: 2,
-        textStyle: {
-          color: "#aaa"
-        }
+        color: "#aaa"
       }
     },
     yAxis: {
@@ -346,9 +338,7 @@ function getEchartsOption() {
       },
       axisLabel: {
         interval: 0,
-        textStyle: {
-          color: "#ddd"
-        }
+        color: "#ddd"
       },
       data: categoryData
     },
@@ -363,21 +353,14 @@ function getEchartsOption() {
           return Math.max(size, 8)
         },
         label: {
-          normal: {
-            formatter: "{b}",
-            position: "right",
-            show: false
-          },
-          emphasis: {
-            show: true
-          }
+          formatter: "{b}",
+          position: "right",
+          show: false
         },
         itemStyle: {
-          normal: {
-            color: "#FF8C00",
-            position: "right",
-            show: true
-          }
+          color: "#FF8C00",
+          position: "right",
+          show: true
         }
       },
       {
@@ -395,18 +378,15 @@ function getEchartsOption() {
         },
         hoverAnimation: true,
         label: {
-          normal: {
-            formatter: "{b}",
-            position: "right",
-            show: true
-          }
+          formatter: "{b}",
+          position: "right",
+          color: "inherit",
+          show: true
         },
         itemStyle: {
-          normal: {
-            color: "#f4e925",
-            shadowBlur: 50,
-            shadowColor: "#EE0000"
-          }
+          color: "#f4e925",
+          shadowBlur: 50,
+          shadowColor: "#EE0000"
         },
         zlevel: 1
       },
@@ -416,9 +396,7 @@ function getEchartsOption() {
         type: "bar",
         symbol: "none",
         itemStyle: {
-          normal: {
-            color: "#ddb926"
-          }
+          color: "#ddb926"
         },
         data: data
       }

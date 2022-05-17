@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 图层
 let dynamicRiver // 最后一个河流对象
 

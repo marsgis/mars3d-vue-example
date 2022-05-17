@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let canvasWindLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -22,7 +22,7 @@ export function onMounted(mapInstance) {
 
   // 风场
   canvasWindLayer = new mars3d.layer.CanvasWindLayer({
-    color: "#ffffff", // 颜色
+    color: "#4696db", // 颜色
     frameRate: 10, // 每秒刷新次数
     speedRate: 120, // 风前进速率
     particlesNumber: 3000,

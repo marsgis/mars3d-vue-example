@@ -5,11 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
 const pointerEvents = ref(false)
-mapWork.eventTarget.on("loadOk", () => {
+
+onMounted(() => {
   // 创建Echarts图层
   mapWork.createEchartsLayer(pointerEvents.value)
 })

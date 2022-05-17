@@ -1,13 +1,21 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
+    <div class="f-mb">
+      <a-space>
+        <span>步长:</span>
+        <mars-input-number v-model:value="step" :min="1" :max="10" @change="onChangeGrid" />
+        公里
+      </a-space>
+    </div>
+
     <a-space>
-      <span>步长:</span>
-      <mars-input-number v-model:value="value" :min="1" :max="10" />
-      公里
-      <mars-button @click="pointGrid">点</mars-button>
-      <mars-button @click="triangleGrid">三角网</mars-button>
-      <mars-button @click="squareGrid">方格网</mars-button>
-      <mars-button @click="hexGrid">蜂窝网</mars-button>
+      <span>类型:</span>
+      <a-radio-group v-model:value="gridType" name="grid" @change="onChangeGrid">
+        <a-radio value="point">点</a-radio>
+        <a-radio value="triangle">三角网</a-radio>
+        <a-radio value="square">方格网</a-radio>
+        <a-radio value="hex">蜂窝网</a-radio>
+      </a-radio-group>
     </a-space>
   </mars-pannel>
 </template>
@@ -16,28 +24,34 @@
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
+const gridType = ref("")
+const step = ref<number>(5)
 
+const onChangeGrid = () => {
+  switch (gridType.value) {
+    case "point":
+      mapWork.hexGrid(step.value)
+      break
 
-const value = ref<number>(5)
-// 点网格
-const pointGrid = () => {
-  mapWork.pointGrid(value.value)
-}
-// 三角网
-const triangleGrid = () => {
-  mapWork.triangleGrid(value.value)
-}
-// 方格网
-const squareGrid = () => {
-  mapWork.squareGrid(value.value)
-}
-// 蜂窝网格
-const hexGrid = () => {
-  mapWork.hexGrid(value.value)
+    case "triangle":
+      mapWork.triangleGrid(step.value)
+      break
+
+    case "square":
+      mapWork.squareGrid(step.value)
+      break
+
+    case "hex":
+      mapWork.squareGrid(step.value)
+      break
+
+    default:
+      break
+  }
 }
 </script>
 <style scoped lang="less">
 .ant-input-number {
-  width: 60px !important;
+  width: 100px !important;
 }
 </style>

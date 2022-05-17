@@ -1,12 +1,12 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.806147, lng: 117.236965, alt: 3307, heading: 359, pitch: -54 }
+    center: { lat: 31.839779, lng: 117.261174, alt: 5404, heading: 359, pitch: -54 }
   },
   terrain: {
     show: false
@@ -53,7 +53,7 @@ function addDemoGraphic1(graphicLayer) {
     url: "//data.mars3d.cn/file/geojson/buildings-hf.json"
   })
     .then((data) => {
-      const arr = mars3d.Util.geoJsonToGraphics(data, {
+      let arr = mars3d.Util.geoJsonToGraphics(data, {
         symbol: {
           callback: function (attr, styleOpt) {
             return {
@@ -63,6 +63,7 @@ function addDemoGraphic1(graphicLayer) {
           }
         }
       })
+      arr = arr.slice(0, 5000) // 控制数量，避免卡顿
 
       globalMsg("共加载" + arr.length + "个水面")
 
@@ -88,7 +89,7 @@ function addDemoGraphic1(graphicLayer) {
     })
 }
 
-export function addCombineData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
   showLoading()
   const startTime = new Date().getTime()
@@ -133,8 +134,6 @@ export function addCombineData(count) {
   const usedTime = (endTime - startTime) / 1000
   globalMsg("共耗时" + usedTime.toFixed(2) + "秒")
 }
-
-
 
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {

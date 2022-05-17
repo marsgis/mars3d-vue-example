@@ -1,11 +1,11 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 let selectedView
 
-// 事件对象，用于抛出事件给vue
+// 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -44,6 +44,8 @@ export function onMounted(mapInstance) {
   // 加一些演示数据
   addDemoGraphic1()
   addDemoGraphic2()
+
+  globalNotify("操作提示：", `请鼠标单击地图任意处，浏览器安全机制需要鼠标操作才能自动开始播放视频。`, { duration: null })
 }
 
 /**

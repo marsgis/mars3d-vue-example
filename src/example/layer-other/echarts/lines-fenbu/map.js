@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -368,13 +368,11 @@ function getEchartsOption() {
           symbolSize: 5
         },
         lineStyle: {
-          normal: {
-            // color: covertColor(item[1]), // TODO : 无法奏效
-            color: "#56e88c",
-            width: 1,
-            opacity: 0.4,
-            curveness: 0.2
-          }
+          // color: covertColor(item[1]), // TODO : 无法奏效
+          color: "#56e88c",
+          width: 1,
+          opacity: 0.4,
+          curveness: 0.2
         },
         data: convertData(item[1])
       },
@@ -387,19 +385,16 @@ function getEchartsOption() {
           brushType: "stroke"
         },
         label: {
-          normal: {
-            show: true,
-            position: "right",
-            formatter: "{b}"
-          }
+          show: true,
+          position: "right",
+          formatter: "{b}",
+          color: "inherit"
         },
         symbolSize: function (val) {
           return 3 + val[2] / 10
         },
         itemStyle: {
-          normal: {
-            color: "#60ff44"
-          }
+          color: "#60ff44"
         },
         data: item[1].map(function (dataItem) {
           return {

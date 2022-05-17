@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let tilesetFlood
 
 export const mapOptions = {
@@ -9,7 +9,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -131,7 +131,7 @@ export function btnDraw() {
 export function begin(data) {
   if (!tilesetFlood.floodAll && tilesetFlood.length === 0) {
     globalMsg("请首先绘制分析区域！")
-    return
+    return false
   }
   map.graphicLayer.clear()
 
@@ -143,7 +143,7 @@ export function begin(data) {
   }
   if (minValue > maxValue) {
     globalMsg("当前最低海拔高于最高海拔")
-    return
+    return false
   }
 
   console.log("当前参数", { minHeight: minValue, maxHeight: maxValue })
@@ -155,6 +155,7 @@ export function begin(data) {
   })
 
   tilesetFlood.start()
+  return true
 }
 
 export function stop() {

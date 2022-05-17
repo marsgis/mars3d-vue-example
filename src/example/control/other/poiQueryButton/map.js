@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 import { PoiQueryButton } from "./PoiQueryButton"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 export const mapOptions = {
   scene: {

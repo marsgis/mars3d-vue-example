@@ -1,9 +1,22 @@
 import { createApp } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
-import { setConfig } from "mars-editor"
+import { getQueryString } from "@mars/utils/mars-util"
 import { injectState, key } from "@mars/widgets/common/store/widget"
+import { Editor as MarsgisEditor } from "@marsgis/editor"
 import store from "@mars/widgets/widget-store"
+
+const marsEditor = new MarsgisEditor({
+  baseUrl: process.env.BASE_URL,
+  code: getQueryString("code"),
+  configLibs: window.configLibs,
+  resourcePublicPath: process.env.EXAMPLE_SOURCE_PATH,
+  thumbnailPublicPath: "/config/",
+  libPublicPath: "/lib/",
+  configSourceUrl: `${process.env.BASE_URL}config/example.json`,
+  UIFile: "{main}/index.vue"
+})
+window.marsEditor = marsEditor
 
 // https跳转处理
 const protocol = window.location.protocol
@@ -26,14 +39,6 @@ app.use(injectState(store), key)
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }
-
-setConfig(app, {
-  baseUrl: process.env.BASE_URL,
-  resourcePath: process.env.EXAMPLE_SOURCE_PATH,
-  configLibs: window.configLibs,
-  configSource: `${process.env.BASE_URL}config/example.json`,
-  sourceFile: false
-})
 
 // 设置自适应高度指令
 app.directive("auto-height", {

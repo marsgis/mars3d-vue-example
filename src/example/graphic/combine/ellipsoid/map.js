@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -13,7 +13,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -37,7 +37,7 @@ export function onMounted(mapInstance) {
 
   bindLayerPopup() // 在图层上绑定popup,对所有加到这个图层的矢量数据都生效
 
-  addCombineData(0.1)
+  addDemoGraphic(0.1)
 }
 
 /**
@@ -49,7 +49,7 @@ export function onUnmounted() {
 }
 
 // 生成演示数据
-export function addCombineData(num) {
+export function addDemoGraphic(num) {
   graphicLayer.clear()
 
   showLoading()

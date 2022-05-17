@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -10,7 +10,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -23,7 +23,7 @@ export function onMounted(mapInstance) {
 
   const point = map.getCenter()
   point.format()
-  eventTarget.fire("loadOK", { point })
+  eventTarget.fire("loadCenterPoint", { point })
 }
 
 /**
@@ -32,6 +32,17 @@ export function onMounted(mapInstance) {
  */
 export function onUnmounted() {
   map = null
+}
+
+// 获取默认point点
+export function defultPoint() {
+  const point = map.getCenter()
+  point.format()
+  return {
+    lng: point.lng,
+    lat: point.lat,
+    alt: point.alt
+  }
 }
 
 // 坐标转化的三种方法

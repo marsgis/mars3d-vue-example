@@ -40,9 +40,6 @@ export function setAutoHeight(callback: (v: number) => void, lose = 0, container
   window.addEventListener("resize", resize)
 
   resize()
-  // return () => {
-  //   window.removeEventListener("resize", resize)
-  // }
 }
 
 /**

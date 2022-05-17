@@ -69,8 +69,8 @@ import "./function.less"
 export const $alert = (window.$alert = marsAlert)
 export const $notify = (window.$notify = marsNotify)
 export const $message = (window.$message = marsMessage)
-export const $hideLoading = marsHideLoading
-export const $showLoading = marsShowLoading
+export const $hideLoading = (window.$hideLoading = marsHideLoading)
+export const $showLoading = (window.$showLoading = marsShowLoading)
 
 const components = [
   MarsSelect,
@@ -137,9 +137,9 @@ export default function (app: App, config: Record<string, any> = {}): App {
   components.forEach((comp) => {
     app.component(comp.name, comp)
   })
-  MarsMessage(app)
-  MarsAlert(app)
-  MarsNotify(app)
-  MarsLoading(app)
+  // MarsMessage(app)
+  // MarsAlert(app)
+  // MarsNotify(app)
+  // MarsLoading(app)
   return app
 }

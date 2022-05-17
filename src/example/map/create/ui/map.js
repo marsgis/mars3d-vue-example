@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -18,7 +18,7 @@ export const mapOptions = {
  */
 let bloomEffect
 
-// 事件对象，用于抛出事件给vue
+// 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
 /**
@@ -33,7 +33,10 @@ export function onMounted(mapInstance) {
   // 构造bloom效果 用于滑动条测试
   bloomEffect = new mars3d.effect.BloomEffect()
   map.addEffect(bloomEffect)
-  console.log("mapzhixing")
+
+  eventTarget.fire("init", {
+    value: 10
+  })
 }
 
 /**
@@ -62,7 +65,7 @@ export function drawExtent() {
     },
     success: function (graphic) {
       const rectangle = mars3d.PolyUtil.formatRectangle(graphic._rectangle_draw)
-      eventTarget.fire("drawExtent", { extent: JSON.stringify(rectangle) }) // 抛出事件，可以vue中去监听事件
+      eventTarget.fire("drawExtent", { extent: JSON.stringify(rectangle) }) // 抛出事件，可以组件中去监听事件
     }
   })
 }

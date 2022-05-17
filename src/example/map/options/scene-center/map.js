@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map
+export let map
 let graphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）

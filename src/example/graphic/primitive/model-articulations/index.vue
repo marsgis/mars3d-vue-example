@@ -27,7 +27,7 @@ const dataList = ref<any[]>([])
 
 const currStates = ref<any[]>([])
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("loadGltfModel", function (event: any) {
   const modelData = event.articulations
   dataList.value = modelData
   for (let i = 0; i < modelData.length; i++) {

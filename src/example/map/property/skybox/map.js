@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -21,16 +21,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  map.scene.skyBox = new Cesium.SkyBox({
-    sources: {
-      negativeX: "img/skybox/6/tycho2t3_80_mx.jpg",
-      negativeY: "img/skybox/6/tycho2t3_80_my.jpg",
-      negativeZ: "img/skybox/6/tycho2t3_80_mz.jpg",
-      positiveX: "img/skybox/6/tycho2t3_80_px.jpg",
-      positiveY: "img/skybox/6/tycho2t3_80_py.jpg",
-      positiveZ: "img/skybox/6/tycho2t3_80_pz.jpg"
-    }
-  })
+  show6()
 }
 
 /**

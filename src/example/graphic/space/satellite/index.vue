@@ -126,25 +126,15 @@ const formState: UnwrapRef<FormState> = reactive({
 
 mapWork.eventTarget.on("satelliteChange", function (event: any) {
   const nowData = event.weixinData
-  const height = formatLength(nowData.td_gd)
   formState.name = nowData.name
   formState.tle1 = nowData.tle1
   formState.tle2 = nowData.tle2
   formState.time = nowData.time
   formState.td_jd = nowData.td_jd
   formState.td_wd = nowData.td_wd
-  formState.td_gd = height
+  formState.td_gd = nowData.td_gd
 })
 
-// 数据处理
-function formatLength(val: number) {
-  if (val == null) {
-    return ""
-  }
-  val = Number(val)
-  const valstr = (val * 0.001).toFixed(2) + "公里"
-  return valstr
-}
 
 // 俯仰角
 const pitchChange = () => {

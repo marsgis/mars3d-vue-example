@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tilesetClip
 let queryGaodePOI
 
@@ -14,7 +14,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -26,9 +26,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   queryTilesetData()
-  queryGaodePOI = new mars3d.query.GaodePOI({
-
-  })
+  queryGaodePOI = new mars3d.query.GaodePOI()
 }
 
 /**
@@ -69,7 +67,6 @@ export function removeLayer(layer) {
 //   map.addThing(tilesetPlanClip)
 // }
 
-
 export function cutModel(layer) {
   // 3d模型裁剪
   tilesetClip = new mars3d.thing.TilesetClip({
@@ -94,7 +91,7 @@ function queryTilesetData() {
   mars3d.Util.fetchJson({ url: "config/tileset.json" })
     .then(function (arr) {
       const modelData = arr.layers
-      eventTarget.fire("loadOk", { modelData })
+      eventTarget.fire("loadTypeList", { modelData })
     })
     .catch(function (error) {
       console.log("加载JSON出错", error)

@@ -17,7 +17,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "lib": [
       "esnext",
       "dom",

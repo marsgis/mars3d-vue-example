@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let roamLine
 const roamLineData = {}
 
@@ -16,7 +16,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到组件中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -190,7 +190,7 @@ function addGraphicLayer() {
   roamLineData.td_alltimes = mars3d.Util.formatTime(roamLine.alltimes)
   roamLineData.td_alllength = mars3d.MeasureUtil.formatDistance(roamLine.alllen)
 
-  eventTarget.fire("loadOK", { roamLine })
+  eventTarget.fire("loadRoamLine", { roamLine })
 
   roamLine.on(mars3d.EventType.change, (event) => {
     // 面板显示相关信息

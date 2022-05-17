@@ -35,12 +35,14 @@ declare module "@mars/widgets/common/store/widget" {
 
   export const key: InjectionKey<Store<WidgetState>>
 
+  export const getInjectKey: () => string
+
   export const injectState: (options: StoreOptions<WidgetState>) => Store<WidgetState>
 
   export const useWidgetStore: any
 
   export const useWidget: () => {
-    currentWidget:any
+    currentWidget: any
     // 获取指定的widget
     getWidget: (name: string) => any
     // 出发对应widget的onUpdate
@@ -48,9 +50,9 @@ declare module "@mars/widgets/common/store/widget" {
     // 获取widget的当前激活状态
     isActivate: (name: string) => boolean
     // 激活指定 widget模块
-    activate: (widget: string | Widget| (string | Widget)[], reload?:boolean) => void
+    activate: (widget: string | Widget | (string | Widget)[], reload?: boolean) => void
     // 释放指定的widget
-    disable: (name: string| string[]) => void
+    disable: (name: string | string[]) => void
     // 关闭释放所有widget ，hasAll传true值强制释放所有widget(默认autoDisable为false的widet不会释放)
     disableAll: (hasAll?: boolean) => void
   }

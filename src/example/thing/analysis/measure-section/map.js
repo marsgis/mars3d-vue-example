@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measureObj
 
 export const mapOptions = {
@@ -9,7 +9,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -43,13 +43,13 @@ function addMeasure() {
 
   // 触发事件：开始分析前
   measureObj.on(mars3d.EventType.start, function (e) {
-    console.log("开始分析", e)
+    // console.log("开始分析", e)
     showLoading()
   })
 
   // 触发事件：异步分析完成后
   measureObj.on(mars3d.EventType.end, function (e) {
-    console.log("分析结束", e)
+    // console.log("分析结束", e)
 
     hideLoading()
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {
@@ -58,7 +58,7 @@ function addMeasure() {
   })
 
   measureObj.on(mars3d.EventType.click, function (e) {
-    console.log("单击了对象", e)
+    // console.log("单击了对象", e)
     hideTipMarker()
 
     if (e.graphic?.type === mars3d.graphic.SectionMeasure.type) {

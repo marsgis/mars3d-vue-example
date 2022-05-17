@@ -52,6 +52,7 @@ export function onMounted(mapInstance: mars3d.Map): void {
  * @returns {void} 无
  */
 export function onUnmounted() {
+  console.log("卸载了")
   eventTarget.off()
   map.removeControl(basemapsTool)
   map.removeControl(layersTool)

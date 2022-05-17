@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="160">
+  <mars-pannel :visible="true" right="10" top="10" bottom="130">
     <div class="infoView-content">
       <a-form :label-col="labelCol">
         <a-collapse :activeKey="activeKey">

@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let contourLine
 
 export const mapOptions = {
@@ -163,7 +163,6 @@ let table = []
 // 区域表格添加一行记录
 function addTableItem(item) {
   table.push({ key: item.id, name: "区域" + item.id })
-
   eventTabel.fire("tableObject", { table })
 }
 export function changeTable(data) {

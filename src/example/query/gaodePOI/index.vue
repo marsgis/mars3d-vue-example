@@ -157,11 +157,8 @@ mapWork.eventTarget.on("tableData", (e: any) => {
   dataSource.value = []
 
   e.data.forEach((item: any, index: number) => {
-    console.log(index)
-
     dataSource.value.push({ key: index, name: item.name, type: item.type, address: item.address, graphic: item.graphic })
   })
-  console.log("eee", dataSource)
 })
 
 // 清除数据

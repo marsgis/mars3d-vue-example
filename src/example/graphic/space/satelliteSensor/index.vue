@@ -115,7 +115,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue"
+import { reactive, ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
 const sensorType = ref<string>("2")
@@ -153,7 +153,7 @@ const sensorParams = reactive<SatelliteSensor>({
   rollValue: 0 // 左右侧摆
 })
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   mapWork.addModelGraphic(sensorParams)
 })
 

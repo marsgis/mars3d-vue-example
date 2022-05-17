@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="350">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-collapse v-model:activeKey="activeKey">
         <!-- 自定义切换图标 -->
@@ -66,9 +66,12 @@
             <!-- 已选择：{{ formState.radioVal }} -->
           </a-form-item>
 
-          <a-form-item label="允许鼠标操作">
+          <a-form-item label="鼠标操作">
             <div class="f-tac">
-              <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+              <a-space>
+                <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                <span>是否允许</span>
+              </a-space>
             </div>
           </a-form-item>
 

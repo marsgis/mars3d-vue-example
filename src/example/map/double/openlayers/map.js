@@ -1,12 +1,14 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
     center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
-    fxaa: true
+    fxaa: true,
+    baseLayerPicker: false,
+    sceneModePicker: false
   },
   layers: [
     {

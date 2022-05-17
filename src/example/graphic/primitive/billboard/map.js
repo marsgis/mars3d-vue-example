@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 /**
@@ -223,9 +223,8 @@ function initGraphicManager(graphic) {
 
 // 清除数据
 
-
 // 添加数据
-export function addPrimitiveData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   showLoading()

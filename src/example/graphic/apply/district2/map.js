@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map
+export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 const color = "#363635"
@@ -22,6 +22,7 @@ export const mapOptions = {
   control: {
     baseLayerPicker: false
   },
+  terrain: { show: false },
   basemaps: [],
   layers: []
 }
@@ -79,40 +80,38 @@ function addAnhui() {
         map: map,
         positions: points,
         has3dtiles: false,
-        splitNum: 300,
-        callback: (raisedPositions, noHeight) => {
-          console.log("边界墙插值计算完成坐标", raisedPositions)
+        splitNum: 300
+      }).then((result) => {
+        console.log("边界墙插值计算完成坐标", result.positions)
 
-          const primitive = new mars3d.graphic.WallPrimitive({
-            positions: raisedPositions,
-            style: {
-              addHeight: -15000,
-              diffHeight: 15000, // 墙高
-              materialType: mars3d.MaterialType.Image2,
-              image: "./img/textures/grawall.png",
-              color: "rgba(0,255,255,0.6)"
-              // renderState: Cesium.RenderState.fromCache({
-              //   blending: Cesium.BlendingState.ALPHA_BLEND,
-              //   depthTest: {
-              //     enabled: true,
-              //     func: Cesium.DepthFunction.LESS
-              //   },
-              //   cull: {
-              //     enabled: true,
-              //     face: Cesium.CullFace.BACK
-              //   },
-              //   depthMask: true
-              // })
-            },
-            attr: attr
-          })
-          anhuiWall.addGraphic(primitive)
-        }
+        const primitive = new mars3d.graphic.WallPrimitive({
+          positions: result.positions,
+          style: {
+            addHeight: -15000,
+            diffHeight: 15000, // 墙高
+            materialType: mars3d.MaterialType.Image2,
+            image: "./img/textures/grawall.png",
+            color: "rgba(0,255,255,0.6)"
+            // renderState: Cesium.RenderState.fromCache({
+            //   blending: Cesium.BlendingState.ALPHA_BLEND,
+            //   depthTest: {
+            //     enabled: true,
+            //     func: Cesium.DepthFunction.LESS
+            //   },
+            //   cull: {
+            //     enabled: true,
+            //     face: Cesium.CullFace.BACK
+            //   },
+            //   depthMask: true
+            // })
+          },
+          attr: attr
+        })
+        anhuiWall.addGraphic(primitive)
       })
     }
   })
   map.addLayer(anhuiWall)
-
 
   // 安徽各市边界线和名称
   const shiLayer = new mars3d.layer.GeoJsonLayer({

@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -34,7 +34,7 @@ export function onUnmounted() {
 /**
  * 禁用和启用tooltip
  *
- * @param {boolean} enabled vue面板传入的值
+ * @param {boolean} enabled 组件面板传入的值
  * @returns {void} 无
  */
 export function enabledSmallTooltip(enabled) {

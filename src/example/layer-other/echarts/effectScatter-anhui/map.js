@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -198,11 +198,11 @@ function getEchartsOption() {
         },
         hoverAnimation: true,
         label: {
-          normal: {
-            formatter: "{b}",
-            position: "right",
-            show: true
-          }
+          formatter: "{b}",
+          position: "right",
+          color: "inherit",
+          fontSize: "18",
+          show: true
         },
         tooltip: {
           formatter: function (params, ticket, callback) {
@@ -214,11 +214,9 @@ function getEchartsOption() {
           }
         },
         itemStyle: {
-          normal: {
-            color: "#ffff00",
-            shadowBlur: 60,
-            shadowColor: "#cccccc"
-          }
+          color: "#ffff00",
+          shadowBlur: 60,
+          shadowColor: "#cccccc"
         },
         zlevel: 1
       }

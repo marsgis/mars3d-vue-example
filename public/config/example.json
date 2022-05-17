@@ -36,7 +36,19 @@
             "thumbnail": "map-create-ui.jpg",
             "main_es5": "map-create-ui",
             "main": "map/create/ui",
-            "hasPannel": true
+            "hasPannel": true,
+            "pannelFiles": {
+              "react": [
+                {
+                  "name": "依赖1",
+                  "url": "{main}/dep1.tsx"
+                },
+                {
+                  "name": "依赖2",
+                  "url": "{main}/dep2.tsx"
+                }
+              ]
+            }
           },
           {
             "name": "GUI属性控件",

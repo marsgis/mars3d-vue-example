@@ -28,15 +28,16 @@ import { getCurrentInstance, onMounted, provide, ref, computed } from "vue"
 import { ConfigProvider } from "ant-design-vue"
 import { getQueryString } from "@mars/utils/mars-util"
 import MainOperation from "@mars/components/mars-work/main-operation.vue"
-import { getResourcesByLibs, loadScript, LoadSource, getCompConfig } from "mars-editor"
+import { Util } from "@marsgis/editor"
 import { useWidgetStore } from "@mars/widgets/common/store/widget"
 import MarsWidget from "@mars/widgets/widget.vue"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
+import { $message } from "@mars/components/mars-ui"
 
 const globalProperties = getCurrentInstance()!.appContext.config.globalProperties
 
-const resourcePath = (process.env.EXAMPLE_SOURCE_PATH || "") + "example/"
+const resourcePath = (process.env.EXAMPLE_SOURCE_PATH || "") + "/"
 const widgetStore = useWidgetStore()
 const widgets = computed(() => widgetStore.state.widgets)
 const openAtStart = computed(() => widgetStore.state.openAtStart)
@@ -64,9 +65,11 @@ const marsOnload = (map: any) => {
 onMounted(async () => {
   const exampleId = getQueryString("id")
 
-  const config = await getCompConfig(exampleId)
+  const config = await Util.getCompConfig(exampleId)
   if (config) {
-    window.currentPath = `${resourcePath}${config?.main}/` // 当前示例的配置
+    console.log("示例配置信息", config)
+
+    window.currentPath = `${resourcePath}${config.main}/` // 当前示例的配置
 
     Object.defineProperty(window, "mapWork", {
       get() {
@@ -85,7 +88,7 @@ onMounted(async () => {
     })
 
     const loadQueen: string[] = []
-    let resources = getResourcesByLibs(config.libs, process.env.BASE_URL + "lib/")
+    let resources = Util.getResourcesByLibs(config.libs)
     if (config.resources) {
       resources = resources.concat([...config.resources])
     }
@@ -101,10 +104,12 @@ onMounted(async () => {
     })
     loadQueen.push("temp/styles/style.css")
 
-    LoadSource(loadQueen).then(() => {
-      loadScript(`${resourcePath}${config.main}/map.js`, false)
-      loadScript("/temp/scripts/common.js", false)
+    Util.LoadSource(loadQueen).then(() => {
+      Util.loadScript(`${resourcePath}${config.main}/map.js`, false)
+      Util.loadScript("/temp/scripts/common.js", false)
     })
+  } else {
+   $message("请检查ID是否存在")
   }
 })
 

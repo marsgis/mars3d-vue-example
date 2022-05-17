@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -57,4 +57,19 @@ function showHeatMap(arrPoints) {
     flyTo: true
   })
   map.addLayer(heatLayer)
+
+  map.on(mars3d.EventType.mouseMove, (e) => {
+    const point = mars3d.LngLatPoint.fromCartesian(e.cartesian)
+    const data = heatLayer.getPointData(point)
+
+    const inhtml = `
+      经度: ${point.lng} <br />
+      纬度: ${point.lat} <br />
+      X值: ${data.x} <br />
+      Y值: ${data.y} <br />
+      value值: ${data.value} <br />
+      颜色:<span style="background-color: ${data.color};padding:2px 5px;">${data.color}</span>
+      `
+    map.openSmallTooltip(e.windowPosition, inhtml)
+  })
 }

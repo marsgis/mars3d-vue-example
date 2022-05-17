@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer
 
 let roamLine
@@ -17,7 +17,7 @@ export const mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -43,7 +43,7 @@ export function onMounted(mapInstance) {
   graphicLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-  tilesetLayer.readyPromise.then(function(layer) {
+  tilesetLayer.readyPromise.then(function (layer) {
     console.log("tileset图层load完成", layer)
 
     addGraphicLayer()
@@ -82,8 +82,7 @@ function addGraphicLayer() {
       type: "gs",
       heading: 0,
       radius: 500
-    },
-    clampToTileset: true // 标识贴模型漫游
+    }
   })
 
   graphicLayer.addGraphic(roamLine)
@@ -135,7 +134,7 @@ function addGraphicLayer() {
   // startFly()
 
   // 贴地时，异步计算完成后开始
-  roamLine.clampToGround(function () {
+  roamLine.clampToGround({ has3dtiles: true }).then(function () {
     // 异步计算完成贴地后再启动
     startFly()
   })

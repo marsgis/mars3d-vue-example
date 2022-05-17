@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -131,7 +131,7 @@ function addWmsLayer() {
 
 
 
-// 图层状态 layer-state.vue 中进行管理的图层
+// 图层状态 在组件中进行管理的图层
 export function getManagerLayer() {
   return map.getLayer("建筑物面WFS", "name")
 }

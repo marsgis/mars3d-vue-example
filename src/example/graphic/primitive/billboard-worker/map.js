@@ -2,7 +2,7 @@
 
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 let imgData = null
@@ -86,7 +86,7 @@ function onMap_cameraChanged() {
 
 function startWorker(strBounds) {
   startTimestamp = endTimestamp = new Date().getTime()
-  worker = new Worker(currentPath + `aqiWorker.js`) // currentPath为当前目录，内置在示例框架中
+  worker = new Worker(window.currentPath + `aqiWorker.js`) // currentPath为当前目录，内置在示例框架中
 
   // 主线程调用worker.postMessage()方法，向 Worker 发消息。
   worker.postMessage({

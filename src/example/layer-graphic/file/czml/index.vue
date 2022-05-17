@@ -52,7 +52,7 @@ const layersObj: any = {}
 const isUrl = getQueryString("data") == null
 isShow.value = isUrl
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("loadGraphicLayer", function (event: any) {
   const modelList = event.data.list
   const tree = []
   const selects: string[] = []

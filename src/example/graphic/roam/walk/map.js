@@ -1,11 +1,11 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let roamLine
 const roamLineData = {}
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -160,7 +160,7 @@ function addGraphicLayer() {
   startFly()
 
   // 贴地时，异步计算完成后开始
-  // roamLine.clampToGround(function (e) {//异步计算完成贴地后再启动
+  // roamLine.clampToGround({ has3dtiles: true }).then(function () {//异步计算完成贴地后再启动
   //     //贴地后的路线值为flyLine.positions
   //     startFly()
   // });

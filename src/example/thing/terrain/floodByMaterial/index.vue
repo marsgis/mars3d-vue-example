@@ -91,7 +91,7 @@ const isShow = ref(false)
 
 let floodByMaterial: any
 
-mapWork.eventTarget.on("loadOk", (e: any) => {
+mapWork.eventTarget.on("loadFloodByMaterial", (e: any) => {
   floodByMaterial = e.floodByMaterial
   floodByMaterial.speed = Number(formState.speed)
 })

@@ -7,7 +7,7 @@ import * as mars3d from "mars3d"
 
 let map: mars3d.Map // 地图对象
 
-// 事件对象，用于抛出事件给vue
+// 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
 // 初始化当前业务

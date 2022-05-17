@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -176,7 +176,7 @@ function addDemoGraphic3(graphicLayer) {
   graphicLayer.addGraphic(primitive) // primitive.addTo(graphicLayer)  //另外一种写法
 }
 
-export function addPrimitiveData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   map.setCameraView({ lat: 30.648084, lng: 116.747173, alt: 29041, heading: 317, pitch: -32 })

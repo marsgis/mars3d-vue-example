@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 let arrData
 
@@ -181,24 +181,23 @@ export function getDataSurfaceHeight() {
 
   mars3d.PolyUtil.computeSurfacePoints({
     map: map,
-    positions: positions,
-    callback: function (raisedPositions, noHeight) {
-      hideLoading()
-      if (noHeight) {
-        console.log("部分数据未获取到高度值，贴地高度计算存在误差")
-      }
-
-      for (let i = 0, len = arrData.length; i < len; i++) {
-        const item = arrData[i]
-        const point = mars3d.LngLatPoint.fromCartesian(raisedPositions[i])
-
-        item[lonCol] = point.lng
-        item[latCol] = point.lat
-        item[heightCol] = point.alt // 得到计算的高度值
-      }
-
-      mars3d.Util.downloadFile("point.json", JSON.stringify({ data: arrData }))
+    positions: positions
+  }).then((result) => {
+    hideLoading()
+    if (result.noHeight) {
+      console.log("部分数据未获取到高度值，贴地高度计算存在误差")
     }
+
+    for (let i = 0, len = arrData.length; i < len; i++) {
+      const item = arrData[i]
+      const point = mars3d.LngLatPoint.fromCartesian(result.positions[i])
+
+      item[lonCol] = point.lng
+      item[latCol] = point.lat
+      item[heightCol] = point.alt // 得到计算的高度值
+    }
+
+    mars3d.Util.downloadFile("point.json", JSON.stringify({ data: arrData }))
   })
 }
 

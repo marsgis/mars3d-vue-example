@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 let allCount
 let lastSelectWX
@@ -26,7 +26,7 @@ export const mapOptions = {
   },
   terrain: false
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -193,8 +193,7 @@ function initData(arr) {
 // 采用多线程来计算卫星位置
 let worker
 function initWorker(arr) {
-  worker = new Worker(currentPath + "tleWorker.js") // currentPath为当前目录，内置在示例框架中
-
+  worker = new Worker(window.currentPath + "tleWorker.js") // currentPath为当前目录，内置在示例框架中
   worker.onmessage = function (event) {
     const time = event.data.time
     const positionObj = event.data.positionObj

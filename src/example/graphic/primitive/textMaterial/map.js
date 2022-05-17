@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -154,7 +154,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 添加数据
-export function addPrimitiveData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   map.centerAt({ lat: 29.81612, lng: 121.476177, alt: 945, heading: 179, pitch: -22 })
@@ -204,13 +204,10 @@ export function addPrimitiveData(count) {
 
 // 清除数据
 
-
 // 取随机数据
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-
-
 
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
@@ -223,8 +220,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 在图层级处理一些事物
 function bindLayerEvent() {

@@ -109,7 +109,7 @@ const formState = reactive<FormState>({
   slideRollStep: 0
 })
 
-mapWork.eventTarget.on("loadOK", (e: any) => {
+mapWork.eventTarget.on("loadRoamLine", (e: any) => {
   const data = e.roamLine.options.camera
 
   formState.select = data.type

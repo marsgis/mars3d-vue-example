@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let shadows
 
 export const mapOptions = {
@@ -13,7 +13,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -47,8 +47,6 @@ export function onMounted(mapInstance) {
     const shadowTime = shadows.time
     eventTarget.fire("changeShadows", { shadowTime })
   })
-
-  eventTarget.fire("loadOk")
 }
 
 /**

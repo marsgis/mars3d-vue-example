@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRaw } from "vue"
+import { reactive, ref, toRaw, onMounted } from "vue"
 import DataManage from "@mars/components/mars-sample/data-manage.vue"
 import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import { $notify } from "@mars/components/mars-ui/index"
@@ -123,7 +123,7 @@ const sensorParams = reactive<Sensor>({
 })
 
 // 初始化加载模型
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   $notify("已知问题提示", `（1）该矢量对象不支持拾取`, { duration: null })
   mapWork.addDemoGraphic1(toRaw(sensorParams))
 })

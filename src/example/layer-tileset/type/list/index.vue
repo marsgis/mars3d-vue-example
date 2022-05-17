@@ -20,11 +20,12 @@ const checkedKeys = ref<string[]>([])
 const layersObj: any = {}
 
 const state = ref(false)
+const state2 = ref(false)
 
 let treeModelData: any = {}
-let tianLayer
+let tianLayer // 暂存天鹅湖模型
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("loadTypeList", function (event: any) {
   treeModelData = event.modelData
   initTree()
 })
@@ -46,6 +47,7 @@ const checkedChange = (_keys: string[], item: any) => {
     if (node.title === "合肥市区") {
       // 城市白模
       tianLayer = layer
+      state2.value = true
       if (state.value === true) {
         // 判断倾斜摄影天鹅湖模型存在，重新切割防止重叠
         mapWork.cutModel(layer)
@@ -55,20 +57,49 @@ const checkedChange = (_keys: string[], item: any) => {
     if (node.title === "合肥天鹅湖" && !node.checked) {
       // 倾斜摄影天鹅湖
       state.value = true
-      if (tianLayer) {
+      if (state2.value === true) {
         mapWork.cutModel(tianLayer)
       }
     }
   }
 
+  // 处理子节点
+  if (item.node.children && item.node.children.length) {
+    renderChildNode(_keys, item.node.children)
+  }
+
   // 删除模型
   if (isChildern.length === 0 && node.checked) {
-    mapWork.removeLayer(layer)
+    layer.show = false
 
     if (node.title === "合肥天鹅湖") {
       state.value = false
     }
+
+    if (node.title === "合肥市区") {
+      state2.value = false
+    }
   }
+}
+
+function renderChildNode(keys: string[], children: any[]) {
+  children.forEach((child) => {
+    const layer = layersObj[child.key]
+    if (layer) {
+      if (!layer.isAdded) {
+        mapWork.addLayer(layer)
+      }
+
+      if (keys.indexOf(child.key) !== -1) {
+        layer.show = true
+      } else {
+        layer.show = false
+      }
+      if (child.children) {
+        renderChildNode(keys, child.children)
+      }
+    }
+  })
 }
 
 function initTree() {

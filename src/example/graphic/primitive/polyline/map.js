@@ -1,8 +1,7 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
-
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -11,7 +10,7 @@ export const mapOptions = {
   }
 }
 
-// 事件对象，用于抛出事件给vue
+// 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
 /**
@@ -369,7 +368,7 @@ function addDemoGraphic13(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
-export function addPrimitiveData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   showLoading()

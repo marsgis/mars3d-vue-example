@@ -82,11 +82,10 @@ const formState: UnwrapRef<FormState> = reactive({
   isShowBox: true
 })
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   const point = [formState.lng, formState.lat, formState.alt]
   mapWork.tilesetBoxClipDemo(point)
 })
-
 // 监听到事件
 mapWork.eventTarget.on("hasDraw", (item: any) => {
   formState.lng = item.point.lng

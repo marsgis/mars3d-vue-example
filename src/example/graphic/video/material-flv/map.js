@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 import { $message } from "@mars/components/mars-ui/index"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 let videoElement
 

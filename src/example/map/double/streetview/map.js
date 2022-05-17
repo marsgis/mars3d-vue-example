@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let tileLayer
 let graphicLayer
 
@@ -90,7 +90,7 @@ function creatDom() {
 
   const iframDom = mars3d.DomUtil.create("iframe", "stree", divDom)
   iframDom.setAttribute("id", "streeScape")
-  iframDom.setAttribute("src", currentPath + "baidu.html?lng=117.215219&lat=31.861592") // currentPath为当前目录，内置在示例框架中
+  iframDom.setAttribute("src", window.currentPath + "baidu.html?lng=117.215219&lat=31.861592") // currentPath为当前目录，内置在示例框架中
 }
 let typeView = 0
 

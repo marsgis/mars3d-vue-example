@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 /**
@@ -114,7 +114,7 @@ function addDemoGraphic4(graphicLayer) {
 }
 
 // 添加数据
-export function addPrimitiveData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   showLoading()
@@ -154,8 +154,6 @@ export function addPrimitiveData(count) {
 }
 // 清除数据
 
-
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -167,8 +165,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 在图层级处理一些事物
 function bindLayerEvent() {

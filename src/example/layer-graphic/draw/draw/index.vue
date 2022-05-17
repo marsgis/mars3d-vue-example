@@ -176,7 +176,7 @@ const onChangeOnlyPickModel = () => {
 
 // 点击清除按钮
 const onClickClear = () => {
-  mapWork.clearAllGraphic()
+  mapWork.graphicLayer.clear()
 }
 
 // 点击保存GeoJSON

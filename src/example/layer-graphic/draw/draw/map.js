@@ -1,7 +1,7 @@
 import * as mars3d from "mars3d"
 // import kgUtil from "kml-geojson"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 export const mapOptions = {
@@ -283,9 +283,9 @@ export function drawExtrudedCircle() {
 // 在图层级处理一些事物
 function bindLayerEvent() {
   // 在layer上绑定监听事件
-  graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event)
-  })
+  // graphicLayer.on(mars3d.EventType.click, function (event) {
+  //   console.log("监听layer，单击了矢量对象", event)
+  // })
   /* graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
       console.log("监听layer，鼠标移入了矢量对象", event)
     })
@@ -294,9 +294,9 @@ function bindLayerEvent() {
     }) */
 
   // 数据编辑相关事件， 用于属性弹窗的交互
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    eventTarget.fire("graphicEditor-start", e)
-  })
+  // graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+  //   eventTarget.fire("graphicEditor-start", e)
+  // })
   graphicLayer.on(
     [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
     function (e) {
@@ -468,10 +468,7 @@ export function updateOnlyPickModelPosition(value) {
   map.onlyPickModelPosition = value
 }
 
-// 清除
-export function clearAllGraphic() {
-  graphicLayer.clear()
-}
+
 
 /**
  * 打开geojson文件

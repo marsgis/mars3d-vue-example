@@ -27,7 +27,7 @@
           @change="handleChange"
         ></mars-select>
 
-        <div class="f-mb gltfImg" v-auto-height="200">
+        <div class="f-mb gltfImg">
           <ul>
             <li v-for="imgs in dataList" :key="imgs.name">
               <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
@@ -82,7 +82,7 @@ const selectOptions = ref<any[]>([])
 const value1 = ref<string>("车辆")
 const dataList = ref<any[]>([])
 
-mapWork.eventTarget.on("loadOk", function (event: any) {
+mapWork.eventTarget.on("loadModelList", function (event: any) {
   modelData = event.data
   // 下拉框数据
   Object.keys(modelData).forEach((k) => {

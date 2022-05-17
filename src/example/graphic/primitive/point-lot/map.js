@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayerElllipsoid
 
 const center = Cesium.Cartesian3.fromDegrees(117.167848, 31.814011, 46) // 事发点

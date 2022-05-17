@@ -1,10 +1,10 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let floodByGraphic
 let drawPotions
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -30,13 +30,14 @@ export function onMounted(mapInstance) {
     console.log("开始分析", e)
   })
   floodByGraphic.on(mars3d.EventType.change, function (e) {
-    console.log("高度发生了变化", e.height)
+    const height = e.height
+    eventTarget.fire("heightChange", { height })
   })
   floodByGraphic.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })
 
-  eventTarget.fire("loadOk", { floodByGraphic })
+  eventTarget.fire("loadFloodByGraphic", { floodByGraphic })
 }
 
 /**
@@ -111,7 +112,7 @@ export function clearDraw() {
 }
 
 // 开始分析
-export function begin(data) {
+export function begin(data, callback) {
   if (drawPotions == null) {
     globalMsg("请首先绘制分析区域！")
     return
@@ -129,4 +130,19 @@ export function begin(data) {
     speed: speed
   })
   floodByGraphic.start()
+  callback()
+}
+
+// 高度选择
+export function onChangeHeight(height) {
+  floodByGraphic.height = height
+}
+
+// 自动播放
+export function startPlay() {
+  if (floodByGraphic.isStart) {
+    floodByGraphic.stop()
+  } else {
+    floodByGraphic.start()
+  }
 }

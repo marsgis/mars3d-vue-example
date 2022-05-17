@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -83,7 +83,7 @@ function addDemoGraphic1(graphicLayer) {
     })
 }
 
-export function addCombineData(count) {
+export function addDemoGraphic(count) {
   graphicLayer.clear()
 
   showLoading()
@@ -128,8 +128,6 @@ export function addCombineData(count) {
 
   globalMsg("生成" + arrData.length + "条数据，共耗时" + usedTime.toFixed(2) + "秒")
 }
-
-
 
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {

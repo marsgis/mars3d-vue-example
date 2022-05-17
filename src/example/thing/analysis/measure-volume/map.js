@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let measure
 let measureVolume
 
@@ -11,7 +11,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -97,7 +97,7 @@ function showHeightVal() {
   const minHeight = measureVolume.minHeight.toFixed(1)
   const maxHeight = getFixedNum(measureVolume.maxHeight)
 
-  // 触发自定义事件 heightVal ，改变vue面板中的值
+  // 触发自定义事件 heightVal ，改变组件面板中的值
   eventTarget.fire("heightVal", { baseHeight, minHeight, maxHeight })
 }
 
@@ -171,7 +171,9 @@ export function selHeight() {
     globalMsg("请先开始方量分析")
     return
   }
-  measureVolume.selecteHeight(showHeightVal)
+  measureVolume.selecteHeight().then((height) => {
+    showHeightVal()
+  })
 }
 
 // 显示mars3d.polygon.interPolygon处理后的面内插值分析结果，主要用于测试对比

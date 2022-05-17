@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let currSkyBox // 当前生效的Skybox
 let defaultSkybox // cesium自带的Skybox

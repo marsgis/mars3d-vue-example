@@ -99,7 +99,7 @@ let currWD: number
 let currGD: number
 
 // 默认显示地图中心点坐标
-mapWork.eventTarget.on("loadOK", function (event: any) {
+mapWork.eventTarget.on("loadCenterPoint", function (event: any) {
   const point = event.point
   currJD = point.lng
   currWD = point.lat

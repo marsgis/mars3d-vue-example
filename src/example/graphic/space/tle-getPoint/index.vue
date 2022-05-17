@@ -6,10 +6,18 @@
       </a-form-item>
 
       <a-form-item label="开始时间:">
-        <mars-date-picker v-model:value="formState.startTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+        <mars-date-picker
+          v-model:value="formState.startTime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
+        />
       </a-form-item>
       <a-form-item label="结束时间:">
-        <mars-date-picker v-model:value="formState.endTime" format="YYYY-MM-DD HH:mm:ss" :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
+        <mars-date-picker
+          v-model:value="formState.endTime"
+          format="YYYY-MM-DD HH:mm:ss"
+          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
+        />
       </a-form-item>
 
       <a-form-item label="区域颜色:">
@@ -60,9 +68,7 @@ const formState = reactive<FormState>({
   guidaoJ: true
 })
 
-
-
-mapWork.eventTarget.on("loadOK", (event: any) => {
+mapWork.eventTarget.on("loadStatellite", (event: any) => {
   formState.startTime = dayjs(event.startTime, "YYYY-MM-DD HH:mm:ss")
   formState.endTime = dayjs(event.endTime, "YYYY-MM-DD HH:mm:ss")
 })

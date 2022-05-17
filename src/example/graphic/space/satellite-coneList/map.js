@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let weixin
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -20,7 +20,7 @@ export const mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -130,8 +130,8 @@ function addSatellite() {
       const point = mars3d.LngLatPoint.fromCartesian(weixin.position)
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
-      weixinData.td_gd = formatLength(point.alt)
-      eventTarget.fire("realData", weixinData)
+      weixinData.td_gd = mars3d.MeasureUtil.formatDistance(point.alt)
+      eventTarget.fire("satelliteChange", { weixinData })
     }
   })
 
@@ -179,22 +179,4 @@ export function locate() {
 // 参考轴系显示与隐藏
 export function chkShowModelMatrix(val) {
   weixin.debugAxis = val
-}
-
-function formatLength(val, unit) {
-  if (val == null) {
-    return ""
-  }
-  val = Number(val)
-
-  if (unit == null || unit === "auto") {
-    if (val < 1000) {
-      unit = "m"
-    } else {
-      unit = "km"
-    }
-  }
-  const valstr = (val * 0.001).toFixed(2) + "公里"
-
-  return valstr
 }

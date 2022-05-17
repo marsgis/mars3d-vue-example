@@ -68,7 +68,7 @@ interface Props {
   customClass?: string // 自定义class
 }
 const props = withDefaults(defineProps<Props>(), {
-  warpper: "app",
+  warpper: "sanbox-warpper",
   title: "",
   visible: false,
   width: 200,
@@ -194,11 +194,15 @@ function initSize() {
 function resize() {
   const pb = pannelBox.value
   const warpper = document.getElementById(mergeProps.value.warpper)
-  if (pb.offsetTop + pb.offsetHeight > warpper!.offsetHeight) {
-    pb.style.height = antoUnit(Math.max(warpper!.offsetHeight - pb.offsetTop, mergeProps.value.minHeight))
+  if (!warpper) {
+    return
   }
-  if (pb.offsetLeft + pb.offsetWidth > warpper!.offsetWidth) {
-    pb.style.width = antoUnit(Math.max(warpper!.offsetWidth - pb.offsetLeft, mergeProps.value.minWidth))
+
+  if (pb.offsetTop + pb.offsetHeight > warpper.offsetHeight) {
+    pb.style.height = antoUnit(Math.max(warpper.offsetHeight - pb.offsetTop, mergeProps.value.minHeight))
+  }
+  if (pb.offsetLeft + pb.offsetWidth > warpper.offsetWidth) {
+    pb.style.width = antoUnit(Math.max(warpper.offsetWidth - pb.offsetLeft, mergeProps.value.minWidth))
   }
 }
 
@@ -214,13 +218,17 @@ function antoUnit(value: number | string) {
 // 移动窗口
 function mousedown(event: any) {
   const warpper = document.getElementById(mergeProps.value.warpper)
+  if (!warpper) {
+    return
+  }
+
   const pb = pannelBox.value
   const x = event.clientX
   const y = event.clientY
   const bl = pb.offsetLeft
   const bt = pb.offsetTop
-  const maxLeft = warpper!.offsetWidth - pb.offsetWidth
-  const maxTop = warpper!.offsetHeight - pb.offsetHeight
+  const maxLeft = warpper.offsetWidth - pb.offsetWidth
+  const maxTop = warpper.offsetHeight - pb.offsetHeight
 
   pb.style.height = antoUnit(pb.offsetHeight) // 处理没有height的情况
 

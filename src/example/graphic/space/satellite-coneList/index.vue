@@ -66,14 +66,15 @@ const formState: UnwrapRef<FormState> = reactive({
   td_gd: 0
 })
 
-mapWork.eventTarget.on("realData", (e: any) => {
-  formState.name = e.name
-  formState.tle1 = e.tle1
-  formState.tle2 = e.tle2
-  formState.time = e.time
-  formState.td_jd = e.td_jd
-  formState.td_wd = e.td_wd
-  formState.td_gd = e.td_gd
+mapWork.eventTarget.on("satelliteChange", (e: any) => {
+  const nowData = e.weixinData
+  formState.name = nowData.name
+  formState.tle1 = nowData.tle1
+  formState.tle2 = nowData.tle2
+  formState.time = nowData.time
+  formState.td_jd = nowData.td_jd
+  formState.td_wd = nowData.td_wd
+  formState.td_gd = nowData.td_gd
 })
 
 // 定位至卫星

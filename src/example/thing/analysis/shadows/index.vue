@@ -47,7 +47,7 @@ mapWork.eventTarget.on("changeShadows", (event: any) => {
   timeVal.value = date.getHours() * 60 + date.getMinutes()
 })
 
-mapWork.eventTarget.on("loadOk", () => {
+onMounted(() => {
   timeChange()
 })
 

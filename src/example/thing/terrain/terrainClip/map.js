@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let terrainClip
 
 export const mapOptions = {
@@ -74,7 +74,7 @@ function addTerrainClip() {
   )
   addTableItem(areaItem2)
 
-  eventTabel.fire("loadOK", { terrainClip })
+  eventTabel.fire("loadTerrainClip", { terrainClip })
 }
 
 // 添加矩形

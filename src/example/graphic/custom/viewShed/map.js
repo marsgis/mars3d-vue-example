@@ -1,10 +1,10 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer
 let selectedView
 
-// 事件对象，用于抛出事件给vue
+// 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
 export const mapOptions = {

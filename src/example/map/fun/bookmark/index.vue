@@ -81,7 +81,8 @@ const butAddTxtName = () => {
 }
 
 // 触发事件
-mapWork.eventTarget.on("addImgObject", (item: any) => {
+mapWork.eventTarget.on("addImgObject", (event: any) => {
+  const item = event.item
   formState.imgObject.push({ name: item.name, img: item.image, center: item.center })
 
   // 记录到历史

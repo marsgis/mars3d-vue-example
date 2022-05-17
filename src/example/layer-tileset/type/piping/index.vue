@@ -69,10 +69,7 @@ const formState: UnwrapRef<FormState> = reactive({
 // 深度
 const heightVal = ref<number>(30)
 
-mapWork.eventTarget.on("loadOk", () => {
-  // 创建Echarts图层
-  mapWork.terrainClips(heightVal.value)
-})
+
 
 // 深度改变
 const heightChange = () => {

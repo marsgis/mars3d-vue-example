@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 export const echartTarget = new mars3d.BaseClass()
 
@@ -168,28 +168,26 @@ function computeSurfacePointsHeight(polylines5) {
   // 绘制断面图
   mars3d.PolyUtil.computeSurfacePoints({
     scene: map.scene,
-    positions: polylines5, // 需要计算的源路线坐标数组
-    callback: function (raisedPositions) {
-      // raisedPositions为含高程信息的新坐标数组，noHeight为标识是否存在无地形数据。
-      const heightArry = []
-      const heightTDArray = []
-      let distanceArray
-      for (let i = 0; i < polylines5.length; i++) {
-        const item = polylines5[i]
-        const carto = Cesium.Cartographic.fromCartesian(item)
+    positions: polylines5 // 需要计算的源路线坐标数组
+  }).then((result) => {
+    const heightArry = []
+    const heightTDArray = []
+    let distanceArray
+    for (let i = 0; i < polylines5.length; i++) {
+      const item = polylines5[i]
+      const carto = Cesium.Cartographic.fromCartesian(item)
 
-        const height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
-        const tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(raisedPositions[i]).height) // 地面高度
-        heightArry.push(height)
-        heightTDArray.push(tdHeight)
+      const height = mars3d.Util.formatNum(carto.height) // 设计高度  当小数点后面的数字一致时，会省略小数点，不显示
+      const tdHeight = mars3d.Util.formatNum(Cesium.Cartographic.fromCartesian(result.positions[i]).height) // 地面高度
+      heightArry.push(height)
+      heightTDArray.push(tdHeight)
 
-        // 距离数组
-        const positionsLineFirst = raisedPositions[0]
-        distanceArray = raisedPositions.map(function (data) {
-          return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
-        })
-      }
-      echartTarget.fire("addEchart", { heightArry, heightTDArray, distanceArray })
+      // 距离数组
+      const positionsLineFirst = result.positions[0]
+      distanceArray = result.positions.map(function (data) {
+        return Math.round(Cesium.Cartesian3.distance(data, positionsLineFirst)) // 计算两点之间的距离,返回距离
+      })
     }
+    echartTarget.fire("addEchart", { heightArry, heightTDArray, distanceArray })
   })
 }

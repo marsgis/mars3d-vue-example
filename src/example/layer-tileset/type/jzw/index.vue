@@ -71,9 +71,7 @@ const activeKey = ref(["1", "2", "3"])
 // 透明度
 const alphaVal = ref<number>(1.5)
 
-mapWork.eventTarget.on("loadOk", () => {
-  mapWork.addbrightnessEffect(alphaVal.value)
-})
+
 
 // 原始样式
 const setStyleDef = () => {

@@ -30,7 +30,7 @@
       </a-space>
     </div>
   </mars-pannel>
-  <mars-pannel :visible="true" right="10" top="210" width="300">
+  <mars-pannel :visible="true" right="10" bottom="50" width="300">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -96,15 +96,15 @@ const formState = reactive<FormState>({
   td_gd: 0
 })
 
-mapWork.eventTarget.on("realData", (event: any) => {
+mapWork.eventTarget.on("satelliteChange", (event: any) => {
   mapWork.centerPoint(angleValue.value)
-  formState.name = event.name
-  formState.tle1 = event.tle1
-  formState.tle2 = event.tle2
-  formState.time = event.time
-  formState.td_jd = event.td_jd
-  formState.td_wd = event.td_wd
-  formState.td_gd = event.td_gd
+  formState.name = event.weixinData.name
+  formState.tle1 = event.weixinData.tle1
+  formState.tle2 = event.weixinData.tle2
+  formState.time = event.weixinData.time
+  formState.td_jd = event.weixinData.td_jd
+  formState.td_wd = event.weixinData.td_wd
+  formState.td_gd = event.weixinData.td_gd
 })
 
 // 俯仰角

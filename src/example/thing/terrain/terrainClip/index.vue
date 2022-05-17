@@ -110,7 +110,7 @@ const rowSelection = ref({
   }
 })
 
-mapWork.eventTabel.on("loadOk", (e: any) => {
+mapWork.eventTabel.on("loadTerrainClip", (e: any) => {
   e.terrainClip.diffHeight = formState.txtHeight
 
   $notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")

@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -22,7 +22,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 // 时间控制参数
 const args = {
@@ -82,13 +82,12 @@ function addLayer() {
   // 求对比的贴地地面高度（用于echarts展示）
   mars3d.PolyUtil.computeSurfacePoints({
     scene: map.scene,
-    positions: positionsNew, // 需要计算的源路线坐标数组
-    callback: function (raisedPositions, noHeight) {
-      // raisedPositions为含高程信息的新坐标数组，noHeight为标识是否存在无地形数据。
-      console.log("含高程信息的新坐标数组", raisedPositions)
+    positions: positionsNew // 需要计算的源路线坐标数组
+  }).then((result) => {
+    // raisedPositions为含高程信息的新坐标数组，noHeight为标识是否存在无地形数据。
+    console.log("含高程信息的新坐标数组", result.positions)
 
-      inintRoad(positionsNew, raisedPositions)
-    }
+    inintRoad(positionsNew, result.positions)
   })
 }
 

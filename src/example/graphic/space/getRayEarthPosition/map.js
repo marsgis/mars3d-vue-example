@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let weixin
 let graphicLayer
 let graphicTriangle
@@ -23,7 +23,7 @@ export const mapOptions = {
     compass: { top: "10px", left: "5px" }
   }
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -33,7 +33,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
-  map.toolbar.style.bottom = "55px"// 修改toolbar控件的样式
+  map.toolbar.style.bottom = "55px" // 修改toolbar控件的样式
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -127,7 +127,7 @@ function addSatellite() {
       weixinData.td_jd = point.lng
       weixinData.td_wd = point.lat
       weixinData.td_gd = mars3d.MeasureUtil.formatDistance(point.alt)
-      eventTarget.fire("realData", weixinData)
+      eventTarget.fire("satelliteChange", { weixinData })
     }
   })
 }

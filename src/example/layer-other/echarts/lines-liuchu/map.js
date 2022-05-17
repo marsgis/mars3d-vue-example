@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -233,11 +233,9 @@ function getEchartsOption() {
           symbolSize: 3
         },
         lineStyle: {
-          normal: {
-            color: color[0],
-            width: 0,
-            curveness: 0.2
-          }
+          color: color[0],
+          width: 0,
+          curveness: 0.2
         },
         data: convertData(item[1])
       },
@@ -247,13 +245,6 @@ function getEchartsOption() {
         type: "lines",
         coordinateSystem: "mars3dMap",
         zlevel: 2,
-        // effect: {
-        //    show: true,
-        //    period: 6,
-        //    trailLength: 0,
-        //    symbol: planePath,
-        //    symbolSize: 15
-        // },
         effect: {
           show: true,
           period: 6,
@@ -263,46 +254,41 @@ function getEchartsOption() {
           symbolSize: 5
         },
         lineStyle: {
-          normal: {
-            color: color[1],
-            width: 1,
-            opacity: 0.4,
-            curveness: 0.2
-          }
+          color: color[1],
+          width: 1,
+          opacity: 0.4,
+          curveness: 0.2
         },
         data: convertData(item[1])
       },
       {
         // 省份圆点
         name: item[0],
-        //                      name: item[0] + ' Top10',
+        // name: item[0] + ' Top10',
         type: "effectScatter",
         coordinateSystem: "mars3dMap",
-        zlevel: 2,
+        zlevel: 3,
         rippleEffect: {
           brushType: "stroke"
         },
         label: {
-          normal: {
-            show: true,
-            position: "right",
-            formatter: "{b}"
-          }
+          show: true,
+          position: "right",
+          formatter: "{b}",
+          color: "inherit"
         },
         symbolSize: function (val) {
           return val[2] / 6
         },
         itemStyle: {
-          normal: {
-            color: function (params) {
-              const tmp = params.data.value[2]
-              if (tmp < 100) {
-                return "green"
-              } else if (tmp > 150) {
-                return "red"
-              } else {
-                return "yellow"
-              }
+          color: function (params) {
+            const tmp = params.data.value[2]
+            if (tmp < 100) {
+              return "green"
+            } else if (tmp > 150) {
+              return "red"
+            } else {
+              return "yellow"
             }
           }
         },
@@ -341,16 +327,6 @@ function getEchartsOption() {
           return params.data.fromName + "→" + params.data.toName
         }
       }
-    },
-    legend: {
-      orient: "vertical",
-      top: "6%",
-      left: "center",
-      data: ["北京市"],
-      textStyle: {
-        color: "#fff"
-      },
-      selectedMode: "single"
     },
 
     series: mySeries

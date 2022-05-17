@@ -54,7 +54,7 @@ const formState: UnwrapRef<FormState> = reactive({
   slideRollStep: 10
 })
 
-mapWork.eventTarget.on("loadOk", () => {
+mapWork.eventTarget.on("loadRoamLine", () => {
   mapWork.updateModel(false, formState)
 })
 

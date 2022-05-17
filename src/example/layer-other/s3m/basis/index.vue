@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const showMaxNiaochaoDemo = () => {

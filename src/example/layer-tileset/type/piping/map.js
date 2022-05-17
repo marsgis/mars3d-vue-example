@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 let underground
 let terrainPlanClip
 
@@ -15,7 +15,7 @@ export const mapOptions = {
   }
 }
 
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -40,7 +40,7 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(tiles3dLayer)
 
-  eventTarget.fire("loadOk")
+  terrainClips(30)
 }
 
 /**
@@ -113,6 +113,7 @@ export function terrainClips(heightVal) {
     splitNum: 50 // 井边界插值数
   })
   map.addThing(terrainPlanClip)
+
 }
 
 export function heightChange(num) {
@@ -121,8 +122,6 @@ export function heightChange(num) {
 
 // 绘制矩形
 export function drawExtent() {
-  terrainPlanClip.clear()
-
   map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -131,6 +130,7 @@ export function drawExtent() {
       outline: false
     },
     success: function (graphic) {
+      terrainPlanClip.clear()
       // 绘制成功后回调
       const positions = graphic.getOutlinePositions(false)
       map.graphicLayer.clear()
@@ -145,8 +145,6 @@ export function drawExtent() {
 
 // 绘制多边形
 export function drawPolygon() {
-  terrainPlanClip.clear()
-
   map.graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -155,6 +153,7 @@ export function drawPolygon() {
       clampToGround: true
     },
     success: function (graphic) {
+      terrainPlanClip.clear()
       // 绘制成功后回调
       const positions = graphic.positionsShow
       map.graphicLayer.clear()

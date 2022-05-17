@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 
-let map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 let queryMapserver
 let geoJsonLayer
@@ -12,7 +12,7 @@ export const mapOptions = {
     center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
   }
 }
-export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）

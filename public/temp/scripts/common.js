@@ -1,8 +1,8 @@
 "use script"
 
-const vueGlobal = window.parent || window
+const parentGlobal = window.parent || window
 
-vueGlobal.mars3d = mars3d // widget中使用
+parentGlobal.mars3d = mars3d // widget中使用
 
 function init() {
   // 判断webgl支持
@@ -26,11 +26,11 @@ function init() {
           resolve(mapObj)
         }
       }).then(function (m) {
-        vueGlobal._mapInstance = m
-        vueGlobal.mapWork = window
+        parentGlobal._mapInstance = m
+        parentGlobal.mapWork = window
       })
-      // vueGlobal._mapInstance = initMapFun(json.map3d)
-      // vueGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.vue内进行调用
+      // parentGlobal._mapInstance = initMapFun(json.map3d)
+      // parentGlobal.mapWork = window // 这句话是将当前js对象绑定赋予给index.项目内进行调用
     })
     .catch(function (error) {
       console.log("加载JSON出错", error)
@@ -53,25 +53,25 @@ function globalInitMap(options) {
   return new mars3d.Map("mars3dContainer", options)
 }
 
-// 调用vue的消息提示（自动消失）
+// 调用项目的消息提示（自动消失）
 function globalMsg(msg, type, ...args) {
-  return vueGlobal.$message(msg, type, ...args)
+  return parentGlobal.$message(msg, type, ...args)
 }
 
-// 调用vue的弹窗提示（手动单击确定关闭窗口）
+// 调用项目的弹窗提示（手动单击确定关闭窗口）
 function globalAlert(msg, title, ...args) {
-  return vueGlobal.$alert(msg, title, ...args)
+  return parentGlobal.$alert(msg, title, ...args)
 }
 
-// 调用vue的右上角信息提示（可关闭）
+// 调用项目的右上角信息提示（可关闭）
 function globalNotify(msg, disc, ...args) {
-  return vueGlobal.$notify(msg, disc, ...args)
+  return parentGlobal.$notify(msg, disc, ...args)
 }
 
 function showLoading(type) {
-  vueGlobal.$showLoading(type)
+  parentGlobal.$showLoading(type)
 }
 
 function hideLoading(type) {
-  vueGlobal.$hideLoading(type)
+  parentGlobal.$hideLoading(type)
 }
