@@ -5,8 +5,8 @@
     2) 包括0-12级影像底图(当前页面效果)<br />
     3) 包括所有模型数据：
     <a-space>
-      <mars-button href="editor.html?id=layer-tileset/type/list" target="_blank" class="noBorder">3dtiles模型</mars-button>
-      <mars-button href="editor.html?id=layer-graphic/draw/draw-model-list" target="_blank" class="noBorder">gltf模型</mars-button>
+      <mars-button href="editor-vue.html?id=layer-tileset/type/list" target="_blank" class="noBorder">3dtiles模型</mars-button>
+      <mars-button href="editor-vue.html?id=layer-graphic/draw/draw-model-list" target="_blank" class="noBorder">gltf模型</mars-button>
     </a-space>
     <br />
     4) 包括其他所有示例的json等文件

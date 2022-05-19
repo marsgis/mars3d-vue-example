@@ -146,13 +146,15 @@ const options: GuiItem[] = [
 mapWork.eventTarget.on("loadVideo", (e) => {
   const data = e.value
   nextTick(() => {
-    marsGuiRef.value.updateField("ckdFrustum", data.ckdFrustum) // 是否显示视椎线
-    marsGuiRef.value.updateField("cameraAngle", data.cameraAngle) // 水平角度
-    marsGuiRef.value.updateField("cameraAngle2", data.cameraAngle2) // 垂直角度
-    marsGuiRef.value.updateField("distanceValue", data.distanceValue) // 投射距离
-    marsGuiRef.value.updateField("pitchValue", data.pitchValue) // 俯仰角度
-    marsGuiRef.value.updateField("opcity", data.opcity) // 透明度
-    marsGuiRef.value.updateField("heading", data.heading) // 四周距离
+    marsGuiRef.value.updateFields({
+      ckdFrustum: data.ckdFrustum, // 是否显示视椎线
+      cameraAngle: data.cameraAngle, // 水平角度
+      cameraAngle2: data.cameraAngle2, // 垂直角度
+      distanceValue: data.distanceValue, // 投射距离
+      pitchValue: data.pitchValue, // 俯仰角度
+      opcity: data.opcity, // 透明度
+      heading: data.heading // 四周距离
+    })
   })
 })
 

@@ -21,6 +21,7 @@
       <a-space>
         <mars-button @click="updateExtra">改变后缀</mars-button>
         <mars-button @click="updateAll">完全替换</mars-button>
+        <mars-button @click="updateAllDate">批量更新</mars-button>
       </a-space>
     </div>
   </mars-pannel>
@@ -283,6 +284,13 @@ function updateAll() {
       }
     }
   ]
+}
+
+function updateAllDate() {
+  marsGuiRef.value.updateAllDate({
+    opcity: 0.8,
+    car: "货车"
+  })
 }
 </script>
 <style lang="less"></style>

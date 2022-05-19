@@ -17,7 +17,6 @@ export function onMounted(mapInstance) {
 
   // 基于polygon矢量面抬高模拟，只支持单个区域
   floodByGraphic = new mars3d.thing.FloodByGraphic({
-    // speed: speed,
     style: {
       color: "#007be6",
       opacity: 0.5,
@@ -36,8 +35,6 @@ export function onMounted(mapInstance) {
   floodByGraphic.on(mars3d.EventType.end, function (e) {
     console.log("结束分析", e)
   })
-
-  eventTarget.fire("loadFloodByGraphic", { floodByGraphic })
 }
 
 /**

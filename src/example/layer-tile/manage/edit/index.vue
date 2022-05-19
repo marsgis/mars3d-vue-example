@@ -289,8 +289,6 @@ const options: GuiItem[] = [
   }
 ]
 
-const formRef = ref()
-
 // const formState = reactive({
 //   url: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
 //   type: "xyz",
@@ -332,20 +330,19 @@ const onCheckedoutUrl = (data) => {
 
 const loadCoverage = async () => {
   // 加载图层
-  try {
-    await formRef.value.validate()
-    console.log("表单验证通过")
-    // mapWork.createTileLayer(formState)
-    mapWork.createTileLayer(updateValue)
-  } catch (err) {
-    console.log("表单验证失败")
-  }
+  // try {
+  //   await formRef.value.validate()
+  // console.log("表单验证通过")
+  // mapWork.createTileLayer(formState)
+  mapWork.createTileLayer(updateValue)
+  // } catch (err) {
+  //   console.log("表单验证失败")
+  // }
 }
 
 const reset = () => {
   // 重置参数
-  formRef.value.resetFields() // 重置表单校验
-
+  // marsGuiRef.value.resetFields()
   marsGuiRef.value.updateField("rectangle", "")
   // formState.rectangle = "" // 清空绘制区域输入框的数据
 

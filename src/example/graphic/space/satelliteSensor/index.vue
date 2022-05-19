@@ -5,7 +5,7 @@
         <span class="mars-pannel-item-label">视椎体状态:</span>
         <a-checkbox v-model:checked="sensorParams.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
         <mars-button @click="locate">定位至卫星</mars-button>
-        <mars-button href="editor.html?id=graphic/space/satelliteSensor-multi" target="_blank">双锥体示例</mars-button>
+        <mars-button href="editor-vue.html?id=graphic/space/satelliteSensor-multi" target="_blank">双锥体示例</mars-button>
       </a-space>
     </div>
 

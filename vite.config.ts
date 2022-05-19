@@ -73,7 +73,7 @@ export default ({ mode }: ConfigEnv) => {
       // 自定义底层的 Rollup 打包配置
       rollupOptions: {
         input: {
-          // index: path.resolve(__dirname, "index.html"),
+          index: path.resolve(__dirname, "index.html"),
           editor: path.resolve(__dirname, "editor-vue.html")
           // read: path.resolve(__dirname, "read-vue.html")
         }

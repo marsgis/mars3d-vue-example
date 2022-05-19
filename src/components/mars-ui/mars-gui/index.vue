@@ -24,8 +24,8 @@ import { computed, ref, watchEffect } from "vue"
 import { components, GuiItem } from "./index"
 
 const props = defineProps<{
-  options: GuiItem[],
-  labelCol:number
+  options: GuiItem[]
+  labelCol: number
 }>()
 
 const emits = defineEmits(["change"])
@@ -83,6 +83,13 @@ defineExpose({
     renderOptions.value.forEach((item) => {
       if (item.field === field) {
         item.extra = mergeExtra(value)
+      }
+    })
+  },
+  updateFields(fieldObj:any) {
+    renderOptions.value.forEach((item) => {
+      if (fieldObj[item.field]) {
+        item.value = fieldObj[item.field]
       }
     })
   },

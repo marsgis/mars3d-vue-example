@@ -30,7 +30,7 @@
         <div class="f-mb">
           <a-space>
             <span>调试页面:</span>
-            <mars-button href="editor.html?id=layer-tileset/manager/edit" target="_blank">模型参数调试</mars-button>
+            <mars-button href="editor-vue.html?id=layer-tileset/manager/edit" target="_blank">模型参数调试</mars-button>
           </a-space>
         </div>
       </a-collapse-panel>

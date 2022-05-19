@@ -153,7 +153,7 @@ mars3d-vue-example
 │─── package.json       项目配置信息
 └─── vite.config.ts     vite 配置文件
 └─── index.html         列表页入口
-└─── editor.html        编辑器页面入口
+└─── editor-vue.html        编辑器页面入口
 ```
 
 与示例相关的 3 个主要目录是：`src\example`、`public`、`src\components`(部分功能依赖)。
@@ -267,7 +267,7 @@ showLoading(type) // 显示loading
 hideLoading(type) // 关闭loading
 ```
 
-完成后我们即可访问 [http://localhost:8080/editor.html?id=map/sample](http://localhost:8080/editor.html?id=map/sample)来查看示例的效果。
+完成后我们即可访问 [http://localhost:8080/editor-vue.html?id=map/sample](http://localhost:8080/editor-vue.html?id=map/sample)来查看示例的效果。
 
 ### 4. (按需可选)配置其他依赖资源
 

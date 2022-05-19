@@ -43,6 +43,7 @@ export function query(keyWords) {
     success: (result) => {
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
+        geoJsonLayer.load({ data: { features: null } })
         return
       }
 

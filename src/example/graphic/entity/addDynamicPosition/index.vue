@@ -1,7 +1,7 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
     <layer-state />
-    <mars-button href="editor.html?id=graphic/entity/addDynamicPosition-tileset" target="_blank">动态贴模型示例</mars-button>
+    <mars-button href="editor-vue.html?id=graphic/entity/addDynamicPosition-tileset" target="_blank">动态贴模型示例</mars-button>
   </mars-pannel>
   <location-to />
 </template>

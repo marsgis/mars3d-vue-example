@@ -74,6 +74,8 @@ export function onUnmounted() {
   map = null
 }
 
+const flvUrl = "https://sf1-hscdn-tos.pstatp.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-360p.flv"
+
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
   videoElement.setAttribute("muted", "muted")
@@ -86,7 +88,7 @@ function createVideoDom() {
   if (window.flvjs.isSupported()) {
     const flvPlayer = window.flvjs.createPlayer({
       type: "flv",
-      url: "http://img.ksbbs.com/asset/Mon_1704/15868902d399b87.flv"
+      url: flvUrl
     })
     flvPlayer.attachMediaElement(videoElement)
     flvPlayer.load()

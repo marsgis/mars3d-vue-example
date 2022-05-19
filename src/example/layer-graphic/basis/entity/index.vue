@@ -30,23 +30,23 @@ import LayerState from "@mars/components/mars-sample/layer-state.vue"
 
 const list = {
   point: [
-    { name: "文字", href: "editor.html?id=graphic/entity/label" },
-    { name: "点", href: "editor.html?id=graphic/entity/point" },
-    { name: "图标点", href: "editor.html?id=graphic/entity/billboard" },
-    { name: "平面", href: "editor.html?id=graphic/entity/plane" },
-    { name: "盒子", href: "editor.html?id=graphic/entity/box" },
-    { name: "圆", href: "editor.html?id=graphic/entity/circle" },
-    { name: "圆锥", href: "editor.html?id=graphic/entity/cylinder" },
-    { name: "球", href: "editor.html?id=graphic/entity/ellipsoid" },
-    { name: "小模型", href: "editor.html?id=graphic/entity/model" }
+    { name: "文字", href: "editor-vue.html?id=graphic/entity/label" },
+    { name: "点", href: "editor-vue.html?id=graphic/entity/point" },
+    { name: "图标点", href: "editor-vue.html?id=graphic/entity/billboard" },
+    { name: "平面", href: "editor-vue.html?id=graphic/entity/plane" },
+    { name: "盒子", href: "editor-vue.html?id=graphic/entity/box" },
+    { name: "圆", href: "editor-vue.html?id=graphic/entity/circle" },
+    { name: "圆锥", href: "editor-vue.html?id=graphic/entity/cylinder" },
+    { name: "球", href: "editor-vue.html?id=graphic/entity/ellipsoid" },
+    { name: "小模型", href: "editor-vue.html?id=graphic/entity/model" }
   ],
   polyline: [
-    { name: "线", href: "editor.html?id=graphic/entity/polyline" },
-    { name: "管道", href: "editor.html?id=graphic/entity/polylineVolume" },
-    { name: "走廊", href: "editor.html?id=graphic/entity/corridor" },
-    { name: "墙", href: "editor.html?id=graphic/entity/wall" },
-    { name: "矩形", href: "editor.html?id=graphic/entity/rectangle" },
-    { name: "面", href: "editor.html?id=graphic/entity/polygon" }
+    { name: "线", href: "editor-vue.html?id=graphic/entity/polyline" },
+    { name: "管道", href: "editor-vue.html?id=graphic/entity/polylineVolume" },
+    { name: "走廊", href: "editor-vue.html?id=graphic/entity/corridor" },
+    { name: "墙", href: "editor-vue.html?id=graphic/entity/wall" },
+    { name: "矩形", href: "editor-vue.html?id=graphic/entity/rectangle" },
+    { name: "面", href: "editor-vue.html?id=graphic/entity/polygon" }
   ]
 }
 </script>

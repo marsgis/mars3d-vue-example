@@ -30,7 +30,7 @@ const step = ref<number>(5)
 const onChangeGrid = () => {
   switch (gridType.value) {
     case "point":
-      mapWork.hexGrid(step.value)
+      mapWork.pointGrid(step.value)
       break
 
     case "triangle":
@@ -42,7 +42,7 @@ const onChangeGrid = () => {
       break
 
     case "hex":
-      mapWork.squareGrid(step.value)
+      mapWork.hexGrid(step.value)
       break
 
     default:

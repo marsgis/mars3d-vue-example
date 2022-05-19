@@ -195,6 +195,9 @@ export function showChinaLine() {
           speed: 10,
           repeat_x: 10
         }),
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 12000000,
+        distanceDisplayCondition_near: 100000,
         label: {
           text: "{name}",
           position: "{center}", // 省会位置center
@@ -208,8 +211,8 @@ export function showChinaLine() {
           scaleByDistance_near: 1000000,
           scaleByDistance_nearValue: 1,
           distanceDisplayCondition: true,
-          distanceDisplayCondition_far: 12000000,
-          distanceDisplayCondition_near: 0,
+          distanceDisplayCondition_far: 10000000,
+          distanceDisplayCondition_near: 100000,
           setHeight: 10000
         }
       }

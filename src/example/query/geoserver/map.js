@@ -41,6 +41,7 @@ export function query(text) {
     success: (result) => {
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
+        geoJsonLayer.load({ data: { features: null } })
         return
       } else {
         globalMsg("共查询到 " + result.count + " 条记录！")

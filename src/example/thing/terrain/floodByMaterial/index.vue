@@ -89,13 +89,6 @@ const formState: UnwrapRef<FormState> = reactive({
 const isStart = ref(true)
 const isShow = ref(false)
 
-let floodByMaterial: any
-
-mapWork.eventTarget.on("loadFloodByMaterial", (e: any) => {
-  floodByMaterial = e.floodByMaterial
-  floodByMaterial.speed = Number(formState.speed)
-})
-
 // 监听到高度发生变化
 mapWork.eventTarget.on("heightChange", (e: any) => {
   isShow.value = true
@@ -105,11 +98,6 @@ mapWork.eventTarget.on("heightChange", (e: any) => {
 // 添加矩形
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent((min: any, max: any) => {
-    if (floodByMaterial.length > 0) {
-      min = Math.min(min, formState.minHeight)
-      max = Math.max(max, formState.maxHeight)
-    }
-
     formState.minHeight = min
     formState.maxHeight = max
   })

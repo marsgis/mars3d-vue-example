@@ -26,6 +26,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic2(graphicLayer)
   addDemoGraphic3(graphicLayer)
   addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
 }
 
 /**
@@ -141,6 +142,33 @@ function addGeoJson(geojson, graphicLayer) {
   graphicLayer.addGraphic(graphicCopy)
 }
 
+function addDemoGraphic5(graphicLayer) {
+  // 圆形边界点
+  const positions = mars3d.PolyUtil.getEllipseOuterPositions({
+    position: Cesium.Cartesian3.fromDegrees(116.370171, 30.833143, 479.6),
+    radius: 1200, // 半径
+    count: 50 // 共返回(count*4)个点
+  })
+
+  let index = 0
+  const graphic = new mars3d.graphic.PlaneEntity({
+    position: new Cesium.CallbackProperty(function () {
+      index++
+      if (index >= positions.length - 1) {
+        index = 0
+      }
+      return positions[index]
+    }, false),
+    style: {
+      plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Y, 0.0),
+      dimensions: new Cesium.Cartesian2(1000.0, 1000.0),
+      image: "img/textures/movingRiver.png"
+    },
+    attr: { remark: "示例5" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
 // 在图层级处理一些事物
 function bindLayerEvent() {
   // 在layer上绑定监听事件
@@ -169,7 +197,6 @@ function bindLayerEvent() {
   })
 }
 
-
 // 在图层绑定Popup弹窗
 export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
@@ -181,8 +208,6 @@ export function bindLayerPopup() {
     return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
   })
 }
-
-
 
 // 绑定右键菜单
 export function bindLayerContextMenu() {
@@ -267,8 +292,6 @@ export function startDrawGraphic() {
     }
   })
 }
-
-
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
 function initGraphicManager(graphic) {

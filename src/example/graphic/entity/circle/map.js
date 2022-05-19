@@ -39,6 +39,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic8(graphicLayer)
   // addDemoGraphic9(graphicLayer)
   addDemoGraphic10(graphicLayer)
+  addDemoGraphic11(graphicLayer)
 }
 
 /**
@@ -333,6 +334,35 @@ function addDemoGraphic10(graphicLayer) {
     }
     return newRadius
   }, false)
+}
+
+function addDemoGraphic11(graphicLayer) {
+  let alpha = 1
+  let biaoshi = true
+
+  const graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LatLngPoint(116.261813, 30.9766, 1310.1),
+    style: {
+      radius: 900,
+      material: new Cesium.ColorMaterialProperty(
+        new Cesium.CallbackProperty(function () {
+          if (biaoshi) {
+            alpha = alpha - 0.05
+            if (alpha <= 0) {
+              biaoshi = false // hide
+            }
+          } else {
+            alpha = alpha + 0.05
+            if (alpha >= 1) {
+              biaoshi = true // show
+            }
+          }
+          return Cesium.Color.RED.withAlpha(alpha)
+        }, false)
+      )
+    }
+  })
+  graphicLayer.addGraphic(graphic)
 }
 
 // 在图层级处理一些事物

@@ -88,6 +88,17 @@ export function addLayer() {
     flyTo: true
   })
   map.addLayer(tileLayer)
+
+  // 该方法演示地图内部需要设置偏移量时如何加载
+  /* tileLayer = new mars3d.layer.XyzLayer({
+    url: "'url'&z={z_2}&y={y}&x={x}",
+    customTags: {
+      z_2: function (imageryProvider, x, y, level) {
+        return level - 2
+      }
+    }
+  })
+  map.addLayer(tileLayer) */
 }
 export function removeLayer() {
   if (tileLayer) {

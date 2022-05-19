@@ -49,7 +49,7 @@ function removeDemoLayer() {
   }
 }
 
-// 1.在map地图上绑定Tooltip单击弹窗
+// 1.在map地图上绑定Tooltip移入信息窗
 export function bindMapDemo() {
   removeDemoLayer()
 
@@ -61,7 +61,7 @@ export function bindMapDemo() {
   map.openTooltip(position, "我是地图上直接弹出的")
 }
 
-// 2.在layer图层上绑定Tooltip单击弹窗
+// 2.在layer图层上绑定Tooltip弹窗
 export function bindLayerDemo() {
   removeDemoLayer()
 
@@ -71,7 +71,7 @@ export function bindLayerDemo() {
   })
   map.addLayer(geoJsonLayer)
 
-  // 在layer上绑定Tooltip单击弹窗
+  // 在layer上绑定Tooltip弹窗
   geoJsonLayer.bindTooltip(function (event) {
     const attr = event.graphic.attr
     return attr.type + " 我是layer上绑定的Tooltip"
@@ -123,7 +123,7 @@ export function bindLayerDemo2() {
   map.addLayer(geoJsonLayer)
 }
 
-// 2.在layer图层上绑定Tooltip单击弹窗
+// 2.在layer图层上绑定Tooltip弹窗
 export function bindLayerTemplateDemo() {
   removeDemoLayer()
 
@@ -133,7 +133,7 @@ export function bindLayerTemplateDemo() {
   })
   map.addLayer(geoJsonLayer)
 
-  // 在layer上绑定Tooltip单击弹窗
+  // 在layer上绑定Tooltip弹窗
   geoJsonLayer.bindTooltip(
     function (event) {
       const attr = event.graphic.attr
@@ -158,7 +158,7 @@ export function bindLayerTemplateDemo() {
   })
 }
 
-// 3.在graphic数据上绑定Tooltip单击弹窗
+// 3.在graphic数据上绑定Tooltip弹窗
 export function bindGraphicDemo1() {
   removeDemoLayer()
 
@@ -185,7 +185,7 @@ export function bindGraphicDemo1() {
     // let attr = event.graphic.attr
     const inthtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindTooltip</th></tr>
-                <tr><td >说明：</td><td >Tooltip鼠标单击信息弹窗 </td></tr>
+                <tr><td >说明：</td><td >Tooltip鼠标移入信息弹窗 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
                 <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
               </table>`
@@ -205,7 +205,7 @@ export function bindGraphicDemo1() {
   })
 }
 
-// 3.在graphic数据上绑定Tooltip单击弹窗
+// 3.在graphic数据上绑定Tooltip弹窗
 export function bindGraphicDemo2() {
   removeDemoLayer()
 
@@ -231,7 +231,7 @@ export function bindGraphicDemo2() {
 
   const innerHtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindTooltip局部刷新</th></tr>
-                <tr><td >说明：</td><td >Tooltip鼠标单击信息弹窗 </td></tr>
+                <tr><td >说明：</td><td >Tooltip鼠标移入信息弹窗 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
                 <tr><td >备注：</td><td >我是graphic上绑定的Tooltip</td></tr>
                 <tr><td >时间：</td><td id="tdTime"></td></tr>

@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.3.9
- * 编译日期：2022-05-17 11:14:55
+ * 编译日期：2022-05-18 19:45:00
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2022-02-01
  */
@@ -26391,6 +26391,10 @@ declare class ConicSensor extends BasePointPrimitive {
      * @returns 坐标数组
      */
     getRayEarthPositions(): Cesium.Cartesian3[];
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 declare namespace RectSensor {
@@ -26555,6 +26559,10 @@ declare class RectSensor extends BasePointPrimitive {
      * @returns 坐标数组
      */
     getRayEarthPositions(): Cesium.Cartesian3[];
+    /**
+     * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
+     */
+    readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
 }
 
 declare namespace Satellite {
@@ -29535,10 +29543,10 @@ declare class RotatePoint extends BaseThing {
     readonly isStart: boolean;
     /**
      * 开始旋转
-     * @param point - 旋转的中心点
+     * @param [point] - 旋转的中心点
      * @returns 无
      */
-    start(point: LngLatPoint | Cesium.Cartesian3 | number[]): void;
+    start(point?: LngLatPoint | Cesium.Cartesian3 | number[]): void;
     /**
      * 停止旋转
      * @returns 无

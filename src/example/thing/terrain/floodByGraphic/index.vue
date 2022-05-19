@@ -86,10 +86,6 @@ const formState: UnwrapRef<FormState> = reactive({
 const isStart = ref(true)
 const isShow = ref(false)
 
-mapWork.eventTarget.on("loadFloodByGraphic", (e: any) => {
-  e.floodByGraphic.speed = Number(formState.speed)
-})
-
 // 监听到高度发生变化
 mapWork.eventTarget.on("heightChange", (e: any) => {
   formState.height = Math.ceil(e.height)
