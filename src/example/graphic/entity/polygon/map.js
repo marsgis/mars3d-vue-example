@@ -30,11 +30,11 @@ export function onMounted(mapInstance) {
 
   // 加一些演示数据
   addDemoGraphic1(graphicLayer)
-  // addDemoGraphic2(graphicLayer)
-  // addDemoGraphic3(graphicLayer)
-  // addDemoGraphic4(graphicLayer)
-  // addDemoGraphic5(graphicLayer)
-  // addDemoGraphic6(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
+  addDemoGraphic6(graphicLayer)
 }
 
 /**
@@ -75,17 +75,6 @@ function addDemoGraphic1(graphicLayer) {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
-
-
-  graphic.positions = [
-    [117.187572, 31.823074, 45.53],
-    [117.195377, 31.82418, 43.36],
-    [117.204541, 31.818933, 37.06],
-    [117.19775, 31.809539, 36.59],
-    [117.183832, 31.814237, 38.76]
-]
-
-
 }
 
 function addDemoGraphic2(graphicLayer) {

@@ -28,6 +28,7 @@ module.exports = {
     echarts: "readonly",
     Terraformer: "readonly",
     AMap: "readonly",
+    BMap: "readonly",
     kgUtil: "readonly",
     netcdfjs: "readonly",
     ol: "readonly",

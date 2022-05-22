@@ -11,7 +11,7 @@
     "build": "npm run lint && vite build",
     "serve:dist": "http-server ./dist",
     "lint": "vue-tsc --noEmit --skipLibCheck && npm run eslint",
-    "eslint": "eslint ./src/**/*.{js,jsx,vue,ts,tsx} --fix",
+    "eslint": "eslint ./src/**/*.{js,vue,ts} --fix",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -24,7 +24,7 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "mars3d": "^3.3.0",
-    "@marsgis/editor": "^1.0.4",
+    "@marsgis/editor": "^1.0.7",
     "monaco-editor": "^0.29.1",
     "nprogress": "^0.2.0",
     "serve": "^13.0.2",
