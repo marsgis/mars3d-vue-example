@@ -79,7 +79,7 @@ li {
   box-sizing: border-box;
 }
 
-.mars3d-divGraphic:hover{
+.mars3d-divGraphic:hover {
   z-index: 999 !important;
 }
 
@@ -151,11 +151,13 @@ html {
   left: 12px;
   right: auto;
 }
+
 .cesium-toolbar-button img {
   height: 100%;
   vertical-align: middle;
 }
-.cesium-viewer-toolbar > .cesium-toolbar-button,
+
+.cesium-viewer-toolbar>.cesium-toolbar-button,
 .cesium-navigationHelpButton-wrapper,
 .cesium-viewer-geocoderContainer {
   margin-bottom: 5px;
@@ -163,12 +165,19 @@ html {
   clear: both;
   text-align: center;
 }
+
 .cesium-button {
-  background-color: #3f4854;
-  color: #e6e6e6;
+  background-color: rgba(23, 49, 71, 0.7);
+  border: none;
+  color: #ffffff;
   fill: #e6e6e6;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   line-height: 32px;
+}
+
+.cesium-button:hover {
+  background-color: rgba(0, 138, 255, 0.7);
+  box-shadow: none;
+  border: none;
 }
 
 /**cesium 底图切换面板*/
@@ -191,6 +200,7 @@ html {
 .cesium-sceneModePicker-wrapper {
   width: auto;
 }
+
 .cesium-sceneModePicker-wrapper .cesium-sceneModePicker-dropDown-icon {
   float: right;
   margin: 0 3px;
@@ -203,15 +213,19 @@ html {
   width: auto;
   z-index: 9999;
 }
+
 .cesium-geocoder-searchButton {
   background-color: #3f4854;
 }
+
 .cesium-viewer-geocoderContainer .cesium-geocoder-input {
   background-color: rgba(63, 72, 84, 0.7);
 }
+
 .cesium-viewer-geocoderContainer .cesium-geocoder-input:focus {
   background-color: rgba(63, 72, 84, 0.9);
 }
+
 .cesium-viewer-geocoderContainer .search-results {
   background-color: #3f4854;
 }
@@ -221,6 +235,7 @@ html {
   top: 50px;
   background: rgba(63, 72, 84, 0.9);
 }
+
 .cesium-infoBox-title {
   background-color: #3f4854;
 }
@@ -231,13 +246,14 @@ html {
   bottom: 35px;
   right: 50px;
 }
+
 .cesium-performanceDisplay-ms,
 .cesium-performanceDisplay-fps {
   color: #fff;
 }
 
 /**cesium tileset调试信息面板*/
-.cesium-viewer-cesiumInspectorContainer{
+.cesium-viewer-cesiumInspectorContainer {
   top: 10px;
   left: 10px;
   right: auto;
