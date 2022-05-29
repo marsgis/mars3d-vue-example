@@ -124,7 +124,7 @@ const sensorParams = reactive<Sensor>({
 
 // 初始化加载模型
 onMounted(() => {
-  $notify("已知问题提示", `（1）该矢量对象不支持拾取`, { duration: null })
+  $notify("已知问题提示", `（1）该矢量对象不支持拾取`)
   mapWork.addDemoGraphic1(toRaw(sensorParams))
 })
 

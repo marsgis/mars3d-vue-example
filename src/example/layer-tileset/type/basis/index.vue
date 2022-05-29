@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="426">
+  <mars-pannel :visible="true" right="10" top="10" width="308">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -22,17 +22,24 @@
           <a-space>
             <a-checkbox v-model:checked="formState.enabledShowTerrain" @change="bindTestTerrain">深度检测</a-checkbox>
             <a-checkbox v-model:checked="formState.enabledWireframe" @change="bindWireframe">模型三角网</a-checkbox>
-            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
-            <a-checkbox v-model:checked="formState.enabledGfirstperson" @change="bindGfirstperson">键盘漫游</a-checkbox>
           </a-space>
         </div>
 
         <div class="f-mb">
           <a-space>
-            <span>调试页面:</span>
-            <mars-button href="editor-vue.html?id=layer-tileset/manager/edit" target="_blank">模型参数调试</mars-button>
+            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
+            <a-checkbox v-model:checked="formState.enabledGfirstperson" @change="bindGfirstperson">键盘漫游</a-checkbox>
+          </a-space>
+          <div class="f-mb"></div>
+          <a-space>
+            <a-checkbox v-model:checked="formState.enabledWireframe" @change="bindWireframe">模型三角网</a-checkbox>
+            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
           </a-space>
         </div>
+      </a-collapse-panel>
+
+      <a-collapse-panel key="3" header="参数编辑">
+        <mars-button href="editor-vue.html?id=layer-tileset/manager/edit" target="_blank">模型参数调试编辑</mars-button>
       </a-collapse-panel>
     </a-collapse>
   </mars-pannel>

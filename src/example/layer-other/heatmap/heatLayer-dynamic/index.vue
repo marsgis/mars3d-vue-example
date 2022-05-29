@@ -2,7 +2,7 @@
   <mars-pannel :visible="true" right="10" width="150" top="10" height="45">
     <a-space>
       <span>是否动态:</span>
-      <a-switch v-model:checked="enabled" @change="onChangeState" />
+      <mars-switch v-model:checked="enabled" @change="onChangeState" />
     </a-space>
   </mars-pannel>
   <div class="divPanel">

@@ -61,7 +61,8 @@ const stopRotate = () => {
   width: 30%;
   height: 80%;
   border: none;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .infoview_panel {
   height: 100%;
@@ -109,6 +110,10 @@ const stopRotate = () => {
   background: url("/img/btnBar/button.png") no-repeat;
   background-size: 100% 100%;
   margin-right: 40px;
+
+  :hover{
+    background: url("/img/btnBar/button_select.png") no-repeat;
+  }
 }
 .infoview_panel_scroll {
   height: 98%;

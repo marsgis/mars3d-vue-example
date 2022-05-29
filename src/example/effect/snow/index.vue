@@ -10,7 +10,7 @@
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">速度:</span>
+          <span class="mars-pannel-item-label">速 度:</span>
           <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
         </a-space>
       </div>
@@ -57,10 +57,7 @@ const onChangeCoverState = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
-  width: 55px;
-}
 .ant-slider {
-  width: 145px;
+  width: 146px;
 }
 </style>

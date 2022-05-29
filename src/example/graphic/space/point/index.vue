@@ -346,7 +346,7 @@ const reset = () => {
   formState.sliApogee = [0, 600000]
   formState.sliPerigee = [0, 500000]
 
-  mapWork.resetUI()
+  mapWork.resetGraphic()
 }
 
 const highlightSatellite = () => {

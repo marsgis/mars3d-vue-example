@@ -1,10 +1,10 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="254">
-    <div style="width: 232px;">
+    <div style="width: 232px">
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">启用状态:</span>
-          <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
+          <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
         </a-space>
       </div>
 
@@ -64,9 +64,6 @@ const onChangeDirection = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
-  width: 55px;
-}
 .ant-slider {
   width: 145px;
 }

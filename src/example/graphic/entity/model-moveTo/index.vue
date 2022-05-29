@@ -11,7 +11,7 @@
 
     <!-- <div> -->
     <span class="mars-pannel-item-label">显示指定:</span>
-    <div style="margin-left: 59px;margin-top: -20px;">
+    <div style="margin-left: 68px; margin-top: -20px">
       <div class="model-button-contain" :key="item" v-for="(item, index) in floorModel">
         <mars-button @click="showFloorModel(index)">{{ item }}</mars-button>
       </div>

@@ -243,6 +243,6 @@ onMounted(() => {
 
 <style scoped lang="less">
 .show-time {
-  color: @mars-basecolor;
+  color: @mars-base-color;
 }
 </style>

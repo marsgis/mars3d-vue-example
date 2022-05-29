@@ -112,7 +112,7 @@ const butDeleteTxtName = (index: number) => {
   height: 91%;
 }
 .bookmarkView {
-  width: 265px;
+  width: 250px;
   height: calc(100% - 53px);
   border: 1px solid white;
   border-radius: 5px;
@@ -137,6 +137,8 @@ const butDeleteTxtName = (index: number) => {
   position: relative;
   border: 1px solid white;
   margin-top: 22px;
+
+
 }
 .markImg :hover {
   background-color: red;

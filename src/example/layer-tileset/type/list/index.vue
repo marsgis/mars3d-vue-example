@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="70" width="220" bottom="40" customClass="layer-tree">
+  <mars-pannel :visible="true" right="10" top="10" width="220" bottom="50" customClass="layer-tree">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>

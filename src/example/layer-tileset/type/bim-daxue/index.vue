@@ -2,7 +2,7 @@
   <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">室内演示视角:</span>
+        <span>室内演示视角:</span>
         <mars-button @click="centerAtDX1">教室</mars-button>
         <mars-button @click="centerAtDX2">走廊</mars-button>
         <mars-button @click="centerAtDX3">楼梯间</mars-button>

@@ -23,7 +23,7 @@
             <mars-button size="middle" @click="onClickDistance">distance</mars-button>
             <mars-button size="middle" @click="onClickHeight">height</mars-button>
             <mars-button size="middle" @click="onClickArea">area</mars-button>
-            <mars-button size="middle" @click="onClickAngle">ditance</mars-button>
+            <mars-button size="middle" @click="onClickAngle">angle</mars-button>
           </div>
         </a-col>
       </a-row>

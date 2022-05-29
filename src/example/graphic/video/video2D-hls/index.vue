@@ -196,10 +196,11 @@ const playOrpause = () => {
 }
 </script>
 <style scoped lang="less">
-.ant-slider {
-  width: 160px;
+:deep(.mars-slider) {
+  width: 90% !important;
 }
-.mars-pannel-item-label {
-  width: 100px;
+:deep(.mars-pannel-item-label) {
+  width: 99px;
+  margin-right: 3px;
 }
 </style>

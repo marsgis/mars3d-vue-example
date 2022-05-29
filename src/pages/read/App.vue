@@ -63,54 +63,69 @@ const marsOnload = (map: any) => {
 }
 
 onMounted(async () => {
-  const exampleId = getQueryString("id")
-
-  const config = await Util.getCompConfig(exampleId)
-  if (config) {
-    console.log("示例配置信息", config)
-
-    window.currentPath = `${resourcePath}${config.main}/` // 当前示例的配置
-
-    Object.defineProperty(window, "mapWork", {
-      get() {
-        return mapWork
-      },
-      set(value) {
-        mapWork = value // 赋值后vue中使用
-        marsOnload(window._mapInstance)
-        if (config.hasPannel) {
-          // 开始构造vue面板
-          showPannel.value = true
-        } else {
-          onChildMounted()
-        }
-      }
-    })
-
-    const loadQueen: string[] = []
-    let resources = Util.getResourcesByLibs(config.libs)
-    if (config.resources) {
-      resources = resources.concat([...config.resources])
-    }
-
-    resources.forEach((dep: string) => {
-      let url
-      if (dep.startsWith("/") || dep.startsWith("http") || dep.startsWith(resourcePath)) {
-        url = dep
-      } else {
-        url = resourcePath + config.main + "/" + dep
-      }
-      loadQueen.push(url)
-    })
-    loadQueen.push("temp/styles/style.css")
-
-    Util.LoadSource(loadQueen).then(() => {
-      Util.loadScript(`${resourcePath}${config.main}/map.js`, false)
-      Util.loadScript("/temp/scripts/common.js", false)
-    })
-  } else {
-   $message("请检查ID是否存在")
+  let exampleId = getQueryString("id")
+  if (!exampleId) {
+    alert("id不能为空")
+    throw new Error("id不能为空")
   }
+
+  exampleId = exampleId.replace(/\\/gm, "/") // 兼容反斜杠
+
+  let exampleConf = await Util.getCompConfig(exampleId)
+
+  if (!exampleConf) {
+    $message("没有查询到当前id对应的配置")
+    exampleConf = {
+      id: exampleId,
+      main: exampleId,
+      fullName: "临时测试页面",
+      name: "临时测试页面",
+      hasPannel: Util.getQueryString("hasPannel") === "1"
+    }
+  }
+
+  console.log("示例配置信息", exampleConf)
+
+  window.currentPath = `${resourcePath}${exampleConf.main}/` // 当前示例的配置
+
+  Object.defineProperty(window, "mapWork", {
+    get() {
+      return mapWork
+    },
+    set(value) {
+      mapWork = value // 赋值后vue中使用
+      marsOnload(window._mapInstance)
+      if (exampleConf.hasPannel) {
+        // 开始构造vue面板
+        showPannel.value = true
+      } else {
+        onChildMounted()
+      }
+    }
+  })
+
+  const loadQueen: string[] = []
+  let resources = Util.getResourcesByLibs(exampleConf.libs)
+  if (exampleConf.resources) {
+    resources = resources.concat([...exampleConf.resources])
+  }
+
+  resources.forEach((dep: string) => {
+    let url
+    if (dep.startsWith("/") || dep.startsWith("http") || dep.startsWith(resourcePath)) {
+      url = dep
+    } else {
+      url = resourcePath + exampleConf.main + "/" + dep
+    }
+    loadQueen.push(url)
+  })
+  loadQueen.push("/lib/fonts/font-awesome/css/font-awesome.min.css")
+  loadQueen.push("temp/css/style.css")
+
+  Util.LoadSource(loadQueen).then(() => {
+    Util.loadScript(`${resourcePath}${exampleConf.main}/map.js`, false)
+    Util.loadScript("/temp/js/common.js", false)
+  })
 })
 
 function onChildMounted() {

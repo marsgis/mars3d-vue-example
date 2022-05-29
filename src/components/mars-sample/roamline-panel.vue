@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" height="285px" right="10" bottom="60" width="200">
+  <mars-pannel :visible="true"  right="10" bottom="60" width="230" height="330">
     <a-form>
       <a-row :gutter="[0, 8]">
         <a-col :span="12">总长度:</a-col>

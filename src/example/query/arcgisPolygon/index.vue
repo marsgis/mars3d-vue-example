@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="400">
+  <mars-pannel :visible="true" right="10" top="10" width="350">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -176,6 +176,7 @@ const columns = ref([
   {
     title: "序号",
     dataIndex: "index",
+    width: 45,
     key: "index"
   },
   {
@@ -186,11 +187,13 @@ const columns = ref([
   {
     title: "数量",
     dataIndex: "num",
+    width: 60,
     key: "num"
   },
   {
-    title: "面积（亩）",
+    title: "面积(亩)",
     dataIndex: "area",
+    width: 80,
     key: "area"
   }
 ])

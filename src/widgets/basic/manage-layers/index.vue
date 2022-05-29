@@ -2,7 +2,7 @@
   <mars-dialog title="图层" width="280" :min-width="250" top="50" bottom="40" right="10">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="node">
-        <mars-dropdown :trigger="['contextmenu']">
+        <mars-dropdown-menu :trigger="['contextmenu']">
           <span @dblclick="flyTo(node)">{{ node.title }}</span>
           <template #overlay v-if="node.hasZIndex">
             <a-menu @click="(menu: any) => onContextMenuClick(node, menu.key)">
@@ -12,7 +12,7 @@
               <a-menu-item key="4">图层置为底层</a-menu-item>
             </a-menu>
           </template>
-        </mars-dropdown>
+        </mars-dropdown-menu>
         <span v-if="node.hasOpacity" v-show="node.checked" class="tree-slider">
           <mars-slider v-model:value="opacityObj[node.id]" :min="0" :step="1" :max="100" @change="opcityChange(node)" />
         </span>
@@ -21,13 +21,15 @@
   </mars-dialog>
 </template>
 <script lang="ts" setup>
-import { onUnmounted, nextTick, reactive, ref } from "vue"
+import { onUnmounted, nextTick, reactive, ref, onMounted } from "vue"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
 const { activate, disable, currentWidget } = useWidget()
-
+onMounted(() => {
+  initTree()
+})
 onUnmounted(() => {
   disable("layer-tree")
 })
@@ -50,10 +52,6 @@ const checkedKeys = ref<string[]>([])
 const layersObj: any = {}
 
 const opacityObj: any = reactive({})
-
-mapWork.eventTarget.on("loadOK", () => {
-  initTree()
-})
 
 let lastWidget: any
 const checkedChange = (keys: string[], e: any) => {
@@ -104,7 +102,9 @@ const checkedChange = (keys: string[], e: any) => {
     }
     if (keys.indexOf(e.node.id) !== -1) {
       layer.show = true
-      layer.flyTo()
+      layer.readyPromise.then(function (layer) {
+        layer.flyTo()
+      })
     } else {
       layer.show = false
     }
@@ -112,11 +112,6 @@ const checkedChange = (keys: string[], e: any) => {
     // 处理图层构件树控件
     if (layer.options.scenetree) {
       initLayerTree(layer)
-    }
-
-    if (layer.options.onWidght) {
-      const clockWidget = layer.options.onWidght
-      activate(clockWidget)
     }
   }
 }
@@ -216,7 +211,9 @@ function initTree() {
       node.children = findChild(node, layers)
       treeData.value.push(node)
 
-      expandedKeys.value.push(node.key)
+      if (layer.options.open !== false) {
+        expandedKeys.value.push(node.key)
+      }
     }
   }
 
@@ -257,7 +254,9 @@ function findChild(parent: any, list: any[]) {
 
       node.children = findChild(node, list)
 
-      expandedKeys.value.push(node.key)
+      if (item.options.open !== false) {
+        expandedKeys.value.push(node.key)
+      }
 
       if (item.isAdded && item.show) {
         nextTick(() => {
@@ -270,20 +269,29 @@ function findChild(parent: any, list: any[]) {
 
 function initLayerTree(layer: any) {
   disable("layer-tree")
+
+  if (lastBindClickLayer) {
+    lastBindClickLayer.off("click", onClickBimLayer)
+    lastBindClickLayer = null
+  }
+
   // 处理图层构件树控件
   if (layer.options.scenetree) {
-    layer.on("click", () => {
-      const url = layer.options.url
-      const id = layer.id
-      activate({
-        name: "layer-tree",
-        data: {
-          url,
-          id
-        }
-      })
-    })
+    layer.on("click", onClickBimLayer)
+    lastBindClickLayer = layer
   }
+}
+
+let lastBindClickLayer
+
+function onClickBimLayer(event: any) {
+  const layer = event.layer
+  const url = layer.options.url
+  const id = layer.id
+  activate({
+    name: "layer-tree",
+    data: { url, id }
+  })
 }
 </script>
 

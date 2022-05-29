@@ -1,9 +1,9 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="320">
+  <mars-pannel :visible="true" right="10" top="10" width="274">
     <div v-show="!isShow">
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">分析区域</span>
+          <span>分析区域</span>
           <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
           <mars-button @click="btnDraw">绘制多边形</mars-button>
         </a-space>
@@ -11,22 +11,25 @@
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">最低海拔（米）</span>
+          <span>最低海拔</span>
           <mars-input-number v-model:value="formState.minHeight" :step="1" />
+          <span>（米）</span>
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">最高海拔（米）</span>
+          <span>最高海拔</span>
           <mars-input-number v-model:value="formState.maxHeight" :step="1" />
+          <span>（米）</span>
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">淹没速度（米/秒）</span>
+          <span>淹没速度</span>
           <mars-input-number v-model:value="formState.speed" :step="1" />
+          <span>（米/秒）</span>
         </a-space>
       </div>
 
@@ -38,7 +41,7 @@
     <div v-show="isShow">
       <div class="f-mb">
         <a-space>
-          <span>高度选择</span>
+          <span class="mars-pannel-item-label">高度选择</span>
           <a-slider
             tooltipPlacement="bottom"
             v-model:value="formState.height"
@@ -134,13 +137,7 @@ const begin = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 320px;
-}
-.mars-pannel-item-label {
-  width: 100px;
-}
 .ant-slider {
-  width: 200px;
+  width: 140px;
 }
 </style>

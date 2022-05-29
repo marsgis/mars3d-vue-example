@@ -1,19 +1,17 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="180">
-    <div style="width: 155px">
-      <div class="f-mb">
-        <a-space>
-          <span>启用:</span>
-          <a-switch v-model:checked="enabled" @change="onChangeState" />
-        </a-space>
-      </div>
+  <mars-pannel :visible="true" right="10" top="10">
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">启用:</span>
+        <mars-switch v-model:checked="enabled" @change="onChangeState" />
+      </a-space>
+    </div>
 
-      <div>
-        <a-space>
-          <span>渐变量:</span>
-          <mars-slider @change="onChangeGradations" v-model:value="gradations" :min="1" :max="10" :step="0.01" />
-        </a-space>
-      </div>
+    <div>
+      <a-space>
+        <span class="mars-pannel-item-label">渐变量:</span>
+        <mars-slider @change="onChangeGradations" v-model:value="gradations" :min="1" :max="10" :step="0.01" />
+      </a-space>
     </div>
   </mars-pannel>
 </template>
@@ -38,6 +36,5 @@ const onChangeState = () => {
 <style scoped lang="less">
 .ant-slider {
   width: 110px;
-  margin-left: -1px;
 }
 </style>

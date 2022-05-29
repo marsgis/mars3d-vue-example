@@ -39,7 +39,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">四周方向:</span>
-        <mars-slider @change="onChangeHeading" v-model:value="video.heading" :min="0" :max="360" :step="0.1" />
+        <mars-slider @change="onChangeHeading" class="head" v-model:value="video.heading" :min="0" :max="360" :step="0.1" />
         <mars-button @click="onClickSelView">图上选点</mars-button>
       </a-space>
     </div>
@@ -154,9 +154,10 @@ const onChangeOpacity = () => {
 .ant-slider {
   width: 160px;
 }
+.head {
+  width: 100px;
+}
 .mars-pannel-item-label {
-  display: block;
-  text-align: right;
-  width: 64px;
+  width: 80px;
 }
 </style>

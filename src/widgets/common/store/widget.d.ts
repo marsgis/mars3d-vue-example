@@ -4,7 +4,7 @@ import { InjectionKey, ComputedRef } from "vue"
 /**
  * store 状态管理
  * @copyright 火星科技 mars3d.cn
- * @author 火星吴彦祖 2022-2-19
+ * @author 火星吴彦祖 2022-5-19
  */
 declare module "@mars/widgets/common/store/widget" {
   // 为 store state 声明类型
@@ -17,7 +17,7 @@ declare module "@mars/widgets/common/store/widget" {
 
   export interface Widget {
     name: string // 唯一标识
-    key?: string // 作为vue diff 环节的key，用于控制组件重载
+    key?: string // 作为组件 diff 环节的key，用于控制组件重载
     component?: any // widget关联的异步组件
     autoDisable?: boolean // 是否能够被自动关闭
     disableOther?: boolean | string[] // 是否自动关闭其他widget,或通过数组指定需要被关闭的widget
@@ -28,8 +28,8 @@ declare module "@mars/widgets/common/store/widget" {
   }
 
   export interface WidgetState {
-    widgets: Widget[] // widget具体配置
-    openAtStart: string[] // 默认加载的widget
+    widgets?: Widget[] // widget具体配置
+    openAtStart?: string[] // 默认加载的widget
     defaultOption?: DefaultOption // 支持配置默认参数
   }
 

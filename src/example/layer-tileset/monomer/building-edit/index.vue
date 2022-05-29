@@ -13,7 +13,7 @@
       <a-space>
         <mars-button @click="drawPolygon">单体化面</mars-button>
         <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" :beforeUpload="() => false" @change="openGeoJSON">
-          <mars-button> 打开... </mars-button>
+          <mars-button> 打开</mars-button>
         </a-upload>
         <mars-button @click="saveGeoJSON">保存</mars-button>
         <mars-button @click="clear">清除</mars-button>

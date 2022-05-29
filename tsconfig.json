@@ -40,7 +40,6 @@
   ],
   "exclude": [
     "node_modules",
-    "tests/server/**/*.ts",
     "src/**/*.js",
     "dist"
   ]

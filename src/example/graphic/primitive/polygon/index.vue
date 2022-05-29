@@ -6,7 +6,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">大数据加载:</span>
-        <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1"></mars-input-number>万条
+        <mars-input-number :min="0.1" :max="100" v-model:value="num" step="0.1" title="请输入不大于100的值"></mars-input-number>万条
         <mars-button @click="addDemoGraphic">生成</mars-button>
       </a-space>
     </div>

@@ -1,17 +1,8 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="350">
+  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="400">
     <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-collapse v-model:activeKey="activeKey">
-        <!-- 自定义切换图标 -->
-        <template #expandIcon>
-          <mars-icon icon="down-c" class="icon-vertical-a" />
-        </template>
+      <a-collapse v-model:activeKey="activeKey" expandIconPosition="right">
         <a-collapse-panel key="1" header="表单控件">
-          <!-- 自定义面板右侧图标 -->
-          <template #extra>
-            <mars-icon icon="config" class="icon-vertical-a" />
-          </template>
-
           <a-form-item label="简单文本" name="url">
             <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
           </a-form-item>
@@ -49,7 +40,7 @@
             <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
           </a-form-item>
 
-          <a-form-item label="多选">
+          <a-form-item label="多选" class="f-push-20-t">
             <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
               <a-checkbox value="mars">火星</a-checkbox>
               <a-checkbox value="earth">地球</a-checkbox>
@@ -69,7 +60,7 @@
           <a-form-item label="鼠标操作">
             <div class="f-tac">
               <a-space>
-                <a-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
                 <span>是否允许</span>
               </a-space>
             </div>
@@ -94,6 +85,7 @@
                 <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
                 弹窗
               </mars-button>
+              <mars-button size="middle" disabled> 禁用 </mars-button>
             </a-space>
           </div>
         </a-collapse-panel>
@@ -169,7 +161,7 @@ const formState = reactive<FormState>({
   url: "",
   extent: "",
   countCar: 1,
-  model: "qiche",
+  model: "",
   date: null,
   brightness: 0,
   contrast: 128,
@@ -212,6 +204,10 @@ const modelOptions = [
     value: "qiche",
     label: "小汽车",
     style: { scale: 1, url: "//data.mars3d.cn/gltf/mars/qiche.gltf" }
+  },
+  {
+    value: "dkc",
+    label: "大卡车"
   }
 ]
 
@@ -239,11 +235,9 @@ const onSliderChange = () => {
 
 const marks: Record<number, any> = {
   "-255": "-255",
-  "-200": "200",
-  "-100": "-100",
+  "-125": "-125",
   0: "0",
-  100: "100",
-  200: "200",
+  125: "125",
   255: "255"
 }
 // 带刻度滑动条修改事件

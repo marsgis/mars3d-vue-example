@@ -2,7 +2,7 @@
   <mars-pannel :visible="true" right="10" top="10" width="250">
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">状态:</span>
+        <span class="mars-pannel-item-label">状 态:</span>
         <a-checkbox v-model:checked="formState.enabled" @change="onChangeState">开启效果</a-checkbox>
       </a-space>
     </div>
@@ -15,19 +15,19 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">亮度:</span>
+        <span class="mars-pannel-item-label">亮 度:</span>
         <mars-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="-0.1" :max="3.0" :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">增量:</span>
+        <span class="mars-pannel-item-label">增 量:</span>
         <mars-slider v-model:value="formState.delta" @change="onChangeDelta" :min="1" :max="5" :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">步长:</span>
+        <span class="mars-pannel-item-label">步 长:</span>
         <mars-slider v-model:value="formState.stepSize" @change="onChangeStep" :min="0" :max="7" :step="0.01" />
       </a-space>
     </div>
@@ -78,10 +78,7 @@ const onChangeSigma = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
-  width: 45px;
-}
 .ant-slider {
-  width: 155px;
+  width: 145px;
 }
 </style>

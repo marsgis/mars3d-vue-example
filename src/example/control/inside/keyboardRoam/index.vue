@@ -1,23 +1,18 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="450">
+  <mars-pannel :visible="true" right="10" top="10" width="460">
+    <div class="f-mb">
+      <a-space>
+        <span>演示视角：</span>
+        <mars-button @click="onChangeCenterAtDX1">室内</mars-button>
+        <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
+        <span title="平移的步长（单位：米）" class="tip-name"> 平移步长:</span>
+        <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
+      </a-space>
+    </div>
     <div class="f-mb">
       <a-row>
-        <a-col :span="6">演示视角：</a-col>
-        <a-col :span="7">
-          <mars-button @click="onChangeCenterAtDX1">室内</mars-button>
-          <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
-        </a-col>
-        <a-col :span="4">
-          <span title="平移的步长（单位：米）" class="tip-name" > 平移步长:</span>
-        </a-col>
-        <a-col :span="7">
-          <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
-        </a-col>
-      </a-row>
-
-      <a-row>
-        <a-col :span="6">相机平移:</a-col>
-        <a-col :span="18">
+        <a-col :span="5">相机平移:</a-col>
+        <a-col :span="19">
           <a-space>
             <span>W :向前</span>
             <span>S :向后</span>
@@ -30,8 +25,8 @@
       </a-row>
 
       <a-row>
-        <a-col :span="6">相机本身:</a-col>
-        <a-col :span="18">
+        <a-col :span="5">相机本身:</a-col>
+        <a-col :span="19">
           <a-space>
             <span>↑ :抬头</span>
             <span>↓ :低头</span>
@@ -42,8 +37,8 @@
       </a-row>
 
       <a-row>
-        <a-col :span="6">屏幕中心点:</a-col>
-        <a-col :span="18">
+        <a-col :span="5">屏幕中心点:</a-col>
+        <a-col :span="19">
           <a-space>
             <span>I :飞近</span>
             <span>K :远离</span>
@@ -82,7 +77,7 @@ const onChangeCenterAtDX2 = () => {
 .ant-row {
   margin-bottom: 10px;
 }
-.tip-name{
+.tip-name {
   line-height: 35px;
 }
 </style>

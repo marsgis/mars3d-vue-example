@@ -8,14 +8,16 @@
 
     <div class="f-mb f-pt">
       <a-space>
-        <span class="mars-pannel-item-label">路宽度(米):</span>
+        <span class="mars-pannel-item-label">路宽度:</span>
         <mars-input-number @change="widthChange" v-model:value="widthValue" :min="0"></mars-input-number>
+        <span>(米)</span>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">路高度(米):</span>
+        <span class="mars-pannel-item-label">路高度:</span>
         <mars-input-number @change="heightChange" v-model:value="heightValue" :min="0"></mars-input-number>
+        <span>(米)</span>
       </a-space>
     </div>
 

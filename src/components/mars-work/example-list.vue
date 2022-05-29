@@ -9,7 +9,7 @@
           <div class="side1-item">
             <i class="fa" :class="item.icon"></i>
             <p class="name">{{ item.name }} ({{ item.count }})</p>
-            <right-i size="24" />
+            <mars-icon icon="right" width="24"></mars-icon>
           </div>
           <div class="sidebar-2">
             <div class="side2-item" @click="clearBoth" v-for="item1 in item.children" :key="item1.id">
@@ -35,22 +35,22 @@
           <div class="search-l">
             <input type="text" placeholder="请输入示例名称筛选..." v-model="searchValue" @input="searchDetail" @keyup.enter="searchDetail" />
             <div class="ss-pic" @click="searchDetail">
-              <search-i size="24" fill="#FFFFFF" />
+              <mars-icon icon="search" width="24" color="#ffffff"></mars-icon>
             </div>
             <div class="clear-value" v-if="searchValue" @click="clearAll">
-              <close-i size="18" />
+              <mars-icon icon="close" width="18"></mars-icon>
             </div>
           </div>
 
           <div class="search-r">
-            <help-i class="icon" size="20" fill="#bbbbbb" />
+            <mars-icon class="icon" icon="help" size="20" fill="#bbbbbb"></mars-icon>
             <p class="look">查看说明</p>
             <div class="sanjiao"></div>
             <div class="sanjiao-1"></div>
             <div class="explain">
               <div class="explain-wrap">
                 <div class="sm-pic">
-                  <agreement-i size="24" fill="#008aff" />
+                  <mars-icon icon="agreement" size="24" fill="#008aff"></mars-icon>
                 </div>
                 <div class="sm">说明</div>
                 <div class="line1">
@@ -96,7 +96,7 @@
             <h3 v-if="item1.children.length !== 0">
               {{ item1.name }} ({{ item1.count }})
               <div class="question" v-if="item1.details">
-                <help-i class="icon" size="20" fill="#bbbbbb" />
+                <mars-icon class="icon" icon="help" size="20" fill="#bbbbbb"></mars-icon>
                 <div class="sanjiao1"></div>
                 <div class="sanjiao2"></div>
                 <div class="tan1">
@@ -152,17 +152,13 @@
 </template>
 
 <script>
-import { Agreement as AgreementI, Close as CloseI, Help as HelpI, Right as RightI, Search as SearchI } from "@icon-park/vue-next"
 import { Editor as MarsgisEditor, Util } from "@marsgis/editor"
+import MarsIcon from "@mars/components/mars-ui/mars-icon/index.vue"
 import { nextTick } from "vue"
 
 export default {
   components: {
-    AgreementI,
-    CloseI,
-    HelpI,
-    SearchI,
-    RightI
+    MarsIcon
   },
   data() {
     return {

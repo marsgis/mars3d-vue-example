@@ -10,21 +10,23 @@
 
     <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
 
-    <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'caozuo'">
-          <mars-button type="link">
-            <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-          </mars-button>
-          <mars-button type="link">
-            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-          </mars-button>
+    <div class="f-pt">
+      <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'caozuo'">
+            <mars-button type="link">
+              <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+            </mars-button>
+            <mars-button type="link">
+              <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+            </mars-button>
+          </template>
+          <template v-else>
+            {{ record.name }}
+          </template>
         </template>
-        <template v-else>
-          {{ record.name }}
-        </template>
-      </template>
-    </a-table>
+      </a-table>
+    </div>
   </mars-pannel>
 </template>
 

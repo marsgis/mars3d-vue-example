@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" width="150" top="10" height="45">
+  <mars-pannel :visible="true" right="10" top="10" height="45">
     <a-space>
       <span>显示对应的数据点:</span>
       <a-checkbox v-model:checked="enabledUnderground" @change="chkUnderground" />

@@ -48,9 +48,9 @@ const cameraData = [
     callback: () => mapWork.mapGetCameraView()
   },
   {
-    name: "定位至指定位置",
+    name: "停止视角定位",
     title: "",
-    callback: () => mapWork.mapSetCameraView()
+    callback: () => mapWork.mapCancelFlyTo()
   },
   {
     name: "飞行至默认视角",
@@ -58,9 +58,20 @@ const cameraData = [
     callback: () => mapWork.mapFlyHome()
   },
   {
+    name: "定位至指定位置",
+    title: "",
+    callback: () => mapWork.mapSetCameraView()
+  },
+
+  {
     name: "定位至矩形区域处",
     title: "",
     callback: () => mapWork.mapFlyToExtent()
+  },
+  {
+    name: "定位至目标点",
+    title: "",
+    callback: () => mapWork.mapFlyToPoint()
   },
   {
     name: "定位至坐标数组处",
@@ -72,21 +83,13 @@ const cameraData = [
     title: "",
     callback: () => mapWork.mapFlyToGraphic()
   },
-  {
-    name: "定位至目标点",
-    title: "",
-    callback: () => mapWork.mapFlyToPoint()
-  },
+
   {
     name: "按序播放多个相机位置",
     title: "",
     callback: () => mapWork.mapSetCameraViewList()
-  },
-  {
-    name: "停止视角定位",
-    title: "",
-    callback: () => mapWork.mapCancelFlyTo()
   }
+
 ]
 </script>
 <style lang="less" scoped>

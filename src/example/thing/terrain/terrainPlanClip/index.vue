@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-pannel :visible="true" right="10" top="10">
     <a-form>
       <div class="f-mb">
         <a-space>
@@ -32,7 +32,6 @@
 import { onMounted, reactive } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@mars/components/mars-ui/index"
 
 interface FormState {
   enabledWadi: boolean
@@ -48,8 +47,8 @@ const formState: UnwrapRef<FormState> = reactive({
   txtHeight: 30
 })
 
-mapWork.eventTarget.on("hasAddLayer", (e: any) => {
-  e.terrainPlanClip.diffHeight = formState.txtHeight
+onMounted(() => {
+  mapWork.addLayer(formState.txtHeight)
 })
 
 // 是否挖地

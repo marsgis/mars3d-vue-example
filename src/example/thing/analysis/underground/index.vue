@@ -59,7 +59,7 @@ const isChecked = () => {
 </script>
 <style scoped lang="less">
 .mars-pannel-item-label {
-  width: 65px;
+  width: 74px;
 }
 .ant-slider {
   width: 160px;

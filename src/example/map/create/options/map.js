@@ -30,7 +30,7 @@ function initMap() {
       sceneModePicker: true, // 二三维切换按钮
       navigationHelpButton: true, // 帮助按钮
       fullscreenButton: true, // 全屏按钮
-      defaultContextMenu: true // 右键菜单
+      contextmenu: { hasDefault: true } // 右键菜单
     },
     terrain: {
       url: "//data.mars3d.cn/terrain",
@@ -41,7 +41,7 @@ function initMap() {
         name: "天地图影像",
         icon: "img/basemaps/tdt_img.png",
         type: "tdt",
-        layer: "img_d", 
+        layer: "img_d",
         show: true
       }
     ]

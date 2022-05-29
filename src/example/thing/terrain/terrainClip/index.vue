@@ -53,11 +53,9 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from "vue"
-
+import { nextTick, onMounted, reactive, ref } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@mars/components/mars-ui/index"
 
 interface FormState {
   enabledWadi: boolean
@@ -110,10 +108,8 @@ const rowSelection = ref({
   }
 })
 
-mapWork.eventTabel.on("loadTerrainClip", (e: any) => {
-  e.terrainClip.diffHeight = formState.txtHeight
-
-  $notify("已知问题提示", "（1）开挖区域内矢量对象无法穿透进行拾取。（2）多个开挖区域距离太远时会存在误差")
+onMounted(() => {
+  mapWork.addTerrainClip(formState.txtHeight)
 })
 
 mapWork.eventTabel.on("tableObject", function (event: any) {
@@ -162,7 +158,6 @@ function resetEnabled() {
 // 添加矩形
 const btnDrawExtent = () => {
   resetEnabled()
-  console.log(mapWork.btnDrawExtent)
   mapWork.btnDrawExtent(formState.enabledWadi)
 }
 // 添加多边形

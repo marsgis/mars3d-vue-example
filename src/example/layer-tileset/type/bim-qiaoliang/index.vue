@@ -9,7 +9,7 @@
       <a-collapse-panel key="1" header="地下模式">
         <div class="f-mb">
           <a-space>
-            <span class="mars-pannel-item-label">地表透明度:</span>
+            <span>地表透明度:</span>
             <mars-slider @change="alphaChange" :min="0" :max="1" :step="0.1" v-model:value="alphaVal" />
             <a-checkbox @change="chkUnderground" v-model:checked="formState.enabledGround">是否开启</a-checkbox>
           </a-space>

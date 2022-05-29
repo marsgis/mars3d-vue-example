@@ -91,7 +91,7 @@ function styleChange(style: any) {
 .top-handle-bar {
   border-bottom: 1px solid #cde1de;
   padding: 5px 0 2px 0;
-  :deep(.i-icon) {
+  :deep(.mars-icon) {
     cursor: pointer;
   }
 }

@@ -28,19 +28,19 @@ const isShow = ref<boolean>(false)
 let myChart1: echarts.ECharts
 
 // 图表自适应
-window.addEventListener("resize", function () {
+window.onresize = function () {
   myChart1.resize()
-})
+}
 
 onMounted(() => {
   myChart1 = echarts.init(document.getElementById("echartsView1")!)
 })
 
 mapWork.eventTarget.on("measureEnd", function (event: any) {
+  isShow.value = true
   nextTick(() => {
     setEchartsData(event)
   })
-  isShow.value = true
 })
 
 mapWork.eventTarget.on("measureClick", function (event: any) {

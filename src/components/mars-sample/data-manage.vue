@@ -17,7 +17,7 @@
       @change="onClickImpFile"
     >
       <mars-button title="打开GeoJSON">
-        <mars-icon icon="upload-one" class="icon-vertical-a" />
+        <mars-icon icon="folder-open" class="icon-vertical-a" />
         打开
       </mars-button>
     </a-upload>

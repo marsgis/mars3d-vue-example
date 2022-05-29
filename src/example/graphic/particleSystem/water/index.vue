@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10">
-    <mars-tree checkable :expandedKeys="expandedKeys" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
+    <mars-tree checkable defaultExpandAll :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
@@ -14,7 +14,6 @@ import * as mapWork from "./map.js"
 
 const checkedKeys = ref<string[]>([]) // 默认选中
 
-const expandedKeys = ref<string[]>([]) // 默认展开
 
 const treeData = ref<any[]>([
   {
@@ -83,7 +82,7 @@ const initTree = () => {
   const tree = treeData.value[0].children
   tree.forEach((element: any) => {
     checkedKeys.value.push(element.key)
-    expandedKeys.value.push(element.key)
+
   })
 }
 

@@ -12,10 +12,13 @@
             <div class="f-mb">
               <mars-button @click="showModel">加载模型</mars-button> &nbsp;&nbsp;
               <a-checkbox v-model:checked="formState.chkProxy">使用代理</a-checkbox>
+
+
+              <mars-button @click="showCompTree">查看构件</mars-button>
             </div>
           </a-collapse-panel>
 
-          <a-collapse-panel key="2" header="位置方向">
+          <a-collapse-panel key="2" header="模型位置">
             <a-form-item label="经度">
               <mars-input-number v-model:value="formState.txtX" :step="0.000001" @change="formStateChange" />
             </a-form-item>
@@ -25,15 +28,27 @@
 
             <a-form-item label="高度">
               <a-row :gutter="10">
-                <a-col :span="15">
+                <a-col :span="14">
                   <mars-input-number v-model:value="formState.txtZ" :step="0.1" @change="formStateChange" />
                 </a-col>
-                <a-col :span="9">
+                <a-col :span="10">
                   <a-checkbox v-model:checked="formState.depthTestAgainstTerrain" @change="formStateChange">深度检测</a-checkbox>
                 </a-col>
               </a-row>
             </a-form-item>
 
+            <a-form-item label="鼠标拖拽编辑">
+              <mars-switch v-model:checked="formState.tilesEditorEnabled" @change="formStateChange" />
+            </a-form-item>
+            <a-form-item label="视角定位">
+              <mars-button @click="locateToModel">定位至模型</mars-button>
+            </a-form-item>
+          </a-collapse-panel>
+
+          <a-collapse-panel key="2" header="模型方向">
+            <a-form-item label="变换垂直轴">
+              <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
+            </a-form-item>
             <a-form-item label="方向X">
               <mars-input-number v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" />
             </a-form-item>
@@ -42,13 +57,6 @@
             </a-form-item>
             <a-form-item label="方向Z(四周)">
               <mars-input-number v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" />
-            </a-form-item>
-
-            <a-form-item label="变换垂直轴">
-              <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
-            </a-form-item>
-            <a-form-item label="鼠标拖拽编辑">
-              <a-switch v-model:checked="formState.tilesEditorEnabled" @change="formStateChange" />
             </a-form-item>
           </a-collapse-panel>
 
@@ -70,8 +78,6 @@
 
         <div class="f-tac">
           <a-space>
-            <mars-button @click="locateToModel">视角定位至模型</mars-button>
-            <mars-button @click="showCompTree">查看构件</mars-button>
             <mars-button @click="saveBookmark">保存参数</mars-button>
           </a-space>
         </div>

@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button @click="showMapImg">查看场景出图</mars-button>
-      <mars-button @click="downLoad">下载场景出图</mars-button>
-      <mars-button @click="downLoad2">下载场景缩略图</mars-button>
-      <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
-    </a-space>
+  <mars-pannel :visible="true" right="10" top="10" width="220">
+    <mars-button @click="showMapImg">查看场景出图(弹窗)</mars-button>
+
+    <mars-button @click="downLoad">下载场景出图</mars-button>
+    <mars-button @click="downLoad2">下载场景缩略图</mars-button>
+
+    <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
   </mars-pannel>
 
   <mars-dialog :position="{ left: '25%', top: '30%' }" width="50%" title="场景出图" v-model:visible="showImg">
@@ -39,4 +39,9 @@ const downLoadDiv = () => {
   mapWork.downLoadDiv()
 }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.mars-button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+</style>

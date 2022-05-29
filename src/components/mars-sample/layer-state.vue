@@ -298,3 +298,8 @@ function bindLayerContextMenu() {
   ])
 }
 </script>
+<style scoped lang="less">
+.mars-pannel-item-label {
+  width: auto;
+}
+</style>

@@ -5,8 +5,8 @@
         <a-col :span="24">
           <a-form-item label="分析方式:" :labelCol="labelCol" :labelAlign="labelAlign">
             <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
-              <a-radio value="1">整体淹没</a-radio>
-              <a-radio value="2">局部淹没</a-radio>
+              <a-radio value="1">整体</a-radio>
+              <a-radio value="2">局部</a-radio>
             </a-radio-group>
           </a-form-item>
         </a-col>
@@ -89,10 +89,7 @@ onMounted(() => {
   $notify(
     "已知问题提示",
     `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
-  （2）目前不支持所有3dtile数据，请替换url进行自测`,
-    {
-      duration: null
-    }
+     （2）目前不支持所有3dtile数据，请替换url进行自测`
   )
 })
 interface FormState {

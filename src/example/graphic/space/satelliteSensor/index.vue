@@ -229,9 +229,6 @@ const chkSensorType = () => {
 }
 
 .ant-slider {
-  width: 110px;
-}
-.mars-pannel-item-label {
-  width: 64px;
+  width: 260px;
 }
 </style>

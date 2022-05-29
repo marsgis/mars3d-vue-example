@@ -8,16 +8,16 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <mars-button @click="clipping1">切顶部</mars-button>
-        <mars-button @click="clipping2">切底部</mars-button>
-        <mars-button @click="clipping3">切东向</mars-button>
+        <mars-button @click="mapWork.clippingType('ZR')">切顶部</mars-button>
+        <mars-button @click="mapWork.clippingType('Z')">切底部</mars-button>
+        <mars-button @click="mapWork.clippingType('XR')">切东向</mars-button>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <mars-button @click="clipping4">切西向</mars-button>
-        <mars-button @click="clipping5">切南向</mars-button>
-        <mars-button @click="clipping6">切北向</mars-button>
+        <mars-button @click="mapWork.clippingType('X')">切西向</mars-button>
+        <mars-button @click="mapWork.clippingType('Y')">切南向</mars-button>
+        <mars-button @click="mapWork.clippingType('YR')">切北向</mars-button>
       </a-space>
     </div>
 
@@ -33,14 +33,14 @@
     <p>裁剪面参数</p>
     <div class="f-mb">
       <a-space>
-        <span>裁剪距离</span>
+        <span class="mars-pannel-item-label">裁剪距离</span>
         <mars-slider @change="distance" v-model:value="distanceValue" :min="-100" :max="100" />
         <mars-input-number @change="txtDistance" v-model:value="distanceValue" :min="-100" :max="100" />米
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span>Z偏移量</span>
+        <span class="mars-pannel-item-label">斜切偏移量</span>
         <mars-slider @change="deviation" v-model:value="deviationValue" :min="-10" :max="10" />
         <mars-input-number @change="txtDeviation" v-model:value="deviationValue" :min="-10" :max="10" />米
       </a-space>
@@ -76,25 +76,7 @@ const drawPoly = () => {
 const drawPoly2 = () => {
   mapWork.drawPoly2()
 }
-// 切顶部
-const clipping1 = () => {
-  mapWork.clipping1()
-}
-const clipping2 = () => {
-  mapWork.clipping2()
-}
-const clipping3 = () => {
-  mapWork.clipping3()
-}
-const clipping4 = () => {
-  mapWork.clipping4()
-}
-const clipping5 = () => {
-  mapWork.clipping5()
-}
-const clipping6 = () => {
-  mapWork.clipping6()
-}
+
 const distance = () => {
   mapWork.rangeDistance(distanceValue.value)
 }

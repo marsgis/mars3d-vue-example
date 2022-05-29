@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="173px">
+  <mars-pannel :visible="true" right="10" top="10" width="190px">
     <mars-gui :options="options"></mars-gui>
   </mars-pannel>
 </template>

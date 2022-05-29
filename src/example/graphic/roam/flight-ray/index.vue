@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-pannel :visible="true" right="10" top="10" width="320">
     <a-form>
       <a-form-item>
         <a-row :gutter="[0, 10]">

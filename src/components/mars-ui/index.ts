@@ -45,6 +45,7 @@ import {
   PageHeader,
   Popover,
   Progress,
+  Pagination,
   Radio,
   Row,
   Slider,
@@ -133,6 +134,7 @@ export default function (app: App, config: Record<string, any> = {}): App {
   app.use(Divider)
   app.use(Card)
   app.use(Image)
+  app.use(Pagination)
 
   components.forEach((comp) => {
     app.component(comp.name, comp)

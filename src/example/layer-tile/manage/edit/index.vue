@@ -49,7 +49,7 @@
         <a-form-item label="亮度">
           <a-slider v-model:value="formState.brightness" @change="changeBrightness" :min="0" :max="1" :step="0.01" />
         </a-form-item>
-        <a-form-item label="使用代理"> <a-switch v-model:checked="formState.chkProxy" /> 是否使用代理 </a-form-item>
+        <a-form-item label="使用代理"> <mars-switch v-model:checked="formState.chkProxy" /> 是否使用代理 </a-form-item>
         <div class="f-tac">
           <a-space>
             <mars-button size="middle" @click="loadCoverage">加载图层</mars-button>
@@ -70,9 +70,11 @@
   </mars-pannel>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, onMounted } from "vue"
+import { reactive, ref, onMounted, h } from "vue"
 import * as mapWork from "./map.js"
 import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import MarsButton from "@mars/components/mars-ui/mars-button/index.vue"
+import { stringify } from "querystring"
 
 const marsGuiRef = ref()
 const options: GuiItem[] = [
@@ -241,7 +243,7 @@ const options: GuiItem[] = [
   {
     type: "input",
     field: "rectangle",
-    label: "输入框",
+    label: "矩形范围",
     value: "",
     change(data) {
       if (data === "") {
@@ -262,6 +264,7 @@ const options: GuiItem[] = [
     change(data) {
       marsGuiRef.value.updateField("opacity", data)
       mapWork.changeOpacity(data)
+      dataUpdate()
     }
   },
   {
@@ -275,6 +278,7 @@ const options: GuiItem[] = [
     change(data) {
       marsGuiRef.value.updateField("brightness", data)
       mapWork.changeBrightness(data)
+      dataUpdate()
     }
   },
   {
@@ -372,16 +376,37 @@ const reset = () => {
 // }
 
 onMounted(() => {
-  dataUpdate()
+  const lastData = JSON.parse(localStorage.getItem("c20_tileLayer_edit"))
+  // localStorage.removeItem("c20_tileLayer_edit")
+  if (lastData) {
+    marsGuiRef.value.updateFields(lastData)
+    updateAllData(lastData)
+    if (lastData.rectangle) {
+      mapWork.creatHRectangleEntity(JSON.parse(lastData.rectangle))
+    }
+    console.log("lastData", lastData)
+  } else {
+    dataUpdate()
+  }
 })
 
 mapWork.eventTarget.on("rectangle", (e: any) => {
-  marsGuiRef.value.updateField("rectangle", e.rectangle)
+  if (e.rectangle) {
+    marsGuiRef.value.updateField("rectangle", JSON.stringify(e.rectangle))
+    dataUpdate()
+  }
 })
 
 // 当参数改变时，修改加载图层的部分参数
 const dataUpdate = () => {
   const data = marsGuiRef.value.getValues()
+  updateAllData(data)
+  mapWork.dataUpdate(updateValue)
+  // 记录到历史
+  localStorage.setItem("c20_tileLayer_edit", JSON.stringify(data))
+}
+
+const updateAllData = (data) => {
   updateValue = reactive({
     url: data.url,
     type: data.type,
@@ -393,18 +418,19 @@ const dataUpdate = () => {
     maxLoadLevel: data.loadLevel[1],
     minShowLevel: data.showLevel[0],
     maxShowLevel: data.showLevel[1],
-    rectangle: data.rectangle,
+    rectangle: data.rectangle ? JSON.parse(data.rectangle) : null,
     opacity: data.opacity,
     brightness: data.brightness,
     chkProxy: data.chkProxy
   })
-  mapWork.dataUpdate(updateValue)
 }
 
 // 绘制和清除区域
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent(updateValue)
-  dataUpdate()
+  console.log("updateValue", updateValue)
+
+  // dataUpdate()
 }
 // const changeRectangle = (val: any) => {
 //   if (formState.rectangle === "") {

@@ -14,7 +14,7 @@
 import * as mapWork from "./map.js"
 import { $message, $notify } from "@mars/components/mars-ui/index"
 
-$notify("功能 和 已知问题提示", `(1) 因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`, { duration: null })
+$notify("功能 和 已知问题提示", `因为使用clippingPlanes接口，绘制面时，有些绘制的角度存在效果不对`)
 
 // 绘制矩形
 const drawExtent = () => {

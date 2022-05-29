@@ -11,7 +11,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">计算平行线:</span>
-        <mars-input-number class="line" v-model:value="value" :min="1" :max="10" />公里
+        <mars-input-number  v-model:value="value" :min="1" :max="10" />公里
         <mars-button @click="parallelLines">计算</mars-button>
       </a-space>
     </div>
@@ -52,7 +52,7 @@ const calculationCurve = () => {
 </script>
 
 <style scoped>
-.line {
-  width: 142px !important;
+.mars-pannel-item-label{
+  width: 74px;
 }
 </style>

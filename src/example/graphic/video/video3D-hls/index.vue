@@ -179,6 +179,6 @@ const playOrpause = () => {
   width: 160px;
 }
 .mars-pannel-item-label {
-  width: 100px;
+  width: 89px;
 }
 </style>

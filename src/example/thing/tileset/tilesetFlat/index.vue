@@ -4,6 +4,16 @@
       <div>
         <a-row :gutter="[5, 10]">
           <a-col :span="6">
+            <a-form-item label="模型"></a-form-item>
+          </a-col>
+          <a-col :span="18">
+            <a-space>
+              <mars-button @click="showDytDemo">大雁塔</mars-button>
+              <mars-button @click="showTehDemo">天鹅湖</mars-button>
+            </a-space>
+          </a-col>
+
+          <a-col :span="6">
             <a-form-item label="开挖区域"></a-form-item>
           </a-col>
           <a-col :span="18">
@@ -65,8 +75,7 @@ onMounted(() => {
   $notify(
     "已知问题提示",
     `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
-    （2）目前不支持所有3dtile数据，请替换url进行自测`,
-    { duration: null }
+     （2）目前不支持所有3dtile数据，请替换url进行自测`
   )
 })
 interface FormState {
@@ -142,6 +151,19 @@ const deleted = (record: TableItem) => {
 // 是否显示测试边界线
 const chkShowLine = () => {
   mapWork.chkShowLine(formState.enabledBianJieXian)
+}
+
+// 添加大雁塔模型
+const showDytDemo = () => {
+  // 清除表格
+  dataSource.value = []
+  mapWork.showDytDemo(formState.enabledBianJieXian)
+}
+// 添加天鹅湖模型
+const showTehDemo = () => {
+  // 清除表格
+  dataSource.value = []
+  mapWork.showTehDemo(formState.enabledBianJieXian)
 }
 
 // 添加矩形

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="252">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="255">
     <div style="width: 220px">
       <div class="f-mb infoView-content">
         <a-space>
@@ -12,10 +12,8 @@
       </div>
 
       <div class="f-mb">
-        <a-space>
-          <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
-          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
-        </a-space>
+        <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain" title="深度检测">深度</a-checkbox>
+        <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
       </div>
 
       <div class="f-mb">

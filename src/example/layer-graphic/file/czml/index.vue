@@ -9,12 +9,13 @@
       <mars-button @click="showRocket">火箭发射</mars-button>
       <mars-button @click="showFireDrill">消防演练</mars-button>
     </a-space>
+
     <div class="f-pt">
       <layer-state label="图层控制：" />
     </div>
   </mars-pannel>
 
-  <mars-pannel :visible="true" right="10" top="100" width="220">
+  <mars-pannel :visible="true" right="10" top="110" width="220">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
     </mars-tree>
   </mars-pannel>
@@ -32,7 +33,6 @@ interface treeItem {
   children: treeItem[]
 }
 
-const isShow = ref()
 
 const treeData = ref<treeItem[]>([
   {
@@ -49,8 +49,8 @@ const expandedKeys = ref<string[]>([])
 const layersObj: any = {}
 
 // 隐藏button
-const isUrl = getQueryString("data") == null
-isShow.value = isUrl
+const isShow = ref()
+isShow.value = Boolean(getQueryString("data"))
 
 mapWork.eventTarget.on("loadGraphicLayer", function (event: any) {
   const modelList = event.data.list

@@ -20,7 +20,7 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">水流速(米/秒):</span>
+        <span class="mars-pannel-item-label">水流速:</span>
         <mars-slider @change="speedChange" v-model:value="speedValue" :min="0" :max="50" />当前速度{{ speedValue }}米/秒
       </a-space>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="300">
     <div class="property-content">
-      <h2 class="f-mb title">栅格底图参数</h2>
+      <h2 class="f-mb title">瓦片底图通用参数</h2>
       <mars-gui :options="options"></mars-gui>
     </div>
   </mars-pannel>
@@ -20,7 +20,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extra: "{brightness}",
+    // extra: "{brightness}",
     change(data) {
       changeOpacity("brightness", data)
     }
@@ -33,7 +33,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.16,
-    extra: "{contrast}",
+    // extra: "{contrast}",
     change(data) {
       changeOpacity("contrast", data)
     }
@@ -46,7 +46,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.1,
-    extra: "{hue}",
+    // extra: "{hue}",
     change(data) {
       changeOpacity("hue", data)
     }
@@ -59,7 +59,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extra: "{saturation}",
+    // extra: "{saturation}",
     change(data) {
       changeOpacity("saturation", data)
     }
@@ -72,7 +72,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.53,
-    extra: "{gamma}",
+    // extra: "{gamma}",
     change(data) {
       changeOpacity("gamma", data)
     }
@@ -85,7 +85,7 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extra: "{opacity}",
+    // extra: "{opacity}",
     change(data) {
       changeOpacity("opacity", data)
     }
@@ -98,8 +98,9 @@ const changeOpacity = (attribute: string, val: number) => {
 </script>
 <style lang="less" scoped>
 .title {
-  color: @mars-basecolor;
+  color: @mars-base-color;
   font-size: 16px;
+  text-align: center;
 }
 
 .property-content {

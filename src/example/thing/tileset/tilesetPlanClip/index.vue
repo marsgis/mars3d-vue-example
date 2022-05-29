@@ -14,17 +14,17 @@
 
         <div class="f-mb">
           <a-space>
-            <mars-button @click="clipping1">切顶部</mars-button>
-            <mars-button @click="clipping2">切底部</mars-button>
-            <mars-button @click="clipping3">切东向</mars-button>
+            <mars-button @click="mapWork.clippingType('ZR')">切顶部</mars-button>
+            <mars-button @click="mapWork.clippingType('Z')">切底部</mars-button>
+            <mars-button @click="mapWork.clippingType('XR')">切东向</mars-button>
           </a-space>
         </div>
 
         <div class="f-mb">
           <a-space>
-            <mars-button @click="clipping4">切西向</mars-button>
-            <mars-button @click="clipping5">切南向</mars-button>
-            <mars-button @click="clipping6">切北向</mars-button>
+            <mars-button @click="mapWork.clippingType('X')">切西向</mars-button>
+            <mars-button @click="mapWork.clippingType('Y')">切南向</mars-button>
+            <mars-button @click="mapWork.clippingType('YR')">切北向</mars-button>
           </a-space>
         </div>
       </a-collapse-panel>
@@ -100,30 +100,6 @@ const drawPoly = () => {
 // 绘制面(外切)
 const drawPoly2 = () => {
   mapWork.drawPoly2()
-}
-
-const clipping1 = () => {
-  mapWork.clipping1()
-}
-
-const clipping2 = () => {
-  mapWork.clipping2()
-}
-
-const clipping3 = () => {
-  mapWork.clipping3()
-}
-
-const clipping4 = () => {
-  mapWork.clipping4()
-}
-
-const clipping5 = () => {
-  mapWork.clipping5()
-}
-
-const clipping6 = () => {
-  mapWork.clipping6()
 }
 </script>
 <style scoped lang="less">

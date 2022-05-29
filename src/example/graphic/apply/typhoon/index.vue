@@ -135,6 +135,7 @@ onMounted(() => {
 })
 
 const rowSelection: TableProps["rowSelection"] = {
+  hideSelectAll: true,
   onSelect: (selectedRowKeys: typhoon, selected: boolean) => {
     selectedRowKeys.show = selected
 

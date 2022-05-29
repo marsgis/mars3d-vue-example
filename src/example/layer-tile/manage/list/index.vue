@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="220">
+  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="250">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
@@ -68,7 +68,6 @@ function renderChildNode(keys: string[], children: any[]) {
 // 初始化树构件
 const initTree = () => {
   const layers = mapWork.getLayers()
-
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
@@ -79,7 +78,8 @@ const initTree = () => {
         key: layer.uuid,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid
+        uuid: layer.uuid,
+        group: layer.type === "group"
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)

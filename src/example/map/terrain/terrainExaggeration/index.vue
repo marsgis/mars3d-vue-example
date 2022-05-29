@@ -19,6 +19,6 @@ const formStateChange = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 100px;
+  width: 90px;
 }
 </style>

@@ -2,14 +2,17 @@
   <mars-pannel :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <span>图层URL:</span>
+        <span class="mars-pannel-item-label">模型URL:</span>
         <mars-input v-model:value="url"></mars-input>
+        <mars-button @click="showModel">加载模型</mars-button>
       </a-space>
     </div>
-    <a-space>
-      <mars-button @click="showModel">加载模型</mars-button>
-      <mars-button @click="flyTo">视角复位</mars-button>
-    </a-space>
+
+    <a-form>
+      <a-form-item label="视角复位">
+        <mars-button @click="flyTo">视角定位至模型</mars-button>
+      </a-form-item>
+    </a-form>
   </mars-pannel>
 </template>
 

@@ -8,7 +8,7 @@
       <a-form-item label="起点">
         <a-space>
           <mars-input class="inputWidth" v-model:value="strat" disabled></mars-input>
-          <mars-button @click="stratPoint">选点</mars-button>
+          <mars-button @click="startPoint">选点</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="终点">
@@ -108,8 +108,8 @@ const selectWayOptions = ref([
 ])
 
 // 起点
-const stratPoint = async () => {
-  const stratPoint: any = await mapWork.stratPoint()
+const startPoint = async () => {
+  const stratPoint: any = await mapWork.startPoint()
   strat.value = stratPoint
 }
 

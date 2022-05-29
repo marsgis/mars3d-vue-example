@@ -63,15 +63,13 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledBloom: false,
   enabledShadows: false,
   enabledBrightness: true,
-  color: "#4B61E1"
+  color: "#34bdff"
 })
 
 const activeKey = ref(["1", "2", "3"])
 
 // 透明度
 const alphaVal = ref<number>(1.5)
-
-
 
 // 原始样式
 const setStyleDef = () => {

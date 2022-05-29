@@ -46,7 +46,7 @@
       <a-row :gutter="[0, 10]">
         <a-col :span="8">调整模型角度:</a-col>
         <a-col :span="11">
-          <a-switch v-model:checked="formState.isHand" />
+          <mars-switch v-model:checked="formState.isHand" />
         </a-col>
       </a-row>
     </div>

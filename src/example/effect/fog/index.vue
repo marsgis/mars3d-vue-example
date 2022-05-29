@@ -4,7 +4,7 @@
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">启用:</span>
-          <a-switch v-model:checked="formState.enabled" @change="onChangeState" />
+          <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
         </a-space>
       </div>
 
@@ -65,10 +65,7 @@ const onChangeDistanceZ = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
-  width: 40px;
-}
 .ant-slider {
-  width: 160px;
+  width: 140px;
 }
 </style>

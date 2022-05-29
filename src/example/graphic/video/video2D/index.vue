@@ -198,7 +198,7 @@ const playOrpause = () => {
 .ant-slider {
   width: 160px;
 }
-.mars-pannel-item-label {
-  width: 100px;
+:deep(.mars-pannel-item-label) {
+  width: 75px;
 }
 </style>

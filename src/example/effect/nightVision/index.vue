@@ -2,7 +2,7 @@
   <mars-pannel :visible="true" right="10" top="10">
     <a-space>
       <span>启用:</span>
-      <a-switch v-model:checked="enabled" @change="onChangeState" />
+      <mars-switch v-model:checked="enabled" @change="onChangeState" />
     </a-space>
   </mars-pannel>
 </template>
