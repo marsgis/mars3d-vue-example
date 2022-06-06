@@ -6,7 +6,7 @@
           <slot name="icon"></slot>
         </span>
         <span class="title">{{ mergeProps.title }}</span>
-        <mars-icon icon="close" :width="18" @click="closeModel" class="close-btn"></mars-icon>
+        <mars-icon icon="close" :width="18" color="#41A8FF" @click="closeModel" class="close-btn"></mars-icon>
       </div>
       <div class="pannel-model__body">
         <div class="content" :class="{ 'full-content': !$slots.footer }">
@@ -68,7 +68,7 @@ interface Props {
   customClass?: string // 自定义class
 }
 const props = withDefaults(defineProps<Props>(), {
-  warpper: "sanbox-warpper",
+  warpper: "mars-main-view",
   title: "",
   visible: false,
   width: 200,

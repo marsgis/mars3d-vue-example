@@ -1,7 +1,7 @@
 <template>
   <mars-pannel :visible="showClockAnimate" left="60" bottom="50">
     <p class="closePannel f-mb">
-      <mars-icon icon="close" width="24" @click="onClickHiddenTime" />
+      <mars-icon icon="close" width="14" @click="onClickHiddenTime" />
     </p>
     <div class="f-mb">
       <a-space>
@@ -66,17 +66,15 @@ const onChangeCurrentTime = (value: Dayjs) => {
 </style>
 
 <style lang="less" scoped>
-.mars-pannel-item-label {
-  width: 60px;
-}
-.closePannel {
-  display: flex;
-  justify-content: flex-end;
-}
-:deep(.ant-select-dropdown) {
-  background-color: #3f5563c4 !important;
-}
-:deep(.ant-picker) {
-  width: 300px;
-}
+
+// .closePannel {
+//   display: flex;
+//   justify-content: flex-end;
+// }
+// :deep(.ant-select-dropdown) {
+//   background-color: #3f5563c4 !important;
+// }
+// :deep(.ant-picker) {
+//   width: 300px;
+// }
 </style>

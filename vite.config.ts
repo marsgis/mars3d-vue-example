@@ -74,8 +74,8 @@ export default ({ mode }: ConfigEnv) => {
       rollupOptions: {
         input: {
           index: path.resolve(__dirname, "index.html"),
-          editor: path.resolve(__dirname, "editor-vue.html")
-          // read: path.resolve(__dirname, "read-vue.html")
+          editor: path.resolve(__dirname, "editor-vue.html"),
+          read: path.resolve(__dirname, "read-vue.html")
         }
       },
       // 当设置为 true, 构建后将会生成 manifest.json 文件

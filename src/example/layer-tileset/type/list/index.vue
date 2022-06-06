@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="220" bottom="50" customClass="layer-tree">
+  <mars-pannel :visible="true" right="10" top="10" width="220" customClass="layer-tree">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
@@ -147,7 +147,7 @@ function findChild(parent: any, list: any[]) {
 
 <style lang="less" scoped>
 .infoView {
-  max-height: 646px;
+  max-height: 650px;
   bottom: 40px;
   overflow: scroll;
 }

@@ -47,6 +47,6 @@ radiusChange()
   width: 55px;
 }
 .ant-input-number {
-  width: 120px !important;
+  width: 60px !important;
 }
 </style>

@@ -7,14 +7,14 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">模型URL:</span>
-        <mars-input v-model:value="url"></mars-input>
-        <mars-button @click="showModel">加载模型</mars-button>
+        <mars-input class="model-input" v-model:value="url"></mars-input>
+        <mars-button class="model-button" @click="showModel">加载模型</mars-button>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">设置移动步长:</span>
+        <span>设置移动步长:</span>
         <mars-button @click="getValue(0.1)" value="">0.1</mars-button>
         <mars-button @click="getValue(1)" value="1">1</mars-button>
         <mars-button @click="getValue(10)" value="10">10</mars-button>
@@ -56,7 +56,7 @@ import * as mapWork from "./map.js"
 
 const url = ref<any>()
 
-const result = ref<string>()
+const result = ref<string>("x:0.0" + " y:0.0" + " z:0.0")
 
 const enableHasTerrain = ref<boolean>(false)
 
@@ -133,5 +133,13 @@ const getValue = (val: number) => {
 <style scoped lang="less">
 .mars-pannel-item-label {
   width: 83px;
+}
+
+.model-input {
+  width: 145%;
+}
+
+.model-button {
+  margin-left: 75px;
 }
 </style>

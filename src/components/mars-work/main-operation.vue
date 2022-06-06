@@ -8,7 +8,7 @@
  * @author 木遥 2022-01-01
  */
 import { defineAsyncComponent, h, ref } from "vue"
-import { getQueryString } from "@mars/utils/mars-util"
+import { getExampleId } from "@mars/utils/mars-util"
 
 const modules = import.meta.glob("../../example/**/index.vue")
 
@@ -19,7 +19,7 @@ let PannelComponent: any
 const emits = defineEmits(["childMounted", "childUnmounted"])
 
 const loaded = ref(false)
-const exampleId = getQueryString("id")
+const exampleId = getExampleId()
 if (exampleId) {
   componentName = exampleId
   PannelComponent = defineAsyncComponent({

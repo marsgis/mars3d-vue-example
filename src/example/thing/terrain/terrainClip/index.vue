@@ -33,12 +33,8 @@
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
-                  <mars-button type="link">
-                    <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                  </mars-button>
-                  <mars-button type="link">
-                    <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                  </mars-button>
+                  <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                  <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
                 </a-space>
               </template>
               <template v-else>
@@ -82,13 +78,15 @@ const columns = ref([
   {
     title: "开挖区域",
     dataIndex: "name",
-    key: "name"
+    key: "name",
+    align: "center"
   },
   {
     title: "操作",
     dataIndex: "caozuo",
     key: "caozuo",
-    width: 80
+    width: 80,
+    align: "center"
   }
 ])
 const dataSource = ref([])

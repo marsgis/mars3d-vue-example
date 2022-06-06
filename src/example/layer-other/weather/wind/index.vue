@@ -87,7 +87,5 @@ const changeColor = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  width: 300px;
-}
+
 </style>

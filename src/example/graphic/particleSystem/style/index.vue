@@ -46,6 +46,7 @@ const options: GuiItem[] = [
     max: 60,
     value: 20,
     extra: "{sliderParticleSize}(px)",
+    extraWidth: 60,
     change(data) {
       marsGuiRef.value.updateField("sliderParticleSize", data)
       initParamView()
@@ -59,6 +60,7 @@ const options: GuiItem[] = [
     min: 0.0,
     max: 10.0,
     value: 1,
+    extraWidth: 60,
     extra: "{slideStart}",
     change(data) {
       marsGuiRef.value.updateField("slideStart", data)
@@ -74,6 +76,7 @@ const options: GuiItem[] = [
     max: 10.0,
     value: 3,
     extra: "{slideStop}",
+    extraWidth: 60,
     change(data) {
       marsGuiRef.value.updateField("slideStop", data)
       initParamView()
@@ -88,6 +91,7 @@ const options: GuiItem[] = [
     max: 500.0,
     value: 200,
     extra: "{emissionRate}(次/秒)",
+    extraWidth: 80,
     change(data) {
       marsGuiRef.value.updateField("emissionRate", data)
       initParamView()
@@ -102,6 +106,7 @@ const options: GuiItem[] = [
     max: 30.0,
     value: 1.2,
     extra: "{slideMinLife}(秒)",
+    extraWidth: 60,
     change(data) {
       marsGuiRef.value.updateField("slideMinLife", data)
       initParamView()
@@ -116,6 +121,7 @@ const options: GuiItem[] = [
     max: 30.0,
     value: 3.2,
     extra: "{slideMaxLife}(秒)",
+    extraWidth: 60,
     change(data) {
       marsGuiRef.value.updateField("slideMaxLife", data)
       initParamView()
@@ -130,6 +136,7 @@ const options: GuiItem[] = [
     max: 20.0,
     value: -11,
     extra: "{slideGravity}",
+    extraWidth: 60,
     change(data) {
       marsGuiRef.value.updateField("slideGravity", data)
       initParamView()
@@ -183,5 +190,9 @@ const btnSelectPosition = () => {
 }
 .mars-particle {
   width: 350px;
+}
+
+.ant-slider {
+  width: 170px !important;
 }
 </style>

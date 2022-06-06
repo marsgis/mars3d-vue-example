@@ -87,7 +87,7 @@ mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
 // 停止编辑修改模型
 mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
   setTimeout(() => {
-    if (!mapWork.graphicLayer.isEditing) {
+    if (mapWork.graphicLayer.isEditing) {
       disable("graphic-editor")
     }
   }, 100)

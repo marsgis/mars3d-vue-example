@@ -10,6 +10,7 @@
             <a-space>
               <mars-button @click="showDytDemo">大雁塔</mars-button>
               <mars-button @click="showTehDemo">天鹅湖</mars-button>
+              <mars-button @click="showQxShequDemo">某县城</mars-button>
             </a-space>
           </a-col>
 
@@ -45,12 +46,8 @@
               <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'caozuo'">
                   <a-space>
-                    <mars-button type="link">
-                      <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                    </mars-button>
-                    <mars-button type="link">
-                      <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                    </mars-button>
+                    <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                    <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
                   </a-space>
                 </template>
                 <template v-else>
@@ -69,15 +66,7 @@
 import { onMounted, reactive, ref } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@mars/components/mars-ui/index"
 
-onMounted(() => {
-  $notify(
-    "已知问题提示",
-    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
-     （2）目前不支持所有3dtile数据，请替换url进行自测`
-  )
-})
 interface FormState {
   enabledBianJieXian: boolean
   flatHeight: number
@@ -98,13 +87,15 @@ const columns = [
   {
     title: "压平区",
     dataIndex: "name",
-    key: "name"
+    key: "name",
+    align: "center"
   },
   {
     title: "操作",
     dataIndex: "caozuo",
     key: "caozuo",
-    width: 100
+    width: 100,
+    align: "center"
   }
 ]
 const dataSource = ref<TableItem[]>([])
@@ -155,24 +146,27 @@ const chkShowLine = () => {
 
 // 添加大雁塔模型
 const showDytDemo = () => {
-  // 清除表格
-  dataSource.value = []
+  dataSource.value = [] // 清除表格
   mapWork.showDytDemo(formState.enabledBianJieXian)
 }
 // 添加天鹅湖模型
 const showTehDemo = () => {
-  // 清除表格
-  dataSource.value = []
+  dataSource.value = [] // 清除表格
   mapWork.showTehDemo(formState.enabledBianJieXian)
+}
+
+const showQxShequDemo = () => {
+  dataSource.value = [] // 清除表格
+  mapWork.showQxShequDemo(formState.enabledBianJieXian)
 }
 
 // 添加矩形
 const btnDrawExtent = () => {
-  mapWork.btnDrawExtent(formState.enabledBianJieXian)
+  mapWork.btnDrawExtent(formState.enabledBianJieXian, formState.flatHeight)
 }
 // 添加多边形
 const btnDraw = () => {
-  mapWork.btnDraw(formState.enabledBianJieXian)
+  mapWork.btnDraw(formState.enabledBianJieXian, formState.flatHeight)
 }
 // 清除
 const removeAll = () => {
@@ -192,5 +186,9 @@ const changeFlatHeight = () => {
 .miFont {
   margin-top: 10px;
   color: white;
+}
+
+:deep(.ant-table-pagination) {
+  margin: 16px 0 1px 0 !important;
 }
 </style>

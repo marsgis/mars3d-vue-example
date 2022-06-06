@@ -95,14 +95,17 @@ const onChangeTooltip = () => {
   const layer = getManagerLayer()
   if (formState.enabledTooltip) {
     // layer.bindTooltip("我是layer上绑定的Tooltip")
-    layer.bindTooltip(function (event) {
-      const attr = getAttrForEvent(event)
-      attr["类型"] = event.graphic?.type
-      attr["来源"] = "我是layer上绑定的Toolip"
-      attr["备注"] = "我支持鼠标移入交互"
+    layer.bindTooltip(
+      function (event) {
+        const attr = getAttrForEvent(event)
+        attr["类型"] = event.graphic?.type
+        attr["来源"] = "我是layer上绑定的Toolip"
+        attr["备注"] = "我支持鼠标移入交互"
 
-      return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
-    }, { pointerEvents: true })
+        return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+      },
+      { pointerEvents: true }
+    )
   } else {
     layer.unbindTooltip()
   }
@@ -124,21 +127,24 @@ const onChangeRightMenu = () => {
 // 在图层绑定Popup弹窗
 function bindLayerPopup() {
   const graphicLayer = getManagerLayer()
-  graphicLayer.bindPopup(function (event) {
-    const attr = getAttrForEvent(event)
-    attr["类型"] = event.graphic?.type
-    attr["来源"] = "我是layer上绑定的Popup"
-    attr["备注"] = "我支持鼠标交互"
+  graphicLayer.bindPopup(
+    function (event) {
+      const attr = getAttrForEvent(event)
+      attr["类型"] = event.graphic?.type
+      attr["来源"] = "我是layer上绑定的Popup"
+      attr["备注"] = "我支持鼠标交互"
 
-    return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+      return mars3d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
 
-    // return new Promise((resolve) => {
-    //   //这里可以进行后端接口请求数据，setTimeout测试异步
-    //   setTimeout(() => {
-    //     resolve('Promise异步回调显示的弹窗内容信息')
-    //   }, 2000)
-    // })
-  }, { pointerEvents: true })
+      // return new Promise((resolve) => {
+      //   //这里可以进行后端接口请求数据，setTimeout测试异步
+      //   setTimeout(() => {
+      //     resolve('Promise异步回调显示的弹窗内容信息')
+      //   }, 2000)
+      // })
+    },
+    { pointerEvents: true }
+  )
 }
 
 function getAttrForEvent(event) {
@@ -217,7 +223,11 @@ function bindLayerContextMenu() {
         if (!graphic) {
           return
         }
-        graphicLayer.removeGraphic(graphic)
+        const parent = graphic._parent // 右击是编辑点时
+        this._graphicLayer.removeGraphic(graphic)
+        if (parent) {
+          this._graphicLayer.removeGraphic(parent)
+        }
       }
     },
     {

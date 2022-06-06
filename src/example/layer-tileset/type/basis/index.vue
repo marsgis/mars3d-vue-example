@@ -30,11 +30,6 @@
             <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
             <a-checkbox v-model:checked="formState.enabledGfirstperson" @change="bindGfirstperson">键盘漫游</a-checkbox>
           </a-space>
-          <div class="f-mb"></div>
-          <a-space>
-            <a-checkbox v-model:checked="formState.enabledWireframe" @change="bindWireframe">模型三角网</a-checkbox>
-            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
-          </a-space>
         </div>
       </a-collapse-panel>
 

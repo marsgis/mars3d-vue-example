@@ -17,6 +17,7 @@ export interface GuiItem {
   label: string
   extra?: any
   extraWidth?: number
+  extraType?: "string" | "custom"
   min?: number
   max?: number
   step?: number

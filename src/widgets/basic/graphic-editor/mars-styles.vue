@@ -78,13 +78,12 @@ const showImpacts = ref<any[]>([])
 const showLabelImpacts = ref<any[]>([])
 const labelConfig = getLabelConfig()
 
-let graphicType:string
+let graphicType: string
 
 watch(
   props,
   () => {
     if (props && props.style) {
-
       styleValue.value = _.cloneDeep(props.style)
       setDefault()
       const gp = getGraphic()
@@ -234,7 +233,7 @@ function styleShowIt(item: any) {
   const attrName = item.name
   // 以下对样式互斥的处理。
   // 贴地对象
-  if (styleValue.value.clampToGround && graphicType !== "model") {
+  if (styleValue.value.clampToGround && graphicType !== "model" && graphicType !== "label") {
     if (
       attrName === "fill" || // 不能取消填充。
       attrName === "height" || // 没有高度

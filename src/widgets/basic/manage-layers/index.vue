@@ -63,7 +63,7 @@ const checkedChange = (keys: string[], e: any) => {
     }
 
     // 特殊处理同目录下的单选的互斥的节点，可在config对应图层节点中配置"radio":true即可
-    if (layer.options.radio && e.checked) {
+    if (layer.options?.radio && e.checked) {
       // 循环所有的图层
       for (const i in layersObj) {
         const item = layersObj[i]
@@ -82,7 +82,7 @@ const checkedChange = (keys: string[], e: any) => {
     }
 
     // 处理图层的关联事件
-    if (layer.options.onWidget) {
+    if (layer.options?.onWidget) {
       if (e.checked) {
         if (lastWidget) {
           disable(lastWidget)
@@ -110,7 +110,7 @@ const checkedChange = (keys: string[], e: any) => {
     }
 
     // 处理图层构件树控件
-    if (layer.options.scenetree) {
+    if (layer.options?.scenetree) {
       initLayerTree(layer)
     }
   }
@@ -192,6 +192,8 @@ function initTree() {
     if (!layer._hasMapInit && layer.pid === -1 && layer.id !== 99) {
       layer.pid = 99 // 示例中创建的图层都放到99分组下面
     }
+
+    layersObj[layer.id] = layers
 
     if (layer && layer.pid === -1) {
       const node: any = reactive({

@@ -10,7 +10,7 @@
       </a-form-item>
 
       <a-form-item label="城市" v-show="radioFanwei === '1'">
-        <a-cascader v-model:value="value" :options="options" @change="onChange">
+        <a-cascader v-model:value="value" :options="options" dropdownClassName="mars-select-dropdown" @change="onChange">
           <a href="#">{{ citySheng }} / {{ cityShi }}</a>
         </a-cascader>
       </a-form-item>
@@ -36,7 +36,7 @@
 
       <div v-show="tableShow">
         <a-form-item>
-          <a-table
+          <mars-table
             :pagination="true"
             :dataSource="dataSource"
             :columns="columns"
@@ -74,7 +74,7 @@ const columns = ref([
     title: "序号",
     dataIndex: "key",
     key: "key",
-    width: 35
+    width: 50
   },
   {
     title: "名称",
@@ -87,7 +87,7 @@ const columns = ref([
     key: "type"
   },
   {
-    title: "住址",
+    title: "地址",
     dataIndex: "address",
     key: "address"
   }
@@ -166,6 +166,9 @@ const removeAll = () => {
   dataSource.value = []
   mapWork.clearAll()
 }
-
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.ant-input {
+  width: 260px !important;
+}
+</style>

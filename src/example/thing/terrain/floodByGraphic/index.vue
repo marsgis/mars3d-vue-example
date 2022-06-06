@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="274">
+  <mars-pannel :visible="true" right="10" top="10" width="300">
     <div v-show="!isShow">
       <div class="f-mb">
         <a-space>
@@ -11,7 +11,7 @@
 
       <div class="f-mb">
         <a-space>
-          <span>最低海拔</span>
+          <span class="mars-pannel-item-label">最低海拔</span>
           <mars-input-number v-model:value="formState.minHeight" :step="1" />
           <span>（米）</span>
         </a-space>
@@ -19,7 +19,7 @@
 
       <div class="f-mb">
         <a-space>
-          <span>最高海拔</span>
+          <span class="mars-pannel-item-label">最高海拔</span>
           <mars-input-number v-model:value="formState.maxHeight" :step="1" />
           <span>（米）</span>
         </a-space>
@@ -27,9 +27,9 @@
 
       <div class="f-mb">
         <a-space>
-          <span>淹没速度</span>
+          <span class="mars-pannel-item-label">淹没速度</span>
           <mars-input-number v-model:value="formState.speed" :step="1" />
-          <span>（米/秒）</span>
+          <div class="miles-second">（米/秒）</div>
         </a-space>
       </div>
 
@@ -139,5 +139,8 @@ const begin = () => {
 <style scoped lang="less">
 .ant-slider {
   width: 140px;
+}
+.miles-second {
+  width: 120px !important;
 }
 </style>

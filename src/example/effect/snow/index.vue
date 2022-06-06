@@ -1,26 +1,19 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="254">
-    <div style="width: 232px">
-      <div class="f-mb f-tac">
-        <a-space>
-          <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果</a-checkbox>
-          <a-checkbox @change="onChangeCoverState" v-model:checked="formState.enabledCover">积雪效果</a-checkbox>
-        </a-space>
-      </div>
+  <mars-pannel :visible="true" right="10" top="10" width="360">
+    <div class="f-mb">
+      <a-space>
+        <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果：</a-checkbox>
+        <span>下雪速度</span>
+        <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="mars-pannel-item-label">速 度:</span>
-          <mars-slider @change="onChangeSpeed" v-model:value="formState.speed" :min="1" :max="100" />
-        </a-space>
-      </div>
-
-      <div>
-        <a-space>
-          <span class="mars-pannel-item-label">积雪程度:</span>
-          <mars-slider @change="onChangeAlpha" v-model:value="formState.alpha" :min="0" :max="1" :step="0.1" />
-        </a-space>
-      </div>
+    <div>
+      <a-space>
+        <a-checkbox @change="onChangeCoverState" v-model:checked="formState.enabledCover">积雪效果：</a-checkbox>
+        <span>积雪程度</span>
+        <mars-slider @change="onChangeAlpha" v-model:value="formState.alpha" :min="0" :max="1" :step="0.1" />
+      </a-space>
     </div>
   </mars-pannel>
 </template>

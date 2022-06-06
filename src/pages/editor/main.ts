@@ -2,7 +2,7 @@ import { createApp, defineComponent } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, getInjectKey } from "@mars/widgets/common/store/widget"
-import { getQueryString } from "@mars/utils/mars-util"
+import { getExampleId, getQueryString } from "@mars/utils/mars-util"
 import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
@@ -72,4 +72,4 @@ function destoryUI() {
   vueApp = null
 }
 
-marsEditor.render(document.getElementById("root"), getQueryString("id"), getQueryString("name"))
+marsEditor.render(document.getElementById("root"), getExampleId(), getQueryString("name"))

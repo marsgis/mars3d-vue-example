@@ -67,8 +67,10 @@
           </a-form-item>
 
           <a-form-item label="颜色选择">
-            <mars-color-picker v-model:value="formState.color" />
-            已选择：{{ formState.color }}
+            <a-space>
+              <mars-color-picker v-model:value="formState.color" />
+              <div class="color-state">已选择：{{ formState.color }}</div>
+            </a-space>
           </a-form-item>
 
           <div class="f-tac">
@@ -434,5 +436,9 @@ const onCheckTreeItem = (keys: string[]) => {
 <style lang="less">
 .infoView {
   overflow-y: auto;
+}
+
+.color-state {
+  padding-bottom: 1.3px;
 }
 </style>

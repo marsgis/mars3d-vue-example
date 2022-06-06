@@ -13,12 +13,8 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
             <a-space>
-              <mars-button type="link">
-                <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-              </mars-button>
-              <mars-button type="link">
-                <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-              </mars-button>
+              <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+              <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
             </a-space>
           </template>
           <template v-else>
@@ -31,18 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
-
+import { ref } from "vue"
 import * as mapWork from "./map.js"
-import { $notify } from "@mars/components/mars-ui/index"
-
-onMounted(() => {
-  $notify(
-    "已知问题提示",
-    `（1）对3dtiles数据有要求，仅适用于无自带着色器的纹理格式模型。
-     （2）目前不支持所有3dtile数据，请替换url进行自测`
-  )
-})
 
 interface TableItem {
   key: number
@@ -54,13 +40,15 @@ const columns = [
   {
     title: "裁剪区",
     dataIndex: "name",
-    key: "name"
+    key: "name",
+    align: "center"
   },
   {
     title: "操作",
     dataIndex: "caozuo",
     key: "caozuo",
-    width: 80
+    width: 80,
+    align: "center"
   }
 ]
 const dataSource = ref<TableItem[]>([])

@@ -3,20 +3,20 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度</span>
-        <mars-input-number :step="0.000001" v-model:value="formState.lng" @change="onChangePosition">经度</mars-input-number>
+        <mars-input-number :step="0.000001" v-model:value="formState.lng" @change="onChangePosition" style="width: 100%">经度</mars-input-number>
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">纬度</span>
-        <mars-input-number :step="0.000001" v-model:value="formState.lat" @change="onChangePosition">纬度</mars-input-number>
+        <mars-input-number :step="0.000001" v-model:value="formState.lat" @change="onChangePosition" style="width: 100%">纬度</mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">高度</span>
-        <mars-input-number :step="0.1" v-model:value="formState.alt" @change="onChangePosition">高度</mars-input-number>
+        <mars-input-number :step="0.1" v-model:value="formState.alt" @change="onChangePosition" style="width: 100%">高度</mars-input-number>
       </a-space>
     </div>
 

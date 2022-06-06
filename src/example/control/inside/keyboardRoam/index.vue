@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="460">
+  <mars-pannel :visible="true" right="10" top="10" width="470">
     <div class="f-mb">
       <a-space>
         <span>演示视角：</span>
@@ -10,45 +10,7 @@
       </a-space>
     </div>
     <div class="f-mb">
-      <a-row>
-        <a-col :span="5">相机平移:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <span>W :向前</span>
-            <span>S :向后</span>
-            <span>D :向右</span>
-            <span>A :向左</span>
-            <span>Q :升高</span>
-            <span>E :降低</span>
-          </a-space>
-        </a-col>
-      </a-row>
-
-      <a-row>
-        <a-col :span="5">相机本身:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <span>↑ :抬头</span>
-            <span>↓ :低头</span>
-            <span>← :向左旋转</span>
-            <span>→ :向右旋转</span>
-          </a-space>
-        </a-col>
-      </a-row>
-
-      <a-row>
-        <a-col :span="5">屏幕中心点:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <span>I :飞近</span>
-            <span>K :远离</span>
-            <span>U :向上</span>
-            <span>O :向下</span>
-            <span>J :逆时针</span>
-            <span>L :顺时针</span>
-          </a-space>
-        </a-col>
-      </a-row>
+      <img src="/img/tietu/keyboard.png" alt="" />
     </div>
   </mars-pannel>
 </template>

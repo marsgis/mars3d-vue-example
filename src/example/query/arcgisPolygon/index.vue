@@ -24,7 +24,7 @@
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
           <a-tab-pane key="1" tab="表格" force-render :forceRender="true">
             <a-form-item>
-              <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
+              <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
             </a-form-item>
           </a-tab-pane>
           <a-tab-pane key="2" tab="饼状图" :forceRender="true">

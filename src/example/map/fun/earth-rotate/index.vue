@@ -95,6 +95,17 @@ const stopRotate = () => {
   bottom: 40px;
   left: 10%;
   position: absolute;
+
+  .mars-button:not([disabled]) {
+    &:hover {
+      color: @mars-base-color;
+      background: url("/img/btnBar/button_select.png") no-repeat !important ;
+    }
+    &:focus {
+      color: @mars-base-color;
+      background: url("/img/btnBar/button_select.png") no-repeat !important ;
+    }
+  }
 }
 
 .btnbar_item {
@@ -110,10 +121,6 @@ const stopRotate = () => {
   background: url("/img/btnBar/button.png") no-repeat;
   background-size: 100% 100%;
   margin-right: 40px;
-
-  :hover{
-    background: url("/img/btnBar/button_select.png") no-repeat;
-  }
 }
 .infoview_panel_scroll {
   height: 98%;

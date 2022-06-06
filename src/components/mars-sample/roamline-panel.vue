@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true"  right="10" bottom="60" width="230" height="330">
+  <mars-pannel :visible="true" right="10" bottom="60" width="230" height="330">
     <a-form>
       <a-row :gutter="[0, 8]">
         <a-col :span="12">总长度:</a-col>
@@ -29,7 +29,7 @@
         <a-col :span="12">离地距离:</a-col>
         <a-col :span="12">{{ formState.td_ldgd }}</a-col>
 
-        <a-progress :percent="formState.percent" size="small" />
+        <a-progress :percent="formState.percent" size="small" color="#fff" />
       </a-row>
     </a-form>
   </mars-pannel>
@@ -97,5 +97,9 @@ onMounted(() => {
   bottom: 60px;
   overflow-y: hidden;
   z-index: 0 !important;
+}
+
+:deep(.ant-progress-text) {
+  color: #fff;
 }
 </style>

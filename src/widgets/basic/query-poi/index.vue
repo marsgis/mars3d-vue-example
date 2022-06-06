@@ -12,7 +12,7 @@
           @input="handleSearch(searchTxt)"
         ></mars-input>
         <mars-button class="button">
-          <mars-icon icon="search" width="20" color="#fff"></mars-icon>
+          <mars-icon icon="search" width="20" color="#fff" @click="selectPoint(searchTxt)"></mars-icon>
         </mars-button>
       </div>
 
@@ -20,19 +20,22 @@
         <li v-for="(item, i) in dataSource" :key="i" class="search-list__item" @click="selectPoint(item.value)">{{ item.value }}</li>
       </ul>
       <div class="query-site" v-if="siteListShow">
-        <ul>
-          <li v-for="(item, i) in siteSource" :key="i" class="query-site__item" @click.stop="flyTo(item)">
-            <div class="query-site__context">
-              <p class="query-site-text">{{ i + 1 }}、{{ item.name }}</p>
-              <p class="query-site-sub">{{ item.type }}</p>
-            </div>
-            <a :href="url + item.id" target="_blank" class="query-site__more">更多>></a>
-          </li>
-        </ul>
-        <div class="query-site__page">
-          <p class="query-site-allcount">共{{ allCount }}条结果</p>
-          <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6" :simple="true" />
-        </div>
+        <template v-if="siteSource && siteSource.length">
+          <ul>
+            <li v-for="(item, i) in siteSource" :key="i" class="query-site__item" @click.stop="flyTo(item)">
+              <div class="query-site__context">
+                <p class="query-site-text f-toe" :title="item.name">{{ i + 1 }}、{{ item.name }}</p>
+                <p class="query-site-sub f-toe">{{ item.type }}</p>
+              </div>
+              <a :href="url + item.id" target="_blank" class="query-site__more">更多>></a>
+            </li>
+          </ul>
+          <div class="query-site__page">
+            <p class="query-site-allcount">共{{ allCount }}条结果</p>
+            <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6" :simple="true" />
+          </div>
+        </template>
+        <a-empty class="f-push-10-t" v-else />
       </div>
     </div>
   </mars-pannel>
@@ -44,6 +47,7 @@ import { isLonLat } from "@mars/utils/mars-util"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { $message, $alert } from "@mars/components/mars-ui/index"
+import { $hideLoading, $showLoading } from "@mars/components/mars-ui/mars-loading"
 
 // 启用map.ts生命周期
 useLifecycle(mapWork)
@@ -71,7 +75,7 @@ const startCloseSearch = () => {
 }
 
 // 搜寻输入框数据之前的提示数据 以及搜寻过的历史数据  通过列表展现
-const handleSearch = (val: string) => {
+const handleSearch = async (val: string) => {
   if (val === "") {
     showHistoryList()
     mapWork.clearLayers()
@@ -84,18 +88,19 @@ const handleSearch = (val: string) => {
   }
 
   siteListShow.value = false
-  mapWork.queryData(val).then((result: any) => {
-    const list: { value: string }[] = []
-    result.list.forEach((item: any) => {
-      if (list.every((l) => l.value !== item.name)) {
-        list.push({
-          value: item.name
-        })
-      }
-    })
-    dataSource.value = list
-    searchListShow.value = true
+
+  const result = await mapWork.queryData(val)
+  const list: { value: string }[] = []
+  result.list.forEach((item: any) => {
+    if (list.every((l) => l.value !== item.name)) {
+      list.push({
+        value: item.name
+      })
+    }
   })
+
+  dataSource.value = list
+  searchListShow.value = true
 }
 
 // 展示搜寻过的历史数据
@@ -116,11 +121,12 @@ const showHistoryList = () => {
 
 // 开始查询并加载数据
 const selectPoint = async (value: any) => {
-  if (!searchTxt.value) {
-    searchTxt.value = value
-  }
+  searchTxt.value = value
+
+  $showLoading()
   addHistory(value)
   await querySiteList(value, 1)
+  $hideLoading()
   siteListShow.value = true
   searchListShow.value = false
 }
@@ -138,12 +144,16 @@ const pagination = {
 
 async function querySiteList(text: string, page: number) {
   const result = await mapWork.querySiteList(text, page)
+
+  if (!result.list || result.list.length <= 0) {
+    $message("暂无数据")
+  }
+
   pagination.total = Number(result.allcount) || 0
   siteSource.value = result.list || []
   allCount.value = result.allcount
 
   mapWork.showPOIArr(result.list || [])
-  console.log(result)
 
   return result
 }
@@ -265,12 +275,14 @@ function addHistory(data: any) {
       flex-grow: 1;
       .query-site-text {
         font-size: 16px;
+        width: 200px;
         font-family: Source Han Sans CN;
         font-weight: 400;
         color: @mars-base-color;
       }
       .query-site-sub {
         font-size: 14px;
+        width: 200px;
         font-family: Source Han Sans CN;
         font-weight: 400;
         color: @mars-content-color;

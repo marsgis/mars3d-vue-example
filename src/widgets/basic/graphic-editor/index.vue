@@ -31,7 +31,7 @@ provide("getGraphicAttr", () => {
   return graphicAttr
 })
 
-const graphic = currentWidget.data.graphic
+let graphic = currentWidget.data.graphic
 provide("getGraphic", () => {
   return graphic
 })
@@ -43,25 +43,18 @@ onMounted(() => {
   updataLayer()
 })
 
-// 监听到矢量数据发生变化
-function updataLayer(curr?: any) {
-  let gp: any
-  if (curr) {
-    gp = curr
-  } else {
-    gp = graphic
-  }
-  if (gp) {
-    style.value = _.cloneDeep(gp.style)
-    const config = (graphicAttr as any)[gp.options?.edittype || gp.type] || {}
-    styleConfig.value = config
-  }
-}
-
 if (currentWidget) {
   currentWidget.onUpdate((e) => {
-    updataLayer(e.graphic)
+    graphic = e.data.graphic
+    updataLayer()
   })
+}
+
+// 监听到矢量数据发生变化
+function updataLayer() {
+  style.value = _.cloneDeep(graphic.style)
+  const config = (graphicAttr as any)[graphic.options?.edittype || graphic.type] || {}
+  styleConfig.value = config
 }
 
 function flyToGraphic() {

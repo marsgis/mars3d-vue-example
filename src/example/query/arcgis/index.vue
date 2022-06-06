@@ -28,7 +28,7 @@
 
         <div v-show="show">
           <div class="f-mb">
-            <a-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
+            <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
           </div>
           <div class="f-mb querybar-fr">
             <a-space>
@@ -78,7 +78,8 @@ const columns = ref([
     title: "类型",
     dataIndex: "type",
     key: "type",
-    align: "center"
+    align: "center",
+    width: 50
   },
   {
     title: "地址",

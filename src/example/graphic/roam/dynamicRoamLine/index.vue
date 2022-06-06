@@ -1,6 +1,6 @@
 <template>
   <mars-pannel :visible="true" right="10" top="10" width="300">
-    <a-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
+    <mars-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
   </mars-pannel>
   <mars-pannel customClass="message-list" :visible="true" right="10" top="310" width="300">
     <div v-for="(msgList, index) in msg" :key="index">

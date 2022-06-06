@@ -29,9 +29,10 @@
 
 <script setup lang="ts">
 import { $message } from "@mars/components/mars-ui"
+import MarsButton from "@mars/components/mars-ui/mars-button/index.vue"
 import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 import * as mapWork from "./map.js"
-import { ref } from "vue"
+import { ref, h, defineComponent } from "vue"
 
 const options: GuiItem[] = [
   {
@@ -75,7 +76,18 @@ const options: GuiItem[] = [
     value: "mars3d",
     change(data) {
       $message("你输入了：" + data)
-    }
+    },
+    extra: h(
+      MarsButton,
+      {
+        onClick: () => {
+          alert("点击了")
+        }
+      },
+      "测试"
+    ),
+    extraType: "custom"
+    // extra: "<mars-button>测试</mars-button>"
   },
   {
     type: "textarea",
@@ -287,7 +299,7 @@ function updateAll() {
 }
 
 function updateAllDate() {
-  marsGuiRef.value.updateAllDate({
+  marsGuiRef.value.updateFields({
     opcity: 0.8,
     car: "货车"
   })

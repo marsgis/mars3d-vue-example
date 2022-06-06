@@ -22,7 +22,7 @@
 
       <div v-show="showTable">
         <a-form-item>
-          <a-table
+          <mars-table
             :pagination="true"
             :dataSource="dataSource"
             :columns="columns"
@@ -72,7 +72,8 @@ const columns = ref([
   {
     title: "类型",
     dataIndex: "type",
-    key: "type"
+    key: "type",
+    width: 50
   },
   {
     title: "住址",

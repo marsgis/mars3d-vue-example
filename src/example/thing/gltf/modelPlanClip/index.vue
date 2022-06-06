@@ -46,10 +46,7 @@
       </a-space>
     </div>
 
-    <p></p>
-    <a-space>
-      <mars-button @click="clear">清除</mars-button>
-    </a-space>
+    <div class="f-tac"><mars-button @click="clear">清除</mars-button></div>
   </mars-pannel>
 </template>
 

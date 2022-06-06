@@ -29,7 +29,7 @@
       </div>
 
       <div v-show="dataSource.length > 0">
-        <a-table
+        <mars-table
           :pagination="false"
           :dataSource="dataSource"
           :columns="columns"
@@ -37,7 +37,7 @@
           size="small"
           bordered
           :scroll="{ y: 300 }"
-        ></a-table>
+        ></mars-table>
       </div>
     </a-form>
   </mars-pannel>
@@ -67,7 +67,7 @@ const columns = [
     title: "序号",
     dataIndex: "index",
     key: "index",
-    width: 35
+    width: 50
   },
   {
     title: "名称",

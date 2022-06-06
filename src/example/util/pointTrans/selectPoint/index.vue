@@ -186,9 +186,9 @@ const submitCenter = () => {
 </script>
 <style scoped lang="less">
 .shijingzhi {
-  width: 225px;
+  width: 286px;
 }
 .dufenmiao {
-  width: 90px;
+  width: 50px;
 }
 </style>

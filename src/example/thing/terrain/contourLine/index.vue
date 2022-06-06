@@ -14,12 +14,10 @@
       <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
-            <mars-button type="link">
+            <a-space>
               <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-            </mars-button>
-            <mars-button type="link">
               <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-            </mars-button>
+            </a-space>
           </template>
           <template v-else>
             {{ record.name }}
@@ -140,12 +138,14 @@ const columns = ref([
   {
     title: "开挖区域",
     dataIndex: "name",
-    key: "name"
+    key: "name",
+    align: "center"
   },
   {
     title: "操作",
     dataIndex: "caozuo",
     key: "caozuo",
+    align: "center",
     width: 100
   }
 ])
