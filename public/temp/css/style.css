@@ -301,6 +301,24 @@ html {
 .mars3d-popup-background {
   background: rgba(23, 49, 71, 0.8);
 }
+
+.mars3d-tooltip {
+  background: rgba(23, 49, 71, 0.8);
+  border: 1px solid rgba(23, 49, 71, 0.8);
+}
+.mars3d-tooltip-top:before {
+  border-top-color: rgba(23, 49, 71, 0.8);
+}
+.mars3d-tooltip-bottom:before {
+  border-bottom-color: rgba(23, 49, 71, 0.8);
+}
+.mars3d-tooltip-left:before {
+  border-left-color: rgba(23, 49, 71, 0.8);
+}
+.mars3d-tooltip-right:before {
+  border-right-color: rgba(23, 49, 71, 0.8);
+}
+
 .mars3d-template-content label {
   padding-right: 6px;
 }
