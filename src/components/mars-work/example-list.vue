@@ -308,7 +308,7 @@ export default {
 
     getVerDiff() {
       let index = 0
-      let arrNew = "序号,分类,子分类,功能名称,更新时间\n"
+      let arrNew = "序号,分类,子分类,功能名称,示例ID\n"
 
       this.examples_list.forEach((item) => {
         if (!item.children) {
@@ -319,7 +319,7 @@ export default {
             return
           }
           item2.children.forEach((item3) => {
-            arrNew += `${++index},${item.name},${item2.name},${item3.name},${item3.date}\n`
+            arrNew += `${++index},${item.name},${item2.name},${item3.name},${item3.main}\n`
           })
         })
       })
