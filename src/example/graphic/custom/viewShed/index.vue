@@ -1,20 +1,26 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label"></span>
-        <mars-button @click="addViewShed">添加可视域</mars-button>
-        <mars-button @click="clear">清除</mars-button>
-      </a-space>
-    </div>
+  <mars-dialog :visible="true" right="10" top="10">
+    <graphic-layer-state
+      :defaultCount="10"
+      :interaction="false"
+      :customEditor="'viewShed'"
+      @onStartEditor="onStartEditor"
+      @onStopEditor="onStopEditor"
+    />
+  </mars-dialog>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">相机位置:</span>
-        <mars-button @click="selCamera">鼠标图上点选(相机位置)</mars-button>
-      </a-space>
-    </div>
-
+  <mars-dialog
+    left="10"
+    top="10"
+    :title="video.graphicName"
+    :visible="video.selectedGraphic"
+    :closeable="true"
+    :beforeClose="
+      () => {
+        video.selectedGraphic = false
+      }
+    "
+  >
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">水平张角:</span>
@@ -32,7 +38,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">投射距离:</span>
-        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
+        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="99999" :step="1" />
       </a-space>
     </div>
 
@@ -64,10 +70,17 @@
         <mars-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
-  </mars-pannel>
+
+    <div class="f-mb f-tac">
+      <a-space>
+        <mars-button @click="selCamera">点选相机位置</mars-button>
+      </a-space>
+    </div>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
+import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import { reactive } from "vue"
 import * as mapWork from "./map.js"
 
@@ -80,6 +93,8 @@ interface Video {
   pitchValue: number // 俯仰角度
   opcity: number // 透明度
   videoRotate: number // 视角角度
+  graphicName: string
+  selectedGraphic: boolean
 }
 
 const video = reactive<Video>({
@@ -90,27 +105,29 @@ const video = reactive<Video>({
   heading: 0,
   pitchValue: 0,
   opcity: 1,
-  videoRotate: 0
+  videoRotate: 0,
+  graphicName: "",
+  selectedGraphic: false
 })
 
-mapWork.eventTarget.on("addViewShedValue", (e) => {
-  const data = e.value
-  // video.showFrustum = data.showFrustum
-  video.cameraAngle = data.cameraAngle
-  video.cameraAngle2 = data.cameraAngle2
-  video.distanceValue = data.distanceValue
-  video.pitchValue = data.pitchValue
-  video.opcity = data.opcity
-  video.heading = data.heading
-})
+// 点击表格开始编辑矢量数据的参数
+function onStartEditor(data) {
+  const graphic = mapWork.getGraphic(data.graphicId)
+  video.graphicName = data.graphicName
 
-// 添加可视域
-const addViewShed = () => {
-  mapWork.addViewShed(video)
+  video.cameraAngle = graphic.angle
+  video.cameraAngle2 = graphic.angle2
+  video.distanceValue = graphic.distance
+  video.pitchValue = graphic.pitch
+  video.opcity = graphic.opacity
+  video.heading = graphic.heading
+  video.showFrustum = graphic.showFrustum
+
+  video.selectedGraphic = true
 }
-// 清除
-const clear = () => {
-  mapWork.clear()
+
+function onStopEditor() {
+  video.selectedGraphic = false
 }
 
 // 视频位置

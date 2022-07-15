@@ -1,15 +1,15 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="220">
+  <mars-dialog :visible="true" right="10" top="10" width="220">
     <mars-button @click="showMapImg">查看场景出图(弹窗)</mars-button>
 
     <mars-button @click="downLoad">下载场景出图</mars-button>
     <mars-button @click="downLoad2">下载场景缩略图</mars-button>
 
     <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-dialog :position="{ left: '25%', top: '30%' }" width="50%" title="场景出图" v-model:visible="showImg">
-    <img :src="imges" style="width: 100%; height: 90%" />
+  <mars-dialog  left="100" right="100" top="50" bottom="60" title="场景出图" v-model:visible="showImg">
+    <img :src="imges" style="width: 100%; height: 100%" />
   </mars-dialog>
 </template>
 

@@ -1,13 +1,29 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-tac f-mb">
-      <a-space>
-        <mars-button @click="addVideo">绘制投射视频</mars-button>
-        <mars-button @click="addThisCamera">按当前相机投射视频</mars-button>
-        <mars-button @click="clear">清除</mars-button>
-      </a-space>
-    </div>
+  <mars-dialog :visible="true" right="10" top="10">
+    <graphic-layer-state
+      :defaultCount="10"
+      drawLabel1="绘制投射视频"
+      drawLabel2="按当前相机投射视频"
+      :interaction="false"
+      :customEditor="'video3D'"
+      @onStartEditor="onStartEditor"
+      @onStopEditor="onStopEditor"
+    />
+  </mars-dialog>
 
+  <!-- 左侧面板 -->
+  <mars-dialog
+    :visible="video.selectedGraphic"
+    :title="video.pannelTitle"
+    :closeable="true"
+    :beforeClose="
+      () => {
+        video.selectedGraphic = false
+      }
+    "
+    left="10"
+    top="10"
+  >
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">相机位置:</span>
@@ -26,6 +42,13 @@
       <a-space>
         <span class="mars-pannel-item-label">垂直张角:</span>
         <mars-slider @change="onChangeAngle2" v-model:value="video.cameraAngle2" :min="10" :max="30" :step="0.1" />
+      </a-space>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">投射距离:</span>
+        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
       </a-space>
     </div>
 
@@ -53,17 +76,17 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">最远投射距离:</span>
-        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
-      </a-space>
-    </div>
-
-    <div class="f-mb">
-      <a-space>
         <span class="mars-pannel-item-label">视频透明度:</span>
         <mars-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
+
+    <!-- <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">视频角度:</span>
+        <mars-slider @change="rotateDeg" v-model:value="video.videoRotate" :min="0" :max="360" :step="1" />
+      </a-space>
+    </div> -->
 
     <div class="f-tac">
       <a-space>
@@ -72,12 +95,13 @@
         <mars-button @click="printParameters">打印参数</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
+import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 
 interface Video {
   ckdFrustum: boolean // 是否显示视椎线
@@ -87,6 +111,8 @@ interface Video {
   heading: number // 四周距离
   pitchValue: number // 俯仰角度
   opcity: number // 透明度
+  pannelTitle: string
+  selectedGraphic: boolean
 }
 
 const video = reactive<Video>({
@@ -96,19 +122,29 @@ const video = reactive<Video>({
   distanceValue: 0,
   heading: 0,
   pitchValue: 0,
-  opcity: 1
+  opcity: 1,
+  pannelTitle: "",
+  selectedGraphic: false
 })
 
-mapWork.eventTarget.on("loadVideo", (e) => {
-  const data = e.value
-  video.ckdFrustum = data.ckdFrustum
-  video.cameraAngle = data.cameraAngle
-  video.cameraAngle2 = data.cameraAngle2
-  video.distanceValue = data.distanceValue
-  video.pitchValue = data.pitchValue
-  video.opcity = data.opcity
-  video.heading = data.heading
-})
+// 点击表格开始编辑矢量数据的参数
+function onStartEditor(data) {
+  const graphic = mapWork.getGraphic(data.graphicId)
+  video.pannelTitle = data.graphicName
+
+  video.cameraAngle = graphic?.angle
+  video.cameraAngle2 = graphic?.angle2
+  video.ckdFrustum = graphic?.showFrustum
+  video.distanceValue = graphic?.distance
+  video.pitchValue = graphic?.pitch
+  video.opcity = graphic?.opacity
+  video.heading = graphic?.heading
+
+  video.selectedGraphic = true
+}
+function onStopEditor() {
+  video.selectedGraphic = false
+}
 
 // 视频位置
 const selCamera = () => {
@@ -145,19 +181,6 @@ const showFrustum = () => {
 // 修改视频透明度
 const onChangeOpacity = () => {
   mapWork.onChangeOpacity(video.opcity)
-}
-
-// 投射视频
-const addVideo = () => {
-  mapWork.addVideo(video)
-}
-// 按当前相机投射视频
-const addThisCamera = () => {
-  mapWork.addThisCamera(video)
-}
-// 清除
-const clear = () => {
-  mapWork.clear()
 }
 
 // 定位至视频位置

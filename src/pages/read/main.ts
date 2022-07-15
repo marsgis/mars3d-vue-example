@@ -61,11 +61,12 @@ function initUI(simple: boolean) {
       position: {
         left: 50,
         bottom: 50
-      }
+      },
+      warpper: "#mars-main-view"
     }
   })
 
-  vueApp.mount("#mars-main-view")
+  vueApp.mount("#mars-ui-root")
 }
 
 function destoryUI() {

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -60,7 +60,7 @@
         </div>
       </a-collapse-panel>
     </a-collapse>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

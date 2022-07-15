@@ -33,6 +33,9 @@
       ]
     }
   },
+  "vueCompilerOptions": {
+    "experimentalDisableTemplateSupport": true
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

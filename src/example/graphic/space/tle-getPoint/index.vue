@@ -1,23 +1,17 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" height="300">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <a-form>
       <a-form-item label="卫星张角:">
         <mars-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
       </a-form-item>
 
       <a-form-item label="开始时间:">
-        <mars-date-picker
-          v-model:value="formState.startTime"
-          format="YYYY-MM-DD HH:mm:ss"
-          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-        />
+        <mars-date-picker v-model:value="formState.startTime" format="YYYY-MM-DD HH:mm:ss"
+          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
       <a-form-item label="结束时间:">
-        <mars-date-picker
-          v-model:value="formState.endTime"
-          format="YYYY-MM-DD HH:mm:ss"
-          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-        />
+        <mars-date-picker v-model:value="formState.endTime" format="YYYY-MM-DD HH:mm:ss"
+          :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }" />
       </a-form-item>
 
       <a-form-item label="区域颜色:">
@@ -25,7 +19,8 @@
       </a-form-item>
 
       <a-form-item label="区域透明度:">
-        <mars-slider @change="changeColorOpacity" v-model:value="formState.slideOpacity" :min="0.01" :max="1.0" :step="0.01" />
+        <mars-slider @change="changeColorOpacity" v-model:value="formState.slideOpacity" :min="0.01" :max="1.0"
+          :step="0.01" />
       </a-form-item>
 
       <div class="f-mb f-tac">
@@ -40,7 +35,7 @@
         <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -84,7 +79,7 @@ const changeGuidaoS = () => {
 const changeGuidaoJ = () => {
   mapWork.changeGuidaoJ(formState.guidaoJ)
 }
-const changeColorOpacity = () => {
+const changeColorOpacity = (e) => {
   mapWork.changeColorOpacity(formState)
 }
 

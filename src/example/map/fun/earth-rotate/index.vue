@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="auto">
+  <mars-dialog :visible="true" right="10" top="10" width="auto">
     <a-space>
       <mars-button @click="startRotate">开始</mars-button>
       <mars-button @click="stopRotate">停止</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
   <div class="infoview-js">
     <div class="infoview_panel">
@@ -57,7 +57,7 @@ const stopRotate = () => {
 .infoview-js {
   position: absolute;
   right: 10px;
-  top: 60px;
+  top: 80px;
   width: 30%;
   height: 80%;
   border: none;

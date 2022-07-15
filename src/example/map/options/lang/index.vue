@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="355">
+  <mars-dialog :visible="true" right="10" top="10" width="355">
     <div class="f-mb">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
 
     <div class="f-mb">
@@ -28,7 +28,7 @@
         </a-col>
       </a-row>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

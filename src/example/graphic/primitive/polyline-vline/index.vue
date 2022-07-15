@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="auto" width="386">
+  <mars-dialog :visible="true" right="10" top="10" bottom="auto" width="386">
     <div class="populationView">
       <!-- 实有人口 -->
       <div class="realPopulation">
@@ -71,7 +71,7 @@
         <div id="agingAnalysis" class="agingAnalysis"></div>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

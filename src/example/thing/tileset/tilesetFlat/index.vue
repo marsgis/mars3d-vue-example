@@ -1,65 +1,64 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="350">
-    <div style="width: 325px">
-      <div>
-        <a-row :gutter="[5, 10]">
-          <a-col :span="6">
-            <a-form-item label="模型"></a-form-item>
-          </a-col>
-          <a-col :span="18">
-            <a-space>
-              <mars-button @click="showDytDemo">大雁塔</mars-button>
-              <mars-button @click="showTehDemo">天鹅湖</mars-button>
-              <mars-button @click="showQxShequDemo">某县城</mars-button>
-            </a-space>
-          </a-col>
+  <mars-dialog :visible="true" right="10" top="10" width="380">
+    <div>
+      <a-row :gutter="[5, 10]">
+        <a-col :span="6">
+          <span class="mars-pannel-item-label">模型:</span>
+        </a-col>
+        <a-col :span="18">
+          <a-space>
+            <mars-button @click="showDytDemo">大雁塔</mars-button>
+            <mars-button @click="showTehDemo">天鹅湖</mars-button>
+            <mars-button @click="showQxShequDemo">某县城</mars-button>
+          </a-space>
+        </a-col>
 
-          <a-col :span="6">
-            <a-form-item label="开挖区域"></a-form-item>
-          </a-col>
-          <a-col :span="18">
-            <a-space>
-              <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-              <mars-button @click="btnDraw">绘制多边行</mars-button>
-              <mars-button @click="removeAll">清除</mars-button>
-            </a-space>
-          </a-col>
+        <a-col :span="6">
+          <span class="mars-pannel-item-label">开挖区域:</span>
+        </a-col>
+        <a-col :span="18">
+          <a-space>
+            <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
+            <mars-button @click="btnDraw">绘制多边行</mars-button>
+            <mars-button @click="removeAll">清除</mars-button>
+          </a-space>
+        </a-col>
 
-          <a-col :span="6">
-            <a-form-item label="压平区高度:"> </a-form-item>
-          </a-col>
-          <a-col :span="10">
-            <mars-input-number v-model:value="formState.flatHeight" @change="changeFlatHeight" :step="0.1" />
-          </a-col>
-          <a-col :span="8" class="miFont">
-            <p>（米）</p>
-          </a-col>
+        <a-col :span="6">
+          <span class="mars-pannel-item-label">压平区高度:</span>
+        </a-col>
+        <a-col :span="10">
+          <mars-input-number v-model:value="formState.flatHeight" @change="changeFlatHeight" :step="0.1" />
+        </a-col>
+        <a-col :span="8" class="miFont">
+          <p>（米）</p>
+        </a-col>
 
-          <a-col :span="21">
-            <a-form-item>
-              <a-checkbox v-model:checked="formState.enabledBianJieXian" @change="chkShowLine"> 显示测试边界线 </a-checkbox>
-            </a-form-item>
-          </a-col>
+        <a-col :span="21">
+          <a-form-item>
+            <a-checkbox v-model:checked="formState.enabledBianJieXian" @change="chkShowLine"> 显示测试边界线 </a-checkbox>
+          </a-form-item>
+        </a-col>
 
-          <a-col :span="24">
-            <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
-              <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'caozuo'">
-                  <a-space>
-                    <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                    <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-                  </a-space>
-                </template>
-                <template v-else>
-                  {{ record.name }}
-                </template>
+        <a-col :span="24">
+          <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource"
+            :columns="columns" size="small" bordered>
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'caozuo'">
+                <a-space>
+                  <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                  <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                </a-space>
               </template>
-            </a-table>
-          </a-col>
-        </a-row>
-      </div>
+              <template v-else>
+                {{ record.name }}
+              </template>
+            </template>
+          </mars-table>
+        </a-col>
+      </a-row>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -85,7 +84,7 @@ const formState: UnwrapRef<FormState> = reactive({
 // 表格数据
 const columns = [
   {
-    title: "压平区",
+    title: "压平区域",
     dataIndex: "name",
     key: "name",
     align: "center"
@@ -115,16 +114,11 @@ const rowSelection = {
   }
 }
 
-mapWork.eventTarget.on("dataLoaded", function (event: any) {
-  dataSource.value = event.list.map((item: any) => ({ key: item.id, name: "压平区" + item.id }))
-  rowKeys.value = event.list.map((item: any) => item.id)
-})
 
 mapWork.eventTarget.on("addItem", function (event: any) {
-  const item = event.data.item
-  const id = event.data.id
+  const item = event.area
 
-  dataSource.value.push({ key: item.id, name: "压平区" + item.id, lineId: id })
+  dataSource.value.push({ key: item.id, name: "压平区" + item.id, lineId: item.lineId })
   rowKeys.value.push(item.id)
 })
 
@@ -147,26 +141,26 @@ const chkShowLine = () => {
 // 添加大雁塔模型
 const showDytDemo = () => {
   dataSource.value = [] // 清除表格
-  mapWork.showDytDemo(formState.enabledBianJieXian)
+  mapWork.showDytDemo()
 }
 // 添加天鹅湖模型
 const showTehDemo = () => {
   dataSource.value = [] // 清除表格
-  mapWork.showTehDemo(formState.enabledBianJieXian)
+  mapWork.showTehDemo()
 }
 
 const showQxShequDemo = () => {
   dataSource.value = [] // 清除表格
-  mapWork.showQxShequDemo(formState.enabledBianJieXian)
+  mapWork.showQxShequDemo()
 }
 
 // 添加矩形
 const btnDrawExtent = () => {
-  mapWork.btnDrawExtent(formState.enabledBianJieXian, formState.flatHeight)
+  mapWork.btnDrawExtent(formState.flatHeight)
 }
 // 添加多边形
 const btnDraw = () => {
-  mapWork.btnDraw(formState.enabledBianJieXian, formState.flatHeight)
+  mapWork.btnDraw(formState.flatHeight)
 }
 // 清除
 const removeAll = () => {
@@ -183,6 +177,7 @@ const changeFlatHeight = () => {
 .ant-input-number {
   width: 100%;
 }
+
 .miFont {
   margin-top: 10px;
   color: white;
@@ -190,5 +185,9 @@ const changeFlatHeight = () => {
 
 :deep(.ant-table-pagination) {
   margin: 16px 0 1px 0 !important;
+}
+
+.mars-pannel-item-label {
+  padding-top: 4px;
 }
 </style>

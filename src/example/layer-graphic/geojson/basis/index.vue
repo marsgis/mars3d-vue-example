@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" height="540px" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="showChinaLine">省界线</mars-button>
       <mars-button @click="showPlanningSurface">规划面</mars-button>
@@ -11,89 +11,123 @@
       <mars-button @click="showBoundaryWall">合肥边界墙</mars-button>
       <mars-button @click="showRegion">合肥区域面</mars-button>
       <mars-button @click="showFloor">分层分户楼栋</mars-button>
+      <mars-button @click="showGCJ02Data">GCJ纠偏</mars-button>
     </a-space>
     <div class="f-pt">
+      <span>透明度:</span>
+      <mars-slider v-model:value="layerOpacity" :min="0.0" :max="1.0" :step="0.1" @change="onOpacityChange" />
+    </div>
+    <div>
       <layer-state label="" />
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
-import * as mapWork from "./map.js"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import * as mapWork from "./map.js"
 
 const { updateWidget } = useWidget()
 
+function setDefuatData() {
+  layerOpacity.value = 1.0
+
+  mapWork.eventTarget.fire("defuatData", {
+    enabledShowHide: true,
+    enabledPopup: true,
+    enabledTooltip: false,
+    enabledRightMenu: false
+  })
+}
+
 const showDraw = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showDraw(true)
 
   changeGraphicData()
 }
 const showPoint = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showPoint()
 
   changeGraphicData()
 }
 const showChinaLine = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showChinaLine()
 
   changeGraphicData()
 }
 const showRegion = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showRegion()
 
   changeGraphicData()
 }
 const showBoundaryWall = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showBoundaryWall()
 
   changeGraphicData()
 }
 const showPlanningSurface = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showPlanningSurface()
 
   changeGraphicData()
 }
 const showWorld = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showWorld()
 
   changeGraphicData()
 }
 const showBuilding = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showBuilding()
 
   changeGraphicData()
 }
 const showFloor = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showFloor()
 
   changeGraphicData()
 }
 const showMonomer = () => {
-  mapWork.setDefuatData()
+  setDefuatData()
   mapWork.showMonomer()
 
   changeGraphicData()
 }
+
+const showGCJ02Data = () => {
+  setDefuatData()
+  mapWork.showGCJ02Data()
+
+  changeGraphicData()
+}
+
+
 
 function changeGraphicData() {
   setTimeout(() => {
     updateWidget("manage-layers")
   }, 500)
 }
+
+const layerOpacity = ref<number>(1.0)
+const onOpacityChange = () => {
+  mapWork.graphicLayer.opacity = layerOpacity.value
+}
 </script>
 <style scoped lang="less">
 .ant-space {
   display: grid;
+}
+:deep(.ant-slider) {
+  width: 80px;
 }
 </style>

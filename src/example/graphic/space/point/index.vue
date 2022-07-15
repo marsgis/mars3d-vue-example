@@ -1,7 +1,7 @@
 <template>
   <!--查询条件面板-->
-  <mars-pannel :visible="formState.viewContorUi === true" right="10" top="10" width="355">
-    <div style="width: 330px">
+  <mars-dialog :visible="formState.viewContorUi === true" right="10" top="10" width="355">
+    <div>
       <a-form>
         <a-form-item label="名称">
           <mars-input v-model:value="formState.name" :allowClear="true" @change="selectSatellites" />
@@ -50,10 +50,11 @@
           />
         </a-form-item>
 
-        <a-form-item label="轨道类型">
-          <mars-select v-model:value="formState.selGuidao" :options="selGuidaoOptions" @change="selectSatellites"> </mars-select>
-        </a-form-item>
-
+        <div class="track-type">
+          <a-form-item label="轨道类型" class="track-type">
+            <mars-select v-model:value="formState.selGuidao" :options="selGuidaoOptions" @change="selectSatellites"> </mars-select>
+          </a-form-item>
+        </div>
         <a-form-item label="倾斜角度">
           <mars-slider
             range
@@ -93,10 +94,10 @@
         </a-form-item>
       </a-form>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
   <!--卫星详情面板-->
-  <mars-pannel :visible="formState.pointInfo === true" right="10" top="10" width="335">
+  <mars-dialog :visible="formState.pointInfo === true" right="10" top="10" width="335">
     <mars-button @click="highlightSatellite"> 返回 </mars-button>
     <table class="mars-table tb-border">
       <tr v-for="(item, index) in weixinNameList" :key="item">
@@ -104,12 +105,17 @@
         <td v-html="weixinValueList[index]"></td>
       </tr>
     </table>
-  </mars-pannel>
+  </mars-dialog>
+
+  <!-- 引入同文件夹下的mars-echart -->
+  <mars-echarts-example></mars-echarts-example>
+
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, reactive, ref, nextTick } from "vue"
 import * as mapWork from "./map.js"
+import MarsEchartsExample from "@mars/example/graphic/space/point/mars-echartsExample.vue"
 
 interface FormState {
   name: string
@@ -219,7 +225,7 @@ const selectCountryOptions = ref([
   },
   {
     value: "CIS",
-    label: "俄罗斯"
+    label: "前苏联"
   },
   {
     value: "PRC",
@@ -355,10 +361,11 @@ const highlightSatellite = () => {
   // 重置上次选中的轨道样式
   mapWork.highlightSatellite()
 }
+
 </script>
 <style scoped lang="less">
 :deep(.ant-form-item-label) {
-  width: 75px;
+  width: 80px;
 }
 :deep(.ant-form) {
   margin-right: 12px;
@@ -384,4 +391,9 @@ const highlightSatellite = () => {
 .tb-border tr td {
   border: 1px solid #4db3ff70;
 }
+
+.track-type {
+  margin-top: 18px;
+}
+
 </style>

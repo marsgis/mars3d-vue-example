@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <layer-state />
-  </mars-pannel>
+  </mars-dialog>
   <location-to />
 </template>
 

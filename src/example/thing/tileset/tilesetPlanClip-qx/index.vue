@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawExtent">绘制矩形</mars-button>
       <mars-button @click="drawExtent2">绘制矩形(外)</mars-button>
@@ -7,7 +7,7 @@
       <mars-button @click="drawPoly2">绘制面(外)</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

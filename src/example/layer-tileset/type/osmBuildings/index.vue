@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <mars-button @click="setStyle1">原始样式</mars-button>
@@ -14,7 +14,7 @@
         <mars-color-picker @change="selectColor" v-model:value="color" />
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -32,7 +32,7 @@ const setStyle2 = () => {
 const setStyle3 = () => {
   mapWork.setStyle3()
 }
-const selectColor = () => {
+const selectColor = (e) => {
   mapWork.selectColor(color.value)
 }
 </script>

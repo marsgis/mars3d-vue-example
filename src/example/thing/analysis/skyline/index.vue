@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-checkbox @change="isVChecked" v-model:checked="checked">开启天际线</a-checkbox>
     </div>
@@ -9,7 +9,7 @@
       <mars-input-number @change="lineWidth" v-model:value="value" :min="1" :max="10" />
       <mars-button @click="changeColor">换色</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

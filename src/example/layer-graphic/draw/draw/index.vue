@@ -1,8 +1,8 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="345px">
+  <mars-dialog :visible="true" right="10" top="10" width="345">
     <div>
       <a-row>
-        <a-col :span="5">数据管理:</a-col>
+        <a-col :span="5">图层管理:</a-col>
         <a-col :span="19">
           <a-space>
             <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
@@ -11,7 +11,7 @@
             <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
             <a-checkbox v-model:checked="onlyPickModelPosition" @change="onChangeOnlyPickModel">
-              <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在3dtiles上标绘</span>
+              <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在Tiles上拾取</span>
             </a-checkbox>
           </a-space>
         </a-col>
@@ -19,7 +19,7 @@
     </div>
     <div class="f-pt">
       <a-row>
-        <a-col :span="5">图层管理:</a-col>
+        <a-col :span="5">数据管理:</a-col>
         <a-col :span="19">
           <a-space>
             <mars-button @click="onClickClear">清除</mars-button>
@@ -31,7 +31,7 @@
               @change="onClickOpenJson"
               :beforeUpload="() => false"
             >
-              <mars-button> 打开... </mars-button>
+              <mars-button>打开</mars-button>
             </a-upload>
             <mars-button @click="onClickSaveJson">保存GeoJSON</mars-button>
             <mars-button @click="onClickSaveKml">另存KML</mars-button>
@@ -101,17 +101,15 @@
         </a-col>
       </a-row>
     </div>
-  </mars-pannel>
+  </mars-dialog>
   <location-to />
 </template>
 
 <script lang="ts" setup>
 import LocationTo from "@mars/components/mars-sample/location-to.vue"
-import { ref, markRaw } from "vue"
+import { ref, markRaw, onMounted } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
-
-const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -199,46 +197,6 @@ const onClickSaveWKT = () => {
   mapWork.saveWKT()
 }
 
-// 属性面板
-
-const showEditor = (e: any) => {
-  const graphic = e.graphic
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
-  }
-
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: { graphic: graphic }
-    })
-  } else {
-    updateWidget("graphic-editor", {
-      data: { graphic: graphic }
-    })
-  }
-}
-
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  if (enabledEdit.value) {
-    showEditor(e)
-  }
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  showEditor(e)
-})
-
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  setTimeout(() => {
-    if (!mapWork.graphicLayer.isEditing) {
-      disable("graphic-editor")
-    }
-  }, 100)
-})
-
 function drawPoint() {
   mapWork.drawPoint()
 }
@@ -309,6 +267,56 @@ function drawExtrudedRectangle() {
 
 function drawExtrudedCircle() {
   mapWork.drawExtrudedCircle()
+}
+
+// 数据编辑属性面板 相关处理
+const { activate, disable, isActivate, updateWidget } = useWidget()
+onMounted(() => {
+  const mars3d = window.mapWork.mars3d
+  // 矢量数据创建完成
+  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    if (enabledEdit.value) {
+      showEditor(e)
+    }
+  })
+  // 修改了矢量数据
+  mapWork.graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      showEditor(e)
+    }
+  )
+  // 停止编辑
+  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    setTimeout(() => {
+      if (!mapWork.graphicLayer.isEditing) {
+        disable("graphic-editor")
+      }
+    }, 100)
+  })
+})
+
+const showEditor = (e: any) => {
+  const graphic = e.graphic
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true // 只处理一次
+  }
+
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  }
 }
 </script>
 <style scoped lang="less">

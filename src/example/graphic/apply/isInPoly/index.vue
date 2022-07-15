@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <span>框选数据:</span>
       <mars-button @click="drawRectangle">矩形</mars-button>
@@ -7,7 +7,7 @@
       <mars-button @click="drawCircle">圆</mars-button>
       <mars-button @click="removeAll">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

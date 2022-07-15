@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">轨迹方向</span>
@@ -28,7 +28,7 @@
         <a-checkbox @change="testTerrain" v-model:checked="isChecked">深度检测</a-checkbox>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

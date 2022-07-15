@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" width="150" top="10" height="45">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <span>是否动态:</span>
       <mars-switch v-model:checked="enabled" @change="onChangeState" />
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
   <div class="divPanel">
     <img src="/img/legend/heatmap.png" />
   </div>

@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawRectangle">框选</mars-button>
       <mars-button @click="drawCircle">圆形</mars-button>
       <mars-button @click="drawPolygon">多边形</mars-button>
       <mars-button @click="drawClear">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
   <!-- 视频 面板 -->
   <div class="videoWrap" v-show="satelliteParams.openVideo == true">

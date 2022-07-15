@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="show(5)">5F</mars-button>
       <mars-button @click="show(4)">4F</mars-button>
@@ -9,7 +9,7 @@
       <mars-button @click="minusOne()">-1F</mars-button>
       <mars-button @click="showAll">整体</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

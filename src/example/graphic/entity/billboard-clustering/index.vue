@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <a-checkbox v-model:checked="enabledAggressive" @change="formStateChange">是否聚合</a-checkbox>
 
@@ -7,7 +7,7 @@
         演示异步计算贴地高度
       </mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

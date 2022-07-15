@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>分析区域</span>
@@ -13,7 +13,7 @@
       <span>限定高度</span>
       <mars-slider @change="currHeight" v-model:value="inputValue" :min="0" :max="180" />高度{{ inputValue }}
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

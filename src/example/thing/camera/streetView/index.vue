@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-form>
       <a-form-item>
         <a-radio-group @change="shadingMaterials" v-model:value="radioValue">
@@ -19,7 +19,7 @@
         </span>
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
   <location-to />
 </template>
 

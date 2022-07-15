@@ -5,9 +5,9 @@
   </div>
 
   <!-- 按钮 -->
-  <mars-pannel :visible="true" left="10" top="10">
+  <mars-dialog :visible="true" left="10" top="10">
     <mars-button @click="btnUpdate">更新数据</mars-button>
-  </mars-pannel>
+  </mars-dialog>
 
   <!-- echarts图表 -->
   <div class="chart">
@@ -129,7 +129,7 @@ function initCharts_Two(arr: any, ZJLY: any) {
       orient: "vertical",
       left: "right",
       textStyle: {
-        color: "#ccc"
+        color: "#fff"
       }
     },
     // 图形的设置
@@ -212,7 +212,7 @@ function histogram(arr: any, Word: string) {
       text: "单位:" + Word,
       // 全局样式对此不生效，
       textStyle: {
-        color: "#ccc"
+        color: "#fff"
       }
     },
     // 移入柱子时的阴影
@@ -298,9 +298,12 @@ function histogram(arr: any, Word: string) {
     linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat, linear-gradient(to left, #3897cf, #3897cf) right bottom no-repeat;
   background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
   background-color: rgba(0, 0, 0, 0.1);
-  overflow-y: scroll;
   h6 {
     color: #ffffff;
+  }
+
+  button {
+    padding: 2px 6px;
   }
 }
 .chart h6 {

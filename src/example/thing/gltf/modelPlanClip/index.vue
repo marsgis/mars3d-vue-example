@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <p class="f-mb">单个裁剪面</p>
+  <mars-dialog :visible="true" right="10" top="10">
+    <p class="f-mb">单个裁剪面:</p>
     <div class="f-mb">
       <a-space>
         <mars-button @click="drawLine">按绘制线裁剪</mars-button>
@@ -21,7 +21,7 @@
       </a-space>
     </div>
 
-    <p class="f-mb">多个裁剪面</p>
+    <p class="f-mb">多个裁剪面:</p>
     <div class="f-mb">
       <a-space>
         <mars-button @click="drawExtent">绘制矩形</mars-button>
@@ -30,7 +30,7 @@
       </a-space>
     </div>
 
-    <p>裁剪面参数</p>
+    <p>裁剪面参数:</p>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">裁剪距离</span>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="f-tac"><mars-button @click="clear">清除</mars-button></div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

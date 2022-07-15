@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="245">
-    <div style="width: 200px;">
+  <mars-dialog :visible="true" right="10" top="10">
+    <div>
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">启用:</span>
@@ -28,7 +28,7 @@
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -46,7 +46,7 @@ const formState = reactive({
 const onChangeState = () => {
   mapWork.setFogEffect(formState.enabled)
 }
-const onChangeColor = () => {
+const onChangeColor = (e) => {
   mapWork.setColor(formState.color)
 }
 const onChangeDistanceX = () => {

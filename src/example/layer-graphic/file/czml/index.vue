@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel v-model:visible="isShow" right="10" top="10">
+  <mars-dialog v-model:visible="isShow" right="10" top="10">
     <a-space>
       <mars-button @click="showAircraft">飞机</mars-button>
       <mars-button @click="showShip">船舶</mars-button>
@@ -13,12 +13,12 @@
     <div class="f-pt">
       <layer-state label="图层控制：" />
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-pannel :visible="true" right="10" top="110" width="220">
+  <mars-dialog :visible="true" right="10" top="110" width="220" customClass="layer-tree">
     <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -32,7 +32,6 @@ interface treeItem {
   key: string
   children: treeItem[]
 }
-
 
 const treeData = ref<treeItem[]>([
   {
@@ -50,7 +49,7 @@ const layersObj: any = {}
 
 // 隐藏button
 const isShow = ref()
-isShow.value = Boolean(getQueryString("data"))
+isShow.value = getQueryString("data") === ("CZML" || null)
 
 mapWork.eventTarget.on("loadGraphicLayer", function (event: any) {
   const modelList = event.data.list
@@ -131,3 +130,9 @@ const showFireDrill = () => {
   mapWork.showFireDrill()
 }
 </script>
+
+<style lang="less" scoped>
+.layer-tree {
+  vertical-align: top !important;
+}
+</style>

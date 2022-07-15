@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="350">
+  <mars-dialog :visible="true" right="10" top="10" width="350">
     <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
@@ -36,7 +36,7 @@
         </a-tabs>
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -82,6 +82,7 @@ mapWork.eventTarget.on("tableData", function (event: any) {
     },
     tooltip: {
       trigger: "item",
+      confine: true,
       formatter: "{a} <br/>{b} : {c} 亩</br>占比 : {d}%",
       backgroundColor: "rgba(63, 72, 84, 0.7)",
       textStyle: {
@@ -118,6 +119,7 @@ mapWork.eventTarget.on("tableData", function (event: any) {
   const histogramOption = {
     tooltip: {
       trigger: "item",
+      confine: true,
       backgroundColor: "rgba(63, 72, 84, 0.7)",
       formatter: "{b}: {c} 亩",
       textStyle: {
@@ -235,7 +237,7 @@ onMounted(() => {
   width: 250px;
 }
 .chart {
-  width: 380px;
+  width: 330px;
   height: 250px;
 }
 </style>

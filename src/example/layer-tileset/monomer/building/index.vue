@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space> 显示每栋颜色:<mars-switch v-model:checked="checked" @change="chkShowColor" /> </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

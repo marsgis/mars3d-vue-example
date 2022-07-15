@@ -9,8 +9,6 @@ node_modules
 dist
 /src/widgets/**/*.js
 /public/lib/
-/public/temp/
-/src/common/*.js
 /docs
 .husky
 .local

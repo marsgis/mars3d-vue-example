@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb title">闸门控制</div>
 
     <a-form class="f-mb">
@@ -17,7 +17,7 @@
         <mars-button @click="closeZm">关闭</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

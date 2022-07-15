@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="254">
-    <div style="width: 232px">
+  <mars-dialog :visible="true" right="10" top="10">
+    <div >
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">启用状态:</span>
@@ -29,7 +29,7 @@
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

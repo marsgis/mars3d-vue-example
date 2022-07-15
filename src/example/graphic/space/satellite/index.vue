@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -52,9 +52,9 @@
         <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-pannel :visible="true" right="10" bottom="50px" width="293">
+  <mars-dialog :visible="true" right="10" bottom="50px" width="293">
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -86,7 +86,7 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

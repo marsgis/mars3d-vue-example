@@ -73,6 +73,16 @@ li {
   position: relative;
 }
 
+/*用于测试非全屏地图*/
+/* #centerDiv3D {
+  height: calc(100% - 200px);
+  width: calc(100% - 400px);
+  left: 200px;
+  right: 200px;
+  top: 100px;
+  bottom: 100px;
+} */
+
 .content {
   overflow: auto;
   position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="280">
+  <mars-dialog :visible="true" right="10" top="10" width="280">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度</span>
@@ -54,7 +54,7 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

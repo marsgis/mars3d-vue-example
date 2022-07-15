@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="308">
+  <mars-dialog :visible="true" right="10" top="10" width="308">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -7,13 +7,13 @@
       </template>
       <a-collapse-panel key="1" header="3D Tiles示例">
         <div class="basis-button-contain">
+          <mars-button @click="showJzwHefeiDemo">城市白膜(合肥)</mars-button>
+          <mars-button @click="showMaxShihuaDemo">人工建模(石化工厂)</mars-button>
+          <mars-button @click="showBimQiaoliangDemo">BIM建模(桥梁)</mars-button>
+          <mars-button @click="showBimDitiezhanDemo">BIM建模(地铁站)</mars-button>
           <mars-button @click="showQxShequDemo">倾斜摄像(某县城)</mars-button>
-          <mars-button @click="showQxSimiaoDemo">倾斜摄像（某景区）</mars-button>
-          <mars-button @click="showJzwHefeiDemo">城市白膜（合肥）</mars-button>
-          <mars-button @click="showPntsGantaDemo">高压线塔杆(点云)</mars-button>
-          <mars-button @click="showMaxShihuaDemo">人工建模（石化工厂）</mars-button>
-          <mars-button @click="showBimQiaoliangDemo">BIM（桥梁）</mars-button>
-          <mars-button @click="showBimDitiezhanDemo">BIM（地铁站）</mars-button>
+          <mars-button @click="showQxSimiaoDemo">倾斜摄像(某景区)</mars-button>
+          <mars-button @click="showPntsGantaDemo">点云(高压线塔杆)</mars-button>
         </div>
       </a-collapse-panel>
 
@@ -37,7 +37,7 @@
         <mars-button href="editor-vue.html?id=layer-tileset/manager/edit" target="_blank">模型参数调试编辑</mars-button>
       </a-collapse-panel>
     </a-collapse>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

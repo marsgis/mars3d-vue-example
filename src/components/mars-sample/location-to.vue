@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" bottom="40">
+  <mars-dialog :visible="true" right="10" bottom="40">
     <a-space>
       <mars-button @click="onClickCenterAtTerrain">定位至山区</mars-button>
       <mars-button @click="onClickCenterAtModel">定位至模型</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="onBindMapDemo">Map上直接弹出</mars-button>
       <mars-button @click="onBindLayerDemo">图层上绑定</mars-button>
@@ -9,9 +9,9 @@
       <mars-button @click="onBindGraphicDemo1">Graphic上绑定</mars-button>
       <mars-button @click="onBindGraphicDemo2">Graphic上局部刷新</mars-button>
     </a-space>
-  </mars-pannel>
-  <mars-dialog width="calc(100% - 200px)" left="100" top="80" bottom="80" title="查看历史" v-model:visible="showLayer">
-    <iframe src="http://marsgis.cn/" frameborder="0"></iframe>
+  </mars-dialog>
+  <mars-dialog left="100" right="100" top="80" bottom="80" title="查看历史" v-model:visible="showLayer">
+    <iframe src="http://marsgis.cn/" frameborder="0" style="height: 100%;width: 100%;"></iframe>
   </mars-dialog>
 </template>
 

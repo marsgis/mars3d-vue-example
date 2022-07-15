@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="190">
+  <mars-dialog :visible="true" right="10" top="10" width="190">
     <a-form>
       <a-form-item label="启用">
         <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
@@ -18,7 +18,7 @@
         <mars-slider v-model:value="formState.stepSize" @change="onChangeStepSize" :min="0" :max="7" :step="0.01" />
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

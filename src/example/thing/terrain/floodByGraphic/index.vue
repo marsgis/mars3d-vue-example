@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <div v-show="!isShow">
       <div class="f-mb">
         <a-space>
@@ -64,7 +64,7 @@
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

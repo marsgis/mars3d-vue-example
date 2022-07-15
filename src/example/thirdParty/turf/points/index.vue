@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>原始数据:</span>
@@ -14,7 +14,7 @@
       <mars-button @click="voronoiPolygon">计算泰森多边形</mars-button>
       <mars-button @click="tinPolygon">计算TIN多边形</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

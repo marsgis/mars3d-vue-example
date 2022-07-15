@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <mars-button @click="clear">清除</mars-button>
@@ -24,7 +24,7 @@
         <mars-button @click="measureAngle">方位角</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
   <location-to />
 </template>

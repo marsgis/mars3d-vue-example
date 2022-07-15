@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="335">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">整体控制:</span>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <!-- </div> -->
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

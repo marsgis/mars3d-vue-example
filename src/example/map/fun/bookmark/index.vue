@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40">
     <div class="f-mb f-tac">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
@@ -14,7 +14,7 @@
         <mars-icon icon="delete" class="deleteImg" color="#f2f2f2" @click="butDeleteTxtName(index)" v-show="formState.found" />
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -82,8 +82,7 @@ const butAddTxtName = () => {
 
 // 触发事件
 mapWork.eventTarget.on("addImgObject", (event: any) => {
-  const item = event.item
-  formState.imgObject.push({ name: item.name, img: item.image, center: item.center })
+  formState.imgObject.push(event.item)
 
   // 记录到历史
   localStorage.setItem("bookmark", JSON.stringify(formState.imgObject))
@@ -137,8 +136,6 @@ const butDeleteTxtName = (index: number) => {
   position: relative;
   border: 1px solid white;
   margin-top: 22px;
-
-
 }
 .markImg :hover {
   background-color: red;

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <span class="item-label">属性机制演示：</span>
     </div>
@@ -16,7 +16,7 @@
       <mars-button @click="demoPropertyBag">PropertyBag</mars-button>
       <mars-button @click="demoVelocityVectorProperty">VelocityVectorProperty</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

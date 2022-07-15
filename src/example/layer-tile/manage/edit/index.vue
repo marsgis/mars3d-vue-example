@@ -1,15 +1,16 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="365">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="edit-contain">
       <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
       <div class="f-tac load-button">
         <a-space>
           <mars-button size="middle" @click="loadCoverage">{{ loadCoverageText }}</mars-button>
           <mars-button size="middle" @click="reset">重置参数</mars-button>
+          <mars-button size="middle" @click="saveParams">保存参数</mars-button>
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
 import { reactive, ref, onMounted, h } from "vue"
@@ -290,6 +291,10 @@ const reset = () => {
   // 清除绘制区域和移除加载的矢量数据
   mapWork.btnClearExtent()
   mapWork.removeLayer()
+}
+
+const saveParams = () => {
+  mapWork.saveParams(updateValue)
 }
 
 onMounted(() => {

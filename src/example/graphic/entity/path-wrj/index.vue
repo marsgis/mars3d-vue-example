@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="viewAircraft">跟踪视角</mars-button>
       <mars-button @click="viewTopDown">上方视角</mars-button>
       <mars-button @click="viewSide">侧方视角</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

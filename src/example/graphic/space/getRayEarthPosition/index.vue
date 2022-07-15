@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="320">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -29,8 +29,7 @@
         <mars-slider @change="angle" v-model:value="angleValue" :min="1" :max="60" :step="0.01" />当前值{{ angleValue }}
       </a-space>
     </div>
-  </mars-pannel>
-  <mars-pannel :visible="true" right="10" bottom="50" width="300">
+
     <table class="mars-table tb-border">
       <tr>
         <td class="nametd">名称</td>
@@ -62,7 +61,7 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

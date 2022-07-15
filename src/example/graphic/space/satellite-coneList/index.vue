@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="locate">定位至卫星</mars-button>
       <span class="mars-pannel-item-label">参考系</span>
@@ -36,7 +36,7 @@
         <td id="td_gd">{{ formState.td_gd }}</td>
       </tr>
     </table>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

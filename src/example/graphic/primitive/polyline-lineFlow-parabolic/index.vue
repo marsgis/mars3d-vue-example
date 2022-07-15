@@ -1,9 +1,9 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="178">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-form-item label="速度:">
       <mars-slider @change="formStateChange" v-model:value="slideStep" :min="1" :max="100" :step="1" />
     </a-form-item>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

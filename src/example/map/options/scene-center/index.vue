@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey">
       <a-collapse-panel key="1" header="景点视角:">
         <a-space>
@@ -17,14 +17,20 @@
         </a-space>
       </a-collapse-panel>
     </a-collapse>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, reactive, onMounted, markRaw } from "vue"
 import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3"])
+
+onMounted(() => {
+  mapWork.map.on("cameraChanged", function (event) {
+    console.log("视角发送了变化", mapWork.map.getCameraView())
+  })
+})
 
 // **************************** 景点视角演示********************** //
 const changeView1 = () => {
@@ -89,7 +95,6 @@ const cameraData = [
     title: "",
     callback: () => mapWork.mapSetCameraViewList()
   }
-
 ]
 </script>
 <style lang="less" scoped>

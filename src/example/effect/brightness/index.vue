@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="200px">
+  <mars-dialog :visible="true" right="10" top="10" width="200px">
     <a-form>
       <a-form-item label="状态:">
         <a-checkbox @change="onChangeState" v-model:checked="enabled">开启效果</a-checkbox>
@@ -9,7 +9,7 @@
         <mars-slider @change="onChangeBrightness" v-model:value="brightness" :min="0" :max="5" :step="0.01" />
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

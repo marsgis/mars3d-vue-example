@@ -1,17 +1,17 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="340">
+  <mars-dialog :visible="true" right="10" top="10">
     <div v-if="!isShow">
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">分析方式:</span>
           <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
-            <a-radio value="1">整体</a-radio>
-            <a-radio value="2">局部</a-radio>
+            <a-radio value="1">整体淹没</a-radio>
+            <a-radio value="2">局部淹没</a-radio>
           </a-radio-group>
         </a-space>
       </div>
 
-      <div class="f-mb">
+      <div class="f-mb" v-if="formState.radio === '2'">
         <a-space>
           <span class="mars-pannel-item-label">分析区域:</span>
           <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <div v-else style="width: 280px">
+    <div v-else>
       <a-row :gutter="[2, 10]">
         <a-col :span="6">
           <a-form-item label="高度选择:" />
@@ -80,7 +80,7 @@
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -123,9 +123,9 @@ const onChangeHeight = () => {
 // 默认自动播放
 const startPlay = () => {
   if (!isStart.value) {
-    mapWork.tilesetFlood.start()
+    mapWork.tilesetLayer.flood.start()
   } else {
-    mapWork.tilesetFlood.stop()
+    mapWork.tilesetLayer.flood.stop()
   }
   isStart.value = !isStart.value
 }

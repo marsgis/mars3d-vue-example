@@ -1,18 +1,18 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="280">
-    <div style="width: 257px">
-      <div class="f-tac">
-        <mars-select ref="select" v-model:value="groupName" style="width: 200px" :options="selectGroups" @change="onChangeGroup"></mars-select>
-      </div>
-
-      <div class="f-pt" v-for="rg in currStates" :key="rg.name">
-        <a-space>
-          <span class="mars-pannel-item-label">{{ rg.name_cn }}</span>
-          <mars-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current" @change="onChangeStage(rg)" />
-        </a-space>
-      </div>
+  <mars-dialog :visible="true" right="10" top="10">
+    <div class="f-tac">
+      <mars-select ref="select" v-model:value="groupName" style="width: 200px" :options="selectGroups"
+        @change="onChangeGroup"></mars-select>
     </div>
-  </mars-pannel>
+
+    <div class="f-pt" v-for="rg in currStates" :key="rg.name">
+      <a-space>
+        <span class="mars-pannel-item-label">{{ rg.name_cn }}</span>
+        <mars-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current"
+          @change="onChangeStage(rg)" />
+      </a-space>
+    </div>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -61,6 +61,7 @@ const onChangeStage = (rg: any) => {
 .ant-slider {
   width: 160px;
 }
+
 .infoView {
   width: 280px;
 }

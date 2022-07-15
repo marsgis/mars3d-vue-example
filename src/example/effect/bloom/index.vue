@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="250">
+  <mars-dialog :visible="true" right="10" top="10" >
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">状 态:</span>
@@ -37,7 +37,7 @@
         <mars-slider v-model:value="formState.sigma" @change="onChangeSigma" :min="1" :max="10" :step="0.01" />
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="190px">
+  <mars-dialog :visible="true" right="10" top="10" width="200">
     <mars-gui :options="options"></mars-gui>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

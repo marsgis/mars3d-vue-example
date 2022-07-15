@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel customClass="gaodeRoutePannel" :visible="true">
+  <mars-dialog right="10" :visible="true">
     <a-form>
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
@@ -18,13 +18,11 @@
         </a-space>
       </a-form-item>
 
-      <div class="f-tac">
-        <a-space>
-          <mars-button @click="btnAnalyse">开始分析</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-          <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
-        </a-space>
-      </div>
+      <a-space>
+        <mars-button @click="btnAnalyse">开始分析</mars-button>
+        <mars-button @click="removeAll">清除</mars-button>
+        <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
+      </a-space>
 
       <div v-if="allDiatance" class="showRoam">
         <p style="color: #cad1d1">总距离：{{ allDiatance }}</p>
@@ -32,7 +30,7 @@
         <p style="color: #cad1d1">导航：{{ routePath }}</p>
       </div>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -103,6 +101,7 @@ const saveGeoJSON = () => {
 </script>
 
 <style lang="less">
+// 原本加在mars-dialog上的，但是会造成dialog宽度过大，所以将这个样式从dialog上移除
 .gaodeRoutePannel {
   right: 10px !important;
   top: 10px !important;
@@ -114,7 +113,7 @@ const saveGeoJSON = () => {
 .showRoam {
   top: 250px;
   word-break: break-all;
-  width: 300px;
+  width: 290px;
   padding: 5px;
   line-height: 25px;
 }

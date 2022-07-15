@@ -1,150 +1,172 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="50" width="400">
-    <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-collapse v-model:activeKey="activeKey" expandIconPosition="right">
-        <a-collapse-panel key="1" header="表单控件">
-          <a-form-item label="简单文本" name="url">
-            <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
-          </a-form-item>
+  <mars-dialog :visible="true" right="10" top="10" bottom="50" width="400">
+    <div class="ui-container">
+      <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-collapse v-model:activeKey="activeKey" expandIconPosition="right">
+          <a-collapse-panel key="1" header="表单控件">
+            <a-form-item label="简单文本" name="url">
+              <mars-input v-model:value="formState.url" :allowClear="true" @change="onTextChange" />
+            </a-form-item>
 
-          <a-form-item label="地图交互" name="extent">
-            <a-row :gutter="5">
-              <a-col :span="19">
-                <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
-              </a-col>
-              <a-col :span="5">
-                <a-space size="small">
-                  <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
+            <a-form-item label="地图交互" name="extent">
+              <a-row :gutter="5">
+                <a-col :span="19">
+                  <mars-input v-model:value="formState.extent" :allowClear="true"></mars-input>
+                </a-col>
+                <a-col :span="5">
+                  <a-space size="small">
+                    <mars-button class="small-btn" @click="onClickDrawExtent">绘制</mars-button>
+                  </a-space>
+                </a-col>
+              </a-row>
+            </a-form-item>
+
+            <a-form-item label="数字输入">
+              <mars-input-number v-model:value="formState.countCar" :step="0.1" @change="onNumberChange" />
+            </a-form-item>
+
+            <a-form-item label="下拉选择">
+              <mars-select v-model:value="formState.model" :options="modelOptions" @change="onSelectChange"></mars-select>
+            </a-form-item>
+
+            <a-form-item label="日期">
+              <mars-date-picker v-model:value="formState.date" format="YYYY-MM-DD" @change="onDateChange" />
+            </a-form-item>
+
+            <a-form-item label="滑动条">
+              <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
+            </a-form-item>
+
+            <a-form-item label="刻度滑动条">
+              <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
+            </a-form-item>
+
+            <a-form-item label="多选" class="f-push-20-t">
+              <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
+                <a-checkbox value="mars">火星</a-checkbox>
+                <a-checkbox value="earth">地球</a-checkbox>
+                <a-checkbox value="sun">太阳</a-checkbox>
+              </a-checkbox-group>
+            </a-form-item>
+
+            <a-form-item label="单选">
+              <a-radio-group v-model:value="formState.radioVal">
+                <a-radio value="1">2D</a-radio>
+                <a-radio value="2">2.5D</a-radio>
+                <a-radio value="3">3D</a-radio>
+              </a-radio-group>
+              <!-- 已选择：{{ formState.radioVal }} -->
+            </a-form-item>
+
+            <a-form-item label="鼠标操作">
+              <div class="f-tac">
+                <a-space>
+                  <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                  <span>是否允许</span>
                 </a-space>
-              </a-col>
-            </a-row>
-          </a-form-item>
+              </div>
+            </a-form-item>
 
-          <a-form-item label="数字输入">
-            <mars-input-number v-model:value="formState.countCar" :step="0.1" @change="onNumberChange" />
-          </a-form-item>
+            <a-form-item label="颜色选择">
+              <a-space>
+                <mars-color-picker v-model:value="formState.color" />
+                <div class="color-state">已选择：{{ formState.color }}</div>
+              </a-space>
+            </a-form-item>
 
-          <a-form-item label="下拉选择">
-            <mars-select v-model:value="formState.model" :options="modelOptions" @change="onSelectChange"></mars-select>
-          </a-form-item>
+            <a-form-item label="颜色选择2">
+              <a-space>
+                <mars-color v-model:value="formState.color" @change="showColor" />
+                <div class="color-state">已选择：{{ formState.color }}</div>
+              </a-space>
+            </a-form-item>
 
-          <a-form-item label="日期">
-            <mars-date-picker v-model:value="formState.date" format="YYYY-MM-DD" @change="onDateChange" />
-          </a-form-item>
-
-          <a-form-item label="滑动条">
-            <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
-          </a-form-item>
-
-          <a-form-item label="刻度滑动条">
-            <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
-          </a-form-item>
-
-          <a-form-item label="多选" class="f-push-20-t">
-            <a-checkbox-group v-model:value="formState.checkboxVal" @change="onCheckboxChange">
-              <a-checkbox value="mars">火星</a-checkbox>
-              <a-checkbox value="earth">地球</a-checkbox>
-              <a-checkbox value="sun">太阳</a-checkbox>
-            </a-checkbox-group>
-          </a-form-item>
-
-          <a-form-item label="单选">
-            <a-radio-group v-model:value="formState.radioVal">
-              <a-radio value="1">2D</a-radio>
-              <a-radio value="2">2.5D</a-radio>
-              <a-radio value="3">3D</a-radio>
-            </a-radio-group>
-            <!-- 已选择：{{ formState.radioVal }} -->
-          </a-form-item>
-
-          <a-form-item label="鼠标操作">
             <div class="f-tac">
               <a-space>
-                <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
-                <span>是否允许</span>
+                <mars-button size="middle" @click="onClickMessage">
+                  <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
+                  消息
+                </mars-button>
+                <mars-button size="middle" @click="onClickNotify">
+                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
+                  提示
+                </mars-button>
+                <mars-button size="middle" @click="onClickAlert">
+                  <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
+                  弹窗
+                </mars-button>
+                <mars-button size="middle" disabled> 禁用 </mars-button>
               </a-space>
             </div>
-          </a-form-item>
+          </a-collapse-panel>
 
-          <a-form-item label="颜色选择">
-            <a-space>
-              <mars-color-picker v-model:value="formState.color" />
-              <div class="color-state">已选择：{{ formState.color }}</div>
-            </a-space>
-          </a-form-item>
-
-          <div class="f-tac">
-            <a-space>
-              <mars-button size="middle" @click="onClickMessage">
-                <template #icon><mars-icon icon="alarm" class="icon-vertical-a" /></template>
-                消息
-              </mars-button>
-              <mars-button size="middle" @click="onClickNotify">
-                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                提示
-              </mars-button>
-              <mars-button size="middle" @click="onClickAlert">
-                <template #icon><mars-icon icon="download-one" class="icon-vertical-a" /></template>
-                弹窗
-              </mars-button>
-              <mars-button size="middle" disabled> 禁用 </mars-button>
-            </a-space>
-          </div>
-        </a-collapse-panel>
-
-        <a-collapse-panel key="2" header="表格控件">
-          <a-table
-            size="small"
-            :customRow="customTableRow"
-            :row-selection="rowSelection"
-            bordered
-            :pagination="{ pageSize: 5 }"
-            :columns="columns"
-            :data-source="typhoonList"
-            rowKey="id"
-          >
-            <template #bodyCell="{ column, text }">
-              <template v-if="column.dataIndex === 'name'">
-                <a>{{ text }}</a>
+          <a-collapse-panel key="2" header="表格控件">
+            <mars-table
+              size="small"
+              :customRow="customTableRow"
+              :row-selection="rowSelection"
+              bordered
+              :pagination="{ pageSize: 5 }"
+              :columns="columns"
+              :dataSource="typhoonList"
+              rowKey="id"
+            >
+              <template #bodyCell="{ column, text }">
+                <template v-if="column.dataIndex === 'name'">
+                  <a>{{ text }}</a>
+                </template>
               </template>
-            </template>
-          </a-table>
-        </a-collapse-panel>
-        <a-collapse-panel key="3" header="树控件">
-          <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
-            <template #title="{ title }">
-              <span>{{ title }}</span>
-            </template>
-          </mars-tree>
-        </a-collapse-panel>
-      </a-collapse>
+            </mars-table>
+          </a-collapse-panel>
+          <a-collapse-panel key="3" header="树控件">
+            <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
+              <template #title="{ title }">
+                <span>{{ title }}</span>
+              </template>
+            </mars-tree>
+          </a-collapse-panel>
+        </a-collapse>
 
-      <div class="f-tac">
-        <a-space>
-          <mars-button size="middle" @click="onClickLoading">
-            <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
-            进度条1
-          </mars-button>
-          <mars-button size="middle" @click="onClickTopLoading">
-            <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
-            进度条2
-          </mars-button>
-        </a-space>
-      </div>
-    </a-form>
-  </mars-pannel>
+        <div class="f-tac">
+          <a-space>
+            <mars-button size="middle" @click="onClickLoading">
+              <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
+              进度条1
+            </mars-button>
+            <mars-button size="middle" @click="onClickTopLoading">
+              <template #icon><mars-icon icon="planet" class="icon-vertical-a" /></template>
+              进度条2
+            </mars-button>
+          </a-space>
+        </div>
+      </a-form>
+    </div>
+  </mars-dialog>
+  <!-- <my-dialog v-model:visible="visible" left="50" width="200" top="50" icon="setting" :draggable="true" warpper="#sanbox-warpper">
+    <ul>
+      <li v-for="i in couter" :key="i">{{ i }}</li>
+    </ul>
+  </my-dialog> -->
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-
 import axios from "axios"
 import type { Dayjs } from "dayjs"
 import * as mapWork from "./map.js"
 import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
 
 const activeKey = ref(["1", "2", "3"])
+
+const visible = ref(true)
+const couter = ref(10)
+
+onMounted(() => {
+  setTimeout(() => {
+    couter.value = 100
+  }, 2000)
+})
 
 interface FormState {
   url: string
@@ -175,6 +197,10 @@ const formState = reactive<FormState>({
 
 const rules = {
   url: [{ required: true, message: "请输入内容", trigger: "blur" }]
+}
+
+const showColor = (value) => {
+  formState.color = value
 }
 
 // 输入框修改事件
@@ -378,8 +404,7 @@ onMounted(() => {
           title: layer.name,
           key: layer.id,
           id: layer.id,
-          pId: layer.pid,
-          uuid: layer.uuid
+          pId: layer.pid
         }
         node.children = findChild(node, layers)
         treeData.value.push(node)
@@ -397,8 +422,7 @@ function findChild(parent: any, list: any[]) {
         title: item.name,
         key: item.id,
         id: item.id,
-        pId: item.pid,
-        uuid: item.uuid
+        pId: item.pid
       }
       const nodeLayer = mapWork.createLayer(item) // 创建图层
       layersObj[item.id] = nodeLayer
@@ -422,12 +446,12 @@ const onCheckTreeItem = (keys: string[]) => {
     layer.show = show
     if (show) {
       if (!layer.isAdded) {
-        window.mapWork.map.addLayer(layer)
+        mapWork.map.addLayer(layer)
       }
       layer.flyTo()
     } else {
       if (layer.isAdded) {
-        window.mapWork.map.removeLayer(layer)
+        mapWork.map.removeLayer(layer)
       }
     }
   })
@@ -440,5 +464,9 @@ const onCheckTreeItem = (keys: string[]) => {
 
 .color-state {
   padding-bottom: 1.3px;
+}
+.ui-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 </style>

@@ -1,15 +1,15 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="viewTo23D">分屏</mars-button>
       <mars-button @click="viewTo2d">仅街景</mars-button>
       <mars-button @click="viewTo3d">仅3D</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-pannel :visible="true" left="10" top="10">
+  <mars-dialog :visible="true" left="10" top="10">
     <img src="/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

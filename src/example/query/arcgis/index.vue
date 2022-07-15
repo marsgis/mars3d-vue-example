@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="350">
+  <mars-dialog :visible="true" right="10" top="10" width="360">
     <div class="arcgis-contain">
       <a-form>
         <div class="f-mb">
@@ -12,7 +12,7 @@
         <div class="f-mb">
           <a-space>
             <span>范围</span>
-            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawRectangle"> 框选范围 </mars-button>
             <mars-button @click="drawCircle">圆形范围</mars-button>
             <mars-button @click="drawPolygon">多边形范围</mars-button>
           </a-space>
@@ -42,7 +42,7 @@
         </div>
       </a-form>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

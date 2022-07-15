@@ -129,7 +129,6 @@ export function onMounted(mapInstance) {
     stepSize: 5
   })
   map.addEffect(bloomTargetEffect)
-
 }
 
 /**

@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="338">
-    <a-table
+  <mars-dialog :visible="true" right="10" top="10" width="349">
+    <mars-table
       size="small"
       :customRow="tyRowClick"
       :row-selection="rowSelection"
@@ -15,7 +15,7 @@
           <a>{{ text }}</a>
         </template>
       </template>
-    </a-table>
+    </mars-table>
 
     <div class="playBtn" v-if="formState.show">
       <a-space>
@@ -26,7 +26,7 @@
       </a-space>
     </div>
 
-    <a-table
+    <mars-table
       size="small"
       v-if="formState.show"
       :scroll="{ y: tableScrollHeight }"
@@ -41,8 +41,19 @@
       <template #bodyCell="{ text }">
         <a>{{ text }}</a>
       </template>
-    </a-table>
-  </mars-pannel>
+    </mars-table>
+  </mars-dialog>
+
+  <div class="legendContent">
+    <ul>
+      <li><span class="round" style="background-color: #eed139"></span>热带低压</li>
+      <li><span class="round" style="background-color: #0000ff"></span>热带风暴</li>
+      <li><span class="round" style="background-color: #0f8000"></span>强热带风暴</li>
+      <li><span class="round" style="background-color: #fe9c45"></span>台风</li>
+      <li><span class="round" style="background-color: #fe00fe"></span>强台风</li>
+      <li><span class="round" style="background-color: #fe0000"></span>超强台风</li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -130,8 +141,8 @@ onMounted(() => {
   })
 
   setAutoHeight((height) => {
-    tableScrollHeight.value = height - 30
-  }, 400)
+    tableScrollHeight.value = height - 64
+  }, 420)
 })
 
 const rowSelection: TableProps["rowSelection"] = {
@@ -254,7 +265,7 @@ function conversionPathData(oldData) {
       })
     }
 
-    const time = mapWork.formatDate(new Date(message[2]), "yyyy-M-d HH:mm") // 时间
+    const time = mapWork.formatDate(new Date(message[2]), "yy-MM-dd HH:mm") // 时间
 
     path.push({
       id: message[0], // 唯一标识
@@ -366,5 +377,30 @@ function getMoveToStr(value) {
 <style scoped lang="less">
 .playBtn {
   margin-bottom: 5px;
+}
+
+.legendContent {
+  position: fixed;
+  bottom: 35px;
+  left: 48px;
+  color: #e9e9e9;
+  text-shadow: 2px 2px 2px #000;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.legendContent ul {
+  margin: 0;
+  padding: 0;
+}
+.legendContent li {
+  margin: 3px 9px;
+  line-height: 22px;
+  float: left;
+}
+.legendContent span.round {
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 6px;
 }
 </style>

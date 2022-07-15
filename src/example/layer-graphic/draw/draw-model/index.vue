@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <span>模型URL地址: </span> &nbsp;&nbsp;
       <a-checkbox v-model:checked="isProxy">使用代理</a-checkbox>
@@ -17,20 +17,21 @@
       <div class="f-pt">
         <a-space>
           <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
-          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在3dtiles上标绘</a-checkbox>
+          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
           <a-checkbox @change="chkHasTerrain" v-model:checked="isHasTerrain">地形</a-checkbox>
         </a-space>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
+
+  <location-to />
 </template>
 
 <script lang="ts" setup>
-import { ref, markRaw } from "vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
+import { ref, markRaw, onMounted } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
-
-const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -88,32 +89,51 @@ const saveGeoJSON = () => {
 }
 
 // *****************************属性面板***************************//
+// 数据编辑属性面板 相关处理
+const { activate, disable, isActivate, updateWidget } = useWidget()
+onMounted(() => {
+  const mars3d = window.mapWork.mars3d
+  // 矢量数据创建完成
+  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    showEditor(e)
+  })
+  // 修改了矢量数据
+  mapWork.graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      showEditor(e)
+    }
+  )
+  // 停止编辑
+  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    setTimeout(() => {
+      if (!mapWork.graphicLayer.isEditing) {
+        disable("graphic-editor")
+      }
+    }, 100)
+  })
+})
 
 const showEditor = (e: any) => {
+  const graphic = e.graphic
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true // 只处理一次
+  }
+
   if (!isActivate("graphic-editor")) {
     activate({
       name: "graphic-editor",
-      data: { graphic: markRaw(e.graphic) }
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
     })
   }
 }
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  showEditor(e)
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  updateWidget("graphic-editor", {
-    data: { graphic: markRaw(e.graphic) }
-  })
-  showEditor(e)
-})
-
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  setTimeout(() => {
-    if (!mapWork.graphicLayer.isEditing) {
-      disable("graphic-editor")
-    }
-  }, 100)
-})
 </script>

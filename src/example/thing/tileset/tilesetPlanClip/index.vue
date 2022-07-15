@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="280">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -40,24 +40,22 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="裁剪参数">
-        <div style="width: 246px">
-          <a-form-item label="裁剪距离">
-            <a-space>
-              <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />当前值{{ distanceVal }}
-            </a-space>
-          </a-form-item>
+        <a-space>
+          <span class="mars-pannel-item-label">裁剪距离:</span>
+          <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />值{{ distanceVal }}
+        </a-space>
 
-          <a-form-item label="斜切偏移量">
-            <a-space>
-              <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />当前值{{ normalVal }}
-            </a-space>
-          </a-form-item>
-        </div>
+        <a-space>
+          <span class="mars-pannel-item-label">斜切偏移量:</span>
+          <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />值{{ normalVal }}
+        </a-space>
       </a-collapse-panel>
     </a-collapse>
 
-    <mars-button @click="clear">清除</mars-button>
-  </mars-pannel>
+    <div className="f-tac">
+      <mars-button @click="clear">清除</mars-button>
+    </div>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -104,9 +102,12 @@ const drawPoly2 = () => {
 </script>
 <style scoped lang="less">
 .infoView {
-  width: 268px;
+  width: 300px;
 }
 .ant-slider {
-  width: 158px;
+  width: 100px;
+}
+.mars-pannel-item-label {
+  width: 74px;
 }
 </style>

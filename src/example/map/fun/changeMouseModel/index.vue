@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" height="44px">
+  <mars-dialog :visible="true" right="10" top="10" height="44px">
     <a-radio-group @change="shadingMaterials" v-model:value="radioValue">
       <a-radio :value="1">更换中键和右键 </a-radio>
       <a-radio :value="2">Cesium操作习惯</a-radio>
     </a-radio-group>
-  </mars-pannel>
+  </mars-dialog>
   <location-to />
 </template>
 

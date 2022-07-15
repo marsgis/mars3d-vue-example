@@ -1,9 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="130">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="infoView-content">
       <a-form :label-col="labelCol">
-        <a-collapse :activeKey="activeKey">
+        <a-collapse collapsible="header" :defaultActiveKey="['1', '2', '3', '4']">
           <a-collapse-panel key="1" header="模型URL地址">
+            <template #extra>
+              <mars-button @click="showCompTree">查看构件</mars-button>
+            </template>
             <div class="f-mb">
               <span>模型URL地址: </span> &nbsp;&nbsp;
               <mars-input v-model:value="formState.txtModel" style="width: 100%"></mars-input>
@@ -12,18 +15,18 @@
             <div class="f-mb">
               <mars-button @click="showModel">加载模型</mars-button> &nbsp;&nbsp;
               <a-checkbox v-model:checked="formState.chkProxy">使用代理</a-checkbox>
-
-
-              <mars-button @click="showCompTree">查看构件</mars-button>
             </div>
           </a-collapse-panel>
 
           <a-collapse-panel key="2" header="模型位置">
+            <template #extra>
+              <mars-button @click="locateToModel">定位至模型</mars-button>
+            </template>
             <a-form-item label="经度">
-              <mars-input-number v-model:value="formState.txtX" :step="0.000001" @change="formStateChange" />
+              <mars-input-number v-model:value="formState.txtX" :step="0.000001" @change="formStateChange" style="width: 100%" />
             </a-form-item>
             <a-form-item label="纬度">
-              <mars-input-number v-model:value="formState.txtY" :step="0.000001" @change="formStateChange" />
+              <mars-input-number v-model:value="formState.txtY" :step="0.000001" @change="formStateChange" style="width: 100%" />
             </a-form-item>
 
             <a-form-item label="高度">
@@ -32,46 +35,43 @@
                   <mars-input-number v-model:value="formState.txtZ" :step="0.1" @change="formStateChange" />
                 </a-col>
                 <a-col :span="10">
-                  <a-checkbox v-model:checked="formState.depthTestAgainstTerrain" @change="formStateChange">深度检测</a-checkbox>
+                  <a-checkbox v-model:checked="formState.depthTestAgainstTerrain" @change="updateDepthTest">深度检测</a-checkbox>
                 </a-col>
               </a-row>
             </a-form-item>
-
-            <a-form-item label="鼠标拖拽编辑">
-              <mars-switch v-model:checked="formState.tilesEditorEnabled" @change="formStateChange" />
-            </a-form-item>
-            <a-form-item label="视角定位">
-              <mars-button @click="locateToModel">定位至模型</mars-button>
-            </a-form-item>
           </a-collapse-panel>
 
-          <a-collapse-panel key="2" header="模型方向">
+          <a-collapse-panel key="3" header="模型方向">
             <a-form-item label="变换垂直轴">
               <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
             </a-form-item>
-            <a-form-item label="方向X">
-              <mars-input-number v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" />
+            <a-form-item label="绕X轴旋转模型">
+              <mars-input-number v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
-            <a-form-item label="方向Y">
-              <mars-input-number v-model:value="formState.rotationY" :step="0.1" @change="formStateChange" />
+            <a-form-item label="绕Y轴旋转模型">
+              <mars-input-number v-model:value="formState.rotationY" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
-            <a-form-item label="方向Z(四周)">
-              <mars-input-number v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" />
+            <a-form-item label="绕Z轴旋转模型">
+              <mars-input-number v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
           </a-collapse-panel>
 
-          <a-collapse-panel key="3" header="其他参数">
+          <a-collapse-panel key="4" header="其他参数">
             <a-form-item label="缩放比例">
               <mars-input-number v-model:value="formState.scale" :step="0.1" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="显示精度">
               <mars-slider :min="1" :max="30" v-model:value="formState.maximumScreenSpaceError" @change="formStateChange" />
             </a-form-item>
-            <a-form-item label="材质底色">
-              <mars-slider :min="0.1" :max="3" :step="0.1" v-model:value="formState.luminanceAtZenith" @change="formStateChange" />
-            </a-form-item>
             <a-form-item label="透明度">
               <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
+            </a-form-item>
+            <a-form-item label="单击高亮构件">
+              <mars-switch v-model:checked="formState.highlightEnable" @change="formStateChange" />
+              <span class="popup-notification">
+                单击Popup弹窗:
+                <mars-switch v-model:checked="formState.popupEnable" @change="formStateChange" />
+              </span>
             </a-form-item>
           </a-collapse-panel>
         </a-collapse>
@@ -83,11 +83,11 @@
         </div>
       </a-form>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
   <mars-dialog left="10" top="10" bottom="40" width="350" title="查看控件" v-model:visible="showCompModel">
     <mars-button v-show="cancelTree" @click="checkedTree">取消选中</mars-button>
-    <mars-tree @select="compModelChange" :tree-data="treeData">
+    <mars-tree @select="compModelChange" v-model:expandedKeys="expandedKeys" :tree-data="treeData">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
@@ -111,10 +111,10 @@ interface FormState {
   rotationY: number
   scale: number
   axis: string
-  tilesEditorEnabled: boolean
   maximumScreenSpaceError: number
-  luminanceAtZenith: number
   opacity: number
+  highlightEnable: boolean
+  popupEnable: boolean
 }
 
 const formState = reactive<FormState>({
@@ -129,13 +129,11 @@ const formState = reactive<FormState>({
   rotationY: 0.0,
   scale: 1,
   axis: "",
-  tilesEditorEnabled: false,
   maximumScreenSpaceError: 8,
-  luminanceAtZenith: 0.1,
-  opacity: 1
+  opacity: 1,
+  highlightEnable: false,
+  popupEnable: true
 })
-
-const activeKey: any[] = ["1", "2", "3"]
 
 const axisOptions = [
   { value: "", label: "默认" },
@@ -151,60 +149,90 @@ const labelCol = { style: { width: "100px" } }
 
 // 初始化界面
 onMounted(() => {
-  setTimeout(() => {
-    mapWork.showModel(formState.txtModel)
-  }, 1000)
+  mapWork.showModel(formState.txtModel)
 })
+
 mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
-  const tileset = event.data
-  const tiles3dLayer = event.tiles3dLayer
+  const tiles3dLayer = event.layer
 
-  // 取模型中心点信息
-  const locParams = tiles3dLayer.center
-
+  const locParams = tiles3dLayer.center // 取模型中心点信息
   if (locParams.alt < -1000 || locParams.alt > 10000) {
     locParams.alt = 0 // 高度异常数据，自动赋值高度为0
   }
 
-  formState.txtX = locParams.lng.toFixed(6)
-  formState.txtY = locParams.lat.toFixed(6)
-  formState.txtZ = locParams.alt.toFixed(6)
-  formState.luminanceAtZenith = tileset.luminanceAtZenith
-  formState.maximumScreenSpaceError = tileset.maximumScreenSpaceError
+  formState.txtX = Number(locParams.lng.toFixed(6))
+  formState.txtY = Number(locParams.lat.toFixed(6))
+  formState.txtZ = Number(locParams.alt.toFixed(6))
+
+  formState.maximumScreenSpaceError = tiles3dLayer.tileset.maximumScreenSpaceError
 
   if (tiles3dLayer.transform) {
-    formState.rotationX = tiles3dLayer.rotation_x.toFixed(1)
-    formState.rotationY = tiles3dLayer.rotation_y.toFixed(1)
-    formState.rotationZ = tiles3dLayer.rotation_z.toFixed(1)
+    formState.rotationX = Number(tiles3dLayer.rotation_x.toFixed(1))
+    formState.rotationY = Number(tiles3dLayer.rotation_y.toFixed(1))
+    formState.rotationZ = Number(tiles3dLayer.rotation_z.toFixed(1))
     formState.scale = tiles3dLayer.scale || 1
     formState.axis = tiles3dLayer.axis
   } else {
-    mapWork.getDefined(formState)
+    mapWork.updateHeightForSurfaceTerrain(locParams)
   }
-
-  mapWork.getConfig(formState)
-})
-
-mapWork.eventTarget.on("tilesEditor", function (event: any) {
-  mapWork.editor(event.data, formState.txtZ)
 })
 
 // 根据改变的位置触发不同的事件
 mapWork.eventTarget.on("changePoition", function (event: any) {
-  formState.txtX = event.point.lng
-  formState.txtY = event.point.lat
-  formState.txtZ = event.point.alt
+  formState.txtX = event.center.lng
+  formState.txtY = event.center.lat
+  formState.txtZ = event.center.alt
+
+  formState.rotationX = event.rotation.x
+  formState.rotationY = event.rotation.y
+  formState.rotationZ = event.rotation.z
+})
+mapWork.eventTarget.on("changeHeight", function (event: any) {
+  formState.txtZ = event.alt
 })
 
-mapWork.eventTarget.on("changeHeading", function (event: any) {
-  formState.rotationZ = event.tiles3dLayer.rotation_z
-})
+/**
+ * UI面板参数 转为  图层API参数
+ * @param {object} formState 面板改变的值
+ * @return {object} params  模型的参数
+ */
+function getLayerOptions() {
+  const params = {
+    name: "模型名称",
+    type: "3dtiles",
+    url: formState.txtModel,
+    maximumScreenSpaceError: formState.maximumScreenSpaceError, // 【重要】数值加大，能让最终成像变模糊
+    position: {
+      lat: formState.txtY,
+      lng: formState.txtX,
+      alt: formState.txtZ
+    },
+    rotation: {
+      x: formState.rotationX,
+      y: formState.rotationY,
+      z: formState.rotationZ
+    },
+    scale: formState.scale,
+    axis: formState.axis ? formState.axis : undefined,
+    proxy: formState.chkProxy ? "//server.mars3d.cn/proxy/" : undefined,
+    opacity: formState.opacity,
+    show: true
+  }
+  return params
+}
 
 const showModel = () => {
   mapWork.showModel(formState.txtModel)
+
+  formState.opacity = 1
+  formState.highlightEnable = false
+  formState.popupEnable = true
 }
 const formStateChange = () => {
-  mapWork.updateModel(formState)
+  mapWork.updateModel(getLayerOptions(), formState)
+}
+const updateDepthTest = () => {
+  mapWork.updateDepthTest(formState.depthTestAgainstTerrain)
 }
 
 const locateToModel = () => {
@@ -212,11 +240,12 @@ const locateToModel = () => {
 }
 
 const saveBookmark = () => {
-  mapWork.saveBookmark(formState)
+  mapWork.saveBookmark(getLayerOptions())
 }
 
 // 查看构件
 const treeData = ref<any[]>()
+const expandedKeys = ref<any[]>([])
 
 const showCompModel = ref(false)
 const showCompTree = () => {
@@ -238,6 +267,7 @@ mapWork.eventTarget.on("compTree", function (event: any) {
         children: childeren
       }
     ]
+    expandedKeys.value.push(index) // 默认展开
   })
 })
 
@@ -277,18 +307,15 @@ const checkedTree = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView {
-  max-height: 770px !important;
-  bottom: 60px;
-  overflow: scroll;
-}
-
 .infoView-content {
-  max-height: 737px !important;
   width: 345px;
 }
 
 .ant-input {
   width: 240px;
+}
+
+.popup-notification {
+  margin-left: 8px;
 }
 </style>

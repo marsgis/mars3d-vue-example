@@ -14,9 +14,10 @@
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2022-01-01
  */
-import { reactive } from "vue"
+import { ref, reactive, onMounted, markRaw } from "vue"
 import type { UnwrapRef } from "vue"
 import { $alert } from "@mars/components/mars-ui/index"
+import { useWidget } from "@mars/widgets/common/store/widget"
 
 const props = withDefaults(
   defineProps<{
@@ -47,6 +48,7 @@ const formState: UnwrapRef<FormState> = reactive({
 })
 
 // 恢复默认状态
+
 if (mapWork.eventTarget) {
   mapWork.eventTarget.on("defuatData", (item: any) => {
     formState.enabledShowHide = item.enabledShowHide
@@ -80,6 +82,7 @@ const onChangeShow = () => {
 }
 const onChangePopup = () => {
   const layer = getManagerLayer()
+
   if (formState.enabledPopup) {
     if (mapWork.bindLayerPopup) {
       mapWork.bindLayerPopup()
@@ -167,46 +170,46 @@ function bindLayerContextMenu() {
   const graphicLayer = getManagerLayer()
 
   graphicLayer.bindContextMenu([
-    {
-      text: "开始编辑对象",
-      icon: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic || !graphic.startEditing) {
-          return false
-        }
-        return !graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.startEditing(graphic)
-        }
-      }
-    },
-    {
-      text: "停止编辑对象",
-      icon: "fa fa-edit",
-      show: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        return graphic.isEditing
-      },
-      callback: function (e) {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          graphicLayer.stopEditing(graphic)
-        }
-      }
-    },
+    // {
+    //   text: "开始编辑对象",
+    //   icon: "fa fa-edit",
+    //   show: function (e) {
+    //     const graphic = e.graphic
+    //     if (!graphic || !graphic.hasEdit) {
+    //       return false
+    //     }
+    //     return !graphic.isEditing
+    //   },
+    //   callback: (e) => {
+    //     const graphic = e.graphic
+    //     if (!graphic) {
+    //       return false
+    //     }
+    //     if (graphic) {
+    //       graphicLayer.startEditing(graphic)
+    //     }
+    //   }
+    // },
+    // {
+    //   text: "停止编辑对象",
+    //   icon: "fa fa-edit",
+    //   show: function (e) {
+    //     const graphic = e.graphic
+    //     if (!graphic || !graphic.hasEdit) {
+    //       return false
+    //     }
+    //     return graphic.isEditing
+    //   },
+    //   callback: (e) => {
+    //     const graphic = e.graphic
+    //     if (!graphic) {
+    //       return false
+    //     }
+    //     if (graphic) {
+    //       graphic.stopEditing()
+    //     }
+    //   }
+    // },
     {
       text: "删除对象",
       icon: "fa fa-trash-o",
@@ -218,15 +221,15 @@ function bindLayerContextMenu() {
           return true
         }
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         if (!graphic) {
           return
         }
-        const parent = graphic._parent // 右击是编辑点时
-        this._graphicLayer.removeGraphic(graphic)
+        const parent = graphic.parent // 右击是编辑点时
+        graphicLayer.removeGraphic(graphic)
         if (parent) {
-          this._graphicLayer.removeGraphic(parent)
+          graphicLayer.removeGraphic(parent)
         }
       }
     },
@@ -251,7 +254,7 @@ function bindLayerContextMenu() {
           graphic.type === "wallP"
         )
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的长度为:" + strDis)
@@ -274,7 +277,7 @@ function bindLayerContextMenu() {
           graphic.type === "polygonP"
         )
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strDis = mars3d.MeasureUtil.formatDistance(graphic.distance)
         $alert("该对象的周长为:" + strDis)
@@ -293,19 +296,72 @@ function bindLayerContextMenu() {
           graphic.type === "circleP" ||
           graphic.type === "rectangle" ||
           graphic.type === "rectangleP" ||
-          graphic.type === "polygon" ||
-          graphic.type === "polygonP" ||
-          graphic.type === "scrollWall" ||
-          graphic.type === "water"
+          ((graphic.type === "polygon" ||
+            graphic.type === "polygonP" ||
+            graphic.type === "wall" ||
+            graphic.type === "scrollWall" ||
+            graphic.type === "water") &&
+            graphic.positionsShow?.length > 2)
         )
       },
-      callback: function (e) {
+      callback: (e) => {
         const graphic = e.graphic
         const strArea = mars3d.MeasureUtil.formatArea(graphic.area)
         $alert("该对象的面积为:" + strArea)
       }
     }
   ])
+}
+
+// 数据编辑属性面板 相关处理
+const { activate, disable, isActivate, updateWidget } = useWidget()
+onMounted(async () => {
+  const mars3d = window.mapWork.mars3d
+  const graphicLayer = await getManagerLayer()
+  // 矢量数据创建完成
+  if (graphicLayer) {
+    graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+      showEditor(e)
+    })
+    // 修改了矢量数据
+    graphicLayer.on(
+      [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+      function (e) {
+        showEditor(e)
+      }
+    )
+    // 停止编辑
+    graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+      setTimeout(() => {
+        if (!graphicLayer.isEditing) {
+          disable("graphic-editor")
+        }
+      }, 100)
+    })
+  }
+})
+
+const showEditor = (e: any) => {
+  const graphic = e.graphic
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true // 只处理一次
+  }
+
+  if (!isActivate("graphic-editor")) {
+    activate({
+      name: "graphic-editor",
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  }
 }
 </script>
 <style scoped lang="less">

@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="350">
+  <mars-dialog :visible="true" right="10" top="10" width="400">
     <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
       <a-space>
         <mars-button @click="btnDrawExtent">添加矩形</mars-button>
@@ -11,7 +11,7 @@
     <mars-gui :options="options" ref="marsGuiRef"></mars-gui>
 
     <div class="f-pt">
-      <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
             <a-space>
@@ -23,9 +23,9 @@
             {{ record.name }}
           </template>
         </template>
-      </a-table>
+      </mars-table>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -168,8 +168,8 @@ const rowSelection = ref({
 mapWork.eventTabel.on("tableObject", function (event: any) {
   dataSource.value = []
   nextTick(() => {
-    dataSource.value = event.table
-    rowKeys.value = event.table.map((item: any) => item.key)
+    dataSource.value = event.tableItem.table
+    rowKeys.value.push(event.tableItem.key)
   })
 })
 

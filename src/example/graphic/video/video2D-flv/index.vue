@@ -1,17 +1,29 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <layer-state />
-    </div>
+  <mars-dialog :visible="true" right="10" top="10">
+    <graphic-layer-state
+      :defaultCount="5"
+      drawLabel1="绘制投射视频"
+      drawLabel2="按当前相机投射视频"
+      :customEditor="'video2D'"
+      @onStartEditor="onStartEditor"
+      @onStopEditor="onStopEditor"
+    />
+  </mars-dialog>
 
-    <div class="f-tac f-mb">
-      <a-space>
-        <mars-button @click="addVideo">绘制投射视频</mars-button>
-        <mars-button @click="addThisCamera">按当前相机投射视频</mars-button>
-        <mars-button @click="clear">清除</mars-button>
-      </a-space>
-    </div>
-
+  <!-- 左侧面板 -->
+  <mars-dialog
+    left="10"
+    top="10"
+    :draggable="true"
+    :visible="selectedGraphic"
+    :title="pannelTitle"
+    :closeable="true"
+    :beforeClose="
+      () => {
+        selectedGraphic = false
+      }
+    "
+  >
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">相机位置:</span>
@@ -83,12 +95,12 @@
         <mars-button @click="printParameters">打印参数</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
-import LayerState from "@mars/components/mars-sample/layer-state.vue"
+import { reactive, ref } from "vue"
+import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import * as mapWork from "./map.js"
 
 interface Video {
@@ -113,16 +125,27 @@ const video = reactive<Video>({
   videoRotate: 0
 })
 
-mapWork.eventTarget.on("loadVideo", (e) => {
-  const data = e.value
-  video.ckdFrustum = data.ckdFrustum
-  video.cameraAngle = data.cameraAngle
-  video.cameraAngle2 = data.cameraAngle2
-  video.distanceValue = data.distanceValue
-  video.pitchValue = data.pitchValue
-  video.opcity = data.opcity
-  video.heading = data.heading
-})
+// 点击表格开始编辑矢量数据的参数
+const pannelTitle = ref<string>("")
+const selectedGraphic = ref<boolean>(false)
+
+function onStartEditor(data) {
+  const graphic = mapWork.getGraphic(data.graphicId)
+  pannelTitle.value = data.graphicName
+
+  video.cameraAngle = graphic?.angle
+  video.cameraAngle2 = graphic?.angle2
+  video.ckdFrustum = graphic?.showFrustum
+  video.distanceValue = graphic?.distance
+  video.pitchValue = graphic?.pitch
+  video.opcity = graphic?.opacity
+  video.heading = graphic?.heading
+
+  selectedGraphic.value = true
+}
+function onStopEditor() {
+  selectedGraphic.value = false
+}
 
 // 视频位置
 const selCamera = () => {
@@ -132,9 +155,11 @@ const selCamera = () => {
 const onChangeAngle = () => {
   mapWork.onChangeAngle(video.cameraAngle)
 }
+
 const onChangeAngle2 = () => {
   mapWork.onChangeAngle2(video.cameraAngle2)
 }
+
 const onChangeDistance = () => {
   mapWork.onChangeDistance(video.distanceValue)
 }
@@ -142,6 +167,7 @@ const onChangeDistance = () => {
 const onChangeHeading = () => {
   mapWork.onChangeHeading(video.heading)
 }
+
 const onClickSelView = () => {
   mapWork.onClickSelView()
 }
@@ -163,19 +189,6 @@ const onChangeOpacity = () => {
 // 视频角度
 const rotateDeg = () => {
   mapWork.rotateDeg(video.videoRotate)
-}
-
-// 投射视频
-const addVideo = () => {
-  mapWork.addVideo(video)
-}
-// 按当前相机投射视频
-const addThisCamera = () => {
-  mapWork.addThisCamera(video)
-}
-// 清除
-const clear = () => {
-  mapWork.clear()
 }
 
 // 定位至视频位置

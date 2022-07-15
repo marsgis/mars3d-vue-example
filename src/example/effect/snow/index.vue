@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="360">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果：</a-checkbox>
@@ -15,7 +15,7 @@
         <mars-slider @change="onChangeAlpha" v-model:value="formState.alpha" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

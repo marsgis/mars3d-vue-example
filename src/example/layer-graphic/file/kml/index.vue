@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路线</mars-button>
@@ -10,15 +10,15 @@
     <div class="f-pt">
       <layer-state />
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-pannel :visible="true" right="10" top="100" width="220" customClass="pannel">
+  <mars-dialog :visible="true" right="10" top="110" width="220" customClass="pannel">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

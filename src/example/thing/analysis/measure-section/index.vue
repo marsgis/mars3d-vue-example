@@ -1,18 +1,18 @@
 <template>
   <!-- UI面板 -->
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="measureSection">绘制线</mars-button>
       <mars-button @click="clear">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
   <!-- ecahrt图表 -->
-  <mars-pannel v-model:visible="isShow" left="10" width="calc(100% - 20px)" bottom="40">
+  <mars-dialog v-model:visible="isShow" left="70" right="70" bottom="40" z-index="100">
     <div class="echatsView">
       <div id="echartsView1" style="width: 100%; height: 100%"></div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 
   <location-to />
 </template>
@@ -71,8 +71,9 @@ function setEchartsData(data: any) {
   const option = {
     grid: {
       left: 10,
-      right: 10,
+      right: 40,
       bottom: 10,
+      top: 40,
       containLabel: true
     },
     dataZoom: [
@@ -111,13 +112,15 @@ function setEchartsData(data: any) {
       {
         name: "行程",
         type: "category",
+        nameTextStyle: { color: "rgb(255, 70, 131)" },
         boundaryGap: false,
         axisLine: {
           show: true
         },
         axisLabel: {
           show: true,
-          formatter: "{value} 米"
+          formatter: "{value} 米",
+          color: "#fff"
         },
         data: data.arrLen
       }
@@ -125,10 +128,12 @@ function setEchartsData(data: any) {
     yAxis: [
       {
         name: "高程",
+        nameTextStyle: { color: "rgb(255, 70, 131)" },
         type: "value",
         min: getMinZ(arrPoint),
         axisLabel: {
-          formatter: "{value} 米"
+          formatter: "{value} 米",
+          color: "#fff"
         }
       }
     ],
@@ -183,14 +188,8 @@ function getMinZ(arr: any) {
 }
 </script>
 <style scoped lang="less">
-.echartsBox {
-  top: auto !important;
-  left: 50px;
-  width: calc(100% - 60px);
-  bottom: 40px;
-}
 .echatsView {
   width: 100%;
-  height: 200px;
+  height: 240px;
 }
 </style>

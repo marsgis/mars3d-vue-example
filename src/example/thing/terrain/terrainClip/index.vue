@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="360">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="terrain-contain">
       <a-row :gutter="[1, 10]">
         <a-col :span="24">
@@ -29,7 +29,7 @@
         </a-col>
 
         <a-col :span="24">
-          <a-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
@@ -41,11 +41,11 @@
                 {{ record.name }}
               </template>
             </template>
-          </a-table>
+          </mars-table>
         </a-col>
       </a-row>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

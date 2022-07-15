@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">过境区域:</span>
@@ -31,14 +31,14 @@
       </a-space>
     </div>
 
-    <a-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="pathData">
+    <mars-table size="small" :pagination="{ pageSize: 5 }" :columns="columns" :data-source="pathData">
       <template #bodyCell="{ column, text }">
         <template v-if="column.dataIndex === 'name'">
           <a>{{ text }}</a>
         </template>
       </template>
-    </a-table>
-  </mars-pannel>
+    </mars-table>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

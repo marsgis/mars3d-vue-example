@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-checkbox v-model:checked="formState.enabledRedSphere" @change="formRedSphereChange">危险圈</a-checkbox>
     </div>
     <div>
       <a-checkbox v-model:checked="formState.enabledYellowSphere" @change="formYellowSphereChange">警告圈</a-checkbox>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

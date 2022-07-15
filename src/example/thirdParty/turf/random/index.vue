@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="randomPoints">随机点</mars-button>
       <mars-button @click="randomPolylines">随机线</mars-button>
       <mars-button @click="randomPolygons">随机面</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

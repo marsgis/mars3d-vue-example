@@ -296,7 +296,7 @@ hideLoading(type) // 关闭loading
 
 ```html
 <template>
-  <mars-pannel> </mars-pannel>
+  <mars-dialog> </mars-dialog>
 </template>
 <script lang="ts" setup></script>
 <style scoped lang="less"></style>

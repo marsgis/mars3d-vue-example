@@ -1,12 +1,12 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button @click="drawLine">通视分析</mars-button>
       <mars-button @click="drawCircle">圆形通视分析</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
       <mars-button href="editor-vue.html?id=thing/analysis/sightline-terrain" target="_blank">地形精确分析示例</mars-button>
     </a-space>
-  </mars-pannel>
+  </mars-dialog>
 
   <location-to />
 </template>

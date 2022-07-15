@@ -1,6 +1,6 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="360">
-    <a-table :columns="columns" :data-source="data" bordered :pagination="false">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="360">
+    <mars-table :columns="columns" :data-source="data" bordered :pagination="false">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
           <a href="https://mars3d.cn/api/Map.html#.sceneOptions" target="_black">{{ text }}</a>
@@ -45,8 +45,8 @@
           />
         </template>
       </template>
-    </a-table>
-  </mars-pannel>
+    </mars-table>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -400,10 +400,10 @@ const columns: TableColumnType[] = [
       }
 
       if (index === 9) {
-        obj.props.rowSpan = 6
+        obj.props.rowSpan = 7
       }
-      if (index === 15) {
-        obj.props.rowSpan = 11
+      if (index === 16) {
+        obj.props.rowSpan = 12
       }
       return obj
     }

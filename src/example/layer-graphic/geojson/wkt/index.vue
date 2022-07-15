@@ -1,15 +1,15 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" height="46">
+  <mars-dialog :visible="true" right="10" top="10" >
     <layer-state />
-  </mars-pannel>
+  </mars-dialog>
 
-  <mars-pannel :visible="true" right="10" top="60" width="250">
+  <mars-dialog :visible="true" right="10" top="64" width="250">
     <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
@@ -36,7 +36,7 @@ mapWork.treeEvent.on("tree", (event: any) => {
 
 const checkedChange = (_keys: string[], checkedNodes: any) => {
   const show = checkedNodes.checked
-  const entity = layersObj[checkedNodes.node.uuid]
+  const entity = layersObj[checkedNodes.node.id]
 
   if (checkedNodes.node.id === -1) {
     Object.keys(layersObj).forEach((k) => {
@@ -70,13 +70,13 @@ function initTree(dataItems: any) {
       children.push({
         title: layer.airportName,
         key: key,
-        uuid: layer.graphic.uuid
+        id: layer.graphic.id
       })
 
       if (layer.graphic.show) {
         dataKeys.push(key)
       }
-      layersObj[layer.graphic.uuid] = layer
+      layersObj[layer.graphic.id] = layer
     }
   }
   treeData.value[0].children = children

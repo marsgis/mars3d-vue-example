@@ -1,48 +1,48 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="255">
-    <div style="width: 220px">
-      <div class="f-mb infoView-content">
-        <a-space>
-          <span>模型列表： </span>
-          <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-            <i title="打开GeoJSON文件"><mars-icon icon="folder-upload" width="19" /></i>
-          </a-upload>
-          <i title="保存GeoJSON"><mars-icon icon="disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
-        </a-space>
-      </div>
+  <mars-dialog :visible="true" right="10" top="10" bottom="110" width="270">
+    <div class="f-mb infoView-content">
+      <a-space>
+        <span>模型列表： </span>
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+          <i title="打开GeoJSON文件"><mars-icon icon="folder-upload" width="19" /></i>
+        </a-upload>
+        <i title="保存GeoJSON"><mars-icon icon="disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
+        <i title="删除"><mars-icon icon="delete" width="17" color="#f2f2f2" @click="deleteMoXin" /></i>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain" title="深度检测">深度</a-checkbox>
-        <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
-      </div>
+    <div class="f-mb f-tac">
+      <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain" title="深度检测">深度检测</a-checkbox>
+      <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
+    </div>
 
-      <div class="f-mb">
-        <mars-select
-          ref="select"
-          v-model:value="value1"
-          style="width: 200px; margin-left: 10px"
-          :options="selectOptions"
-          @change="handleChange"
-        ></mars-select>
+    <div class="f-mb">
+      <mars-select
+        ref="select"
+        v-model:value="value1"
+        style="width: 93%; margin-left: 5px"
+        :options="selectOptions"
+        @change="handleChange"
+        class="mars-select_bottom"
+      ></mars-select>
 
-        <div class="f-mb gltfImg">
-          <ul>
-            <li v-for="imgs in dataList" :key="imgs.name">
-              <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
-            </li>
-          </ul>
-        </div>
+      <div class="gltfImg">
+        <ul>
+          <li v-for="imgs in dataList" :key="imgs.name">
+            <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
+          </li>
+        </ul>
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
+  <location-to />
 </template>
 
 <script lang="ts" setup>
-import { ref, markRaw } from "vue"
+import { ref, markRaw, onMounted } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import * as mapWork from "./map.js"
-
-const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -122,33 +122,57 @@ const saveGeoJSON = () => {
 
 // ************************属性面板************************/
 
+// 数据编辑属性面板 相关处理
+const { activate, disable, isActivate, updateWidget } = useWidget()
+onMounted(() => {
+  const mars3d = window.mapWork.mars3d
+  // 矢量数据创建完成
+  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    showEditor(e)
+  })
+  // 修改了矢量数据
+  mapWork.graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      showEditor(e)
+    }
+  )
+  // 停止编辑
+  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    setTimeout(() => {
+      if (!mapWork.graphicLayer.isEditing) {
+        disable("graphic-editor")
+      }
+    }, 100)
+  })
+})
+
 const showEditor = (e: any) => {
+  const graphic = e.graphic
+  if (!graphic._conventStyleJson) {
+    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
+    graphic._conventStyleJson = true // 只处理一次
+  }
+
   if (!isActivate("graphic-editor")) {
     activate({
       name: "graphic-editor",
-      data: { graphic: markRaw(e.graphic) }
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
     })
   }
 }
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  showEditor(e)
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  updateWidget("graphic-editor", {
-    data: { graphic: markRaw(e.graphic) }
-  })
-  showEditor(e)
-})
 
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  setTimeout(() => {
-    if (!mapWork.graphicLayer.isEditing) {
-      disable("graphic-editor")
-    }
-  }, 100)
-})
+const deleteMoXin = () => {
+  mapWork.deleteAll()
+}
 </script>
 <style scoped lang="less">
 .infoView-content {
@@ -161,18 +185,19 @@ mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
 
 .gltfImg {
   width: 100%;
-  margin-top: 10px;
-  margin-left: 10px;
-  overflow-x: hidden;
+  height: 100%;
+  max-height: 752px;
   overflow-y: auto;
 }
 
+.gltfImg ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .gltfImg li {
-  display: inline-block;
-  margin-right: 5px;
-  width: 100px;
-  text-align: center;
-  padding-bottom: 10px;
+  padding: 6px 7px;
 }
 
 .gltfImg img {
@@ -182,5 +207,9 @@ mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
 }
 .ant-upload {
   line-height: 0 !important;
+}
+// 让下拉选择框与下面的图片展示区有一个空隙
+.mars-select_bottom {
+  margin-bottom: 10px;
 }
 </style>

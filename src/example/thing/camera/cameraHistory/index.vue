@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <p class="f-mb">当前共有{{ formState.allLength }}条视角记录，当前正在第{{ formState.nowView }}条视角</p>
     <div class="f-mb">
       <mars-button @click="lastOneView">回到当前（最后一条）</mars-button>
@@ -10,7 +10,7 @@
         <mars-button @click="nextView">下一个视图</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

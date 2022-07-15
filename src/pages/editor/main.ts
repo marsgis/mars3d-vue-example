@@ -20,6 +20,7 @@ document.oncontextmenu = function (e) {
 const marsEditor = new MarsgisEditor({
   baseUrl: process.env.BASE_URL,
   code: getQueryString("code"),
+  fullScreen: getQueryString("full"),
   configLibs: window.configLibs,
   resourcePublicPath: process.env.EXAMPLE_SOURCE_PATH,
   thumbnailPublicPath: "/config/",
@@ -60,11 +61,12 @@ function initUI(simple: boolean) {
       position: {
         left: 50,
         bottom: 50
-      }
+      },
+      warpper: "#mars-main-view"
     }
   })
 
-  vueApp.mount("#mars-main-view")
+  vueApp.mount("#mars-ui-root")
 }
 
 function destoryUI() {

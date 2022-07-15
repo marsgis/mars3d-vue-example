@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -38,12 +38,12 @@
           <a-space>
             <span>亮度效果</span>
             <a-checkbox @change="chkBrightness" v-model:checked="formState.enabledBrightness">开启亮度</a-checkbox>
-            <mars-slider @change="alphaChange" :min="0.1" :max="8.0" :step="0.05" v-model:value="alphaVal" />
+            <mars-slider @change="onChangeBrightness" v-if="formState.enabledBrightness" v-model:value="brightness" :min="0" :max="5" :step="0.01" />
           </a-space>
         </div>
       </a-collapse-panel>
     </a-collapse>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -69,7 +69,7 @@ const formState: UnwrapRef<FormState> = reactive({
 const activeKey = ref(["1", "2", "3"])
 
 // 透明度
-const alphaVal = ref<number>(1.5)
+const brightness = ref<number>(1.5)
 
 // 原始样式
 const setStyleDef = () => {
@@ -87,7 +87,7 @@ const setStyle3 = () => {
   mapWork.setStyle3()
 }
 // 颜色改变
-const changeColor = () => {
+const changeColor = (e) => {
   mapWork.changeColor(formState.color)
 }
 // 开启泛光
@@ -104,12 +104,12 @@ const chkShadows = () => {
 const chkBrightness = () => {
   mapWork.chkBrightness(formState.enabledBrightness)
 }
-const alphaChange = () => {
-  mapWork.alphaChange(formState.enabledBrightness)
+const onChangeBrightness = () => {
+  mapWork.alphaChange(brightness.value)
 }
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 150px;
+  width: 85px;
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" bottom="40" width="250">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="250">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
 const treeData = ref<any[]>([])
@@ -19,7 +19,7 @@ const checkedKeys = ref<string[]>([])
 
 const layersObj: any = {}
 
-mapWork.eventTarget.on("loadEnd", () => {
+onMounted(() => {
   initTree()
 })
 
@@ -38,7 +38,7 @@ const checkedChange = (keys: string[], e: any) => {
 
     if (keys.indexOf(e.node.key) !== -1) {
       layer.show = true
-      mapWork.flyToLayer(layer)
+      layer.flyTo()
     } else {
       layer.show = false
     }
@@ -68,6 +68,7 @@ function renderChildNode(keys: string[], children: any[]) {
 // 初始化树构件
 const initTree = () => {
   const layers = mapWork.getLayers()
+
   // 遍历出config.json中所有的basempas和layers
   for (let i = layers.length - 1; i >= 0; i--) {
     const layer = layers[i]
@@ -75,15 +76,14 @@ const initTree = () => {
     if (layer && layer.pid === -1) {
       const node: any = {
         title: layer.name,
-        key: layer.uuid,
+        key: layer.id,
         id: layer.id,
         pId: layer.pid,
-        uuid: layer.uuid,
         group: layer.type === "group"
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)
-      layersObj[layer.uuid] = layer
+      layersObj[layer.id] = layer
       expandedKeys.value.push(node.key)
     }
   }
@@ -95,16 +95,15 @@ function findChild(parent: any, list: any[]) {
     .map((item: any) => {
       const node: any = {
         title: item.name,
-        key: item.uuid,
+        key: item.id,
         id: item.id,
         pId: item.pid,
-        uuid: item.uuid,
         group: item.type === "group"
       }
-      layersObj[item.uuid] = item
+      layersObj[item.id] = item
       expandedKeys.value.push(node.key)
 
-      if (item.hasEmptyGroup) {
+      if (item.hasEmptyGroup || item.hasChildLayer) {
         node.children = findChild(node, list)
       }
       if (item.isAdded && item.show) {
@@ -115,6 +114,11 @@ function findChild(parent: any, list: any[]) {
 }
 </script>
 
+<style>
+.pannel-content {
+  overflow-y: auto !important;
+}
+</style>
 <style scoped lang="less">
 :deep(.ant-form-item) {
   margin-bottom: 10px;

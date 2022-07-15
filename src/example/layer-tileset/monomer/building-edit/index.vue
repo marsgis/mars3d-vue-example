@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <a-radio-group @change="modeChange" v-model:value="value" name="radioGroup">
@@ -19,15 +19,13 @@
         <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref, markRaw } from "vue"
+import { ref, markRaw, onMounted } from "vue"
 import * as mapWork from "./map.js"
 import { useWidget } from "@mars/widgets/common/store/widget"
-
-const { activate, disable, isActivate, updateWidget } = useWidget()
 
 interface FileItem {
   uid: string
@@ -79,6 +77,32 @@ const saveGeoJSON = () => {
 }
 
 //* ************************属性面板*****************************/
+// 数据编辑属性面板 相关处理
+const { activate, disable, isActivate, updateWidget } = useWidget()
+onMounted(() => {
+  const mars3d = window.mapWork.mars3d
+  // 矢量数据创建完成
+  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
+    if (value.value === "1") {
+      showEditor(e)
+    }
+  })
+  // 修改了矢量数据
+  mapWork.graphicLayer.on(
+    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
+    function (e) {
+      showEditor(e)
+    }
+  )
+  // 停止编辑
+  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
+    setTimeout(() => {
+      if (!mapWork.graphicLayer.isEditing) {
+        disable("graphic-editor")
+      }
+    }, 100)
+  })
+})
 
 const showEditor = (e: any) => {
   const graphic = e.graphic
@@ -90,30 +114,16 @@ const showEditor = (e: any) => {
   if (!isActivate("graphic-editor")) {
     activate({
       name: "graphic-editor",
-      data: { graphic: graphic }
+      data: {
+        graphic: markRaw(graphic)
+      }
     })
   } else {
     updateWidget("graphic-editor", {
-      data: { graphic: graphic }
+      data: {
+        graphic: markRaw(graphic)
+      }
     })
   }
 }
-mapWork.eventTarget.on("graphicEditor-start", async (e: any) => {
-  if (value.value === "1") {
-    showEditor(e)
-  }
-})
-// 编辑修改了模型
-mapWork.eventTarget.on("graphicEditor-update", async (e: any) => {
-  showEditor(e)
-})
-
-// 停止编辑修改模型
-mapWork.eventTarget.on("graphicEditor-stop", async (e: any) => {
-  setTimeout(() => {
-    if (!mapWork.graphicLayer.isEditing) {
-      disable("graphic-editor")
-    }
-  }, 100)
-})
 </script>

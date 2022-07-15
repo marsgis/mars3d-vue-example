@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <span class="fontMsg">提示：插值数大时分析略慢，请耐心等待。</span>
     </div>
@@ -23,7 +23,7 @@
         </a-space>
       </a-form-item>
     </a-form>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

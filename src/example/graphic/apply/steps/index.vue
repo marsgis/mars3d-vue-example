@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <mars-button v-if="!isPlay || isPause" @click="play">
         <a-space>
@@ -30,7 +30,24 @@
       <h3 class="f-mb show-time">总时长：{{ totalTimes }}</h3>
       <h3 class="f-mb show-time">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
     </template>
-  </mars-pannel>
+  </mars-dialog>
+
+  <mars-dialog :visible="showComputer" left="10" top="10" width="400">
+    等高线计算过程展示 <br />
+    <ul class="contentUl">
+      <li>完成地性线的连接工作后，即可在同一坡度的两相邻点之间内插出每整米高程的等高线通过点。</li>
+      <li>前提：相邻点等坡度, 原理：比例内插</li>
+      <li><img src="/img/jiaoben/dgx1.jpg" style="height: 150px" /></li>
+      <li>
+        假设ab间的坡度是均匀的，则根据a和b点间的高差为6.4m，ab线上图上的平距为48mm，由a点到22m等高线的高差为0.8m，由b点到27m等高线的高差为0.6m，则由a点到22m等高线及由b点到27m等高线的线长，x1和x2可以根据相似三角形状原理得到如下关系式
+      </li>
+      <li><img src="/img/jiaoben/dgx2.jpg" style="height: 80px" /></li>
+    </ul>
+  </mars-dialog>
+
+  <mars-dialog :visible="contourDraw" left="10" top="10" width="400">
+    等高线通过点绘制 <br /><img src="/img/jiaoben/dgx3.jpg" style="width: 100%" />
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
@@ -46,6 +63,9 @@ let animations: any[] = []
 let currentIndex = 0
 let timer: any = null
 let interval: any = null
+
+const showComputer = ref(false)
+const contourDraw = ref(false)
 
 const play = () => {
   isPlay.value = true
@@ -88,6 +108,17 @@ const start = () => {
     timer = setTimeout(() => {
       start()
     }, animate.times * 1000)
+
+    if (currentIndex === 10) {
+      showComputer.value = true
+      contourDraw.value = false
+    } else if (currentIndex === 11) {
+      showComputer.value = false
+      contourDraw.value = true
+    } else {
+      showComputer.value = false
+      contourDraw.value = false
+    }
   } else {
     stop()
   }
@@ -244,5 +275,16 @@ onMounted(() => {
 <style scoped lang="less">
 .show-time {
   color: @mars-base-color;
+}
+
+.contentUl {
+  padding: 0;
+  text-align: left;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.btn i {
+  margin-right: 5px;
 }
 </style>

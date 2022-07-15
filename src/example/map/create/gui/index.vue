@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" top="20" right="10" :width="400">
+  <mars-dialog :visible="true" top="20" right="10" :width="400">
     <!-- 方式一： 通过组件api 删除或添加显示的元素， option不需要是响应式数据 -->
     <h3 class="f-push-10-t">表单一</h3>
     <mars-gui ref="marsGuiRef" :options="options" @change="gui1Change"></mars-gui>
@@ -11,7 +11,7 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <mars-button @click="deleteJingdu">删除经度</mars-button>
+        <mars-button @click="deleteJingdu">删除数字</mars-button>
         <mars-button @click="deleteFirst">删除第一个</mars-button>
         <mars-button @click="insertOne">插入一个</mars-button>
         <mars-button @click="insertMore">插入多个</mars-button>
@@ -24,7 +24,7 @@
         <mars-button @click="updateAllDate">批量更新</mars-button>
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -67,6 +67,9 @@ const options: GuiItem[] = [
     ],
     change(data) {
       $message("你选择了：" + data)
+    },
+    extra(data) {
+      return data.car
     }
   },
   {
@@ -112,7 +115,7 @@ const options: GuiItem[] = [
   },
   {
     type: "color",
-    field: "count",
+    field: "chooseColor",
     label: "选择颜色",
     value: "#fff",
     change(data) {
@@ -122,11 +125,9 @@ const options: GuiItem[] = [
   {
     type: "checkbox",
     field: "type",
-    label: "火星",
+    label: "多选",
     value: ["火星"],
-    extra(data) {
-      return data.car
-    },
+
     data: [
       {
         label: "火星",
@@ -142,7 +143,11 @@ const options: GuiItem[] = [
       }
     ],
     change(data) {
-      $message("你选择了：" + data)
+      if (data[0]) {
+        $message("你选择了：" + data)
+      } else {
+        $message("取消所有选择")
+      }
     }
   },
   {
@@ -213,9 +218,9 @@ const options: GuiItem[] = [
 
 const marsGuiRef = ref()
 
-// 删除精度
+// 删除数字
 function deleteJingdu() {
-  marsGuiRef.value.delete("jingdu")
+  marsGuiRef.value.delete("count")
 }
 
 // 删除第一个

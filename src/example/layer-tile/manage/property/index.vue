@@ -1,10 +1,10 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="280">
     <div class="property-content">
       <h2 class="f-mb title">瓦片底图通用参数</h2>
       <mars-gui :options="options"></mars-gui>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -14,15 +14,30 @@ import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 const options: GuiItem[] = [
   {
     type: "slider",
+    field: "opacity",
+    label: "透明度",
+    step: 0.01,
+    min: 0,
+    max: 1,
+    value: 1.0,
+    extra: "{opacity}",
+    extraWidth: 40,
+    change(data) {
+      setLayerOptions("opacity", data)
+    }
+  },
+  {
+    type: "slider",
     field: "brightness",
     label: "亮度",
     step: 0.01,
     min: 0,
     max: 3,
     value: 1.0,
-    // extra: "{brightness}",
+    extra: "{brightness}",
+    extraWidth: 40,
     change(data) {
-      changeOpacity("brightness", data)
+      setLayerOptions("brightness", data)
     }
   },
   {
@@ -33,9 +48,10 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.16,
-    // extra: "{contrast}",
+    extra: "{contrast}",
+    extraWidth: 40,
     change(data) {
-      changeOpacity("contrast", data)
+      setLayerOptions("contrast", data)
     }
   },
   {
@@ -46,9 +62,10 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.1,
-    // extra: "{hue}",
+    extra: "{hue}",
+    extraWidth: 40,
     change(data) {
-      changeOpacity("hue", data)
+      setLayerOptions("hue", data)
     }
   },
   {
@@ -59,9 +76,10 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    // extra: "{saturation}",
+    extra: "{saturation}",
+    extraWidth: 40,
     change(data) {
-      changeOpacity("saturation", data)
+      setLayerOptions("saturation", data)
     }
   },
   {
@@ -72,28 +90,16 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.53,
-    // extra: "{gamma}",
+    extra: "{gamma}",
+    extraWidth: 40,
     change(data) {
-      changeOpacity("gamma", data)
-    }
-  },
-  {
-    type: "slider",
-    field: "opacity",
-    label: "透明度",
-    step: 0.01,
-    min: 0,
-    max: 3,
-    value: 1.0,
-    // extra: "{opacity}",
-    change(data) {
-      changeOpacity("opacity", data)
+      setLayerOptions("gamma", data)
     }
   }
 ]
 
-const changeOpacity = (attribute: string, val: number) => {
-  mapWork.changeOpacity(attribute, val)
+const setLayerOptions = (attribute: string, val: number) => {
+  mapWork.setLayerOptions(attribute, val)
 }
 </script>
 <style lang="less" scoped>

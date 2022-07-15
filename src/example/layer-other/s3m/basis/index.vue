@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="202">
+  <mars-dialog :visible="true" right="10" top="10" width="208">
     <a-collapse v-model:activeKey="activeKey">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
@@ -20,7 +20,7 @@
         <mars-button href="https://gitee.com/marsgis/mars3d-link-supermap" target="_blank">与超图结合开源仓库</mars-button>
       </a-collapse-panel>
     </a-collapse>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">

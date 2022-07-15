@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel customClass="query-poi-pannel" top="10" left="10">
+  <mars-dialog customClass="query-poi-pannel" top="10" left="10">
     <div class="query-poi">
       <div class="query-poi__search">
         <mars-input
@@ -38,7 +38,7 @@
         <a-empty class="f-push-10-t" v-else />
       </div>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -151,7 +151,7 @@ async function querySiteList(text: string, page: number) {
 
   pagination.total = Number(result.allcount) || 0
   siteSource.value = result.list || []
-  allCount.value = result.allcount
+  allCount.value = Number(result.allcount) || 0
 
   mapWork.showPOIArr(result.list || [])
 

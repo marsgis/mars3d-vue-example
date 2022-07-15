@@ -1,11 +1,11 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="220" customClass="layer-tree">
+  <mars-dialog :visible="true" right="10" top="10" width="240" customClass="layer-tree">
     <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="{ title }">
         <span>{{ title }}</span>
       </template>
     </mars-tree>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue"
@@ -112,8 +112,7 @@ function initTree() {
         title: layer.name,
         key: layer.id,
         id: layer.id,
-        pId: layer.pid,
-        uuid: layer.uuid
+        pId: layer.pid
       }
       node.children = findChild(node, layers)
       treeData.value.push(node)
@@ -130,8 +129,7 @@ function findChild(parent: any, list: any[]) {
         title: item.name,
         key: item.id,
         id: item.id,
-        pId: item.pid,
-        uuid: item.uuid
+        pId: item.pid
       }
       const nodeLayer = mapWork.createLayer(item) // 创建图层
       layersObj[item.id] = nodeLayer
@@ -146,13 +144,7 @@ function findChild(parent: any, list: any[]) {
 </script>
 
 <style lang="less" scoped>
-.infoView {
-  max-height: 650px;
-  bottom: 40px;
-  overflow: scroll;
-}
 .layer-tree {
-  max-height: 600px;
-  overflow-y: auto;
+  vertical-align: top !important;
 }
 </style>

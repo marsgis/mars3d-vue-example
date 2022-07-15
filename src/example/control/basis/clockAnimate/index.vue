@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="showClockAnimate" left="60" bottom="50">
+  <mars-dialog :visible="showClockAnimate" left="60" bottom="50">
     <p class="closePannel f-mb">
       <mars-icon icon="close" width="14" @click="onClickHiddenTime" />
     </p>
@@ -27,7 +27,7 @@
         />
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>

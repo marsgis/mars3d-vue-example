@@ -1,18 +1,20 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="470">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>演示视角：</span>
         <mars-button @click="onChangeCenterAtDX1">室内</mars-button>
         <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
-        <span title="平移的步长（单位：米）" class="tip-name"> 平移步长:</span>
-        <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
       </a-space>
+    </div>
+    <div class="f-mb sliderLength">
+      <span title="平移的步长（单位：米）" class="tip-name">平移步长:</span>
+      <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
     </div>
     <div class="f-mb">
       <img src="/img/tietu/keyboard.png" alt="" />
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -33,7 +35,7 @@ const onChangeCenterAtDX2 = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 103px;
+  width: 200px;
   display: inline-block;
 }
 .ant-row {

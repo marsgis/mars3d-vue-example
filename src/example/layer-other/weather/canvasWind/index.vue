@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
         <span>演示数据:</span>
@@ -42,7 +42,7 @@
         <mars-color-picker v-model:value="formState.color" @change="changeColor" />
       </a-space>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -86,7 +86,7 @@ const changeLinewidth = () => {
   mapWork.changeLinewidth(formState.linewidth)
 }
 // 修改颜色
-const changeColor = () => {
+const changeColor = (e) => {
   mapWork.changeColor(formState.color)
 }
 

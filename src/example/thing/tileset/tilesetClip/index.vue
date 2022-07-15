@@ -1,5 +1,5 @@
 <template>
-  <mars-pannel :visible="true" right="10" top="10" width="280">
+  <mars-dialog :visible="true" right="10" top="10" width="280">
     <div class="f-mb">
       <a-space>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="f-mb">
-      <a-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
             <a-space>
@@ -21,9 +21,9 @@
             {{ record.name }}
           </template>
         </template>
-      </a-table>
+      </mars-table>
     </div>
-  </mars-pannel>
+  </mars-dialog>
 </template>
 
 <script setup lang="ts">
@@ -68,12 +68,9 @@ const rowSelection = {
   }
 }
 
-mapWork.eventTarget.on("dataLoaded", function (event: any) {
-  dataSource.value = event.list.map((item: any) => ({ key: item.id, name: "裁剪区" + item.id }))
-  rowKeys.value = event.list.map((item: any) => item.id)
-})
+
 mapWork.eventTarget.on("addItem", function (event: any) {
-  const item = event.item
+  const item = event.area
   dataSource.value.push({ key: item.id, name: "裁剪区" + item.id })
   rowKeys.value.push(item.id)
 })
