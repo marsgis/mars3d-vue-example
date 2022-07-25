@@ -59,12 +59,10 @@
             </a-form-item>
 
             <a-form-item label="鼠标操作">
-              <div class="f-tac">
-                <a-space>
-                  <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
-                  <span>是否允许</span>
-                </a-space>
-              </div>
+              <a-space>
+                <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                <span>是否允许</span>
+              </a-space>
             </a-form-item>
 
             <a-form-item label="颜色选择">
