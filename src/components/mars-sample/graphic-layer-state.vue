@@ -193,9 +193,11 @@ onMounted(() => {
       formState.enabledRightMenu = layer.hasContextMenu()
 
       const graphics = layer.getGraphics()
+
       if (graphics.length > 0) {
-        formState.enabledOpacity = graphics[0].hasOpacity
-        formState.enabledEdit = graphics[0].hasEdit
+        const lastgraphic = graphics[graphics.length - 1]
+        formState.enabledOpacity = lastgraphic.hasOpacity
+        formState.enabledEdit = lastgraphic.hasEdit
       }
 
       formState.hasTable = graphics.length > 0
