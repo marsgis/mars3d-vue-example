@@ -79,6 +79,7 @@ export function downLoad() {
 export function downLoad2() {
   map.expImage({
     height: 300, // 指定 高度 或 宽度(指定1种就行，对应的自动缩放)
+    // width: 300, //同时指定后去裁剪中间部分
     download: true
   })
 }
