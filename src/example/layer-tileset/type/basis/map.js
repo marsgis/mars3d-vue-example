@@ -228,6 +228,7 @@ export function showQxSimiaoDemo() {
     //   type: mars3d.EventType.click, //默认为鼠标移入高亮，也可以指定click单击高亮
     //   color: "#00ffff",
     // },
+    // distanceDisplayCondition_far: 3000,
     center: {
       lat: 33.589536,
       lng: 119.032216,
