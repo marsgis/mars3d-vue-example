@@ -418,6 +418,7 @@ const onChangeHighlight = () => {
 
 .title {
   text-align: center;
+  color: var(--mars-text-color);
 }
 
 .mars-pannel-item-label {

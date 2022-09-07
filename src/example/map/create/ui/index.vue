@@ -140,11 +140,6 @@
       </a-form>
     </div>
   </mars-dialog>
-  <!-- <my-dialog v-model:visible="visible" left="50" width="200" top="50" icon="setting" :draggable="true" warpper="#sanbox-warpper">
-    <ul>
-      <li v-for="i in couter" :key="i">{{ i }}</li>
-    </ul>
-  </my-dialog> -->
 </template>
 
 <script setup lang="ts">

@@ -20,6 +20,10 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  // map.on(mars3d.EventType.removeLayer, function (event) {
+  //   console.log("移除了图层", event)
+  // })
+
   showDraw()
 }
 

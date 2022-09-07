@@ -60,7 +60,7 @@
       <a-upload
         :multiple="false"
         name="file"
-        accept="json,geojson"
+        accept=".json,.geojson"
         :file-list="fileList"
         :showUploadList="false"
         :supportServerRender="true"
@@ -98,8 +98,8 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'caozuo'">
           <a-space>
-            <mars-icon title="修改矢量数据样式" icon="editor" color="#f2f2f2" class="icon-vertical-a" @click.stop="startEditGraphic(record)" />
-            <mars-icon title="删除矢量数据" icon="delete" color="#f2f2f2" class="icon-vertical-a" @click.stop="deleteGraphic(record)" />
+            <mars-icon title="修改矢量数据样式" icon="editor" class="icon-vertical-a" @click.stop="startEditGraphic(record)" />
+            <mars-icon title="删除矢量数据" icon="delete" class="icon-vertical-a" @click.stop="deleteGraphic(record)" />
           </a-space>
         </template>
         <template v-else>
@@ -499,19 +499,6 @@ function bindLayerContextMenu() {
   ])
 }
 
-interface FileItem {
-  uid: string
-  name?: string
-  status?: string
-  response?: string
-  url?: string
-}
-
-interface FileInfo {
-  file: FileItem
-  fileList: FileItem[]
-}
-
 //  清除数据
 const onClickClear = () => {
   const layer = getManagerLayer()
@@ -682,8 +669,7 @@ const graphicColumns = [
   {
     title: "名称",
     dataIndex: "name",
-    key: "name",
-    align: "center"
+    key: "name"
   },
   {
     title: "操作",
@@ -714,7 +700,7 @@ onMounted(() => {
   const graphicLayer = getManagerLayer()
   initGraphicableData(graphicLayer)
 
-  graphicLayer.on(mars3d.EventType.addGraphic, function (event) {
+  graphicLayer.on(mars3d.EventType.drawCreated, function (event) {
     const graphic = event.graphic
     if (graphic.isPrivate) {
       return
@@ -811,6 +797,6 @@ const deleteGraphic = (record: GraphicTableItem) => {
   margin: 10px 0 1px 0 !important;
 }
 .data-list {
-  width:450px;
+  width: 450px;
 }
 </style>

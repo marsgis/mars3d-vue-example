@@ -69,6 +69,7 @@ export function addRandomGraphicByCount(count) {
       positions: [pt1, position, pt2],
       style: {
         width: 3.0,
+        // clampToGround: true,
         color: Cesium.Color.fromRandom({ alpha: 1.0 })
       },
       attr: { index: index }
