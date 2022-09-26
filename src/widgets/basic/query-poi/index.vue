@@ -249,26 +249,26 @@ function addHistory(data: any) {
     color: var(--mars-text-color);
     cursor: pointer;
     &:hover {
-      background: var(--mars-list-active);
+      background-color: var(--mars-select-bg);
     }
   }
 }
 .query-site {
   position: absolute;
   border-top: none;
-  padding: 10px 20px;
-  padding-top: 0;
+  padding-bottom: 10px;
   width: 100%;
   z-index: 100;
   .mars-drop-bg();
 
   .query-site__item {
     height: 80px;
+    padding: 0 20px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     &:hover {
-      background: var(--mars-list-active);
+      background-color: var(--mars-select-bg);
     }
     .query-site__context {
       flex-grow: 1;
