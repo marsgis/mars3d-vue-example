@@ -172,6 +172,27 @@ const currentPage = ref(5) // 分页查询每页条数
 const mapWork = window.mapWork
 const mars3d = mapWork.mars3d
 
+defineExpose({
+  addTableData(graphicLayer) {
+    console.log("addTableData", graphicLayer)
+
+    const list = graphicLayer.graphics
+    for (let i = list.length - 1; i >= 0; i--) {
+      const graphic = list[i]
+      if (graphic.isPrivate) {
+        continue
+      }
+      graphicDataList.value.push({
+        key: graphic.id,
+        name: getGraphicName(graphic)
+      })
+      if (graphic.show) {
+        rowKeys.value.push(graphic.id)
+      }
+    }
+  }
+})
+
 onMounted(() => {
   // 恢复默认状态
   if (mapWork.eventTarget) {
@@ -558,6 +579,7 @@ const onClickImpFile = (info: any) => {
         graphicLayer.flyTo()
       } else {
         graphicLayer.loadGeoJSON(geojson, { flyTo: true })
+        initGraphicableData(graphicLayer)
       }
     }
   } else if (fileType === "kml") {

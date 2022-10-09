@@ -120,6 +120,7 @@ export function onMounted(mapInstance) {
 
   // 添加特效
   const bloomTargetEffect = new mars3d.effect.BloomTargetEffect({
+    // objectsToExclude: [tiles3dLayer, graphicModel], // 排除不拾取的对象
     eventType: mars3d.EventType.click, // 单击时拾取
     color: Cesium.Color.YELLOW,
     contrast: 119,

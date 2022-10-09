@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, markRaw } from "vue"
+import { ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3"])
@@ -62,7 +62,6 @@ onMounted(() => {
 
   mapWork.map.on("cameraChanged", function (event) {
     inputObj.value = mapWork.map.getCameraView({ simplify: false })
-    console.log("视角发送了变化", mapWork.map.getCameraView())
   })
 })
 

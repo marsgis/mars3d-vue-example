@@ -219,7 +219,7 @@ const modelOptions = [
   {
     value: "jingche",
     label: "警车",
-    style: { scale: 8, url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf" }
+    style: { scale: 1, url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf" }
   },
   {
     value: "qiche",

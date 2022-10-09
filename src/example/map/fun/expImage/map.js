@@ -64,8 +64,8 @@ export function onUnmounted() {
 }
 
 // 查看场景出图
-export function showMapImg() {
-  return map.expImage({ download: false }).then((result) => {
+export function showMapImg(options = {}) {
+  return map.expImage({ download: false, ...options }).then((result) => {
     return result.image
   })
 }

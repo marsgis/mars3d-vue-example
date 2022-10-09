@@ -8,7 +8,7 @@
     <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
 
     <img class="f-mb" :src="imges" v-if="showScreenShot" style="width: 100%; height: 100%" />
-    <mars-button @click="screenShots">截图</mars-button>
+    <mars-button @click="screenShots">截缩略图</mars-button>
   </mars-dialog>
 
   <mars-dialog left="100" right="100" top="50" bottom="60" title="场景出图" v-model:visible="showImg">
@@ -46,7 +46,7 @@ const downLoadDiv = () => {
 // 截图
 const screenShots = () => {
   showScreenShot.value = true
-  mapWork.showMapImg().then((image) => {
+  mapWork.showMapImg({ width: 200, height: 200 }).then((image) => {
     imges.value = image
   })
 }
