@@ -1,34 +1,37 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="290">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
-        <mars-button @click="showAddDataPannel = true">新增</mars-button>
+        <mars-button @click="showAddDataPannel = true" :disabled="showAddDataPannel">新增</mars-button>
       </a-space>
     </div>
 
-    <mars-table :pagination="false" :columns="columns" :data-source="tableData">
+    <mars-table size="small" bordered :columns="columns" :pagination="{ pageSize: 4 }" :data-source="tableData">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'option'">
           <a-space>
-            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位" @click.stop="flyToHouse(record)" />
-            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑" @click.stop="editHouseType(record)" />
-            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除" @click.stop="deleteHouseType(record)" />
+            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位"
+              @click.stop="flyToHouse(record)" />
+            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑"
+              @click.stop="editHouseType(record)" />
+            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除"
+              @click.stop="deleteHouseType(record)" />
           </a-space>
         </template>
       </template>
     </mars-table>
   </mars-dialog>
 
-  <mars-dialog :visible="showAddDataPannel" right="10" top="320" width="290">
+  <mars-dialog :visible="showAddDataPannel" right="10" top="400" width="300">
     <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="边界">
-        <a-row :gutter="5">
-          <a-col :span="6">
+        <a-row :gutter="5" align="middle">
+          <a-col :span="8">
             <span>{{ pointsArr && pointsArr.length > 0 ? "已绘制" : "无" }}</span>
           </a-col>
           <a-col :span="14">
-            <mars-button @click="drawArea" :disabled="isEditing">绘制</mars-button>
-            <mars-button :disabled="isEditing" @click="quitDraw">清除</mars-button>
+            <mars-button @click="drawArea" :disabled="isEditing || hasDraw">绘制</mars-button>
+            <mars-button class="quitDraw" :disabled="isEditing" @click="quitDraw">清除</mars-button>
           </a-col>
         </a-row>
       </a-form-item>
@@ -86,7 +89,8 @@ const columns = [
   },
   {
     title: "总层数",
-    dataIndex: "floorCount"
+    dataIndex: "floorCount",
+    align: "center"
   },
   {
     title: "操作",
@@ -104,45 +108,48 @@ const currentHouseType = ref(0) // 当前操作的房型
 const pointsArr = ref([]) // 绘制的四个点
 const isEditing = ref(false) // 正在编辑
 const hasDraw = ref(false)
-const drawGraphic = ref() // 画出来的数据
+const drawGraphicId = ref("") // 画出来的数据
 
 const produce = () => {
-  const produceObj = mapWork.produceData(pointsArr.value, floorCount.value, minHeight.value, maxHeight.value)
+  console.log("drawGraphicId应该是绘制的值", drawGraphicId.value)
+
+  const produceObj = mapWork.produceData(drawGraphicId.value, pointsArr.value, floorCount.value, minHeight.value, maxHeight.value)
+
+  drawGraphicId.value = ""
   console.log("生成的数据produceObj", produceObj)
 
-  houseTypeCount.value++
-  tableData.value.push({
-    houseType: houseTypeCount.value + "号户型",
-    floorCount: produceObj.floorCount,
-    floorHeight: produceObj.floorHeight,
-    minHeight: produceObj.minHeight,
-    maxHeight: produceObj.maxHeight,
-    position: pointsArr.value,
-    lastGraphicArr: produceObj.lastGraphicArr
-  })
+  if (produceObj) {
+    houseTypeCount.value++
+    tableData.value.push({
+      houseType: houseTypeCount.value + "号户型",
+      floorCount: produceObj.floorCount,
+      floorHeight: produceObj.floorHeight,
+      minHeight: produceObj.minHeight,
+      maxHeight: produceObj.maxHeight,
+      position: pointsArr.value,
+      generateGraphicIdArr: produceObj.generateGraphicIdArr
+    })
 
-  clearPannelData()
-  showAddDataPannel.value = false
-  console.log("生成的数据", produceObj)
+    hasDraw.value = false
+    isEditing.value = true
+  }
+  console.log("表格数据", tableData.value)
 }
 
 // 根据楼高生成每层
 const produceData = () => {
-  if (!hasDraw.value) {
-    return $message("请先绘制区域")
-  }
-  if (floorCount.value === 0) {
-    return $message("楼层数不能为0")
-  }
-  if (maxHeight.value === 0) {
-    return $message("最大高度不能为0")
-  }
-  if (minHeight.value === 0) {
-    return $message("最小高度不能为0")
-  }
-
   if (isEditing.value) {
     return editProduceData()
+  }
+
+  if (!hasDraw.value && pointsArr.value.length === 0) {
+    return $message("请先绘制区域")
+  }
+  if (maxHeight.value === 0) {
+    return $message("最高高度不能为0")
+  }
+  if (minHeight.value === 0) {
+    return $message("最低高度不能为0")
   }
 
   if (tableData.value.length !== 0) {
@@ -152,13 +159,22 @@ const produceData = () => {
       console.log("item", item, item.position[0][0], currentHouseType.value)
 
       if (item.position[0][0] === currentHouseType.value) {
-        console.log("编辑之后", floorCount.value)
+        console.log("jingru zheli")
+
         item.floorCount = floorCount.value
-        const resultData = mapWork.produceData(item.position, floorCount.value, minHeight.value, maxHeight.value, item.lastGraphicArr)
-        item.lastGraphicArr = resultData.lastGraphicArr
-        showAddDataPannel.value = false
-        clearPannelData()
-        break
+        const resultData = mapWork.produceData(
+          drawGraphicId.value,
+          item.position,
+          floorCount.value,
+          minHeight.value,
+          maxHeight.value,
+          item.generateGraphicIdArr
+        )
+        drawGraphicId.value = ""
+        if (resultData) {
+          item.generateGraphicIdArr = resultData.generateGraphicIdArr
+          break
+        }
       }
     }
     produce()
@@ -171,13 +187,23 @@ const produceData = () => {
 const editProduceData = () => {
   tableData.value.forEach((item) => {
     if (item.position[0][0] === currentHouseType.value) {
-      console.log("item", item, item.position[0][0], currentHouseType.value)
       console.log("编辑之后", floorCount.value)
       item.floorCount = floorCount.value
-      const resultData = mapWork.produceData(item.position, floorCount.value, minHeight.value, maxHeight.value, item.lastGraphicArr)
-      item.lastGraphicArr = resultData.lastGraphicArr
-      showAddDataPannel.value = false
-      clearPannelData()
+      const resultData = mapWork.produceData(
+        drawGraphicId.value,
+        item.position,
+        floorCount.value,
+        minHeight.value,
+        maxHeight.value,
+        item.generateGraphicIdArr
+      )
+      if (resultData) {
+        item.generateGraphicIdArr = resultData.generateGraphicIdArr
+        item.maxHeight = resultData.maxHeight
+        item.minHeight = resultData.minHeight
+        item.floorCount = resultData.floorCount
+        item.floorHeight = resultData.floorHeight
+      }
     }
   })
 }
@@ -185,15 +211,15 @@ const editProduceData = () => {
 // 绘制区域
 const drawArea = () => {
   clearPannelData()
+
   mapWork.addData().then((data) => {
-    drawGraphic.value = data.id
+    drawGraphicId.value = data.id
     pointsArr.value = []
     data.points.forEach((item) => {
       pointsArr.value.push([item.lng, item.lat])
     })
     currentHouseType.value = pointsArr.value[0][0]
     hasDraw.value = true
-    console.log("绘制的区域", pointsArr.value)
   })
 }
 
@@ -237,16 +263,22 @@ const flyToHouse = (data) => {
 
 // 取消绘制
 const quitDraw = () => {
-  if (drawGraphic.value) {
-    mapWork.quitDraw(drawGraphic.value)
+  if (drawGraphicId.value) {
+    mapWork.quitDraw(drawGraphicId.value)
+    hasDraw.value = false
+    pointsArr.value = []
   }
 }
 
 // 退出
 const closePanle = () => {
   clearPannelData()
-  mapWork.quitDraw(drawGraphic.value)
+  mapWork.quitDraw(drawGraphicId.value)
   showAddDataPannel.value = false
+  hasDraw.value = false
+  isEditing.value = false
+  pointsArr.value = []
+  drawGraphicId.value = ""
 }
 
 // 删除房型
@@ -259,15 +291,30 @@ const deleteHouseType = (data) => {
       return true
     } else {
       // 删除图层数据
-      item.lastGraphicArr.forEach((ele) => {
-        mapWork.quitDraw(ele)
+      item.generateGraphicIdArr.forEach((id) => {
+        mapWork.quitDraw(id)
       })
       return false
     }
   })
+
+  if (isEditing.value) {
+    showAddDataPannel.value = false
+    isEditing.value = false
+    clearPannelData()
+  }
 }
 
 const getInt = () => {
   floorCount.value = parseInt(floorCount.value + "")
+  if (floorCount.value * 1 <= 0) {
+    $message("层数最少为1层")
+    floorCount.value = 1
+  }
 }
 </script>
+<style lang="less" scoped>
+.quitDraw {
+  margin-left: 5px;
+}
+</style>

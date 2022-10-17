@@ -46,6 +46,8 @@ function addGraphicLayer() {
     name: "步行路线",
     frameRate: 1,
     speed: 40,
+    // autoStop: true, // 到达终点自动停止
+    clockLoop: true, // 循环播放
     positions: [
       [117.220356, 31.833959, 43.67],
       [117.220361, 31.835111, 44.36],
@@ -100,6 +102,7 @@ function addGraphicLayer() {
   })
   fixedRoute.on(mars3d.EventType.end, function (event) {
     console.log("漫游结束", event)
+    eventTarget.fire("endRoam")
   })
 
   // 不贴地时，直接开始

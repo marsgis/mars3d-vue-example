@@ -12,7 +12,7 @@
             v-if="data[index].operation === 'select'"
             v-model:value="scene"
             ref="select"
-            style="width: 120px"
+            style="width: 110px"
             @change="handleChange"
             :options="selectOptions"
           >

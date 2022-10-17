@@ -54,9 +54,6 @@ export function onUnmounted() {
 
 let pointsArr = [] // 绘制面的四个点
 const tableArr = [] // 表格数据
-let lastGraphic
-
-let haveDrawed = false
 
 // 添加单体化数据
 export function addData() {
@@ -70,10 +67,7 @@ export function addData() {
       clampToGround: true
     },
     success: function (graphic) {
-      lastGraphic = graphic
       geoJsonLayerDTH.addGraphic(graphic)
-
-      haveDrawed = true
 
       pointsArr = []
       graphic.points.forEach((item) => {
@@ -84,7 +78,8 @@ export function addData() {
 }
 
 // 生成表格数据，绘制每层
-export function produceData(position, floorCount, minHeight, maxHeight, lastGraphicArr) {
+export function produceData(drawGraphicId, position, floorCount, minHeight, maxHeight, lastGraphicArrId) {
+  console.log("map.js中的drawGraphicId", drawGraphicId)
   if (floorCount === 0) {
     globalMsg("楼层不能为0 ！")
     return
@@ -95,74 +90,69 @@ export function produceData(position, floorCount, minHeight, maxHeight, lastGrap
     globalMsg("最高高度不能为0 ！")
     return
   } else if (maxHeight <= minHeight) {
-    globalMsg("最高高度不能小于等于最小高度 ！")
+    globalMsg("最高高度不能小于等于最低高度 ！")
     return
   }
 
-  if (haveDrawed) {
-    const floorHeight = (maxHeight - minHeight) / floorCount
+  const floorHeight = (maxHeight - minHeight) / floorCount
 
-    // 清除矢量数据
-    if (lastGraphicArr) {
-      lastGraphicArr.forEach((item) => {
-        geoJsonLayerDTH.removeGraphic(item, true)
-      })
-    }
-    if (lastGraphic) {
-      geoJsonLayerDTH.removeGraphic(lastGraphic, true)
-    }
-
-    lastGraphicArr = []
-
-    // geoJsonLayerDTH.clear(true)
-
-    for (let i = 0; i < floorCount; i++) {
-      const height = minHeight * 1 + floorHeight * i
-      const extrudedHeight = minHeight * 1 + floorHeight * (i + 1)
-      const color = i % 2 === 0 ? "red" : "#1e1e1e"
-      const attr = {
-        name: i + 1,
-        thisFloor: i + 1,
-        allFloor: floorCount,
-        floorHeight: floorHeight.toFixed(2)
-      }
-      const graphic = new mars3d.graphic.PolygonPrimitive({
-        positions: position,
-        style: {
-          height: height,
-          extrudedHeight: extrudedHeight,
-          // 单体化默认显示样式
-          color: getColor(),
-          opacity: 0.3,
-          classification: true,
-          // 单体化鼠标移入或单击后高亮的样式
-          highlight: {
-            type: mars3d.EventType.click,
-            color: color,
-            opacity: 0.6
-          }
-        },
-        attr
-      })
-      console.log("graphic", graphic)
-      lastGraphicArr.push(graphic)
-      tableArr.push(attr)
-
-      geoJsonLayerDTH.addGraphic(graphic)
-    }
-
-    const produceObj = {
-      floorHeight,
-      floorCount,
-      minHeight,
-      maxHeight,
-      lastGraphicArr
-    }
-
-    return produceObj
-  } else {
-    globalMsg("请先绘制楼层新增数据 ！")
+  // 清除矢量数据
+  if (lastGraphicArrId) {
+    lastGraphicArrId.forEach((item) => {
+      quitDraw(item)
+    })
   }
+
+  if (drawGraphicId) {
+    quitDraw(drawGraphicId)
+  }
+
+  const generateGraphicIdArr = []
+
+  for (let i = 0; i < floorCount; i++) {
+    const height = minHeight * 1 + floorHeight * i
+    const extrudedHeight = minHeight * 1 + floorHeight * (i + 1)
+    const color = i % 2 === 0 ? "red" : "#1e1e1e"
+    const attr = {
+      name: i + 1,
+      thisFloor: i + 1,
+      allFloor: floorCount,
+      floorHeight: floorHeight.toFixed(2)
+    }
+    const graphic = new mars3d.graphic.PolygonPrimitive({
+      positions: position,
+      style: {
+        height: height,
+        extrudedHeight: extrudedHeight,
+        // 单体化默认显示样式
+        color: getColor(),
+        opacity: 0.3,
+        classification: true,
+        // 单体化鼠标移入或单击后高亮的样式
+        highlight: {
+          type: mars3d.EventType.click,
+          color: color,
+          opacity: 0.6
+        }
+      },
+      attr
+    })
+    console.log("graphic", graphic)
+    generateGraphicIdArr.push(graphic.id)
+    tableArr.push(attr)
+
+    geoJsonLayerDTH.addGraphic(graphic)
+  }
+
+  const produceObj = {
+    floorHeight,
+    floorCount,
+    minHeight,
+    maxHeight,
+    generateGraphicIdArr
+  }
+
+  return produceObj
 }
 
 export function getBuildingHeight() {
@@ -184,8 +174,10 @@ export function getBuildingHeight() {
 }
 
 // 取消绘制
-export function quitDraw(graphic) {
-  geoJsonLayerDTH.removeGraphic(graphic)
+export function quitDraw(id) {
+  console.log("清除的", id)
+  const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
+  geoJsonLayerDTH.removeGraphic(quitGraphic)
 }
 
 // 颜色

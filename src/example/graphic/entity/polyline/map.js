@@ -284,9 +284,9 @@ function addDemoGraphic7(graphicLayer) {
       // 动画线材质
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
+        image: "img/textures/line-gradual.png",
         color: "#66bd63",
         repeat: new Cesium.Cartesian2(2.0, 1.0),
-        image: "img/textures/line-gradual.png",
         speed: 25
       }
     },
@@ -307,8 +307,9 @@ function addDemoGraphic8(graphicLayer) {
       // 动画线材质
       materialType: mars3d.MaterialType.LineFlow,
       materialOptions: {
-        color: "#1a9850",
         image: "img/textures/line-arrow-blue.png",
+        color: "#1a9850",
+        mixt: true,
         speed: 20,
         repeat: new Cesium.Cartesian2(5, 1)
       }

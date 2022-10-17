@@ -528,6 +528,11 @@
             "main": "control/basis/mouseDownView"
           },
           {
+            "name": "双屏对比",
+            "thumbnail": "map-double-compare.jpg",
+            "main": "map/double/compare"
+          },
+          {
             "name": "卷帘对比",
             "thumbnail": "control-basis-mapSplit.jpg",
             "main": "control/basis/mapSplit"
@@ -2013,6 +2018,12 @@
             "name": "分层分户矢量单体化",
             "thumbnail": "layer3d-monomer-household.jpg",
             "main": "layer-tileset/monomer/household",
+            "hasPannel": true
+          },
+          {
+            "name": "分层分户矢量单体化编辑",
+            "thumbnail": "layer3d-monomer-household-edit.jpg",
+            "main": "layer-tileset/monomer/household-edit",
             "hasPannel": true
           },
           {
