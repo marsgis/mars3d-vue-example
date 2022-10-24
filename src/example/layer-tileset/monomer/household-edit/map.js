@@ -187,3 +187,36 @@ function getColor() {
   const i = index++ % colors.length
   return colors[i]
 }
+
+/**
+ * 打开geojson文件
+ *
+ * @export
+ * @param {FileInfo} file 文件
+ * @returns {void} 无
+ */
+export function openGeoJSON(file) {
+  const fileName = file.name
+  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+
+  if (fileType === "json" || fileType === "geojson") {
+    const reader = new FileReader()
+    reader.readAsText(file, "UTF-8")
+    reader.onloadend = function (e) {
+      const geojson = this.result
+      geoJsonLayerDTH.loadGeoJSON(geojson)
+    }
+  } else {
+    globalMsg("暂不支持 " + fileType + " 文件类型的数据！")
+  }
+}
+
+// 点击保存GeoJSON
+export function saveGeoJSON() {
+  if (geoJsonLayerDTH.length === 0) {
+    globalMsg("当前没有任何数据，无需保存！")
+    return
+  }
+  const geojson = geoJsonLayerDTH.toGeoJSON()
+  mars3d.Util.downloadFile("分层分户矢量单体化.json", JSON.stringify(geojson))
+}

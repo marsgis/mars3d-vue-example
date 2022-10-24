@@ -11,9 +11,9 @@ import "@mars/components/mars-ui/common"
 
 // https跳转处理
 const protocol = window.location.protocol
-if (protocol === "https:") {
-  window.location.href = window.location.href.replace("https", "http")
-}
+// if (protocol === "https:") {
+//   window.location.href = window.location.href.replace("https", "http")
+// }
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }

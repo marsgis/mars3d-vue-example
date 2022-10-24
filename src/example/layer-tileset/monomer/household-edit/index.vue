@@ -3,6 +3,17 @@
     <div class="f-mb">
       <a-space>
         <mars-button @click="showAddDataPannel = true" :disabled="showAddDataPannel">新增</mars-button>
+        <mars-button @click="onClickSaveJson">导出</mars-button>
+        <a-upload
+          :multiple="false"
+          name="file"
+          accept="json,geojson,kml,kmz"
+          :showUploadList="false"
+          @change="onClickOpenJson"
+          :beforeUpload="() => false"
+        >
+          <mars-button>导入</mars-button>
+        </a-upload>
       </a-space>
     </div>
 
@@ -10,12 +21,9 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'option'">
           <a-space>
-            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位"
-              @click.stop="flyToHouse(record)" />
-            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑"
-              @click.stop="editHouseType(record)" />
-            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除"
-              @click.stop="deleteHouseType(record)" />
+            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位" @click.stop="flyToHouse(record)" />
+            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑" @click.stop="editHouseType(record)" />
+            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除" @click.stop="deleteHouseType(record)" />
           </a-space>
         </template>
       </template>
@@ -206,6 +214,16 @@ const editProduceData = () => {
       }
     }
   })
+}
+
+// 打开GeoJSON
+const onClickOpenJson = (info) => {
+  mapWork.openGeoJSON(info.file)
+}
+
+// 点击保存GeoJSON
+const onClickSaveJson = () => {
+  mapWork.saveGeoJSON()
 }
 
 // 绘制区域

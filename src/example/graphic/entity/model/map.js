@@ -56,10 +56,10 @@ export function onUnmounted() {
 
 function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
-    name: "消防员",
+    name: "警车",
     position: [116.346929, 30.861947, 401.34],
     style: {
-      url: "//data.mars3d.cn/gltf/mars/firedrill/xiaofangyuan-run.gltf",
+      url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
       scale: 20,
       minimumPixelSize: 50,
       heading: 90,

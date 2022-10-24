@@ -24,14 +24,12 @@ export function onMounted(mapInstance) {
   canvasWindLayer = new mars3d.layer.CanvasWindLayer({
     color: "#ffffff", // 颜色
     frameRate: 20, // 每秒刷新次数
-    speedRate: 120, // 风前进速率
-    particlesNumber: 3000,
-    maxAge: 60,
+    speedRate: 60, // 风前进速率
+    particlesNumber: 4096,
+    maxAge: 120,
     lineWidth: 1
   })
   map.addLayer(canvasWindLayer)
-
-
 
   loadEarthData()
 }
@@ -103,14 +101,7 @@ export function loadEarthData() {
 }
 // 加载局部数据
 export function loadDongnanData() {
-  map.setCameraView({
-    y: 30.484229,
-    x: 116.627601,
-    z: 1719951,
-    heading: 0,
-    pitch: -90,
-    roll: 0
-  })
+  map.setCameraView({ lat: 30.484229, lng: 116.627601, alt: 1719951, heading: 0, pitch: -90, roll: 0 })
 
   canvasWindLayer.speedRate = 85
   canvasWindLayer.reverseY = true // true时表示 纬度顺序从小到到大

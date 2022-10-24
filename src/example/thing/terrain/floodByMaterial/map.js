@@ -64,6 +64,7 @@ export function btnDrawExtent(callback) {
     type: "rectangle",
     style: {
       color: "rgba(0, 123, 230, 0.5)"
+      // clampToGround: true
     },
     success: function (graphic) {
       // 绘制成功后回调
@@ -87,6 +88,7 @@ export function btnDraw(callback) {
     style: {
       color: "rgba(0, 123, 230, 0.5)",
       outline: false
+      // clampToGround: true
     },
     success: function (graphic) {
       const positions = graphic.positionsShow

@@ -26,8 +26,9 @@
   <div class="f-mb" v-if="props.enabledDraw">
     <a-space>
       <span class="mars-pannel-item-label">数据维护:</span>
-      <mars-button @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
-      <mars-button v-if="props.drawLabel2" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
+      <mars-button v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
+      <mars-button v-if="props.drawLabel2 &&!formState.isDrawing" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
+      <mars-button v-if="formState.isDrawing" @click="onClickClearDrawing">取消绘制</mars-button>
 
       <a-checkbox
         v-if="props.interaction && formState.enabledEdit"
@@ -151,6 +152,7 @@ interface FormState {
   hasEdit: boolean
   hasTable: boolean
   count: number
+  isDrawing: boolean
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -163,7 +165,8 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledEdit: true,
   hasEdit: false,
   hasTable: false,
-  count: props.defaultCount
+  count: props.defaultCount,
+  isDrawing: false
 })
 
 const currentPage = ref(5) // 分页查询每页条数
@@ -222,6 +225,10 @@ onMounted(() => {
       }
 
       formState.hasTable = graphics.length > 0
+
+      layer.on([mars3d.EventType.drawCreated, mars3d.EventType.removeGraphic], function (e) {
+        formState.isDrawing = false
+      })
     }
   }, 500)
 })
@@ -279,9 +286,16 @@ const onClickFlyTo = () => {
 
 const onClickStartDraw = () => {
   mapWork.startDrawGraphic()
+  formState.isDrawing = true
 }
 const onClickStartDraw2 = () => {
   mapWork.startDrawGraphic2()
+  formState.isDrawing = true
+}
+const onClickClearDrawing = () => {
+  formState.isDrawing = false
+  const layer = getManagerLayer()
+  layer.clearDrawing()
 }
 
 const onChangeShow = () => {
@@ -527,6 +541,8 @@ const onClickClear = () => {
   layer.enabledEvent = false // 关闭事件，大数据removeGraphic时效率低
   layer.clear()
   layer.enabledEvent = true
+
+  formState.isDrawing = false
 
   // 清除列表
   graphicDataList.value = []

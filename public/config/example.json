@@ -835,7 +835,8 @@
             "name": "Billboard 图标点",
             "thumbnail": "graphic-entity-billboard.jpg",
             "main": "graphic/entity/billboard",
-            "hasPannel": true
+            "hasPannel": true,
+            "resources": ["/lib/dom2img/gifler.min.js"]
           },
           {
             "name": "图标点+文字(含聚合)",
