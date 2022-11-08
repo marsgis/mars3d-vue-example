@@ -32,6 +32,21 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
+
+  // 固定光照时间
+  map.clock.currentTime = Cesium.JulianDate.fromDate(new Date("2022-11-01 12:00:00"))
+  // map.clock.shouldAnimate = false
+
+  // 固定光照方向
+  map.scene.light = new Cesium.DirectionalLight({
+    direction: map.scene.camera.direction
+  })
+  map.camera.percentageChanged = 0.001
+  map.on(mars3d.EventType.cameraChanged, function (event) {
+    map.scene.light.direction = map.scene.camera.direction
+  })
+
+
   // 调试面板
   map.viewer.extend(Cesium.viewerCesiumInspectorMixin)
   map.scene.globe.depthTestAgainstTerrain = false

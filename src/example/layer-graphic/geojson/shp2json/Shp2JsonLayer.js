@@ -1,10 +1,10 @@
-// import kgUtil from "kml-geojson"
+// import { toGeoJSON as shpToGeoJSON } from "shp-geojson"
 
 /**
- * 通过转geojson方式 加载kml和kmz文件。
- * kgUtil使用需要引入 ../lib/geojson/kml-geojson.js文件
+ * 通过转geojson方式 加载shp文件。
+ * shpUtil 使用需要引入 ../lib/geojson/shp-geojson.js文件
  */
-class Kml2JsonLayer extends mars3d.layer.GeoJsonLayer {
+class Shp2JsonLayer extends mars3d.layer.GeoJsonLayer {
   /**
    * 加载新数据 或 刷新数据
    *
@@ -29,21 +29,10 @@ class Kml2JsonLayer extends mars3d.layer.GeoJsonLayer {
       }
     }
 
+    // url是需要包括shp、dbf、prj等文件的zip压缩包
     if (this.options.url) {
-      kgUtil
+      shpUtil
         .toGeoJSON(this.options.url)
-        .then((data) => {
-          if (this._state === mars3d.State.REMOVED) {
-            return
-          }
-          this._load_data(data)
-        })
-        .catch(function (error) {
-          console.error("服务出错", error)
-        })
-    } else if (this.options.data) {
-      kgUtil
-        .toGeoJSON(this.options.data)
         .then((data) => {
           if (this._state === mars3d.State.REMOVED) {
             return
@@ -55,13 +44,13 @@ class Kml2JsonLayer extends mars3d.layer.GeoJsonLayer {
         })
     } else {
       if (newOptions) {
-        console.warn("Kml2JsonLayer：没有传入 url 或 data 参数,请确认是否有误。")
+        console.warn("Shp2JsonLayer：没有传入 url 参数,请确认是否有误。")
       }
     }
   }
 }
 
-mars3d.layer.Kml2JsonLayer = Kml2JsonLayer
+mars3d.layer.Shp2JsonLayer = Shp2JsonLayer
 
 // 注册下
-mars3d.LayerUtil.register("kml2json", Kml2JsonLayer)
+mars3d.LayerUtil.register("kml2json", Shp2JsonLayer)

@@ -18,14 +18,14 @@
     <div class="f-mb">
       <a-space>
         <span>存活时间:</span>
-        <mars-slider v-model:value="formState.age" @change="changeAge" :min="10" :max="100" :step="1" />
+        <mars-slider v-model:value="formState.age" @change="changeAge" :min="10" :max="150" :step="1" />
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span>移动速率:</span>
-        <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="20" :step="1" />
+        <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="100" :step="1" />
       </a-space>
     </div>
 

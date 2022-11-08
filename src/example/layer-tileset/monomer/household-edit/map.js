@@ -77,6 +77,8 @@ export function addData() {
   })
 }
 
+let houseTypeCount = 1
+
 // 生成表格数据，绘制每层
 export function produceData(drawGraphicId, position, floorCount, minHeight, maxHeight, lastGraphicArrId) {
   console.log("map.js中的drawGraphicId", drawGraphicId)
@@ -117,7 +119,12 @@ export function produceData(drawGraphicId, position, floorCount, minHeight, maxH
       name: i + 1,
       thisFloor: i + 1,
       allFloor: floorCount,
-      floorHeight: floorHeight.toFixed(2)
+      floorHeight: floorHeight.toFixed(2),
+      houseType: `${houseTypeCount}号户型`,
+      positionArr: position,
+      minHeight,
+      maxHeight,
+      houseTypeCount
     }
     const graphic = new mars3d.graphic.PolygonPrimitive({
       positions: position,
@@ -149,8 +156,11 @@ export function produceData(drawGraphicId, position, floorCount, minHeight, maxH
     floorCount,
     minHeight,
     maxHeight,
-    generateGraphicIdArr
+    generateGraphicIdArr,
+    houseTypeCount
   }
+
+  houseTypeCount++
 
   return produceObj
 }
@@ -177,6 +187,7 @@ export function getBuildingHeight() {
 export function quitDraw(id) {
   console.log("清除的", id)
   const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
+  console.log("quitGraphic", quitGraphic)
   geoJsonLayerDTH.removeGraphic(quitGraphic)
 }
 
@@ -188,6 +199,11 @@ function getColor() {
   return colors[i]
 }
 
+// 清除所有graphic数据
+export function clearAllData() {
+  geoJsonLayerDTH.clear(true)
+}
+
 /**
  * 打开geojson文件
  *
@@ -195,7 +211,7 @@ function getColor() {
  * @param {FileInfo} file 文件
  * @returns {void} 无
  */
-export function openGeoJSON(file) {
+export function openGeoJSON(file, resolve) {
   const fileName = file.name
   const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
 
@@ -205,6 +221,12 @@ export function openGeoJSON(file) {
     reader.onloadend = function (e) {
       const geojson = this.result
       geoJsonLayerDTH.loadGeoJSON(geojson)
+
+      const loadData = {
+        data: JSON.parse(geojson),
+        graphics: geoJsonLayerDTH.graphics
+      }
+      resolve(loadData)
     }
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")

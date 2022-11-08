@@ -70,6 +70,7 @@ export function addRandomGraphicByCount(count) {
       style: {
         width: 3.0,
         // clampToGround: true,
+        // distanceDisplayCondition: new Cesium.DistanceDisplayConditionGeometryInstanceAttribute(1000, 99999),
         color: Cesium.Color.fromRandom({ alpha: 1.0 })
       },
       attr: { index: index }

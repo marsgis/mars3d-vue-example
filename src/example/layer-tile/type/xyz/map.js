@@ -61,6 +61,7 @@ export const mapOptions = {
  */
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
+  addTileLayer()
 }
 
 /**

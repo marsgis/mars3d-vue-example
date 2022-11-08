@@ -14,6 +14,7 @@
         >
           <mars-button>导入</mars-button>
         </a-upload>
+        <mars-button @click="clearData" :disabled="!tableData.length">清除</mars-button>
       </a-space>
     </div>
 
@@ -111,7 +112,7 @@ const tableData = ref([])
 
 const minHeight = ref(0) // 底部高度
 const maxHeight = ref(0) // 顶部高度
-const houseTypeCount = ref(0) // 已经生成的房型数
+// const houseTypeCount = ref(0) // 已经生成的房型数
 const currentHouseType = ref(0) // 当前操作的房型
 const pointsArr = ref([]) // 绘制的四个点
 const isEditing = ref(false) // 正在编辑
@@ -127,9 +128,8 @@ const produce = () => {
   console.log("生成的数据produceObj", produceObj)
 
   if (produceObj) {
-    houseTypeCount.value++
     tableData.value.push({
-      houseType: houseTypeCount.value + "号户型",
+      houseType: produceObj.houseTypeCount + "号户型",
       floorCount: produceObj.floorCount,
       floorHeight: produceObj.floorHeight,
       minHeight: produceObj.minHeight,
@@ -218,7 +218,46 @@ const editProduceData = () => {
 
 // 打开GeoJSON
 const onClickOpenJson = (info) => {
-  mapWork.openGeoJSON(info.file)
+  mapWork.openGeoJSON(info.file, openGeoJSONEnd)
+}
+
+function openGeoJSONEnd(result) {
+  const data = result.data
+  const graphics = result.graphics
+  console.log("获取到的data", data)
+  console.log(data.features.length)
+
+  const tableLoadDataArr = []
+  if (data.features.length !== 0) {
+    tableLoadDataArr.push(pushLoadDataToTable(data.features[0]))
+    let positionFlag = data.features[0].properties.positionArr[0][0]
+    console.log("positionFlag", positionFlag)
+
+    // 将同一栋楼的不同层，放在表格同一行 (观察发现导入的数据，同一栋的数据是在一起的)
+    for (let i = 0; i < data.features.length; i++) {
+      const itemPosition = data.features[i].properties.positionArr[0][0]
+      if (positionFlag === itemPosition) {
+        continue
+      } else {
+        positionFlag = itemPosition
+        tableLoadDataArr.push(pushLoadDataToTable(data.features[i]))
+      }
+    }
+
+    graphics.forEach((item) => {
+      tableLoadDataArr.forEach((ele) => {
+        if (item.points[0].lng === ele.position[0][0]) {
+          ele.generateGraphicIdArr.push(item.id)
+        }
+      })
+    })
+
+    // tableData.value = tableLoadDataArr
+    tableLoadDataArr.forEach((item) => {
+      tableData.value.push(item)
+    })
+    console.log("表格中的数据", tableLoadDataArr)
+  }
 }
 
 // 点击保存GeoJSON
@@ -239,6 +278,21 @@ const drawArea = () => {
     currentHouseType.value = pointsArr.value[0][0]
     hasDraw.value = true
   })
+}
+
+const pushLoadDataToTable = (data) => {
+  console.log("获取到的data--------", data)
+  const pushData = data.properties
+
+  return {
+    houseType: pushData.houseType,
+    floorCount: pushData.allFloor,
+    floorHeight: pushData.floorHeight,
+    minHeight: pushData.minHeight,
+    maxHeight: pushData.maxHeight,
+    position: pushData.positionArr,
+    generateGraphicIdArr: []
+  }
 }
 
 const clearPannelData = () => {
@@ -329,6 +383,14 @@ const getInt = () => {
     $message("层数最少为1层")
     floorCount.value = 1
   }
+}
+
+// 清除数据
+const clearData = () => {
+  tableData.value = []
+  mapWork.clearAllData()
+  isEditing.value = false
+  showAddDataPannel.value = false
 }
 </script>
 <style lang="less" scoped>

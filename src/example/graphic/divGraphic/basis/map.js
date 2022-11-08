@@ -382,8 +382,10 @@ function addDemoGraphic11(graphicLayer) {
                           </div>
                           <div class="data-li">
                               <div class="data-label">水泵状态：</div>
-                              <div class="data-value"><span class="label-tag data-value-status-1" alt="中间状态">1号</span><span
-                                      class="label-tag data-value-status-0" alt="关闭状态">2号</span></div>
+                              <div class="data-value">
+                                <span id="btn-status1" class="label-tag data-value-status-1" alt="中间状态">1号</span>
+                                <span id="btn-status2" class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -398,6 +400,25 @@ function addDemoGraphic11(graphicLayer) {
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000, 200000) // 按视距距离显示
     },
     attr: { remark: "示例11" }
+  })
+  graphic.on(mars3d.EventType.add, function (event) {
+    const container = event.graphic.container // popup对应的DOM
+
+    const btnStatus1 = container.querySelector("#btn-status1")
+    if (btnStatus1) {
+      btnStatus1.addEventListener("click", (e) => {
+        e.stopPropagation()
+        globalMsg("您单击了1号水泵")
+      })
+    }
+
+    const btnStatus2 = container.querySelector("#btn-status2")
+    if (btnStatus2) {
+      btnStatus2.addEventListener("click", (e) => {
+        e.stopPropagation()
+        globalMsg("您单击了2号水泵")
+      })
+    }
   })
   graphicLayer.addGraphic(graphic)
 

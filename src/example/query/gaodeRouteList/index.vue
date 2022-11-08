@@ -115,6 +115,7 @@ const startPoint = async () => {
 
 // 终点POI
 const endPoint = () => {
+  dataSource.value = []
   mapWork.endPoint()
 }
 

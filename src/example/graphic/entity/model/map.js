@@ -231,6 +231,11 @@ function addDemoGraphic4(graphicLayer) {
       scale: 0.1,
       minimumPixelSize: 20
     },
+    path: {
+      width: 2,
+      leadTime: 0, // 不显示前方路线
+      color: "#00ffff"
+    },
     attr: { remark: "示例4" },
     hasEdit: false
   })
