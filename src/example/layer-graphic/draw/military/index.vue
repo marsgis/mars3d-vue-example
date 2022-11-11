@@ -59,7 +59,7 @@
 
     <div class="f-mb">
       <a-row>
-        <a-col :span="5">三维贴地:</a-col>
+        <a-col :span="5">三维立体:</a-col>
         <a-col :span="19">
           <a-space>
             <mars-button @click="drawExtrudedPolygon('doubleArrow')">钳击箭头</mars-button>

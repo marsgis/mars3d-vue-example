@@ -10,7 +10,6 @@
 # dependencies
 /node_modules
 public/lib/CesiumUnminified/
-public/lib/Cesium-1.*/
 public/lib/mars3d/plugins/widget/
 mars3d-*src.*
 !mars3d-supermap-src.js*
