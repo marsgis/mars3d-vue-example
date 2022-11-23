@@ -218,6 +218,7 @@ const editProduceData = () => {
 
 // 打开GeoJSON
 const onClickOpenJson = (info) => {
+  mapWork.clearAllData()
   mapWork.openGeoJSON(info.file, openGeoJSONEnd)
 }
 
@@ -253,6 +254,7 @@ function openGeoJSONEnd(result) {
     })
 
     // tableData.value = tableLoadDataArr
+    tableData.value = []
     tableLoadDataArr.forEach((item) => {
       tableData.value.push(item)
     })
@@ -387,7 +389,9 @@ const getInt = () => {
 
 // 清除数据
 const clearData = () => {
+  clearPannelData()
   tableData.value = []
+  pointsArr.value = []
   mapWork.clearAllData()
   isEditing.value = false
   showAddDataPannel.value = false

@@ -13,8 +13,9 @@ export const mapOptions = {
       name: "电子地图",
       icon: "img/basemaps/google_vec.png",
       type: "xyz",
-      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      subdomains: "abc",
+      url: "https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
+      subdomains: "1234",
+      chinaCRS: mars3d.ChinaCRS.GCJ02,
       show: true
     },
     {

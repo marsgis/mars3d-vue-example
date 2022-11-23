@@ -71,6 +71,11 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
+
+  graphicLayer.on("clustering", function(event) {
+    console.log("新增聚合对象", event)
+  })
+
   graphicLayer.bindPopup(function (event) {
     const item = event.graphic?.attr
     if (!item) {
