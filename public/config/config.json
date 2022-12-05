@@ -156,7 +156,7 @@
       },
       {
         "pid": 10,
-        "name": "OSM地图",
+        "name": "OSM地图(暂不可用)",
         "type": "xyz",
         "icon": "/img/basemaps/osm.png",
         "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",

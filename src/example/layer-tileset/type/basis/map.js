@@ -141,7 +141,8 @@ export function bindTestTerrain(val) {
 }
 export function bindWireframe(val) {
   // 三角网
-  tiles3dLayer.tileset.debugWireframe = val
+  tiles3dLayer.tileset.debugWireframe = val // cesium1.97之前
+  // tiles3dLayer.tileset._enableDebugWireframe = val // cesium 1.98+
 }
 export function bindBoundbox(val) {
   // 包围盒

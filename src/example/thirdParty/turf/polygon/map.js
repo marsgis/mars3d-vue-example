@@ -56,6 +56,9 @@ export function onUnmounted () {
 
 // 绘制面
 export function drawPolygon () {
+  graphicLayer.clear()
+  polygonsLayer.clear()
+
   // 开始绘制
   graphicLayer.startDraw({
     type: "polygon",
@@ -65,11 +68,6 @@ export function drawPolygon () {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#ffffff"
-    },
-    success: (graphic) => {
-      graphicLayer.clear()
-      polygonsLayer.clear()
-      graphicLayer.addGraphic(graphic)
     }
   })
 }

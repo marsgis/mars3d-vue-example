@@ -52,7 +52,7 @@ class HuxingLayer extends mars3d.layer.GraphicLayer {
     }
 
     if (this.options.url) {
-      Cesium.Resource.fetchJson(this.options)
+      mars3d.Util.fetchJson(this.options)
         .then((data) => {
           if (this._state === mars3d.State.REMOVED) {
             return

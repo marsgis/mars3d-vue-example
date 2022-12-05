@@ -78,6 +78,7 @@ export function addRandomGraphicByCount(count) {
     })
   }
 
+  // ModelCombine类仅对Cesium 1.97之前版本有效，1.97后Cesium移除了 Cesium.ModelInstanceCollection
   const modelCombine = new mars3d.graphic.ModelCombine({
     url: "//data.mars3d.cn/gltf/mars/qiche.gltf",
     instances: arrData

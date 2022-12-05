@@ -52,9 +52,6 @@ export function onUnmounted() {
   map = null
 }
 
-let pointsArr = [] // 绘制面的四个点
-const tableArr = [] // 表格数据
-
 // 添加单体化数据
 export function addData() {
   return map.graphicLayer.startDraw({
@@ -68,37 +65,31 @@ export function addData() {
     },
     success: function (graphic) {
       geoJsonLayerDTH.addGraphic(graphic)
-
-      pointsArr = []
-      graphic.points.forEach((item) => {
-        pointsArr.push([item.lng, item.lat])
-      })
     }
   })
 }
 
-let houseTypeCount = 1
+let houseTypeCount = 0
 
 // 生成表格数据，绘制每层
-export function produceData(drawGraphicId, position, floorCount, minHeight, maxHeight, lastGraphicArrId) {
-  console.log("map.js中的drawGraphicId", drawGraphicId)
-  if (floorCount === 0) {
+export function produceData(drawGraphicId, dthPara, lastGraphicArrId) {
+  if (dthPara.floorCount === 0) {
     globalMsg("楼层不能为0 ！")
     return
-  } else if (minHeight === 0) {
+  } else if (dthPara.minHeight === 0) {
     globalMsg("最低高度不能为0 ！")
     return
-  } else if (maxHeight === 0) {
+  } else if (dthPara.maxHeight === 0) {
     globalMsg("最高高度不能为0 ！")
     return
-  } else if (maxHeight <= minHeight) {
+  } else if (dthPara.maxHeight <= dthPara.minHeight) {
     globalMsg("最高高度不能小于等于最低高度 ！")
     return
   }
 
-  const floorHeight = (maxHeight - minHeight) / floorCount
+  const floorHeight = (dthPara.maxHeight - dthPara.minHeight) / dthPara.floorCount
 
-  // 清除矢量数据
+  // 清除对应id的单体化数据
   if (lastGraphicArrId) {
     lastGraphicArrId.forEach((item) => {
       quitDraw(item)
@@ -108,26 +99,28 @@ export function produceData(drawGraphicId, position, floorCount, minHeight, maxH
   if (drawGraphicId) {
     quitDraw(drawGraphicId)
   }
+  houseTypeCount++
 
   const generateGraphicIdArr = []
 
-  for (let i = 0; i < floorCount; i++) {
-    const height = minHeight * 1 + floorHeight * i
-    const extrudedHeight = minHeight * 1 + floorHeight * (i + 1)
+  for (let i = 0; i < dthPara.floorCount; i++) {
+    const height = dthPara.minHeight * 1 + floorHeight * i
+    const extrudedHeight = dthPara.minHeight * 1 + floorHeight * (i + 1)
     const color = i % 2 === 0 ? "red" : "#1e1e1e"
+    // 用于popup展示的数据，可添加任意数据展示在popup内
     const attr = {
       name: i + 1,
       thisFloor: i + 1,
-      allFloor: floorCount,
-      floorHeight: floorHeight.toFixed(2),
       houseType: `${houseTypeCount}号户型`,
-      positionArr: position,
-      minHeight,
-      maxHeight,
-      houseTypeCount
+      floorHeight: floorHeight.toFixed(2),
+      allFloor: dthPara.floorCount,
+      positions: dthPara.positions,
+      minHeight: dthPara.minHeight,
+      maxHeight: dthPara.maxHeight,
+      houseTypeCount: houseTypeCount
     }
     const graphic = new mars3d.graphic.PolygonPrimitive({
-      positions: position,
+      positions: dthPara.positions,
       style: {
         height: height,
         extrudedHeight: extrudedHeight,
@@ -144,25 +137,16 @@ export function produceData(drawGraphicId, position, floorCount, minHeight, maxH
       },
       attr
     })
-    console.log("graphic", graphic)
-    generateGraphicIdArr.push(graphic.id)
-    tableArr.push(attr)
 
     geoJsonLayerDTH.addGraphic(graphic)
+    generateGraphicIdArr.push(graphic.id)
   }
 
-  const produceObj = {
+  return {
     floorHeight,
-    floorCount,
-    minHeight,
-    maxHeight,
-    generateGraphicIdArr,
+    generateGraphicIdArr, // 单体化面的总id
     houseTypeCount
   }
-
-  houseTypeCount++
-
-  return produceObj
 }
 
 export function getBuildingHeight() {
@@ -185,10 +169,8 @@ export function getBuildingHeight() {
 
 // 取消绘制
 export function quitDraw(id) {
-  console.log("清除的", id)
   const quitGraphic = geoJsonLayerDTH.getGraphicById(id)
-  console.log("quitGraphic", quitGraphic)
-  geoJsonLayerDTH.removeGraphic(quitGraphic)
+  quitGraphic && geoJsonLayerDTH.removeGraphic(quitGraphic)
 }
 
 // 颜色
@@ -222,11 +204,7 @@ export function openGeoJSON(file, resolve) {
       const geojson = this.result
       geoJsonLayerDTH.loadGeoJSON(geojson)
 
-      const loadData = {
-        data: JSON.parse(geojson),
-        graphics: geoJsonLayerDTH.graphics
-      }
-      resolve(loadData)
+      resolve(geoJsonLayerDTH.getGraphics())
     }
   } else {
     globalMsg("暂不支持 " + fileType + " 文件类型的数据！")

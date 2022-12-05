@@ -86,7 +86,6 @@ import { $message } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
 
-
 // 是否可编辑
 const isEditable = ref(true)
 const isEditableChange = () => {
@@ -195,6 +194,9 @@ onMounted(() => {
 })
 
 const showEditor = (e: any) => {
+  if (!isEditable.value) {
+    return
+  }
   const graphic = e.graphic
   if (!graphic._conventStyleJson) {
     graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象

@@ -69,7 +69,6 @@ function addDemoGraphic1(graphicLayer) {
       verticalOrigin: Cesium.VerticalOrigin.CENTER,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 400000), // 按视距距离显示
       clampToGround: true,
-
       // 高亮时的样式
       highlight: {
         // type: mars3d.EventType.click,
@@ -195,7 +194,8 @@ function addDemoGraphic8(graphicLayer) {
   const graphic = new mars3d.graphic.Popup({
     position: [116.146461, 31.380152, 395.1],
     style: {
-      html: `这里可以放入任意html代码<br /> Popup和Tooltip也是继承自DivGraphic`,
+      html: `这里可以放入任意html代码<br /> Popup和Tooltip也是继承自DivGraphic<br /> {name} {remark}`,
+      templateEmptyStr: " - ",
       closeButton: false,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,

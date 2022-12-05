@@ -6,9 +6,11 @@ export let graphicLayer // 矢量图层对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 24.688611, lng: 119.260277, alt: 1673759, heading: 348, pitch: -69 }
+    center: { lat: 24.688611, lng: 119.260277, alt: 1673759, heading: 348, pitch: -69 },
+    mapMode2D: Cesium.MapMode2D.ROTATE // 避免切换到二维时图标有黑影
   }
 }
+
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
