@@ -114,9 +114,9 @@ const choosePannel = (data) => {
 }
 
 const findValue = (data, index) => {
-  return data.find((item) => {
+  return Boolean(data.find((item) => {
     return item === index
-  })
+  }))
 }
 
 const onBindLayer = (e) => {

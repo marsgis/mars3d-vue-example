@@ -79,6 +79,17 @@ function addGraphicLayer() {
   })
   graphicLayer.addGraphic(fixedRoute)
 
+  map.on(mars3d.EventType.keydown, function (event) {
+    // 空格 切换暂停/继续
+    if (event.keyCode === 32) {
+      if (fixedRoute.isPause) {
+        fixedRoute.proceed()
+      } else {
+        fixedRoute.pause()
+      }
+    }
+  })
+
   // 绑定popup
   bindPopup(fixedRoute)
 

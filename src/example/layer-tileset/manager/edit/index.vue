@@ -57,7 +57,7 @@
           </a-collapse-panel>
 
           <a-collapse-panel key="4" header="其他参数">
-            <a-form-item label="缩放比例"  v-show="formState.transform">
+            <a-form-item label="缩放比例" v-show="formState.transform">
               <mars-input-number v-model:value="formState.scale" :step="0.1" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="显示精度">
@@ -220,7 +220,9 @@ function getLayerOptions() {
     axis: formState.axis ? formState.axis : undefined,
     proxy: formState.chkProxy ? "//server.mars3d.cn/proxy/" : undefined,
     opacity: formState.opacity,
-    show: true
+    show: true,
+    highlightEnable: formState.highlightEnable,
+    popupEnable: formState.popupEnable
   }
   return params
 }

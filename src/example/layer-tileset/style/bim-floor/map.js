@@ -33,6 +33,7 @@ export function onMounted(mapInstance) {
     highlight: {
       type: mars3d.EventType.click, // 默认为鼠标移入高亮，也可以指定click单击高亮
       color: "#00FF00"
+      // uniqueKey: "id"
     },
     // 是否允许鼠标穿透拾取
     allowDrillPick: function (event) {
