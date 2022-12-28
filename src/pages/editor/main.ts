@@ -75,4 +75,9 @@ function destoryUI() {
   vueApp = null
 }
 
-marsEditor.render(document.getElementById("root"), getExampleId(), getQueryString("name"))
+marsEditor.render({
+  container: document.getElementById("root"),
+  exampleId: getExampleId(),
+  exampleKey: getQueryString("key"),
+  fullName: getQueryString("name")
+})
