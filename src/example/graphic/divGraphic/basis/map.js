@@ -242,15 +242,15 @@ function addDemoGraphic9(graphicLayer) {
                           <div class="data-li">
                               <div class="data-label">水泵状态：</div>
                               <div class="data-value">
-                                <span id="lablSBZT1"  class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablSBZT2"  class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                                <span id="lablSBZT1"  class="label-tag data-value-status-1" title="中间状态">1号</span>
+                                <span id="lablSBZT2"  class="label-tag data-value-status-0" title="关闭状态">2号</span>
                                 </div>
                           </div>
                           <div class="data-li">
                               <div class="data-label">出水阀门：</div>
                               <div class="data-value">
-                                <span id="lablCSFM1"   class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="lablCSFM2"   class="label-tag data-value-status-2" alt="打开状态">2号</span>
+                                <span id="lablCSFM1"   class="label-tag data-value-status-1" title="中间状态">1号</span>
+                                <span id="lablCSFM2"   class="label-tag data-value-status-2" title="打开状态">2号</span>
                               </div>
                           </div>
                       </div>
@@ -318,13 +318,13 @@ function addDemoGraphic10(graphicLayer) {
                           </div>
                           <div class="data-li">
                               <div class="data-label">水泵状态：</div>
-                              <div class="data-value"><span class="label-tag data-value-status-1" alt="中间状态">1号</span><span
-                                      class="label-tag data-value-status-0" alt="关闭状态">2号</span></div>
+                              <div class="data-value"><span class="label-tag data-value-status-1" title="中间状态">1号</span><span
+                                      class="label-tag data-value-status-0" title="关闭状态">2号</span></div>
                           </div>
                           <div class="data-li">
                               <div class="data-label">出水阀门：</div>
-                              <div class="data-value"><span class="label-tag data-value-status-1" alt="中间状态">1号</span><span
-                                      class="label-tag data-value-status-2" alt="打开状态">2号</span></div>
+                              <div class="data-value"><span class="label-tag data-value-status-1" title="中间状态">1号</span><span
+                                      class="label-tag data-value-status-2" title="打开状态">2号</span></div>
                           </div>
                       </div>
                   </div>
@@ -383,8 +383,8 @@ function addDemoGraphic11(graphicLayer) {
                           <div class="data-li">
                               <div class="data-label">水泵状态：</div>
                               <div class="data-value">
-                                <span id="btn-status1" class="label-tag data-value-status-1" alt="中间状态">1号</span>
-                                <span id="btn-status2" class="label-tag data-value-status-0" alt="关闭状态">2号</span>
+                                <span id="btn-status1" class="label-tag data-value-status-1" title="中间状态">1号</span>
+                                <span id="btn-status2" class="label-tag data-value-status-0" title="关闭状态">2号</span>
                               </div>
                           </div>
                       </div>

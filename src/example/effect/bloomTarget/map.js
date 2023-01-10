@@ -135,6 +135,11 @@ export function onMounted(mapInstance) {
   })
   map.addEffect(bloomTargetEffect)
 
+  setTimeout(() => {
+    // 指定高亮Primitive
+    bloomTargetEffect.selected = [graphicBox4, graphic4]
+  }, 1000)
+
   // 从模型读取指定构件 加到 特效
   // tiles3dLayer.readyPromise.then(function (e) {
   //   addTileToTargetEffect(tiles3dLayer, bloomTargetEffect)

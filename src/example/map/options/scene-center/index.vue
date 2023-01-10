@@ -19,7 +19,7 @@
             <a-form-item label="经度值">
               <mars-input v-model:value="inputObj.lng" />
             </a-form-item>
-            <a-form-item label="维度值">
+            <a-form-item label="纬度值">
               <mars-input v-model:value="inputObj.lat" />
             </a-form-item>
             <a-form-item label="高度值">

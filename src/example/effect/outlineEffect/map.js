@@ -126,6 +126,11 @@ export function onMounted(mapInstance) {
   })
   map.addEffect(outlineEffect)
 
+  setTimeout(() => {
+    // 指定高亮Primitive
+    outlineEffect.selected = [graphicBox1, graphic1]
+  }, 1000)
+
   // 从模型读取指定构件 加到 特效
   // tiles3dLayer.readyPromise.then(function (e) {
   //   addTileToTargetEffect(tiles3dLayer, outlineEffect)
