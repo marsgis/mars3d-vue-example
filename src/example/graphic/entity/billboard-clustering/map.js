@@ -11,7 +11,6 @@ export const mapOptions = {
   }
 }
 
-
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -73,12 +72,19 @@ export function onMounted(mapInstance) {
   })
   map.addLayer(graphicLayer)
 
-
-  graphicLayer.on("clustering", function(event) {
+  graphicLayer.on("clustering", function (event) {
     console.log("新增聚合对象", event)
   })
 
   graphicLayer.bindPopup(function (event) {
+    if (event.graphic.cluster && event.graphic.getGraphics) {
+      const graphics = event.graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+      if (graphics) {
+        const inthtml = `单击了聚合点(${graphics.length}个)`
+        return inthtml
+      }
+    }
+
     const item = event.graphic?.attr
     if (!item) {
       return false
@@ -113,7 +119,7 @@ export function onMounted(mapInstance) {
     if (map.camera.positionCartographic.height > 90000) {
       const graphic = event.graphic
       // graphic.closePopup()
-      if (graphic) {
+      if (graphic?.type) {
         // 单击了具体的点对象
         const position = graphic.positionShow
         map.flyToPoint(position, {

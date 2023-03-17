@@ -235,6 +235,12 @@ export function onChangeOpacity(opacity) {
   }
 }
 
+export function onChangeMirror(value) {
+  if (selectedView) {
+    selectedView.flipx = value
+  }
+}
+
 /**
  * 视频角度
  *

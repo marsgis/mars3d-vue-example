@@ -27,15 +27,20 @@
           <ul>
             <li v-for="(item, i) in siteSource" :key="i" class="query-site__item" @click.stop="flyTo(item)">
               <div class="query-site__context">
-                <p class="query-site-text f-toe" :title="item.name">{{ i + 1 }}、{{ item.name }}</p>
+                <p class="query-site-text f-toe" :title="item.name">
+                  <span class="query-site-text_num">{{ i + 1 }}</span>
+                  {{ item.name }}
+                </p>
                 <p class="query-site-sub f-toe">{{ item.type }}</p>
               </div>
-              <a :href="url + item.id" target="_blank" class="query-site__more">更多>></a>
+              <a :href="url + item.id" target="_blank" class="query-site__more">
+                <mars-icon icon="double-right" width="20"></mars-icon>
+              </a>
             </li>
           </ul>
           <div class="query-site__page">
             <p class="query-site-allcount">共{{ allCount }}条结果</p>
-            <a-pagination @change="(page: number) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6" :simple="true" />
+            <a-pagination @change="(page) => querySiteList(searchTxt, page)" size="small" :total="allCount" pageSize="6" :simple="true" />
           </div>
         </template>
         <a-empty class="f-push-10-t" v-else />
@@ -94,6 +99,7 @@ const handleSearch = async (val: string) => {
 
   const result = await mapWork.queryData(val)
   const list: { value: string }[] = []
+
   result.list.forEach((item: any) => {
     if (list.every((l) => l.value !== item.name)) {
       list.push({
@@ -155,8 +161,9 @@ function clickVoid(e) {
 async function querySiteList(text: string, page: number) {
   const result = await mapWork.querySiteList(text, page)
 
-  if (!result.list || result.list.length <= 0) {
+  if (!result || !result.list || result.list.length <= 0) {
     $message("暂无数据")
+    return
   }
 
   pagination.total = Number(result.allcount) || 0
@@ -278,10 +285,19 @@ function addHistory(data: any) {
         font-family: Source Han Sans CN;
         font-weight: 400;
         color: var(--mars-text-color);
+        .query-site-text_num {
+          width: 19px;
+          height: 25px;
+          margin-right: 5px;
+          display: inline-block;
+          text-align: center;
+          background-image: url("@mars/components/mars-ui/assets/images/query-site-text_num.png");
+        }
       }
       .query-site-sub {
         font-size: 14px;
         width: 200px;
+        margin-left: 19px;
         font-family: Source Han Sans CN;
         font-weight: 400;
         color: var(--mars-content-color);
@@ -297,7 +313,7 @@ function addHistory(data: any) {
   .query-site__page {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 10px 20px;
     .query-site-allcount {
       font-size: 14px;
       color: var(--mars-text-color);

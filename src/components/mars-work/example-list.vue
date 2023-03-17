@@ -248,10 +248,7 @@ export default {
       }
     },
     isnew(item) {
-      if (item.date) {
-        // 判断时间一个月内的为最新的
-      }
-      return false
+      return item.new
     },
     isfixed() {
       const scrolltopTemp = document.documentElement.scrollTop || document.body.scrollTop

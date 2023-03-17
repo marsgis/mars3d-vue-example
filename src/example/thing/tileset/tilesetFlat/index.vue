@@ -9,7 +9,6 @@
           <a-space>
             <mars-button @click="showDytDemo">大雁塔</mars-button>
             <mars-button @click="showTehDemo">天鹅湖</mars-button>
-            <mars-button @click="showQxShequDemo">某县城</mars-button>
           </a-space>
         </a-col>
 
@@ -41,8 +40,7 @@
         </a-col>
 
         <a-col :span="24">
-          <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource"
-            :columns="columns" size="small" bordered>
+          <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
@@ -114,7 +112,6 @@ const rowSelection = {
   }
 }
 
-
 mapWork.eventTarget.on("addItem", function (event: any) {
   const item = event.area
 
@@ -147,11 +144,6 @@ const showDytDemo = () => {
 const showTehDemo = () => {
   dataSource.value = [] // 清除表格
   mapWork.showTehDemo()
-}
-
-const showQxShequDemo = () => {
-  dataSource.value = [] // 清除表格
-  mapWork.showQxShequDemo()
 }
 
 // 添加矩形

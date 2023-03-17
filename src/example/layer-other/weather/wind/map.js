@@ -8,7 +8,7 @@ export const mapOptions = {
     center: { lat: 20.648765, lng: 129.340334, alt: 19999976, heading: 355, pitch: -89 },
     scene3DOnly: true,
     contextOptions: {
-      requestWebgl2: false
+      requestWebgl1: true
     }
   },
   control: {
@@ -37,6 +37,10 @@ export function onMounted(mapInstance) {
   // map.scene.skyAtmosphere.hueShift = 0.0
   // map.scene.skyAtmosphere.saturationShift = 0.1
   // map.scene.skyAtmosphere.brightnessShift = 0.08 // 地面0.08 海底
+
+
+  globalNotify("已知问题提示", `(1) 当前示例仅支持WebGL1渲染，暂不支持WebGL2。`)
+
 
   addLayer()
 }

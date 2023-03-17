@@ -223,7 +223,7 @@ function addDemoGraphic3(graphicLayer) {
   //     void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
   //     {
   //         vec2 texCoord = fsInput.attributes.texCoord_0 + 1.0 * vec2(u_time, 0.0);
-  //         material.diffuse = texture2D(u_stripes, texCoord).rgb;
+  //         material.diffuse = texture(u_stripes, texCoord).rgb;
   //     }
   //     `
   // })

@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="300">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -18,7 +18,7 @@
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <!-- <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">前后侧摆:</span>
         <mars-slider @change="pitchChange" v-model:value="pitchValue" :min="-180" :max="180" :step="1" />值{{ pitchValue }}
@@ -30,6 +30,45 @@
         <span class="mars-pannel-item-label">左右侧摆:</span>
         <mars-slider @change="rollChange" v-model:value="rollValue" :min="-180" :max="180" :step="1" />值{{ rollValue }}
       </a-space>
+    </div> -->
+
+    <div class="f-mb">
+      <a-row :gutter="[0, 10]">
+        <a-col :span="8">heading值:</a-col>
+        <a-col :span="5">
+          <mars-switch v-model:checked="formState.customHeading" @change="changeAutoHeading" />
+        </a-col>
+        <a-col :span="6" v-if="formState.customHeading">
+          <mars-slider class="sliderlen" @change="updateHeading" v-model:value="formState.slideHeadingStep" :min="0" :max="360" :step="0.01" />
+        </a-col>
+        <a-col :span="8" v-if="!formState.customHeading"> 根据路线自动 </a-col>
+      </a-row>
+    </div>
+
+    <div class="f-mb">
+      <a-row :gutter="[0, 10]">
+        <a-col :span="8">pitch值:</a-col>
+        <a-col :span="5">
+          <mars-switch v-model:checked="formState.customPitch" @change="changeAutoPitch" />
+        </a-col>
+        <a-col :span="6" v-if="formState.customPitch">
+          <mars-slider class="sliderlen" @change="updatePitch" v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
+        </a-col>
+        <a-col :span="8" v-if="!formState.customPitch"> 根据路线自动 </a-col>
+      </a-row>
+    </div>
+
+    <div class="f-mb">
+      <a-row :gutter="[0, 10]">
+        <a-col :span="8">roll值:</a-col>
+        <a-col :span="5">
+          <mars-switch v-model:checked="formState.customRoll" @change="changeAutoRoll" />
+        </a-col>
+        <a-col :span="6" v-if="formState.customRoll">
+          <mars-slider class="sliderlen" @change="updateRoll" v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
+        </a-col>
+        <a-col :span="8" v-if="!formState.customRoll"> 根据路线自动 </a-col>
+      </a-row>
     </div>
 
     <div class="f-mb">
@@ -104,13 +143,18 @@ interface FormState {
   td_jd: number
   td_wd: number
   td_gd: string
+
+  customHeading: boolean
+  slideHeadingStep: number
+  customPitch: boolean
+  slidePitchStep: number
+  customRoll: boolean
+  slideRollStep: number
 }
 
 const value = ref<string>("2")
 const angleValue1 = ref<number>(30)
 const angleValue2 = ref<number>(20)
-const pitchValue = ref<number>(0) // 仰角
-const rollValue = ref<number>(0) // 左右
 
 const formState: UnwrapRef<FormState> = reactive({
   enabledShowMatrix: false,
@@ -121,7 +165,14 @@ const formState: UnwrapRef<FormState> = reactive({
   time: "",
   td_jd: 0,
   td_wd: 0,
-  td_gd: "0米"
+  td_gd: "0米",
+
+  customHeading: false,
+  slideHeadingStep: 0,
+  customPitch: false,
+  slidePitchStep: 0,
+  customRoll: false,
+  slideRollStep: 0
 })
 
 mapWork.eventTarget.on("satelliteChange", function (event: any) {
@@ -135,16 +186,39 @@ mapWork.eventTarget.on("satelliteChange", function (event: any) {
   formState.td_gd = nowData.td_gd
 })
 
-// 俯仰角
-const pitchChange = () => {
-  mapWork.pitchChange(pitchValue.value)
+
+const changeAutoHeading = () => {
+  if (formState.customHeading) {
+    mapWork.weixin.model.heading = formState.slideHeadingStep
+  } else {
+    mapWork.weixin.model.heading = undefined
+  }
+}
+const updateHeading = () => {
+  mapWork.weixin.model.heading = formState.slideHeadingStep
 }
 
-// 左右角
-const rollChange = () => {
-  mapWork.rollChange(rollValue.value)
+const changeAutoPitch = () => {
+  if (formState.customPitch) {
+    mapWork.weixin.model.pitch = formState.slidePitchStep
+  } else {
+    mapWork.weixin.model.pitch = undefined
+  }
+}
+const updatePitch = () => {
+  mapWork.weixin.model.pitch = formState.slidePitchStep
 }
 
+const changeAutoRoll = () => {
+  if (formState.customPitch) {
+    mapWork.weixin.model.roll = formState.slideRollStep
+  } else {
+    mapWork.weixin.model.roll = undefined
+  }
+}
+const updateRoll = () => {
+  mapWork.weixin.model.roll = formState.slideRollStep
+}
 // 夹角
 const angle1 = () => {
   mapWork.angle1(angleValue1.value)
@@ -210,5 +284,9 @@ td.column-money {
 
 .tb-border tr td {
   border: 1px solid #4db3ff70;
+}
+.ant-form-item .ant-select,
+.sliderlen {
+  width: 100px;
 }
 </style>

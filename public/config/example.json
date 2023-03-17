@@ -161,6 +161,22 @@
             "main": "thing/terrain/terrainPlanClip",
             "hasPannel": true
           },
+
+          {
+            "name": "地形压平",
+            "thumbnail": "thing-terrain-terrainFlat.jpg",
+            "main": "thing/terrain/terrainFlat",
+            "hasPannel": true,
+            "new": true
+          },
+          {
+            "name": "地形抬升",
+            "thumbnail": "thing-terrain-terrainUp.jpg",
+            "main": "thing/terrain/terrainUp",
+            "hasPannel": true,
+            "new": true
+          },
+
           {
             "name": "等高线",
             "thumbnail": "thing-terrain-contourLine.jpg",
@@ -216,15 +232,9 @@
             "hasPannel": true
           },
           {
-            "name": "OpenStreetMap（OSM）",
-            "thumbnail": "layert-online-osm.jpg",
-            "main": "layer-tile/online/osm",
-            "hasPannel": true
-          },
-          {
-            "name": "谷歌【已被封】",
-            "thumbnail": "layert-online-google.jpg",
-            "main": "layer-tile/online/google",
+            "name": "星图地球",
+            "thumbnail": "layert-online-geovisearth.jpg",
+            "main": "layer-tile/online/geovisearth",
             "hasPannel": true
           },
           {
@@ -249,6 +259,18 @@
             "name": "Cesium Ion服务",
             "thumbnail": "layert-online-ion.jpg",
             "main": "layer-tile/online/ion",
+            "hasPannel": true
+          },
+          {
+            "name": "谷歌【已被封】",
+            "thumbnail": "layert-online-google.jpg",
+            "main": "layer-tile/online/google",
+            "hasPannel": true
+          },
+          {
+            "name": "OSM【已被封】",
+            "thumbnail": "layert-online-osm.jpg",
+            "main": "layer-tile/online/osm",
             "hasPannel": true
           },
           {
@@ -596,13 +618,6 @@
             "main": "layer-tileset/type/basis",
             "params": "data=3dTiles",
             "hasPannel": true
-          },
-          {
-            "name": "超图S3M三维模型图层",
-            "thumbnail": "layero-s3m-basis.jpg",
-            "main": "layer-other/s3m/basis",
-            "libs": ["mars3d", "cesium-comp", "mars3d-supermap"],
-            "hasPannel": true
           }
         ]
       },
@@ -646,6 +661,15 @@
             "resources": ["HuxingLayer.js"]
           },
 
+          {
+            "name": "SHP转GeoJson加载",
+            "thumbnail": "layerg-geojson-shp2json.jpg",
+            "main": "layer-graphic/geojson/shp2json",
+            "hasPannel": true,
+            "libs": ["mars3d", "shpGeojson"],
+            "resources": ["Shp2JsonLayer.js"],
+            "new": true
+          },
           {
             "name": "KML/KMZ转GeoJson加载",
             "thumbnail": "layerg-geojson-kml2json.jpg",
@@ -1079,6 +1103,13 @@
             "hasPannel": true
           },
           {
+            "name": "双面渲染平面",
+            "thumbnail": "graphic-primitive-doubleSidedPlane.jpg",
+            "main": "graphic/primitive/doubleSidedPlane",
+            "hasPannel": true,
+            "new": true
+          },
+          {
             "name": "Box 盒子",
             "thumbnail": "graphic-primitive-box.jpg",
             "main": "graphic/primitive/box",
@@ -1230,6 +1261,13 @@
             "hasPannel": true
           },
           {
+            "name": "厚度墙 Demo",
+            "thumbnail": "graphic-primitive-thickWall.jpg",
+            "main": "graphic/primitive/thickWall",
+            "hasPannel": true,
+            "new": true
+          },
+          {
             "name": "Rectangle 矩形",
             "thumbnail": "graphic-primitive-rectangle.jpg",
             "main": "graphic/primitive/rectangle",
@@ -1246,6 +1284,13 @@
             "thumbnail": "graphic-primitive-water.jpg",
             "main": "graphic/primitive/water",
             "hasPannel": true
+          },
+          {
+            "name": "反射水面",
+            "thumbnail": "graphic-primitive-reflectionWater.jpg",
+            "main": "graphic/primitive/reflectionWater",
+            "hasPannel": true,
+            "new": true
           },
           {
             "name": "井",
@@ -1310,13 +1355,6 @@
             "name": "EllipsoidCombine  球、半球、椭球",
             "thumbnail": "graphic-combine-ellipsoid.jpg",
             "main": "graphic/combine/ellipsoid",
-            "hasPannel": true
-          },
-          {
-            "name": "ModelCombine 大量模型",
-            "thumbnail": "graphic-combine-model.jpg",
-            "main": "graphic/combine/model",
-            "params": "data=gltf",
             "hasPannel": true
           },
           {
@@ -1443,7 +1481,7 @@
         ]
       },
       {
-        "name": "粒子效果对象",
+        "name": "其他矢量对象",
         "children": [
           {
             "name": "粒子效果",
@@ -1467,6 +1505,11 @@
             "thumbnail": "graphic-custom-route.jpg",
             "main": "graphic/custom/route",
             "hasPannel": true
+          },
+          {
+            "name": "Route 模型上实时轨迹路线",
+            "thumbnail": "graphic-custom-route-tileset.jpg",
+            "main": "graphic/custom/route-tileset"
           },
           {
             "name": "FixedRoute 历史轨迹路线",
@@ -1505,6 +1548,12 @@
             "main": "graphic/custom/fixedRoute-sky",
             "hasPannel": true,
             "resources": ["/temp/css/divGraphic.css"]
+          },
+          {
+            "name": "无人机航拍",
+            "thumbnail": "graphic-custom-fixedRoute-shoot.jpg",
+            "main": "graphic/custom/fixedRoute-shoot",
+            "new": true
           },
           {
             "name": "飞机路线",
@@ -1858,12 +1907,6 @@
             "thumbnail": "graphic-primitive-model.jpg",
             "main": "graphic/primitive/model",
             "hasPannel": true
-          },
-          {
-            "name": "ModelCombine对象(大数据+合并渲染)",
-            "thumbnail": "graphic-combine-model.jpg",
-            "main": "graphic/combine/model",
-            "hasPannel": true
           }
         ]
       },
@@ -2135,12 +2178,7 @@
             "main": "thing/tileset/tilesetClip",
             "hasPannel": true
           },
-          {
-            "name": "模型淹没分析",
-            "thumbnail": "thing-tileset-tilesetFlood.jpg",
-            "main": "thing/tileset/tilesetFlood",
-            "hasPannel": true
-          },
+
           {
             "name": "限高分析",
             "thumbnail": "thing-tileset-limitHeight.jpg",
@@ -2395,6 +2433,17 @@
             "hasPannel": true
           }
         ]
+      },
+      {
+        "name": "其他",
+        "children": [
+          {
+            "name": "月球",
+            "thumbnail": "map-other-moon.jpg",
+            "main": "map/other/moon",
+            "resources": ["background.css"]
+          }
+        ]
       }
     ]
   },
@@ -2423,6 +2472,13 @@
             "thumbnail": "thing-analysis-measure-volume.jpg",
             "main": "thing/analysis/measure-volume",
             "hasPannel": true
+          },
+          {
+            "name": "方量分析(体积)-离屏渲染方式",
+            "thumbnail": "thing-analysis-measure-volume-depth.jpg",
+            "main": "thing/analysis/measure-volume-depth",
+            "hasPannel": true,
+            "new": true
           },
           {
             "name": "通视分析",
@@ -2778,12 +2834,6 @@
             "name": "转动（球）",
             "thumbnail": "thirdParty-ammo-turnRope.gif",
             "main": "thirdParty/ammo/turnRope",
-            "libs": ["mars3d", "cesium-meshVisualizer"]
-          },
-          {
-            "name": "撞击（软体）",
-            "thumbnail": "thirdParty-ammo-softbodyVolume.jpg",
-            "main": "thirdParty/ammo/softbodyVolume",
             "libs": ["mars3d", "cesium-meshVisualizer"]
           },
           {

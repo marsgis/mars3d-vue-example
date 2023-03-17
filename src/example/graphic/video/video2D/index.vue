@@ -88,6 +88,13 @@
       </a-space>
     </div>
 
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">视频镜像:</span>
+        <a-checkbox @change="onChangeMirror" v-model:checked="video.flipx">是否镜像</a-checkbox>
+      </a-space>
+    </div>
+
     <div class="f-tac">
       <a-space>
         <mars-button @click="playOrpause">播放暂停</mars-button>
@@ -112,6 +119,7 @@ interface Video {
   pitchValue: number // 俯仰角度
   opcity: number // 透明度
   videoRotate: number // 视角角度
+  flipx: boolean
 }
 
 const video = reactive<Video>({
@@ -122,7 +130,8 @@ const video = reactive<Video>({
   heading: 0,
   pitchValue: 0,
   opcity: 1,
-  videoRotate: 0
+  videoRotate: 0,
+  flipx: false
 })
 
 // 点击表格开始编辑矢量数据的参数
@@ -184,6 +193,9 @@ const showFrustum = () => {
 // 修改视频透明度
 const onChangeOpacity = () => {
   mapWork.onChangeOpacity(video.opcity)
+}
+const onChangeMirror = () => {
+  mapWork.onChangeMirror(video.flipx)
 }
 
 // 视频角度

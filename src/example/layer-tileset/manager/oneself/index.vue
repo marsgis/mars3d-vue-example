@@ -10,7 +10,7 @@
 
     <a-form>
       <a-form-item label="背景颜色">
-        <mars-color-picker v-model:value="color" @change="changeColor" />
+        <mars-color-picker v-model:value="color" @change="changeColor" :hiddenAlpha="true" />
       </a-form-item>
       <a-form-item label="视角复位">
         <mars-button @click="flyTo">视角定位至模型</mars-button>

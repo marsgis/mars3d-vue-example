@@ -114,7 +114,7 @@ export function setStyle3() {
           mars3d_textureX = mod(positionMC.y, mars3d_width) / mars3d_width;
         }
         float mars3d_textureY = mod(positionMC.z, mars3d_height) / mars3d_height;
-        material.diffuse = texture2D(u_mars3d_texture, vec2(mars3d_textureX, mars3d_textureY)).rgb;
+        material.diffuse = texture(u_mars3d_texture, vec2(mars3d_textureX, mars3d_textureY)).rgb;
       }
     }`
   })

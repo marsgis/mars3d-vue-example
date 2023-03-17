@@ -2,6 +2,14 @@
   <mars-dialog :visible="true" right="10" top="10">
     <div v-if="!isShow">
       <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">模型:</span>
+        <mars-button @click="showDytDemo">大雁塔</mars-button>
+        <mars-button @click="showTehDemo">天鹅湖</mars-button>
+      </a-space>
+    </div>
+
+      <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">分析方式:</span>
           <a-radio-group v-model:value="formState.radio" @change="changeFloodType">
@@ -103,8 +111,8 @@ const isShow = ref(false) // 显示进度面板
 
 const formState: UnwrapRef<FormState> = reactive({
   radio: "2",
-  minHeight: 26,
-  maxHeight: 200,
+  minHeight: 0,
+  maxHeight: 100,
   speed: 10,
   height: 0
 })
@@ -154,6 +162,15 @@ const btnDraw = () => {
 // 开始淹没
 const begin = () => {
   mapWork.begin(formState)
+}
+
+// 添加大雁塔模型
+const showDytDemo = () => {
+  mapWork.showDytDemo()
+}
+// 添加天鹅湖模型
+const showTehDemo = () => {
+  mapWork.showTehDemo()
 }
 </script>
 <style scoped lang="less">

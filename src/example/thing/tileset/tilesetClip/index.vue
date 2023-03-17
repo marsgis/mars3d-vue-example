@@ -1,9 +1,17 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="280">
+  <mars-dialog :visible="true" right="10" top="10" width="350">
     <div class="f-mb">
       <a-space>
+        <span class="mars-pannel-item-label">模型:</span>
+        <mars-button @click="showDytDemo">大雁塔</mars-button>
+        <mars-button @click="showTehDemo">天鹅湖</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">裁剪区:</span>
         <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-        <mars-button @click="btnDraw">绘制剪裁区</mars-button>
+        <mars-button @click="btnDraw">绘制多边行</mars-button>
         <mars-button @click="removeAll">清除</mars-button>
       </a-space>
     </div>
@@ -68,7 +76,6 @@ const rowSelection = {
   }
 }
 
-
 mapWork.eventTarget.on("addItem", function (event: any) {
   const item = event.area
   dataSource.value.push({ key: item.id, name: "裁剪区" + item.id })
@@ -99,5 +106,16 @@ const removeAll = () => {
 
   // 清除表格
   dataSource.value = []
+}
+
+// 添加大雁塔模型
+const showDytDemo = () => {
+  dataSource.value = [] // 清除表格
+  mapWork.showDytDemo()
+}
+// 添加天鹅湖模型
+const showTehDemo = () => {
+  dataSource.value = [] // 清除表格
+  mapWork.showTehDemo()
 }
 </script>

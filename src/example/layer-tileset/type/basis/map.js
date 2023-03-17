@@ -141,8 +141,7 @@ export function bindTestTerrain(val) {
 }
 export function bindWireframe(val) {
   // 三角网
-  tiles3dLayer.tileset.debugWireframe = val // cesium1.97之前
-  // tiles3dLayer.tileset._enableDebugWireframe = val // cesium 1.98+
+  tiles3dLayer.tileset.debugWireframe = val
 }
 export function bindBoundbox(val) {
   // 包围盒
@@ -198,6 +197,7 @@ export function showQxShequDemo() {
     preferLeaves: true,
     center: { lat: 28.439577, lng: 119.476925, alt: 229, heading: 57, pitch: -29 },
 
+    enableDebugWireframe: true, // 是否可以进行三角网的切换显示
     flyTo: true
   })
   map.addLayer(tiles3dLayer)
@@ -245,6 +245,7 @@ export function showQxSimiaoDemo() {
     //   color: "#00ffff",
     // },
     // distanceDisplayCondition_far: 3000,
+    enableDebugWireframe: true, // 是否可以进行三角网的切换显示
     center: {
       lat: 33.589536,
       lng: 119.032216,
@@ -290,7 +291,8 @@ export function showJzwHefeiDemo() {
       color: "#FFFF00",
       width: 4
     },
-    flyTo: true
+    flyTo: true,
+    enableDebugWireframe: true // 是否可以进行三角网的切换显示
   })
   map.addLayer(tiles3dLayer)
 
@@ -323,7 +325,8 @@ export function showPntsGantaDemo() {
       }
     },
     popup: "all",
-    flyTo: true
+    flyTo: true,
+    enableDebugWireframe: true // 是否可以进行三角网的切换显示
   })
   map.addLayer(tiles3dLayer)
 
@@ -357,6 +360,7 @@ export function showMaxShihuaDemo() {
     preferLeaves: true,
     dynamicScreenSpaceError: true,
     preloadWhenHidden: true,
+    enableDebugWireframe: true, // 是否可以进行三角网的切换显示
     // 以上为优化的参数
 
     // popup: "all",
@@ -409,6 +413,7 @@ export function showBimQiaoliangDemo() {
     progressiveResolutionHeightFraction: 0.5, // 【重要】 数值偏于0能够让初始加载变得模糊
     dynamicScreenSpaceError: true, // true时会在真正的全屏加载完之后才清晰化模型
     preloadWhenHidden: true, // tileset.show是false时，也去预加载数据
+    enableDebugWireframe: true, // 是否可以进行三角网的切换显示
     // 以上为优化的参数
 
     position: { lng: 117.096906, lat: 31.851564, alt: 45 },
@@ -459,7 +464,8 @@ export function showBimDitiezhanDemo() {
     },
     popup: "all",
     center: { lat: 31.856358, lng: 117.204451, alt: 148, heading: 350, pitch: -30 },
-    flyTo: true
+    flyTo: true,
+    enableDebugWireframe: true // 是否可以进行三角网的切换显示
   })
   map.addLayer(tiles3dLayer)
 

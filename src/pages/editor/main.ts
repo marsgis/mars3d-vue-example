@@ -47,7 +47,7 @@ function initUI(simple: boolean) {
   if (simple) {
     vueApp = createApp(
       defineComponent({
-        template: "<div><div>"
+        template: "<div></div>"
       })
     )
   } else {

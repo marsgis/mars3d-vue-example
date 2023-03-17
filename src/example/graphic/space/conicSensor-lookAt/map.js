@@ -94,7 +94,7 @@ function addGraphicLayer() {
   // 视锥体 展示
   const satelliteSensor = new mars3d.graphic.SatelliteSensor({
     position: property,
-    autoHeading: true, // 是否自动角度，根据监听的卫星模型
+    orientation: new Cesium.VelocityOrientationProperty(property),
     style: {
       sensorType: mars3d.graphic.SatelliteSensor.Type.Rect,
       angle1: 20,
@@ -107,7 +107,6 @@ function addGraphicLayer() {
   })
   graphicLayer.addGraphic(satelliteSensor)
 
-  satelliteSensor.trackedEntity = graphic // 本身跟随卫星
 
   // 地面站 展示
   const localStart = Cesium.Cartesian3.fromDegrees(109.51856, 18.258736, 2000)

@@ -213,8 +213,6 @@ export function getRegion() {
     globalMsg("当前与地球无成像区边")
     return
   }
-  // 显示边界点，测试
-  map.graphicLayer.clear()
 
   coords.forEach((position) => {
     const graphic = new mars3d.graphic.PointPrimitive({

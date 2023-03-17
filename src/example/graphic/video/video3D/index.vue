@@ -76,6 +76,13 @@
 
     <div class="f-mb">
       <a-space>
+        <span class="mars-pannel-item-label">视频镜像:</span>
+        <a-checkbox @change="onChangeMirror" v-model:checked="video.flipx">是否镜像</a-checkbox>
+      </a-space>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
         <span class="mars-pannel-item-label">视频透明度:</span>
         <mars-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
       </a-space>
@@ -113,6 +120,7 @@ interface Video {
   opcity: number // 透明度
   pannelTitle: string
   selectedGraphic: boolean
+  flipx: boolean
 }
 
 const video = reactive<Video>({
@@ -124,7 +132,8 @@ const video = reactive<Video>({
   pitchValue: 0,
   opcity: 1,
   pannelTitle: "",
-  selectedGraphic: false
+  selectedGraphic: false,
+  flipx: false
 })
 
 // 点击表格开始编辑矢量数据的参数
@@ -171,6 +180,9 @@ const onClickSelView = () => {
 
 const onChangePitch = () => {
   mapWork.onChangePitch(video.pitchValue)
+}
+const onChangeMirror = () => {
+  mapWork.onChangeMirror(video.flipx)
 }
 
 // 线框是否显示

@@ -27,7 +27,7 @@
     <a-space>
       <span class="mars-pannel-item-label">数据维护:</span>
       <mars-button v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
-      <mars-button v-if="props.drawLabel2 &&!formState.isDrawing" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
+      <mars-button v-if="props.drawLabel2 && !formState.isDrawing" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
       <mars-button v-if="formState.isDrawing" @click="onClickClearDrawing">取消绘制</mars-button>
 
       <a-checkbox
@@ -595,8 +595,10 @@ const onClickImpFile = (info: any) => {
         graphicLayer.flyTo()
       } else {
         graphicLayer.loadGeoJSON(geojson, { flyTo: true })
-        initGraphicableData(graphicLayer)
+        // initGraphicableData(graphicLayer)
       }
+
+      initGraphicableData(graphicLayer)
     }
   } else if (fileType === "kml") {
     const reader = new FileReader()

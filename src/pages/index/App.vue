@@ -24,7 +24,7 @@ const jumpUrl = (item: any) => {
   // 处理参数
   url += `?key=${item.id}&id=` + encodeURI(item.main)
   if (item.params) {
-    url += `&${item.params}&name=${item.fullName}`
+    url += `&${item.params}`
   }
   window.open(url, "_blank")
 }
