@@ -117,7 +117,7 @@
                 >
                   <span title="这是最近新加的功能" :class="{ nweVer: isNew }" v-if="isnew(item2)">新</span>
                   <div class="pic">
-                    <img :src="item2.thumbnail" />
+                    <img :src="item2.thumbnail" :onerror="imgOnError" />
                   </div>
                   <p>
                     {{ item2.name }}
@@ -260,6 +260,11 @@ export default {
     },
     jumpurl(item) {
       this.$emit("jump", item)
+    },
+    imgOnError(e) {
+      const img = e.srcElement
+      img.src = "/config/thumbnail/map-options-basemaps.jpg"
+      img.onerror = null
     },
     searchDetail() {
       if (!this.searchValue) {

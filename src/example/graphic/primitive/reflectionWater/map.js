@@ -52,7 +52,6 @@ export function onUnmounted() {
 }
 
 function addDemoGraphic1() {
-  // 创建气象数据体渲染模型
   const volumeCloud = new mars3d.graphic.ReflectionWater({
     positions: [
       [117.216386, 31.815376, 35.16],
