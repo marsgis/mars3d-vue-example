@@ -4,10 +4,12 @@
  * @author 火星渣渣灰 2022-01-10
  */
 import * as mars3d from "mars3d"
+import QueryPopup from "./query-popup.vue"
+import { createApp } from "vue"
 const Cesium = mars3d.Cesium
 
 let map: mars3d.Map // 地图对象
-let graphicLayer: mars3d.layer.GraphicLayer
+export let graphicLayer: mars3d.layer.GraphicLayer
 let queryPoi: mars3d.query.GaodePOI // GaodePOI查询
 let address: any = null
 const imgArr = []
@@ -30,29 +32,25 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
     pid: 99 // 图层管理 中使用，父节点id
   })
 
-  graphicLayer.bindPopup(function (event: any) {
-    const item = event.graphic?.attr
-    if (!item) {
+  graphicLayer.bindPopup((event) => {
+    const attr = event.graphic.attr || {}
+    if (!attr) {
       return
     }
-    let inHtml = `<div class="mars3d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black">${item.name}</a></div><div class="mars3d-template-content" >`
+    const vNodeDom = document.createElement("div")
+    document.body.appendChild(vNodeDom)
 
-    if (item.tel !== "") {
-      inHtml += "<div><label>电话:</label>" + item.tel + "</div>"
-    }
-
-    if (item.address) {
-      inHtml += "<div><label>地址:</label>" + item.address + "</div>"
-    }
-    if (item.type) {
-      const fl = item.type
-      if (fl !== "") {
-        inHtml += "<div><label>类别:</label>" + fl + "</div>"
-      }
-    }
-    inHtml += "</div>"
-    return inHtml
-  })
+    const vNode = createApp(QueryPopup, {
+      id: attr.id,
+      name: attr.name,
+      tel: attr.tel ? attr.tel.toString() : "",
+      address: attr.address,
+      type: attr.type ? attr.type.toString() : ""
+    })
+    vNode.mount(vNodeDom) // vue2中可使用extend
+    // return vNode._container // 项目中可以直接返回DOM
+    return vNode._container.innerHTML // 示例中特殊处理，转为html元素
+  }, { template: false })
 
   map.addLayer(graphicLayer)
 

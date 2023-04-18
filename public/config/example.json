@@ -161,7 +161,6 @@
             "main": "thing/terrain/terrainPlanClip",
             "hasPannel": true
           },
-
           {
             "name": "地形压平",
             "thumbnail": "thing-terrain-terrainFlat.jpg",
@@ -176,7 +175,6 @@
             "hasPannel": true,
             "new": true
           },
-
           {
             "name": "等高线",
             "thumbnail": "thing-terrain-contourLine.jpg",
@@ -666,7 +664,6 @@
             "hasPannel": true,
             "resources": ["HuxingLayer.js"]
           },
-
           {
             "name": "SHP转GeoJson加载",
             "thumbnail": "layerg-geojson-shp2json.jpg",
@@ -1518,6 +1515,11 @@
             "main": "graphic/custom/route-tileset"
           },
           {
+            "name": "AIS动态目标",
+            "thumbnail": "graphic-custom-route-ais.jpg",
+            "main": "graphic/custom/route-ais"
+          },
+          {
             "name": "FixedRoute 历史轨迹路线",
             "thumbnail": "graphic-custom-fixedRoute.jpg",
             "main": "graphic/custom/fixedRoute",
@@ -1791,6 +1793,14 @@
             "main": "graphic/space/tle-getPoint",
             "hasPannel": true,
             "libs": ["mars3d", "mars3d-space"]
+          },
+          {
+            "name": "卫星推演",
+            "thumbnail": "graphic-space-deduce.jpg",
+            "main": "graphic/space/deduce",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-space"],
+            "resources": ["map.css"]
           }
         ]
       },
@@ -1814,6 +1824,12 @@
             "resources": ["/temp/css/UnidreamLED.css"]
           },
           {
+            "name": "行政区",
+            "thumbnail": "graphic-apply-quyu.jpg",
+            "main": "graphic/apply/quyu",
+            "resources": ["map.css"]
+          },
+          {
             "name": "行政区突出展示",
             "thumbnail": "graphic-apply-district.jpg",
             "main": "graphic/apply/district",
@@ -1824,11 +1840,6 @@
             "thumbnail": "graphic-apply-district2.jpg",
             "main": "graphic/apply/district2",
             "resources": ["district2.css"]
-          },
-          {
-            "name": "红蓝对抗演习",
-            "thumbnail": "graphic-apply-exercise.jpg",
-            "main": "graphic/apply/exercise"
           },
           {
             "name": "台风轨迹",
@@ -1847,6 +1858,26 @@
             "thumbnail": "graphic-apply-digitalCity.jpg",
             "main": "graphic/apply/digitalCity",
             "resources": ["city.css"]
+          },
+          {
+            "name": "红蓝对抗演习",
+            "thumbnail": "graphic-apply-exercise.jpg",
+            "main": "graphic/apply/exercise"
+          },
+          {
+            "name": "飞机巡航",
+            "thumbnail": "graphic-apply-cruise.jpg",
+            "main": "graphic/apply/cruise",
+            "hasPannel": true,
+            "resources": ["map.css"]
+          },
+          {
+            "name": "海洋应急",
+            "thumbnail": "graphic-apply-seaRescue.jpg",
+            "main": "graphic/apply/seaRescue",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-space", "mars3d-heatmap"],
+            "resources": ["/temp/css/divGraphic.css"]
           }
         ]
       },
@@ -2184,7 +2215,6 @@
             "main": "thing/tileset/tilesetClip",
             "hasPannel": true
           },
-
           {
             "name": "限高分析",
             "thumbnail": "thing-tileset-limitHeight.jpg",

@@ -3,20 +3,19 @@
     <div class="mars-dialog-thumb" v-show="isFold" ref="thumbnailRef" @click="toogleFold(false)">
       <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#FFFFFF"></mars-icon>
     </div>
-    <div
-      class="mars-dialog"
-      :class="[customClass, animationClass]"
+    <div class="mars-dialog" :class="[customClass, animationClass]"
       :style="{ 'padding-top': showHeader ? '44px' : '10px', 'padding-bottom': slots.footer ? '44px' : '10px' }"
-      ref="dialogRef"
-      v-show="visible && !isFold"
-    >
-      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }" @mousedown="dragStart">
+      ref="dialogRef" v-show="visible && !isFold">
+      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
+        @mousedown="dragStart">
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
-        <mars-icon v-if="mergeProps.closeable" icon="close" :width="18" class="close-btn" @click="close"></mars-icon>
+        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
+          @click="close"></mars-icon>
       </div>
-      <mars-icon v-else-if="mergeProps.closeable" icon="close-one" :width="18" class="close-btn__flot" @click="close"></mars-icon>
+      <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
+        class="close-btn__flot" @click="close"></mars-icon>
 
       <div class="mars-dialog__content">
         <slot></slot>
@@ -26,13 +25,8 @@
         <slot name="footer"></slot>
       </div>
 
-      <div
-        v-for="handle in actualHandles"
-        :key="handle"
-        class="mars-dialog__handle"
-        :class="['handle-' + handle]"
-        @mousedown="resizeStart(handle, $event)"
-      ></div>
+      <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
+        @mousedown="resizeStart(handle, $event)"></div>
     </div>
   </teleport>
 </template>
@@ -61,6 +55,7 @@ interface Props {
   draggable?: boolean // 是否可拖拽
 
   closeable?: boolean // 是否可关闭
+  closeButton?: boolean // 是否显示关闭按钮
 
   animation?: string | boolean // 是否开启开场动画，或开场动画的class名
 
@@ -99,6 +94,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   visible: false,
   closeable: false,
+  closeButton: true,
   draggable: false, // 示例中默认不拖拽
   animation: true,
   handles: false,
@@ -153,7 +149,7 @@ const mergeProps = computed(() => {
     newProps.top = 10
   }
 
-  if (isAllowValue(newProps.closeable) && (slots.title || isAllowValue(newProps.icon) || isAllowValue(newProps.title) || newProps.draggable)) {
+  if (isAllowValue(newProps.closeable) && (slots.title || isAllowValue(newProps.title) || isAllowValue(newProps.icon) || newProps.draggable)) {
     newProps.closeable = true
   }
 
