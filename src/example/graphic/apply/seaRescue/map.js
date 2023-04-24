@@ -707,7 +707,7 @@ const removeGraphic = (graphicArr, canClear) => {
 // 第一步 发送信号
 export function firstStep() {
   removeGraphic(removeGraphicArr, true)
-
+  map.setCameraView({ lat: 23.232027, lng: 131.178867, alt: 1126670.6, heading: 343.9, pitch: -39.3 })
   const firstPannel = new mars3d.graphic.DivGraphic({
     position: [127, 31.83, 14000],
     style: {
@@ -717,8 +717,7 @@ export function firstStep() {
           </div>`,
       horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
       verticalOrigin: Cesium.VerticalOrigin.CENTER,
-      clampToGround: true,
-      className: "test"
+      clampToGround: true
     }
   })
   graphicLayer.addGraphic(firstPannel)
@@ -736,7 +735,10 @@ export function firstStep() {
     },
     attr: { save: true }
   })
-  graphicLayer.addGraphic(rescueIcon)
+
+  if (!graphicLayer.getGraphicById("rescueIcon")) {
+    graphicLayer.addGraphic(rescueIcon)
+  }
 
   setInterval(() => {
     rescueIcon.show = !rescueIcon.show
@@ -769,6 +771,7 @@ export function firstStep() {
 export function secondStep() {
   removeGraphic(removeGraphicArr, true)
 
+  map.setCameraView({ lat: 40.471932, lng: 123.393843, alt: 873577.9, heading: 237.2, pitch: -45.5 })
   const heatLayer = map.getLayerById("heatLayer")
   if (heatLayer) {
     heatLayer.show = false
@@ -812,6 +815,7 @@ export function secondStep() {
 // 第三步 下达指令
 export function thirdStep() {
   removeGraphic(removeGraphicArr, true)
+  map.setCameraView({ lat: 36.976138, lng: 122.494085, alt: 551666.1, heading: 257.4, pitch: -48 })
 
   const thirdPannel = new mars3d.graphic.DivGraphic({
     position: [117.1, 33, 14000],
@@ -857,6 +861,7 @@ export function thirdStep() {
 // 第四步 准备出发
 export function forthStep() {
   removeGraphic(removeGraphicArr, true)
+  map.setCameraView({ lat: 29.097887, lng: 110.576537, alt: 653281.5, heading: 65.1, pitch: -28.3 })
 
   const forthPannel = new mars3d.graphic.DivGraphic({
     position: [121.94, 27.03, 20000],
@@ -995,6 +1000,7 @@ export function forthStep() {
 // 第五步,添加飞行动画 出发
 export function fifthStep() {
   removeGraphic(removeGraphicArr)
+  map.setCameraView({ lat: 22.221019, lng: 127.76867, alt: 492335.3, heading: 341.9, pitch: -24 })
 
   const { yiLiaoShip, jiuYuanShip, plane } = moveGraphicObj
   plane.stop()
@@ -1013,6 +1019,7 @@ export function fifthStep() {
 // 第六步,添加活性炭 处理泄露
 export function sixthStep() {
   removeGraphic(removeGraphicArr)
+  map.setCameraView({ lat: 28.263862, lng: 128.114428, alt: 351171.2, heading: 345.9, pitch: -40.8 })
 
   graphicLayer.getGraphicById("油污范围").show = true
 

@@ -126,7 +126,7 @@ const treeData: any[] = [
   {
     title: "发送信号",
     key: "01",
-    times: 4,
+    times: 5,
     widget() {
       mapWork.firstStep()
     }
@@ -134,7 +134,7 @@ const treeData: any[] = [
   {
     title: "传送信号",
     key: "02",
-    times: 4,
+    times: 5,
     widget() {
       mapWork.secondStep()
     }
@@ -142,7 +142,7 @@ const treeData: any[] = [
   {
     title: "下达指令",
     key: "03",
-    times: 4,
+    times: 5,
     widget() {
       mapWork.thirdStep()
     }
@@ -150,7 +150,7 @@ const treeData: any[] = [
   {
     title: "准备出发",
     key: "04",
-    times: 4,
+    times: 5,
     widget() {
       mapWork.forthStep()
     }
@@ -158,7 +158,7 @@ const treeData: any[] = [
   {
     title: "出发",
     key: "05",
-    times: 6,
+    times: 7,
     widget() {
       mapWork.fifthStep()
     }
@@ -166,7 +166,7 @@ const treeData: any[] = [
   {
     title: "处理泄露",
     key: "06",
-    times: 4,
+    times: 5,
     widget() {
       mapWork.sixthStep()
     }

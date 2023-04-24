@@ -46,8 +46,13 @@
         </a-space>
 
         <a-space>
-          <span class="mars-pannel-item-label">斜切偏移量:</span>
-          <mars-slider @change="rangeNormalZ" v-model:value="normalVal" :min="-10" :max="10" :step="0.1" />值{{ normalVal }}
+          <span class="mars-pannel-item-label">旋转角度1:</span>
+          <mars-slider @change="rangeAngle1" v-model:value="angle1" :min="0" :max="360" :step="0.1" />值{{ angle1 }}
+        </a-space>
+
+        <a-space>
+          <span class="mars-pannel-item-label">旋转角度2:</span>
+          <mars-slider @change="rangeAngle2" v-model:value="angle2" :min="0" :max="180" :step="0.1" />值{{ angle2 }}
         </a-space>
       </a-collapse-panel>
     </a-collapse>
@@ -65,7 +70,8 @@ import * as mapWork from "./map.js"
 
 const activeKey = ref(["1", "2", "3", "4"])
 const distanceVal = ref<number>(0)
-const normalVal = ref<number>(0)
+const angle1 = ref<number>(0)
+const angle2 = ref<number>(0)
 
 const clear = () => {
   mapWork.clear()
@@ -76,8 +82,12 @@ const rangeDistance = () => {
   mapWork.rangeDistance(distanceVal.value)
 }
 // 偏移量
-const rangeNormalZ = () => {
-  mapWork.rangeNormalZ(normalVal.value)
+const rangeAngle1 = () => {
+  mapWork.rangeAngle1(angle1.value)
+}
+
+const rangeAngle2 = () => {
+  mapWork.rangeAngle2(angle2.value)
 }
 
 // 绘制线

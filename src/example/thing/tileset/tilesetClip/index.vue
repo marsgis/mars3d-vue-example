@@ -5,6 +5,7 @@
         <span class="mars-pannel-item-label">模型:</span>
         <mars-button @click="showDytDemo">大雁塔</mars-button>
         <mars-button @click="showTehDemo">天鹅湖</mars-button>
+        <mars-button @click="showXianDemo">县城</mars-button>
       </a-space>
     </div>
     <div class="f-mb">
@@ -117,5 +118,10 @@ const showDytDemo = () => {
 const showTehDemo = () => {
   dataSource.value = [] // 清除表格
   mapWork.showTehDemo()
+}
+
+const showXianDemo = () => {
+  dataSource.value = [] // 清除表格
+  mapWork.showXianDemo()
 }
 </script>

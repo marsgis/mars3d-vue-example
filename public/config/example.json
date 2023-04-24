@@ -165,15 +165,13 @@
             "name": "地形压平",
             "thumbnail": "thing-terrain-terrainFlat.jpg",
             "main": "thing/terrain/terrainFlat",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "地形抬升",
             "thumbnail": "thing-terrain-terrainUp.jpg",
             "main": "thing/terrain/terrainUp",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "等高线",
@@ -670,8 +668,7 @@
             "main": "layer-graphic/geojson/shp2json",
             "hasPannel": true,
             "libs": ["mars3d", "shpGeojson"],
-            "resources": ["Shp2JsonLayer.js"],
-            "new": true
+            "resources": ["Shp2JsonLayer.js"]
           },
           {
             "name": "KML/KMZ转GeoJson加载",
@@ -1109,8 +1106,7 @@
             "name": "双面渲染平面",
             "thumbnail": "graphic-primitive-doubleSidedPlane.jpg",
             "main": "graphic/primitive/doubleSidedPlane",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "Box 盒子",
@@ -1267,8 +1263,7 @@
             "name": "厚度墙 Demo",
             "thumbnail": "graphic-primitive-thickWall.jpg",
             "main": "graphic/primitive/thickWall",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "Rectangle 矩形",
@@ -1292,8 +1287,7 @@
             "name": "反射水面",
             "thumbnail": "graphic-primitive-reflectionWater.jpg",
             "main": "graphic/primitive/reflectionWater",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "井",
@@ -1560,8 +1554,7 @@
           {
             "name": "无人机航拍",
             "thumbnail": "graphic-custom-fixedRoute-shoot.jpg",
-            "main": "graphic/custom/fixedRoute-shoot",
-            "new": true
+            "main": "graphic/custom/fixedRoute-shoot"
           },
           {
             "name": "飞机路线",
@@ -1917,6 +1910,11 @@
             "hasPannel": true
           },
           {
+            "name": "点位置平移编辑",
+            "thumbnail": "thing-other-matrixMove.jpg",
+            "main": "thing/other/matrixMove"
+          },
+          {
             "name": "图层内数据贴地高度计算",
             "thumbnail": "layerg-fun-clampToGround.jpg",
             "main": "layer-graphic/fun/clampToGround",
@@ -2216,6 +2214,12 @@
             "hasPannel": true
           },
           {
+            "name": "模型淹没分析",
+            "thumbnail": "thing-tileset-tilesetFlood.jpg",
+            "main": "thing/tileset/tilesetFlood",
+            "hasPannel": true
+          },
+          {
             "name": "限高分析",
             "thumbnail": "thing-tileset-limitHeight.jpg",
             "main": "thing/tileset/limitHeight",
@@ -2359,6 +2363,14 @@
             "thumbnail": "thing-camera-cameraHistory.jpg",
             "main": "thing/camera/cameraHistory",
             "hasPannel": true
+          },
+          {
+            "name": "动画漫游(tween插值)",
+            "thumbnail": "thing-camera-tween.jpg",
+            "main": "thing/camera/tween",
+            "hasPannel": true,
+            "libs": ["mars3d", "tween"],
+            "resources": ["TweensRoaming.js"]
           },
           {
             "name": "限定视角范围",
@@ -2519,8 +2531,7 @@
             "name": "方量分析(体积)-离屏渲染方式",
             "thumbnail": "thing-analysis-measure-volume-depth.jpg",
             "main": "thing/analysis/measure-volume-depth",
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           },
           {
             "name": "通视分析",
