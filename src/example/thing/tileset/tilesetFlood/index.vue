@@ -167,10 +167,14 @@ const begin = () => {
 // 添加大雁塔模型
 const showDytDemo = () => {
   mapWork.showDytDemo()
+
+  formState.radio = "2"
 }
 // 添加天鹅湖模型
 const showTehDemo = () => {
   mapWork.showTehDemo()
+
+  formState.radio = "2"
 }
 </script>
 <style scoped lang="less">

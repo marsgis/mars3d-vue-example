@@ -25,6 +25,14 @@
 
       <a-form-item>
         <a-space>
+          <span>面内插点:</span>
+          <mars-input style="width: 80px" v-model:value="formState.inputNumberPolygon" :step="1"></mars-input> 米
+          <mars-button @click="interPolygonGrid">面插点</mars-button>
+        </a-space>
+      </a-form-item>
+
+      <a-form-item>
+        <a-space>
           <span>线插值数:</span>
           <mars-input style="width: 80px" v-model:value="formState.inputNumberPolyline" :step="1"></mars-input>
           <mars-button @click="interPolyline">线插值</mars-button>
@@ -70,6 +78,9 @@ const removeAll = () => {
 }
 const interPolygon = () => {
   mapWork.interPolygon(formState.inputNumberPolygon)
+}
+const interPolygonGrid = () => {
+  mapWork.interPolygonGrid(formState.inputNumberPolygon)
 }
 const interPolygonByDepth = () => {
   mapWork.interPolygonByDepth(formState.inputNumberPolygonDepth)

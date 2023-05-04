@@ -5,14 +5,16 @@
     <div class="toolbar">
       <a-space>
         <span class="mars-pannel-item-label">视频编辑:</span>
-        <a-checkbox-group v-model:value="isChoosePoint" @change="choosePoint()">
-          <a-checkbox value="true">选择点</a-checkbox>
-        </a-checkbox-group>
-        <a-checkbox :checked="isEdit" @click="chooseEdit">编辑</a-checkbox>
         <mars-button @click="draw()">{{ isDrawing ? "停止绘制" : "开始绘制" }}</mars-button>
         <mars-button @click="clear()">清除</mars-button>
+        <a-checkbox :checked="isEdit" @click="chooseEdit">编辑点</a-checkbox>
+
+        <a-checkbox-group v-model:value="isChoosePoint" @change="choosePoint()">
+          <a-checkbox value="true">图上编辑</a-checkbox>
+        </a-checkbox-group>
       </a-space>
     </div>
+
     <div class="canvas-container">
       <canvas class="drawCanvas" width="360" height="202" id="drawVideo">不支持canvas</canvas>
       <video muted class="video_test" autoplay loop width="360" height="202" id="videotest" src="//data.mars3d.cn/file/video/lukou.mp4"></video>
