@@ -234,6 +234,12 @@
             "hasPannel": true
           },
           {
+            "name": "谷歌",
+            "thumbnail": "layert-online-google.jpg",
+            "main": "layer-tile/online/google",
+            "hasPannel": true
+          },
+          {
             "name": "微软Bing",
             "thumbnail": "layert-online-bing.jpg",
             "main": "layer-tile/online/bing",
@@ -255,18 +261,6 @@
             "name": "Cesium Ion服务",
             "thumbnail": "layert-online-ion.jpg",
             "main": "layer-tile/online/ion",
-            "hasPannel": true
-          },
-          {
-            "name": "谷歌【已被封】",
-            "thumbnail": "layert-online-google.jpg",
-            "main": "layer-tile/online/google",
-            "hasPannel": true
-          },
-          {
-            "name": "OSM【已被封】",
-            "thumbnail": "layert-online-osm.jpg",
-            "main": "layer-tile/online/osm",
             "hasPannel": true
           },
           {
@@ -2422,11 +2416,6 @@
             "main": "graphic/entity/rectangle-cloud"
           },
           {
-            "name": "水面倒影 Demo",
-            "thumbnail": "effect-inverted.jpg",
-            "main": "effect/inverted"
-          },
-          {
             "name": "对象描边",
             "thumbnail": "effect-outlineEffect.jpg",
             "main": "effect/outlineEffect"
@@ -2944,9 +2933,26 @@
     "icon": "fa-globe",
     "children": [
       {
-        "name": "存在问题的示例",
+        "name": "第三方原因的",
+        "details": "第三方服务、国家政策等原因造成的暂时不能用的功能",
+        "children": [
+          {
+            "name": "OSM【已被封】",
+            "thumbnail": "layert-online-osm.jpg",
+            "main": "layer-tile/online/osm",
+            "hasPannel": true
+          }
+        ]
+      },
+      {
+        "name": "存在问题的",
         "details": "当前存在问题的示例，有点鸡肋，仅供学习参考",
         "children": [
+          {
+            "name": "水面倒影 Demo",
+            "thumbnail": "effect-inverted.jpg",
+            "main": "effect/inverted"
+          },
           {
             "name": "PBF矢量瓦片(OL渲染)",
             "thumbnail": "layert-type-mvt.jpg",
@@ -2960,6 +2966,111 @@
             "main": "layer-tile/type/pbf-mapbox",
             "hasPannel": true,
             "libs": ["mars3d", "cesium-pbf-mapbox"]
+          }
+        ]
+      }
+    ]
+  },
+
+
+
+
+
+
+  {
+    "name": "内部开发测试",
+    "icon": "fa-globe",
+    "children": [
+      {
+        "name": "开发中功能",
+        "details": "研发组开发中功能示例",
+        "children": [
+
+        ]
+      },
+      {
+        "name": "Next版本新功能",
+        "details": "将在下一个 v3.6 版本发布的全新功能",
+        "children": [
+          {
+            "name": "点光源",
+            "thumbnail": "graphic-custom-pointLight.jpg",
+            "main": "a-next/graphic/pointLight",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-next"],
+            "new": true
+          },
+          {
+            "name": "聚光灯",
+            "thumbnail": "graphic-custom-spotLight.jpg",
+            "main": "a-next/graphic/spotLight",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-next"],
+            "new": true
+          },
+          {
+            "name": "可视域分析",
+            "thumbnail": "graphic-custom-visibility.jpg",
+            "main": "a-next/graphic/visibility",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-next"],
+            "new": true
+          },
+          {
+            "name": "气象云三维体",
+            "thumbnail": "graphic-custom-volumeCloud.jpg",
+            "main": "a-next/graphic/volumeCloud",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-next"],
+            "new": true
+          },
+          {
+            "name": "视频编辑",
+            "thumbnail": "graphic-video-video3D.jpg",
+            "main": "graphic/video/video-edit",
+            "hasPannel": true,
+            "new": true
+          },
+          {
+            "name": "瓦片图层贴模型",
+            "thumbnail": "layer-tile-clampToTileset.jpg",
+            "main": "a-next/layer-tile/clampToTileset",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-next"],
+            "new": true
+          },
+          {
+            "name": "PBF矢量瓦片(protomaps)",
+            "thumbnail": "layert-type-protomaps.jpg",
+            "main": "layer-tile/type/pbf-protomaps",
+            "hasPannel": true,
+            "libs": ["mars3d", "cesium-pbf-protomaps"]
+          }
+        ]
+      },
+
+      {
+        "name": "存在问题的示例",
+        "children": [
+          {
+            "name": "ModelCombine 大量模型",
+            "thumbnail": "graphic-combine-model.jpg",
+            "main": "graphic/combine/model",
+            "params": "data=gltf",
+            "hasPannel": true
+          },
+          {
+            "name": "超图S3M三维模型图层",
+            "thumbnail": "layero-s3m-basis.jpg",
+            "main": "layer-other/s3m/basis",
+            "libs": ["mars3d", "cesium-comp", "mars3d-supermap"],
+            "hasPannel": true
+          },
+          {
+            "name": "撞击（软体）",
+            "thumbnail": "thirdParty-ammo-softbodyVolume.jpg",
+            "main": "thirdParty/ammo/softbodyVolume",
+            "libs": ["mars3d", "cesium-meshVisualizer"]
           }
         ]
       }
