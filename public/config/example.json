@@ -1619,6 +1619,13 @@
             "main": "graphic/video/video3D-flv",
             "hasPannel": true,
             "libs": ["flv", "mars3d"]
+          },
+          {
+            "name": "视频编辑",
+            "thumbnail": "graphic-video-edit.jpg",
+            "main": "graphic/video/video-edit",
+            "hasPannel": true,
+            "new": true
           }
         ]
       },
@@ -2966,111 +2973,6 @@
             "main": "layer-tile/type/pbf-mapbox",
             "hasPannel": true,
             "libs": ["mars3d", "cesium-pbf-mapbox"]
-          }
-        ]
-      }
-    ]
-  },
-
-
-
-
-
-
-  {
-    "name": "内部开发测试",
-    "icon": "fa-globe",
-    "children": [
-      {
-        "name": "开发中功能",
-        "details": "研发组开发中功能示例",
-        "children": [
-
-        ]
-      },
-      {
-        "name": "Next版本新功能",
-        "details": "将在下一个 v3.6 版本发布的全新功能",
-        "children": [
-          {
-            "name": "点光源",
-            "thumbnail": "graphic-custom-pointLight.jpg",
-            "main": "a-next/graphic/pointLight",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-next"],
-            "new": true
-          },
-          {
-            "name": "聚光灯",
-            "thumbnail": "graphic-custom-spotLight.jpg",
-            "main": "a-next/graphic/spotLight",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-next"],
-            "new": true
-          },
-          {
-            "name": "可视域分析",
-            "thumbnail": "graphic-custom-visibility.jpg",
-            "main": "a-next/graphic/visibility",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-next"],
-            "new": true
-          },
-          {
-            "name": "气象云三维体",
-            "thumbnail": "graphic-custom-volumeCloud.jpg",
-            "main": "a-next/graphic/volumeCloud",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-next"],
-            "new": true
-          },
-          {
-            "name": "视频编辑",
-            "thumbnail": "graphic-video-video3D.jpg",
-            "main": "graphic/video/video-edit",
-            "hasPannel": true,
-            "new": true
-          },
-          {
-            "name": "瓦片图层贴模型",
-            "thumbnail": "layer-tile-clampToTileset.jpg",
-            "main": "a-next/layer-tile/clampToTileset",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-next"],
-            "new": true
-          },
-          {
-            "name": "PBF矢量瓦片(protomaps)",
-            "thumbnail": "layert-type-protomaps.jpg",
-            "main": "layer-tile/type/pbf-protomaps",
-            "hasPannel": true,
-            "libs": ["mars3d", "cesium-pbf-protomaps"]
-          }
-        ]
-      },
-
-      {
-        "name": "存在问题的示例",
-        "children": [
-          {
-            "name": "ModelCombine 大量模型",
-            "thumbnail": "graphic-combine-model.jpg",
-            "main": "graphic/combine/model",
-            "params": "data=gltf",
-            "hasPannel": true
-          },
-          {
-            "name": "超图S3M三维模型图层",
-            "thumbnail": "layero-s3m-basis.jpg",
-            "main": "layer-other/s3m/basis",
-            "libs": ["mars3d", "cesium-comp", "mars3d-supermap"],
-            "hasPannel": true
-          },
-          {
-            "name": "撞击（软体）",
-            "thumbnail": "thirdParty-ammo-softbodyVolume.jpg",
-            "main": "thirdParty/ammo/softbodyVolume",
-            "libs": ["mars3d", "cesium-meshVisualizer"]
           }
         ]
       }

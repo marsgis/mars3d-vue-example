@@ -7,7 +7,7 @@ export let graphicLayer // 矢量图层对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 28.440846, lng: 119.481734, alt: 332.6, heading: 222, pitch: -85.8 }
+    center: { lat: 31.842839, lng: 117.204275, alt: 269.9, heading: 179, pitch: -77.7 }
   }
 }
 
@@ -51,14 +51,15 @@ let videoPolygon
 function addDemoGraphic1(graphicLayer) {
   videoPolygon = new mars3d.graphic.VideoPrimitive({
     positions: [
-      [119.481684, 28.439947, 128.5],
-      [119.481006, 28.440518, 133.4],
-      [119.481752, 28.441208, 128.8],
-      [119.482471, 28.440632, 129.9]
+      [117.204858, 31.842209, 45.6],
+      [117.204087, 31.842184, 43.6],
+      [117.204087, 31.842668, 43.6],
+      [117.204827, 31.842712, 43.6]
     ],
     style: {
       url: "//data.mars3d.cn/file/video/lukou.mp4",
-      opacity: 0.8
+      opacity: 0.9,
+      distanceDisplayCondition_far: 5000
     }
   })
   graphicLayer.addGraphic(videoPolygon)
