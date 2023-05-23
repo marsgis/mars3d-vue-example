@@ -308,21 +308,47 @@ export default {
       aLink.click()
       document.body.removeChild(aLink)
     },
+    getStandardName(item) {
+      let name = item.name
+      if (name.indexOf("Demo") !== -1) {
+        return false
+      }
+
+      const idx = name.indexOf("(")
+      if (idx !== -1) {
+        name = name.substr(0, idx)
+      }
+
+      return name
+    },
 
     getVerDiff() {
-      let index = 0
       let arrNew = "序号,分类,子分类,功能名称,示例ID\n"
-
+      let index = 0
+      const cacheNames = {}
       this.examples_list.forEach((item) => {
-        if (!item.children) {
+        if (!item.children || item.download === false) {
           return
         }
         item.children.forEach((item2) => {
-          if (!item2.children) {
+          if (!item2.children || item2.download === false) {
             return
           }
           item2.children.forEach((item3) => {
-            arrNew += `${++index},${item.name},${item2.name},${item3.name},${item3.main}\n`
+            if (item3.download === false || item3.hidden) {
+              return
+            }
+            const name = this.getStandardName(item3)
+            if (!name) {
+              return
+            }
+            if (cacheNames[name]) {
+              // console.log("已存在", name)
+              return
+            }
+            cacheNames[name] = true
+
+            arrNew += `${++index},${item.name},${item2.name},${name},${item3.main}\n`
           })
         })
       })
@@ -332,24 +358,43 @@ export default {
 
     getAllName() {
       let arrNew = "Mars3D功能清单："
-      const qianzhui = "1."
-      this.examples_list.forEach((item, index1) => {
-        if (!item.children) {
+      const qianzhui = "N"
+
+      let index1 = 0
+      const cacheNames = {}
+      this.examples_list.forEach((item) => {
+        if (!item.children || item.download === false) {
           return
         }
-        arrNew += `\n\n${qianzhui}${index1 + 1}  ${item.name}`
+        arrNew += `\n\n${qianzhui}${++index1}  ${item.name}`
 
-        item.children.forEach((item2, index2) => {
-          if (!item2.children) {
+        let index2 = 0
+        item.children.forEach((item2) => {
+          if (!item2.children || item2.download === false) {
             return
           }
-          arrNew += `\n${qianzhui}${index1 + 1}.${index2 + 1}  ${item2.name}\n`
+          arrNew += `\n${qianzhui}${index1}.${++index2}  ${item2.name}\n`
 
-          item2.children.forEach((item3, index3) => {
-            if (index3 === 0) {
-              arrNew += `\t${item3.name}`
+          let index3 = 0
+          item2.children.forEach((item3) => {
+            if (item3.download === false || item3.hidden) {
+              return
+            }
+            const name = this.getStandardName(item3)
+            if (!name) {
+              return
+            }
+            if (cacheNames[name]) {
+              // console.log("已存在", name)
+              return
+            }
+            cacheNames[name] = true
+
+            ++index3
+            if (index3 === 1) {
+              arrNew += `\t${name}`
             } else {
-              arrNew += `,${item3.name}`
+              arrNew += `,${name}`
             }
           })
           arrNew += "\n"
@@ -377,7 +422,7 @@ export default {
   width: 240px;
   z-index: 10;
   position: fixed;
-  top: 0px;
+  top: 68px;
   left: 0px;
   overflow-y: auto;
   padding-top: 10px;

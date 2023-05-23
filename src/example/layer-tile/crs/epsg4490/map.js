@@ -27,11 +27,12 @@ export const mapOptions = {
       name: "山东电子",
       icon: "img/basemaps/google_vec.png",
       type: "xyz",
-      url: "http://service.sdmap.gov.cn/tileservice/sdpubmap?layer=SDPubMap&style=default&tilematrixset=vector&Service=WMTS&Request=GetTile&Format=image/png&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=9cc3e9deb3cf643b6f133717c333d16d",
+      url: "http://service1.sdmap.gov.cn/tileservice/sdpubmap?layer=SDPubMap&style=default&tilematrixset=default028mm&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image/png&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=2ec5b748cca9b24b6474d6857deec02e",
       crs: "EPSG:4490",
       rectangle: { xmin: 114.229839088925, xmax: 123.400530149205, ymin: 33.9389305555556, ymax: 38.9048194444444 },
       minimumLevel: 7,
-      maximumLevel: 18
+      maximumLevel: 18,
+      show: true
     }
     // {
     //     "name": "arcgis服务",
