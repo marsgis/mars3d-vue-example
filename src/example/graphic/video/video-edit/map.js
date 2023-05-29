@@ -65,15 +65,57 @@ function addDemoGraphic1(graphicLayer) {
   graphicLayer.addGraphic(videoPolygon)
 }
 
+// 生成演示数据(测试数据量)
+export function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+  graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars3d.PolyUtil.getGridPoints(bbox, count, 30)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const position = result.points[j]
+    const index = j + 1
+
+    const pt1 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 45, result.radius)
+    const pt2 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 90 + 45, result.radius)
+    const pt3 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 180 + 45, result.radius)
+    const pt4 = mars3d.PointUtil.getPositionByDirectionAndLen(position, 270 + 45, result.radius)
+
+    const graphic = new mars3d.graphic.VideoPrimitive({
+      positions: [pt1, pt2, pt3, pt4],
+      style: {
+        url: "//data.mars3d.cn/file/video/lukou.mp4"
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  graphicLayer.enabledEvent = true // 恢复事件
+  return result.points.length
+}
+
 export function updateROI(uvROI) {
+  if (!videoPolygon || videoPolygon.isDestroy) {
+    return
+  }
   videoPolygon.rois = uvROI
 }
 
 export function clearROI() {
+  if (!videoPolygon || videoPolygon.isDestroy) {
+    return
+  }
   videoPolygon.rois = undefined
 }
 
 export const choosePoint = (isChoosePoint) => {
+  if (!videoPolygon || videoPolygon.isDestroy) {
+    return
+  }
+
   if (isChoosePoint) {
     videoPolygon.startEditingGrid()
   } else {
@@ -83,13 +125,20 @@ export const choosePoint = (isChoosePoint) => {
 
 // 开始绘制
 export function startDrawGraphic() {
-  graphicLayer.startDraw({
-    type: "videoPrimitive",
-    style: {
-      url: "//data.mars3d.cn/file/video/lukou.mp4",
-      opacity: 0.8
-    }
-  })
+  graphicLayer
+    .startDraw({
+      type: "videoPrimitive",
+      style: {
+        url: "//data.mars3d.cn/file/video/lukou.mp4",
+        opacity: 0.8
+      },
+      success: function (graphic) {
+        videoPolygon = graphic
+      }
+    })
+    .then((graphic) => {
+      videoPolygon = graphic
+    })
 }
 
 // 在图层绑定Popup弹窗

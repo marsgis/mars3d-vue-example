@@ -358,7 +358,7 @@ export default {
 
     getAllName() {
       let arrNew = "Mars3D功能清单："
-      const qianzhui = "N"
+      const qianzhui = "功能 "
 
       let index1 = 0
       const cacheNames = {}
@@ -373,7 +373,7 @@ export default {
           if (!item2.children || item2.download === false) {
             return
           }
-          arrNew += `\n${qianzhui}${index1}.${++index2}  ${item2.name}\n`
+          arrNew += `\n${qianzhui}${index1}.${++index2}  ${item2.name}：`
 
           let index3 = 0
           item2.children.forEach((item3) => {
@@ -392,12 +392,12 @@ export default {
 
             ++index3
             if (index3 === 1) {
-              arrNew += `\t${name}`
+              arrNew += `${name}`
             } else {
               arrNew += `,${name}`
             }
           })
-          arrNew += "\n"
+          // arrNew += "\n"
         })
       })
       return arrNew
