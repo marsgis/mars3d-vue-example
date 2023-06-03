@@ -66,6 +66,9 @@
             <a-form-item label="透明度">
               <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
             </a-form-item>
+            <a-form-item label="模型亮度">
+              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.luminanceAtZenith" @change="formStateChange" />
+            </a-form-item>
 
             <a-form-item label="单击高亮构件">
               <mars-switch v-model:checked="formState.highlightEnable" @change="formStateChange" />
@@ -117,6 +120,7 @@ interface FormState {
   highlightEnable: boolean
   popupEnable: boolean
   transform: boolean
+  luminanceAtZenith: number
 }
 
 const formState = reactive<FormState>({
@@ -135,7 +139,8 @@ const formState = reactive<FormState>({
   opacity: 1,
   highlightEnable: false,
   popupEnable: true,
-  transform: false
+  transform: false,
+  luminanceAtZenith: 0.2
 })
 
 const axisOptions = [
@@ -220,6 +225,7 @@ function getLayerOptions() {
     axis: formState.axis ? formState.axis : undefined,
     proxy: formState.chkProxy ? "//server.mars3d.cn/proxy/" : undefined,
     opacity: formState.opacity,
+    luminanceAtZenith: formState.luminanceAtZenith,
     show: true,
     highlightEnable: formState.highlightEnable,
     popupEnable: formState.popupEnable

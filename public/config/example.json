@@ -2346,7 +2346,8 @@
           {
             "name": "视点飞行",
             "thumbnail": "map-fun-setCameraViewList.gif",
-            "main": "map/fun/setCameraViewList"
+            "main": "map/fun/setCameraViewList",
+            "hasPannel": true
           },
           {
             "name": "绕点环绕飞行",
