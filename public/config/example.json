@@ -114,6 +114,13 @@
             "thumbnail": "map-other-offline.jpg",
             "main": "map/other/offline",
             "hasPannel": true
+          },
+          {
+            "name": "浏览器缓存数据",
+            "thumbnail": "map-other-networkPlug.jpg",
+            "main": "map/other/networkPlug",
+            "libs": ["mars3d", "localforage", "cesium-networkPlug"],
+            "new":true
           }
         ]
       }

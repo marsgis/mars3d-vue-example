@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.5.10
- * 编译日期：2023-06-02 17:13:50
+ * 编译日期：2023-06-05 18:30:23
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2023-03-17
  */
@@ -10240,6 +10240,9 @@ declare namespace PathEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量，传-1时不限制
+ * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
+ * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数
  * @param [options.tooltip] - 绑定的tooltip弹窗值，也可以bindTooltip方法绑
@@ -10270,6 +10273,9 @@ declare class PathEntity extends BasePointEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
+        maxCacheCount?: number;
+        forwardExtrapolationType?: Cesium.ExtrapolationType;
+        backwardExtrapolationType?: Cesium.ExtrapolationType;
         popup?: string | any[] | ((...params: any[]) => any);
         popupOptions?: Popup.StyleOptions | any;
         tooltip?: string | any[] | ((...params: any[]) => any);
@@ -28709,7 +28715,7 @@ declare class Tle {
      */
     readonly eccentricity: number;
     /**
-     * 近地点幅角，
+     * 近地点角矩(deg)
      * tle2的第35–42列
      */
     readonly perigee: number;
@@ -28812,20 +28818,37 @@ declare class Tle {
      */
     static ecfToEci(positionEcf: Cesium.Cartesian3, datetime: Date | Cesium.JulianDate | number): Cesium.Cartesian3;
     /**
-     * 卫星开普勒六根数转换到两行轨道根数 【测试算法，待验证优化】
-     * @param startYear - 开始年,比如2017年时传入17
-     * @param startTime - 开始时间，每年1月1日0点为0，后逐渐累积，整数部分为日，小数部分为时分秒
-     * @param six - 轨道六根数,顺序为:
-     *   Mean:平均运动（每日绕行圈数）必须小于100,
-     *   Eccentricity:离心率（小数,小于1）,
-     *   Inclination:轨道的交角（deg），不能是负数,
-     *   Argument of perigee :近地点角矩(deg)，不超过360,
-     *   RAAN :升交点赤经（deg），不超过360,
-     *   Mean :在轨圈数
-     * @param name - 卫星两位数编号，如01,最多五位数
+     * 开普勒六根数 转换到 两行轨道根数 【测试算法，待验证优化】
+     * @param options - 参数：
+     * @param options.name - 卫星两位数编号，如01,最多五位数
+     * @param options.epochYear - 发射年份(最后两位数字),比如2017年时传入17
+     * @param options.epochDay - 开始时间，每年1月1日0点为0，后逐渐累积，整数部分为日，小数部分为时分秒
+     * @param options.inclination - 轨道的交角，倾角，单位：度
+     * @param options.rightAscension - 升交点赤经，单位：度
+     * @param options.eccentricity - 轨道偏心率
+     * @param options.perigee - 近地点角矩(deg)
+     * @param options.meanAnomaly - 平近点角，单位：度
+     * @param options.meanMotion - 每天绕地球公转圈数(平均运动)
      * @returns 两行轨道根数
      */
-    static coe2tle(startYear: number, startTime: number, six: number[], name: string): string[];
+    static coe2tle(options: {
+        name: string;
+        epochYear: number;
+        epochDay: number;
+        inclination: number;
+        rightAscension: number;
+        eccentricity: number;
+        perigee: number;
+        meanAnomaly: number;
+        meanMotion: number;
+    }): string[];
+    /**
+     * 两行轨道根数 转换到 开普勒六根数
+     * @param tle1 - 两行轨道根数1
+     * @param tle2 - 两行轨道根数2
+     * @returns 卫星开普勒六根数对象
+     */
+    static tle2coe(tle1: string, tle2: string): any;
 }
 
 declare namespace Tle {
@@ -32200,6 +32223,45 @@ declare class Skyline extends BaseThing {
      * 天际线宽度
      */
     width: number;
+}
+
+/**
+ * 天际线体
+ * @param [options] - 参数对象，包括以下：
+ * @param [options.color = new Cesium.Color(1.0, 0.0, 0.0)] - 边际线颜色
+ * @param [options.width = 2] - 天际线宽度
+ * @param [options.id = createGuid()] - 对象的id标识
+ * @param [options.enabled = true] - 对象的启用状态
+ * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
+ */
+declare class SkylineBody extends BaseThing {
+    constructor(options?: {
+        color?: Cesium.Color;
+        width?: number;
+        id?: string | number;
+        enabled?: boolean;
+        eventParent?: BaseClass | boolean;
+    });
+    /**
+     * 边际线颜色
+     */
+    color: Cesium.Color;
+    /**
+     * 天际线宽度
+     */
+    width: number;
+    /**
+     * 对象添加到地图前创建一些对象的钩子方法，
+     * 只会调用一次
+     * @returns 无
+     */
+    _mountedHook(): void;
+    /**
+     * 销毁当前对象
+     * @param [noDel = false] - false:会自动delete释放所有属性，true：不delete绑定的变量
+     * @returns 无
+     */
+    destroy(noDel?: boolean): void;
 }
 
 /**
