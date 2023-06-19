@@ -19,7 +19,7 @@ window.configLibs = {
   "cesium-comp": [
     //cesium版本间兼容处理
     "mars3d/plugins/compatible/cesium-version.js",
-    "mars3d/plugins/compatible/cesium-when.js",
+    "mars3d/plugins/compatible/cesium-when.js"
   ],
   "mars3d-space": [
     // 卫星插件
@@ -63,25 +63,22 @@ window.configLibs = {
     "mars3d/thirdParty/pbf-ol/ol.js",
     "mars3d/thirdParty/pbf-ol/olms.js",
     "mars3d/thirdParty/pbf-ol/style/MapboxStreetsV6.js",
-    "mars3d/thirdParty/pbf-ol/PbfolLayer.js",
+    "mars3d/thirdParty/pbf-ol/PbfolLayer.js"
   ],
   "cesium-pbf-mapbox": [
     // pbf矢量瓦片支持（基于mapbox渲染）
     "mars3d/thirdParty/pbf-mapbox/mapbox-gl.js",
-    "mars3d/thirdParty/pbf-mapbox/PbfLayer.js",
+    "mars3d/thirdParty/pbf-mapbox/PbfLayer.js"
   ],
   "cesium-weiVectorTile": [
     // 项目矢量瓦片方式加载GeoJson插件
     "mars3d/thirdParty/weiVectorTile/CesiumVectorTile.js",
-    "mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js",
+    "mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
   ],
   "cesium-meshVisualizer": [
     // ammo物理引擎支持
     "three/three.js",
     "ammo/ammo.js",
-    "ammo/ex/ConvexObjectBreaker.js", // 仅convexBreak使用
-    "ammo/ex/QuickHull.js", // 仅convexBreak使用
-    "ammo/ex/geometries/ConvexGeometry.js", // 仅convexBreak使用
     "mars3d/thirdParty/meshVisualizer/CesiumMeshVisualizer.js"
   ],
   "cesium-sensorVolumes": [
@@ -92,6 +89,9 @@ window.configLibs = {
     "ol/ol.css",
     "ol/ol.js",
     "ol/ol-cesium/olcesium.js"
+  ],
+  "cesium-networkPlug": [
+    "mars3d/thirdParty/networkPlug/CesiumNetworkPlug.js"
   ],
 
   //////////////////////////mars2d及其插件////////////////////////
@@ -136,7 +136,9 @@ window.configLibs = {
   three: ["three/three.js"],
   'hls': ["video/hls/hls.js"],
   'flv': ["video/flv/flv.min.js"],
-  tween: ["tween/Tween.js"]
-
+  tween: ["tween/Tween.js"],
+  'localforage': [
+    "localforage/localforage.min.js"
+  ],
 }
 

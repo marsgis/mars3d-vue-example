@@ -120,7 +120,7 @@
             "thumbnail": "map-other-networkPlug.jpg",
             "main": "map/other/networkPlug",
             "libs": ["mars3d", "localforage", "cesium-networkPlug"],
-            "new":true
+            "new": true
           }
         ]
       }
@@ -1040,7 +1040,8 @@
             "name": "扇形",
             "thumbnail": "graphic-entity-polygon-sector.jpg",
             "main": "graphic/entity/polygon-sector",
-            "hasPannel": true
+            "hasPannel": true,
+            "resources": ["Circle3WaveMaterialProperty.js"]
           },
           {
             "name": "军标",
@@ -2900,12 +2901,6 @@
             "name": "转动（球）",
             "thumbnail": "thirdParty-ammo-turnRope.gif",
             "main": "thirdParty/ammo/turnRope",
-            "libs": ["mars3d", "cesium-meshVisualizer"]
-          },
-          {
-            "name": "撞击（断裂体）",
-            "thumbnail": "thirdParty-ammo-convexBreak.gif",
-            "main": "thirdParty/ammo/convexBreak",
             "libs": ["mars3d", "cesium-meshVisualizer"]
           }
         ]

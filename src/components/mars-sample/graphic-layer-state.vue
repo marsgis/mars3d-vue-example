@@ -38,7 +38,7 @@
         >是否编辑</a-checkbox
       >
 
-      <a-checkbox v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
+      <a-checkbox v-if="enabledTable" v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
     </a-space>
   </div>
 
@@ -86,7 +86,7 @@
   <div class="f-mb data-list">
     <mars-table
       size="small"
-      v-if="formState.hasTable"
+      v-if="enabledTable && formState.hasTable"
       :pagination="{ pageSize: currentPage }"
       :customRow="graphicCustomRowObj"
       :row-selection="graphicRowSelection"
@@ -126,6 +126,7 @@ const props = withDefaults(
   defineProps<{
     interaction?: boolean // 是否可以鼠标拾取和交互
     enabledDraw?: boolean // 是否可以绘制
+    enabledTable?: boolean // 是否显示表格
     drawLabel1?: string // 绘制按钮 文本
     drawLabel2?: string // 绘制按钮2 文本
     defaultCount?: number // 默认的数据量
@@ -134,6 +135,7 @@ const props = withDefaults(
   {
     interaction: true,
     enabledDraw: true,
+    enabledTable: true,
     drawLabel1: "图上标绘",
     drawLabel2: undefined,
     defaultCount: 100,

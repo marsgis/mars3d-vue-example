@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state :defaultCount="1000" :enabledDraw="false" ref="graphicLayerStateRef" />
+    <graphic-layer-state :defaultCount="1000" :enabledDraw="false" :enabledTable="false" ref="graphicLayerStateRef" />
 
     <div class="f-mb">
       <a-space>
@@ -23,7 +23,6 @@ const addDemoGraphic1 = () => {
 let graphicLayer: any
 const graphicLayerStateRef = ref()
 mapWork.eventTarget.on("addTableData", function (event: any) {
-  console.log("2")
   graphicLayer = event.graphicLayer
   graphicLayerStateRef.value.addTableData(graphicLayer)
 })

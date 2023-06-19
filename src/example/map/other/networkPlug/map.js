@@ -23,13 +23,10 @@ export function onMounted(mapInstance) {
   const OfflineCache = CesiumNetworkPlug.OfflineCacheController
 
   // ① 全局缓存
-  OfflineCache.ruleList.add("*")
+  // OfflineCache.ruleList.add("*")
   // ② 对指定地址的 瓦片图层 缓存
-  // OfflineCache.ruleList.add("http://localhost:5000/MapBox-Tile/")
-  // ③ 对 OSM 电子地图缓存
-  // OfflineCache.ruleList.add("https://c.tile.thunderforest.com/")
-  // ③ 对指定地址的 3DTile 缓存
-  // OfflineCache.ruleList.add("http://xxx.xx.xx.xx:3000//3DTiles/")
+  OfflineCache.ruleList.add("http://data.mars3d.cn/")
+  OfflineCache.ruleList.add("https://gac-geo.googlecnapps.cn/")
 
   // CesiumNetworkPlug插件内的数据加密功能 请参考：https://github.com/WangShan010/CesiumNetworkPlug
 

@@ -1,17 +1,12 @@
 <template>
-    <div class="divPanel">
-      <img src="/img/legend/heatmap.png">
-    </div>
+  <div class="divPanel">
+    <img src="/img/legend/heatmap.png" />
+  </div>
 </template>
 
-<script lang="ts">
-export default ({
-  name: "divPanel"
-})
-
+<script setup lang="ts" >
 </script>
 <style scoped lang="less">
-
 .divPanel {
   position: absolute;
   bottom: 40px;
