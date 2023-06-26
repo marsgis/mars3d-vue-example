@@ -23,8 +23,6 @@
       <canvas class="drawCanvas" width="360" height="202" id="drawVideo">不支持canvas</canvas>
       <video muted class="video_test" autoplay loop width="360" height="202" id="videotest" src="//data.mars3d.cn/file/video/lukou.mp4"></video>
     </div>
-
-
   </mars-dialog>
 </template>
 

@@ -66,6 +66,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
+import { $message } from "@mars/components/mars-ui/index"
 import * as mapWork from "./map.js"
 
 interface FormState {
@@ -118,6 +119,11 @@ const rollChange = () => {
 
 // 夹角
 const angle = () => {
+  if (!formState.enabledShowHide) {
+    $message("已自动打开视椎体")
+    formState.enabledShowHide = true
+    mapWork.chkShowModelMatrix(formState.enabledShowHide)
+  }
   mapWork.angle(angleValue.value)
 }
 // 定位至卫星

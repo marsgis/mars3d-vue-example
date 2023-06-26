@@ -4,14 +4,8 @@ const parameter = {
   radius: 4
 }
 
-export let uvList = [
-  [0, 1],
-  [1, 1],
-  [1, 0],
-  [0, 0]
-]
 
-export class CanvasEdit {
+class CanvasEdit {
   constructor(canvas) {
     this._canvas = canvas
     this._points = []
@@ -28,6 +22,13 @@ export class CanvasEdit {
     this._draw = false
     this._canEdit = false
     this._pickIndex = undefined
+
+    this.uvList = [
+      [0, 1],
+      [1, 1],
+      [1, 0],
+      [0, 0]
+    ]
   }
 
   // 开始绘制模式
@@ -117,7 +118,7 @@ export class CanvasEdit {
         this._ctx.stroke()
       })
     }
-    uvList = this.getUvForPoints()
+    this.uvList = this.getUvForPoints()
     console.log("uv集合:", this.getUvForPoints())
   }
 
