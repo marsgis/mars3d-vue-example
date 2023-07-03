@@ -1,21 +1,28 @@
 <template>
-  <a-input-number class="mars-input-number" v-bind="attrs">
+  <a-input-number class="mars-input-number" v-bind="copyAttrs">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>
   </a-input-number>
 </template>
 <script lang="ts">
-import { useAttrs, useSlots, defineComponent } from "vue"
+import { useAttrs, useSlots, defineComponent, toRaw } from "vue"
+import _ from "lodash"
 export default defineComponent({
   name: "mars-input-number",
   inheritAttrs: false,
   setup() {
     const attrs = useAttrs()
     const slots = useSlots()
+    const copyAttrs = _.cloneDeep(toRaw(attrs))
+
+    // style.js中如果有配置toFixed
+    if (attrs.tofixed) {
+      copyAttrs.value = (attrs.value as number).toFixed(attrs.tofixed as number)
+    }
     return {
-      attrs,
-      slots
+      slots,
+      copyAttrs
     }
   }
 })

@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td>样式类型</td>
-          <td>{{ styleType|| "未配置"  }}</td>
+          <td>{{ styleType || "未配置" }}</td>
         </tr>
         <template v-if="styleValue">
           <template v-for="(item, i) in viewStyles" :key="i">
@@ -30,6 +30,7 @@
                     :step="item.step || 0.1"
                     :options="item.data || []"
                     @change="unionChange(item, item.data)"
+                    :tofixed="item.toFixed"
                   ></base-comp>
                 </td>
               </tr>

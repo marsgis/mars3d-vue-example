@@ -197,6 +197,7 @@ const deleteMoXin = () => {
 }
 
 .gltfImg li {
+  list-style-type:none;
   padding: 6px 7px;
 }
 

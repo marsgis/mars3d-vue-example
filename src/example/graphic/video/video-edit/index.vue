@@ -27,10 +27,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch, reactive, toRaw } from "vue"
+import { ref, onMounted, watch, toRaw } from "vue"
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import * as mapWork from "./map.js"
-import * as canvasWork from "./CanvasEdit.js"
 
 let drawVideoCanvas
 const uVList = ref()
@@ -39,9 +38,11 @@ const isEdit = ref(true)
 
 onMounted(() => {
   const drawVideo = document.getElementById("drawVideo")
-  drawVideoCanvas = new canvasWork.CanvasEdit(drawVideo)
+
+  drawVideoCanvas = mapWork.creatCanvas(drawVideo)
+
   drawVideo.addEventListener("mousemove", () => {
-    uVList.value = canvasWork.uvList
+    uVList.value = drawVideoCanvas.uvList
   })
 })
 

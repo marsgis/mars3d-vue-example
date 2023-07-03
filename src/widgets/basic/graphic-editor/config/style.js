@@ -1815,8 +1815,17 @@ const styleConfig = {
     name: "双曲面雷达范围",
     style: [
       { name: "color", label: "颜色", type: "color", defval: "#ffffff" },
-      { name: "radius", label: "内曲面半径", type: "number", min: 1.0, max: 999999999.0, step: 1, defval: 1.0 },
-      { name: "startRadius", label: "外曲面半径", type: "number", min: 1.0, max: 999999999.0, step: 1, defval: 1.0 },
+      { name: "radius", label: "内曲面半径", type: "number", min: 1.0, max: 999999999.0, step: 1, defval: 1.0, toFixed: 1 },
+      {
+        name: "startRadius",
+        label: "外曲面半径",
+        type: "number",
+        min: 1.0,
+        max: 999999999.0,
+        step: 1,
+        defval: 1.0,
+        toFixed: 1
+      },
 
       { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
       { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
@@ -2225,8 +2234,8 @@ const styleConfig = {
       { name: "width", label: "墙厚度", type: "number", step: 1, defval: 9999.0 },
       { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
       { name: "opacity", label: "透明度", type: "number", step: 0.1, min: 0.0, max: 1.0, defval: 1.0 },
-      { name: "closure", label: "是否闭合", type: "radio", defval: false }, 
-      { name: "hasShadows", label: "是否阴影", type: "radio", defval: false }, 
+      { name: "closure", label: "是否闭合", type: "radio", defval: false },
+      { name: "hasShadows", label: "是否阴影", type: "radio", defval: false }
     ]
   },
   diffuseWall: {
