@@ -291,12 +291,7 @@ const onClickStartDraw = () => {
   formState.isDrawing = true
 }
 const onClickStartDraw2 = () => {
-  const graphic = mapWork.startDrawGraphic2()
-  graphicDataList.value.push({
-    key: graphic.id,
-    name: getGraphicName(graphic)
-  })
-  rowKeys.value.push(graphic.id)
+  mapWork.startDrawGraphic2()
   formState.isDrawing = true
 }
 const onClickClearDrawing = () => {

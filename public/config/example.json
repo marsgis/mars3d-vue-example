@@ -119,8 +119,7 @@
             "name": "浏览器缓存数据",
             "thumbnail": "map-other-networkPlug.jpg",
             "main": "map/other/networkPlug",
-            "libs": ["mars3d", "localforage", "cesium-networkPlug"],
-            "new": true
+            "libs": ["mars3d", "localforage", "cesium-networkPlug"]
           }
         ]
       }
@@ -1657,8 +1656,7 @@
             "thumbnail": "graphic-video-edit.jpg",
             "main": "graphic/video/video-edit",
             "resources": ["CanvasEdit.js"],
-            "hasPannel": true,
-            "new": true
+            "hasPannel": true
           }
         ]
       },

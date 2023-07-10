@@ -48,7 +48,7 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">投射距离:</span>
-        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="1000" :step="0.1" />
+        <mars-slider @change="onChangeDistance" v-model:value="video.distanceValue" :min="1" :max="2000" :step="0.1" />
       </a-space>
     </div>
 

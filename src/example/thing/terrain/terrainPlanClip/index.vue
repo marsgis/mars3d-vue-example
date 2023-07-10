@@ -12,7 +12,7 @@
       <div class="f-mb">
         <a-space>
           <span>开挖深度:</span>
-          <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
+          <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999" :max="9999" />
           <span>（米）</span>
         </a-space>
       </div>

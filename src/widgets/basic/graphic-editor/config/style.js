@@ -1888,6 +1888,16 @@ const styleConfig = {
       { name: "addHeight", label: "偏移高度", type: "number", min: 0.0, max: 999999999.0, step: 1, defval: 0.0 }
     ]
   },
+  viewDome: {
+    name: "开敞度分析球",
+    style: [
+      { name: "radius", label: "聚光灯半径", type: "number", min: 1.0, max: 999999999.0, step: 1, defval: 1.0 },
+      { name: "visibleColor", label: "可见区域颜色", type: "color", defval: "rgba(0,183,239, 0.5)" },
+      { name: "hiddenColor", label: "不可见区域颜色", type: "color", defval: "rgba(227,108,9, 0.5)" },
+    ]
+  },
+
+
 
   // 线状
   polyline: {
