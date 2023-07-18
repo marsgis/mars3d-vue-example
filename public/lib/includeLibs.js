@@ -55,8 +55,6 @@ window.configLibs = {
     "mars3d/plugins/supermap/SuperMap3D.js", // s3m支持原生cesium的独立插件
     "mars3d/plugins/supermap/mars3d-supermap.js" // mars3d-supermap简化调用封装
   ],
-
-
   //////////////////////////cesium相关第3方插件////////////////////////
   "cesium-pbf-ol": [
     // pbf矢量瓦片支持（基于openlayer渲染）
