@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state drawLabel1="绘制墙" drawLabel2="绘制贴地矩形" />
+    <graphic-layer-state drawLabel1="绘制墙" drawLabel2="绘制贴地矩形" ref="graphicLayerStateRef" />
 
     <div class="f-mb">
       <a-space>
@@ -12,10 +12,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue"
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import * as mapWork from "./map.js"
 
 const onClickDrawPoint = () => {
   mapWork.onClickDrawPoint()
 }
+
+const graphicLayerStateRef = ref()
+let graphicLayer: any
+
+mapWork.eventTarget.on("addTableData", function (event: any) {
+  graphicLayer = event.graphicLayer
+  graphicLayerStateRef.value.addTableData(graphicLayer)
+})
 </script>

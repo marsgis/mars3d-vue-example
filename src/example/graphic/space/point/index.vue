@@ -31,9 +31,9 @@
           <mars-slider
             range
             v-model:value="formState.sliLaunchdate"
-            :marks="{ 1950: '50', 2022: '22' }"
+            :marks="{ 1950: '50', 2023: '23' }"
             :min="1950"
-            :max="2022"
+            :max="2023"
             :step="1"
             @change="changeSlider"
           />
@@ -139,7 +139,7 @@ const formState = reactive<FormState>({
   selType: "",
   selGuidao: "",
   sliRcs: [0, 1000],
-  sliLaunchdate: [1950, 2022],
+  sliLaunchdate: [1950, 2023],
   sliPeriod: [0, 60000],
   sliInclination: [0, 150],
   sliApogee: [0, 600000],

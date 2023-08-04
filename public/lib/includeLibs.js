@@ -9,7 +9,9 @@
 window.configLibs = {
   /// ///////////////////////Mars3D及其插件////////////////////////
   mars3d: [
-    // 三维地球“主库”
+    // // 三维地球“主库”
+    // "https://unpkg.com/mars3d-cesium@1.107.0/Build/Cesium/Widgets/widgets.css", //cdn
+    // "https://unpkg.com/mars3d-cesium@1.107.0/Build/Cesium/Cesium.js",
     "Cesium/Widgets/widgets.css", // cesium
     "Cesium/Cesium.js",
     "turf/turf.min.js",
@@ -50,11 +52,8 @@ window.configLibs = {
     // 天地图三维
     "mars3d/plugins/tdt/mars3d-tdt.js"
   ],
-  "mars3d-supermap": [
-    // 超图S3M服务
-    "mars3d/plugins/supermap/SuperMap3D.js", // s3m支持原生cesium的独立插件
-    "mars3d/plugins/supermap/mars3d-supermap.js" // mars3d-supermap简化调用封装
-  ],
+  "mars3d-next": ["mars3d/plugins/next/mars3d-next.js"],
+
   //////////////////////////cesium相关第3方插件////////////////////////
   "cesium-pbf-ol": [
     // pbf矢量瓦片支持（基于openlayer渲染）
@@ -67,6 +66,11 @@ window.configLibs = {
     // pbf矢量瓦片支持（基于mapbox渲染）
     "mars3d/thirdParty/pbf-mapbox/mapbox-gl.js",
     "mars3d/thirdParty/pbf-mapbox/PbfLayer.js"
+  ],
+  "cesium-pbf-protomaps": [
+    // pbf矢量瓦片支持（基于protomaps解析）
+    "mars3d/thirdParty/pbf-protomaps/protomaps.min.js",
+    "mars3d/thirdParty/pbf-protomaps/ArcGISPbfLayer.js"
   ],
   "cesium-weiVectorTile": [
     // 项目矢量瓦片方式加载GeoJson插件

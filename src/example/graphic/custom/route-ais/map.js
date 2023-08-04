@@ -23,7 +23,12 @@ export function onMounted(mapInstance) {
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
 
   // 创建矢量数据图层
-  graphicLayer = new mars3d.layer.GraphicLayer()
+  graphicLayer = new mars3d.layer.GraphicLayer({
+    clustering: {
+      enabled: true, // 点的聚合配置
+      pixelRange: 20
+    }
+  })
   map.addLayer(graphicLayer)
 
   // 在layer上绑定监听事件

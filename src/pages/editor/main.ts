@@ -1,7 +1,7 @@
 import { createApp, defineComponent } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
-import { injectState, getInjectKey } from "@mars/widgets/common/store/widget"
+import { injectState, key } from "@mars/widgets/common/store/widget"
 import { getExampleId, getQueryString } from "@mars/utils/mars-util"
 import { cloneDeep } from "lodash"
 import store from "@mars/widgets/widget-store"
@@ -52,9 +52,8 @@ function initUI(simple: boolean) {
     )
   } else {
     vueApp = createApp(Application)
-    const key = getInjectKey()
 
-    vueApp.use(injectState(cloneDeep(store)), key)
+    vueApp.use(injectState(store), key)
   }
 
   MarsUIInstall(vueApp, {

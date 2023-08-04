@@ -142,6 +142,7 @@ function onStartEditor(data) {
   video.heading = graphic?.heading
 
   selectedGraphic.value = true
+  mapWork.setViedoGraphic(graphic)
 }
 function onStopEditor() {
   selectedGraphic.value = false

@@ -1,6 +1,6 @@
 {
   "name": "mars3d-vue-example",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "在Vue3技术栈下的Mars3D平台 功能示例 演示项目",
   "scripts": {
     "serve": "vite --host",
@@ -25,8 +25,8 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "@turf/turf": "^6.5.0",
-    "mars3d": "~3.5.0",
-    "mars3d-cesium": "~1.107.0",
+    "mars3d": "~3.6.0",
+    "mars3d-cesium": "~1.108.0",
     "monaco-editor": "^0.33.0",
     "nprogress": "^0.2.0",
     "serve": "^13.0.2",
@@ -69,7 +69,7 @@
     "vue-tsc": "^0.31.1"
   },
   "engines": {
-    "node": ">=14.18.0",
+   "node": ">=16.0.0",
     "npm": "^7.23.0"
   },
   "repository": {

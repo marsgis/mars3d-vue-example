@@ -113,14 +113,14 @@ const btnDrawExtent = () => {
   mapWork.btnDrawExtent((min: any, max: any) => {
     formState.minHeight = min
     formState.maxHeight = max
-  })
+  }, floodColor.value)
 }
 // 添加多边形
 const btnDraw = () => {
   mapWork.btnDraw((min: any, max: any) => {
     formState.minHeight = Math.ceil(min)
     formState.maxHeight = Math.ceil(max)
-  })
+  }, floodColor.value)
 }
 const clearDraw = () => {
   mapWork.clearDraw()

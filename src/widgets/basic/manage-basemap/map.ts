@@ -5,6 +5,7 @@
  */
 import * as mars3d from "mars3d"
 
+const Cesium = mars3d.Cesium
 let map: mars3d.Map // 地图对象
 
 // 初始化当前业务
@@ -28,6 +29,6 @@ export function changeTerrain(value: boolean) {
 export function getLayers() {
   return {
     baseMaps: map.getBasemaps(true),
-    hasTerrain: map.hasTerrain
+    hasTerrain: !(map.terrainProvider instanceof Cesium.EllipsoidTerrainProvider)
   }
 }

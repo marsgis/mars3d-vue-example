@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" bottom="110" width="270">
+  <mars-dialog :visible="true" right="10" top="10" bottom="110" width="270" customClass="drawModelList">
     <div class="f-mb infoView-content">
       <a-space>
         <span>模型列表： </span>
@@ -186,7 +186,7 @@ const deleteMoXin = () => {
 .gltfImg {
   width: 100%;
   height: 100%;
-  max-height: 752px;
+  max-height: 670px;
   overflow-y: auto;
 }
 
@@ -197,7 +197,7 @@ const deleteMoXin = () => {
 }
 
 .gltfImg li {
-  list-style-type:none;
+  list-style-type: none;
   padding: 6px 7px;
 }
 
@@ -212,5 +212,13 @@ const deleteMoXin = () => {
 // 让下拉选择框与下面的图片展示区有一个空隙
 .mars-select_bottom {
   margin-bottom: 10px;
+}
+</style>
+<style lang="less">
+// 修改双滑动条问题
+.drawModelList {
+  .mars-dialog__content {
+    overflow: hidden !important;
+  }
 }
 </style>
