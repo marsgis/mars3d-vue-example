@@ -20,8 +20,10 @@ let basemapsTool: mars3d.control.ToolButton
  * @param {mars3d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance: mars3d.Map): void {
+export function onMounted(mapInstance: mars3d.Map, mars3d): void {
   if (!mapInstance) { return }
+
+  console.log("tools-button onMounted 初始化")
 
   map = mapInstance // 记录map
   layersTool = new mars3d.control.ToolButton({
@@ -52,11 +54,14 @@ export function onMounted(mapInstance: mars3d.Map): void {
  * @returns {void} 无
  */
 export function onUnmounted() {
-  console.log("卸载了")
+  console.log("tools-button onUnmounted 卸载了")
   eventTarget.off()
-  map.removeControl(basemapsTool)
-  map.removeControl(layersTool)
-  basemapsTool = null
+
+  map.removeControl(layersTool, true)
   layersTool = null
+
+  map.removeControl(basemapsTool, true)
+  basemapsTool = null
+
   map = null
 }

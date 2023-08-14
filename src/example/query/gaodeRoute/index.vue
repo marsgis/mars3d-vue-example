@@ -39,7 +39,7 @@ import * as mapWork from "./map.js"
 
 const strat = ref("")
 const end = ref("")
-const selectWay = ref("1")
+const selectWay = ref(1)
 const allDiatance = ref("")
 const useTime = ref("")
 const routePath = ref("")
@@ -47,13 +47,15 @@ const routePath = ref("")
 // 下拉菜单
 const selectWayOptions = ref([
   {
-    // 1-步行路线
-    value: "1",
+    value: 1,
     label: "步行路线查询"
   },
   {
-    // 2-行车路线
-    value: "3",
+    value: 2,
+    label: "骑行路线查询"
+  },
+  {
+    value: 3,
     label: "驾车路线查询"
   }
 ])

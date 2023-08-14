@@ -46,7 +46,7 @@ if (currentWidget) {
 
 // 监听到矢量数据发生变化
 function updataLayer() {
-  if (!graphic) {
+  if (!graphic || graphic.state === "destroy") {
     return
   }
   layerName.value = graphic._layer.name || ""

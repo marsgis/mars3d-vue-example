@@ -181,6 +181,9 @@ defineExpose({
   addTableData(graphicLayer) {
     console.log("addTableData", graphicLayer)
 
+    graphicDataList.value = []
+    rowKeys.value = []
+
     const list = graphicLayer.graphics
     for (let i = list.length - 1; i >= 0; i--) {
       const graphic = list[i]

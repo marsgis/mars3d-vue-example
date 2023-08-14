@@ -10,7 +10,8 @@ export default function useLifecycle(mapWork: any): void {
   onBeforeMount(() => {
     if (mapWork.onMounted) {
       const map = getMapInstance()
-      mapWork.onMounted(map)
+      // @ts-ignore
+      mapWork.onMounted(map, window.mars3d)
     }
   })
   onBeforeUnmount(() => {
