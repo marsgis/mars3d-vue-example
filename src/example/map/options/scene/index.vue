@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="360">
+  <mars-dialog :visible="true" right="10" top="10" bottom="22" width="360">
     <mars-table :columns="columns" :data-source="data" bordered :pagination="false" :scroll="{ y: 800 }">
       <template #bodyCell="{ column, text, index }">
         <template v-if="column.dataIndex === 'name'">
