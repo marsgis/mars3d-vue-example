@@ -2,6 +2,7 @@
   <mars-dialog :visible="true" right="10" top="10">
     <a-space>
       <a-checkbox v-model:checked="enabledAggressive" @change="formStateChange">是否聚合</a-checkbox>
+      <a-checkbox v-model:checked="layerShow" @change="layerShowChange">是否显示</a-checkbox>
 
       <mars-button title="贴地属性性能较低，建议异步计算后将高度值存放数据库内，后期直接加载此高度值" @click="getDataSurfaceHeight">
         演示异步计算贴地高度
@@ -17,9 +18,13 @@ import { ref } from "vue"
 const mapWork = window.mapWork || {}
 
 const enabledAggressive = ref(true)
+const layerShow = ref(true)
 
 const formStateChange = () => {
   mapWork.enabledAggressive(enabledAggressive.value)
+}
+const layerShowChange = () => {
+  mapWork.layerShowChange(layerShow.value)
 }
 
 const getDataSurfaceHeight = () => {

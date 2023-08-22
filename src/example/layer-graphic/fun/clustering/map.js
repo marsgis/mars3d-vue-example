@@ -248,3 +248,7 @@ export function getDataSurfaceHeight() {
 export function enabledAggressive(val) {
   graphicLayer.clustering = val
 }
+
+export function layerShowChange(val) {
+  graphicLayer.show = val
+}
