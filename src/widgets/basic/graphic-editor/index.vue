@@ -8,25 +8,50 @@
       </a-space>
     </div>
     <div class="attr-editor-main">
-      <mars-styles :style="style" :layerName="layerName" :customType="customType" :graphicType="graphicType" @styleChange="styleChange" />
+      <mars-styles
+        v-if="activeTab === 'style'"
+        :style="style"
+        :layerName="layerName"
+        :customType="customType"
+        :graphicType="graphicType"
+        @styleChange="styleChange"
+      />
+      <mars-availability v-if="activeTab === 'availability'" :availability="availability" @availabilityChange="availabilityChange" />
     </div>
+    <template #footer>
+      <a-tabs v-model:activeKey="activeTab" centered type="card" tabPosition="bottom" @change="tabChange">
+        <a-tab-pane key="style" tab="样式"></a-tab-pane>
+        <a-tab-pane key="availability" tab="时序"></a-tab-pane>
+      </a-tabs>
+    </template>
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, toRaw } from "vue"
 import _ from "lodash"
+import localforage from "localforage"
 import MarsStyles from "./mars-styles.vue"
+import MarsAvailability from "./mars-availability.vue"
 import * as mapWork from "./map"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
 import { useWidget } from "@mars/widgets/common/store/widget"
 
 const { currentWidget } = useWidget()
 
+const activeTab = ref("style") // 卡片所处位置
+
+const tabChange = (item: any) => {
+  localforage.setItem("active-tab", item)
+}
+
 const layerName = ref("")
 const customType = ref("")
 const graphicType = ref("")
 const style = ref(null)
+
+const availability = ref(null) // 时序
+
 let graphic
 
 // 启用map.ts生命周期
@@ -55,6 +80,8 @@ function updataLayer() {
 
   console.log("开始编辑style样式", graphic.style)
   style.value = _.cloneDeep(graphic.style)
+  console.log("开始编辑availability样式", graphic.availability)
+  availability.value = _.cloneDeep(graphic.availability)
 }
 
 function styleChange(style: any) {
@@ -62,6 +89,14 @@ function styleChange(style: any) {
   console.log("修改了style样式", style)
 
   graphic.setStyle(style)
+}
+
+function availabilityChange(availability: any[]) {
+  if (availability && availability.length) {
+    graphic.availability = availability
+  } else {
+    graphic.availability = null
+  }
 }
 
 // *********************  删除定位保存文件方法  ******************* //
