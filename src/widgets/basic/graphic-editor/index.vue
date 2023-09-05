@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="true" title="属性编辑" width="260" top="60" bottom="40" left="10" :minWidth="200">
+  <mars-dialog :draggable="true" title="属性编辑" width="315" top="60" bottom="40" left="10" :minWidth="200">
     <div class="top-handle-bar">
       <a-space>
         <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
@@ -21,7 +21,7 @@
     <template #footer>
       <a-tabs v-model:activeKey="activeTab" centered type="card" tabPosition="bottom" @change="tabChange">
         <a-tab-pane key="style" tab="样式"></a-tab-pane>
-        <a-tab-pane key="availability" tab="时序"></a-tab-pane>
+        <a-tab-pane v-if="showAvailability" key="availability" tab="时序"></a-tab-pane>
       </a-tabs>
     </template>
   </mars-dialog>
@@ -43,6 +43,8 @@ const activeTab = ref("style") // 卡片所处位置
 
 const tabChange = (item: any) => {
   localforage.setItem("active-tab", item)
+  availability.value = graphic.availability
+  style.value = graphic.style
 }
 
 const layerName = ref("")
@@ -51,6 +53,7 @@ const graphicType = ref("")
 const style = ref(null)
 
 const availability = ref(null) // 时序
+const showAvailability = ref(true)
 
 let graphic
 
@@ -59,6 +62,9 @@ useLifecycle(mapWork)
 
 onMounted(() => {
   graphic = currentWidget.data.graphic
+  if (currentWidget.data.hideAvailability) {
+    showAvailability.value = false
+  }
   updataLayer()
 })
 
@@ -74,14 +80,17 @@ function updataLayer() {
   if (!graphic || graphic.state === "destroy") {
     return
   }
+
   layerName.value = graphic._layer.name || ""
   graphicType.value = graphic.type
   customType.value = currentWidget.data.styleType || graphic.options.styleType
 
   console.log("开始编辑style样式", graphic.style)
   style.value = _.cloneDeep(graphic.style)
-  console.log("开始编辑availability样式", graphic.availability)
-  availability.value = _.cloneDeep(graphic.availability)
+
+  const avail = graphic.availability
+  console.log("开始编辑availability时序", avail)
+  availability.value = _.cloneDeep(avail)
 }
 
 function styleChange(style: any) {
@@ -93,8 +102,10 @@ function styleChange(style: any) {
 
 function availabilityChange(availability: any[]) {
   if (availability && availability.length) {
+    console.log("更改", availability)
     graphic.availability = availability
   } else {
+    console.log("清除", availability)
     graphic.availability = null
   }
 }

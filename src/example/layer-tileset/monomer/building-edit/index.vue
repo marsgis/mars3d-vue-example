@@ -115,13 +115,15 @@ const showEditor = (e: any) => {
     activate({
       name: "graphic-editor",
       data: {
-        graphic: markRaw(graphic)
+        graphic: markRaw(graphic),
+        hideAvailability: true
       }
     })
   } else {
     updateWidget("graphic-editor", {
       data: {
-        graphic: markRaw(graphic)
+        graphic: markRaw(graphic),
+        hideAvailability: true
       }
     })
   }

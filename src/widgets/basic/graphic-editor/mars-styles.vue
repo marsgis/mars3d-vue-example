@@ -105,6 +105,10 @@ const styleType = ref("")
 
 let originStyles = [] // 原始的完整style配置
 const globalKey = ref(0)
+
+// label相关
+let originLabels
+const viewLabels = ref<any[]>([])
 watch(
   props,
   () => {
@@ -282,8 +286,6 @@ function materialChange(item) {
 }
 
 // label相关处理
-let originLabels
-const viewLabels = ref<any[]>([])
 
 function setLabelDefault() {
   originLabels = _.cloneDeep(styleConfigAll.label.style)

@@ -69,6 +69,10 @@ export default defineComponent({
     }
   }
 
+  .ant-picker-cell-disabled {
+    background-color: var(--mars-disable-btn-bg);
+  }
+
   .ant-picker-time-panel-cell {
     .ant-picker-time-panel-cell-inner {
       color: var(--mars-base-color) !important;

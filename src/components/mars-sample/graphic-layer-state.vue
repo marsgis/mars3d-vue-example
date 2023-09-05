@@ -290,10 +290,22 @@ const onClickFlyTo = () => {
 }
 
 const onClickStartDraw = () => {
+  if (props.customEditor) {
+    emit("onStopEditor")
+  } else {
+    disable("graphic-editor")
+  }
+
   mapWork.startDrawGraphic()
   formState.isDrawing = true
 }
 const onClickStartDraw2 = () => {
+  if (props.customEditor) {
+    emit("onStopEditor")
+  } else {
+    disable("graphic-editor")
+  }
+
   mapWork.startDrawGraphic2()
   formState.isDrawing = true
 }
@@ -647,13 +659,22 @@ onMounted(() => {
       showEditor(e.graphic)
     }
   })
-  // 修改了矢量数据
-  graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
+
+  // 单击开始编辑
+  graphicLayer.on(mars3d.EventType.editStart, (e: any) => {
+    setTimeout(() => {
+      // 属性面板打开时，点击其他的矢量数据，打开后会被下面的执行关闭
       showEditor(e.graphic)
-    }
-  )
+    }, 150)
+  })
+  // 修改了矢量数据
+  graphicLayer.on([mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint], function (e) {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(e.graphic)
+      }
+    })
+  })
   // 停止编辑
   graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
     setTimeout(() => {
@@ -668,6 +689,7 @@ onMounted(() => {
   })
 })
 
+let lastUUid = ""
 const showEditor = (graphic: any) => {
   if (props.customEditor === graphic.type) {
     disable("graphic-editor") // 关闭属性面板
@@ -685,19 +707,16 @@ const showEditor = (graphic: any) => {
     graphic._conventStyleJson = true // 只处理一次
   }
 
-  if (!isActivate("graphic-editor")) {
+  if (lastUUid !== graphic.id) {
     activate({
       name: "graphic-editor",
       data: {
         graphic: markRaw(graphic)
       }
     })
+    lastUUid = graphic.id
   } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+    lastUUid = ""
   }
 }
 
@@ -761,7 +780,9 @@ onMounted(() => {
   graphicLayer.on(mars3d.EventType.removeGraphic, function (event) {
     const graphicId = event.graphic.id
     const idx = graphicDataList.value.findIndex((item) => item.key === graphicId)
-    graphicDataList.value.splice(idx, 1)
+    if (idx !== -1) {
+      graphicDataList.value.splice(idx, 1)
+    }
   })
 })
 
