@@ -691,6 +691,10 @@ onMounted(() => {
 
 let lastUUid = ""
 const showEditor = (graphic: any) => {
+  if (graphic.isDestroy) {
+    return
+  }
+
   if (props.customEditor === graphic.type) {
     disable("graphic-editor") // 关闭属性面板
     emit("onStartEditor", {
