@@ -22,6 +22,7 @@ module.exports = {
     L: "readonly",
     mars2d: "readonly",
 
+    localforage: "readonly",
     turf: "readonly",
     THREE: "readonly",
     Ammo: "readonly",

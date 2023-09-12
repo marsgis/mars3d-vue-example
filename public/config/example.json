@@ -2257,6 +2257,7 @@
             "name": "三维模型位置及参数编辑",
             "thumbnail": "layer3d-manager-edit.jpg",
             "main": "layer-tileset/manager/edit",
+            "libs": ["mars3d", "localforage"],
             "hasPannel": true
           },
           {

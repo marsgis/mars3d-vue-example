@@ -156,7 +156,12 @@ const axisOptions = [
 const labelCol = { span: 9 }
 
 // 初始化界面
-onMounted(() => {
+// onMounted(() => {
+//   mapWork.showModel(formState.txtModel)
+// })
+
+mapWork.eventTarget.on("historyUrl", function (event: any) {
+  formState.txtModel = event.url
   mapWork.showModel(formState.txtModel)
 })
 
