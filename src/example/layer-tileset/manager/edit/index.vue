@@ -161,7 +161,9 @@ const labelCol = { span: 9 }
 // })
 
 mapWork.eventTarget.on("historyUrl", function (event: any) {
-  formState.txtModel = event.url
+  if (event.url) {
+    formState.txtModel = event.url
+  }
   mapWork.showModel(formState.txtModel)
 })
 
