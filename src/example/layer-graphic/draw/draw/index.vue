@@ -59,6 +59,7 @@
         <a-col :span="19">
           <a-space>
             <mars-button @click="drawPolyline(false)">线</mars-button>
+            <mars-button @click="drawBrushLine(false)">自由线</mars-button>
             <mars-button @click="drawPolygon(false)">面</mars-button>
             <mars-button @click="drawEllipse(false)">圆</mars-button>
             <mars-button @click="drawRectangle(false)">矩形</mars-button>
@@ -75,6 +76,7 @@
         <a-col :span="19">
           <a-space>
             <mars-button @click="drawPolyline(true)">线</mars-button>
+            <mars-button @click="drawBrushLine(true)">自由线</mars-button>
             <mars-button @click="drawPolygon(true)">面</mars-button>
             <mars-button @click="drawEllipse(true)">圆</mars-button>
             <mars-button @click="drawCurve(true)">曲线</mars-button>
@@ -216,6 +218,11 @@ function onClickStartDarw() {
 function drawPolyline(clampToGround: boolean) {
   mapWork.drawPolyline(clampToGround)
 }
+
+function drawBrushLine(clampToGround: boolean) {
+  mapWork.drawBrushLine(clampToGround)
+}
+
 
 function drawPolygon(clampToGround: boolean) {
   mapWork.drawPolygon(clampToGround)

@@ -29,6 +29,6 @@ export function changeTerrain(value: boolean) {
 export function getLayers() {
   return {
     baseMaps: map.getBasemaps(true),
-    hasTerrain: !(map.terrainProvider instanceof Cesium.EllipsoidTerrainProvider)
+    hasTerrain: map.hasTerrain
   }
 }

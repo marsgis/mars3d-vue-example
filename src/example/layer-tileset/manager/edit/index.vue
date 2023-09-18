@@ -135,7 +135,7 @@ const formState = reactive<FormState>({
   rotationY: 0.0,
   scale: 1,
   axis: "",
-  maximumScreenSpaceError: 8,
+  maximumScreenSpaceError: 3,
   opacity: 1,
   highlightEnable: false,
   popupEnable: true,

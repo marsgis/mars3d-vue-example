@@ -23,7 +23,7 @@ const state = ref(false)
 const state2 = ref(false)
 
 let treeModelData: any = {}
-let tianLayer // 暂存天鹅湖模型
+let hefeiLayer // 暂存合肥模型
 
 mapWork.eventTarget.on("loadTypeList", function (event: any) {
   treeModelData = event.modelData
@@ -46,11 +46,10 @@ const checkedChange = (_keys: string[], item: any) => {
 
     if (node.title === "合肥市区") {
       // 城市白模
-      tianLayer = layer
+      hefeiLayer = layer
       state2.value = true
       if (state.value === true) {
-        // 判断倾斜摄影天鹅湖模型存在，重新切割防止重叠
-        mapWork.cutModel(layer)
+        mapWork.cutModel(layer) // 判断倾斜摄影天鹅湖模型存在，重新切割防止重叠
       }
     }
 
@@ -58,7 +57,7 @@ const checkedChange = (_keys: string[], item: any) => {
       // 倾斜摄影天鹅湖
       state.value = true
       if (state2.value === true) {
-        mapWork.cutModel(tianLayer)
+        mapWork.cutModel(hefeiLayer)
       }
     }
   }

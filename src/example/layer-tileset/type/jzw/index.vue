@@ -62,7 +62,7 @@ interface FormState {
 const formState: UnwrapRef<FormState> = reactive({
   enabledBloom: false,
   enabledShadows: false,
-  enabledBrightness: true,
+  enabledBrightness: false,
   color: "#34bdff"
 })
 
