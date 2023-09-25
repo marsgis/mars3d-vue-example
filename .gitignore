@@ -51,6 +51,7 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+yarn.lock
 
 # 本地测试
 src/example/a-test

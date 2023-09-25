@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" left="50%" top="10">
     <a-space>
       <mars-button @click="viewTo23D">分屏</mars-button>
       <mars-button @click="viewTo2d">仅街景</mars-button>
@@ -7,7 +7,7 @@
     </a-space>
   </mars-dialog>
 
-  <mars-dialog :visible="true" left="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10">
     <img src="/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
   </mars-dialog>
 </template>

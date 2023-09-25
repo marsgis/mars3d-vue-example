@@ -175,7 +175,7 @@ const mergeProps = computed(() => {
 })
 
 const showHeader = computed(
-  () => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title) || mergeProps.value.draggable
+  () => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title)
 )
 
 const dialogRef = ref()

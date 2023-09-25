@@ -19,11 +19,7 @@ const checkedKeys = ref<string[]>([])
 
 const layersObj: any = {}
 
-const state = ref(false)
-const state2 = ref(false)
-
 let treeModelData: any = {}
-let hefeiLayer // 暂存合肥模型
 
 mapWork.eventTarget.on("loadTypeList", function (event: any) {
   treeModelData = event.modelData
@@ -43,23 +39,6 @@ const checkedChange = (_keys: string[], item: any) => {
   // 增添模型
   if (isChildern.length === 0 && !node.checked) {
     mapWork.addLayer(layer)
-
-    if (node.title === "合肥市区") {
-      // 城市白模
-      hefeiLayer = layer
-      state2.value = true
-      if (state.value === true) {
-        mapWork.cutModel(layer) // 判断倾斜摄影天鹅湖模型存在，重新切割防止重叠
-      }
-    }
-
-    if (node.title === "合肥天鹅湖" && !node.checked) {
-      // 倾斜摄影天鹅湖
-      state.value = true
-      if (state2.value === true) {
-        mapWork.cutModel(hefeiLayer)
-      }
-    }
   }
 
   // 处理子节点
@@ -70,14 +49,6 @@ const checkedChange = (_keys: string[], item: any) => {
   // 删除模型
   if (isChildern.length === 0 && node.checked) {
     layer.show = false
-
-    if (node.title === "合肥天鹅湖") {
-      state.value = false
-    }
-
-    if (node.title === "合肥市区") {
-      state2.value = false
-    }
   }
 }
 
