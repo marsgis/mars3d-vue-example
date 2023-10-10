@@ -29,7 +29,6 @@
     "mars3d-cesium": "^1.110.0",
     "monaco-editor": "^0.33.0",
     "nprogress": "^0.2.0",
-    "quickhull3d": "^2.1.0",
     "serve": "^13.0.2",
     "split.js": "^1.6.4",
     "standard": "^16.0.4",

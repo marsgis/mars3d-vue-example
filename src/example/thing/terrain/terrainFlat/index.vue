@@ -6,6 +6,7 @@
           <a-form-item>
             <a-space>
               <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否压平</a-checkbox>
+              <a-checkbox v-model:checked="formState.enabledBianJieXian" @change="chkShowLine"> 显示测试边界线 </a-checkbox>
             </a-space>
           </a-form-item>
         </a-col>
@@ -59,10 +60,12 @@ interface FormState {
   enabledWaiqiege: boolean
   enabledShendu: boolean
   txtHeight: number
+  enabledBianJieXian: boolean
 }
 interface TableItem {
   key: number
   name: string
+  lineId: string
 }
 
 const labelCol = ref({ span: 6 })
@@ -72,7 +75,8 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledWadi: true,
   enabledWaiqiege: false,
   enabledShendu: true,
-  txtHeight: 50
+  txtHeight: 50,
+  enabledBianJieXian: true
 })
 // 表格数据
 const columns = ref([
@@ -124,7 +128,7 @@ const flyto = (record: any) => {
   mapWork.flyToGraphic(record.key)
 }
 const deleted = (record: any) => {
-  mapWork.deletedGraphic(record.key)
+  mapWork.deletedGraphic(record.key, record.lineId)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
 
   mapWork.changeTable(dataSource.value)
@@ -165,6 +169,11 @@ const removeAll = () => {
 // 改变切割的深度
 const changeClipHeight = () => {
   mapWork.changeClipHeight(formState.txtHeight)
+}
+
+// 是否显示测试边界线
+const chkShowLine = () => {
+  mapWork.chkShowLine(formState.enabledBianJieXian)
 }
 </script>
 <style scoped lang="less">

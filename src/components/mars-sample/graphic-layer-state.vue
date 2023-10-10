@@ -231,8 +231,8 @@ onMounted(() => {
 
       formState.hasTable = graphics.length > 0
 
-      layer.on([mars3d.EventType.drawCreated, mars3d.EventType.removeGraphic], function (e) {
-        formState.isDrawing = false
+      layer.on([mars3d.EventType.drawCreated, mars3d.EventType.addGraphic, mars3d.EventType.removeGraphic], function (e) {
+        formState.isDrawing = layer.isDrawing
       })
     }
   }, 500)
@@ -297,7 +297,8 @@ const onClickStartDraw = () => {
   }
 
   mapWork.startDrawGraphic()
-  formState.isDrawing = true
+  const layer = getManagerLayer()
+  formState.isDrawing = layer?.isDrawing
 }
 const onClickStartDraw2 = () => {
   if (props.customEditor) {
@@ -307,12 +308,13 @@ const onClickStartDraw2 = () => {
   }
 
   mapWork.startDrawGraphic2()
-  formState.isDrawing = true
+  const layer = getManagerLayer()
+  formState.isDrawing = layer?.isDrawing
 }
 const onClickClearDrawing = () => {
-  formState.isDrawing = false
   const layer = getManagerLayer()
   layer.clearDrawing()
+  formState.isDrawing = layer?.isDrawing
 }
 
 const onChangeShow = () => {

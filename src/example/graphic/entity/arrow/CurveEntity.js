@@ -40,6 +40,15 @@ class CurveEntity extends mars3d.graphic.PolylineEntity {
     // this._maxPointNum = 999 // 最多允许点的个数
   }
 
+  /**
+   * 编辑处理类
+   * @readonly
+   */
+  get EditClass() {
+    // eslint-disable-next-line no-undef
+    return EditCurve
+  }
+
   getShowPositions(positions) {
     if (!positions || positions.length < 2) {
       return positions

@@ -139,8 +139,6 @@ window.configLibs = {
   'hls': ["video/hls/hls.js"],
   'flv': ["video/flv/flv.min.js"],
   tween: ["tween/Tween.js"],
-  'localforage': [
-    "localforage/localforage.min.js"
-  ],
+  localforage: ["localforage/localforage.min.js"]
 }
 

@@ -93,9 +93,9 @@ function setEchartsData(data: any) {
         const hbgd = params[0].value // 海拔高度
         const point = arrPoint[params[0].dataIndex] // 所在经纬度
         const len = mapWork.formatDistance(Number(params[0].axisValue))
-        const hbgdStr1 = mapWork.formatDistance(Number(params[0].value))
-        const hbgdStr2 = mapWork.formatDistance(Number(params[1].value))
-        const hbgdStr3 = mapWork.formatDistance(Number(params[2].value))
+        const hbgdStr1 = mapWork.formatDistance(Number(params[0].value)) || "无"
+        const hbgdStr2 = mapWork.formatDistance(Number(params[1].value)) || "无"
+        const hbgdStr3 = mapWork.formatDistance(Number(params[2].value)) || "无"
 
         inhtml = `当前位置<br />
         距起点：${len}<br />

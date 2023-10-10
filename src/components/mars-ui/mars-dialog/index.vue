@@ -163,7 +163,7 @@ const mergeProps = computed(() => {
     newProps.top = 10
   }
 
-  if (isAllowValue(newProps.closeable) && (slots.title || isAllowValue(newProps.title) || isAllowValue(newProps.icon) || newProps.draggable)) {
+  if (isAllowValue(newProps.closeable) && (slots.title || isAllowValue(newProps.title) || isAllowValue(newProps.icon))) {
     newProps.closeable = true
   }
 
