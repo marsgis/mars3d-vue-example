@@ -29,7 +29,7 @@ export function onMounted(mapInstance: mars3d.Map, mars3d): void {
   layersTool = new mars3d.control.ToolButton({
     title: "图层控制",
     icon: iconLayer,
-    insertIndex: 1, // 插入的位置顺序, 1是home按钮后面
+    insertBefore: "homeButton",
     click: () => {
       eventTarget.fire("openManageLayer")
     }

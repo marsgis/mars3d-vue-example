@@ -5,7 +5,7 @@
         <mars-slider :min="0.0" :max="65.0" :step="0.01" v-model:value="formState.threshold" @change="changeThreshold" />
       </a-form-item>
       <a-form-item label="精细度">
-        <mars-slider :min="300.0" :max="1000.0" :step="1" v-model:value="formState.steps" @change="changeSteps" />
+        <mars-slider :min="300.0" :max="1000.0" :step="1" v-model:value="formState.detail" @change="changeSteps" />
       </a-form-item>
       <a-form-item label="X">
         <mars-slider :min="-0.5" :max="0.5" :step="0.01" v-model:value="formState.xCut" @change="changeXCut" />
@@ -29,12 +29,12 @@ interface FormState {
   xCut: number
   yCut: number
   zCut: number
-  steps: number
+  detail: number
 }
 
 const formState = reactive<FormState>({
   threshold: 65,
-  steps: 600,
+  detail: 600,
   xCut: 0,
   yCut: 0,
   zCut: 0
@@ -44,7 +44,7 @@ const changeThreshold = () => {
   mapWork.graphicLayer.graphics[0].threshold = formState.threshold / 255
 }
 const changeSteps = () => {
-  mapWork.graphicLayer.graphics[0].steps = formState.steps
+  mapWork.graphicLayer.graphics[0].detail = formState.detail
 }
 const changeXCut = () => {
   mapWork.graphicLayer.graphics[0].xCut = formState.xCut

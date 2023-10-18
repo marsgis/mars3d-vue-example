@@ -66,8 +66,8 @@
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">视频透明度:</span>
-        <mars-slider @change="onChangeOpacity" v-model:value="video.opcity" :min="0" :max="1" :step="0.1" />
+        <span class="mars-pannel-item-label">可视域透明度:</span>
+        <mars-slider @change="onChangeOpacity" v-model:value="video.opacity" :min="0" :max="1" :step="0.1" />
       </a-space>
     </div>
 
@@ -91,7 +91,7 @@ interface Video {
   distanceValue: number // 投射距离
   heading: number // 四周距离
   pitchValue: number // 俯仰角度
-  opcity: number // 透明度
+  opacity: number // 透明度
   videoRotate: number // 视角角度
   graphicName: string
   selectedGraphic: boolean
@@ -104,7 +104,7 @@ const video = reactive<Video>({
   distanceValue: 0,
   heading: 0,
   pitchValue: 0,
-  opcity: 1,
+  opacity: 1,
   videoRotate: 0,
   graphicName: "",
   selectedGraphic: false
@@ -119,7 +119,7 @@ function onStartEditor(data) {
   video.cameraAngle2 = graphic.angle2
   video.distanceValue = graphic.distance
   video.pitchValue = graphic.pitch
-  video.opcity = graphic.opacity
+  video.opacity = graphic.opacity
   video.heading = graphic.heading
   video.showFrustum = graphic.showFrustum
 
@@ -164,7 +164,7 @@ const showFrustum = () => {
 
 // 修改视频透明度
 const onChangeOpacity = () => {
-  mapWork.onChangeOpacity(video.opcity)
+  mapWork.onChangeOpacity(video.opacity)
 }
 </script>
 <style scoped lang="less">
@@ -175,6 +175,6 @@ const onChangeOpacity = () => {
   width: 100px;
 }
 .mars-pannel-item-label {
-  width: 80px;
+  width: 88px;
 }
 </style>

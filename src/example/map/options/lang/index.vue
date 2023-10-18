@@ -1,6 +1,17 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="355">
     <div class="f-mb">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
+    <div class="f-mb">
+      <a-row>
+        <a-col :span="7">语言切换:</a-col>
+        <a-col :span="17">
+          <div class="lang-button-contain">
+            <mars-button @click="toCustomLang()"> English </mars-button>
+            <mars-button @click="toDefaultLange()"> 中文简体 </mars-button>
+          </div>
+        </a-col>
+      </a-row>
+    </div>
 
     <div class="f-mb">
       <a-row>
@@ -14,6 +25,7 @@
         </a-col>
       </a-row>
     </div>
+
     <div class="f-mb">
       <a-row>
         <a-col :span="7">Measurement:</a-col>
@@ -35,6 +47,13 @@
 import * as mapWork from "./map.js"
 
 const typeArrPlot = ["rectangle", "polyline", "polygon", "cylinder", "point", "circle", "wall"]
+
+const toCustomLang = () => {
+  mapWork.toCustomLang()
+}
+const toDefaultLange = () => {
+  mapWork.toDefaultLange()
+}
 
 const onStartDraw = (e: any) => {
   mapWork.startDraw(e)

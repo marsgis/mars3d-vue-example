@@ -3,7 +3,8 @@
     <main-operation @childMounted="onChildMounted" />
     <template v-if="mapLoaded">
       <template v-for="comp in widgets" :key="comp.key">
-        <mars-widget v-if="openAtStart.includes(comp.name) && comp.visible" v-model:visible="comp.visible" :widget="comp" />
+        <mars-widget v-if="openAtStart.includes(comp.name) && comp.visible" v-model:visible="comp.visible"
+          :widget="comp" />
       </template>
     </template>
   </config-provider>
@@ -15,7 +16,7 @@ import MainOperation from "@mars/components/mars-work/main-operation.vue"
 import { useWidgetStore } from "@mars/widgets/common/store/widget"
 import MarsWidget from "@mars/widgets/widget.vue"
 import { ConfigProvider } from "ant-design-vue"
-import locale from "ant-design-vue/lib/locale-provider/zh_CN"
+import locale from "ant-design-vue/es/locale/zh_CN"
 
 const widgetStore = useWidgetStore()
 

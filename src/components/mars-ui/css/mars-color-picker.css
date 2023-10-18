@@ -118,9 +118,9 @@
   transition: all 0.1s;
   cursor: pointer;
 }
-.colors .item:nth-child(8n + 1) {
+/* .colors .item:nth-child(8n + 1) {
   margin-left: 0;
-}
+} */
 .colors .item:hover {
   transform: scale(1.4);
 }

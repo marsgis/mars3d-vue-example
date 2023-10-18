@@ -1841,6 +1841,10 @@ const styleConfig = {
   jammingRadar: {
     name: "自定义干扰雷达",
     style: [
+      { name: "scale", label: "大小比例", type: "slider", min: 0.1, max: 10.0, step: 0.1, defval: 1.0 },
+      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
       { name: "autoColor", label: "是否内置渐变色", type: "radio", defval: true },
       {
         name: "color",
@@ -1865,17 +1869,17 @@ const styleConfig = {
         show(style, allStyle, graphicType) {
           return !style.autoColor
         }
-      },
-      { name: "scale", label: "大小比例", type: "slider",  min: 0.1, max: 10.0, step: 0.1, defval: 1.0  },
-      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
-      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
-      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      }
     ]
   },
 
   fixedJammingRadar: {
     name: "固定算法干扰雷达",
     style: [
+      { name: "scale", label: "大小比例", type: "slider", min: 0.1, max: 10.0, step: 0.1, defval: 1.0 },
+      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
       { name: "autoColor", label: "是否内置渐变色", type: "radio", defval: true },
       {
         name: "color",
@@ -1901,10 +1905,6 @@ const styleConfig = {
           return !style.autoColor
         }
       },
-      { name: "scale", label: "大小比例", type: "slider",  min: 0.1, max: 10.0, step: 0.1, defval: 1.0  },
-      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
-      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
-      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
 
       { name: "pt", label: "发射功率", type: "number", defval: 8e6 },
       { name: "gt", label: "天线主瓣增益", type: "number", defval: 500 },

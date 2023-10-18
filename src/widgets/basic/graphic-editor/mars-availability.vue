@@ -22,9 +22,9 @@
                 format="YYYY-MM-DD HH:mm:ss"
                 :allowClear="false"
                 :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-                :disabled-date="(current: Dayjs)=>disabledDate(current,i,'start')"
-                @change="(current: Dayjs)=>datePickerChange(current,i,'start')"
-                @openChange="(status:boolean)=>datePickerOpen(status,i,'start')"
+                :disabled-date="(current: Dayjs) => disabledDate(current, i, 'start')"
+                @change="(current: Dayjs) => datePickerChange(current, i, 'start')"
+                @openChange="(status: boolean) => datePickerOpen(status, i, 'start')"
               />
             </td>
           </tr>
@@ -36,9 +36,9 @@
                 format="YYYY-MM-DD HH:mm:ss"
                 :allowClear="false"
                 :show-time="{ defaultValue: dayjs('00:00:00', 'HH:mm:ss') }"
-                :disabled-date="(current: Dayjs)=>disabledDate(current,i,'stop')"
-                @change="(current: Dayjs)=>datePickerChange(current,i,'stop')"
-                @openChange="(status:boolean)=>datePickerOpen(status,i,'stop')"
+                :disabled-date="(current: Dayjs) => disabledDate(current, i, 'stop')"
+                @change="(current: Dayjs) => datePickerChange(current, i, 'stop')"
+                @openChange="(status: boolean) => datePickerOpen(status, i, 'stop')"
               />
             </td>
           </tr>
@@ -52,7 +52,7 @@
 import { ref, watch } from "vue"
 import { $message } from "@mars/components/mars-ui/index"
 import dayjs, { Dayjs } from "dayjs"
-import _ from "lodash"
+import _ from "lodash-es"
 import * as mapWork from "./map"
 
 const activeKey = ref(["1", "2"])
@@ -61,6 +61,7 @@ const props = defineProps<{
   availability: any | null
 }>()
 
+// eslint-disable-next-line vue/no-dupe-keys
 const availability = ref<any[]>([])
 
 watch(
@@ -226,11 +227,18 @@ const availabilityChange = () => {
   padding-top: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+
   .position-title__subfix {
     float: right;
+
     :deep(.mars-icon) {
       cursor: pointer;
     }
+  }
+}
+.mars-primary-table {
+  tr td:nth-of-type(1) {
+    width: 65px;
   }
 }
 </style>

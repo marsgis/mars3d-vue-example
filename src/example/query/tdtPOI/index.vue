@@ -10,7 +10,7 @@
       </a-form-item>
 
       <a-form-item label="城市" v-show="radioFanwei === '1'">
-        <a-cascader v-model:value="value" :options="options" dropdownClassName="mars-select-dropdown" @change="onChange">
+        <a-cascader v-model:value="value" :options="options" popupClassName="mars-select-dropdown" @change="onChange">
           <a href="#">{{ citySheng }} / {{ cityShi }}</a>
         </a-cascader>
       </a-form-item>

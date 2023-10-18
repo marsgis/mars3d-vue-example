@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, toRaw } from "vue"
-import _ from "lodash"
+import _ from "lodash-es"
 import localforage from "localforage"
 import MarsStyles from "./mars-styles.vue"
 import MarsAvailability from "./mars-availability.vue"
@@ -102,10 +102,8 @@ function styleChange(style: any) {
 
 function availabilityChange(availability: any[]) {
   if (availability && availability.length) {
-    console.log("更改", availability)
     graphic.availability = availability
   } else {
-    console.log("清除", availability)
     graphic.availability = null
   }
 }
@@ -130,20 +128,25 @@ function deleteEntity() {
 .top-handle-bar {
   border-bottom: 1px solid #cde1de;
   padding: 5px 0 2px 0;
+
   :deep(.mars-icon) {
     cursor: pointer;
   }
 }
+
 .attr-editor-main {
   height: calc(100% - 40px);
   overflow-y: auto;
+
   :deep(*) {
     font-size: 12px;
   }
 }
+
 :deep(.ant-tabs-nav) {
   margin: 0;
 }
+
 :deep(.ant-select),
 :deep(.ant-input-number) {
   width: 100%;

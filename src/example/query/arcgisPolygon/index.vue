@@ -22,9 +22,10 @@
 
       <a-form-item v-show="show">
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
-          <a-tab-pane key="1" tab="表格" force-render :forceRender="true">
+          <a-tab-pane key="1" tab="表格" :forceRender="true">
             <a-form-item>
-              <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :scroll="{ y: tableScrollHeight }" size="small" bordered />
+              <mars-table :pagination="false" :dataSource="dataSource" :columns="columns"
+                :scroll="{ y: tableScrollHeight }" size="small" bordered />
             </a-form-item>
           </a-tab-pane>
           <a-tab-pane key="2" tab="饼状图" :forceRender="true">
@@ -233,11 +234,12 @@ onMounted(() => {
 :deep(.ant-tabs-tab-btn) {
   color: #fff !important;
 }
+
 .inputServe {
   width: 250px;
 }
+
 .chart {
   width: 330px;
   height: 250px;
-}
-</style>
+}</style>

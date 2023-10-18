@@ -83,7 +83,7 @@
 
 <script lang="ts" setup>
 import { nextTick, ref, watch, toRaw } from "vue"
-import _ from "lodash"
+import _ from "lodash-es"
 import { $message } from "@mars/components/mars-ui/index"
 import BaseComp from "./component/base-comp.vue"
 import styleConfigAll from "./config/style.js"
@@ -274,7 +274,7 @@ function updateMaterials() {
   // console.log("修改了材质", materialOptions)
 
   emit("styleChange", {
-    materialOptions: materialOptions
+    materialOptions
   })
 }
 
