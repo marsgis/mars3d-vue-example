@@ -810,21 +810,21 @@ function initGraphicableData(graphicLayer) {
   }
 }
 
-let graphicIndex = 0
 function getGraphicName(graphic) {
-  if (graphic?.style?.label?.text) {
-    return `${graphic.type} - ${graphic.style.label.text}`
-  }
-
   if (graphic.name) {
     return `${graphic.type} - ${graphic.name}`
+  }
+  if (graphic.attr.index) {
+    return `${graphic.type} - ${graphic.attr.index}`
   }
   if (graphic.attr.remark) {
     return `${graphic.type} - ${graphic.attr.remark}`
   }
+  if (graphic?.style?.label?.text) {
+    return `${graphic.type} - ${graphic.style.label.text}`
+  }
 
-  graphic.name = `未命名${++graphicIndex}`
-  return `${graphic.type} - ${graphic.name}`
+  return `${graphic.type} - ${graphic.name || "未命名"}`
 }
 
 // 表格行: 点击含，飞行定位

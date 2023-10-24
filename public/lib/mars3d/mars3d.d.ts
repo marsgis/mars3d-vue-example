@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.6.9
- * 编译日期：2023-10-17 20:05:49
+ * 版本信息：v3.6.10
+ * 编译日期：2023-10-23 17:27:39
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2023-03-17
  */
@@ -932,6 +932,10 @@ declare enum Icon {
  */
 declare enum Lang {
     /**
+     * 标识语言的唯一标识
+     */
+    type = "cn",
+    /**
      * Cesium renderError 错误弹窗
      */
     RenderingHasStopped = "WebGL\u53D1\u751F\u6E32\u67D3\u9519\u8BEF,\u6E32\u67D3\u5DF2\u7ECF\u505C\u6B62,\u8BF7\u5237\u65B0\u9875\u9762\u3002",
@@ -946,10 +950,10 @@ declare enum Lang {
     CesiumIon = "\u5B98\u65B9ION",
     Other = "\u5176\u4ED6",
     Terrain = "\u5730\u5F62\u670D\u52A1",
-    WGS84Ellipsoid = "WGS84 \u692D\u7403",
-    CesiumWorldTerrain = "Cesium \u4E16\u754C\u5730\u5F62\u56FE",
-    WGS84EllipsoidESPG4326 = "WGS84\u6807\u51C6\u692D\u7403\uFF0C\u53C8\u79F0EPSG\uFF1A4326",
-    HighResolutionGlobalTerrain = "\u9AD8\u5206\u8FA8\u7387\u5168\u7403\u5730\u5F62\u56FE\u5757\u96C6\u7531\u51E0\u4E2A\u6570\u636E\u6E90\u7EC4\u6210\uFF0C\u7531Cesium ion\u6258\u7BA1",
+    EllipsoidTerrainProvider = "\u65E0\u5730\u5F62",
+    EllipsoidTerrainProviderTooltip = "WGS84\u6807\u51C6\u692D\u7403\u4F53\uFF0C\u6CA1\u6709\u5730\u5F62\u6570\u636E",
+    TerrainProvider = "\u6709\u5730\u5F62",
+    TerrainProviderTooltip = "\u63D0\u4F9B\u7684\u9AD8\u7CBE\u5EA6\u7684DEM\u5730\u5F62\u670D\u52A1",
     FullScreen = "\u5168\u5C4F",
     ExitFullScreen = "\u9000\u51FA\u5168\u5C4F",
     FullScreenUnavailable = "\u5168\u5C4F\u4E0D\u53EF\u7528",
@@ -4559,6 +4563,10 @@ declare class BasePolyCombine extends BaseCombine {
      */
     readonly style: any;
     /**
+     * 附加的label文本对象
+     */
+    readonly label: Cesium.Label[] | any;
+    /**
      * 高亮对象。
      * @param [highlightStyle] - 高亮的样式，具体见各{@link GraphicType}矢量数据的style参数。
      * @param [closeLast = true] - 是否清除地图上上一次的高亮对象
@@ -7541,6 +7549,13 @@ declare class DivGraphic extends BaseGraphic {
      * 对应的DOM元素的id
      */
     readonly containerId: string;
+    /**
+     * 公共部分外框部分html内容，需要加2处：
+     * (1)用于填充html的地方写上{content}标识；
+     * (2)关闭按钮加class样式：closeButton。
+     * 传空字符串或false时，不用内置模版。
+     */
+    template: string;
     /**
      * 设置或获取当前对象对应的Html
      */
@@ -15086,7 +15101,7 @@ declare class BasePrimitive extends BaseGraphic {
      */
     readonly uniforms: any | undefined;
     /**
-     * 附加的label文本对象（仅基础primitive支持，如Combine对象不支持）
+     * 附加的label文本对象
      */
     readonly label: Cesium.Label | any;
     /**
@@ -22014,7 +22029,7 @@ declare namespace TilesetLayer {
  * @param [options.scale = 1] - 自定义缩放比例
  * @param [options.axis] - 自定义轴方向
  * @param [options.style] - 模型样式， 使用{@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
- * @param [options.marsJzwStyle = false] - 开启或设置建筑物特效样式。
+ * @param [options.marsJzwStyle = false] - 开启或设置建筑物特效样式，object时可以修改内置shader的3个变量，比如： { baseHeight: 50.0,  heightRange: 380.0,  glowRange: 400.0    },
  * @param [options.customShader] - 自定义shader效果
  * @param [options.editUpAxis = Cesium.Axis.Z] - 标识模型的轴方向(建筑物特效、模型压平等功能中使用)
  * @param [options.highlight] - 高亮及其样式配置
@@ -22141,7 +22156,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
         scale?: number;
         axis?: string | Cesium.Axis;
         style?: any | Cesium.Cesium3DTileStyle | ((...params: any[]) => any);
-        marsJzwStyle?: boolean | string;
+        marsJzwStyle?: boolean | any | string;
         customShader?: Cesium.CustomShader;
         editUpAxis?: Cesium.Axis;
         highlight?: {
@@ -22272,7 +22287,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
     /**
      * 开启或设置建筑物特效样式。
      */
-    marsJzwStyle: boolean | any;
+    marsJzwStyle: boolean | any | string;
     /**
      * 模型样式，
      * 使用{@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
@@ -30904,6 +30919,13 @@ declare class SatelliteSensor extends BasePointPrimitive {
  * @param [options.url = 'https://t{s}.tianditu.gov.cn/mapservice/GetTiles'] - 天地图服务地址
  * @param [options.subdomains = '01234567'] - 服务负载子域
  * @param [options.key = mars3d.Token.tianditu] - 天地图服务token令牌
+ * @param [options.label] - 文字样式信息
+ * @param [options.billboard] - 文字样式信息
+ * @param [options.metadata] - metadata
+ * @param [options.aotuCollide = true] - 是否开启避让
+ * @param [options.collisionPadding = [5, 10, 8, 5]] - 开启避让时，标注碰撞增加内边距，上、右、下、左
+ * @param [options.serverFirstStyle = true] - 服务端样式优先
+ * @param [options.boundBoxList] - GeoWTFS.initTDT方法参数
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -30923,6 +30945,13 @@ declare class TdtDmLayer extends BaseLayer {
         url?: string;
         subdomains?: string;
         key?: string;
+        label?: LabelEntity.StyleOptions | any;
+        billboard?: BillboardEntity.StyleOptions | any;
+        metadata?: any;
+        aotuCollide?: boolean;
+        collisionPadding?: number[];
+        serverFirstStyle?: boolean;
+        boundBoxList?: any[];
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -35156,9 +35185,10 @@ declare namespace LayerUtil {
     /**
      * 获取baseLayerPicker使用的绑定地形列表
      * @param options - 地形参数,同{@link createTerrainProvider}方法参数
+     * @param [getLangText] - 取文本的方法
      * @returns 地形列表
      */
-    function getTerrainProviderViewModels(options: any): Cesium.ProviderViewModel[];
+    function getTerrainProviderViewModels(options: any, getLangText?: any): Cesium.ProviderViewModel[];
 }
 
 /**
@@ -37111,6 +37141,14 @@ declare namespace graphic {
   export { Video3D }
   export { Route }
   export { FixedRoute }
+  export { PointLight }
+  export { SpotLight }
+  export { VolumeCloud }
+
+  export { PointVisibility }
+  export { ConeVisibility }
+  export { SkylineBody }
+  export { ViewDome }
 
 
   //卫星插件

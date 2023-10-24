@@ -608,12 +608,14 @@
           {
             "name": "双屏对比",
             "thumbnail": "map-double-compare.jpg",
-            "main": "map/double/compare"
+            "main": "map/double/compare",
+            "hasPannel": true
           },
           {
             "name": "卷帘对比",
             "thumbnail": "control-basis-mapSplit.jpg",
-            "main": "control/basis/mapSplit"
+            "main": "control/basis/mapSplit",
+            "hasPannel": true
           },
           {
             "name": "鹰眼地图",
@@ -2364,7 +2366,8 @@
           {
             "name": "双屏对比",
             "thumbnail": "map-double-compare.jpg",
-            "main": "map/double/compare"
+            "main": "map/double/compare",
+            "hasPannel": true
           },
           {
             "name": "二三维联动(与leaflet)",

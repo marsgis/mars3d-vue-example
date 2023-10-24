@@ -32,25 +32,28 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
     pid: 99 // 图层管理 中使用，父节点id
   })
 
-  graphicLayer.bindPopup((event) => {
-    const attr = event.graphic.attr || {}
-    if (!attr) {
-      return
-    }
-    const vNodeDom = document.createElement("div")
-    document.body.appendChild(vNodeDom)
+  graphicLayer.bindPopup(
+    (event) => {
+      const attr = event.graphic.attr || {}
+      if (!attr) {
+        return
+      }
+      const vNodeDom = document.createElement("div")
+      document.body.appendChild(vNodeDom)
 
-    const vNode = createApp(QueryPopup, {
-      id: attr.id,
-      name: attr.name,
-      tel: attr.tel ? attr.tel.toString() : "",
-      address: attr.address,
-      type: attr.type ? attr.type.toString() : ""
-    })
-    vNode.mount(vNodeDom) // vue2中可使用extend
-    // return vNode._container // 项目中可以直接返回DOM
-    return vNode._container.innerHTML // 示例中特殊处理，转为html元素
-  }, { template: false })
+      const vNode = createApp(QueryPopup, {
+        id: attr.id,
+        name: attr.name,
+        tel: attr.tel ? attr.tel.toString() : "",
+        address: attr.address,
+        type: attr.type ? attr.type.toString() : ""
+      })
+      vNode.mount(vNodeDom) // vue2中可使用extend
+      // return vNode._container // 项目中可以直接返回DOM
+      return vNode._container.innerHTML // 示例中特殊处理，转为html元素
+    },
+    { template: false }
+  )
 
   map.addLayer(graphicLayer)
 
@@ -68,6 +71,9 @@ function cameraChanged() {
 
 // 释放当前业务
 export function onUnmounted(): void {
+  if (!map) {
+    return
+  }
   map.removeLayer(graphicLayer)
   map.off(mars3d.EventType.cameraChanged, cameraChanged)
   graphicLayer.remove()

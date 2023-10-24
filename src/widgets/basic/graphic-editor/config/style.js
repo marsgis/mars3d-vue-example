@@ -768,9 +768,84 @@ const styleConfig = {
           return !style.diffHeight || style.diffHeight !== 0
         }
       },
+      { name: "testPoint", label: "是否显示测试点", type: "radio", defval: false },
       { name: "html", label: "Html文本", type: "label", defval: "" }
     ]
   },
+  divPlane: {
+    name: "DIV三维平面",
+    style: [
+      { name: "scale", label: "比例", type: "number", step: 1, defval: 1.0 },
+      { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 90.0 },
+
+      {
+        name: "horizontalOrigin",
+        label: "横向定位",
+        type: "combobox",
+        valType: "number",
+        defval: 0,
+        data: [
+          { label: "左边", value: 1 },
+          { label: "居中", value: 0 },
+          { label: "右边", value: -1 }
+        ]
+      },
+      {
+        name: "verticalOrigin",
+        label: "垂直定位",
+        type: "combobox",
+        valType: "number",
+        defval: 0,
+        data: [
+          { label: "顶部", value: -1 },
+          { label: "居中", value: 0 },
+          { label: "底部", value: 1 }
+        ]
+      },
+
+      {
+        name: "distanceDisplayCondition",
+        label: "是否按视距显示",
+        type: "radio",
+        defval: false
+      },
+      {
+        name: "distanceDisplayCondition_far",
+        label: "最大距离",
+        type: "number",
+        step: 1,
+        defval: 100000.0,
+        show(style, allStyle, graphicType) {
+          return style.distanceDisplayCondition
+        }
+      },
+      {
+        name: "distanceDisplayCondition_near",
+        label: "最小距离",
+        type: "number",
+        step: 1,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return style.distanceDisplayCondition
+        }
+      },
+      {
+        name: "clampToGround",
+        label: "是否贴地",
+        type: "radio",
+        defval: false,
+        show(style, allStyle, graphicType) {
+          return !style.diffHeight || style.diffHeight !== 0
+        }
+      },
+
+      { name: "testPoint", label: "是否显示测试点", type: "radio", defval: false },
+      { name: "html", label: "Html文本", type: "label", defval: "" }
+    ]
+  },
+
   fontBillboard: {
     name: "字体点标记",
     style: [

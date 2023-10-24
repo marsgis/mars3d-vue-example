@@ -27,7 +27,8 @@ export function onMounted(mapInstance: mars3d.Map, mars3d): void {
 
   map = mapInstance // 记录map
   layersTool = new mars3d.control.ToolButton({
-    title: "图层控制",
+    // @ts-ignore
+    title: (e) => { return map.lang.type === "cn" ? "图层控制" : "Layer control" }, // 切换语音的支持
     icon: iconLayer,
     insertBefore: "homeButton",
     click: () => {

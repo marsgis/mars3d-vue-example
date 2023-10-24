@@ -1,4 +1,7 @@
 const CustomLang = {
+  /** 标识语言的唯一标识 */
+  type: "en",
+
   // Cesium renderError 错误弹窗
   RenderingHasStopped: "An error occurred while rendering.  Rendering has stopped.",
   ErrorConstructingCesiumWidget: "Error constructing CesiumWidget.",
@@ -16,10 +19,10 @@ const CustomLang = {
   CesiumIon: "Cesium ion",
   Other: "Other",
   Terrain: "Terrain",
-  WGS84Ellipsoid: "WGS84 Ellipsoid",
-  CesiumWorldTerrain: "Cesium World Terrain",
-  WGS84EllipsoidESPG4326: "WGS84 standard ellipsoid, also known as EPSG:4326",
-  HighResolutionGlobalTerrain: "High-resolution global terrain tileset curated from several datasources and hosted by Cesium ion",
+  EllipsoidTerrainProvider: "WGS84 Ellipsoid",
+  EllipsoidTerrainProviderTooltip: "WGS84 standard ellipsoid, also known as EPSG:4326",
+  TerrainProvider: "World Terrain",
+  TerrainProviderTooltip: "High-resolution global terrain tileset curated from several datasources",
 
   // src\control\czm\BaseLayerPicker.js
   FullScreen: "Full screen",

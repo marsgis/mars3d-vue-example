@@ -6,7 +6,6 @@ export let map // mars3d.Map三维地图对象
 export const mapOptions = {
   scene: {
     center: { lat: 53.285266, lng: 142.68078, alt: 17309707, heading: 45, pitch: -83 },
-    mapMode2D: Cesium.MapMode2D.ROTATE, // 二三维场景切换黑影
     clock: {
       currentTime: "2021-01-01T12:08:20Z",
       multiplier: 60 // 速度

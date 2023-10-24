@@ -388,6 +388,7 @@ function histogram(arr: any, Word: string) {
 /* chartThree ul_NDTJ */
 .chartThree button {
   background: none;
+  color: var(--mars-text-color, #ffffff);
   border: 0.06px solid rgb(0, 174, 255);
   z-index: 1000;
   font-size: 1rem;

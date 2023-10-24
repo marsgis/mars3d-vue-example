@@ -16,7 +16,7 @@
       <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
     </div>
 
-    <div class="f-mb">
+    <div class="f-mb gltf-list">
       <mars-select
         ref="select"
         v-model:value="value1"
@@ -29,7 +29,7 @@
       <div class="gltfImg">
         <ul>
           <li v-for="imgs in dataList" :key="imgs.name">
-            <img :src="imgs.image" alt="" @click="showModel(imgs.style)" />
+            <img class="gltfImg_image" :src="imgs.image" alt="" @click="showModel(imgs.style)" />
           </li>
         </ul>
       </div>
@@ -183,29 +183,30 @@ const deleteMoXin = () => {
   overflow: hidden;
 }
 
-.gltfImg {
-  width: 100%;
-  height: 100%;
-  max-height: 670px;
-  overflow-y: auto;
+.gltf-list {
+  height: calc(100% - 52px);
+  .gltfImg {
+    width: 100%;
+    height: calc(100% - 52px);
+    max-height: 670px;
+    overflow-y: auto;
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      > li {
+        list-style-type: none;
+        padding: 6px 7px;
+        .gltfImg_image {
+          width: 100px;
+          height: 90px;
+          border: 1.5px solid white;
+        }
+      }
+    }
+  }
 }
 
-.gltfImg ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.gltfImg li {
-  list-style-type: none;
-  padding: 6px 7px;
-}
-
-.gltfImg img {
-  width: 100px;
-  height: 90px;
-  border: 1.5px solid white;
-}
 .ant-upload {
   line-height: 0 !important;
 }
