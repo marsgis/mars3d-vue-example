@@ -952,6 +952,11 @@
             "resources": ["/temp/css/divGraphic.css", "/lib/dom2img/dom-to-image.js"]
           },
           {
+            "name": "全景点展示",
+            "thumbnail": "graphic-entity-billboard-panorama.jpg",
+            "main": "graphic/entity/billboard-panorama"
+          },
+          {
             "name": "Plane 平面",
             "thumbnail": "graphic-entity-plane.jpg",
             "main": "graphic/entity/plane",

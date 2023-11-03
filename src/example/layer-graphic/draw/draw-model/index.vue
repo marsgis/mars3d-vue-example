@@ -7,7 +7,7 @@
     </div>
     <div class="f-mb">
       <a-space>
-        <mars-button @click="onClickStartDarw">标绘</mars-button>
+        <mars-button @click="onClickStartDarw" :disabled="isDisabled" :title="isDisabled ? '请输入url' : ''">标绘</mars-button>
         <mars-button @click="clear">清除</mars-button>
         <mars-button @click="saveGeoJSON">保存</mars-button>
         <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import LocationTo from "@mars/components/mars-sample/location-to.vue"
-import { ref, markRaw, onMounted } from "vue"
+import { ref, markRaw, onMounted, watch } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
 
@@ -113,6 +113,18 @@ onMounted(() => {
     }, 100)
   })
 })
+
+const isDisabled = ref(false)
+watch(
+  () => modelUrl.value,
+  () => {
+    if (modelUrl.value.trim().length === 0) {
+      isDisabled.value = true
+    } else {
+      isDisabled.value = false
+    }
+  }
+)
 
 const showEditor = (e: any) => {
   const graphic = e.graphic

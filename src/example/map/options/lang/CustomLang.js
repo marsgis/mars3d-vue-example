@@ -76,6 +76,11 @@ const CustomLang = {
   _暂停: "Pause",
   _继续: "Continue",
 
+  // src\control\Compass.js
+  _导航球: "Navigation ball",
+  _拖拽调整俯仰角: "Drag to adjust pitch Angle",
+  _拖拽调整四周方向角: "Drag to adjust the Heading Angle, double-click to return to true north",
+
   // 右键菜单 src\map\core\getDefaultContextMenu.js
   _查看此处坐标: "Location info",
   _位置信息: "The location information",
@@ -216,6 +221,7 @@ const CustomLang = {
   _无法删除不能少于最小点数:
     "Cannot delete, the number of dots cannot be less than",
   _删除: "Delete",
+  _半径: "Radius",
 
   // src\graphic\entity\ModelEntity.js
   _加载模型中: "Load Model…"

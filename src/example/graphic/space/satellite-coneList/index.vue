@@ -28,7 +28,7 @@
         <td id="td_jd">{{ formState.td_jd }}</td>
       </tr>
       <tr>
-        <td class="nametd">经度</td>
+        <td class="nametd">纬度</td>
         <td id="td_wd">{{ formState.td_wd }}</td>
       </tr>
       <tr>

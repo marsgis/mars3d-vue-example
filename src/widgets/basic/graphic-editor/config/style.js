@@ -1144,7 +1144,7 @@ const styleConfig = {
         step: 1,
         defval: 1.0,
         show(style, allStyle, graphicType) {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
       {
@@ -1153,7 +1153,7 @@ const styleConfig = {
         type: "color",
         defval: "#ffffff",
         show(style, allStyle, graphicType) {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
 
@@ -2684,7 +2684,7 @@ const styleConfig = {
         step: 1,
         defval: 1,
         show(style, allStyle, graphicType) {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
       {
@@ -2693,7 +2693,7 @@ const styleConfig = {
         type: "color",
         defval: "#ffffff",
         show(style, allStyle, graphicType) {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
 
@@ -2841,7 +2841,7 @@ const styleConfig = {
         step: 1,
         defval: 1.0,
         show: (style) => {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
       {
@@ -2850,7 +2850,7 @@ const styleConfig = {
         type: "color",
         defval: "#ffffff",
         show: (style) => {
-          return style.outline
+          return style.outline && !style.outlineStyle
         }
       },
 
@@ -3118,6 +3118,19 @@ const styleConfig = {
           return style.fill !== false
         }
       },
+
+
+      {
+        name: "offsetHeight",
+        label: "偏移高度",
+        type: "number",
+        step: 1,
+        defval: 0.0,
+        show(style, allStyle, graphicType) {
+          return !style.clampToGround
+        }
+      },
+
       {
         name: "diffHeight",
         label: "立体高度",

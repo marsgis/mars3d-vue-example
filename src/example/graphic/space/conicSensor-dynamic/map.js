@@ -43,7 +43,7 @@ export function onMounted(mapInstance) {
     position: property,
     style: {
       angle: 15,
-      length: 2500000,
+      length: 950000,
       color: "rgba(255,0,0,0.4)",
       outlineColor: "rgba(255,255,255,0.9)"
     }
