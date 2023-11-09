@@ -559,6 +559,9 @@ const onClickClear = () => {
 
   layer.enabledEvent = false // 关闭事件，大数据removeGraphic时效率低
   layer.clear()
+  if (mapWork.clear) {
+    mapWork.clear()
+  }
   layer.enabledEvent = true
 
   formState.isDrawing = false

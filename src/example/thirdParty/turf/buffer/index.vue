@@ -12,6 +12,7 @@
       <mars-button @click="drawPoint">点</mars-button>
       <mars-button @click="drawPolyline">线</mars-button>
       <mars-button @click="drawPolygon">面</mars-button>
+      <mars-button @click="clearAll">清除</mars-button>
     </a-space>
   </mars-dialog>
 </template>
@@ -41,6 +42,13 @@ const radiusChange = () => {
 }
 
 radiusChange()
+
+
+// 清除
+const clearAll = () => {
+  mapWork.deleteAll()
+}
+
 </script>
 <style scoped lang="less">
 .mars-pannel-item-label {

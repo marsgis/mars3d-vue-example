@@ -1144,7 +1144,7 @@ const styleConfig = {
         step: 1,
         defval: 1.0,
         show(style, allStyle, graphicType) {
-          return style.outline && !style.outlineStyle
+          return style.outline
         }
       },
       {
@@ -1153,7 +1153,30 @@ const styleConfig = {
         type: "color",
         defval: "#ffffff",
         show(style, allStyle, graphicType) {
-          return style.outline && !style.outlineStyle
+          return style.outline
+        }
+      },
+      {
+        name: "outlineStyle",
+        style: [
+          {
+            name: "materialType",
+            label: "边框材质",
+            type: "combobox",
+            defval: "Color",
+            data: [
+              { label: "纯色", value: "Color" },
+              { label: "十字间隔", value: "LineCross" },
+              { label: "图片", value: "Image2", defval: { image: "img/tietu/gugong.jpg" } },
+              { label: "衬色线", value: "PolylineOutline" },
+              { label: "光晕", value: "PolylineGlow" },
+              { label: "OD线", value: "ODLine" },
+              { label: "泛光线", value: "LineBloom" }
+            ]
+          }
+        ],
+        show(style, allStyle, graphicType) {
+          return style.outline
         }
       },
 
@@ -3118,7 +3141,6 @@ const styleConfig = {
           return style.fill !== false
         }
       },
-
 
       {
         name: "offsetHeight",

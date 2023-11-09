@@ -1491,6 +1491,13 @@
             "thumbnail": "graphic-combine-water.jpg",
             "main": "graphic/combine/water",
             "hasPannel": true
+          },
+          {
+            "name": "河流断面水面动态升降",
+            "thumbnail": "graphic-combine-water-section.jpg",
+            "main": "graphic/combine/water-section",
+            "resources": ["water-data.js"],
+            "new": true
           }
         ]
       },
@@ -2531,7 +2538,41 @@
         ]
       },
       {
-        "name": "各种特效",
+        "name": "其他",
+        "children": [
+          {
+            "name": "月球",
+            "thumbnail": "map-other-moon.jpg",
+            "main": "map/other/moon",
+            "resources": ["background.css"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "特效",
+    "icon": "fa-futbol-o",
+    "children": [
+      {
+        "name": "对象交互特效",
+        "children": [
+          {
+            "name": "对象描边",
+            "thumbnail": "effect-outlineEffect.jpg",
+            "main": "effect/outlineEffect",
+            "hasPannel": true
+          },
+          {
+            "name": "对象泛光",
+            "thumbnail": "effect-bloomTarget.jpg",
+            "main": "effect/bloomTarget",
+            "hasPannel": true
+          }
+        ]
+      },
+      {
+        "name": "天气特效",
         "children": [
           {
             "name": "雾天气",
@@ -2555,18 +2596,18 @@
             "name": "云图",
             "thumbnail": "graphic-entity-rectangle-cloud.gif",
             "main": "graphic/entity/rectangle-cloud"
-          },
+          }
+        ]
+      },
+      {
+        "name": "色彩特效",
+        "children": [
           {
-            "name": "对象描边",
-            "thumbnail": "effect-outlineEffect.jpg",
-            "main": "effect/outlineEffect",
-            "hasPannel": true
-          },
-          {
-            "name": "对象泛光",
-            "thumbnail": "effect-bloomTarget.jpg",
-            "main": "effect/bloomTarget",
-            "hasPannel": true
+            "name": "颜色校正",
+            "thumbnail": "effect-colorCorrection.jpg",
+            "main": "effect/colorCorrection",
+            "hasPannel": true,
+            "new": true
           },
           {
             "name": "泛光特效",
@@ -2581,18 +2622,6 @@
             "hasPannel": true
           },
           {
-            "name": "夜视效果",
-            "thumbnail": "effect-nightVision.jpg",
-            "main": "effect/nightVision",
-            "hasPannel": true
-          },
-          {
-            "name": "黑白效果",
-            "thumbnail": "effect-blackAndWhite.jpg",
-            "main": "effect/blackAndWhite",
-            "hasPannel": true
-          },
-          {
             "name": "马赛克效果",
             "thumbnail": "effect-mosaic.jpg",
             "main": "effect/mosaic",
@@ -2603,17 +2632,18 @@
             "thumbnail": "effect-depthOfField.jpg",
             "main": "effect/depthOfField",
             "hasPannel": true
-          }
-        ]
-      },
-      {
-        "name": "其他",
-        "children": [
+          },
           {
-            "name": "月球",
-            "thumbnail": "map-other-moon.jpg",
-            "main": "map/other/moon",
-            "resources": ["background.css"]
+            "name": "夜视效果",
+            "thumbnail": "effect-nightVision.jpg",
+            "main": "effect/nightVision",
+            "hasPannel": true
+          },
+          {
+            "name": "黑白效果",
+            "thumbnail": "effect-blackAndWhite.jpg",
+            "main": "effect/blackAndWhite",
+            "hasPannel": true
           }
         ]
       }
