@@ -30,6 +30,7 @@
                       :max="item.max || item.max === 0 ? item.max : Infinity"
                       :step="item.step || 0.1"
                       :options="item.data || []"
+                      :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                       @change="unionChange(item, item.data)"
                       :tofixed="item.toFixed"
                     ></base-comp>
@@ -48,6 +49,7 @@
                         :max="material.max || material.max === 0 ? material.max : Infinity"
                         :step="material.step || 0.1"
                         :options="material.data || []"
+                        :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                         @change="materialChange(material)"
                       ></base-comp>
                     </td>
@@ -68,6 +70,7 @@
                         :max="it.max || it.max === 0 ? it.max : Infinity"
                         :step="it.step || 0.1"
                         :options="it.data || []"
+                        :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                         @change="childChange(it, item.name, it.data)"
                         :tofixed="it.toFixed"
                       >
@@ -88,6 +91,7 @@
                           :max="childMaterial.max || childMaterial.max === 0 ? childMaterial.max : Infinity"
                           :step="childMaterial.step || 0.1"
                           :options="childMaterial.data || []"
+                          :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                           @change="childMaterialChange(item.name)"
                         ></base-comp>
                       </td>
@@ -114,6 +118,7 @@
                 :max="item.max || item.max === 0 ? item.max : Infinity"
                 :step="item.step || 0.1"
                 :options="item.data || []"
+                :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                 @change="labelChange(item)"
               ></base-comp>
             </td>
@@ -249,7 +254,7 @@ function updateViewStyles() {
     const isShow = getViewShow(item, styleValue.value)
 
     if (item.name === "materialType" && isShow) {
-      // 处理材质相关属性的现实隐藏
+      // 处理材质相关属性的显示隐藏
       updateMaterialViewStyles()
     }
 
@@ -259,7 +264,7 @@ function updateViewStyles() {
         const isShow = getViewShow(it, styleValue.value[item.name])
 
         if (it.name === "materialType" && isShow) {
-          // 处理材质相关属性的现实隐藏
+          // 处理材质相关属性的显示隐藏
           updateChildMaterial(item.name)
         }
 
@@ -270,7 +275,7 @@ function updateViewStyles() {
   })
 }
 
-// 处理材质相关属性的现实隐藏，通过配置中的show属性来控制
+// 处理材质相关属性的显示隐藏，通过配置中的show属性来控制
 function updateMaterialViewStyles() {
   const materialType = styleValue.value.materialType.split("-")[0]
   const defaultTypes = materialConfig[materialType] || []
@@ -280,6 +285,7 @@ function updateMaterialViewStyles() {
   })
 }
 
+// 处理材质相关属性的显示隐藏
 function updateChildMaterial(parentName: string) {
   const parentStyle = styleValue.value[parentName]
 
@@ -329,9 +335,18 @@ function setDefault() {
     }
 
     // 有子级，且子级中有材质属性
-    if (item.style && styleValue.value[item.name]) {
+    if (item.style) {
+      if (!styleValue.value[item.name]) {
+        styleValue.value[item.name] = {}
+      }
+
       item.style.forEach((it) => {
-        styleValue.value[item.name][it.name] = styleValue.value[item.name][it.name] ?? getViewDefval(it, styleValue.value[item.name]) // 数据中没有的地方使用默认值
+        // 取外部关联的参数值
+        let val = null
+        if (it.contant) {
+          val = styleValue.value[it.contant]
+        }
+        styleValue.value[item.name][it.name] = styleValue.value[item.name][it.name] ?? val ?? getViewDefval(it, styleValue.value[item.name]) // 数据中没有的地方使用默认值
 
         if (it.name === "materialType") {
           const type = styleValue.value[item.name].materialType
@@ -374,7 +389,12 @@ function setChildMaterialOption(materialType, item, parentName: string) {
       if (value === materialType) {
         const defval = m.defval || {}
         materialConfig[materialType].forEach((p) => {
-          const val = parentStyle.materialOptions[p.name]
+          let val = null
+          // 取外部关联的参数值
+          if (m.contant) {
+            val = styleValue.value[m.contant]
+          }
+
           // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
           parentStyle.materialOptions[p.name] = val ?? parentStyle[p.name] ?? defval[p.name] ?? getViewDefval(p, parentStyle.materialOptions)
         })
@@ -426,14 +446,20 @@ function updateMaterials() {
 
 function updateChildeMaterials(parentName: string) {
   const parentStyle = styleValue.value[parentName]
+
+  const materialType = parentStyle.materialType.split("-")[0]
   const materialOptions: Record<string, any> = {}
 
   viewChildMaterials.value.forEach((item) => {
     materialOptions[item.name] = parentStyle.materialOptions[item.name] ?? getViewDefval(item, parentStyle.materialOptions)
   })
 
-  console.log("修改了材质 updateChildeMaterials", materialOptions)
-  emit("styleChange", { [parentName]: { materialOptions } })
+  const options: any = { [parentName]: { materialType, materialOptions } }
+
+  if (parentStyle.materialType === "Color") {
+    options[parentName].color = materialOptions.color
+  }
+  emit("styleChange", options)
 }
 
 function materialChange(item) {
@@ -444,8 +470,9 @@ function materialChange(item) {
 }
 
 function childMaterialChange(parentName: string) {
+  // 处理材质相关属性的显示隐藏
   updateChildMaterial(parentName)
-
+  // 处理材质相关属性
   updateChildeMaterials(parentName)
 }
 

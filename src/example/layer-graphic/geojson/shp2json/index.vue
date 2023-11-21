@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" height="90">
     <a-space>
-      <mars-button @click="shoXZM">乡镇面</mars-button>
+      <mars-button @click="shoXZM">社区面</mars-button>
       <mars-button @click="shoGCD">高程点</mars-button>
     </a-space>
     <div class="f-pt">

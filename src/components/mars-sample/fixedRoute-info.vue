@@ -74,9 +74,9 @@ onMounted(() => {
 })
 
 function showInfo(item: any) {
-  let val = Math.ceil((item.second * 100) / item.second_all)
+  let val = Math.ceil((item.distance * 100) / item.distance_all)
   if (val < 1) {
-    val = 1
+    val = 0
   }
   if (val > 100) {
     val = 100

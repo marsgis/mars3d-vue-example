@@ -6,6 +6,7 @@
         <span class="mars-pannel-item-label">模型:</span>
         <mars-button @click="showDytDemo">大雁塔</mars-button>
         <mars-button @click="showTehDemo">天鹅湖</mars-button>
+        <mars-button @click="showXianDemo">县城</mars-button>
       </a-space>
     </div>
 
@@ -176,6 +177,13 @@ const showTehDemo = () => {
 
   formState.radio = "2"
 }
+const showXianDemo = () => {
+  mapWork.showXianDemo()
+
+  formState.radio = "2"
+}
+
+
 </script>
 <style scoped lang="less">
 .ant-slider {
