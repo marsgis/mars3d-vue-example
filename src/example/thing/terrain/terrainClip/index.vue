@@ -16,7 +16,7 @@
           <a-form-item label="开挖区域" :labelCol="labelCol" :labelAlign="labelAlign">
             <a-space>
               <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-              <mars-button @click="btnDraw">添加多边行</mars-button>
+              <mars-button @click="btnDraw">添加多边形</mars-button>
               <mars-button @click="removeAll">清除</mars-button>
             </a-space>
           </a-form-item>

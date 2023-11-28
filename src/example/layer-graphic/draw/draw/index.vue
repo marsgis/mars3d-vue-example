@@ -103,6 +103,16 @@
         </a-col>
       </a-row>
     </div>
+    <div class="f-pt">
+      <a-row>
+        <a-col :span="5">其他:</a-col>
+        <a-col :span="19">
+          <a-space>
+            <mars-button @click="mapWork.drawSatellite()">卫星</mars-button>
+          </a-space>
+        </a-col>
+      </a-row>
+    </div>
   </mars-dialog>
   <location-to />
 </template>

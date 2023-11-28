@@ -56,7 +56,7 @@ export function showDytDemo() {
 
     // 可传入TilesetFlat构造参数，下面是演示压平区域
     flat: {
-      precise: precise,
+      precise,
       area: [
         {
           positions: [
@@ -97,7 +97,7 @@ export function showTehDemo() {
 
     editHeight: -140.0, // 相对高度 (单位：米)，基于 压平/淹没区域 最低点高度的偏移量
     flat: {
-      precise: precise,
+      precise,
       enabled: true
     },
 
@@ -124,7 +124,7 @@ export function showXianDemo() {
 
     editHeight: -18.0, // 相对高度 (单位：米)，基于 压平/淹没区域 最低点高度的偏移量
     flat: {
-      precise: precise,
+      precise,
       enabled: true
     },
     flyTo: true

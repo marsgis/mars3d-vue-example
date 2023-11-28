@@ -47,7 +47,7 @@ export function showDytDemo() {
     position: { alt: -27 },
     maximumScreenSpaceError: 1,
     flood: {
-      precise: precise,
+      precise,
       editHeight: -24, // 相对高度 (单位：米)，基于 压平/淹没区域 最低点高度的偏移量
       enabled: true
     },
@@ -88,7 +88,7 @@ export function showTehDemo() {
 
     editHeight: -140.0, // 相对高度 (单位：米)，基于 压平/淹没区域 最低点高度的偏移量
     flood: {
-      precise: precise,
+      precise,
       enabled: true
     },
 
@@ -132,7 +132,7 @@ export function showXianDemo() {
 
     editHeight: -18.0, // 相对高度 (单位：米)，基于 压平/淹没区域 最低点高度的偏移量
     flood: {
-      precise: precise,
+      precise,
       enabled: true
     },
     flyTo: true
