@@ -20,14 +20,11 @@
     "outDir": "dist",
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "isolatedModules": false,
-    "types": ["vite/client", "node"],
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@mars/*": ["src/*"]
     }
-  },
-  "vueCompilerOptions": {
-    "experimentalDisableTemplateSupport": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "exclude": ["node_modules", "src/**/*.js", "dist"]
