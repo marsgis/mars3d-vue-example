@@ -27,7 +27,7 @@ export default defineComponent({
 
   :deep(.ant-slider-mark-text) {
     color: var(--mars-base-color) !important;
-    top: 5px;
+    top: 10px;
   }
 
   /*滑动条 未选择、已选择部分 高度*/

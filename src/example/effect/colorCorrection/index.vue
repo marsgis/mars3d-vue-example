@@ -1,21 +1,21 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" >
+  <mars-dialog :visible="true" right="10" top="10">
     <a-form>
-      <a-form-item label="启用">
+      <a-form-item label="启用" :labelCol="{ span: 7 }">
         <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
       </a-form-item>
 
-      <a-form-item label="亮度">
+      <a-form-item label="亮度" :labelCol="{ span: 7 }">
         <mars-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="0.0" :max="2.0" :step="0.1" />
       </a-form-item>
-      <a-form-item label="对比度">
+      <a-form-item label="对比度" :labelCol="{ span: 7 }">
         <mars-slider v-model:value="formState.contrast" @change="onChangeContrast" :min="0.0" :max="2.0" :step="0.1" />
       </a-form-item>
-      <a-form-item label="色调">
+      <a-form-item label="色调" :labelCol="{ span: 7 }">
         <mars-slider v-model:value="formState.hue" @change="onChangeigma" :min="0.0" :max="1.0" :step="0.1" />
       </a-form-item>
-      <a-form-item label="饱和度">
-        <mars-slider v-model:value="formState.saturation" @change="onChangeSaturation"  :min="0.0" :max="2.0" :step="0.1" />
+      <a-form-item label="饱和度" :labelCol="{ span: 7 }">
+        <mars-slider v-model:value="formState.saturation" @change="onChangeSaturation" :min="0.0" :max="2.0" :step="0.1" />
       </a-form-item>
     </a-form>
   </mars-dialog>
@@ -55,6 +55,6 @@ const onChangeSaturation = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 100px;
+  width: 150px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
     <a-space>
-      <span class="mars-pannel-item-label">绘制:</span>
+      <span>绘制:</span>
       <mars-button @click="drawPoint">选择点</mars-button>
       <mars-button @click="clearAll">清除</mars-button>
     </a-space>

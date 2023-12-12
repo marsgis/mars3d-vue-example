@@ -2205,39 +2205,39 @@ const styleConfig = {
       },
       {
         name: "cone_show",
-        label: "是否显示视锥体",
+        label: "是否显示视椎体",
         type: "radio",
         defval: false
       },
       {
         name: "cone_angle1",
-        label: "视锥体半场角1",
+        label: "视椎体半场角1",
         type: "slider",
         min: 0.1,
         max: 80,
         step: 0.01,
-        defval: 20,
+        defval: 5,
         show(style, allStyle, graphicType) {
           return style.cone_show
         }
       },
       {
         name: "cone_angle2",
-        label: "视锥体半场角2",
+        label: "视椎体半场角2",
         type: "slider",
         min: 0.1,
         max: 80,
         step: 0.01,
-        defval: 20,
+        defval: 5,
         show(style, allStyle, graphicType) {
           return style.cone_show
         }
       },
       {
         name: "cone_color",
-        label: "视锥体颜色",
+        label: "视椎体颜色",
         type: "color",
-        defval: "rgba(255,0,0,0.4)",
+        defval: "rgba(255,255,0,0.4)",
         show(style, allStyle, graphicType) {
           return style.cone_show
         }
@@ -3214,6 +3214,7 @@ const styleConfig = {
         name: "radius",
         label: "半径",
         type: "number",
+        toFixed: 2,
         step: 0.1,
         defval: 0.0
       },

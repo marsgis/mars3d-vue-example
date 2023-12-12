@@ -299,7 +299,7 @@ html {
 .mars3d-sub-menu>li>a:focus,
 .mars3d-contextmenu-ul>li>.active,
 .mars3d-sub-menu>li>.active {
-  background-color:var(--mars-hover-btn-bg,#3ea6ff);
+  background-color: var(--mars-hover-btn-bg, #3ea6ff);
 }
 
 .mars3d-contextmenu-ul>.active>a,
@@ -308,7 +308,7 @@ html {
 .mars3d-sub-menu>.active>a:hover,
 .mars3d-contextmenu-ul>.active>a:focus,
 .mars3d-sub-menu>.active>a:focus {
-  background-color: var(--mars-hover-btn-bg,#3ea6ff);
+  background-color: var(--mars-hover-btn-bg, #3ea6ff);
 }
 
 /* Popup样式*/
@@ -360,6 +360,7 @@ html {
   padding: 3px 10px;
   border: 1px solid #209ffd;
   background: #209ffd1c;
+  color: var(--mars-base-color, #ffffff);
 }
 
 .mars3d-popup-content {

@@ -8,8 +8,10 @@
       </a-space>
     </div>
     <div class="f-mb sliderLength">
-      <span title="平移的步长（单位：米）" class="tip-name">平移步长:</span>
-      <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
+      <a-space>
+        <span title="平移的步长（单位：米）" class="tip-name">平移步长:</span>
+        <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
+      </a-space>
     </div>
     <div class="f-mb">
       <img src="/img/tietu/keyboard.png" alt="" />

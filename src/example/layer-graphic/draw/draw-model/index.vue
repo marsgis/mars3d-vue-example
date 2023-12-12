@@ -17,7 +17,7 @@
       <div class="f-pt">
         <a-space>
           <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
-          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在Tiles上拾取</a-checkbox>
+          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在模型或矢量上拾取</a-checkbox>
           <a-checkbox @change="chkHasTerrain" v-model:checked="isHasTerrain">地形</a-checkbox>
         </a-space>
       </div>

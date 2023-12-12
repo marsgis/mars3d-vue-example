@@ -11,7 +11,7 @@
             <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
             <a-checkbox v-model:checked="onlyPickModelPosition" @change="onChangeOnlyPickModel">
-              <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在Tiles上拾取</span>
+              <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在模型或矢量上拾取</span>
             </a-checkbox>
           </a-space>
         </a-col>

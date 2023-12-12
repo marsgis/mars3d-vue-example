@@ -14,7 +14,7 @@ export default defineComponent({
     const attrs = useAttrs()
     const slots = useSlots()
 
-    // 在style.js中配置toFixed用于控制保留小数位数
+    // 在style.js中配置 toFixed 用于控制保留小数位数
     return {
       slots,
       attrs
