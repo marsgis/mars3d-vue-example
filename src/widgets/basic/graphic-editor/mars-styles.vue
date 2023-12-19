@@ -18,10 +18,25 @@
           <template v-for="(item, i) in viewStyles" :key="i">
             <!-- 不是hidden类型 -->
             <template v-if="item.type !== 'hidden'">
-              <template v-if="!item.style">
-                <tr>
-                  <td>{{ item.label }}</td>
-                  <td>
+              <tr>
+                <td>{{ item.label }}</td>
+                <td>
+                  <!-- 含有下一级参数 -->
+                  <template v-if="item.next">
+                    <base-comp
+                      :type="item.type"
+                      size="small"
+                      v-model:value="styleValue[item.name][item.next]"
+                      :min="item.min || item.min === 0 ? item.min : -Infinity"
+                      :max="item.max || item.max === 0 ? item.max : Infinity"
+                      :step="item.step || 0.1"
+                      :options="item.data || []"
+                      @change="unionChange(item, item.data)"
+                      :tofixed="item.toFixed"
+                    ></base-comp>
+                  </template>
+
+                  <template v-else>
                     <base-comp
                       :type="item.type"
                       size="small"
@@ -30,74 +45,48 @@
                       :max="item.max || item.max === 0 ? item.max : Infinity"
                       :step="item.step || 0.1"
                       :options="item.data || []"
-                      :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                       @change="unionChange(item, item.data)"
                       :tofixed="item.toFixed"
                     ></base-comp>
+                  </template>
+                </td>
+              </tr>
+              <!-- 材质相关属性 -->
+              <template v-if="item.name === 'materialType' && viewMaterials && styleValue.materialOptions">
+                <tr v-for="(material, mi) in viewMaterials" :key="mi">
+                  <td>{{ material.label }}</td>
+                  <td>
+                    <base-comp
+                      :type="material.type"
+                      size="small"
+                      v-model:value="styleValue.materialOptions[material.name]"
+                      :min="material.min || material.min === 0 ? material.min : -Infinity"
+                      :max="material.max || material.max === 0 ? material.max : Infinity"
+                      :step="material.step || 0.1"
+                      :options="material.data || []"
+                      @change="materialChange(material)"
+                    ></base-comp>
                   </td>
                 </tr>
-                <!-- 材质相关属性 -->
-                <template v-if="item.name === 'materialType' && viewMaterials && styleValue.materialOptions">
-                  <tr v-for="(material, mi) in viewMaterials" :key="mi">
-                    <td>{{ material.label }}</td>
-                    <td>
-                      <base-comp
-                        :type="material.type"
-                        size="small"
-                        v-model:value="styleValue.materialOptions[material.name]"
-                        :min="material.min || material.min === 0 ? material.min : -Infinity"
-                        :max="material.max || material.max === 0 ? material.max : Infinity"
-                        :step="material.step || 0.1"
-                        :options="material.data || []"
-                        :getPopupContainer="(triggerNode) => triggerNode.parentNode"
-                        @change="materialChange(material)"
-                      ></base-comp>
-                    </td>
-                  </tr>
-                </template>
               </template>
 
-              <template v-else>
-                <template v-for="(it, j) in item.style" :key="j">
-                  <tr>
-                    <td>{{ it.label }}</td>
-                    <td>
-                      <base-comp
-                        :type="it.type"
-                        size="small"
-                        v-model:value="styleValue[item.name][it.name]"
-                        :min="it.min || it.min === 0 ? it.min : -Infinity"
-                        :max="it.max || it.max === 0 ? it.max : Infinity"
-                        :step="it.step || 0.1"
-                        :options="it.data || []"
-                        :getPopupContainer="(triggerNode) => triggerNode.parentNode"
-                        @change="childChange(it, item.name, it.data)"
-                        :tofixed="it.toFixed"
-                      >
-                      </base-comp>
-                    </td>
-                  </tr>
-
-                  <!-- 材质相关属性 -->
-                  <template v-if="it.name === 'materialType' && viewChildMaterials && styleValue[item.name].materialOptions">
-                    <tr v-for="(childMaterial, mi) in viewChildMaterials" :key="mi">
-                      <td>{{ childMaterial.label }}</td>
-                      <td>
-                        <base-comp
-                          :type="childMaterial.type"
-                          size="small"
-                          v-model:value="styleValue[item.name].materialOptions[childMaterial.name]"
-                          :min="childMaterial.min || childMaterial.min === 0 ? childMaterial.min : -Infinity"
-                          :max="childMaterial.max || childMaterial.max === 0 ? childMaterial.max : Infinity"
-                          :step="childMaterial.step || 0.1"
-                          :options="childMaterial.data || []"
-                          :getPopupContainer="(triggerNode) => triggerNode.parentNode"
-                          @change="childMaterialChange(item.name)"
-                        ></base-comp>
-                      </td>
-                    </tr>
-                  </template>
-                </template>
+              <!-- 子级参数的材质相关属性 -->
+              <template v-if="item.next === 'materialType' && nextViewMaterials && styleValue[item.name].materialOptions">
+                <tr v-for="(material, mi) in nextViewMaterials" :key="mi">
+                  <td>{{ material.label }}</td>
+                  <td>
+                    <base-comp
+                      :type="material.type"
+                      size="small"
+                      v-model:value="styleValue[item.name].materialOptions[material.name]"
+                      :min="material.min || material.min === 0 ? material.min : -Infinity"
+                      :max="material.max || material.max === 0 ? material.max : Infinity"
+                      :step="material.step || 0.1"
+                      :options="material.data || []"
+                      @change="nextMaterialChange(material, item)"
+                    ></base-comp>
+                  </td>
+                </tr>
               </template>
             </template>
           </template>
@@ -118,7 +107,6 @@
                 :max="item.max || item.max === 0 ? item.max : Infinity"
                 :step="item.step || 0.1"
                 :options="item.data || []"
-                :getPopupContainer="(triggerNode) => triggerNode.parentNode"
                 @change="labelChange(item)"
               ></base-comp>
             </td>
@@ -149,7 +137,7 @@ const emit = defineEmits(["styleChange"])
 const styleValue = ref<any>({})
 const viewStyles = ref<any[]>([])
 const viewMaterials = ref<any[]>([])
-const viewChildMaterials = ref<any[]>([]) // 二级参数中的材质类型
+const nextViewMaterials = ref<any[]>([])
 const styleType = ref("")
 
 let originStyles = [] // 原始的完整style配置
@@ -179,6 +167,104 @@ watch(
 
 const styleCollapse = ref(["1", "2"])
 
+function getViewShow(config, styleOptions) {
+  if (typeof config.show === "function") {
+    return config.show(styleOptions, styleValue.value, props.graphicType)
+  }
+  return true
+}
+
+function getViewDefval(config, styleOptions) {
+  if (typeof config.defval === "function") {
+    return config.defval(styleOptions, styleValue.value, props.graphicType)
+  } else {
+    return config.defval
+  }
+}
+// ************************************************ 初始化
+// 设置初始化的默认值
+function setDefault() {
+  styleValue.value = _.cloneDeep(props.style)
+
+  const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
+  if (!styleConfig) {
+    return
+  }
+
+  styleType.value = styleConfig.type
+  originStyles = _.cloneDeep(styleConfig.style)
+
+  let materialTypeOption
+  const materialType = styleValue.value.materialType
+
+  originStyles.forEach((item: any) => {
+    if (item.next) {
+      if (!styleValue.value[item.name]) {
+        styleValue.value[item.name] = {}
+      }
+      let val = null
+      if (item.contant && props.style[item.contant]) {
+        val = props.style[item.contant]
+      }
+      styleValue.value[item.name][item.next] = styleValue.value[item.name][item.next] ?? val ?? getViewDefval(item, styleValue.value) // 数据中没有的地方使用默认值
+
+      if (item.next === "materialType") {
+        setNextMaterial(styleValue.value[item.name].materialType, item, item.name)
+      }
+    } else {
+      styleValue.value[item.name] = styleValue.value[item.name] ?? getViewDefval(item, styleValue.value) // 数据中没有的地方使用默认值
+      if (item.name === "materialType") {
+        materialTypeOption = item
+      }
+    }
+  })
+
+  if (materialType && materialTypeOption) {
+    if (!styleValue.value.materialOptions) {
+      styleValue.value.materialOptions = {}
+    }
+
+    materialTypeOption.data.forEach((m) => {
+      const value = m.value
+      if (value === materialType) {
+        const defval = m.defval || {}
+        materialConfig[materialType].forEach((p) => {
+          const val = styleValue.value.materialOptions[p.name]
+          // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
+          styleValue.value.materialOptions[p.name] =
+            val ?? styleValue.value[p.name] ?? defval[p.name] ?? getViewDefval(p, styleValue.value.materialOptions)
+        })
+      }
+    })
+  }
+}
+
+function setNextMaterial(type, options, parent) {
+  if (type && options) {
+    if (!styleValue.value[parent].materialOptions) {
+      styleValue.value[parent].materialOptions = {}
+    }
+
+    options.data.forEach((m) => {
+      const value = m.value
+      if (value === type) {
+        const defval = m.defval || {}
+
+        materialConfig[type].forEach((p) => {
+          // 初始化进入默认值的取值顺序 1. 本身属性 2.父参数中数值 3. 关联参数  4. style.js 材质默认值 5. material.js 的默认值
+          styleValue.value[parent].materialOptions[p.name] =
+            styleValue.value[parent].materialOptions[p.name] ??
+            styleValue.value[parent][p.name] ??
+            styleValue.value[m.contant] ??
+            defval[p.name] ??
+            getViewDefval(p, styleValue.value[parent].materialOptions)
+        })
+      }
+    })
+  }
+}
+
+// ************************************************ 修改、更新
 // 非材质属性改变
 function unionChange(item: any, selectOptions?: any[]) {
   const name = item.name
@@ -210,42 +296,28 @@ function unionChange(item: any, selectOptions?: any[]) {
     })
     styleValue.value.materialOptions = materialOptions
   }
-
+  if (item.next && item.next === "materialType") {
+    // 设置材质属性的默认值
+    let defval = {}
+    if (selectOptions) {
+      const mOp = selectOptions.find((item) => item.value === styleValue.value[name].materialType) // 当前选项的材质属性配置
+      if (mOp) {
+        defval = mOp.defval || {}
+      }
+      const materialType = styleValue.value[name].materialType.split("-")[0]
+      const materialOptions = {}
+      materialConfig[materialType].forEach((p) => {
+        // 更新时的默认值的取值顺序 1. style.js 材质默认值 2. material.js 的默认值
+        materialOptions[p.name] = defval[p.name] ?? getViewDefval(p, materialOptions)
+      })
+      styleValue.value[name].materialOptions = materialOptions
+    }
+  }
   // 处理属性控件的显示隐藏
   updateViewStyles()
 
   // 控制图层样式改变
   updateStyle(item)
-}
-
-// 二级参数改变
-function childChange(child: any, parentName: string, options?: any[]) {
-  const name = child.name
-  const parentStyle = styleValue.value[parentName]
-  // 材质类型 materialType 改变时的特殊处理
-  if (name === "materialType") {
-    // 设置材质属性的默认值
-    let defval = {}
-    if (options) {
-      const mOp = options.find((item) => item.value === parentStyle.materialType) // 当前选项的材质属性配置
-      if (mOp) {
-        defval = mOp.defval || {}
-      }
-    }
-    const materialType = parentStyle.materialType.split("-")[0]
-    const materialOptions = {}
-    materialConfig[materialType].forEach((p) => {
-      // 更新时的默认值的取值顺序 1. style.js 材质默认值 2. material.js 的默认值
-      materialOptions[p.name] = defval[p.name] ?? getViewDefval(p, materialOptions)
-    })
-    parentStyle.materialOptions = materialOptions
-  }
-
-  // 处理属性控件的显示隐藏
-  updateViewStyles()
-
-  // 控制图层样式改变
-  updateChildStyle(child, parentName)
 }
 
 // 更新属性的显示隐藏，通过配置中的show属性来控制
@@ -254,28 +326,38 @@ function updateViewStyles() {
     const isShow = getViewShow(item, styleValue.value)
 
     if (item.name === "materialType" && isShow) {
-      // 处理材质相关属性的显示隐藏
+      // 处理材质相关属性的现实隐藏
       updateMaterialViewStyles()
     }
 
-    // 二级参数
-    if (item.style && isShow) {
-      item.style.forEach((it) => {
-        const isShow = getViewShow(it, styleValue.value[item.name])
-
-        if (it.name === "materialType" && isShow) {
-          // 处理材质相关属性的显示隐藏
-          updateChildMaterial(item.name)
-        }
-
-        return isShow
-      })
+    if (item.next === "materialType" && isShow) {
+      // 处理拥有子级参数的材质相关属性的现实隐藏
+      updateNextMaterialViewStyles(item.name)
     }
     return isShow
   })
 }
 
-// 处理材质相关属性的显示隐藏，通过配置中的show属性来控制
+function updateStyle(item: any) {
+  if (item.next) {
+    updateNextStyle(item.name, item.next)
+    return
+  }
+  const val = toRaw(styleValue.value[item.name])
+  const data: Record<string, any> = {
+    [item.name]: item.name === "materialType" ? val.split("-")[0] : val
+  }
+
+  // 材质类型 materialType 改变时的特殊处理
+  if (item.name === "materialType") {
+    data.materialOptions = toRaw(styleValue.value.materialOptions)
+  }
+
+  // console.log("修改了普通参数", data)
+  emit("styleChange", data)
+}
+
+// 处理材质相关属性的现实隐藏，通过配置中的show属性来控制
 function updateMaterialViewStyles() {
   const materialType = styleValue.value.materialType.split("-")[0]
   const defaultTypes = materialConfig[materialType] || []
@@ -284,154 +366,6 @@ function updateMaterialViewStyles() {
     return getViewShow(item, styleValue.value.materialOptions)
   })
 }
-
-// 处理材质相关属性的显示隐藏
-function updateChildMaterial(parentName: string) {
-  const parentStyle = styleValue.value[parentName]
-
-  const materialType = parentStyle.materialType.split("-")[0]
-  const defaultTypes = materialConfig[materialType] || []
-
-  viewChildMaterials.value = defaultTypes.filter((item) => {
-    return getViewShow(item, parentStyle.materialOptions)
-  })
-}
-
-function getViewShow(config, styleOptions) {
-  if (typeof config.show === "function") {
-    return config.show(styleOptions, styleValue.value, props.graphicType)
-  }
-  return true
-}
-
-function getViewDefval(config, styleOptions) {
-  if (typeof config.defval === "function") {
-    return config.defval(styleOptions, styleValue.value, props.graphicType)
-  } else {
-    return config.defval
-  }
-}
-
-// 设置初始化的默认值
-function setDefault() {
-  styleValue.value = _.cloneDeep(props.style)
-
-  const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
-  if (!styleConfig) {
-    return
-  }
-
-  styleType.value = styleConfig.type
-  originStyles = _.cloneDeep(styleConfig.style)
-
-  let materialTypeOption
-
-  const materialType = styleValue.value.materialType
-
-  originStyles.forEach((item: any) => {
-    styleValue.value[item.name] = styleValue.value[item.name] ?? getViewDefval(item, styleValue.value) // 数据中没有的地方使用默认值
-    if (item.name === "materialType") {
-      materialTypeOption = item
-    }
-
-    // 有子级，且子级中有材质属性
-    if (item.style) {
-      if (!styleValue.value[item.name]) {
-        styleValue.value[item.name] = {}
-      }
-
-      item.style.forEach((it) => {
-        // 取外部关联的参数值
-        let val = null
-        if (it.contant) {
-          val = styleValue.value[it.contant]
-        }
-        styleValue.value[item.name][it.name] = styleValue.value[item.name][it.name] ?? val ?? getViewDefval(it, styleValue.value[item.name]) // 数据中没有的地方使用默认值
-
-        if (it.name === "materialType") {
-          const type = styleValue.value[item.name].materialType
-          setChildMaterialOption(type, it, item.name)
-        }
-      })
-    }
-  })
-
-  if (materialType && materialTypeOption) {
-    if (!styleValue.value.materialOptions) {
-      styleValue.value.materialOptions = {}
-    }
-
-    materialTypeOption.data.forEach((m) => {
-      const value = m.value
-      if (value === materialType) {
-        const defval = m.defval || {}
-        materialConfig[materialType].forEach((p) => {
-          const val = styleValue.value.materialOptions[p.name]
-          // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
-          styleValue.value.materialOptions[p.name] =
-            val ?? styleValue.value[p.name] ?? defval[p.name] ?? getViewDefval(p, styleValue.value.materialOptions)
-        })
-      }
-    })
-  }
-}
-
-function setChildMaterialOption(materialType, item, parentName: string) {
-  const parentStyle = styleValue.value[parentName]
-
-  if (materialType && item) {
-    if (!parentStyle.materialOptions) {
-      parentStyle.materialOptions = {}
-    }
-
-    item.data.forEach((m) => {
-      const value = m.value
-      if (value === materialType) {
-        const defval = m.defval || {}
-        materialConfig[materialType].forEach((p) => {
-          let val = null
-          // 取外部关联的参数值
-          if (m.contant) {
-            val = styleValue.value[m.contant]
-          }
-
-          // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
-          parentStyle.materialOptions[p.name] = val ?? parentStyle[p.name] ?? defval[p.name] ?? getViewDefval(p, parentStyle.materialOptions)
-        })
-      }
-    })
-  }
-}
-
-function updateStyle(item: any) {
-  const val = styleValue.value[item.name]
-  const data: Record<string, any> = {
-    [item.name]: item.name === "materialType" ? val.split("-")[0] : _.cloneDeep(val)
-  }
-
-  // 材质类型 materialType 改变时的特殊处理
-  if (item.name === "materialType") {
-    data.materialOptions = toRaw(styleValue.value.materialOptions)
-  }
-
-  emit("styleChange", data)
-}
-
-function updateChildStyle(child: any, parentName: string) {
-  const val = styleValue.value[parentName][child.name]
-
-  const data: Record<string, any> = {
-    [child.name]: child.name === "materialType" ? val.split("-")[0] : _.cloneDeep(val)
-  }
-
-  // 材质类型 materialType 改变时的特殊处理
-  if (child.name === "materialType") {
-    data.materialOptions = toRaw(styleValue.value[parentName].materialOptions)
-  }
-
-  emit("styleChange", { [parentName]: data })
-}
-
 function updateMaterials() {
   const materialOptions: Record<string, any> = {}
 
@@ -439,44 +373,58 @@ function updateMaterials() {
     materialOptions[item.name] = styleValue.value.materialOptions[item.name] ?? getViewDefval(item, styleValue.value.materialOptions)
   })
 
-  // console.log("修改了材质 updateMaterials", materialOptions)
-
+  // console.log("updateMaterials 更新  材质", materialOptions)
   emit("styleChange", { materialOptions })
 }
 
-function updateChildeMaterials(parentName: string) {
-  const parentStyle = styleValue.value[parentName]
-
-  const materialType = parentStyle.materialType.split("-")[0]
-  const materialOptions: Record<string, any> = {}
-
-  viewChildMaterials.value.forEach((item) => {
-    materialOptions[item.name] = parentStyle.materialOptions[item.name] ?? getViewDefval(item, parentStyle.materialOptions)
-  })
-
-  const options: any = { [parentName]: { materialType, materialOptions } }
-
-  if (parentStyle.materialType === "Color") {
-    options[parentName].color = materialOptions.color
-  }
-  emit("styleChange", options)
-}
-
 function materialChange(item) {
-  // console.log("更换了材质类型 materialChange", item)
+  // console.log("更换了材质类型", item)
   updateMaterialViewStyles()
-
   updateMaterials()
 }
 
-function childMaterialChange(parentName: string) {
-  // 处理材质相关属性的显示隐藏
-  updateChildMaterial(parentName)
-  // 处理材质相关属性
-  updateChildeMaterials(parentName)
+// ************************************************ 子级参数
+function updateNextStyle(parent: string, param: string) {
+  const val = styleValue.value[parent][param]
+
+  const data: Record<string, any> = {
+    [param]: param === "materialType" ? val.split("-")[0] : toRaw(val)
+  }
+
+  // 材质类型 materialType 改变时的特殊处理
+  if (param === "materialType") {
+    data.materialOptions = toRaw(styleValue.value[parent].materialOptions)
+  }
+
+  // console.log("修改 updateNextStyle 子级普通参数", data)
+  emit("styleChange", { [parent]: data })
 }
 
-// label相关处理
+function updateNextMaterialViewStyles(parent) {
+  const materialType = styleValue.value[parent].materialType?.split("-")[0]
+  const defaultTypes = materialConfig[materialType] || []
+
+  nextViewMaterials.value = defaultTypes.filter((item) => {
+    return getViewShow(item, styleValue.value[parent].materialOptions)
+  })
+}
+function updateNextMaterials(parent) {
+  const materialOptions: Record<string, any> = {}
+
+  nextViewMaterials.value.forEach((item) => {
+    materialOptions[item.name] = styleValue.value[parent].materialOptions[item.name] ?? getViewDefval(item, styleValue.value[parent].materialOptions)
+  })
+
+  // console.log("更新 子级 材质", materialOptions)
+  emit("styleChange", { [parent]: { materialOptions } })
+}
+
+function nextMaterialChange(_material: any, item: any) {
+  // console.log("nextMaterialChange 修改子级材质", item)
+  updateNextMaterialViewStyles(item.name)
+  updateNextMaterials(item.name)
+}
+// ************************************************ label相关处理
 function setLabelDefault() {
   originLabels = _.cloneDeep(styleConfigAll.label.style)
   if (originLabels) {

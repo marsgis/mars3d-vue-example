@@ -1159,37 +1159,34 @@ const styleConfig = {
       },
       {
         name: "outlineStyle",
-        style: [
-          {
-            name: "width",
-            label: "边框宽度",
-            type: "number",
-            min: 0,
-            step: 1,
-            defval: 1.0,
-            contant: "outlineWidth",
-            show(style, allStyle, graphicType) {
-              return style.outline && (style.diffHeight || !style.outlineStyle)
-            }
-          },
-          {
-            name: "materialType",
-            label: "边框材质",
-            type: "combobox",
-            defval: "Color",
-            data: [
-              { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
-              { label: "十字间隔", value: "LineCross" },
-              { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
-              { label: "衬色线", value: "PolylineOutline" },
-              { label: "光晕", value: "PolylineGlow" },
-              { label: "泛光线", value: "LineBloom" },
-              { label: "流动颜色", value: "LineFlowColor" },
+        next: "width",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        contant: "outlineWidth",
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.diffHeight
+        }
+      },
+      {
+        name: "outlineStyle",
+        next: "materialType",
+        label: "边框材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
+          { label: "十字间隔", value: "LineCross" },
+          { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
+          { label: "衬色线", value: "PolylineOutline" },
+          { label: "光晕", value: "PolylineGlow" },
+          { label: "泛光线", value: "LineBloom" },
+          { label: "流动颜色", value: "LineFlowColor" },
 
-              { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
-              { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
-            ]
-          }
+          { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
+          { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
@@ -1337,37 +1334,34 @@ const styleConfig = {
       },
       {
         name: "outlineStyle",
-        style: [
-          {
-            name: "width",
-            label: "边框宽度",
-            type: "number",
-            min: 0,
-            step: 1,
-            defval: 1.0,
-            contant: "outlineWidth",
-            show(style, allStyle, graphicType) {
-              return style.outline
-            }
-          },
-          {
-            name: "materialType",
-            label: "边框材质",
-            type: "combobox",
-            defval: "Color",
-            data: [
-              { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
-              { label: "十字间隔", value: "LineCross" },
-              { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
-              { label: "衬色线", value: "PolylineOutline" },
-              { label: "光晕", value: "PolylineGlow" },
-              { label: "泛光线", value: "LineBloom" },
-              { label: "流动颜色", value: "LineFlowColor" },
+        next: "width",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        contant: "outlineWidth",
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.diffHeight
+        }
+      },
+      {
+        name: "outlineStyle",
+        next: "materialType",
+        label: "边框材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
+          { label: "十字间隔", value: "LineCross" },
+          { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
+          { label: "衬色线", value: "PolylineOutline" },
+          { label: "光晕", value: "PolylineGlow" },
+          { label: "泛光线", value: "LineBloom" },
+          { label: "流动颜色", value: "LineFlowColor" },
 
-              { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
-              { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
-            ]
-          }
+          { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
+          { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
@@ -2907,37 +2901,34 @@ const styleConfig = {
       },
       {
         name: "outlineStyle",
-        style: [
-          {
-            name: "width",
-            label: "边框宽度",
-            type: "number",
-            min: 0,
-            step: 1,
-            defval: 1.0,
-            contant: "outlineWidth",
-            show(style, allStyle, graphicType) {
-              return style.outline
-            }
-          },
-          {
-            name: "materialType",
-            label: "边框材质",
-            type: "combobox",
-            defval: "Color",
-            data: [
-              { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
-              { label: "十字间隔", value: "LineCross" },
-              { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
-              { label: "衬色线", value: "PolylineOutline" },
-              { label: "光晕", value: "PolylineGlow" },
-              { label: "泛光线", value: "LineBloom" },
-              { label: "流动颜色", value: "LineFlowColor" },
+        next: "width",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        contant: "outlineWidth",
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.diffHeight
+        }
+      },
+      {
+        name: "outlineStyle",
+        next: "materialType",
+        label: "边框材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
+          { label: "十字间隔", value: "LineCross" },
+          { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
+          { label: "衬色线", value: "PolylineOutline" },
+          { label: "光晕", value: "PolylineGlow" },
+          { label: "泛光线", value: "LineBloom" },
+          { label: "流动颜色", value: "LineFlowColor" },
 
-              { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
-              { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
-            ]
-          }
+          { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
+          { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
@@ -3111,37 +3102,34 @@ const styleConfig = {
       },
       {
         name: "outlineStyle",
-        style: [
-          {
-            name: "width",
-            label: "边框宽度",
-            type: "number",
-            min: 0,
-            step: 1,
-            defval: 1.0,
-            contant: "outlineWidth",
-            show(style, allStyle, graphicType) {
-              return style.outline
-            }
-          },
-          {
-            name: "materialType",
-            label: "边框材质",
-            type: "combobox",
-            defval: "Color",
-            data: [
-              { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
-              { label: "十字间隔", value: "LineCross" },
-              { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
-              { label: "衬色线", value: "PolylineOutline" },
-              { label: "光晕", value: "PolylineGlow" },
-              { label: "泛光线", value: "LineBloom" },
-              { label: "流动颜色", value: "LineFlowColor" },
+        next: "width",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        contant: "outlineWidth",
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.diffHeight
+        }
+      },
+      {
+        name: "outlineStyle",
+        next: "materialType",
+        label: "边框材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
+          { label: "十字间隔", value: "LineCross" },
+          { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
+          { label: "衬色线", value: "PolylineOutline" },
+          { label: "光晕", value: "PolylineGlow" },
+          { label: "泛光线", value: "LineBloom" },
+          { label: "流动颜色", value: "LineFlowColor" },
 
-              { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
-              { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
-            ]
-          }
+          { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
+          { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
@@ -3321,37 +3309,34 @@ const styleConfig = {
       },
       {
         name: "outlineStyle",
-        style: [
-          {
-            name: "width",
-            label: "边框宽度",
-            type: "number",
-            min: 0,
-            step: 1,
-            defval: 1.0,
-            contant: "outlineWidth",
-            show(style, allStyle, graphicType) {
-              return style.outline
-            }
-          },
-          {
-            name: "materialType",
-            label: "边框材质",
-            type: "combobox",
-            defval: "Color",
-            data: [
-              { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
-              { label: "十字间隔", value: "LineCross" },
-              { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
-              { label: "衬色线", value: "PolylineOutline" },
-              { label: "光晕", value: "PolylineGlow" },
-              { label: "泛光线", value: "LineBloom" },
-              { label: "流动颜色", value: "LineFlowColor" },
+        next: "width",
+        label: "边框宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 1.0,
+        contant: "outlineWidth",
+        show(style, allStyle, graphicType) {
+          return style.outline && !style.diffHeight
+        }
+      },
+      {
+        name: "outlineStyle",
+        next: "materialType",
+        label: "边框材质",
+        type: "combobox",
+        defval: "Color",
+        data: [
+          { label: "纯色", value: "Color", contant: "outlineColor", defval: "#fff" },
+          { label: "十字间隔", value: "LineCross" },
+          { label: "图片", value: "Image", defval: { image: "img/tietu/gugong.jpg" } },
+          { label: "衬色线", value: "PolylineOutline" },
+          { label: "光晕", value: "PolylineGlow" },
+          { label: "泛光线", value: "LineBloom" },
+          { label: "流动颜色", value: "LineFlowColor" },
 
-              { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
-              { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
-            ]
-          }
+          { label: "流动line", value: "LineFlow", defval: { image: "img/textures/fence-line.png", repeat_x: 10 } },
+          { label: "流动fence", value: "LineFlow-1", defval: { image: "img/textures/fence.png", repeat_x: 10 } }
         ],
         show(style, allStyle, graphicType) {
           return style.outline && !style.diffHeight
