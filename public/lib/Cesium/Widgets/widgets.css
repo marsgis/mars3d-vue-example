@@ -938,6 +938,8 @@ span.cesium-projectionPicker-wrapper {
   display: inline-block;
   position: relative;
   margin: 0 3px;
+  /* 添加下面这行为了使得control/cesium/projectionPicker示例点击时，弹出框是在右边弹出而不是下面弹出 */
+  width: 70px;
 }
 .cesium-projectionPicker-visible {
   visibility: visible;
@@ -959,7 +961,7 @@ span.cesium-projectionPicker-wrapper {
 }
 .cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonPerspective,
 .cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonOrthographic {
-  margin: 0 0 3px 0;
+  margin: 0 5px 3px 0;
 }
 .cesium-projectionPicker-wrapper .cesium-projectionPicker-buttonPerspective .cesium-projectionPicker-iconOrthographic {
   left: 100%;

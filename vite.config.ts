@@ -37,9 +37,9 @@ export default ({ mode }: ConfigEnv) => {
       },
       extensions: [".js", ".ts", ".jsx", ".tsx", ".json"]
     },
-    // optimizeDeps: {
-    //   include: []
-    // },
+    optimizeDeps: {
+      exclude: ["mars3d-cesium"]
+    },
     json: {
       // 支持从 .json 文件中进行按名导入
       namedExports: true,

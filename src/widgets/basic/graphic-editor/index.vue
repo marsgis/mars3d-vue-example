@@ -77,7 +77,7 @@ if (currentWidget) {
 
 // 监听到矢量数据发生变化
 function updataLayer() {
-  if (!graphic || graphic.state === "destroy") {
+  if (!graphic || !graphic.isAdded) {
     return
   }
 

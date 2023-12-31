@@ -213,7 +213,7 @@ html {
 
 .cesium-navigation-button-selected,
 .cesium-navigation-button-unselected:hover {
-  background-color: rgba(23, 49, 71, 1);
+  background-color: rgba(1, 35, 22, 1);
 }
 
 /**cesium 二维三维切换*/

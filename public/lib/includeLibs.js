@@ -98,8 +98,8 @@ window.configLibs = {
 
   //////////////////////////mars2d及其插件////////////////////////
   'mars2d': [//地图 主库
-    "https://unpkg.com/leaflet/dist/leaflet.css", //leaflet
-    "https://unpkg.com/leaflet/dist/leaflet.js",
+    "http://mars2d.cn/lib/leaflet/leaflet.css", //leaflet
+    "http://mars2d.cn/lib/leaflet/leaflet.js",
     "http://mars2d.cn/lib/mars2d/mars2d.css", //mars2d
     "http://mars2d.cn/lib/mars2d/mars2d.js",
     "http://mars2d.cn/lib/mars2d/plugins/esri/mars2d-esri.js"

@@ -123,6 +123,15 @@ const options: GuiItem[] = [
     }
   },
   {
+    type: "input",
+    field: "jingdu",
+    label: "经度",
+    value: "122.234324",
+    change(data) {
+      console.log(data)
+    }
+  },
+  {
     type: "checkbox",
     field: "type",
     label: "多选",

@@ -11,9 +11,11 @@
       </a-space>
     </div>
 
-    <div class="f-mb f-tac">
+    <div class="f-mb">
       <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain" title="深度检测">深度检测</a-checkbox>
-      <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel" title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在模型或矢量上拾取</a-checkbox>
+      <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel" title="屏蔽拾取地形坐标，避免穿透3dtiles模型"
+        >仅在模型或矢量上拾取</a-checkbox
+      >
     </div>
 
     <div class="f-mb gltf-list">

@@ -5,7 +5,7 @@
         <mars-button @click="clear">清除</mars-button>
         <mars-button @click="saveGeoJSON">保存Json</mars-button>
         <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <mars-button> 打开... </mars-button>
+          <mars-button> 打开Json </mars-button>
         </a-upload>
       </a-space>
     </div>
