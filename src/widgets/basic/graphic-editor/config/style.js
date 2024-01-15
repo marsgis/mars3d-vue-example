@@ -631,7 +631,7 @@ const styleConfig = {
   },
   div: {
     name: "DIV点标记",
-    extends: ["divBoderLabel", "divLightPoint", "divUpLabel", "popup", "tooltip"],
+    extends: ["divBoderLabel", "divLightPoint", "divUpLabel", "popup", "tooltip", "divIndicator"],
     style: [
       {
         name: "color",
@@ -2031,7 +2031,7 @@ const styleConfig = {
         name: "color",
         label: "颜色",
         type: "color",
-        defval: "#00FF00",
+        defval: "rgba(255,0,0,0.5)",
         show(style, allStyle, graphicType) {
           return !style.autoColor
         }
@@ -2046,7 +2046,7 @@ const styleConfig = {
         name: "outlineColor",
         label: "边线颜色",
         type: "color",
-        defval: "#00FF00",
+        defval: "#ffffff",
         show(style, allStyle, graphicType) {
           return !style.autoColor
         }

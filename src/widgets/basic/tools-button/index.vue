@@ -18,7 +18,6 @@ const { activate, isActivate, disable } = useWidget()
 useLifecycle(mapWork)
 
 mapWork.eventTarget.on("openManageLayer", () => {
-  console.log(isActivate("manage-layers"))
   if (!isActivate("manage-layers")) {
     activate("manage-layers")
   } else {
