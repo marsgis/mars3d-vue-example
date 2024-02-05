@@ -16,10 +16,10 @@
           >
           </component>
         </div>
-        <template v-if="item.extra !== undefined">
+        <div v-if="item.extra !== undefined" class="mars-gui-extra">
           <template v-if="item.extraType === 'string'">{{ item.extra(attrForm) }}</template>
-          <component v-else :is="item.extra(attrForm)"></component
-        ></template>
+          <component v-else :is="item.extra(attrForm)"></component>
+        </div>
       </a-form-item>
     </template>
   </a-form>
@@ -114,13 +114,13 @@ defineExpose({
 
 const getItemStyle = ({ extraWidth, extra, label }: GuiItem) => {
   if (!extraWidth && extraWidth !== 0) {
-    extraWidth = 100
+    extraWidth = 63
   }
   return extra !== undefined
     ? {
         width: `calc(100% - ${extraWidth || extraWidth === 0 ? extraWidth : 100}px)`,
         display: "inline-block",
-        marginRight: "10px"
+        marginRight: "6px"
       }
     : {
         display: "inline-block",
@@ -183,4 +183,13 @@ export default {
 }
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.mars-gui-extra {
+  display: block;
+  font-family: var(--mars-font-family);
+  font-size: 12px;
+  font-weight: normal;
+  color: rgba(234, 242, 255, 0.7);
+  float: right;
+}
+</style>

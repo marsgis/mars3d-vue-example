@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <a-collapse v-model:activeKey="activeKey">
+    <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="日照效果:">
         <div class="f-mb">
           <a-space>

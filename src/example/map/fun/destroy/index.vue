@@ -1,10 +1,14 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button @click="createMap">创建地图</mars-button>
-      <mars-button @click="destroyMap">销毁地图</mars-button>
+  <div class="map-control">
+    <a-space :size="20">
+      <mars-button @click="createMap">
+        <mars-icon icon="world" :size="20"></mars-icon>
+        创建地图</mars-button>
+      <mars-button @click="destroyMap">
+        <mars-icon icon="delete-five" :size="20"></mars-icon>
+        销毁地图</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -27,3 +31,17 @@ const destroyMap = () => {
   mapWork.destroyMap()
 }
 </script>
+
+<style lang="less" scoped>
+.map-control {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+
+  .mars-button {
+    width: 120px;
+    height: 46px;
+  }
+}
+</style>

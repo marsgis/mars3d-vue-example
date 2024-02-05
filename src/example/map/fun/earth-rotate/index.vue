@@ -98,11 +98,11 @@ const stopRotate = () => {
 
   .mars-button:not([disabled]) {
     &:hover {
-      color: var(--mars-base-color);
+      color: var(--mars-control-text);
       background: url("/img/btnBar/button_select.png") no-repeat !important ;
     }
     &:focus {
-      color: var(--mars-base-color);
+      color: var(--mars-control-text);
       background: url("/img/btnBar/button_select.png") no-repeat !important ;
     }
   }

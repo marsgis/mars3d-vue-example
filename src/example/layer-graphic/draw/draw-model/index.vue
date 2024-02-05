@@ -17,7 +17,7 @@
       <div class="f-pt">
         <a-space>
           <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
-          <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在模型或矢量上拾取</a-checkbox>
+          <!-- <a-checkbox @change="onlyPickModelPosition" v-model:checked="isonlyModel">仅在模型或矢量上拾取</a-checkbox> -->
           <a-checkbox @change="chkHasTerrain" v-model:checked="isHasTerrain">地形</a-checkbox>
         </a-space>
       </div>
@@ -67,10 +67,10 @@ const chkTestTerrain = () => {
 }
 
 // 仅在3dmodel上绘制
-const isonlyModel = ref<boolean>(false)
-const onlyPickModelPosition = () => {
-  mapWork.onlyPickModelPosition(isonlyModel.value)
-}
+// const isonlyModel = ref<boolean>(false)
+// const onlyPickModelPosition = () => {
+//   mapWork.onlyPickModelPosition(isonlyModel.value)
+// }
 
 const clear = () => {
   mapWork.graphicLayer.clear()

@@ -1,41 +1,42 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-collapse v-model:activeKey="activeKey">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
+    <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="景点视角:">
-        <a-space>
-          <mars-button @click="changeView1">故宫</mars-button>
-          <mars-button @click="changeView2">珠峰</mars-button>
-          <mars-button @click="changeView3">华山</mars-button>
-          <mars-button @click="changeView4">大别山</mars-button>
-        </a-space>
+        <div class="position-list">
+          <mars-button class="position-btn" @click="changeView1">故宫</mars-button>
+          <mars-button class="position-btn" @click="changeView2">珠峰</mars-button>
+          <mars-button class="position-btn" @click="changeView3">华山</mars-button>
+          <mars-button class="position-btn" @click="changeView4">大别山</mars-button>
+        </div>
+
+
       </a-collapse-panel>
       <a-collapse-panel key="2" header="相机和视角控制演示:" class="cameraView">
-        <a-space>
+        <div class="view-list">
           <div v-for="(item, index) in cameraData" :key="index">
-            <mars-button :title="item.title" @click="item.callback">{{ item.name }}</mars-button>
+            <mars-button class="view-btn" :title="item.title" @click="item.callback">{{ item.name }}</mars-button>
           </div>
-
-          <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-            <a-form-item label="经度值">
-              <mars-input v-model:value="inputObj.lng" />
-            </a-form-item>
-            <a-form-item label="纬度值">
-              <mars-input v-model:value="inputObj.lat" />
-            </a-form-item>
-            <a-form-item label="高度值">
-              <mars-input v-model:value="inputObj.alt" />
-            </a-form-item>
-            <a-form-item label="方向角">
-              <mars-input v-model:value="inputObj.heading" />
-            </a-form-item>
-            <a-form-item label="俯仰角">
-              <mars-input v-model:value="inputObj.pitch" />
-            </a-form-item>
-            <a-form-item label="翻滚角">
-              <mars-input v-model:value="inputObj.roll" />
-            </a-form-item>
-          </a-form>
-        </a-space>
+        </div>
+        <a-form :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }" labelAlign="left">
+          <a-form-item label="经度值">
+            <mars-input v-model:value="inputObj.lng" />
+          </a-form-item>
+          <a-form-item label="纬度值">
+            <mars-input v-model:value="inputObj.lat" />
+          </a-form-item>
+          <a-form-item label="高度值">
+            <mars-input v-model:value="inputObj.alt" />
+          </a-form-item>
+          <a-form-item label="方向角">
+            <mars-input v-model:value="inputObj.heading" />
+          </a-form-item>
+          <a-form-item label="俯仰角">
+            <mars-input v-model:value="inputObj.pitch" />
+          </a-form-item>
+          <a-form-item label="翻滚角">
+            <mars-input v-model:value="inputObj.roll" />
+          </a-form-item>
+        </a-form>
       </a-collapse-panel>
     </a-collapse>
   </mars-dialog>
@@ -131,10 +132,25 @@ const cameraData = [
 ]
 </script>
 <style lang="less" scoped>
-.cameraView {
-  width: 270px;
-  .ant-space {
-    flex-wrap: wrap;
+.view-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .view-btn {
+    height: 32px;
+    min-width: 146px;
+    margin-bottom: 10px;
+  }
+}
+
+.position-list {
+  display: flex;
+  justify-content: space-around;
+
+  .position-btn {
+    width: 68px;
+    height: 32px;
   }
 }
 </style>

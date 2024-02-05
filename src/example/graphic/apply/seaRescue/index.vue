@@ -192,7 +192,7 @@ function countOn() {
 </script>
 <style lang="less" scoped>
 .show-time {
-  color: var(--mars-base-color);
+  color: var(--mars-text-color);
 }
 
 .btn-mb {

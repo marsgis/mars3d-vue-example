@@ -1,30 +1,28 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <a-form>
-      <div class="f-mb">
-        <a-space>
-          <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
-          <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
-          <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
+        <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span>开挖深度:</span>
-          <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999" :max="9999" />
-          <span>（米）</span>
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span>开挖深度:</span>
+        <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999" :max="9999" />
+        <span>（米）</span>
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-          <mars-button @click="btnDraw">添加多边行</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
-        </a-space>
-      </div>
-    </a-form>
+    <div class="f-mb">
+      <a-space>
+        <mars-button @click="btnDrawExtent">添加矩形</mars-button>
+        <mars-button @click="btnDraw">添加多边行</mars-button>
+        <mars-button @click="removeAll">清除</mars-button>
+      </a-space>
+    </div>
   </mars-dialog>
 </template>
 

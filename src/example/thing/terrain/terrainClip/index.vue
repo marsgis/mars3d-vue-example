@@ -6,7 +6,8 @@
           <a-form-item>
             <a-space>
               <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
-              <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割 </a-checkbox>
+              <a-checkbox v-model:checked="formState.enabledWaiqiege" @change="chkUnionClippingRegions"> 是否外切割
+              </a-checkbox>
               <a-checkbox v-model:checked="formState.enabledShendu" @change="chkTestTerrain"> 深度检测 </a-checkbox>
             </a-space>
           </a-form-item>
@@ -17,19 +18,21 @@
             <a-space>
               <mars-button @click="btnDrawExtent">添加矩形</mars-button>
               <mars-button @click="btnDraw">添加多边形</mars-button>
-              <mars-button @click="removeAll">清除</mars-button>
+              <mars-button type="primary" danger @click="removeAll">清除</mars-button>
             </a-space>
           </a-form-item>
         </a-col>
 
         <a-col :span="24">
           <a-form-item label="开挖深度" :labelCol="labelCol" :labelAlign="labelAlign">
-            <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500" :max="999" />
+            <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-500"
+              :max="999" />
           </a-form-item>
         </a-col>
 
         <a-col :span="24">
-          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
+            size="small" bordered>
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
@@ -185,6 +188,7 @@ const changeClipHeight = () => {
   margin-left: -11px;
   color: white;
 }
+
 .terrain-contain {
   width: 337px;
   margin-right: 0;

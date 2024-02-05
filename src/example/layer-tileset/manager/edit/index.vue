@@ -2,7 +2,7 @@
   <mars-dialog :visible="true" right="10" top="10">
     <div class="infoView-content">
       <a-form :label-col="labelCol" labelAlign="right">
-        <a-collapse collapsible="header" :defaultActiveKey="['1', '2', '3', '4']">
+        <a-collapse collapsible="header" :defaultActiveKey="['1', '2', '3', '4']" expandIconPosition="end">
           <a-collapse-panel key="1" header="模型URL地址">
             <template #extra>
               <mars-button @click="showCompTree">查看构件</mars-button>

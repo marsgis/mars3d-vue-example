@@ -30,17 +30,15 @@
     </div>
 
     <div class="f-mb">
-      <a-space>
-        <span>线宽度:</span>
+      <a-form-item label="线宽度:">
         <mars-slider v-model:value="formState.linewidth" @change="changeLinewidth" :min="1" :max="6" :step="0.1" />
-      </a-space>
+      </a-form-item>
     </div>
 
     <div class="f-mb">
-      <a-space>
-        <span>线颜色:</span>
+      <a-form-item label="线颜色:">
         <mars-color-picker v-model:value="formState.color" @change="changeColor" />
-      </a-space>
+      </a-form-item>
     </div>
   </mars-dialog>
 </template>

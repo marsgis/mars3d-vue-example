@@ -19,9 +19,12 @@
 
       <ul class="search-list" v-if="searchListShow">
         <li v-for="(item, i) in dataSource" :key="i" class="search-list__item" @click="selectPoint(item.value)">
+          <mars-icon icon="history" width="16"></mars-icon>
           {{ item.value }}
         </li>
+        <p v-if="isShowClearHisBtn" class="search-list__clear" @click="clearHistoryList">删除历史</p>
       </ul>
+
       <div class="query-site" v-if="siteListShow">
         <template v-if="siteSource && siteSource.length">
           <ul>
@@ -31,10 +34,11 @@
                   <span class="query-site-text_num">{{ i + 1 }}</span>
                   {{ item.name }}
                 </p>
-                <p class="query-site-sub f-toe">{{ item.type }}</p>
+                <p class="query-site-sub">{{ item.type }}</p>
               </div>
               <a :href="url + item.id" target="_blank" class="query-site__more">
-                <mars-icon icon="double-right" width="20"></mars-icon>
+                更多
+                <mars-icon icon="double-right" width="16"></mars-icon>
               </a>
             </li>
           </ul>
@@ -67,6 +71,7 @@ const siteListShow = ref(false)
 const searchTxt = ref("")
 const dataSource = ref<any[]>([])
 const searchListShow = ref<boolean>(false)
+const isShowClearHisBtn = ref<boolean>(true) // 删除历史 按钮是否显示
 const siteSource = ref<any[]>([])
 
 const allCount = ref(0)
@@ -96,6 +101,7 @@ const handleSearch = async (val: string) => {
   }
 
   siteListShow.value = false
+  isShowClearHisBtn.value = false
 
   const result = await mapWork.queryData(val)
   const list: { value: string }[] = []
@@ -121,11 +127,18 @@ const showHistoryList = () => {
   if (historys) {
     dataSource.value = (historys || []).map((item: any) => ({ value: item }))
     searchListShow.value = true
+    isShowClearHisBtn.value = true
   }
   if (timer) {
     clearTimeout(timer)
   }
   siteListShow.value = false
+}
+
+const clearHistoryList = () => {
+  localStorage.removeItem(storageName)
+  dataSource.value = []
+  searchListShow.value = false
 }
 
 // 开始查询并加载数据
@@ -212,6 +225,7 @@ function addHistory(data: any) {
 }
 .query-poi-pannel .mars-dialog__content {
   padding: 0 !important;
+  background-color: transparent !important;
 }
 </style>
 <style lang="less" scoped>
@@ -224,8 +238,11 @@ function addHistory(data: any) {
     align-items: center;
     width: 320px;
     height: 44px;
-    border: 1px solid var(--mars-primary-color);
-    background: var(--mars-bg-base);
+    border: 1px solid;
+    border-image: linear-gradient(96deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 99%) 1;
+    background: var(--mars-base-bg);
+    padding: 3px;
+    border-radius: 4px;
     .input {
       border: none;
       background: none;
@@ -236,78 +253,114 @@ function addHistory(data: any) {
       :deep(.ant-input) {
         font-size: 16px;
         color: var(--mars-text-color) !important;
+        &::placeholder {
+          color: var(--mars-control-text);
+        }
       }
     }
     .button {
-      height: 44px;
-      width: 55px;
+      height: 100%;
+      width: 50px;
+      border-radius: 4px;
     }
   }
 }
+// 提示列表
 .search-list {
-  min-height: 100px;
   width: 100%;
   .mars-drop-bg();
-  position: absolute;
+  margin-top: 7px;
+  position: relative;
+  border-radius: 4px !important;
+  border: 1px solid;
+  border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%) 1;
+  backdrop-filter: blur(10px);
+  padding: 4px;
   .search-list__item {
-    height: 36px;
-    line-height: 36px;
-    padding-left: 10px;
-    color: var(--mars-text-color);
+    height: 34px;
+    line-height: 34px;
+    padding-left: 14px;
+    color: var(--mars-sub-title-color);
     cursor: pointer;
-    &:hover {
-      background-color: var(--mars-select-bg);
-    }
+    // &:hover {
+    //   background-color: var(--mars-list-select);
+    // }
+  }
+  .search-list__clear {
+    color: var(--mars-control-icon);
+    padding: 8px 14px;
+    text-align: right;
+    cursor: pointer;
   }
 }
+// 搜索结果列表
 .query-site {
-  position: absolute;
-  border-top: none;
-  padding-bottom: 10px;
   width: 100%;
+  position: relative;
   z-index: 100;
+  padding: 3px 4px 4px;
+  margin-top: 7px;
+  border-radius: 4px !important;
+  border: 1px solid;
+  border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%) 1;
+  backdrop-filter: blur(10px);
   .mars-drop-bg();
 
   .query-site__item {
     height: 80px;
-    padding: 0 20px;
+    padding: 14px 13px 0 10px;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    border-radius: 4px 4px 0px 0px;
+    border-bottom: 1px solid var(--mars-control-border);
+    &:last-child {
+      border-bottom: none;
+    }
     &:hover {
-      background-color: var(--mars-select-bg);
+      background-color: var(--mars-list-select);
     }
     .query-site__context {
       flex-grow: 1;
       .query-site-text {
-        font-size: 16px;
-        width: 200px;
-        font-family: Source Han Sans CN;
-        font-weight: 400;
-        color: var(--mars-text-color);
+        width: calc(100% - 12px);
+        font-size: 14px;
+        font-family: var(--mars-font-family);
+        font-weight: normal;
+        color: var(--mars-primary-color);
         .query-site-text_num {
-          width: 19px;
-          height: 25px;
+          width: 18px;
+          height: 18px;
+          line-height: 16px;
+          padding: 1.5px 5px;
+          color: var(--mars-text-color);
+          background-color: var(--mars-primary-color);
           margin-right: 5px;
           display: inline-block;
           text-align: center;
-          background-image: url("@mars/components/mars-ui/assets/images/query-site-text_num.png");
+          border-radius: 50%;
         }
       }
       .query-site-sub {
-        font-size: 14px;
         width: 200px;
-        margin-left: 19px;
-        font-family: Source Han Sans CN;
-        font-weight: 400;
-        color: var(--mars-content-color);
+        font-size: 12px;
+        font-weight: normal;
+        font-family: var(--mars-font-family);
+        margin-left: 28px;
+        margin-top: 8px;
+        color: var(--mars-control-icon);
+        word-break: break-all;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
       }
     }
     .query-site__more {
-      font-size: 14px;
-      font-family: Source Han Sans CN;
-      font-weight: 400;
-      color: var(--mars-content-color);
+      font-size: 12px;
+      font-weight: normal;
+      font-family: var(--mars-font-family);
+      color: var(--mars-control-icon);
+      text-decoration: none;
     }
   }
   .query-site__page {
@@ -316,17 +369,23 @@ function addHistory(data: any) {
     padding: 10px 20px;
     .query-site-allcount {
       font-size: 14px;
-      color: var(--mars-text-color);
+      color: var(--mars-control-icon);
     }
-  }
-}
-:deep(.ant-pagination-simple-pager) {
-  input {
-    width: 50px;
+    :deep(.ant-pagination-simple-pager) {
+      color: var(--mars-control-icon);
+      input {
+        width: 50px;
+      }
+    }
+    :deep(.ant-pagination-next) {
+      .ant-pagination-item-link {
+        color: var(--mars-control-icon);
+      }
+    }
   }
 }
 
 :deep(.ant-input-clear-icon) {
-  color: var(--mars-content-color) !important;
+  color: var(--mars-control-icon) !important;
 }
 </style>

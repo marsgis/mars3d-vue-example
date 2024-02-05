@@ -1,23 +1,79 @@
 .mars-main-view {
-
   // 树控件
   .ant-tree {
     background: none;
-    color: var(--mars-text-color);
+    color: var(--mars-tree-hover-text);
     padding-bottom: 2px;
+    .ant-tree-treenode {
+      width: calc(100% + 50px);
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+
+      position: relative;
+      left: -9px;
+
+      .ant-tree-node-content-wrapper {
+        color: var(--mars-tree-text);
+        width: 100%;
+        left: 30px;
+        padding: 0;
+        .ant-tree-title {
+          font-family: var(--mars-font-family);
+          font-size: 14px;
+          font-weight: normal;
+        }
+      }
+
+      .ant-tree-node-content-wrapper-normal {
+        left: 9px;
+      }
+
+      &:hover {
+        background: var(--mars-list-active) !important;
+        border-radius: 2px;
+
+        .ant-tree-node-content-wrapper {
+          color: var(--mars-tree-hover-text);
+        }
+      }
+    }
+    .ant-tree-treenode-checkbox-checked {
+      // background: var(--mars-list-active) !important;
+      border-radius: 2px;
+      .ant-tree-node-content-wrapper {
+        color: var(--mars-tree-hover-text);
+      }
+    }
   }
 
   .ant-tree-checkbox {
     margin-right: 0;
+    position: absolute;
+    left: 9px;
+  }
+  .ant-tree-switcher {
+    left: 30px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    line-height: 19px;
+    // 向下箭头大小
+    .ant-tree-switcher-icon {
+      > svg {
+        font-size: 11px;
+      }
+    }
   }
 
   .ant-tree-show-line .ant-tree-switcher,
   .ant-tree-checkbox-inner {
     background: none !important;
+    border-radius: 2px !important;
   }
 
   .ant-tree-checkbox-checked {
     background: var(--mars-primary-color);
+    border-radius: 2px;
 
     .ant-tree-checkbox-inner {
       border-color: var(--mars-primary-color);
@@ -29,7 +85,7 @@
   }
 
   .ant-tree-show-line .ant-tree-indent-unit::before {
-    border-right: 1px dotted var(--mars-text-color);
+    border-right: 1px dotted var(--mars-text-tree);
   }
 
   .ant-tree-switcher-noop {
@@ -40,7 +96,8 @@
     background: none !important;
   }
 
-  .ant-tree-switcher-noop::before {
+  // 虚线连接线，如有必要可放开
+  /*.ant-tree-switcher-noop::before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -65,17 +122,5 @@
     position: absolute;
     top: 10px;
     border-bottom: 1px dotted var(--mars-text-color);
-  }
-
-  .ant-tree-node-content-wrapper {
-    color: var(--mars-text-color) !important;
-
-    // .ant-tree-iconEle {
-    //   line-height: 2.2;
-    // }
-
-    &:hover {
-      background: hsla(0, 0%, 100%, 0.08) !important;
-    }
-  }
+  } */
 }

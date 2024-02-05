@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <span>夸张程度:</span>
       <mars-slider :min="1" :max="50" v-model:value="terrainExaggeration" @change="formStateChange" />
@@ -18,6 +18,6 @@ const formStateChange = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 90px;
+  width: 220px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <a-collapse v-model:activeKey="activeKey">
+  <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
     <a-collapse-panel key="1" :showArrow="false" header="时序列表">
       <a-space class="f-mb">
         <mars-button title="添加显示矢量对象的时间段" @click="addAvailability">添加</mars-button>

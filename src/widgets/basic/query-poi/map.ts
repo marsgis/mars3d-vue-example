@@ -158,29 +158,28 @@ export function showPOIArr(arr: any): void {
   }
 }
 
+let indexMark
+
 // 获取Canvas对象
 async function getCanvas(text) {
-  return new Promise((resolve) => {
-    const img = new Image(19, 25)
-    img.crossOrigin = "Anonymous"
-    img.src = "img/poi/indexMark.png"
-    img.onload = () => {
-      const canvas = document.createElement("canvas")
-      canvas.width = 19
-      canvas.height = 25
-      const ctx = canvas.getContext("2d")
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      // 绘制图片
-      ctx.drawImage(img, 0, 0)
-      // 绘制文字
-      ctx.fillStyle = "#ffffff"
-      ctx.font = "22px 楷体"
-      ctx.textBaseline = "middle"
-      ctx.fillText(text, 4, 10)
-      // 将图片赋予给矢量对象进行显示，this.image是父类的属性
-      resolve(canvas.toDataURL("image/png"))
-    }
-  })
+  if (!indexMark) {
+    indexMark = await Cesium.Resource.fetchImage({ url: "img/poi/indexMark.png" })
+  }
+
+  const canvas = document.createElement("canvas")
+  canvas.width = 19
+  canvas.height = 25
+  const ctx = canvas.getContext("2d")
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.drawImage(indexMark, 0, 0) // 绘制图片
+
+  // 绘制文字
+  ctx.fillStyle = "#ffffff"
+  ctx.font = "22px 楷体"
+  ctx.textBaseline = "middle"
+  ctx.fillText(text, 4, 10)
+
+  return canvas.toDataURL("image/png")
 }
 
 /**

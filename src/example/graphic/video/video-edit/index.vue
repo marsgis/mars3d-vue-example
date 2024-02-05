@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="0" top="10">
-    <graphic-layer-state :defaultCount="10" />
+    <graphic-layer-state :defaultCount="10" drawLabel1="绘制" drawLabel2="按当前相机" />
 
     <div class="toolbar">
       <a-space>

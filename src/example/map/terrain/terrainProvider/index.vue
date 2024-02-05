@@ -1,12 +1,10 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="200">
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <mars-gui :options="options"></mars-gui>
   </mars-dialog>
 </template>
 
 <script lang="ts" setup>
-// import { reactive } from "vue"
-// import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 

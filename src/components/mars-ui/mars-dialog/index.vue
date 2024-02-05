@@ -6,7 +6,7 @@
     <div
       class="mars-dialog"
       :class="[customClass, animationClass]"
-      :style="{ 'padding-top': showHeader ? '44px' : '10px', 'padding-bottom': slots.footer ? '44px' : '10px' }"
+      :style="{ 'padding-top': showHeader ? '44px' : '14px', 'padding-bottom': slots.footer ? '44px' : '14px' }"
       ref="dialogRef"
       v-show="visible && !isFold && show"
     >
@@ -174,9 +174,7 @@ const mergeProps = computed(() => {
   return newProps
 })
 
-const showHeader = computed(
-  () => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title)
-)
+const showHeader = computed(() => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title))
 
 const dialogRef = ref()
 const thumbnailRef = ref()
@@ -577,24 +575,27 @@ export default {
 
 <style lang="less" scoped>
 .mars-dialog-thumb {
-  background-color: var(--mars-bg-base);
+  background-color: var(--mars-base-bg);
+  backdrop-filter: blur(10px);
   position: absolute;
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
 }
-
 .mars-dialog {
   position: absolute;
   box-sizing: border-box;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
+  border-radius: 4px !important;
   z-index: 999 !important;
-  border-bottom: 1px solid #008aff70;
-  border-left: 1px solid #008aff70;
-  border-right: 1px solid #008aff70;
-  z-index: 100;
+  box-shadow: var(--mars-base-shadow) !important;
+
   .mars-drop-bg();
+  // border-image 与 border-radius 无法共存
+  // padding 作为边框，与 mars-dialog__content 背景
+  padding: 1px !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 4px !important;
+  backdrop-filter: blur(10px);
 
   .mars-dialog__header {
     height: 44px;
@@ -603,7 +604,7 @@ export default {
     overflow: hidden;
     .mars-msg-title();
     padding: 0 5px 0px 10px;
-    color: var(--mars-base-color);
+    color: var(--mars-text-color);
     position: absolute;
     top: 0;
     left: 0;
@@ -634,8 +635,10 @@ export default {
 
   .mars-dialog__content {
     height: 100%;
+    padding: 14px;
     overflow: auto;
-    padding: 5px;
+    border-radius: 4px;
+    background-color: var(--mars-dropdown-bg);
   }
 
   .mars-dialog__footer {

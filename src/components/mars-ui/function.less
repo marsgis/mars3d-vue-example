@@ -82,11 +82,15 @@
 }
 
 .f-ff0 {
-  font-family: arial, \5b8b\4f53;
+  font-family: var(--mars-font-family);
 }
 
 .f-ff1 {
   font-family: "Microsoft YaHei", \5fae\8f6f\96c5\9ed1, arial, \5b8b\4f53;
+}
+
+.f-ff2 {
+  font-family: arial, \5b8b\4f53;
 }
 
 .f-fs12 {
@@ -441,6 +445,10 @@
   padding: 4px !important;
 }
 
+.p-10 {
+  padding: 10px !important;
+}
+
 .p-14 {
   padding: 14px !important;
 }
@@ -453,4 +461,11 @@
   display: block;
   text-align: right;
   min-width: 60px;
+}
+
+// 示例中dialog面板不需要内边距的
+.dialog-nopadding {
+  .mars-dialog__content {
+    padding: 0 !important;
+  }
 }

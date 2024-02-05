@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" height="46px">
+  <mars-dialog  :visible="true" right="10" top="10" width="330">
     <a-checkbox v-model:checked="onCheckedTriangulation" @change="formStateChange">地形三角网</a-checkbox>
   </mars-dialog>
 </template>

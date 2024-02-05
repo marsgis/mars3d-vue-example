@@ -1,5 +1,5 @@
 <template>
-  <a-collapse :key="globalKey" v-model:activeKey="styleCollapse">
+  <a-collapse :key="globalKey" v-model:activeKey="styleCollapse" expandIconPosition="end">
     <a-collapse-panel v-if="viewStyles" key="1" :showArrow="false" header="+ 样式信息">
       <table class="mars-primary-table" border="1" bordercolor="#ffffff" cellspacing="0" cellpadding="0">
         <tr>

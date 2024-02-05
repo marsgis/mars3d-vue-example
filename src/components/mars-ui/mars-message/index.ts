@@ -13,14 +13,14 @@ import "./message.less"
  */
 
 message.config({
-  top: `100px`
+  top: `100px` 
 })
 export const $message = (msg: string, type: keyof typeof message = "info") => {
   if (message[type] && typeof message[type] === "function") {
     const func = message[type] as (a: any) => Promise<any>
     return func({
       class: "mars-message",
-      icon: h(MarsIcon, { icon: "remind", theme: "filled", size: "20", fill: "#008aff" }),
+      icon: h(MarsIcon, { icon: "remind", theme: "filled", size: "16", fill: "#008aff" }),
       content: msg
     })
   } else {

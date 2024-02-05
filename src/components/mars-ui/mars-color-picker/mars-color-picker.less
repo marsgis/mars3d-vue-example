@@ -7,15 +7,10 @@
 
 .hu-color-picker {
   padding: 10px;
-  background: var(--mars-bg-base);
-  border-radius: 4px;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+  background: transparent;
+  border-radius: 2px;
   z-index: 1;
-}
-
-.hu-color-picker {
   width: 220px !important;
-  background-color: var(--mars-bg-base) !important;
   box-shadow: none;
 }
 
@@ -190,18 +185,11 @@
   box-sizing: border-box;
 }
 
-.marsColorView {
-  display: inline-block;
-  height: 20px;
-  width: 80px;
-  cursor: pointer;
-}
-
 .ml5 {
   margin-left: 5px;
 }
 
-.overlayClassName {
+.overlay-className {
   .color-alpha {
     display: none;
   }
@@ -216,9 +204,53 @@
         display: none;
       }
     }
-
-    // .color-show {
-    //   display: none;
-    // }
   }
+}
+
+.mars-color-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .mars-button {
+    width: 100%;
+  }
+}
+// 展示的输入框样式
+.mars-color-view {
+  display: inline-block;
+  height: 32px;
+  width: 100%;
+  background-color: var(--mars-control-bg);
+  border: 1px solid;
+  border-color: var(--mars-control-border);
+  border-radius: 2px;
+  padding: 3px 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mars-color-label {
+  height: 32px;
+  line-height: 32px;
+  color: var(--mars-control-text);
+  font-family: var(--mars-font-family);
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 35px;
+}
+
+// 色块
+.mars-color-picker {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  z-index: 2;
+  position: relative;
+  top: 2px;
+  left: 4px;
+  cursor: pointer;
 }

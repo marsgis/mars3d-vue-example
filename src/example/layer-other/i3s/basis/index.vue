@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="208">
-    <a-collapse v-model:activeKey="activeKey">
+    <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <!-- 自定义切换图标 -->
       <template #expandIcon>
         <mars-icon icon="down-c" class="icon-vertical-a" />
@@ -33,7 +33,6 @@ const showSanFranciscoDemo = () => {
 const showFrankfurtDemo = () => {
   mapWork.showFrankfurtDemo()
 }
-
 </script>
 <style scoped lang="less">
 .mars-button {

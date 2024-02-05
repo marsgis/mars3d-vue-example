@@ -22,28 +22,35 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .mars-input {
-  color: var(--mars-text-color);
-  background-color: transparent !important;
+  height: 32px;
+  color: var(--mars-control-text);
+  background-color: var(--mars-control-bg);
   font-size: 12px !important;
+  border-radius: 0;
+  border: 1px solid;
+  border-color: var(--mars-control-border);
+  border-radius: 2px;
+  font-family: var(--mars-font-family);
   &::placeholder {
-    color: var(--mars-text-color);
+    color: var(--mars-control-placeholder);
   }
   :deep(.ant-input) {
     background-color: transparent !important;
-    border-color: var(--mars-base-border-color);
-    color: var(--mars-text-color);
+    border-color: var(--mars-control-border);
+    color: var(--mars-control-text);
+    font-size: 14px;
     &::placeholder {
-      color: var(--mars-text-color);
+      color: var(--mars-control-placeholder);
     }
   }
   :deep(.ant-input-suffix .anticon) {
-    color: var(--mars-text-color);
+    color: var(--mars-control-text);
   }
 }
 .ant-input-affix-wrapper-focused {
   box-shadow: none;
 }
 .mars-input[disabled] {
-  color: var(--mars-disable-btn-bg);
+  color: var(--mars-disable-color);
 }
 </style>
