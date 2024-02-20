@@ -1,23 +1,28 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="400">
-    <a-form-item label="限定区域:" :labelCol="labelCol" :labelAlign="labelAlign">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-gui :options="options" :labelCol="6" ref="marsGuiRef"></mars-gui>
+
+
+    <div class="draw-tools">
       <a-space>
         <mars-button @click="btnDrawExtent">添加矩形</mars-button>
         <mars-button @click="btnDraw">添加多边形</mars-button>
-        <mars-button @click="clearAll">清除</mars-button>
+        <mars-button type="primary" danger @click="clearAll">清除</mars-button>
       </a-space>
-    </a-form-item>
-
-    <mars-gui :options="options" :labelCol="5" ref="marsGuiRef"></mars-gui>
+    </div>
 
     <div class="f-pt">
-      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
+        size="small" :showHeader="false" :bordered="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
-            <a-space>
-              <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-              <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
-            </a-space>
+            <div class="table-tools">
+              <a-space>
+                <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
+                <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" @click="deleted(record)" />
+              </a-space>
+            </div>
+
           </template>
           <template v-else>
             {{ record.name }}
@@ -113,18 +118,18 @@ const options: GuiItem[] = [
     change(data) {
       mapWork.changeShadingType(data)
     }
-  },
-  {
-    type: "switch",
-    field: "control",
-    label: "状态控制",
-    extra: "显示其它区域",
-    extraWidth: 180,
-    value: true,
-    change(data) {
-      mapWork.chkClippingPlanes(data)
-    }
   }
+  // {
+  //   type: "switch",
+  //   field: "control",
+  //   label: "状态控制",
+  //   extra: "显示其它区域",
+  //   extraWidth: 10,
+  //   value: true,
+  //   change(data) {
+  //     mapWork.chkClippingPlanes(data)
+  //   }
+  // }
 ]
 
 interface TableItem {
@@ -203,12 +208,62 @@ const clearAll = () => {
   dataSource.value = []
 }
 </script>
+
 <style scoped lang="less">
 .ant-slider {
   width: 140px;
 }
-.miFont {
-  margin-top: 6px;
-  margin-left: -11px;
+
+:deep(.mars-dialog__content) {
+  .ant-form {
+    padding: 0 !important;
+
+  }
+}
+
+
+.draw-tools {
+  .mars-button {
+    width: 94px;
+  }
+}
+
+:deep(.ant-table) {
+  margin-top: 10px;
+
+  .ant-table-tbody {
+    .ant-table-row {
+      display: block;
+      width: 300px;
+      border-radius: 2px;
+      border: 1px solid rgba(234, 242, 255, 0.1);
+      background: rgba(234, 242, 255, 0.2);
+      margin-bottom: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(234, 242, 255, 0.4);
+      }
+    }
+
+    .ant-table-row-selected {
+      background: rgba(234, 242, 255, 0.4);
+
+    }
+
+    .ant-table-cell {
+      border: none !important;
+
+      .table-tools {
+        position: absolute;
+        left: 132px;
+        bottom: 8px;
+      }
+    }
+  }
+
+  .ant-table-container {
+    border: none !important;
+  }
 }
 </style>

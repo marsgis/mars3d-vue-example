@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <mars-button @click="addGaodeLayer">高德交通态势图</mars-button>
       <mars-button @click="addBaiduLayer">百度交通态势图</mars-button>

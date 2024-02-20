@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="terrain-contain">
       <a-row :gutter="[1, 10]">
         <a-col :span="24">
@@ -10,28 +10,32 @@
             </a-space>
           </a-form-item>
         </a-col>
-
-        <a-col :span="24">
-          <a-form-item label="压平区域" :labelCol="labelCol" :labelAlign="labelAlign">
-            <a-space>
-              <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-              <mars-button @click="btnDraw">添加多边行</mars-button>
-              <mars-button @click="removeAll">清除</mars-button>
-            </a-space>
-          </a-form-item>
-        </a-col>
-
         <a-col :span="24">
           <a-form-item label="压平深度" :labelCol="labelCol" :labelAlign="labelAlign">
             <a-space>
-              <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999" :max="9999" />
-              （米）
+              <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999"
+                :max="9999" />
             </a-space>
           </a-form-item>
         </a-col>
 
+
         <a-col :span="24">
-          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns" size="small" bordered>
+          <a-form-item :labelCol="labelCol" :labelAlign="labelAlign">
+            <div class="draw-tools">
+              <a-space>
+                <mars-button @click="btnDrawExtent">添加矩形</mars-button>
+                <mars-button @click="btnDraw">添加多边行</mars-button>
+                <mars-button type="primary" danger @click="removeAll">清除</mars-button>
+              </a-space>
+            </div>
+
+          </a-form-item>
+        </a-col>
+
+        <a-col :span="24">
+          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :showHeader="false"
+            :bordered="false" :columns="columns" size="small">
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
@@ -183,8 +187,54 @@ const chkShowLine = () => {
   margin-left: -11px;
   color: white;
 }
-.terrain-contain {
-  width: 337px;
-  margin-right: 0;
+
+.mars-input-number {
+  width: 223px;
+}
+
+
+.draw-tools {
+  .mars-button {
+    width: 94px;
+  }
+}
+
+:deep(.ant-table) {
+  margin-top: 10px;
+
+  .ant-table-tbody {
+    .ant-table-row {
+      display: block;
+      width: 300px;
+      border-radius: 2px;
+      border: 1px solid rgba(234, 242, 255, 0.1);
+      background: rgba(234, 242, 255, 0.2);
+      margin-bottom: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(234, 242, 255, 0.4);
+      }
+    }
+
+    .ant-table-row-selected {
+      background: rgba(234, 242, 255, 0.4);
+
+    }
+
+    .ant-table-cell {
+      border: none !important;
+
+      .table-tools {
+        position: absolute;
+        left: 132px;
+        bottom: 8px;
+      }
+    }
+  }
+
+  .ant-table-container {
+    border: none !important;
+  }
 }
 </style>

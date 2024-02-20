@@ -32,7 +32,11 @@ export default defineComponent({
     color: var(--mars-control-text);
   }
   :deep(.ant-input-suffix .anticon) {
-    color: var(--mars-control-text);
+    color: var(--mars-control-text) !important;
+  }
+
+  &:hover {
+    border-color: var(--mars-hover-color);
   }
 }
 .mars-textarea[disabled] {

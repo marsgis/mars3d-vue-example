@@ -186,7 +186,7 @@ function getViewDefval(config, styleOptions) {
 function setDefault() {
   styleValue.value = _.cloneDeep(props.style)
 
-  const styleConfig = styleConfigAll[props.customType] || styleConfigAll[props.graphicType]
+  const styleConfig = styleConfigAll[props.customType] ?? styleConfigAll[props.graphicType]
   if (!styleConfig) {
     return
   }
@@ -227,7 +227,7 @@ function setDefault() {
     materialTypeOption.data.forEach((m) => {
       const value = m.value
       if (value === materialType) {
-        const defval = m.defval || {}
+        const defval = m.defval ?? {}
         materialConfig[materialType].forEach((p) => {
           const val = styleValue.value.materialOptions[p.name]
           // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
@@ -248,7 +248,7 @@ function setNextMaterial(type, options, parent) {
     options.data.forEach((m) => {
       const value = m.value
       if (value === type) {
-        const defval = m.defval || {}
+        const defval = m.defval ?? {}
 
         materialConfig[type].forEach((p) => {
           // 初始化进入默认值的取值顺序 1. 本身属性 2.父参数中数值 3. 关联参数  4. style.js 材质默认值 5. material.js 的默认值
@@ -285,7 +285,7 @@ function unionChange(item: any, selectOptions?: any[]) {
     if (selectOptions) {
       const mOp = selectOptions.find((item) => item.value === styleValue.value.materialType) // 当前选项的材质属性配置
       if (mOp) {
-        defval = mOp.defval || {}
+        defval = mOp.defval ?? {}
       }
     }
     const materialType = styleValue.value.materialType.split("-")[0]
@@ -302,7 +302,7 @@ function unionChange(item: any, selectOptions?: any[]) {
     if (selectOptions) {
       const mOp = selectOptions.find((item) => item.value === styleValue.value[name].materialType) // 当前选项的材质属性配置
       if (mOp) {
-        defval = mOp.defval || {}
+        defval = mOp.defval ?? {}
       }
       const materialType = styleValue.value[name].materialType.split("-")[0]
       const materialOptions = {}

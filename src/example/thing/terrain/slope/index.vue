@@ -1,24 +1,36 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-form>
-      <a-form-item label="插值数">
-        <a-space>
-          <mars-input-number v-model:value="txtSplitNum" :step="1" :min="1" :max="999" />
-          <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-          <mars-button @click="btnDraw">添加多边形</mars-button>
-          <mars-button @click="btnDrawPoint">添加点</mars-button>
-          <mars-button @click="clearAll">清除</mars-button>
-        </a-space>
-      </a-form-item>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
 
-      <a-form-item label="地表渲染">
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">插值数:</span>
+        <mars-input-number v-model:value="txtSplitNum" :step="1" :min="1" :max="999" />
+      </a-space>
+
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">地表渲染:</span>
         <a-radio-group v-model:value="radio" @change="changeShadingType">
           <a-radio value="none">无阴影</a-radio>
           <a-radio value="slope">坡度</a-radio>
           <a-radio value="aspect">坡向</a-radio>
         </a-radio-group>
-      </a-form-item>
-    </a-form>
+      </a-space>
+
+    </div>
+
+    <div class="draw-tools">
+      <a-space>
+        <mars-button @click="btnDrawExtent">添加矩形</mars-button>
+        <mars-button @click="btnDraw">添加多边形</mars-button>
+        <mars-button @click="btnDrawPoint">添加点</mars-button>
+        <mars-button type="primary" danger @click="clearAll">清除</mars-button>
+      </a-space>
+
+    </div>
+
   </mars-dialog>
 </template>
 
@@ -53,6 +65,6 @@ const changeShadingType = () => {
 </script>
 <style scoped lang="less">
 .ant-input-number {
-  width: 70px !important;
+  width: 234px !important;
 }
 </style>

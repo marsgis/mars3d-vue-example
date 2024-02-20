@@ -30,7 +30,7 @@
     <div>
       <div class="f-pt">
         <a-space>
-          <a-checkbox @change="isChecked" v-model:checked="checked">仅测量模型(不拾取地形)</a-checkbox>
+          <a-checkbox @change="isChecked" v-model:checked="checked">开启顶点吸附</a-checkbox>
         </a-space>
       </div>
     </div>
@@ -85,7 +85,7 @@ const measureAngle = () => {
 }
 
 const isChecked = () => {
-  mapWork.onlyPickModelPosition(checked.value)
+  mapWork.onlyVertexPosition(checked.value)
 }
 const clear = () => {
   mapWork.removeAll()

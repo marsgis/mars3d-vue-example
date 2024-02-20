@@ -129,7 +129,6 @@ const options: GuiItem[] = [
     field: "type",
     label: "多选",
     value: ["火星"],
-
     data: [
       {
         label: "火星",

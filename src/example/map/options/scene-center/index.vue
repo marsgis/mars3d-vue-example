@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" width="330" right="10" top="10">
+  <mars-dialog customClass="dialog-nopadding" :visible="true" width="330" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="景点视角:">
         <div class="position-list">
@@ -8,8 +8,6 @@
           <mars-button class="position-btn" @click="changeView3">华山</mars-button>
           <mars-button class="position-btn" @click="changeView4">大别山</mars-button>
         </div>
-
-
       </a-collapse-panel>
       <a-collapse-panel key="2" header="相机和视角控制演示:" class="cameraView">
         <div class="view-list">

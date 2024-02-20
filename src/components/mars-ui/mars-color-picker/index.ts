@@ -64,29 +64,27 @@ const MarsColorPicker = defineComponent({
       h(ColorPicker, { suckerHide: true, color: pointColor, onChangeColor: changeColor } as any /* TODO 强制给any类型 */),
       h("div", { class: "mars-color-btns" }, Buttons)
     ]
-
-    return () => [
-      h(
-        Popover,
-        {
-          trigger: "click",
-          placement: "right",
-          overlayClassName: props.hiddenAlpha ? "overlay-className" : "", // 打开的面板样式,隐藏透明度面板
-          // overlayClassName: "overlayClassName", // 打开的面板样式,隐藏透明度面板 
-          open: visible.value,
-          "onUpdate:visible": (v: boolean) => {
-            visible.value = v
-          },
-          color: "var(--mars-control-bg)"
+ 
+    return () => h("div", { class: "mars-color-view" }, [h(
+      Popover,
+      {
+        trigger: "click",
+        placement: "right",
+        overlayClassName: props.hiddenAlpha ? "overlay-className" : "", // 打开的面板样式,隐藏透明度面板
+        // overlayClassName: "overlayClassName", // 打开的面板样式,隐藏透明度面板 
+        open: visible.value,
+        "onUpdate:visible": (v: boolean) => {
+          visible.value = v
         },
-        {
-          default: () => h("div", { class: "mars-color-picker", style: { backgroundColor: props.value } }),
-          content: () => h("div", null, content)
-        }
-      ),
-      h("div", { class: "mars-color-view" }),
-      h("label", { class: "mars-color-label", innerText: props.value })
-    ]
+        color: "var(--mars-control-bg)"
+      },
+      {
+        default: () => h("div", { class: "mars-color-picker", style: { backgroundColor: props.value } }),
+        content: () => h("div", null, content)
+      }
+    ),
+    h("div", { class: "mars-color-bg" }),
+    h("label", { class: "mars-color-label", innerText: props.value })]) 
   }
 })
 

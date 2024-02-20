@@ -1,5 +1,5 @@
 <template>
-  <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
+  <a-form class="mars-gui-form" :label-col="labelCol" :wrapper-col="wrapperCol">
     <template v-for="(item, i) in renderOptions" :key="i">
       <a-form-item v-if="(item.show as any)(attrForm)" :label="item.label">
         <div :style="getItemStyle(item)">
@@ -184,12 +184,18 @@ export default {
 </script>
 
 <style lang="less">
-.mars-gui-extra {
-  display: block;
-  font-family: var(--mars-font-family);
-  font-size: 12px;
-  font-weight: normal;
-  color: rgba(234, 242, 255, 0.7);
-  float: right;
+.mars-gui-form {
+  .ant-form-item-control-input-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .mars-gui-extra {
+      display: block;
+      font-family: var(--mars-font-family);
+      font-size: 12px;
+      font-weight: normal;
+      color: var(--mars-extra-text-color);
+    }
+  }
 }
 </style>

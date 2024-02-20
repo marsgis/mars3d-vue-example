@@ -1,12 +1,12 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="edit-contain">
       <mars-gui :options="options" :labelCol="7" ref="marsGuiRef"></mars-gui>
       <div class="f-tac load-button">
         <a-space>
           <mars-button size="middle" @click="loadCoverage">{{ loadCoverageText }}</mars-button>
-          <mars-button size="middle" @click="reset">重置参数</mars-button>
           <mars-button size="middle" @click="saveParams">保存参数</mars-button>
+          <mars-button type="primary" danger size="middle" @click="reset">重置参数</mars-button>
         </a-space>
       </div>
     </div>
@@ -352,11 +352,12 @@ const btnDrawExtent = () => {
 </script>
 
 <style scoped lang="less">
-.edit-contain {
-  width: 340px;
-}
-
 .load-button {
   margin-top: 10px;
+
+  .mars-button {
+    width: 94px;
+
+  }
 }
 </style>

@@ -1,48 +1,57 @@
 <template>
-  <div class="f-mb">
-    <a-space>
-      <mars-button v-if="formState.hasAddTileLayer" @click="addTileLayer">添加图层</mars-button>
-      <mars-button v-if="formState.hasAddTileLayer" @click="removeTileLayer">移除图层</mars-button>
-
-      <a-checkbox v-model:checked="formState.showTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
-    </a-space>
-  </div>
   <!-- 使用表格实现界面 -->
-  <mars-table
-    v-if="formState.showTable"
-    :row-selection="tileLayerRowSelection"
-    :dataSource="tileLayerList"
-    :columns="tileLayerColumns"
-    bordered
-    :pagination="{ pageSize: 5 }"
-    size="small"
-    :customRow="tileLayerCustomRowObj"
-  >
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.dataIndex === 'edit'">
-        <a-space>
-          <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="飞行定位" @click.stop="flyToLayer(record)" />
-          <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除图层" @click.stop="deleteLayer(record)" />
-        </a-space>
+  <div class="showTable" v-if="formState.showTable">
+    <mars-table :row-selection="tileLayerRowSelection" :dataSource="tileLayerList" :columns="tileLayerColumns"
+      :showHeader="false" :bordered="false" :pagination="{ pageSize: 5 }" size="small" :customRow="tileLayerCustomRowObj">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'edit'">
+          <div class="table-tools">
+            <a-space>
+              <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="飞行定位"
+                @click.stop="flyToLayer(record)" />
+              <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层"
+                @click.stop="deleteLayer(record)" />
+            </a-space>
+          </div>
+        </template>
       </template>
-    </template>
-  </mars-table>
+    </mars-table>
+  </div>
+
+  <div>
+    <div class="showTableControl f-mb f-pt">
+      <mars-switch v-model:checked="formState.showTable" title="显示图层内所有矢量数据列表" />
+      <span class="f-push-10-l">显示列表</span>
+    </div>
+
+    <div class="layer-control">
+      <a-space>
+        <mars-button v-if="formState.hasAddTileLayer" @click="addTileLayer">添加图层</mars-button>
+        <mars-button type="primary" danger v-if="formState.hasAddTileLayer" @click="removeTileLayer">移除图层</mars-button>
+      </a-space>
+    </div>
+  </div>
+
+
 
   <!-- 编辑图层的面板 -->
   <div class="property-content" v-if="formState.showTable && formState.layerName">
-    <h2 class="f-mb f-mt title">{{ formState.layerName }}</h2>
+
+    <div>
+      <h2 class="title">{{ formState.layerName }}</h2>
+    </div>
 
     <!-- 图层状态、交互、操作的盒子 -->
     <div class="bottomBox">
       <!-- 图层状态 -->
-      <div class="f-mb">
+      <div class="f-pt">
         <a-space>
           <span class="mars-pannel-item-label">状态:</span>
           <a-checkbox v-model:checked="formState.show" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
         </a-space>
       </div>
 
-      <div class="f-mb">
+      <div>
         <mars-gui :options="options"></mars-gui>
       </div>
 
@@ -50,10 +59,10 @@
       <div class="f-mb" v-if="props.interaction">
         <a-space>
           <span class="mars-pannel-item-label">图层交互:</span>
-          <a-checkbox v-model:checked="formState.hasPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">单击Popup</a-checkbox>
-          <a-checkbox v-model:checked="formState.hasHighlight" @change="onChangeHighlight" title="是否绑定单击高亮其对应矢量数据"
-            >单击高亮</a-checkbox
-          >
+          <a-checkbox v-model:checked="formState.hasPopup" @change="onChangePopup"
+            title="是否绑定Popup鼠标单击弹窗">单击Popup</a-checkbox>
+          <a-checkbox v-model:checked="formState.hasHighlight" @change="onChangeHighlight"
+            title="是否绑定单击高亮其对应矢量数据">单击高亮</a-checkbox>
         </a-space>
       </div>
 
@@ -242,7 +251,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 1,
     value: 1.0,
-    extra: "{opacity}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("opacity", data)
@@ -256,7 +264,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extra: "{brightness}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("brightness", data)
@@ -270,7 +277,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.16,
-    extra: "{contrast}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("contrast", data)
@@ -284,7 +290,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.1,
-    extra: "{hue}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("hue", data)
@@ -298,7 +303,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extra: "{saturation}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("saturation", data)
@@ -312,7 +316,6 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.53,
-    extra: "{gamma}",
     extraWidth: 40,
     change(data) {
       setLayerOptions("gamma", data)
@@ -417,8 +420,22 @@ const onChangeHighlight = () => {
 }
 
 .title {
-  text-align: center;
-  color: var(--mars-text-color);
+  color: #EAF2FF;
+  display: inline-block;
+  font-size: 14px;
+  width: 100%;
+  height: 44px;
+  background: #464C5A;
+  line-height: 44px;
+  padding-left: 10px;
+
+  &::before {
+    content: "|";
+    background: #3385FF;
+    color: #3385FF;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
 }
 
 .mars-pannel-item-label {
@@ -432,7 +449,78 @@ const onChangeHighlight = () => {
 .bottomBox {
   margin-left: -3px;
 }
+
 :deep(.ant-table-pagination) {
   margin: 10px 0 1px 0 !important;
+}
+
+
+.showTableControl {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.layer-control {
+  .mars-button {
+    width: 146px;
+  }
+}
+
+:deep(.ant-table) {
+  margin-top: 10px;
+
+  .ant-table-tbody {
+    .ant-table-row {
+      display: block;
+      width: 300px;
+      border-radius: 2px;
+      border: 1px solid rgba(234, 242, 255, 0.1);
+      background: rgba(234, 242, 255, 0.2);
+      margin-bottom: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(234, 242, 255, 0.4);
+      }
+    }
+
+    .ant-table-row-selected {
+      background: rgba(234, 242, 255, 0.4);
+
+    }
+
+    .ant-table-cell {
+      border: none !important;
+      // max-width: 200px;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
+
+      // .table-tools {
+      //   position: absolute;
+      //   left: 132px;
+      //   bottom: 8px;
+      // }
+    }
+  }
+
+  .ant-table-container {
+    border: none !important;
+  }
+}
+
+.property-content {
+  width: 330px;
+  margin-top: 26px;
+  position: absolute;
+  right: 0px;
+  background: rgba(39, 44, 54, 0.8);
+  border-radius: 4px !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid;
+  box-sizing: border-box;
+  border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%) 1;
 }
 </style>

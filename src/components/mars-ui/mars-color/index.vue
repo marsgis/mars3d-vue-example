@@ -38,6 +38,9 @@ export default defineComponent({
   border-color: var(--mars-control-border);
   border-radius: 2px;
   padding: 3px 4px;
+  &:hover {
+    border-color: var(--mars-primary-color);
+  }
 
   > input {
     outline: none !important;

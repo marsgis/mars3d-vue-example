@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="true" title="属性编辑" width="315" top="60" bottom="40" left="10" :minWidth="200">
+  <mars-dialog customClass="dialog-nopadding" :draggable="true" title="属性编辑" width="315" top="60" bottom="40" left="10" :minWidth="200">
     <div class="top-handle-bar">
       <a-space>
         <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
@@ -127,7 +127,7 @@ function deleteEntity() {
 <style lang="less" scoped>
 .top-handle-bar {
   border-bottom: 1px solid #cde1de;
-  padding: 5px 0 2px 0;
+  padding: 50px 0 2px 12px;
 
   :deep(.mars-icon) {
     cursor: pointer;

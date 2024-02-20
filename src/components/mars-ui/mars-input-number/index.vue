@@ -25,7 +25,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .mars-input-number {
   width: 100%;
-  height: 32px;
+  height: 32px; // size="small" 时将不居中，需要使用不同大小可注释
   color: var(--mars-control-text);
   background-color: var(--mars-control-bg);
   border-radius: 0;
@@ -35,7 +35,9 @@ export default defineComponent({
   box-shadow: none;
   font-family: var(--mars-font-family);
   :deep(.ant-input-number-input-wrap) {
+    height: 100%; // size="small" 时将不生效，需要使用不同大小可注释
     .ant-input-number-input {
+      height: 100%; // size="small" 时将不生效，需要使用不同大小可注释
       color: var(--mars-control-text);
       padding: 5px 11px;
       &::placeholder {
@@ -57,6 +59,11 @@ export default defineComponent({
   }
   .ant-input-number-handler {
     border-color: rgba(234, 242, 255, 0.2);
+    &:hover {
+      .anticon {
+        color: var(--mars-control-icon);
+      }
+    }
   }
 }
 </style>

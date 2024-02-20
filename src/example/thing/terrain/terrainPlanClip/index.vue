@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
@@ -11,16 +11,16 @@
     <div class="f-mb">
       <a-space>
         <span>开挖深度:</span>
-        <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999" :max="9999" />
-        <span>（米）</span>
+        <mars-input-number v-model:value="formState.txtHeight" @change="changeClipHeight" :step="1" :min="-9999"
+          :max="9999" />
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-mb draw-tools">
       <a-space>
         <mars-button @click="btnDrawExtent">添加矩形</mars-button>
         <mars-button @click="btnDraw">添加多边行</mars-button>
-        <mars-button @click="removeAll">清除</mars-button>
+        <mars-button type="primary" danger @click="removeAll">清除</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -89,6 +89,12 @@ const changeClipHeight = () => {
 </script>
 <style scoped lang="less">
 .ant-input-number {
-  width: 100px !important;
+  width: 230px !important;
+}
+
+.draw-tools {
+  .mars-button {
+    width: 94px;
+  }
 }
 </style>

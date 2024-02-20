@@ -552,9 +552,9 @@ const styleConfig = {
         valType: "number",
         defval: 1,
         data: [
-          { label: "顶部", value: 1 },
+          { label: "顶部", value: -1 },
           { label: "居中", value: 0 },
-          { label: "底部", value: -1 }
+          { label: "底部", value: 1 }
         ]
       },
 

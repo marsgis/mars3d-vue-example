@@ -593,21 +593,22 @@ export default {
   // border-image 与 border-radius 无法共存
   // padding 作为边框，与 mars-dialog__content 背景
   padding: 1px !important;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: var(--mars-base-border);
   border-radius: 4px !important;
   backdrop-filter: blur(10px);
 
   .mars-dialog__header {
     height: 44px;
-    width: 100%;
+    width: calc(100% - 2px);
     line-height: 44px;
     overflow: hidden;
     .mars-msg-title();
+    border-radius: 4px 4px 0 0;
     padding: 0 5px 0px 10px;
     color: var(--mars-text-color);
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 1px;
+    left: 1px;
 
     .icon {
       margin-right: 5px;

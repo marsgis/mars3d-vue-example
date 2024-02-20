@@ -46,6 +46,9 @@ export default defineComponent({
   :deep(.ant-input-suffix .anticon) {
     color: var(--mars-control-text);
   }
+  &:hover {
+    border-color: var(--mars-hover-color);
+  }
 }
 .ant-input-affix-wrapper-focused {
   box-shadow: none;

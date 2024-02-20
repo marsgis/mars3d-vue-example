@@ -215,10 +215,15 @@
     width: 100%;
   }
 }
-// 展示的输入框样式
+// 父元素
 .mars-color-view {
-  display: inline-block;
+  position: relative;
   height: 32px;
+}
+// 展示的输入框样式
+.mars-color-bg {
+  display: inline-block;
+  height: 100%;
   width: 100%;
   background-color: var(--mars-control-bg);
   border: 1px solid;
@@ -228,18 +233,23 @@
   position: absolute;
   top: 0;
   left: 0;
+  &:hover {
+    border-color: var(--mars-primary-color);
+  }
 }
-
+// 色值
 .mars-color-label {
-  height: 32px;
-  line-height: 32px;
+  max-width: calc(100% - 40px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   color: var(--mars-control-text);
   font-family: var(--mars-font-family);
   font-size: 14px;
   font-weight: normal;
   display: inline-block;
   position: absolute;
-  top: 0;
+  top: 7px;
   left: 35px;
 }
 
@@ -249,8 +259,8 @@
   height: 24px;
   display: inline-block;
   z-index: 2;
-  position: relative;
-  top: 2px;
+  position: absolute;
+  top: 4px;
   left: 4px;
   cursor: pointer;
 }

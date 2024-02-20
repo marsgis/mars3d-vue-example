@@ -10,9 +10,7 @@
             <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
-            <!-- <a-checkbox v-model:checked="onlyPickModelPosition" @change="onChangeOnlyPickModel">
-              <span title="屏蔽拾取地形坐标，避免穿透3dtiles模型">仅在模型或矢量上拾取</span>
-            </a-checkbox> -->
+            <a-checkbox v-model:checked="onlyVertexPosition" @change="updateOnlyVertexPosition">开启顶点吸附 </a-checkbox>
           </a-space>
         </a-col>
       </a-row>
@@ -178,11 +176,11 @@ const onChangeHasEdit = () => {
   mapWork.graphicLayer.hasEdit = enabledEdit.value
 }
 
-// 是否仅在3dtiles上标绘
-// const onlyPickModelPosition = ref(false)
-// const onChangeOnlyPickModel = () => {
-//   mapWork.updateOnlyPickModelPosition(onlyPickModelPosition.value)
-// }
+//
+const onlyVertexPosition = ref(false)
+const updateOnlyVertexPosition = () => {
+  mapWork.updateOnlyVertexPosition(onlyVertexPosition.value)
+}
 
 // 点击清除按钮
 const onClickClear = () => {
@@ -232,7 +230,6 @@ function drawPolyline(clampToGround: boolean) {
 function drawBrushLine(clampToGround: boolean) {
   mapWork.drawBrushLine(clampToGround)
 }
-
 
 function drawPolygon(clampToGround: boolean) {
   mapWork.drawPolygon(clampToGround)

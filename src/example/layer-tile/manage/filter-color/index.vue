@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <span>滤镜颜色:</span>
       <mars-color-picker @change="selectColor" v-model:value="color" />
@@ -18,3 +18,9 @@ const selectColor = (e) => {
 }
 
 </script>
+
+<style lang="less" scoped>
+.mars-color-view {
+  width: 232px;
+}
+</style>

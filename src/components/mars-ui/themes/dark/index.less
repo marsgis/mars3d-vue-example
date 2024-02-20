@@ -3,9 +3,12 @@
 :root[data-theme="dark"] {
   --mars-base-bg: rgba(39, 44, 54, 0.8); // 整个面板整体背景色
   --mars-base-shadow: none; // 整个面板整体阴影
+  // 边框渐变 - border-image 与 border-radius 无法共存，使用background
+  --mars-base-border: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
   --mars-collapse-title-bg: rgba(58, 64, 79, 1); // 折叠面板大标题颜色
   --mars-collapse-title-shadow: none; // 折叠面板大标题阴影
   --mars-sub-title-color: rgba(234, 242, 255, 0.8); // 小标题的颜色
+  --mars-extra-text-color: rgba(234, 242, 255, 0.7); // 额外字段颜色
   // 文本
   --mars-text-color: #ffffff; // 文本颜色
   --mars-font-family: HarmonyOS Sans SC;
@@ -15,7 +18,6 @@
   --mars-control-border: rgba(234, 242, 255, 0.15); // 框的边框色
 
   --mars-control-text: rgba(234, 242, 255, 1); // 框中文本颜色
-  // --mars-control-sub-title:rgba(234, 242, 255, 0.5); // 框中小标题文本颜色
   --mars-control-placeholder: rgba(234, 242, 255, 0.2); // 框中默认文本颜色
   --mars-control-icon: rgba(234, 242, 255, 0.4); // 框后面的小图标颜色
 
@@ -30,8 +32,8 @@
   --mars-tree-hover-text: #ffffff; // 移入后文本颜色
 
   // 状态
-  --mars-primary-color: rgba(51, 133, 255, 1);
-  --mars-dangerous-color: #F96868;
+  --mars-primary-color: #3385ff;
+  --mars-dangerous-color: #f96868;
   --mars-close-color: rgba(35, 39, 47, 0.7); // 关闭状态
   --mars-disable-color: rgba(255, 255, 255, 0.2); // 不可用状态
   --mars-hover-color: rgba(64, 150, 255, 1); // 移入状态

@@ -1,7 +1,9 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="280">
+  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="280">
     <div class="property-content">
-      <h2 class="f-mb title">瓦片底图通用参数</h2>
+      <div class="content-title">
+        <h2 class="f-mb title">瓦片底图通用参数</h2>
+      </div>
       <mars-gui :options="options"></mars-gui>
     </div>
   </mars-dialog>
@@ -103,14 +105,30 @@ const setLayerOptions = (attribute: string, val: number) => {
 }
 </script>
 <style lang="less" scoped>
-.title {
-  color: var(--mars-text-color);
-  font-size: 16px;
-  text-align: center;
-}
 
 .property-content {
   width: 100%;
   overflow-x: hidden;
+
+  .content-title {
+    .title {
+      color: #EAF2FF;
+      display: inline-block;
+      font-size: 14px;
+      width: 100%;
+      height: 44px;
+      background: #464C5A;
+      line-height: 44px;
+      padding-left: 10px;
+
+      &::before {
+        content: "|";
+        background: #3385FF;
+        color: #3385FF;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+    }
+  }
 }
 </style>

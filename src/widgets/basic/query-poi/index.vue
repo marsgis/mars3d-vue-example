@@ -13,7 +13,7 @@
           @input="handleSearch(searchTxt)"
         ></mars-input>
         <mars-button class="button">
-          <mars-icon icon="search" width="20" color="#fff" @click="selectPoint(searchTxt)"></mars-icon>
+          <img src="/img/poi/search.png" alt="" />
         </mars-button>
       </div>
 
@@ -232,14 +232,17 @@ function addHistory(data: any) {
 .query-poi {
   padding: 0;
   color: #fff;
+  padding: 1px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+  border-radius: 4px;
+
   .query-poi__search {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     width: 320px;
     height: 44px;
-    border: 1px solid;
-    border-image: linear-gradient(96deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 99%) 1;
+    border-image: var(--mars-base-border) 1;
     background: var(--mars-base-bg);
     padding: 3px;
     border-radius: 4px;
@@ -254,11 +257,14 @@ function addHistory(data: any) {
         font-size: 16px;
         color: var(--mars-text-color) !important;
         &::placeholder {
-          color: var(--mars-control-text);
+          color: var(--mars-control-placeholder);
         }
       }
     }
     .button {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
       height: 100%;
       width: 50px;
       border-radius: 4px;
