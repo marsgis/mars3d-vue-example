@@ -1,6 +1,6 @@
 <template>
-  <mars-dialog v-model:visible="isShow" right="10" top="10">
-    <a-space>
+  <mars-dialog v-model:visible="isShow" right="10" top="10" width="330">
+    <div class="demo-list">
       <mars-button @click="showAircraft">飞机</mars-button>
       <mars-button @click="showShip">船舶</mars-button>
       <mars-button @click="showCar">汽车</mars-button>
@@ -8,16 +8,19 @@
       <mars-button @click="showBDSatellite">北斗卫星</mars-button>
       <mars-button @click="showRocket">火箭发射</mars-button>
       <mars-button @click="showFireDrill">消防演练</mars-button>
-    </a-space>
+    </div>
 
     <div class="f-pt">
       <layer-state label="图层控制：" />
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="110" width="220" customClass="layer-tree">
-    <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData" @check="checkedChange">
-    </mars-tree>
+  <mars-dialog :visible="true" right="10" top="230" bottom="70"  width="330" customClass="czml_dialog">
+    <div class="czml_tree">
+      <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData"
+        @check="checkedChange">
+      </mars-tree>
+    </div>
   </mars-dialog>
 </template>
 
@@ -134,5 +137,31 @@ const showFireDrill = () => {
 <style lang="less" scoped>
 .layer-tree {
   vertical-align: top !important;
+}
+
+.czml_tree {
+  overflow: hidden;
+}
+
+:deep(.ant-tree-list) {
+  padding-left: 9px !important;
+}
+</style>
+<style lang="less">
+.czml_dialog {
+  .mars-dialog__content {
+    box-sizing: content-box;
+    padding: 8px 5px 6px 5px !important;
+  }
+}
+
+.demo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .mars-button {
+    width: 94px;
+  }
 }
 </style>

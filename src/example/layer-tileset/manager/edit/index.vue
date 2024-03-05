@@ -259,7 +259,7 @@ const locateToModel = () => {
 }
 
 const saveBookmark = () => {
-  mapWork.saveBookmark(getLayerOptions())
+  mapWork.saveBookmark()
 }
 
 // 查看构件

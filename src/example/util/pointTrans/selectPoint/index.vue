@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
       <a-form-item label="类型">
         <a-radio-group v-model:value="formState.radioFanwei" @change="changeFanwei">
@@ -12,13 +12,13 @@
       <!-- 十进制的面板 -->
       <div v-show="formState.radioFanwei == '1'">
         <a-form-item label="经度" class="shijingzhi" @change="changeJWD">
-          <mars-input v-model:value="formState.jd"> </mars-input>
+          <mars-input class="point_Trans_input" v-model:value="formState.jd"> </mars-input>
         </a-form-item>
         <a-form-item label="纬度" class="shijingzhi">
-          <mars-input v-model:value="formState.wd" @change="changeJWD"> </mars-input>
+          <mars-input class="point_Trans_input" v-model:value="formState.wd" @change="changeJWD"> </mars-input>
         </a-form-item>
         <a-form-item label="高程" class="shijingzhi">
-          <mars-input v-model:value="formState.alt" @change="changeJWD"> </mars-input>
+          <mars-input class="point_Trans_input" v-model:value="formState.alt" @change="changeJWD"> </mars-input>
         </a-form-item>
       </div>
 
@@ -39,7 +39,7 @@
           </a-space>
         </a-form-item>
         <a-form-item label="高程" class="shijingzhi">
-          <mars-input v-model:value="formState.alt"> </mars-input>
+          <mars-input class="point_Trans_input" v-model:value="formState.alt"> </mars-input>
         </a-form-item>
       </div>
 
@@ -52,20 +52,20 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="纵坐标" class="shijingzhi">
-          <mars-input v-model:value="formState.gk6X" @change="changeGKZone"> </mars-input>
+          <mars-input class="point_Trans_input1" v-model:value="formState.gk6X" @change="changeGKZone"> </mars-input>
         </a-form-item>
         <a-form-item label="横坐标" class="shijingzhi">
-          <mars-input v-model:value="formState.gk6Y" @change="changeGKZone"> </mars-input>
+          <mars-input class="point_Trans_input1" v-model:value="formState.gk6Y" @change="changeGKZone"> </mars-input>
         </a-form-item>
         <a-form-item label="高度值" class="shijingzhi">
-          <mars-input v-model:value="formState.alt" @change="changeGKZone"> </mars-input>
+          <mars-input class="point_Trans_input1" v-model:value="formState.alt" @change="changeGKZone"> </mars-input>
         </a-form-item>
       </div>
 
       <a-form-item class="f-pt f-tac">
         <a-space>
-          <mars-button @click="bindMourseClick">图上拾取</mars-button>
-          <mars-button @click="submitCenter">坐标定位</mars-button>
+          <mars-button class="btn" @click="bindMourseClick">图上拾取</mars-button>
+          <mars-button class="btn" @click="submitCenter">坐标定位</mars-button>
         </a-space>
       </a-form-item>
     </a-form>
@@ -190,5 +190,24 @@ const submitCenter = () => {
 }
 .dufenmiao {
   width: 50px;
+}
+.mars-main-view .ant-form {
+  padding: 0px;
+}
+
+.ant-radio-wrapper {
+  margin-inline-end: 0px;
+}
+
+.btn {
+  width:146px;
+}
+
+.point_Trans_input {
+  width: 259px;
+}
+
+.point_Trans_input1 {
+  width: 246px;
 }
 </style>

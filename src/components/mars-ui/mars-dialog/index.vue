@@ -3,28 +3,21 @@
     <div class="mars-dialog-thumb" v-show="isFold && show" ref="thumbnailRef" @click="toogleFold(false)">
       <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#FFFFFF"></mars-icon>
     </div>
-    <div
-      class="mars-dialog"
-      :class="[customClass, animationClass]"
-      :style="{ 'padding-top': showHeader ? '44px' : '14px', 'padding-bottom': slots.footer ? '44px' : '14px' }"
-      ref="dialogRef"
-      v-show="visible && !isFold && show"
-    >
-      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }" @mousedown="dragStart">
+    <!-- :style="{ 'padding-top': showHeader ? '44px' : '1px', 'padding-bottom': slots.footer ? '44px' : '1px' }" -->
+    <div class="mars-dialog" :class="[customClass, animationClass]"
+      ref="dialogRef" v-show="visible && !isFold && show">
+      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
+        @mousedown="dragStart">
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
-        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn" @click="close"></mars-icon>
+        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
+          @click="close"></mars-icon>
       </div>
-      <mars-icon
-        v-else-if="mergeProps.closeable && mergeProps.closeButton"
-        icon="close-one"
-        :width="18"
-        class="close-btn__flot"
-        @click="close"
-      ></mars-icon>
+      <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
+        class="close-btn__flot" @click="close"></mars-icon>
 
-      <div class="mars-dialog__content">
+      <div :class='["mars-dialog__content", showHeader ? "content-show_header" : ""]'>
         <slot></slot>
       </div>
 
@@ -32,13 +25,8 @@
         <slot name="footer"></slot>
       </div>
 
-      <div
-        v-for="handle in actualHandles"
-        :key="handle"
-        class="mars-dialog__handle"
-        :class="['handle-' + handle]"
-        @mousedown="resizeStart(handle, $event)"
-      ></div>
+      <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
+        @mousedown="resizeStart(handle, $event)"></div>
     </div>
   </teleport>
 </template>
@@ -582,6 +570,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
 }
+
 .mars-dialog {
   position: absolute;
   box-sizing: border-box;
@@ -592,23 +581,23 @@ export default {
   .mars-drop-bg();
   // border-image 与 border-radius 无法共存
   // padding 作为边框，与 mars-dialog__content 背景
-  padding: 1px !important;
+  padding: 1px;
   background: var(--mars-base-border);
-  border-radius: 4px !important;
+  border-radius: 4px;
   backdrop-filter: blur(10px);
 
   .mars-dialog__header {
     height: 44px;
-    width: calc(100% - 2px);
+    width: 100%;
     line-height: 44px;
     overflow: hidden;
     .mars-msg-title();
     border-radius: 4px 4px 0 0;
     padding: 0 5px 0px 10px;
     color: var(--mars-text-color);
-    position: absolute;
-    top: 1px;
-    left: 1px;
+    position: relative;
+    top: 0;
+    left: 0;
 
     .icon {
       margin-right: 5px;
@@ -632,6 +621,13 @@ export default {
     right: -8px;
     top: -8px;
     cursor: pointer;
+  }
+
+  // 主题内容
+  .content-show_header {
+    height: calc(100% - 40px) !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
   }
 
   .mars-dialog__content {

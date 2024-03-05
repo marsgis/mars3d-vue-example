@@ -4,20 +4,20 @@
       <div class="f-mb">
         <a-space>
           <span class="text-default">最低海拔:</span>
-          <mars-input-number v-model:value="formState.minHeight" :step="1" />
+          <mars-input-number v-model:value="formState.minHeight" :step="1" addon-after="米"/>
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
           <span class="text-default">最高海拔:</span>
-          <mars-input-number v-model:value="formState.maxHeight" :step="1" />
+          <mars-input-number v-model:value="formState.maxHeight" :step="1" addon-after="米"/>
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
           <span class="text-default">淹没速度:</span>
-          <mars-input-number v-model:value="formState.speed" :step="1" />
+          <mars-input-number v-model:value="formState.speed" :step="1" addon-after="米/秒"/>
         </a-space>
       </div>
 
@@ -112,6 +112,11 @@ const floodColor = ref("rgba(0, 123, 230, 0.5)")
 mapWork.eventTarget.on("heightChange", (e: any) => {
   isShow.value = true
   formState.height = Math.ceil(e.height)
+})
+
+// 监听淹没完成
+mapWork.eventTarget.on("floodEnd", (e: any) => {
+  isStart.value = false
 })
 
 // 添加矩形

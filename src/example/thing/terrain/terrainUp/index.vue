@@ -3,11 +3,7 @@
     <div class="terrain-contain">
       <a-row :gutter="[1, 10]">
         <a-col :span="24">
-          <!-- <a-form-item>
-            <a-space>
-              <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
-            </a-space>
-          </a-form-item> -->
+
           <a-form-item label="抬升高度" :labelCol="labelCol" :labelAlign="labelAlign" title="不能针对单个区域，整体抬升">
             <a-space>
               <mars-input-number v-model:value="formState.upHeight" @change="changeUpHeight" :step="1" :min="-99999"
@@ -42,7 +38,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
+          <mars-table class="mars-noHeader-table" :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
             size="small" :showHeader="false" :bordered="false">
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
@@ -211,40 +207,4 @@ const changeUpHeight = () => {
   }
 }
 
-:deep(.ant-table) {
-  .ant-table-tbody {
-    .ant-table-row {
-      display: block;
-      width: 300px;
-      border-radius: 2px;
-      border: 1px solid rgba(234, 242, 255, 0.1);
-      background: rgba(234, 242, 255, 0.2);
-      margin-bottom: 10px;
-      cursor: pointer;
-
-      &:hover {
-        background: rgba(234, 242, 255, 0.4);
-      }
-    }
-
-    .ant-table-row-selected {
-      background: rgba(234, 242, 255, 0.4);
-
-    }
-
-    .ant-table-cell {
-      border: none !important;
-
-      .table-tools {
-        position: absolute;
-        left: 132px;
-        bottom: 8px;
-      }
-    }
-  }
-
-  .ant-table-container {
-    border: none !important;
-  }
-}
 </style>

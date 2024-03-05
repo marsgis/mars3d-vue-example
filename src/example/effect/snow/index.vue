@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <a-checkbox @change="onChangeSnowState" v-model:checked="formState.enabledSnow">下雪效果：</a-checkbox>
@@ -70,6 +70,6 @@ const onChangeCoverState = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 146px;
+  width: 220px;
 }
 </style>

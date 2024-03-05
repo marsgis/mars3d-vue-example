@@ -1,21 +1,14 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state :defaultCount="100" :customEditor="'dynamicRiver'" @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <graphic-layer-state :defaultCount="100" :customEditor="'dynamicRiver'" @onStartEditor="onStartEditor"
+      @onStopEditor="onStopEditor" />
     <span style="color: #ccc">提示:沿水流方向选点，直线也多标点</span>
   </mars-dialog>
 
-  <mars-dialog
-    left="10"
-    top="10"
-    :draggable="true"
-    :title="pannelTitle"
-    :visible="selectedGraphic"
-    :beforeClose="
-      () => {
-        selectedGraphic = false
-      }
-    "
-  >
+  <mars-dialog left="10" top="10" :draggable="true" :title="pannelTitle" :visible="selectedGraphic" :beforeClose="() => {
+      selectedGraphic = false
+    }
+    ">
     <!-- 参数调试面板 -->
     <div class="f-mb">
       <a-space>

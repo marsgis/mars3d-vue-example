@@ -30,7 +30,7 @@ export default defineComponent({
   border: none;
   padding-left: 10px;
   padding-right: 10px;
-  color: var(--mars-text-color);
+  color: #ffffff;
   border-radius: 2px;
 
   :deep(.mars-icon) {
@@ -44,25 +44,25 @@ export default defineComponent({
 
 .mars-button:not([disabled]) {
   &:hover {
-    color: var(--mars-text-color);
+    color: #ffffff;
     border-color: #89bceb;
     background: var(--mars-hover-color);
   }
 
   // &:focus {
-  //   color: var(--mars-text-color);
+  //   color: #ffffff;
   //   border-color: #89bceb;
   //   background: var(--mars-hover-color);
   // }
 }
 
 .ant-btn:disabled {
-  color: var(--mars-text-color);
+  color: #ffffff;
   background: var(--mars-disable-color);
 
   &:hover {
     background: var(--mars-disable-color);
-    color: var(--mars-text-color);
+    color: #ffffff;
   }
 }
 

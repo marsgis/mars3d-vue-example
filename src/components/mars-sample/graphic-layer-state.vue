@@ -1,54 +1,68 @@
 <template>
   <div class="f-mb">
-    <a-space>
-      <span class="mars-pannel-item-label">图层状态:</span>
-      <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
+    <div>
+      <a-space>
+        <span class="mars-pannel-item-label">图层状态:</span>
+        <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
 
-      <span v-if="formState.enabledOpacity" class="mars-pannel-item-label" title="不是所有矢量数据均支持修改全局透明度">透明度:</span>
-      <mars-slider v-if="formState.enabledOpacity" v-model:value="formState.opacity" :min="0.0" :max="1.0" :step="0.1" @change="onOpacityChange" />
+        <mars-button v-if="!formState.enabledOpacity" @click="onClickFlyTo" title="视角定位" size="small">
+          定位
+        </mars-button>
+      </a-space>
+    </div>
 
-      <mars-button @click="onClickFlyTo" title="视角定位" size="small" shape="round">
-        <mars-icon icon="aiming" class="icon-vertical-a" />
-        定位
-      </mars-button>
-    </a-space>
+    <div>
+      <a-space>
+        <span v-if="formState.enabledOpacity" class="mars-pannel-item-label" title="不是所有矢量数据均支持修改全局透明度">透明度:</span>
+        <mars-slider v-if="formState.enabledOpacity" v-model:value="formState.opacity" :min="0.0" :max="1.0" :step="0.1"
+          @change="onOpacityChange" />
+        <mars-button v-if="formState.enabledOpacity" @click="onClickFlyTo" title="视角定位" size="small">
+          定位
+        </mars-button>
+      </a-space>
+    </div>
+
   </div>
 
-  <div class="f-mb" v-if="props.interaction">
+  <div class="f-mb " v-if="props.interaction">
     <a-space>
       <span class="mars-pannel-item-label">图层交互:</span>
-      <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">单击Popup</a-checkbox>
-      <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip" title="是否绑定Tooltip鼠标移入弹窗">移入Tooltip</a-checkbox>
-      <a-checkbox v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu" title="是否绑定右键菜单">右键菜单</a-checkbox>
+      <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup"
+        title="是否绑定Popup鼠标单击弹窗">单击Popup</a-checkbox>
+      <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip"
+        title="是否绑定Tooltip鼠标移入弹窗">移入Tooltip</a-checkbox>
     </a-space>
+
+    <a-checkbox class="rightMenu-checkbox f-pt" v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu"
+      title="是否绑定右键菜单">右键菜单</a-checkbox>
   </div>
 
   <div class="f-mb" v-if="props.enabledDraw">
     <a-space>
       <span class="mars-pannel-item-label">数据维护:</span>
-      <mars-button v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1 }}</mars-button>
-      <mars-button v-if="props.drawLabel2 && !formState.isDrawing" @click="onClickStartDraw2">{{ props.drawLabel2 }}</mars-button>
-      <mars-button v-if="formState.isDrawing" @click="onClickClearDrawing">取消绘制</mars-button>
-
-      <a-checkbox
-        v-if="props.interaction && formState.enabledEdit"
-        v-model:checked="formState.hasEdit"
-        @change="onChangeHasEdit"
-        title="是否单击进行编辑状态"
-        >是否编辑</a-checkbox
-      >
-
-      <a-checkbox v-if="enabledTable" v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
+      <mars-button :class="props.drawLabel2 && !formState.isDrawing ? 'data-maintain-two' : 'data-maintain'"
+        v-if="!formState.isDrawing" @click="onClickStartDraw">{{ props.drawLabel1
+        }}</mars-button>
+      <mars-button :class="props.drawLabel2 && !formState.isDrawing ? 'data-maintain-two' : 'data-maintain'"
+        v-if="props.drawLabel2 && !formState.isDrawing" @click="onClickStartDraw2">{{
+          props.drawLabel2
+        }}</mars-button>
+      <mars-button class="data-maintain" v-if="formState.isDrawing" @click="onClickClearDrawing">取消绘制</mars-button>
     </a-space>
   </div>
 
-  <div class="f-mb">
+  <div class="data-edit">
+    <a-checkbox v-if="props.interaction && formState.enabledEdit" v-model:checked="formState.hasEdit"
+      @change="onChangeHasEdit" title="是否单击进行编辑状态">是否编辑</a-checkbox>
+    <a-checkbox v-if="enabledTable" v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
+  </div>
+
+  <div class="f-mb f-pt">
     <a-space>
-      <span>数据测试:</span>
+      <span class="mars-pannel-item-label">数据测试:</span>
       <mars-input-number :min="1" :max="1000000" v-model:value="formState.count" step="1"></mars-input-number>条
       <mars-button @click="addRandomGraphicByCount">生成</mars-button>
-      <mars-button @click="onClickClear">
-        <mars-icon icon="delete" class="icon-vertical-a" />
+      <mars-button @click="onClickClear" danger>
         清除
       </mars-button>
     </a-space>
@@ -57,50 +71,33 @@
   <div class="f-mb">
     <a-space>
       <span class="mars-pannel-item-label">数据导出:</span>
-
-      <a-upload
-        :multiple="false"
-        name="file"
-        accept=".json,.geojson"
-        :file-list="fileList"
-        :showUploadList="false"
-        :supportServerRender="true"
-        :beforeUpload="() => false"
-        @change="onClickImpFile"
-      >
-        <mars-button title="打开GeoJSON">
-          <mars-icon icon="folder-open" class="icon-vertical-a" />
-          打开
-        </mars-button>
-      </a-upload>
-
       <mars-button @click="expGeoJSONFile" title="保存GeoJSON">
-        <mars-icon icon="save-one" class="icon-vertical-a" />
         导出GeoJSON
       </mars-button>
-
       <mars-button @click="expJSONFile" title="导出构造参数Json"> 导出构造JSON </mars-button>
     </a-space>
+
+    <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
+      :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
+      <mars-button class="open-file-btn" title="打开GeoJSON">
+        打开
+      </mars-button>
+    </a-upload>
   </div>
 
+
   <div class="f-mb data-list">
-    <mars-table
-      size="small"
-      v-if="enabledTable && formState.hasTable"
-      :pagination="{ pageSize: currentPage }"
-      :customRow="graphicCustomRowObj"
-      :row-selection="graphicRowSelection"
-      :dataSource="graphicDataList"
-      :columns="graphicColumns"
-      :scroll="{ x: 400, y: 400 }"
-      @change="pageSizeChange"
-      bordered
-    >
+    <mars-table class="mars-noHeader-table" size="small" v-if="enabledTable && formState.hasTable"
+      :pagination="{ pageSize: currentPage, simple: true }" :customRow="graphicCustomRowObj"
+      :row-selection="graphicRowSelection" :dataSource="graphicDataList" :columns="graphicColumns" :scroll="{ y: 400 }"
+      @change="pageSizeChange" :showHeader="false" :bordered="false">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'caozuo'">
           <a-space>
-            <mars-icon title="修改矢量数据样式" icon="editor" class="icon-vertical-a" @click.stop="startEditGraphic(record)" />
-            <mars-icon title="删除矢量数据" icon="delete" class="icon-vertical-a" @click.stop="deleteGraphic(record)" />
+            <mars-icon title="修改矢量数据样式" icon="editor" color="#f2f2f2" class="icon-vertical-a"
+              @click.stop="startEditGraphic(record)" />
+            <mars-icon title="删除矢量数据" icon="delete" color="#F96868" class="icon-vertical-a"
+              @click.stop="deleteGraphic(record)" />
           </a-space>
         </template>
         <template v-else>
@@ -220,6 +217,7 @@ onMounted(() => {
       formState.enabledPopup = layer.hasPopup()
       formState.enabledTooltip = layer.hasTooltip()
       formState.enabledRightMenu = layer.hasContextMenu()
+      formState.hasEdit = layer.hasEdit // 图层是否打开了编辑
 
       const graphics = layer.getGraphics()
 
@@ -747,9 +745,8 @@ const graphicColumns = [
   {
     title: "操作",
     dataIndex: "caozuo",
-    key: "caozuo",
-    width: 60,
-    align: "center"
+    key: "caozuo"
+
   }
 ]
 
@@ -866,16 +863,43 @@ const deleteGraphic = (record: GraphicTableItem) => {
 .mars-pannel-item-label {
   width: auto;
 }
+
 .ant-input-number {
-  width: 152px;
+  width: 98px;
 }
+
 :deep(.ant-slider) {
-  width: 80px;
+  width: 160px;
 }
-:deep(.ant-table-pagination) {
-  margin: 10px 0 1px 0 !important;
+
+// 数据维护按钮
+
+.data-maintain {
+  width: 228px !important;
 }
-.data-list {
-  width: 450px;
+
+.data-maintain-two {
+  width: 112px;
+}
+
+.open-file-btn {
+  margin-top: 10px;
+  width: 232px !important;
+  margin-left: 68px;
+}
+
+// 编辑
+.data-edit,
+.rightMenu-checkbox {
+  margin-left: 68px;
+}
+
+.data-edit {
+  display: flex;
+  justify-content: space-between;
+
+  :deep(.ant-checkbox+span) {
+    padding-inline-end: 0 !important;
+  }
 }
 </style>

@@ -1,10 +1,18 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <mars-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource" :row-selection="rowSelection" />
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-table :pagination="false" :customRow="rowClick" :columns="columns" :dataSource="dataSource"
+      :row-selection="rowSelection" />
   </mars-dialog>
-  <mars-dialog customClass="message-list" :visible="true" right="10" top="500" width="300">
+  <mars-dialog customClass="message-list" :visible="true" right="10" top="335" width="330">
     <div v-for="(msgList, index) in msg" :key="index">
-      <p>{{ msgList }}</p>
+      <a-space>
+        <div class="out-circle">
+        <div class="in-circle">
+        </div>
+      </div>
+      <p class="f-push-5-b">{{ msgList }}</p>
+      </a-space>
+
     </div>
   </mars-dialog>
 </template>
@@ -89,9 +97,29 @@ const rowClick = (recode: any) => {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .message-list {
-  max-height: 300px;
+  max-height: 220px;
   overflow: auto;
+}
+
+:deep(.ant-table-row:nth-of-type(even)) {
+  background-color: transparent !important;
+}
+
+.out-circle {
+  width: 12px;
+  height: 12px;
+  background: rgba(51, 133, 255, 0.2);
+  border-radius: 50%;
+
+  .in-circle {
+    position: relative;
+    transform: translate(50%, 50%);
+    width: 6px;
+    height: 6px;
+    background: #3385FF;
+    border-radius: 50%;
+  }
 }
 </style>

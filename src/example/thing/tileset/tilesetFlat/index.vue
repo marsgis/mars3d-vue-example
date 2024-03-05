@@ -20,7 +20,7 @@
           <a-space>
             <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
             <mars-button @click="btnDraw">绘制多边行</mars-button>
-            <mars-button @click="removeAll">清除</mars-button>
+            <mars-button @click="removeAll" danger>清除</mars-button>
           </a-space>
         </a-col>
 

@@ -1,7 +1,7 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="198">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
-      <mars-button class="btn-mb" v-if="!isPlay || isPause" @click="play">
+      <mars-button class="btn-mb" :class="isPause ? 'btn-pause' : 'btn-play'" v-if="!isPlay || isPause" @click="play">
         <a-space>
           <mars-icon icon="handle-triangle" class="icon-vertical-a" />
           <span>{{ isPause ? "继续" : "开始" }}</span>
@@ -21,7 +21,8 @@
       </mars-button>
     </a-space>
 
-    <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
+    <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true"
+      :selectable="true">
       <template #title="{ title, isLeaf, dataRef }">
         <span @click="startBegin(dataRef)" v-if="isLeaf" type="link">{{ title }}({{ dataRef.times }}秒)</span>
         <span v-else>{{ title }}</span>
@@ -47,7 +48,6 @@ let timer: any = null
 let interval: any = null
 const animations: any[] = []
 const currentWork = ref("")
-const showPause = ref(true)
 
 onMounted(() => {
   let i = 0
@@ -196,6 +196,11 @@ function countOn() {
 }
 
 .btn-mb {
+  width: 146px;
   margin-bottom: 10px;
+}
+
+.btn-play {
+  width: 300px !important;
 }
 </style>

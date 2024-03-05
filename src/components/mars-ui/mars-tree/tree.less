@@ -5,7 +5,7 @@
     color: var(--mars-tree-hover-text);
     padding-bottom: 2px;
     .ant-tree-treenode {
-      width: calc(100% + 50px);
+      width: calc(100% + 17px);
       padding-bottom: 2px;
       margin-bottom: 5px;
 
@@ -14,7 +14,6 @@
 
       .ant-tree-node-content-wrapper {
         color: var(--mars-tree-text);
-        width: 100%;
         left: 30px;
         padding: 0;
         .ant-tree-title {
@@ -36,6 +35,9 @@
           color: var(--mars-tree-hover-text);
         }
       }
+    }
+    .ant-tree-treenode:last-child {
+      margin-bottom: 0px;
     }
     .ant-tree-treenode-checkbox-checked {
       background: var(--mars-list-active) !important;

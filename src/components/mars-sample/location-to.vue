@@ -1,10 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" bottom="40">
+  <!-- <mars-dialog :visible="true" right="10" bottom="40"> -->
+  <div class="location-to">
     <a-space>
       <mars-button @click="onClickCenterAtTerrain">定位至山区</mars-button>
       <mars-button @click="onClickCenterAtModel">定位至模型</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
+
+  <!-- </mars-dialog> -->
 </template>
 
 <script>
@@ -37,6 +40,7 @@ export default defineComponent({
           url: "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
           position: { alt: 38.8 },
           maximumScreenSpaceError: 1,
+          enableCollision: true,
           flyTo: true
         })
         map.addLayer(modelTest)
@@ -56,5 +60,16 @@ export default defineComponent({
   top: auto;
   bottom: 40px;
   right: 10px;
+}
+
+.location-to {
+  position: absolute;
+  bottom: 40px;
+  right: 10px;
+
+  .mars-button {
+    width: 130px;
+    height: 38px;
+  }
 }
 </style>

@@ -1,12 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <mars-button v-if="isPlay" @click="stopPlay">停止推演</mars-button>
-      <mars-button v-else @click="startPlay">开始推演</mars-button>
+      <mars-button class="start-btn" v-else @click="startPlay">开始推演</mars-button>
       <mars-button v-if="isPlay" @click="pausePlay">{{ isPause ? "继续" : "暂停" }}</mars-button>
     </a-space>
 
-    <mars-tree class="f-mb" :tree-data="treeNodes" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
+    <mars-tree class="f-mb f-pt" :tree-data="treeNodes" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true"
+      :selectable="true">
       <template #title="{ title, key }">
         <span class="runing-item" v-if="key === selectKey" type="link">{{ title }} </span>
         <span v-else>{{ title }}</span>
@@ -183,6 +184,24 @@ const pausePlay = () => {
 </script>
 <style lang="less" scoped>
 .runing-item {
-  background: var(--mars-primary-half-color);
+  background: var(--mars-list-active);
+}
+
+:deep(.ant-tree) {
+  .ant-tree-treenode {
+    width: 100% !important;
+  }
+}
+
+:deep(.ant-tree-treenode) {
+  width: 100% !important;
+}
+
+.mars-button {
+  width: 146px;
+}
+
+.start-btn {
+  width: 300px;
 }
 </style>

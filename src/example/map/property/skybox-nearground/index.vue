@@ -1,17 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-radio-group
-      optionType="button"
-      buttonStyle="solid"
-      :options="options"
-      v-model:value="radioValue"
-      @change="
-        (e) => {
-          changeBackground(e.target.value)
-        }
-      "
-    />
-  </mars-dialog>
+  <div class="map_tool_container">
+    <mars-button class="btn" :class="{ active: radioValue === item.value }" v-for="(item) in options" :key="item.value"
+      @click="changeBackground(item.value)">{{ item.label }}</mars-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +18,7 @@ const options = [
 ]
 
 const changeBackground = (e) => {
+  radioValue.value = e
   switch (e) {
     case "1":
       mapWork.sunny()
@@ -43,3 +35,26 @@ const changeBackground = (e) => {
   }
 }
 </script>
+<style lang="less" scoped>
+.map_tool_container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+
+  .mars-button {
+    width: 68px;
+    margin-right: 10px;
+  }
+
+  .mars-button:last-child {
+    margin-right: 0px
+  }
+}
+.btn {
+  background-color: rgba(39, 44, 54, 0.8);
+}
+.active {
+  background-color: rgba(51, 133, 255, 1) !important;
+}
+</style>

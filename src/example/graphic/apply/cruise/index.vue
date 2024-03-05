@@ -1,12 +1,18 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button v-show="!formState.isStart" @click="startPlay">开始</mars-button>
-      <mars-button v-show="formState.isStart && !formState.isPause" @click="pausePlay">暂停</mars-button>
-      <mars-button v-show="formState.isStart && formState.isPause" @click="proceedPlay">继续</mars-button>
-      <mars-button v-show="formState.isStart" @click="stopPlay">停止</mars-button>
-    </a-space>
-  </mars-dialog>
+  <div class="play-tools">
+    <mars-button class="start-btn" v-show="!formState.isStart" @click="startPlay">
+      <mars-icon icon="play" color="#f2f2f2" :size="16"></mars-icon>
+      开始</mars-button>
+    <mars-button v-show="formState.isStart && !formState.isPause" @click="pausePlay">
+      <mars-icon icon="pause-one" color="#f2f2f2" :size="16"></mars-icon>
+      暂停</mars-button>
+    <mars-button v-show="formState.isStart && formState.isPause" @click="proceedPlay">
+      <mars-icon icon="go-on" color="#f2f2f2" :size="16"></mars-icon>
+      继续</mars-button>
+    <mars-button v-show="formState.isStart" @click="stopPlay">
+      <mars-icon icon="power" color="#f2f2f2" :size="16" />
+      停止</mars-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +46,7 @@ const proceedPlay = () => {
   udpateState()
 }
 
-const stopPlay = () => {  
+const stopPlay = () => {
   mapWork.stopPlay(true)
 }
 
@@ -52,3 +58,22 @@ function udpateState() {
   }, 100)
 }
 </script>
+
+<style lang="less" scoped>
+.play-tools {
+  display: flex;
+  position: absolute;
+  width: 330px;
+  top: 10px;
+  right: 10px;
+  justify-content: space-around;
+
+  .start-btn {
+    width: 300px !important;
+  }
+
+  .mars-button {
+    width: 146px;
+  }
+}
+</style>

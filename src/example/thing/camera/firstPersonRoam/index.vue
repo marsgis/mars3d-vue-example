@@ -1,25 +1,24 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
       <div class="f-mb">
-        <a-space>
-          <span>启用状态:</span>
+        <a-form-item label="启用状态">
           <a-checkbox @change="chkOpen" v-model:checked="checked">是否开启</a-checkbox>
-        </a-space>
+        </a-form-item>
       </div>
 
       <div class="f-mb">
-        <a-space>
-          <span>键盘漫游:</span>
-          <span>单击地图激活后按 W前进、 S后退、A左移、D右移</span>
-        </a-space>
+        <a-form-item label="键盘漫游">
+          <span class="info">单击地图激活后按 W前进、S后退、A左移、D右移</span>
+        </a-form-item>
       </div>
 
       <div>
-        <a-space>
-          <span>自动漫游:</span>
-          <mars-button @click="startAuto">开始自动漫游</mars-button>
-          <mars-button @click="stopAuto">停止自动漫游</mars-button>
-        </a-space>
+        <a-form-item label="自动漫游">
+          <a-space>
+            <mars-button class="btn" @click="startAuto">开始自动漫游</mars-button>
+            <mars-button class="btn" @click="stopAuto">停止自动漫游</mars-button>
+          </a-space>
+        </a-form-item>
       </div>
   </mars-dialog>
 </template>
@@ -47,3 +46,13 @@ const stopAuto = () => {
   mapWork.stopAuto()
 }
 </script>
+<style lang="less" scoped>
+.info {
+  display: inline-block;
+  width: 230px;
+}
+
+.btn {
+  width:111px;
+}
+</style>

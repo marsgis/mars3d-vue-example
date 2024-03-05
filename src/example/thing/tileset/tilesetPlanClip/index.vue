@@ -1,18 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="330">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
-      <!-- 自定义切换图标 -->
-      <template #expandIcon>
-        <mars-icon icon="down-c" class="icon-vertical-a" />
-      </template>
       <a-collapse-panel key="1" header="单个裁剪面">
+
         <div class="f-mb">
           <a-space>
             <mars-button @click="drawLine">按绘制线裁剪</mars-button>
           </a-space>
         </div>
 
-        <div class="f-mb">
+        <div class="f-mb clipping">
           <a-space>
             <mars-button @click="mapWork.clippingType('ZR')">切顶部</mars-button>
             <mars-button @click="mapWork.clippingType('Z')">切底部</mars-button>
@@ -20,17 +17,19 @@
           </a-space>
         </div>
 
-        <div class="f-mb">
+        <div class="f-mb clipping">
           <a-space>
             <mars-button @click="mapWork.clippingType('X')">切西向</mars-button>
             <mars-button @click="mapWork.clippingType('Y')">切南向</mars-button>
             <mars-button @click="mapWork.clippingType('YR')">切北向</mars-button>
           </a-space>
         </div>
+
+
       </a-collapse-panel>
 
       <a-collapse-panel key="2" header="多个裁剪面">
-        <div class="f-mb">
+        <div class="f-mb draw-Poly">
           <a-space>
             <mars-button @click="drawExtent">绘制矩形</mars-button>
             <mars-button @click="drawPoly">绘制面</mars-button>
@@ -40,25 +39,34 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="裁剪参数">
-        <a-space>
-          <span class="mars-pannel-item-label">裁剪距离:</span>
-          <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />值{{ distanceVal }}
-        </a-space>
+        <div class="f-mb">
+          <a-space>
+            <span class="mars-pannel-item-label">裁剪距离:</span>
+            <mars-slider @change="rangeDistance" v-model:value="distanceVal" :min="-20" :max="30" :step="1.0" />值{{
+              distanceVal }}
+          </a-space>
+        </div>
 
-        <a-space>
-          <span class="mars-pannel-item-label">旋转角度1:</span>
-          <mars-slider @change="rangeAngle1" v-model:value="angle1" :min="0" :max="360" :step="0.1" />值{{ angle1 }}
-        </a-space>
+        <div class="f-mb">
+          <a-space>
+            <span class="mars-pannel-item-label">旋转角度1:</span>
+            <mars-slider @change="rangeAngle1" v-model:value="angle1" :min="0" :max="360" :step="0.1" />值{{ angle1 }}
+          </a-space>
+        </div>
 
-        <a-space>
-          <span class="mars-pannel-item-label">旋转角度2:</span>
-          <mars-slider @change="rangeAngle2" v-model:value="angle2" :min="0" :max="180" :step="0.1" />值{{ angle2 }}
-        </a-space>
+
+        <div>
+          <a-space>
+            <span class="mars-pannel-item-label">旋转角度2:</span>
+            <mars-slider @change="rangeAngle2" v-model:value="angle2" :min="0" :max="180" :step="0.1" />值{{ angle2 }}
+          </a-space>
+        </div>
+
       </a-collapse-panel>
     </a-collapse>
 
-    <div className="f-tac">
-      <mars-button @click="clear">清除</mars-button>
+    <div className="f-tac f-mb">
+      <mars-button class="clear-btn" @click="clear" danger>清除</mars-button>
     </div>
   </mars-dialog>
 </template>
@@ -114,9 +122,23 @@ const drawPoly2 = () => {
 .infoView {
   width: 300px;
 }
+
 .ant-slider {
-  width: 100px;
+  width: 152px;
 }
+
+.draw-Poly,
+.clipping {
+  .mars-button {
+    width: 95px;
+  }
+}
+
+
+.clear-btn {
+  width: 302px;
+}
+
 .mars-pannel-item-label {
   width: 74px;
 }

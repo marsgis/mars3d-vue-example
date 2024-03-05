@@ -105,7 +105,6 @@ const setLayerOptions = (attribute: string, val: number) => {
 }
 </script>
 <style lang="less" scoped>
-
 .property-content {
   width: 100%;
   overflow-x: hidden;

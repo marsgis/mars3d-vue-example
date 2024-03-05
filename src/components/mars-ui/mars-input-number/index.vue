@@ -1,5 +1,5 @@
 <template>
-  <a-input-number class="mars-input-number" v-bind="attrs" :precision="attrs.tofixed">
+  <a-input-number class="mars-input-number" :class='{"unit-class": attrs["addon-after"]}' v-bind="attrs" :precision="attrs.tofixed">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>
@@ -52,7 +52,7 @@ export default defineComponent({
 :deep(.ant-input-number-handler-wrap) {
   background: none;
   .anticon {
-    color: var(--mars-control-icon);
+    color: var(--mars-control-placeholder);
     > svg {
       font-size: 10px;
     }
@@ -61,9 +61,21 @@ export default defineComponent({
     border-color: rgba(234, 242, 255, 0.2);
     &:hover {
       .anticon {
-        color: var(--mars-control-icon);
+        color: var(--mars-control-placeholder);
       }
     }
   }
+}
+:deep(.unit-class) {
+  border-radius: 0px !important;
+  background-color: var(--mars-control-bg);
+}
+:deep(.ant-input-number) {
+  border-color: transparent
+}
+:deep(.ant-input-number-group-addon) {
+  border-radius: 0px !important;
+  border-color: transparent;
+  color: var(--mars-control-placeholder);
 }
 </style>

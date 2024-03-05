@@ -2,7 +2,6 @@
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <mars-gui :options="options" :labelCol="6" ref="marsGuiRef"></mars-gui>
 
-
     <div class="draw-tools">
       <a-space>
         <mars-button @click="btnDrawExtent">添加矩形</mars-button>
@@ -118,18 +117,18 @@ const options: GuiItem[] = [
     change(data) {
       mapWork.changeShadingType(data)
     }
+  },
+  {
+    type: "switch",
+    field: "control",
+    label: "状态控制",
+    extraAfter: "显示其它区域",
+    extraWidth: 10,
+    value: true,
+    change(data) {
+      mapWork.chkClippingPlanes(data)
+    }
   }
-  // {
-  //   type: "switch",
-  //   field: "control",
-  //   label: "状态控制",
-  //   extra: "显示其它区域",
-  //   extraWidth: 10,
-  //   value: true,
-  //   change(data) {
-  //     mapWork.chkClippingPlanes(data)
-  //   }
-  // }
 ]
 
 interface TableItem {
@@ -214,15 +213,21 @@ const clearAll = () => {
   width: 140px;
 }
 
-:deep(.mars-dialog__content) {
-  .ant-form {
-    padding: 0 !important;
+.mars-gui-form {
+  padding: 0 !important;
+}
 
-  }
+:deep(.ant-radio-group) {
+  width: 101%
+}
+
+:deep(.ant-radio-wrapper-in-form-item) {
+  margin:0px;
 }
 
 
 .draw-tools {
+  margin-top:10px;
   .mars-button {
     width: 94px;
   }

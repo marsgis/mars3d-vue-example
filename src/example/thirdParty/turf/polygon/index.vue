@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span>原始数据:</span>
@@ -10,8 +10,8 @@
     <div class="f-mb">
       <a-space>
         <span>旋转角度:</span>
-        <mars-input-number v-model:value="angleValue" />
-        <mars-button @click="spinPolygons">旋转面</mars-button>
+        <mars-input-number class="input-width" v-model:value="angleValue" />
+        <mars-button @click="spinPolygons" >旋转面</mars-button>
       </a-space>
     </div>
 
@@ -19,15 +19,15 @@
       <a-space>
         <span>平移距离:</span>
         <mars-input-number v-model:value="distanceValue" />
-        <mars-button @click="translationPolygons">平移面</mars-button>
+        <mars-button @click="translationPolygons" >平移面</mars-button>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-space>
         <span>缩放比例:</span>
         <mars-input-number v-model:value="scaleValue" :min="0" :max="10" />
-        <mars-button @click="zoomPolygons">缩放面</mars-button>
+        <mars-button @click="zoomPolygons" >缩放面</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -60,8 +60,8 @@ const zoomPolygons = () => {
   mapWork.zoomPolygons(scaleValue.value)
 }
 </script>
-<style scoped lang="less">
+<style lang="less" scoped>
 :deep(.ant-input-number-input) {
-  width: 80px !important;
+  width: 160px !important;
 }
 </style>

@@ -21,28 +21,6 @@
   font-weight: normal !important;
   border-radius: 4px 4px 0 0 !important;
   box-shadow: var(--mars-base-shadow);
-
-  // &::before {
-  //   content: "";
-  //   display: block;
-  //   width: 50px;
-  //   height: 35px;
-  //   position: absolute;
-  //   left: 0px;
-  //   top: 0;
-  //   border-top: 1px solid var(--mars-primary-color);
-  //   border-left: 1px solid var(--mars-primary-color);
-  // }
-
-  // &::after {
-  //   content: "";
-  //   display: block;
-  //   width: 70px;
-  //   position: absolute;
-  //   right: 0;
-  //   top: 0;
-  //   border-top: 1px solid var(--mars-primary-color);
-  // }
 }
 
 // 下拉样式
@@ -127,7 +105,7 @@
   // 表单元素
   .ant-form {
     color: rgba(255, 255, 255, 0.925);
-    // 如单个页面不需要，在单页面中设置，例如 UI示例
+    // 如单个页面不需要，在单页面中设置,给个class mars-form_nopadding ，例如 UI示例
     padding: 14px 7px;
 
     .ant-form-item-extra {
@@ -139,7 +117,7 @@
     margin-bottom: 10px !important;
     color: var(--mars-control-text);
 
-    .ant-form-item-label>label {
+    .ant-form-item-label > label {
       font-size: 14px;
       font-family: var(--mars-font-family);
       color: var(--mars-sub-title-color);
@@ -265,7 +243,7 @@
 
   // 表格
   .ant-table,
-  .ant-table-thead>tr>th {
+  .ant-table-thead > tr > th {
     color: var(--mars-control-text);
     background: none !important;
     font-family: var(--mars-font-family);
@@ -289,12 +267,12 @@
     background-color: var(--mars-table-header-bg);
   }
 
-  .ant-table-tbody>tr.ant-table-placeholder>td {
+  .ant-table-tbody > tr.ant-table-placeholder > td {
     background: #141414;
   }
 
-  .ant-table-row:hover>td,
-  .ant-table-row-selected>td {
+  .ant-table-row:hover > td,
+  .ant-table-row-selected > td {
     background-color: transparent !important;
   }
 
@@ -315,15 +293,15 @@
     border-start-end-radius: 0;
 
     .ant-table-content {
-      >table {
+      > table {
         border-top: none !important;
         border-radius: 0;
 
-        >thead>tr:first-child>*:first-child {
+        > thead > tr:first-child > *:first-child {
           border-start-start-radius: 0;
         }
 
-        >thead>tr:first-child>*:last-child {
+        > thead > tr:first-child > *:last-child {
           border-start-end-radius: 0;
         }
       }
@@ -334,7 +312,7 @@
     color: var(--mars-control-text);
   }
 
-  .ant-table-placeholder>td {
+  .ant-table-placeholder > td {
     background: var(--mars-base-bg) !important;
 
     .ant-empty {
@@ -354,6 +332,31 @@
     }
   }
 
+  // 级联选择
+  .ant-cascader {
+    .ant-select-selector {
+      height: 32px;
+      color: var(--mars-control-text);
+      background-color: var(--mars-control-bg);
+      font-size: 12px !important;
+      border-radius: 0;
+      border: 1px solid;
+      border-color: var(--mars-control-border);
+      border-radius: 2px;
+      font-family: var(--mars-font-family);
+    }
+
+    .ant-select-selection-item {
+      color: var(--mars-control-text) !important;
+
+    }
+
+    .ant-select-arrow {
+      color: var(--mars-control-text) !important;
+
+    }
+  }
+
   .ant-cascader-dropdown {
     padding: 0 !important;
     .mars-drop-bg();
@@ -367,7 +370,9 @@
     }
 
     .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled) {
+
       background: var(--mars-list-active);
+
     }
 
     .ant-cascader-menu-item-expand-icon {
@@ -390,7 +395,7 @@
       background-color: transparent;
       color: var(--mars-sub-title-color);
 
-      >a,
+      > a,
       .ant-pagination-item-link {
         color: var(--mars-sub-title-color);
         font-family: var(--mars-font-family);
@@ -434,6 +439,10 @@
         }
       }
 
+      .ant-select-selection-item {
+        color: var(--mars-control-text);
+      }
+
       .ant-select-arrow {
         color: var(--mars-control-text) !important;
       }
@@ -463,9 +472,33 @@
       border-color: var(--mars-primary-color);
       border-radius: 2px;
 
-      >a {
+      > a {
         color: var(--mars-primary-color);
       }
+    }
+  }
+
+  .ant-pagination-simple {
+    .ant-pagination-simple-pager {
+      color: rgba(234, 242, 255, 0.5);
+
+      input {
+        color: #ffffff;
+      }
+    }
+
+    .ant-pagination-next {
+      .ant-pagination-item-link {
+
+        .anticon-right,
+        .anticon-left {
+          color: #ffffff !important;
+
+        }
+      }
+
+      color: #ffffff !important;
+
     }
   }
 
@@ -564,6 +597,7 @@
   .mars-drop-bg();
 
   .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+
     background: var(--mars-list-active);
     border-radius: 2px;
   }
@@ -592,10 +626,67 @@
   .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled) {
     background: var(--mars-list-active);
     border-radius: 2px;
+
+    &:hover {
+      background: var(--mars-list-active);
+    }
   }
 
   .ant-cascader-menu-item-expand-icon {
-    color: var(--mars-control-icon) !important;
+    color: var(--mars-control-placeholder) !important;
+  }
+}
+
+// 无头部自定义 table 样式
+.mars-noHeader-table {
+  :deep(.ant-table) {
+    margin-top: 10px;
+
+    .ant-table-tbody {
+      .ant-table-row {
+        display: flex;
+        width: 300px;
+        border-radius: 2px;
+        border: 1px solid rgba(234, 242, 255, 0.1);
+        background: rgba(234, 242, 255, 0.2);
+        margin-bottom: 10px;
+        cursor: pointer;
+
+
+        &:hover {
+          background: rgba(234, 242, 255, 0.4);
+        }
+      }
+
+      .ant-table-row-selected {
+        background: rgba(234, 242, 255, 0.4);
+
+      }
+
+      .ant-table-placeholder {
+        td {
+          position: relative !important;
+        }
+      }
+
+      .ant-table-cell {
+        border: none !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 216px;
+
+        &:last-child {
+          position: absolute;
+          right: 0;
+        }
+
+      }
+    }
+
+    .ant-table-container {
+      border: none !important;
+    }
   }
 }
 
@@ -618,7 +709,7 @@
 ::-webkit-scrollbar {
   height: 10px;
   width: 4px;
-  background: var(--mars-scrollbar-thumb);
+  background: var(--mars-scrollbar-track);
   border-radius: 4px;
 }
 

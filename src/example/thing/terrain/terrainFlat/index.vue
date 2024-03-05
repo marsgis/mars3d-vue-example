@@ -34,13 +34,13 @@
         </a-col>
 
         <a-col :span="24">
-          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :showHeader="false"
-            :bordered="false" :columns="columns" size="small">
+          <mars-table class="mars-noHeader-table" :pagination="false" :row-selection="rowSelection"
+            :dataSource="dataSource" :showHeader="false" :bordered="false" :columns="columns" size="small">
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <a-space>
                   <mars-icon icon="move-one" color="#f2f2f2" class="icon-vertical-a" @click="flyto(record)" />
-                  <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click="deleted(record)" />
+                  <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" @click="deleted(record)" />
                 </a-space>
               </template>
               <template v-else>
@@ -196,45 +196,6 @@ const chkShowLine = () => {
 .draw-tools {
   .mars-button {
     width: 94px;
-  }
-}
-
-:deep(.ant-table) {
-  margin-top: 10px;
-
-  .ant-table-tbody {
-    .ant-table-row {
-      display: block;
-      width: 300px;
-      border-radius: 2px;
-      border: 1px solid rgba(234, 242, 255, 0.1);
-      background: rgba(234, 242, 255, 0.2);
-      margin-bottom: 10px;
-      cursor: pointer;
-
-      &:hover {
-        background: rgba(234, 242, 255, 0.4);
-      }
-    }
-
-    .ant-table-row-selected {
-      background: rgba(234, 242, 255, 0.4);
-
-    }
-
-    .ant-table-cell {
-      border: none !important;
-
-      .table-tools {
-        position: absolute;
-        left: 132px;
-        bottom: 8px;
-      }
-    }
-  }
-
-  .ant-table-container {
-    border: none !important;
   }
 }
 </style>

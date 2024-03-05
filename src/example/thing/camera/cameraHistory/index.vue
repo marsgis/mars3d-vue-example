@@ -1,13 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <p class="f-mb">当前共有{{ formState.allLength }}条视角记录，当前正在第{{ formState.nowView }}条视角</p>
     <div class="f-mb">
-      <mars-button @click="lastOneView">回到当前（最后一条）</mars-button>
+      <mars-button class="btn_current" @click="lastOneView">回到当前（最后一条）</mars-button>
     </div>
     <div>
       <a-space>
-        <mars-button @click="lastView">上一个视图</mars-button>
-        <mars-button @click="nextView">下一个视图</mars-button>
+        <mars-button class="btn" @click="lastView">上一个视图</mars-button>
+        <mars-button class="btn" @click="nextView">下一个视图</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -39,3 +39,11 @@ const lastOneView = () => {
   mapWork.lastOneView()
 }
 </script>
+<style lang="less" scoped>
+.btn {
+  width:146px;
+}
+.btn_current {
+  width: 302px;
+}
+</style>

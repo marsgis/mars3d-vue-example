@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">开启:</span>
@@ -36,7 +36,8 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">边缘法线夹角:</span>
-        <mars-slider v-model:value="formState.planeAngle" @change="onChangePlaneAngle" :min="0.1" :max="10.0" :step="0.1" />
+        <mars-slider v-model:value="formState.planeAngle" @change="onChangePlaneAngle" :min="0.1" :max="10.0"
+          :step="0.1" />
       </a-space>
     </div>
 
@@ -55,7 +56,8 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">发光增量:</span>
-        <mars-slider v-model:value="formState.glowStrength" @change="onChangeGlowStrength" :min="0" :max="10" :step="0.01" />
+        <mars-slider v-model:value="formState.glowStrength" @change="onChangeGlowStrength" :min="0" :max="10"
+          :step="0.01" />
       </a-space>
     </div>
 
@@ -110,11 +112,15 @@ const onChangeWidth = () => {
 }
 </script>
 <style>
-.ant-slider {
-  width: 145px;
+.mars-pannel-item-label {
+  width: 88px;
 }
 
-.mars-pannel-item-label {
-  width: 120px;
+.ant-slider {
+  width: 195px;
+}
+
+.mars-color-view {
+  width: 200px;
 }
 </style>

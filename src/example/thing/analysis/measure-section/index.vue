@@ -1,9 +1,9 @@
 <template>
   <!-- UI面板 -->
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
-      <mars-button @click="measureSection">绘制线</mars-button>
-      <mars-button @click="clear">清除</mars-button>
+      <mars-button class="btn" @click="measureSection">绘制线</mars-button>
+      <mars-button class="btn" danger @click="clear">清除</mars-button>
     </a-space>
   </mars-dialog>
 
@@ -191,5 +191,8 @@ function getMinZ(arr: any) {
 .echatsView {
   width: 100%;
   height: 240px;
+}
+.btn {
+  width:146px;
 }
 </style>

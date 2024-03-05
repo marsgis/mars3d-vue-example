@@ -1,30 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" bottom="110" width="270" customClass="drawModelList">
-    <div class="f-mb infoView-content">
-      <a-space>
-        <span>模型列表： </span>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <i title="打开GeoJSON文件"><mars-icon icon="folder-upload" width="19" /></i>
-        </a-upload>
-        <i title="保存GeoJSON"><mars-icon icon="disk" width="17" color="#f2f2f2" @click="saveGeoJSON" /></i>
-        <i title="删除"><mars-icon icon="delete" width="17" color="#f2f2f2" @click="deleteMoXin" /></i>
-      </a-space>
-    </div>
-
+  <mars-dialog :visible="true" right="10" top="10" bottom="110" width="330" customClass="draw-model-list">
     <div class="f-mb">
       <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain" title="深度检测">深度检测</a-checkbox>
       <a-checkbox @change="onlyVertexPosition" v-model:checked="isonlyModel">开启顶点吸附</a-checkbox>
     </div>
 
-    <div class="f-mb gltf-list">
-      <mars-select
-        ref="select"
-        v-model:value="value1"
-        style="width: 93%; margin-left: 5px"
-        :options="selectOptions"
-        @change="handleChange"
-        class="mars-select_bottom"
-      ></mars-select>
+    <div class="gltf-list">
+      <mars-select ref="select" v-model:value="value1" :options="selectOptions" @change="handleChange"
+        class="f-mb"></mars-select>
 
       <div class="gltfImg">
         <ul>
@@ -35,6 +18,20 @@
       </div>
     </div>
   </mars-dialog>
+
+
+  <mars-dialog :visible="true" right="339" top="10" width="32px" :min-width="32" :height="111" customClass="draw-model-icons">
+    <div class="info-view-content"> 
+      <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON"
+        :beforeUpload="() => false">
+        <i title="打开GeoJSON文件"><mars-icon icon="folder-close" width="18"  color="#ffffffb3" /></i>
+      </a-upload>
+      <mars-icon icon="inbox-download-r" width="18" color="#ffffffb3" @click="saveGeoJSON" title="保存GeoJSON" />
+      <mars-icon icon="delete" width="18" color="#ffffffb3" @click="deleteMoXin" title="删除" />
+ 
+    </div>
+  </mars-dialog>
+
   <location-to />
 </template>
 
@@ -174,31 +171,39 @@ const deleteMoXin = () => {
 }
 </script>
 <style scoped lang="less">
-.infoView-content {
-  height: 20px;
-  width: 210px;
-  line-height: 20px;
-  background-color: rgba(32, 42, 68, 0.5);
-  overflow: hidden;
+.info-view-content { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;  
 }
 
 .gltf-list {
-  height: calc(100% - 52px);
+  height: calc(100% - 32px);
+
   .gltfImg {
-    width: 100%;
-    height: calc(100% - 52px);
+    width: calc(100% + 14px);
+    height: calc(100% - 42px);
     max-height: 670px;
     overflow-y: auto;
-    > ul {
+
+    >ul {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
-      > li {
+      gap: 10px 10px;
+
+      >li {
+        width: 94px;
+        height: 94px;
+        border-radius: 4px;
         list-style-type: none;
-        padding: 6px 7px;
+        padding: 4px;
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.1);
+
         .gltfImg_image {
-          width: 100px;
-          height: 90px;
+          width: 100%;
+          height: 100%;
           border: 1.5px solid white;
         }
       }
@@ -209,16 +214,12 @@ const deleteMoXin = () => {
 .ant-upload {
   line-height: 0 !important;
 }
-// 让下拉选择框与下面的图片展示区有一个空隙
-.mars-select_bottom {
-  margin-bottom: 10px;
-}
 </style>
 <style lang="less">
 // 修改双滑动条问题
-.drawModelList {
+.draw-model-icons {
   .mars-dialog__content {
-    overflow: hidden !important;
+    padding: 5px 12px 8px !important; 
   }
 }
 </style>

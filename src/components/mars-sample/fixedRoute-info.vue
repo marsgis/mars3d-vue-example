@@ -1,30 +1,55 @@
 <template>
-  <mars-dialog :visible="true" right="10" bottom="60" width="230" >
-    <a-form>
-      <a-row :gutter="[0, 8]">
-        <a-col :span="12">总长度:</a-col>
-        <a-col :span="12">{{ formState.td_alllength }}</a-col>
+  <mars-dialog :visible="true" right="10" :top="props.top" :bottom="props.top ? null : 60" width="330">
+    <div class="percent">
+      <a-progress :percent="formState.percent" size="small" color="#fff" />
+    </div>
 
-        <a-col :span="12">已漫游长度:</a-col>
-        <a-col :span="12">{{ formState.td_length }}</a-col>
+    <div class="already">
+      <a-space>
+        <div class="already-length">
+          <p class="mars-text">{{ formState.td_length }}</p>
+          <p>已漫游长度</p>
+        </div>
 
-        <a-col :span="12">总时长:</a-col>
-        <a-col :span="12">{{ formState.td_alltimes }}</a-col>
+        <div class="already-time">
+          <p class="mars-text">{{ formState.td_times }}</p>
+          <p>已漫游时间</p>
+        </div>
+      </a-space>
 
-        <a-col :span="12">已漫游时间:</a-col>
-        <a-col :span="12">{{ formState.td_times }}</a-col>
+    </div>
 
-        <a-col :span="12">经度:</a-col>
-        <a-col :span="12">{{ formState.td_jd }}</a-col>
+    <div class="postions">
+      <a-space>
+        <div class="postions-lng">
+          <p class="mars-text">{{ formState.td_jd }}</p>
+          <p>经度</p>
+        </div>
 
-        <a-col :span="12">纬度:</a-col>
-        <a-col :span="12">{{ formState.td_wd }}</a-col>
+        <div class="postions-lat">
+          <p class="mars-text">{{ formState.td_wd }}</p>
+          <p>纬度</p>
+        </div>
 
-        <a-col :span="12">漫游高程:</a-col>
-        <a-col :span="12">{{ formState.td_gd }}</a-col>
-        <a-progress :percent="formState.percent" size="small" color="#fff" />
-      </a-row>
-    </a-form>
+        <div class="postions-alt">
+          <p class="mars-text">{{ formState.td_gd }}</p>
+          <p>漫游高程</p>
+        </div>
+      </a-space>
+
+    </div>
+
+    <div class="all">
+      <div class="all-length">
+        <p class="mars-text">{{ formState.td_alllength }}</p>
+        <p>总长度</p>
+      </div>
+      <div class="all-time">
+        <p class="mars-text">{{ formState.td_alltimes }}</p>
+        <p>总时长</p>
+      </div>
+    </div>
+
   </mars-dialog>
 </template>
 
@@ -64,6 +89,17 @@ const formState: UnwrapRef<FormState> = reactive({
   percent: 0
 })
 
+
+const props = withDefaults(
+  defineProps<{
+    top: string
+  }>(),
+  {
+    top: null
+  }
+)
+
+
 onMounted(() => {
   if (mapWork.fixedRoute?.info) {
     showInfo(mapWork.fixedRoute.info)
@@ -71,6 +107,11 @@ onMounted(() => {
   mapWork.eventTarget.on("roamLineChange", (item: any) => {
     showInfo(item)
   })
+
+  mapWork.eventTarget.on("endRoam", (item: any) => {
+    showInfo(mapWork.fixedRoute.info)
+  })
+
 })
 
 function showInfo(item: any) {
@@ -101,7 +142,74 @@ function showInfo(item: any) {
   z-index: 0 !important;
 }
 
-:deep(.ant-progress-text) {
-  color: #fff;
+:deep(.ant-progress) {
+  .ant-progress-outer {
+    .ant-progress-inner {
+      background-color: rgba(231, 231, 231, 0.15) !important;
+    }
+  }
+
+  .ant-progress-text {
+    color: #fff;
+  }
+}
+
+.percent {
+  width: 300px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+
+  .ant-progress {
+    width: 274px;
+    margin-left: 10px;
+  }
+}
+
+.already {
+  margin-top: 10px;
+  width: 300px;
+
+  .already-length,
+  .already-time {
+    width: 146px;
+    height: 60px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: center;
+
+
+  }
+}
+
+.postions {
+  margin-top: 10px;
+  width: 300px;
+
+  .postions-lng,
+  .postions-lat,
+  .postions-alt {
+    width: 95px;
+    height: 60px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+}
+
+.all {
+  display: flex;
+  justify-content: space-around;
+  height: 60px;
+  width: 300px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mars-text {
+  display: inline-block;
+  margin-top: 10px;
 }
 </style>

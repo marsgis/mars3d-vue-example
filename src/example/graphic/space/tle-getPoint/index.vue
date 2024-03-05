@@ -1,6 +1,6 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
-    <a-form>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding">
       <a-form-item label="卫星张角:">
         <mars-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
       </a-form-item>
@@ -26,13 +26,16 @@
       <div class="f-mb f-tac">
         <a-space>
           <mars-button @click="btnAdd">计算成像区域</mars-button>
-          <mars-button @click="btnRemoveAll">清除所有</mars-button>
+          <mars-button @click="btnRemoveAll" danger>清除所有</mars-button>
         </a-space>
       </div>
 
-      <div class="f-tac">
-        <a-checkbox v-model:checked="formState.guidaoS" @change="changeGuidaoS">升轨</a-checkbox>
-        <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
+      <div>
+        <a-space>
+          <a-checkbox v-model:checked="formState.guidaoS" @change="changeGuidaoS">升轨</a-checkbox>
+          <a-checkbox v-model:checked="formState.guidaoJ" @change="changeGuidaoJ">降轨</a-checkbox>
+        </a-space>
+
       </div>
     </a-form>
   </mars-dialog>
@@ -90,3 +93,8 @@ const btnRemoveAll = () => {
   mapWork.btnRemoveAll()
 }
 </script>
+
+<style lang="less" scoped> .mars-button {
+   width: 146px;
+ }
+</style>

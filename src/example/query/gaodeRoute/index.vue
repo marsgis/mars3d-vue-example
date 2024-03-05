@@ -1,6 +1,6 @@
 <template>
-  <mars-dialog right="10" :visible="true">
-    <a-form>
+  <mars-dialog right="10" :visible="true" width="330">
+    <a-form class="mars-form_nopadding">
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
       </a-form-item>
@@ -8,20 +8,20 @@
       <a-form-item label="起点">
         <a-space>
           <mars-input v-model:value="strat" disabled></mars-input>
-          <mars-button @click="startPoint">选点</mars-button>
+          <mars-button class="select-btn" @click="startPoint">选点</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="终点">
         <a-space>
           <mars-input v-model:value="end" disabled></mars-input>
-          <mars-button @click="endPoint">选点</mars-button>
+          <mars-button class="select-btn" @click="endPoint">选点</mars-button>
         </a-space>
       </a-form-item>
 
       <a-space>
         <!-- <mars-button @click="btnAnalyse">开始分析</mars-button> -->
-        <mars-button @click="removeAll">清除</mars-button>
         <mars-button @click="saveGeoJSON">保存GeoJSON</mars-button>
+        <mars-button @click="removeAll" danger>清除</mars-button>
       </a-space>
 
       <div v-if="allDiatance" class="showRoam">
@@ -119,7 +119,20 @@ const saveGeoJSON = () => {
   padding: 5px;
   line-height: 25px;
 }
+
 .ant-select {
-  width: 250px;
+  width: 256px;
+}
+
+.ant-input {
+  width: 188px;
+}
+
+.mars-button {
+  width: 146px !important;
+}
+
+.select-btn {
+  width: 60px !important;
 }
 </style>

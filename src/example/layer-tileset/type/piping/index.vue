@@ -31,7 +31,7 @@
           <a-space>
             <mars-button @click="drawExtent">矩形</mars-button>
             <mars-button @click="drawPolygon">多边形</mars-button>
-            <mars-button @click="clearWJ">清除</mars-button>
+            <mars-button @click="clearWJ" danger>清除</mars-button>
           </a-space>
         </div>
       </a-collapse-panel>

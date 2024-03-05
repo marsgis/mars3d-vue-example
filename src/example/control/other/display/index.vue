@@ -1,6 +1,6 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="200">
-      <mars-gui :options="options" labelCol="6" ></mars-gui>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-gui :options="options" labelCol="3" :noPadding="true"></mars-gui>
   </mars-dialog>
 </template>
 
@@ -127,3 +127,27 @@ const onBindLayer = (e) => {
   }
 }
 </script>
+
+<style scoped lang="less">
+.mars-gui-form {
+
+  :deep(.ant-form-item) {
+    &:first-child {
+      margin-bottom: 20px !important;
+    }
+    .ant-form-item-label {
+      margin-right: 8px;
+      >label {
+        display: inline-block;
+      }
+    }
+  }
+
+  :deep(.ant-checkbox-group) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+}
+</style>

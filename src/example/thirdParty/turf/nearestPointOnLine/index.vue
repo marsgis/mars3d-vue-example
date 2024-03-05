@@ -1,10 +1,10 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button @click="drawLine">绘制线</mars-button>
-      <mars-button @click="nearPoint">计算最近点</mars-button>
-      <mars-button @click="clearAll">清除</mars-button>
-    </a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="btn_container">
+      <mars-button @click="drawLine" class="btn">绘制线</mars-button>
+      <mars-button @click="nearPoint" class="btn">计算最近点</mars-button>
+      <mars-button @click="clearAll" danger class="btn">清除</mars-button>
+    </div>
   </mars-dialog>
 </template>
 
@@ -25,3 +25,12 @@ const clearAll = () => {
   mapWork.clearLayer()
 }
 </script>
+<style lang="less" scoped>
+  .btn_container {
+    display: flex;
+    justify-content: space-between;
+    .btn {
+      width: 94px;
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" width="330" right="10" top="10">
-    <mars-gui :options="options"></mars-gui>
+    <mars-gui :options="options" :labelCol="4"></mars-gui>
   </mars-dialog>
 </template>
 
@@ -70,4 +70,21 @@ const options: GuiItem[] = [
 ]
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+:deep(.ant-form) {
+  padding: 12px 0;
+}
+
+:deep(.ant-form-item:first-child  .ant-form-item-label >label) {
+  height: 0px
+}
+
+:deep(.ant-radio-group) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+:deep(.ant-radio-wrapper-in-form-item) {
+  width:110px;
+}
+</style>

@@ -1,32 +1,32 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div>
-      <div class="f-mb">
-        <a-space>
-          <span class="mars-pannel-item-label">启用:</span>
-          <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
-        </a-space>
-      </div>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">启用:</span>
+        <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="mars-pannel-item-label">雾颜色:</span>
-          <mars-color-picker v-model:value="formState.color" @change="onChangeColor" />
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">雾颜色:</span>
+        <mars-color-picker v-model:value="formState.color" @change="onChangeColor" />
+      </a-space>
+    </div>
 
-      <div class="f-mb">
-        <a-space>
-          <span class="mars-pannel-item-label">近距离:</span>
-          <mars-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000" :step="1" />
-        </a-space>
-      </div>
-      <div class="f-mb">
-        <a-space>
-          <span class="mars-pannel-item-label">远距离:</span>
-          <mars-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000" :step="1" />
-        </a-space>
-      </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">近距离:</span>
+        <mars-slider v-model:value="formState.fogByDistanceX" @change="onChangeDistanceX" :min="1" :max="5000"
+          :step="1" />
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">远距离:</span>
+        <mars-slider v-model:value="formState.fogByDistanceZ" @change="onChangeDistanceZ" :min="100" :max="50000"
+          :step="1" />
+      </a-space>
     </div>
   </mars-dialog>
 </template>
@@ -64,8 +64,11 @@ const onChangeDistanceZ = () => {
   mapWork.setDistanceZ(formState.fogByDistanceZ)
 }
 </script>
-<style scoped lang="less">
-.ant-slider {
-  width: 140px;
-}
+<style scoped lang="less"> 
+ .ant-slider {
+   width: 220px;
+ }
+ .mars-color-view {
+   width: 230px;
+ }
 </style>

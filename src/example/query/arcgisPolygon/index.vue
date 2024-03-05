@@ -1,24 +1,28 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="350">
-    <a-form>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding">
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>
 
       <a-form-item label="范围">
-        <a-space>
-          <mars-button @click="drawRectangle">框选范围</mars-button>
-          <mars-button @click="drawCircle">圆形范围</mars-button>
-          <mars-button @click="drawPolygon">多边形范围</mars-button>
-        </a-space>
+        <div class="range-select">
+          <a-space>
+            <mars-button @click="drawRectangle">框选范围</mars-button>
+            <mars-button @click="drawCircle">圆形范围</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
+          </a-space>
+        </div>
+
       </a-form-item>
 
-      <a-form-item label="操作">
+      <div class="query">
         <a-space>
           <mars-button @click="query">查询</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
         </a-space>
-      </a-form-item>
+      </div>
+
 
       <a-form-item v-show="show">
         <a-tabs v-model:activeKey="activeKey" :centered="true" :tabBarGutter="55">
@@ -235,11 +239,32 @@ onMounted(() => {
   color: #fff !important;
 }
 
+.range-select {
+  .mars-button {
+    width: 80px;
+  }
+
+  .long-btn {
+    padding-left: 5px;
+  }
+}
+
+.query {
+  .mars-button {
+    width: 146px;
+  }
+}
+
 .inputServe {
-  width: 250px;
+  width: 256px;
+}
+
+:deep(.ant-table-row:nth-of-type(even)) {
+  background-color: transparent !important;
 }
 
 .chart {
   width: 330px;
   height: 250px;
-}</style>
+}
+</style>

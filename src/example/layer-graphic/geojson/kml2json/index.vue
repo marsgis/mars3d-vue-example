@@ -1,19 +1,20 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" height="90">
-    <a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="example-list">
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路</mars-button>
       <mars-button @click="showMeteorological">气象等值面</mars-button>
-      <mars-button @click="showGDP">国家GDP数据</mars-button>
-      <mars-button @click="showSafetyNotice">海上安全通告</mars-button>
-    </a-space>
+      <mars-button class="gdp-btn" @click="showGDP">国家GDP数据</mars-button>
+      <mars-button class="gdp-btn" @click="showSafetyNotice">海上安全通告</mars-button>
+    </div>
     <div class="f-pt">
       <layer-state />
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="120"  customClass="pannel">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys" v-model:expandedKeys="expandedKeys">
+  <mars-dialog :visible="true" right="10" top="195" customClass="pannel" width="330">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys"
+      v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -22,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue"
+import { ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
@@ -34,9 +35,10 @@ const treeData = ref<any[]>([
     children: []
   }
 ])
-const selectedKeys = ref<string[]>([])
+const selectedKeys = ref<any[]>([])
 const expandedKeys = ref<any[]>([])
 expandedKeys.value.push(0)
+selectedKeys.value.push(0)
 
 const layersObj: any = {}
 
@@ -71,7 +73,6 @@ function initTree(event: any) {
   const modelList = event.treeData
 
   const tree = []
-  const selects: string[] = []
   for (let i = 0; i < modelList.length; i++) {
     const node = modelList[i].graphic
 
@@ -81,15 +82,10 @@ function initTree(event: any) {
         key: node.id
       }
       tree.push(nodeList)
-      selects.push(nodeList.key)
       layersObj[nodeList.key] = node
     }
   }
   treeData.value[0].children = tree
-
-  nextTick(() => {
-    selectedKeys.value = selects
-  })
 }
 
 const shoRailway = () => {
@@ -120,7 +116,25 @@ const showSafetyNotice = () => {
 </script>
 <style lang="less">
 .pannel {
-  max-height: 750px;
+  max-height: 676px;
+  overflow-x: hidden;
   overflow-y: auto;
+}
+
+.example-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  align-content: center;
+  flex-wrap: wrap;
+
+  .gdp-btn {
+    padding-left: 5px;
+  }
+
+  .mars-button {
+    width: 93px;
+  }
 }
 </style>

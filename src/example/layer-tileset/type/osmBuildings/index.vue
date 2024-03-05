@@ -2,9 +2,10 @@
   <mars-dialog :visible="true" right="10" top="10">
     <div class="f-mb">
       <a-space>
-        <mars-button @click="setStyle1">原始样式</mars-button>
-        <mars-button @click="setStyle2">特效样式</mars-button>
-        <mars-button @click="setStyle3">夜景贴图</mars-button>
+        <mars-button @click="mapWork.setStyle1">原始样式</mars-button>
+        <mars-button @click="mapWork.setStyle2">特效样式</mars-button>
+        <mars-button @click="mapWork.setStyle3">夜景贴图</mars-button>
+        <mars-button @click="mapWork.setStyle4">动态特效</mars-button>
       </a-space>
     </div>
 
@@ -23,15 +24,6 @@ import * as mapWork from "./map.js"
 
 const color = ref("#ffffff")
 
-const setStyle1 = () => {
-  mapWork.setStyle1()
-}
-const setStyle2 = () => {
-  mapWork.setStyle2()
-}
-const setStyle3 = () => {
-  mapWork.setStyle3()
-}
 const selectColor = (e) => {
   mapWork.selectColor(color.value)
 }

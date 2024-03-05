@@ -1,14 +1,14 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="220">
-    <mars-button @click="showMapImg">查看场景出图(弹窗)</mars-button>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-button class="btn" @click="showMapImg">查看场景出图(弹窗)</mars-button>
 
-    <mars-button @click="downLoad">下载场景出图</mars-button>
-    <mars-button @click="downLoad2">下载场景缩略图</mars-button>
+    <mars-button class="btn" @click="downLoad">下载场景出图</mars-button>
+    <mars-button class="btn" @click="downLoad2">下载场景缩略图</mars-button>
+    <mars-button class="btn" @click="screenShots">截缩略图</mars-button>
 
-    <mars-button @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
+    <mars-button class="btn_div" @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
 
-    <img class="f-mb" :src="imges" v-if="showScreenShot" style="width: 100%; height: 100%" />
-    <mars-button @click="screenShots">截缩略图</mars-button>
+    <img class="f-mt" :src="imges" v-if="showScreenShot" style="width: 100%; height: 100%" />
   </mars-dialog>
 
   <mars-dialog left="100" right="100" top="50" bottom="60" title="场景出图" v-model:visible="showImg">
@@ -52,8 +52,15 @@ const screenShots = () => {
 }
 </script>
 <style scoped lang="less">
-.mars-button {
-  margin-right: 8px;
-  margin-bottom: 8px;
+.btn {
+  width:145px;
+  margin-bottom: 10px;
+  &:nth-child(odd) {
+    margin-right: 10px;
+  }
+}
+
+.btn_div {
+  width:300px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <mars-dialog customClass="dialog-nopadding" :visible="true" width="330" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
-      <a-collapse-panel key="1" header="景点视角:">
+      <a-collapse-panel key="1" header="景点视角">
         <div class="position-list">
           <mars-button class="position-btn" @click="changeView1">故宫</mars-button>
           <mars-button class="position-btn" @click="changeView2">珠峰</mars-button>
@@ -9,7 +9,7 @@
           <mars-button class="position-btn" @click="changeView4">大别山</mars-button>
         </div>
       </a-collapse-panel>
-      <a-collapse-panel key="2" header="相机和视角控制演示:" class="cameraView">
+      <a-collapse-panel key="2" header="相机和视角控制演示" class="cameraView">
         <div class="view-list">
           <div v-for="(item, index) in cameraData" :key="index">
             <mars-button class="view-btn" :title="item.title" @click="item.callback">{{ item.name }}</mars-button>

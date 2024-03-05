@@ -1,11 +1,15 @@
 <template>
-  <a-space>
-    <span class="mars-pannel-item-label" v-if="props.label !== ''">{{ props.label }}</span>
+  <div :class="props.label !== '' ? '' : 'tools'">
+    <span class="state-label" v-if="props.label !== ''">{{ props.label }}</span>
     <a-checkbox v-model:checked="formState.enabledShowHide" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup" title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip" title="是否绑定Tooltip鼠标移入弹窗">Tooltip</a-checkbox>
-    <a-checkbox v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu" title="是否绑定右键菜单">右键菜单</a-checkbox>
-  </a-space>
+    <a-checkbox v-model:checked="formState.enabledPopup" @change="onChangePopup"
+      title="是否绑定Popup鼠标单击弹窗">Popup</a-checkbox>
+    <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip"
+      title="是否绑定Tooltip鼠标移入弹窗">Tooltip</a-checkbox>
+
+    <a-checkbox :class="props.label !== '' ? 'last-checkbox' : ''" v-model:checked="formState.enabledRightMenu"
+      @change="onChangeRightMenu" title="是否绑定右键菜单">右键菜单</a-checkbox>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -367,5 +371,23 @@ const showEditor = (e: any) => {
 <style scoped lang="less">
 .mars-pannel-item-label {
   width: auto;
+}
+
+.tools {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+
+.state-label {
+  color: rgba(234, 242, 255, 0.8);
+  padding-right: 10px;
+}
+
+.last-checkbox {
+  margin-left: 70px;
+  margin-top: 10px;
 }
 </style>

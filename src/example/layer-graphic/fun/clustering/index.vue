@@ -1,13 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-button title="贴地属性性能较低，建议异步计算后将高度值存放数据库内，后期直接加载此高度值" @click="getDataSurfaceHeight">
+      演示异步计算贴地高度
+    </mars-button>
+    <div class="state-tools">
       <a-checkbox v-model:checked="enabledAggressive" @change="formStateChange">是否聚合</a-checkbox>
-      <a-checkbox v-model:checked="layerShow" @change="layerShowChange">是否显示</a-checkbox>
+      <a-checkbox class="show-hide" v-model:checked="layerShow" @change="layerShowChange">是否显示</a-checkbox>
+    </div>
 
-      <mars-button title="贴地属性性能较低，建议异步计算后将高度值存放数据库内，后期直接加载此高度值" @click="getDataSurfaceHeight">
-        演示异步计算贴地高度
-      </mars-button>
-    </a-space>
   </mars-dialog>
 </template>
 
@@ -31,3 +31,19 @@ const getDataSurfaceHeight = () => {
   mapWork.getDataSurfaceHeight()
 }
 </script>
+
+<style lang="less" scoped>
+.mars-button {
+  width: 302px;
+  margin-bottom: 10px;
+}
+
+.state-tools {
+  display: flex;
+  justify-content: flex-start;
+
+  .show-hide {
+    margin-left: 20px;
+  }
+}
+</style>

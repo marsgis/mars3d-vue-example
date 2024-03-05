@@ -1,8 +1,6 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-space> 开启:<mars-switch v-model:checked="enabled" @change="onChangeState" /> </a-space>
-    </div>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-space><a-checkbox v-model:checked="enabled" @change="onChangeState"/>开启/禁用</a-space>
   </mars-dialog>
 </template>
 

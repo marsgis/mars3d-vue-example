@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <div class="p-10 tip-message">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
-    <div class="p-10">
+    <div class="f-mb tip-message">Tip: The default language is Chinese中文简体, you can switch to English, etc.</div>
+    <div class="f-mb">
       <a-row>
         <a-col :span="6">语言切换:</a-col>
         <a-col :span="18">
@@ -13,7 +13,7 @@
       </a-row>
     </div>
 
-    <div class="p-10">
+    <div class="f-mb">
       <a-row>
         <a-col :span="6">Plot:</a-col>
         <a-col :span="18">
@@ -26,7 +26,7 @@
       </a-row>
     </div>
 
-    <div class="p-10">
+    <div class="f-mb">
       <a-row>
         <a-col :span="6">Measure:</a-col>
         <a-col :span="18">
@@ -84,14 +84,14 @@ const onClickAngle = () => {
 
 .lang-button-contain {
   .mars-button {
-    width: 107px;
+    width: 104px;
     margin-right: 8px;
   }
 }
 
 .plot-button-contain {
   .mars-button {
-    margin-right: 8px;
+    margin-right: 7px;
     width: 68px;
     text-align: center;
 
@@ -110,12 +110,12 @@ const onClickAngle = () => {
 
   .coordinate-btn,
   .distance-btn {
-    width: 107px !important;
+    width: 105px !important;
   }
 
   .mars-button {
     width: 68px;
-    margin-right: 8px;
+    margin-right: 7px;
   }
 }
 

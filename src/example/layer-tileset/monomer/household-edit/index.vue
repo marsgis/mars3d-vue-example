@@ -1,20 +1,14 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <mars-button @click="showAddDataPannel = true" :disabled="showAddDataPannel">新增</mars-button>
         <mars-button @click="onClickSaveJson">导出</mars-button>
-        <a-upload
-          :multiple="false"
-          name="file"
-          accept="json,geojson,kml,kmz"
-          :showUploadList="false"
-          @change="onClickOpenJson"
-          :beforeUpload="() => false"
-        >
+        <a-upload :multiple="false" name="file" accept="json,geojson,kml,kmz" :showUploadList="false"
+          @change="onClickOpenJson" :beforeUpload="() => false">
           <mars-button>导入</mars-button>
         </a-upload>
-        <mars-button @click="clearData" :disabled="!tableData.length">清除</mars-button>
+        <mars-button @click="clearData" :disabled="!tableData.length" danger>清除</mars-button>
       </a-space>
     </div>
 
@@ -22,19 +16,32 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'option'">
           <a-space>
-            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位" @click.stop="flyToHouse(record)" />
-            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑" @click.stop="editHouseType(record)" />
-            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除" @click.stop="deleteHouseType(record)" />
+            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="定位"
+              @click.stop="flyToHouse(record)" />
+            <mars-icon icon="edit" color="#f2f2f2" class="icon-vertical-a" title="编辑"
+              @click.stop="editHouseType(record)" />
+            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" title="删除"
+              @click.stop="deleteHouseType(record)" />
           </a-space>
         </template>
       </template>
     </mars-table>
   </mars-dialog>
 
-  <mars-dialog :visible="showAddDataPannel" right="10" top="400" width="300">
+  <mars-dialog :visible="showAddDataPannel" right="10" top="288" width="330">
     <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="边界">
-        <a-row :gutter="5" align="middle">
+
+        <a-space>
+        <span>{{ !dthPara.positions?.length ? "无" : "已绘制" }}</span>
+        <div class="tools">
+
+          <mars-button :disabled="isEditing || hasDraw" @click="drawArea">绘制</mars-button>
+          <mars-button class="quitDraw" :disabled="isEditing" @click="quitDraw" danger>清除</mars-button>
+        </div>
+        </a-space>
+
+        <!-- <a-row :gutter="5" align="middle">
           <a-col :span="8">
             <span>{{ !dthPara.positions?.length ? "无" : "已绘制" }}</span>
           </a-col>
@@ -42,7 +49,7 @@
             <mars-button :disabled="isEditing || hasDraw" @click="drawArea">绘制</mars-button>
             <mars-button class="quitDraw" :disabled="isEditing" @click="quitDraw">清除</mars-button>
           </a-col>
-        </a-row>
+        </a-row> -->
       </a-form-item>
       <a-form-item label="最低高" name="minHeight">
         <a-row :gutter="5">
@@ -332,5 +339,21 @@ const clearData = () => {
 <style lang="less" scoped>
 .quitDraw {
   margin-left: 5px;
+}
+
+.mars-button {
+  width: 69px;
+}
+
+.ant-form {
+  padding: 0 !important;
+}
+
+.tools {
+  margin-left: 20px;
+
+  .mars-button {
+    width: 69px !important;
+  }
 }
 </style>

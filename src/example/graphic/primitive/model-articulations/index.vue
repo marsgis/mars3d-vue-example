@@ -1,13 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-tac">
-      <mars-select ref="select" v-model:value="groupName" style="width: 200px" :options="selectGroups"
+      <mars-select ref="select" v-model:value="groupName"  :options="selectGroups"
         @change="onChangeGroup"></mars-select>
     </div>
 
     <div class="f-pt" v-for="rg in currStates" :key="rg.name">
       <a-space>
-        <span class="mars-pannel-item-label">{{ rg.name_cn }}</span>
+        <span class="mars-pannel-item-label">{{ rg.name_cn }}:</span>
         <mars-slider :min="rg.minimum" :max="rg.maximum" :step="0.1" v-model:value="rg.current"
           @change="onChangeStage(rg)" />
       </a-space>
@@ -58,11 +58,10 @@ const onChangeStage = (rg: any) => {
 }
 </script>
 <style scoped lang="less">
-.ant-slider {
-  width: 160px;
+.mars-pannel-item-label{
+  width: 70px;
 }
-
-.infoView {
-  width: 280px;
+.ant-slider {
+  width: 210px;
 }
 </style>

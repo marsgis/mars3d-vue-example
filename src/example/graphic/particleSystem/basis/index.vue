@@ -1,31 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state
-      :defaultCount="100"
-      :interaction="false"
-      drawLabel1="绘制水柱"
-      drawLabel2="绘制火焰"
-      :customEditor="'particleSystem'"
-      @onStartEditor="onStartEditor"
-      @onStopEditor="onStopEditor"
-    />
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <graphic-layer-state :defaultCount="100" :interaction="false" drawLabel1="绘制水柱" drawLabel2="绘制火焰"
+      :customEditor="'particleSystem'" @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
   </mars-dialog>
 
   <!-- 左侧面板 -->
-  <mars-dialog
-    width="280"
-    left="10"
-    top="10"
-    :draggable="true"
-    :visible="selectedGraphic"
-    :title="pannelTitle"
-    :closeable="true"
-    :beforeClose="
-      () => {
+  <mars-dialog width="280" left="10" top="10" :draggable="true" :visible="selectedGraphic" :title="pannelTitle"
+    :closeable="true" :beforeClose="() => {
         selectedGraphic = false
       }
-    "
-  >
+      ">
     <div class="mars-particle">
       <div class="f-mb">
         <a-space>

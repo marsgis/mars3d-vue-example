@@ -1,22 +1,24 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <mars-button class="draw-btn" @click="drawPolygon">单体化面</mars-button>
+
+    <div v-if="value === '1'" class="f-pt">
+      <a-space>
+        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" :beforeUpload="() => false"
+          @change="openGeoJSON">
+          <mars-button> 打开</mars-button>
+        </a-upload>
+        <mars-button @click="saveGeoJSON">保存</mars-button>
+        <mars-button @click="clear" danger>清除</mars-button>
+      </a-space>
+    </div>
+
+    <div class="f-pt">
       <a-space>
         <a-radio-group @change="modeChange" v-model:value="value" name="radioGroup">
           <a-radio value="1">编辑模式</a-radio>
           <a-radio value="2">预览模式</a-radio>
         </a-radio-group>
-      </a-space>
-    </div>
-
-    <div v-if="value === '1'">
-      <a-space>
-        <mars-button @click="drawPolygon">单体化面</mars-button>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" :beforeUpload="() => false" @change="openGeoJSON">
-          <mars-button> 打开</mars-button>
-        </a-upload>
-        <mars-button @click="saveGeoJSON">保存</mars-button>
-        <mars-button @click="clear">清除</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -129,3 +131,13 @@ const showEditor = (e: any) => {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.draw-btn {
+  width: 302px !important;
+}
+
+.mars-button {
+  width: 95px;
+}
+</style>

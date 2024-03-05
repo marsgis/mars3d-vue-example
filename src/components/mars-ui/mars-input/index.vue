@@ -1,5 +1,5 @@
 <template>
-  <a-input class="mars-input" v-bind="attrs">
+  <a-input class="mars-input" v-bind="attrs" :class="{prefix: attrs['addon-before']}">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>
@@ -49,6 +49,19 @@ export default defineComponent({
   &:hover {
     border-color: var(--mars-hover-color);
   }
+}
+.prefix  {
+  :deep(.ant-input) {
+    border: 0px;
+    padding: 4px;
+    text-align: right;
+  }
+}
+:deep(.ant-input-group-addon) {
+  padding: 0px 0px 0px 7px;
+  border-radius: 0px !important;
+  border-color: transparent;
+  color: #fff;
 }
 .ant-input-affix-wrapper-focused {
   box-shadow: none;

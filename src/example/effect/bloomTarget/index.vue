@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">状 态:</span>
@@ -15,7 +15,8 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">亮 度:</span>
-        <mars-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="-1.0" :max="1.0" :step="0.01" />
+        <mars-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="-1.0" :max="1.0"
+          :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
@@ -27,7 +28,8 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">亮度光滑:</span>
-        <mars-slider v-model:value="formState.smoothWidth" @change="onChangeSmoothWidth" :min="0.0" :max="5.0" :step="0.01" />
+        <mars-slider v-model:value="formState.smoothWidth" @change="onChangeSmoothWidth" :min="0.0" :max="5.0"
+          :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
@@ -39,13 +41,15 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">对比度:</span>
-        <mars-slider v-model:value="formState.contrast" @change="onChangeContrast" :min="-255.0" :max="255.0" :step="0.01" />
+        <mars-slider v-model:value="formState.contrast" @change="onChangeContrast" :min="-255.0" :max="255.0"
+          :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">模糊样本:</span>
-        <mars-slider v-model:value="formState.blurSamples" @change="onChangeBlurSamples" :min="1.0" :max="50.0" :step="0.01" />
+        <mars-slider v-model:value="formState.blurSamples" @change="onChangeBlurSamples" :min="1.0" :max="50.0"
+          :step="0.01" />
       </a-space>
     </div>
     <div class="f-mb">
@@ -135,7 +139,11 @@ const onChangeColor = () => {
 .mars-pannel-item-label {
   width: 88px;
 }
+
 .ant-slider {
-  width: 145px;
+  width: 195px;
+}
+.mars-color-view {
+  width: 200px;
 }
 </style>

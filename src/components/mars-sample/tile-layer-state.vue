@@ -1,13 +1,13 @@
 <template>
   <!-- 使用表格实现界面 -->
   <div class="showTable" v-if="formState.showTable">
-    <mars-table :row-selection="tileLayerRowSelection" :dataSource="tileLayerList" :columns="tileLayerColumns"
-      :showHeader="false" :bordered="false" :pagination="{ pageSize: 5 }" size="small" :customRow="tileLayerCustomRowObj">
+    <mars-table class="mars-noHeader-table" :row-selection="tileLayerRowSelection" :dataSource="tileLayerList" :columns="tileLayerColumns"
+      :showHeader="false" :bordered="false" :pagination="false" size="small" :customRow="tileLayerCustomRowObj">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'edit'">
           <div class="table-tools">
             <a-space>
-              <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="飞行定位"
+              <mars-icon icon="send" color="#f2f2f2" class="icon-vertical-a" title="飞行定位"
                 @click.stop="flyToLayer(record)" />
               <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层"
                 @click.stop="deleteLayer(record)" />
@@ -251,7 +251,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 1,
     value: 1.0,
-    extraWidth: 40,
+    extra: "{opacity}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("opacity", data)
     }
@@ -264,7 +265,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extraWidth: 40,
+    extra: "{brightness}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("brightness", data)
     }
@@ -277,7 +279,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.16,
-    extraWidth: 40,
+    extra: "{contrast}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("contrast", data)
     }
@@ -290,7 +293,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.1,
-    extraWidth: 40,
+    extra: "{hue}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("hue", data)
     }
@@ -303,7 +307,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 1.0,
-    extraWidth: 40,
+    extra: "{saturation}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("saturation", data)
     }
@@ -316,7 +321,8 @@ const options: GuiItem[] = [
     min: 0,
     max: 3,
     value: 0.53,
-    extraWidth: 40,
+    extra: "{gamma}",
+    extraWidth: 30,
     change(data) {
       setLayerOptions("gamma", data)
     }
@@ -468,49 +474,6 @@ const onChangeHighlight = () => {
   }
 }
 
-:deep(.ant-table) {
-  margin-top: 10px;
-
-  .ant-table-tbody {
-    .ant-table-row {
-      display: block;
-      width: 300px;
-      border-radius: 2px;
-      border: 1px solid rgba(234, 242, 255, 0.1);
-      background: rgba(234, 242, 255, 0.2);
-      margin-bottom: 10px;
-      cursor: pointer;
-
-      &:hover {
-        background: rgba(234, 242, 255, 0.4);
-      }
-    }
-
-    .ant-table-row-selected {
-      background: rgba(234, 242, 255, 0.4);
-
-    }
-
-    .ant-table-cell {
-      border: none !important;
-      // max-width: 200px;
-      // overflow: hidden;
-      // text-overflow: ellipsis;
-      // white-space: nowrap;
-
-      // .table-tools {
-      //   position: absolute;
-      //   left: 132px;
-      //   bottom: 8px;
-      // }
-    }
-  }
-
-  .ant-table-container {
-    border: none !important;
-  }
-}
-
 .property-content {
   width: 330px;
   margin-top: 26px;
@@ -519,8 +482,9 @@ const onChangeHighlight = () => {
   background: rgba(39, 44, 54, 0.8);
   border-radius: 4px !important;
   backdrop-filter: blur(10px);
-  border: 1px solid;
   box-sizing: border-box;
-  border-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%) 1;
+  // border-image 与 border-radius 无法共存
+  // border: 1px solid;
+  // border-image:  var(--mars-base-border) 1;
 }
 </style>

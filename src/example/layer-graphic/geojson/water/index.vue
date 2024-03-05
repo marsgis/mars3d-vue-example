@@ -1,8 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb title">闸门控制</div>
+  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="330">
+    <div class="title">闸门控制</div>
 
-    <a-form class="f-mb">
+    <a-form>
       <a-form-item label="高度（米）">
         <mars-input-number v-model:value="formState.height" :min="0" :max="4" :step="0.1" />
       </a-form-item>
@@ -11,7 +11,7 @@
       </a-form-item>
     </a-form>
 
-    <div class="f-tac">
+    <div class="f-tac f-pdg-10-b">
       <a-space>
         <mars-button @click="openZm">开启</mars-button>
         <mars-button @click="closeZm">关闭</mars-button>
@@ -42,8 +42,17 @@ const closeZm = () => {
 }
 </script>
 <style lang="less" scoped>
-.title{
-  color: #fff;
-  text-align: center;
+.title {
+  color: #EAF2FF;
+  height: 44px;
+  line-height: 44px;
+  padding-left: 10px;
+  background: #464C5A;
+  font-size: 14px;
+  box-shadow: 0px 6px 12px -2px rgba(50, 50, 93, 0.15), 0px 3px 7px -3px rgba(0, 0, 0, 0.2);
+}
+
+.mars-button {
+  width: 146px;
 }
 </style>

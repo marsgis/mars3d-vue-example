@@ -98,13 +98,13 @@
 
   <!--卫星详情面板-->
   <mars-dialog :visible="formState.pointInfo === true" right="10" top="10" width="335">
-    <mars-button @click="highlightSatellite"> 返回 </mars-button>
     <table class="mars-table tb-border">
       <tr v-for="(item, index) in weixinNameList" :key="item">
         <td class="nametd">{{ item }}</td>
         <td v-html="weixinValueList[index]"></td>
       </tr>
     </table>
+    <mars-button primary class="bottom_btn" @click="highlightSatellite"> 返回 </mars-button>
   </mars-dialog>
 
   <!-- 引入同文件夹下的mars-echart -->
@@ -390,6 +390,11 @@ const highlightSatellite = () => {
 }
 .tb-border tr td {
   border: 1px solid #4db3ff70;
+}
+
+.bottom_btn {
+  margin-top: 10px;
+  width: 305px;
 }
 
 .track-type {

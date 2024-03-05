@@ -1,10 +1,6 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="308">
+  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="330">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
-      <!-- 自定义切换图标 -->
-      <template #expandIcon>
-        <mars-icon icon="down-c" class="icon-vertical-a" />
-      </template>
       <a-collapse-panel key="1" header="3D Tiles示例">
         <div class="basis-button-contain">
           <mars-button @click="showJzwHefeiDemo">城市白膜(合肥)</mars-button>
@@ -22,12 +18,13 @@
           <a-space>
             <a-checkbox v-model:checked="formState.enabledShowTerrain" @change="bindTestTerrain">深度检测</a-checkbox>
             <a-checkbox v-model:checked="formState.enabledWireframe" @change="bindWireframe">模型三角网</a-checkbox>
+            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
+
           </a-space>
         </div>
 
         <div class="f-mb">
           <a-space>
-            <a-checkbox v-model:checked="formState.enabledBoundbox" @change="bindBoundbox">模型包围盒</a-checkbox>
             <a-checkbox v-model:checked="formState.enabledGfirstperson" @change="bindGfirstperson">键盘漫游</a-checkbox>
           </a-space>
         </div>
@@ -102,5 +99,9 @@ const showBimDitiezhanDemo = () => {
     margin-right: 8px;
     margin-bottom: 8px;
   }
+}
+
+:deep(.ant-checkbox+span) {
+  padding-inline-start: 4px !important;
 }
 </style>

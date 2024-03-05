@@ -1,104 +1,114 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state
-      :defaultCount="5"
-      :interaction="false"
-      :customEditor="'satelliteSensor'"
-      @onStartEditor="onStartEditor"
-      @onStopEditor="onStopEditor"
-      ref="graphicLayerStateRef"
-    />
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <graphic-layer-state :defaultCount="5" :interaction="false" :customEditor="'satelliteSensor'"
+      @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" ref="graphicLayerStateRef" />
   </mars-dialog>
 
   <!-- 左侧面板 -->
-  <mars-dialog
-    left="10"
-    top="10"
-    :visible="formState.selectedGraphic"
-    :title="formState.pannelTitle"
-    :closeable="true"
-    :beforeClose="
-      () => {
-        formState.selectedGraphic = false
-      }
-    "
-  >
+  <mars-dialog left="10" top="10" width="336" :visible="formState.selectedGraphic" :title="formState.pannelTitle"
+    :closeable="true" :beforeClose="() => {
+      formState.selectedGraphic = false
+    }
+      ">
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">视椎体状态:</span>
-        <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+        <span class="mars-pannel-item-label">视椎体状态：</span>
         <mars-button @click="locate">定位至卫星</mars-button>
         <mars-button href="editor-vue.html?id=graphic/space/satelliteSensor-multi" target="_blank">双锥体示例</mars-button>
       </a-space>
+
+      <div class="location-tools">
+        <a-space>
+
+
+          <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+
+        </a-space>
+
+      </div>
+
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">颜色</span>
+        <span class="mars-pannel-item-label">颜色：</span>
         <mars-color-picker @change="onChangeColor" v-model:value="formState.areaColor" />
       </a-space>
     </div>
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="positionChange" v-model:value="formState.model_x" class="inputNum"></mars-input-number>
+        <span class="mars-pannel-item-label">经度：</span>
+        <mars-input-number @change="positionChange" v-model:value="formState.model_x"
+          class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="positionChange" v-model:value="formState.model_y" class="inputNum"></mars-input-number>
+        <span class="mars-pannel-item-label">经度：</span>
+        <mars-input-number @change="positionChange" v-model:value="formState.model_y"
+          class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">高度:</span>
-        <mars-input-number @change="positionChange" v-model:value="formState.model_z" class="inputNum"></mars-input-number
-      ></a-space>
+        <span class="mars-pannel-item-label">高度：</span>
+        <mars-input-number @change="positionChange" v-model:value="formState.model_z"
+          class="inputNum"></mars-input-number></a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span class="mars-pannel-item-label">轨迹方向:</span>
-        <mars-slider @change="headingChange" v-model:value="formState.headingValue" :min="0" :max="360" :step="1" />当前值{{ formState.headingValue }}
+        <span class="mars-pannel-item-label">轨迹方向：</span>
+        <mars-slider @change="headingChange" v-model:value="formState.headingValue" :min="0" :max="360" :step="1" />
+        <span class="mars-text"> 当前值{{
+          formState.headingValue }}</span>
+
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span class="mars-pannel-item-label">前后侧摆:</span>
-        <mars-slider @change="pitchChange" v-model:value="formState.pitchValue" :min="-180" :max="180" :step="1" />当前值{{ formState.pitchValue }}
+        <span class="mars-pannel-item-label">前后侧摆：</span>
+        <mars-slider @change="pitchChange" v-model:value="formState.pitchValue" :min="-180" :max="180" :step="1" />
+        <span class="mars-text"> 当前值{{
+          formState.pitchValue }}</span>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span class="mars-pannel-item-label">左右侧摆:</span>
-        <mars-slider @change="rollChange" v-model:value="formState.rollValue" :min="-180" :max="180" :step="1" />当前值{{ formState.rollValue }}
+        <span class="mars-pannel-item-label">左右侧摆：</span>
+        <mars-slider @change="rollChange" v-model:value="formState.rollValue" :min="-180" :max="180" :step="1" />
+        <span class="mars-text"> 当前值{{
+          formState.rollValue }}</span>
+
       </a-space>
     </div>
-    <div class="f-mb">
+    <div class="f-push-15-b ">
       <a-space>
-        <span class="mars-pannel-item-label">参考系轴:</span>
+        <span class="mars-pannel-item-label">参考系轴：</span>
         <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
-        <a-checkbox v-show="formState.enabledShowHide" v-model:checked="formState.enabledIntersect" @change="chkUnderground">求交地球</a-checkbox>
+        <a-checkbox v-show="formState.enabledShowHide" v-model:checked="formState.enabledIntersect"
+          @change="chkUnderground">求交地球</a-checkbox>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span class="mars-pannel-item-label">轴长度:</span>
-        <mars-slider @change="lengthChange" v-model:value="formState.matrixLength" :min="1" :max="10000" :step="1" />当前值{{
+        <span class="mars-pannel-item-label">轴长度：</span>
+        <mars-slider @change="lengthChange" v-model:value="formState.matrixLength" :min="1" :max="10000" :step="1" />
+        <span class="mars-text"> 当前值{{
           formState.matrixLength
-        }}
+        }}</span>
+
       </a-space>
     </div>
 
     <div class="showHide" v-show="formState.enabledShowHide">
-      <div class="f-mb">
+      <div class="f-push-15-b">
         <a-space>
-          <span class="mars-pannel-item-label">类型:</span>
+          <span class="mars-pannel-item-label">类型：</span>
           <a-radio-group v-model:value="sensorType" name="radioGroup" @change="chkSensorType">
             <a-radio value="1">圆锥体</a-radio>
             <a-radio value="2">四棱锥体</a-radio>
@@ -106,27 +116,34 @@
         </a-space>
       </div>
 
-      <div class="f-mb">
+      <div class="f-push-15-b">
         <a-space>
-          <span class="mars-pannel-item-label">夹角1:</span>
-          <mars-slider @change="angle1" v-model:value="formState.angleValue1" :min="0" :max="89" :step="0.001" />当前值{{ formState.angleValue1 }}
+          <span class="mars-pannel-item-label">夹角1：</span>
+          <mars-slider @change="angle1" v-model:value="formState.angleValue1" :min="0" :max="89" :step="0.001" />
+          <span class="mars-text"> 当前值{{
+            formState.angleValue1 }}</span>
+
         </a-space>
       </div>
 
-      <div class="f-mb" v-if="sensorType === '2'">
+      <div class="f-push-15-b" v-if="sensorType === '2'">
         <a-space>
-          <span class="mars-pannel-item-label">夹角2:</span>
-          <mars-slider @change="angle2" v-model:value="formState.angleValue2" :min="0" :max="89" :step="0.001" />当前值{{ formState.angleValue2 }}
+          <span class="mars-pannel-item-label">夹角2：</span>
+          <mars-slider @change="angle2" v-model:value="formState.angleValue2" :min="0" :max="89" :step="0.001" />
+          <span class="mars-text"> 当前值{{
+            formState.angleValue2 }}</span>
+
         </a-space>
       </div>
 
-      <div class="f-mb">
+      <div class="f-push-15-b">
         <a-space>
-          <span class="mars-pannel-item-label">地面成像区:</span>
-          <mars-button @click="getRegion">获取区域边界值</mars-button>
-          <mars-button @click="getCenter">获取中心点坐标</mars-button>
-          <mars-button @click="clear">清除</mars-button>
+          <span class="mars-pannel-item-label">地面成像区：</span>
+          <mars-button class="pad-none" @click="getRegion">获取区域边界值</mars-button>
+          <mars-button class="pad-none" @click="getCenter">获取中心点坐标</mars-button>
         </a-space>
+        <mars-button class="danger-btn" @click="clear" danger>清除</mars-button>
+
       </div>
     </div>
   </mars-dialog>
@@ -274,9 +291,41 @@ mapWork.eventTarget.on("addTableData", function (event: any) {
 </script>
 <style scoped lang="less">
 .inputNum {
-  width: 140px !important;
+  width: 214px !important;
 }
+
 .ant-slider {
-  width: 220px;
+  width: 110px;
+}
+
+.mars-color-view {
+  width: 214px;
+}
+
+.mars-button {
+  width: 100px;
+}
+
+.danger-btn {
+  margin-left: 92px;
+  margin-top: 10px;
+}
+
+.location-tools {
+  margin-top: 10px;
+  margin-left: 92px;
+
+  .mars-button {
+    width: 90px;
+  }
+
+}
+
+.mars-pannel-item-label {
+  min-width: 85px;
+}
+
+.mars-text {
+  color: rgba(234, 242, 255, 0.5);
 }
 </style>

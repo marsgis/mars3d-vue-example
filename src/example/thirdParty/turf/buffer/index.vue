@@ -1,18 +1,18 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">缓冲半径:</span>
-        <mars-input-number class="radius" @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1" :max="999"></mars-input-number>公里
+        <mars-input-number class="radius" @change="radiusChange" v-model:value="radiusVal" :min="1" :step="1" :max="999" addon-after="公里"></mars-input-number>
       </a-space>
     </div>
 
     <a-space>
       <span class="mars-pannel-item-label">绘制:</span>
-      <mars-button @click="drawPoint">点</mars-button>
-      <mars-button @click="drawPolyline">线</mars-button>
-      <mars-button @click="drawPolygon">面</mars-button>
-      <mars-button @click="clearAll">清除</mars-button>
+      <mars-button class="draw_btn" @click="drawPoint">点</mars-button>
+      <mars-button class="draw_btn" @click="drawPolyline">线</mars-button>
+      <mars-button class="draw_btn" @click="drawPolygon">面</mars-button>
+      <mars-button class="draw_btn" @click="clearAll">清除</mars-button>
     </a-space>
   </mars-dialog>
 </template>
@@ -56,5 +56,9 @@ const clearAll = () => {
 }
 .ant-input-number {
   width: 60px !important;
+}
+
+.draw_btn {
+  width: 52px;
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" bottom="50" width="330">
     <div class="ui-container">
-      <a-form :model="formState" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form class="mars-form_nopadding" :model="formState" :rules="rules" :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 18 }">
         <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
           <a-collapse-panel key="1" header="表单控件">
             <a-form-item label="简单文本" name="url">
@@ -28,11 +29,12 @@
             </a-form-item>
 
             <a-form-item label="滑动条">
-              <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05" @change="onSliderChange" />
+              <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05"
+                @change="onSliderChange" />
             </a-form-item>
 
             <a-form-item label="刻度滑动条">
-              <mars-slider v-model:value="formState.contrast" :marks="marks" :min="-255" :max="255" :step="1" @change="onMarkSliderChange" />
+              <mars-slider v-model:value="formState.contrast" range :marks="marks" :min="-255" :max="255" :step="1"/>
             </a-form-item>
 
             <a-form-item label="多选" class="f-push-20-t">
@@ -88,16 +90,8 @@
           </a-collapse-panel>
 
           <a-collapse-panel key="2" header="表格控件">
-            <mars-table
-              size="small"
-              :customRow="customTableRow"
-              :row-selection="rowSelection"
-              bordered
-              :pagination="{ pageSize: 5 }"
-              :columns="columns"
-              :dataSource="typhoonList"
-              rowKey="id"
-            >
+            <mars-table size="small" :customRow="customTableRow" :row-selection="rowSelection" bordered
+              :pagination="{ pageSize: 5 }" :columns="columns" :dataSource="typhoonList" rowKey="id">
               <template #bodyCell="{ column, text }">
                 <template v-if="column.dataIndex === 'name'">
                   <a>{{ text }}</a>
@@ -107,7 +101,8 @@
           </a-collapse-panel>
 
           <a-collapse-panel key="3" header="树控件">
-            <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
+            <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys"
+              v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
               <template #title="{ title }">
                 <span>{{ title }}</span>
               </template>
@@ -115,7 +110,7 @@
           </a-collapse-panel>
         </a-collapse>
 
-        <div class="footer">
+        <div class="f-mb footer">
           <mars-button @click="onClickLoading">
             <template #icon><mars-icon icon="find" class="icon-vertical-a" /></template>
             进度条1
@@ -156,7 +151,7 @@ interface FormState {
   model: string
   date: Dayjs | null
   brightness: number
-  contrast: number
+  contrast: [number, number]
   checkboxVal: string[]
   radioVal: string
   isScale: boolean
@@ -169,7 +164,7 @@ const formState = reactive<FormState>({
   model: "",
   date: null,
   brightness: 0,
-  contrast: 128,
+  contrast: [-188, 128],
   checkboxVal: ["mars"],
   radioVal: "3",
   isScale: true,
@@ -449,16 +444,16 @@ const onCheckTreeItem = (keys: string[]) => {
 .color-state {
   padding-bottom: 1.3px;
 }
+
 .ui-container {
   height: 100%;
   overflow-y: scroll;
-  .ant-form {
-    padding: 0;
-  }
 }
+
 .small-btn {
   width: 66px;
 }
+
 .messages-btn,
 .footer {
   width: 100%;
@@ -467,6 +462,7 @@ const onCheckTreeItem = (keys: string[]) => {
   align-items: center;
   justify-content: center;
   gap: 15px;
+
   .mars-button {
     width: 100%;
   }

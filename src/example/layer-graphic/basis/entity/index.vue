@@ -1,51 +1,55 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="450">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <layer-state />
+
     <div class="f-mb f-pt">
       <a-row>
-        <a-col :span="4">点状:</a-col>
-        <a-col :span="19">
+        <a-col :span="6">点状:</a-col>
+        <a-col :span="18">
           <div class="entity-button-contain" :key="item.name" v-for="item in list.point">
-            <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
+            <mars-button :class="item.flag ? 'tools-btn' : ''" :href="item.href" target="_blank">{{ item.name
+            }}</mars-button>
           </div>
         </a-col>
       </a-row>
     </div>
     <div>
       <a-row>
-        <a-col :span="4">线面状:</a-col>
-        <a-col :span="19">
+        <a-col :span="6">线面状:</a-col>
+        <a-col :span="18">
           <div class="entity-button-contain" :key="item.name" v-for="item in list.polyline">
-            <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
+            <a-space>
+              <mars-button :href="item.href" target="_blank">{{ item.name }}</mars-button>
+            </a-space>
+
           </div>
         </a-col>
       </a-row>
     </div>
 
+    <div class="f-mb">
+      <div class="property-content">
+        <div class="content-title">
+          <h2 class="title">矢量数据列表</h2>
+        </div>
+      </div>
+      <mars-table class="mars-noHeader-table" :pagination="{ pageSize: 5, simple: true }" :customRow="graphicCustomRowObj"
+        :row-selection="graphicRowSelection" :dataSource="graphicDataList" :columns="graphicColumns" size="small"
+        :showHeader="false" :bordered="false">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'caozuo'">
+            <a-space>
+              <mars-icon icon="editor" color="#f2f2f2" class="icon-vertical-a" @click.stop="startEditGraphic(record)" />
+              <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" @click.stop="deleteGraphic(record)" />
+            </a-space>
 
-  <div class="f-mb">
-    <mars-table
-      :pagination="{ pageSize: 5 }"
-      :customRow="graphicCustomRowObj"
-      :row-selection="graphicRowSelection"
-      :dataSource="graphicDataList"
-      :columns="graphicColumns"
-      size="small"
-      bordered
-    >
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'caozuo'">
-          <a-space>
-            <mars-icon icon="editor" color="#f2f2f2" class="icon-vertical-a" @click.stop="startEditGraphic(record)" />
-            <mars-icon icon="delete" color="#f2f2f2" class="icon-vertical-a" @click.stop="deleteGraphic(record)" />
-          </a-space>
+          </template>
+          <template v-else>
+            {{ record.name }}
+          </template>
         </template>
-        <template v-else>
-          {{ record.name }}
-        </template>
-      </template>
-    </mars-table>
-  </div>
+      </mars-table>
+    </div>
   </mars-dialog>
 </template>
 
@@ -58,13 +62,13 @@ const list = {
   point: [
     { name: "文字", href: "editor-vue.html?id=graphic/entity/label" },
     { name: "点", href: "editor-vue.html?id=graphic/entity/point" },
-    { name: "图标点", href: "editor-vue.html?id=graphic/entity/billboard" },
+    { name: "图标点", flag: true, href: "editor-vue.html?id=graphic/entity/billboard" },
     { name: "平面", href: "editor-vue.html?id=graphic/entity/plane" },
     { name: "盒子", href: "editor-vue.html?id=graphic/entity/box" },
     { name: "圆", href: "editor-vue.html?id=graphic/entity/circle" },
     { name: "圆锥", href: "editor-vue.html?id=graphic/entity/cylinder" },
     { name: "球", href: "editor-vue.html?id=graphic/entity/ellipsoid" },
-    { name: "小模型", href: "editor-vue.html?id=graphic/entity/model" }
+    { name: "小模型", flag: true, href: "editor-vue.html?id=graphic/entity/model" }
   ],
   polyline: [
     { name: "线", href: "editor-vue.html?id=graphic/entity/polyline" },
@@ -95,14 +99,12 @@ const graphicColumns = [
     title: "名称",
     dataIndex: "name",
     key: "name",
-    align: "center"
+    align: "start"
   },
   {
     title: "操作",
     dataIndex: "caozuo",
-    key: "caozuo",
-    width: 60,
-    align: "center"
+    key: "caozuo"
   }
 ]
 
@@ -191,14 +193,52 @@ const deleteGraphic = (record: GraphicTableItem) => {
 
 </script>
 <style scoped lang="less">
-.ant-col-4 {
-  max-width: 11.666667%;
+.ant-col-6 {
+  max-width: 24.666667%;
+  color: rgba(234, 242, 255, 0.8);
 }
+
+
+
 .entity-button-contain {
   float: left;
+
   .mars-button {
-    margin-right: 8px;
+    width: 49px;
+
+    margin-right: 7px;
     margin-bottom: 8px;
+  }
+
+  .tools-btn {
+    padding-left: 5px !important;
+  }
+}
+
+.property-content {
+  width: 100%;
+  overflow-x: hidden;
+  box-shadow: 0px 6px 12px -2px rgba(50, 50, 93, 0.15), 0px 3px 7px -3px rgba(0, 0, 0, 0.2);
+
+  .content-title {
+    .title {
+      color: #EAF2FF;
+      display: inline-block;
+      font-size: 14px;
+      width: 100%;
+      height: 44px;
+      background: #464C5A;
+      line-height: 44px;
+      padding-left: 10px;
+
+      &::before {
+        content: "|";
+        background: #3385FF;
+        color: #3385FF;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+    }
   }
 }
 </style>

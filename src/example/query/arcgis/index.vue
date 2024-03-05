@@ -1,46 +1,44 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="360">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="arcgis-contain">
-      <a-form>
-        <div class="f-mb">
+      <div class="f-mb">
+        <a-space>
+          <span>名称:</span>
+          <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
+        </a-space>
+      </div>
+
+      <div class="f-mb range-select">
+        <a-space>
+          <span>范围:</span>
+          <mars-button @click="drawRectangle"> 框选范围 </mars-button>
+          <mars-button @click="drawCircle">圆形范围</mars-button>
+          <mars-button class="long-btn" @click="drawPolygon">多边形范围</mars-button>
+        </a-space>
+      </div>
+
+      <div class="query">
+        <a-space>
+          <mars-button @click="query">查询</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
+        </a-space>
+      </div>
+
+      <div v-show="show">
+        <div class="f-mb f-pt">
+          <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+            bordered />
+        </div>
+        <div class="f-mb querybar-fr">
           <a-space>
-            <span>名称</span>
-            <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
+            <span>找到{{ allLength }}条结果</span>
+            第{{ nowPage }}/{{ allPage }}页
+            <mars-button class="button" @click="showFirstPage">首页</mars-button>
+            <mars-button class="button" @click="showPretPage">&lt;</mars-button>
+            <mars-button class="button" @click="showNextPage">&gt;</mars-button>
           </a-space>
         </div>
-
-        <div class="f-mb">
-          <a-space>
-            <span>范围</span>
-            <mars-button @click="drawRectangle"> 框选范围 </mars-button>
-            <mars-button @click="drawCircle">圆形范围</mars-button>
-            <mars-button @click="drawPolygon">多边形范围</mars-button>
-          </a-space>
-        </div>
-
-        <div class="f-mb">
-          <a-space>
-            <span>操作</span>
-            <mars-button @click="query">查询</mars-button>
-            <mars-button @click="removeAll">清除</mars-button>
-          </a-space>
-        </div>
-
-        <div v-show="show">
-          <div class="f-mb">
-            <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small" bordered />
-          </div>
-          <div class="f-mb querybar-fr">
-            <a-space>
-              <span>找到{{ allLength }}条结果</span>
-              第{{ nowPage }}/{{ allPage }}页
-              <mars-button class="button" @click="showFirstPage">首页</mars-button>
-              <mars-button class="button" @click="showPretPage">&lt;</mars-button>
-              <mars-button class="button" @click="showNextPage">&gt;</mars-button>
-            </a-space>
-          </div>
-        </div>
-      </a-form>
+      </div>
     </div>
   </mars-dialog>
 </template>
@@ -153,14 +151,32 @@ const showNextPage = () => {
 </script>
 <style scoped lang="less">
 .inputServe {
-  width: 250px;
+  width: 256px;
 }
+
 .querybar-fr {
   position: relative;
   bottom: 3px;
   right: -6px;
 }
-.arcgis-contain {
-  width: 322px;
+
+.range-select {
+  .mars-button {
+    width: 80px;
+  }
+
+  .long-btn {
+    padding-left: 5px;
+  }
+}
+
+.query {
+  .mars-button {
+    width: 146px;
+  }
+}
+
+:deep(.ant-table-row:nth-of-type(even)) {
+  background-color: transparent !important;
 }
 </style>

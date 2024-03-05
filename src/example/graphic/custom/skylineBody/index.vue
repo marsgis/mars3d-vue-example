@@ -1,8 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
-      <mars-button @click="addGraphic">添加</mars-button>
-      <mars-button @click="clear">清除</mars-button>
+      <mars-button class="btn" @click="addGraphic">添加</mars-button>
+      <mars-button danger class="btn" @click="clear">清除</mars-button>
     </a-space>
   </mars-dialog>
 </template>
@@ -23,5 +23,8 @@ const clear = () => {
 <style scoped lang="less">
 .ant-input-number {
   width: 60px !important;
+}
+.btn {
+  width:146px;
 }
 </style>

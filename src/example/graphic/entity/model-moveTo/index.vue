@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">整体控制:</span>
@@ -8,15 +8,13 @@
         <mars-button @click="resetModel">还原</mars-button>
       </a-space>
     </div>
-
-    <!-- <div> -->
+ 
     <span class="mars-pannel-item-label">显示指定:</span>
     <div style="margin-left: 68px; margin-top: -20px">
       <div class="model-button-contain" :key="item" v-for="(item, index) in floorModel">
         <mars-button @click="showFloorModel(index)">{{ item }}</mars-button>
       </div>
-    </div>
-    <!-- </div> -->
+    </div> 
   </mars-dialog>
 </template>
 

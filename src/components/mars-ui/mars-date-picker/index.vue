@@ -50,7 +50,7 @@ export default defineComponent({
     color: var(--mars-control-text) !important;
   }
   :deep(.ant-picker-suffix *) {
-    color: var(--mars-control-icon);
+    color: var(--mars-control-placeholder);
   }
 }
 </style>

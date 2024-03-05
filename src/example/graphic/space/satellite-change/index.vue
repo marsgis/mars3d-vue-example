@@ -4,7 +4,7 @@
       <mars-button @click="drawRectangle">框选</mars-button>
       <mars-button @click="drawCircle">圆形</mars-button>
       <mars-button @click="drawPolygon">多边形</mars-button>
-      <mars-button @click="drawClear">清除</mars-button>
+      <mars-button @click="drawClear" danger>清除</mars-button>
     </a-space>
   </mars-dialog>
 

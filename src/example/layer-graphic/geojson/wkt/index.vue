@@ -1,10 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" >
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <layer-state />
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="64" width="250">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
+  <mars-dialog :visible="true" right="10" top="110" width="330">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys"
+      v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span class="tree-style" :title="title">{{ title }}</span>
       </template>
@@ -86,3 +87,5 @@ function initTree(dataItems: any) {
   })
 }
 </script>
+
+

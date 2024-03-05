@@ -1,6 +1,6 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="geojson-example">
       <mars-button @click="showChinaLine">省界线</mars-button>
       <mars-button @click="showPlanningSurface">规划面</mars-button>
       <mars-button @click="showDraw">标绘数据</mars-button>
@@ -10,12 +10,15 @@
       <mars-button @click="showBuilding">立体建筑物</mars-button>
       <mars-button @click="showBoundaryWall">合肥边界墙</mars-button>
       <mars-button @click="showRegion">合肥区域面</mars-button>
-      <mars-button @click="showFloor">分层分户楼栋</mars-button>
+      <mars-button class="floor" @click="showFloor">分层分户楼栋</mars-button>
       <mars-button @click="showGCJ02Data">GCJ纠偏</mars-button>
-    </a-space>
-    <div class="f-pt">
-      <span>透明度:</span>
-      <mars-slider v-model:value="layerOpacity" :min="0.0" :max="1.0" :step="0.1" @change="onOpacityChange" />
+    </div>
+
+    <div class="f-pt f-mb">
+      <a-space>
+        <span>透明度:</span>
+        <mars-slider v-model:value="layerOpacity" :min="0.0" :max="1.0" :step="0.1" @change="onOpacityChange" />
+      </a-space>
     </div>
     <div>
       <layer-state label="" />
@@ -124,10 +127,25 @@ const onOpacityChange = () => {
 }
 </script>
 <style scoped lang="less">
-.ant-space {
-  display: grid;
+.geojson-example {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  align-content: center;
+  flex-wrap: wrap;
+
+  .mars-button {
+    width: 94px;
+  }
+
+  .floor {
+    padding-left: 5px !important;
+  }
 }
+
+
 :deep(.ant-slider) {
-  width: 80px;
+  width: 230px;
 }
 </style>

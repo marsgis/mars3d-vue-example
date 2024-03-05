@@ -1,48 +1,40 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div v-show="!isShow">
       <div class="f-mb">
         <a-space>
-          <span>分析区域</span>
-          <mars-button @click="btnDrawExtent">绘制矩形</mars-button>
-          <mars-button @click="btnDraw">绘制多边形</mars-button>
-        </a-space>
-      </div>
-
-      <div class="f-mb">
-        <a-space>
           <span class="mars-pannel-item-label">最低海拔</span>
-          <mars-input-number v-model:value="formState.minHeight" :step="1" />
-          <span>（米）</span>
+          <mars-input-number v-model:value="formState.minHeight" :step="1" addon-after="米"/>
         </a-space>
       </div>
-
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">最高海拔</span>
-          <mars-input-number v-model:value="formState.maxHeight" :step="1" />
-          <span>（米）</span>
+          <mars-input-number v-model:value="formState.maxHeight" :step="1" addon-after="米"/>
         </a-space>
       </div>
-
       <div class="f-mb">
         <a-space>
           <span class="mars-pannel-item-label">淹没速度</span>
-          <mars-input-number v-model:value="formState.speed" :step="1" />
-          <div class="miles-second">（米/秒）</div>
+          <mars-input-number v-model:value="formState.speed" :step="1" addon-after="米/秒"/>
         </a-space>
       </div>
-
+      <div class="f-mb">
+        <a-space>
+          <mars-button class="btn_draw" @click="btnDrawExtent">绘制矩形</mars-button>
+          <mars-button class="btn_draw" @click="btnDraw">绘制多边形</mars-button>
+          <mars-button class="btn_draw" type="primary" danger @click="clearDraw">清除</mars-button>
+        </a-space>
+      </div>
       <div class="f-tac">
-        <mars-button @click="begin">开始分析</mars-button>
+        <mars-button class="analysis_btn" @click="begin">开始分析</mars-button>
       </div>
     </div>
-
     <div v-show="isShow">
       <div class="f-mb">
         <a-space>
           <span>高度选择</span>
-          <a-slider
+          <mars-slider
             tooltipPlacement="bottom"
             v-model:value="formState.height"
             @change="onChangeHeight()"
@@ -63,8 +55,8 @@
 
       <div class="f-tac">
         <a-space>
-          <mars-button @click="startPlay">{{ isStart ? "暂停" : "播放" }}</mars-button>
-          <mars-button @click="goBack">返回</mars-button>
+          <mars-button class="control_btn" @click="startPlay">{{ isStart ? "暂停" : "播放" }}</mars-button>
+          <mars-button class="control_btn" @click="goBack">返回</mars-button>
         </a-space>
       </div>
     </div>
@@ -139,12 +131,28 @@ const begin = () => {
     isShow.value = true
   })
 }
+
+const clearDraw = () => {
+  mapWork.clearDraw()
+  formState.minHeight = 0
+  formState.maxHeight = 0
+}
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 140px;
+  width: 235px;
+  margin: 0px;
 }
-.miles-second {
-  width: 120px !important;
+
+.analysis_btn {
+  width: 298px;
+}
+
+.btn_draw {
+  width: 94px;
+}
+
+.control_btn {
+  width: 146px;
 }
 </style>

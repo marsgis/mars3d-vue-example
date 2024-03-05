@@ -1,43 +1,36 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
-    <a-form>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding">
       <a-form-item label="方式">
-        <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
+        <mars-select class="selectWidth" v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam">
+        </mars-select>
       </a-form-item>
 
       <a-form-item label="起点">
         <a-space>
           <mars-input class="inputWidth" v-model:value="strat" disabled></mars-input>
-          <mars-button @click="startPoint">选点</mars-button>
+          <mars-button class="select-btn" @click="startPoint">选点</mars-button>
         </a-space>
       </a-form-item>
       <a-form-item label="终点">
         <a-space>
-          <p class="inputWidth">
-            共<span style="color: red">{{ count }}</span
-            >条POI点
+          <p class="end-input">
+            共<span style="color: red">{{ count }}</span>条POI点
           </p>
-          <mars-button @click="endPoint">查询</mars-button>
+          <mars-button class="select-btn" @click="endPoint">查询</mars-button>
         </a-space>
       </a-form-item>
 
       <div class="f-tac">
         <a-space>
           <mars-button @click="btnAnalyse">开始分析</mars-button>
-          <mars-button @click="removeAll">清除</mars-button>
+          <mars-button @click="removeAll" danger>清除</mars-button>
         </a-space>
       </div>
 
       <div class="f-mt" v-show="dataSource.length > 0">
-        <mars-table
-          :pagination="false"
-          :dataSource="dataSource"
-          :columns="columns"
-          :custom-row="customRow"
-          size="small"
-          bordered
-          :scroll="{ y: 300 }"
-        ></mars-table>
+        <mars-table :pagination="false" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+          bordered :scroll="{ y: 300 }"></mars-table>
       </div>
     </a-form>
   </mars-dialog>
@@ -155,9 +148,33 @@ const removeAll = () => {
 </script>
 <style scoped lang="less">
 .selectWidth {
-  width: 210px;
+  width: 256px;
 }
-.inputWidth {
-  width: 150px;
+
+.inputWidth,
+.end-input {
+  width: 188px;
+}
+
+.end-input {
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  background: rgba(35, 39, 47, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0px 12px;
+}
+
+.mars-button {
+  width: 146px !important;
+}
+
+:deep(.ant-table-row:nth-of-type(even)) {
+  background-color: transparent !important;
+}
+
+
+.select-btn {
+  width: 60px !important;
 }
 </style>

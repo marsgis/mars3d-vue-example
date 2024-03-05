@@ -1,10 +1,10 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
+  <div class="map_btn">
+    <a-space :size="10">
       <mars-button @click="startAnimation">重新播放</mars-button>
-      <mars-button @click="stopAnimation">停止动画</mars-button>
+      <mars-button danger @click="stopAnimation">停止动画</mars-button>
     </a-space>
-  </mars-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -19,3 +19,16 @@ const stopAnimation = () => {
   mapWork.stopAnimation()
 }
 </script>
+<style lang="less" scoped>
+.map_btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+
+  .mars-button {
+    width: 120px;
+    height: 46px;
+  }
+}
+</style>

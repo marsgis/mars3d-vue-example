@@ -1,31 +1,33 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
-      <a-space>
-        <span>演示数据:</span>
-        <mars-button @click="loadEarthData">全球区域</mars-button>
-        <mars-button @click="loadDongnanData">局部区域</mars-button>
-      </a-space>
+      <a-form-item label="演示数据:">
+        <a-space>
+          <mars-button @click="loadEarthData">全球区域</mars-button>
+          <mars-button @click="loadDongnanData">局部区域</mars-button>
+        </a-space>
+      </a-form-item>
     </div>
 
     <div class="f-mb">
-      <a-space>
-        <span>粒子个数:</span>
+      <a-form-item label="粒子个数:">
         <mars-slider v-model:value="formState.count" @change="changeCount" :min="1000" :max="9000" :step="1" />
+      </a-form-item>
+    </div>
+
+    <div class="f-mb">
+      <a-space>
+        <a-form-item label="存活时间:">
+          <mars-slider v-model:value="formState.age" @change="changeAge" :min="10" :max="150" :step="1" />
+        </a-form-item>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
-        <span>存活时间:</span>
-        <mars-slider v-model:value="formState.age" @change="changeAge" :min="10" :max="150" :step="1" />
-      </a-space>
-    </div>
-
-    <div class="f-mb">
-      <a-space>
-        <span>移动速率:</span>
-        <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="100" :step="1" />
+        <a-form-item label="移动速率:">
+          <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="100" :step="1" />
+        </a-form-item>
       </a-space>
     </div>
 
@@ -58,8 +60,8 @@ interface FormState {
 
 const formState: UnwrapRef<FormState> = reactive({
   count: 4096,
-  age: 120,
-  speed: 60,
+  age: 10,
+  speed: 10,
   linewidth: 1,
   color: "#4696db"
 })
@@ -99,6 +101,6 @@ const loadDongnanData = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 140px;
+  width: 214px;
 }
 </style>

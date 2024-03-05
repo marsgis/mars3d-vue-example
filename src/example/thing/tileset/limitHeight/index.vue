@@ -5,7 +5,7 @@
         <span>分析区域</span>
         <mars-button @click="drawExtent">绘制矩形</mars-button>
         <mars-button @click="drawPolygon">绘制面</mars-button>
-        <mars-button @click="clear">清除</mars-button>
+        <mars-button @click="clear" danger>清除</mars-button>
       </a-space>
     </div>
 

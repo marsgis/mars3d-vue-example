@@ -1,51 +1,51 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="f-mb info">
       <span>3dtile模型移动(只适合小范围内的偏移 笛卡尔坐标方向，非贴球面)</span>
     </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">模型URL:</span>
+    <div class="f-mb container">
+      <div class="label">模型URL:</div>
+      <div class="content">
         <mars-input class="model-input" v-model:value="url"></mars-input>
         <mars-button class="model-button" @click="showModel">加载模型</mars-button>
-      </a-space>
+      </div>
     </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span>设置移动步长:</span>
-        <mars-button @click="getValue(0.1)" value="">0.1</mars-button>
-        <mars-button @click="getValue(1)" value="1">1</mars-button>
-        <mars-button @click="getValue(10)" value="10">10</mars-button>
-        <mars-button @click="getValue(100)" value="100">100</mars-button>
-      </a-space>
+    <div class="f-mb container">
+      <div class="label">设置移动步长:</div>
+      <div class="content">
+        <mars-button class="step-button" @click="getValue(0.1)" value="">0.1</mars-button>
+        <mars-button class="step-button" @click="getValue(1)" value="1">1</mars-button>
+        <mars-button class="step-button" @click="getValue(10)" value="10">10</mars-button>
+        <mars-button class="step-button" @click="getValue(100)" value="100">100</mars-button>
+      </div>
     </div>
 
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">按步长移动:</span>
-        <mars-button @click="moveModel(0)">x+</mars-button>
-        <mars-button @click="moveModel(1)">x-</mars-button>
-
-        <mars-button @click="moveModel(2)">y+</mars-button>
-        <mars-button @click="moveModel(3)">y-</mars-button>
-
-        <mars-button @click="moveModel(4)">z+</mars-button>
-        <mars-button @click="moveModel(5)">z-</mars-button>
-      </a-space>
+    <div class="f-mb container">
+      <div class="label">按步长移动:</div>
+      <div class="content">
+        <mars-button class="move-btn" @click="moveModel(0)">x+</mars-button>
+        <mars-button class="move-btn" @click="moveModel(1)">x-</mars-button>
+        <mars-button class="move-btn" @click="moveModel(2)">y+</mars-button>
+        <mars-button class="move-btn" @click="moveModel(3)">y-</mars-button>
+        <mars-button class="move-btn" @click="moveModel(4)">z+</mars-button>
+        <mars-button class="move-btn" @click="moveModel(5)">z-</mars-button>
+      </div>
     </div>
 
-    <div>
-      <a-space> <span class="mars-pannel-item-label">当前偏移量: </span>{{ result }} </a-space>
+    <div class="f-mb container">
+      <div class="label">当前偏移量:</div>
+      <div class="content">
+        <mars-input addon-before="x" class="offset-input" v-model:value="result.x"></mars-input>
+        <mars-input addon-before="y" class="offset-input" v-model:value="result.y"></mars-input>
+        <mars-input addon-before="z" class="offset-input" v-model:value="result.z"></mars-input>
+      </div>
     </div>
 
-    <div>
-      <a-space>
-        <span class="mars-pannel-item-label"></span>
-        <a-checkbox @change="chkHasTerrain" v-model:checked="enableHasTerrain">是否有地形</a-checkbox>
-        <a-checkbox @change="chkTestTerrain" v-model:checked="enableTestTerrain">是否深度检测</a-checkbox>
-      </a-space>
+    <div class="checkbox_container">
+      <a-checkbox @change="chkHasTerrain" v-model:checked="enableHasTerrain" >是否有地形</a-checkbox>
+      <a-checkbox @change="chkTestTerrain" v-model:checked="enableTestTerrain" >是否深度检测</a-checkbox>
     </div>
   </mars-dialog>
 </template>
@@ -56,7 +56,11 @@ import * as mapWork from "./map.js"
 
 const url = ref<any>()
 
-const result = ref<string>("x:0.0" + " y:0.0" + " z:0.0")
+const result = ref({
+  x: "0.0",
+  y: "0.0",
+  z: "0.0"
+})
 
 const enableHasTerrain = ref<boolean>(false)
 
@@ -111,7 +115,11 @@ const moveModel = (type: number) => {
     default:
   }
 
-  result.value = "x:" + x.toFixed(1) + " y:" + y.toFixed(1) + " z:" + z.toFixed(1)
+  result.value = {
+    x: x.toFixed(1),
+    y: y.toFixed(1),
+    z: z.toFixed(1)
+  }
   mapWork.setTranslation(x, y, z)
 }
 
@@ -131,15 +139,69 @@ const getValue = (val: number) => {
 }
 </script>
 <style scoped lang="less">
-.mars-pannel-item-label {
-  width: 83px;
+
+
+.info {
+  font-size: 14px;
+  color:rgba(234, 242, 255, 0.7)
+}
+.container {
+  display: flex;
+  .label {
+    margin-top: 6px;
+    width: 90px;
+    text-align: right;
+    margin-right: 10px;
+    font-size: 14px;
+    color: rgba(234, 242, 255, 0.8);
+  }
+  .content {
+    width: 199px;
+    .model-input {
+      width: 100%;
+    }
+    .model-button {
+      width: 199px;
+      margin-top: 10px;
+    }
+    .step-button {
+      width:42px;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+
+    .move-btn {
+      width: 59.5px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      &:nth-child(3n) {
+        margin-right: 0px;
+      }
+      &:nth-child(n+3) {
+        margin-bottom: 0px;
+      }
+    }
+
+    .offset-input {
+      width: 59.5px;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
 }
 
-.model-input {
-  width: 145%;
-}
-
-.model-button {
-  margin-left: 75px;
+.checkbox_container {
+  text-align: right;
+  :deep(.ant-checkbox-wrapper) {
+    margin-left: 16px;
+  }
+  :deep(.ant-checkbox-wrapper span) {
+    font-size: 12px;
+    padding-inline-end: 0px;
+  }
 }
 </style>

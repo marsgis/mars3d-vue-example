@@ -1,11 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="320">
-    <a-form>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding">
       <a-form-item>
         <a-row :gutter="[0, 10]">
           <a-col :span="7">模型角度:</a-col>
           <a-col :span="16">
-            <a-radio-group v-model:value="formState.noPitchRoll" @change="updateModel" >
+            <a-radio-group v-model:value="formState.noPitchRoll" @change="updateModel">
               <a-radio value="0">自动</a-radio>
               <a-radio value="1">手动</a-radio>
             </a-radio-group>
@@ -19,12 +19,14 @@
 
           <a-col :span="7">pitch值(前后):</a-col>
           <a-col :span="16">
-            <mars-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="-90" :max="90" :step="0.01" />
+            <mars-slider @change="updateModel" v-model:value="formState.slidePitchStep" :min="-90" :max="90"
+              :step="0.01" />
           </a-col>
 
           <a-col :span="7">roll值(左右):</a-col>
           <a-col :span="16">
-            <mars-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="-90" :max="90" :step="0.01" />
+            <mars-slider @change="updateModel" v-model:value="formState.slideRollStep" :min="-90" :max="90"
+              :step="0.01" />
           </a-col>
         </a-row>
       </a-form-item>
@@ -33,7 +35,7 @@
       </a-form-item>
     </a-form>
   </mars-dialog>
-  <fixedRoute-info />
+  <fixedRoute-info top="140" />
 </template>
 
 <script setup lang="ts">
@@ -73,5 +75,9 @@ const onClickClear = () => {
 <style scoped lang="less">
 .roamLinePanel {
   width: 300px;
+}
+
+.mars-button {
+  width: 302px;
 }
 </style>

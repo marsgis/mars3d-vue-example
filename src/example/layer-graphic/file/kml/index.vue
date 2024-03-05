@@ -1,19 +1,21 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="demo-list">
       <mars-button @click="shoRailway">铁路</mars-button>
       <mars-button @click="showExpressway">高速公路线</mars-button>
       <mars-button @click="showMeteorological">气象等值面</mars-button>
-      <mars-button @click="showGDP">国家GDP数据</mars-button>
-      <mars-button @click="showSafetyNotice">海上安全通告</mars-button>
-    </a-space>
+      <mars-button class="long-btn" @click="showGDP">国家GDP数据</mars-button>
+      <mars-button class="long-btn" @click="showSafetyNotice">海上安全通告</mars-button>
+    </div>
+
     <div class="f-pt">
       <layer-state />
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="110" width="220" customClass="pannel">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys">
+  <mars-dialog :visible="true" right="10" top="190" bottom="40" width="330" customClass="pannel">
+    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys"
+      v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -132,8 +134,17 @@ const showSafetyNotice = () => {
 }
 </script>
 <style lang="less">
-.pannel {
-  max-height: 750px;
-  overflow-y: auto;
+.demo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  .mars-button {
+    width: 94px;
+  }
+
+  .long-btn {
+    padding-left: 5px;
+  }
 }
 </style>

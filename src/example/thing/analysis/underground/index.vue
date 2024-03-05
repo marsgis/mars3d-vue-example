@@ -1,9 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+
     <div class="f-mb">
       <a-space>
-        <span class="mars-pannel-item-label">状态:</span>
-        <a-checkbox @change="isChecked" v-model:checked="checked">开启地下模式</a-checkbox>
+        <span class="mars-pannel-item-label">状态控制:</span>
+        <mars-switch class="switch_btn" @change="isChecked" v-model:checked="checked" />
+        <span class="pannel_label">开启地下模式</span>
       </a-space>
     </div>
 
@@ -14,12 +16,11 @@
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-space>
-        <span class="mars-pannel-item-label">演示视角:</span>
-        <mars-button @click="centerAtDX1">俯视视角</mars-button>
-        <mars-button @click="centerAtDX2">地下视角1</mars-button>
-        <mars-button @click="centerAtDX3">地下视角2</mars-button>
+        <mars-button class="control_btn" @click="centerAtDX1">俯视视角</mars-button>
+        <mars-button class="control_btn" @click="centerAtDX2">地下视角1</mars-button>
+        <mars-button class="control_btn" @click="centerAtDX3">地下视角2</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -61,7 +62,20 @@ const isChecked = () => {
 .mars-pannel-item-label {
   width: 74px;
 }
-.ant-slider {
-  width: 160px;
+.pannel_label {
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 22px;
+  color: rgba(234, 242, 255, 0.5);
 }
+.switch_btn {
+  margin-bottom: 1px;
+}
+.control_btn {
+  width: 94px;
+}
+.ant-slider {
+  width: 210px;
+}
+
 </style>

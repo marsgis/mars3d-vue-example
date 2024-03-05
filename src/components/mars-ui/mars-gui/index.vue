@@ -1,20 +1,16 @@
 <template>
-  <a-form class="mars-gui-form" :label-col="labelCol" :wrapper-col="wrapperCol">
+  <a-form :class='{ "mars-gui-form": true, "mars-form_nopadding": props.noPadding }' :label-col="labelCol"
+          :wrapper-col="wrapperCol">
     <template v-for="(item, i) in renderOptions" :key="i">
       <a-form-item v-if="(item.show as any)(attrForm)" :label="item.label">
         <div :style="getItemStyle(item)">
-          <component
-            :is="getComponent(item.type)"
-            v-model:value="item.value"
-            :min="item.min || item.min === 0 ? item.min : -Infinity"
-            :max="item.max || item.max === 0 ? item.max : Infinity"
-            :step="item.step || 0.1"
-            :range="item.range || false"
-            :options="item.data || []"
-            :units="item.units"
-            @change="itemChange(item)"
-          >
+          <component :is="getComponent(item.type)" v-model:value="item.value"
+                     :min="item.min || item.min === 0 ? item.min : -Infinity"
+                     :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
+                     :range="item.range || false" :options="item.data || []" :units="item.units"
+                     @change="itemChange(item)">
           </component>
+          <span v-if="item.extraAfter" class="extra_follow_close">{{ item.extraAfter }}</span>
         </div>
         <div v-if="item.extra !== undefined" class="mars-gui-extra">
           <template v-if="item.extraType === 'string'">{{ item.extra(attrForm) }}</template>
@@ -31,6 +27,7 @@ import { components, GuiItem } from "./index"
 const props = defineProps<{
   options: GuiItem[]
   labelCol?: number
+  noPadding?: boolean
 }>()
 
 const emits = defineEmits(["change"])
@@ -118,14 +115,14 @@ const getItemStyle = ({ extraWidth, extra, label }: GuiItem) => {
   }
   return extra !== undefined
     ? {
-        width: `calc(100% - ${extraWidth || extraWidth === 0 ? extraWidth : 100}px)`,
-        display: "inline-block",
-        marginRight: "6px"
-      }
+      width: `calc(100% - ${extraWidth || extraWidth === 0 ? extraWidth : 100}px)`,
+      display: "inline-block",
+      marginRight: "6px"
+    }
     : {
-        display: "inline-block",
-        width: "100%"
-      }
+      display: "inline-block",
+      width: "100%"
+    }
 }
 
 function getComponent(type: keyof typeof components) {
@@ -189,12 +186,22 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .mars-gui-extra {
       display: block;
       font-family: var(--mars-font-family);
       font-size: 12px;
       font-weight: normal;
       color: var(--mars-extra-text-color);
+    }
+
+    .extra_follow_close {
+      display: inline-block;
+      font-family: var(--mars-font-family);
+      font-size: 12px;
+      font-weight: normal;
+      color: var(--mars-extra-text-color);
+      margin-left: 10px;
     }
   }
 }

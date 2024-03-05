@@ -34,8 +34,8 @@
 
 
         <a-col :span="24">
-          <mars-table :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
-            size="small" :showHeader="false" :bordered="false">
+          <mars-table class="mars-noHeader-table" :pagination="false" :row-selection="rowSelection"
+            :dataSource="dataSource" :columns="columns" size="small" :showHeader="false" :bordered="false">
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
                 <div class="table-tools">
@@ -44,7 +44,6 @@
                     <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" @click="deleted(record)" />
                   </a-space>
                 </div>
-
               </template>
               <template v-else>
                 {{ record.name }}
@@ -198,45 +197,6 @@ const changeClipHeight = () => {
 .draw-tools {
   .mars-button {
     width: 94px;
-  }
-}
-
-
-:deep(.ant-table) {
-  margin-top: 10px;
-  .ant-table-tbody {
-    .ant-table-row {
-      display: block;
-      width: 300px;
-      border-radius: 2px;
-      border: 1px solid rgba(234, 242, 255, 0.1);
-      background: rgba(234, 242, 255, 0.2);
-      margin-bottom: 10px;
-      cursor: pointer;
-
-      &:hover {
-        background: rgba(234, 242, 255, 0.4);
-      }
-    }
-
-    .ant-table-row-selected {
-      background: rgba(234, 242, 255, 0.4);
-
-    }
-
-    .ant-table-cell {
-      border: none !important;
-
-      .table-tools {
-        position: absolute;
-        left: 132px;
-        bottom: 8px;
-      }
-    }
-  }
-
-  .ant-table-container {
-    border: none !important;
   }
 }
 </style>

@@ -1,21 +1,19 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="f-mb keyboard-btns"> 
+      <span>演示视角：</span>
+      <mars-button class="f-push-10-r" @click="onChangeCenterAtDX1">室内</mars-button>
+      <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
+    </div>
+    <div class="f-push-15-t  f-push-15-b">
       <a-space>
-        <span>演示视角：</span>
-        <mars-button @click="onChangeCenterAtDX1">室内</mars-button>
-        <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
+        <span title="平移的步长（单位：米）">平移步长:</span>
+        <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300"
+          :step="0.01" />
       </a-space>
     </div>
-    <div class="f-mb sliderLength">
-      <a-space>
-        <span title="平移的步长（单位：米）" class="tip-name">平移步长:</span>
-        <mars-slider v-model:value="slideStep" @change="onChangeSlider" tooltipPlacement="bottom" :min="0" :max="300" :step="0.01" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <img src="/img/tietu/keyboard.png" alt="" />
-    </div>
+
+    <img class="keyboard-img" src="/img/tietu/keyboard.png" alt="" />
   </mars-dialog>
 </template>
 
@@ -37,13 +35,15 @@ const onChangeCenterAtDX2 = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 200px;
-  display: inline-block;
+  width: 220px;
 }
-.ant-row {
-  margin-bottom: 10px;
+
+.keyboard-btns {
+  display: grid;
+  grid-template-columns: 70px repeat(2, 1fr);
+  align-items: center;
 }
-.tip-name {
-  line-height: 35px;
-}
-</style>
+
+.keyboard-img {
+  width: 100%;
+}</style>

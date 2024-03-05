@@ -1,10 +1,10 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
-        <span>视椎体状态:</span>
-        <a-checkbox v-model:checked="sensorParams.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
+        <span class="mars-pannel-item-label">视椎体状态:</span>
         <mars-button @click="locate">定位至卫星</mars-button>
+        <a-checkbox v-model:checked="sensorParams.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
       </a-space>
     </div>
 
@@ -23,71 +23,80 @@
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_x" class="inputNum"></mars-input-number>
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_x"
+          class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">经度:</span>
-        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_y" class="inputNum"></mars-input-number>
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_y"
+          class="inputNum"></mars-input-number>
       </a-space>
     </div>
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">高度:</span>
-        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_z" class="inputNum"></mars-input-number
-      ></a-space>
+        <mars-input-number @change="positionChange" v-model:value="sensorParams.model_z"
+          class="inputNum"></mars-input-number></a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span>轨迹方向:</span>
-        <mars-slider @change="headingChange" v-model:value="sensorParams.headingValue" :min="0" :max="360" :step="1" />当前值{{
+        <span class="mars-pannel-item-label">轨迹方向:</span>
+        <mars-slider @change="headingChange" v-model:value="sensorParams.headingValue" :min="0" :max="360" :step="1" />
+        <span class="mars-text"> 当前值{{
           sensorParams.headingValue
-        }}
+        }}</span>
+
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span>前后侧摆:</span>
-        <mars-slider @change="pitchChange" v-model:value="sensorParams.pitchValue" :min="-180" :max="180" :step="1" />当前值{{
+        <span class="mars-pannel-item-label">前后侧摆:</span>
+        <mars-slider @change="pitchChange" v-model:value="sensorParams.pitchValue" :min="-180" :max="180" :step="1" />
+        <span class="mars-text">当前值{{
           sensorParams.pitchValue
-        }}
+        }}</span>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span>左右侧摆:</span>
-        <mars-slider @change="rollChange" v-model:value="sensorParams.rollValue" :min="-180" :max="180" :step="1" />当前值{{ sensorParams.rollValue }}
+        <span class="mars-pannel-item-label">左右侧摆:</span>
+        <mars-slider @change="rollChange" v-model:value="sensorParams.rollValue" :min="-180" :max="180" :step="1" /><span
+          class="mars-text">当前值{{
+            sensorParams.rollValue }}</span>
       </a-space>
     </div>
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span>参考系轴:</span>
+        <span class="mars-pannel-item-label">参考系轴:</span>
         <a-checkbox v-model:checked="sensorParams.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
-        <a-checkbox v-show="sensorParams.enabledShowHide" v-model:checked="sensorParams.enabledIntersect" @change="chkUnderground"
-          >求交地球</a-checkbox
-        >
+        <a-checkbox v-show="sensorParams.enabledShowHide" v-model:checked="sensorParams.enabledIntersect"
+          @change="chkUnderground">求交地球</a-checkbox>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
-        <span>轴长度:</span>
-        <mars-slider @change="lengthChange" v-model:value="sensorParams.matrixLength" :min="1" :max="10000" :step="1" />当前值{{
-          sensorParams.matrixLength
-        }}
+        <span class="mars-pannel-item-label">轴长度:</span>
+        <mars-slider @change="lengthChange" v-model:value="sensorParams.matrixLength" :min="1" :max="10000"
+          :step="1" /><span class="mars-text">
+          当前值{{
+            sensorParams.matrixLength
+          }}
+        </span>
       </a-space>
     </div>
 
     <div class="showHide" v-show="sensorParams.enabledShowHide">
-      <div class="f-mb">
+      <div class="f-push-15-b">
         <a-space>
-          <span>类型:</span>
+          <span class="mars-pannel-item-label">类型:</span>
           <a-radio-group v-model:value="sensorType" name="radioGroup" @change="chkSensorType">
             <a-radio value="1">圆锥体</a-radio>
             <a-radio value="2">四棱锥体</a-radio>
@@ -95,21 +104,24 @@
         </a-space>
       </div>
 
-      <div class="f-mb">
+      <div class="f-push-15-b">
         <a-space>
-          <span>夹角1:</span>
-          <mars-slider @change="angle1" v-model:value="sensorParams.angleValue1" :min="0" :max="89" :step="0.001" />当前值{{
+          <span class="mars-pannel-item-label">夹角1:</span>
+          <mars-slider @change="angle1" v-model:value="sensorParams.angleValue1" :min="0" :max="89" :step="0.001" />
+          <span class="mars-text">当前值{{
             sensorParams.angleValue1
-          }}
+          }}</span>
         </a-space>
       </div>
 
       <div v-if="sensorType === '2'">
         <a-space>
-          <span>夹角2:</span>
-          <mars-slider @change="angle2" v-model:value="sensorParams.angleValue2" :min="0" :max="89" :step="0.001" />当前值{{
+          <span class="mars-pannel-item-label">夹角2:</span>
+          <mars-slider @change="angle2" v-model:value="sensorParams.angleValue2" :min="0" :max="89" :step="0.001" />
+          <span class="mars-text"> 当前值{{
             sensorParams.angleValue2
-          }}
+          }}</span>
+
         </a-space>
       </div>
     </div>
@@ -215,13 +227,22 @@ const chkSensorType = () => {
 </script>
 <style scoped lang="less">
 .inputNum {
-  width: 140px !important;
+  width: 200px !important;
 }
 
 .ant-slider {
   width: 110px;
 }
+
+.mars-button {
+  width: 100px;
+}
+
 .mars-pannel-item-label {
-  width: 64px;
+  width: 74px;
+}
+
+.mars-text {
+  color: rgba(234, 242, 255, 0.5);
 }
 </style>

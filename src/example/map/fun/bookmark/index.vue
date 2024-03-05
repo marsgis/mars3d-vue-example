@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" bottom="40">
+  <mars-dialog :visible="true" right="10" top="10" bottom="40" width="330">
     <div class="f-mb f-tac">
       <a-space>
         <mars-input v-model:value="formState.input" placeholder="输入名称"></mars-input>
@@ -111,11 +111,11 @@ const butDeleteTxtName = (index: number) => {
   height: 91%;
 }
 .bookmarkView {
-  width: 250px;
+  width: 300px;
   height: calc(100% - 53px);
   border: 1px solid white;
   border-radius: 5px;
-  margin: 10px 0;
+  margin-top: 10px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;

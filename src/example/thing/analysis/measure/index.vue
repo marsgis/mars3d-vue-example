@@ -1,38 +1,32 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
-        <mars-button @click="clear">清除</mars-button>
-        <mars-button @click="saveGeoJSON">保存Json</mars-button>
+        <mars-button class="btn" @click="measureLength">空间距离</mars-button>
+        <mars-button class="btn" @click="measureArea">水平面积</mars-button>
+        <mars-button class="btn" @click="measureHeight">高度差</mars-button>
+        <mars-button class="btn" @click="measurePoint">坐标测量</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <mars-button class="btn" @click="measureSurfaceLength">贴地距离</mars-button>
+        <mars-button class="btn" @click="measureSurfaceeArea">贴地面积</mars-button>
+        <mars-button class="btn" @click="measureTriangleHeight">三角测量</mars-button>
+        <mars-button class="btn" @click="measureAngle">方位角</mars-button>
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <mars-button class="control_btn" @click="saveGeoJSON">保存Json</mars-button>
         <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <mars-button> 打开Json </mars-button>
+          <mars-button class="control_btn"> 打开Json </mars-button>
         </a-upload>
+        <mars-button class="control_btn" danger @click="clear">清除</mars-button>
       </a-space>
     </div>
-    <div class="f-mb">
-      <a-space>
-        <mars-button @click="measureLength">空间距离</mars-button>
-        <mars-button @click="measureArea">水平面积</mars-button>
-        <mars-button @click="measureHeight">高度差</mars-button>
-        <mars-button @click="measurePoint">坐标测量</mars-button>
-      </a-space>
-    </div>
-
-    <div class="f-mb">
-      <a-space>
-        <mars-button @click="measureSurfaceLength">贴地距离</mars-button>
-        <mars-button @click="measureSurfaceeArea">贴地面积</mars-button>
-        <mars-button @click="measureTriangleHeight">三角测量</mars-button>
-        <mars-button @click="measureAngle">方位角</mars-button>
-      </a-space>
-    </div>
-
     <div>
-      <div class="f-pt">
-        <a-space>
-          <a-checkbox @change="isChecked" v-model:checked="checked">开启顶点吸附</a-checkbox>
-        </a-space>
-      </div>
+      <a-checkbox @change="isChecked" v-model:checked="checked">开启顶点吸附</a-checkbox>
     </div>
   </mars-dialog>
 
@@ -113,3 +107,17 @@ const saveGeoJSON = () => {
   mapWork.saveJSON()
 }
 </script>
+<style lang="less" scoped>
+.mars-button {
+  padding: 0px;
+}
+.btn {
+  width: 68.3px;
+}
+.control_btn {
+  width: 94px;
+}
+.clear_btn {
+  width: 302px;
+}
+</style>

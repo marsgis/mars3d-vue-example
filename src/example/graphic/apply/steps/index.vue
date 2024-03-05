@@ -1,31 +1,35 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button v-if="!isPlay || isPause" @click="play">
-        <a-space>
-          <mars-icon icon="handle-triangle" class="icon-vertical-a" />
-          <span>{{ isPause ? "继续" : "开始" }}</span>
-        </a-space>
-      </mars-button>
-      <mars-button v-if="isPlay && !isPause" @click="pause">
-        <a-space>
-          <mars-icon icon="pause-one" class="icon-vertical-a" />
-          <span>暂停</span>
-        </a-space>
-      </mars-button>
-      <mars-button v-if="isPlay" @click="stop">
-        <a-space>
-          <mars-icon icon="power" class="icon-vertical-a" />
-          <span>停止</span>
-        </a-space>
-      </mars-button>
+  <mars-dialog :visible="true" right="10" top="10" customClass="steps_dialog" width="330">
+    <div class="control_btn">
+      <a-space>
+        <mars-button v-if="!isPlay || isPause" @click="play">
+          <a-space>
+            <mars-icon icon="handle-triangle" class="icon-vertical-a" />
+            <span>{{ isPause ? "继续" : "开始" }}</span>
+          </a-space>
+        </mars-button>
+        <mars-button v-if="isPlay && !isPause" @click="pause">
+          <a-space>
+            <mars-icon icon="pause-one" class="icon-vertical-a" />
+            <span>暂停</span>
+          </a-space>
+        </mars-button>
+        <mars-button v-if="isPlay" @click="stop">
+          <a-space>
+            <mars-icon icon="power" class="icon-vertical-a" />
+            <span>停止</span>
+          </a-space>
+        </mars-button>
     </a-space>
-    <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
-      <template #title="{ title, isLeaf, dataRef }">
-        <span @click="startBegin(dataRef)" v-if="isLeaf" type="link">{{ title }}({{ dataRef.times }}秒)</span>
-        <span v-else>{{ title }}</span>
-      </template>
-    </mars-tree>
+    </div>
+    <div class="steps_tree">
+      <mars-tree class="f-mb" :tree-data="treeData" v-model:selectedKeys="selectedKeys" :defaultExpandAll="true" :selectable="true">
+        <template #title="{ title, isLeaf, dataRef }">
+          <span @click="startBegin(dataRef)" v-if="isLeaf" type="link">{{ title }}({{ dataRef.times }}秒)</span>
+          <span v-else>{{ title }}</span>
+        </template>
+      </mars-tree>
+    </div>
     <template v-if="isPlay">
       <h3 class="f-mb show-time">总时长：{{ totalTimes }}</h3>
       <h3 class="f-mb show-time">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
@@ -273,6 +277,10 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
+
+.control_btn {
+  margin-bottom: 10px;
+}
 .show-time {
   color: var(--mars-text-color);
 }
@@ -286,5 +294,21 @@ onMounted(() => {
 
 .btn i {
   margin-right: 5px;
+}
+
+.steps_tree {
+  overflow: hidden;
+  min-width: 198px;
+}
+
+:deep(.ant-tree-treenode) {
+  left:-22px !important;
+}
+</style>
+<style lang="less">
+.steps_dialog {
+  .mars-dialog__content {
+    padding: 14px 14px 0px 14px !important;
+  }
 }
 </style>

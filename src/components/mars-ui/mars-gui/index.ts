@@ -18,6 +18,7 @@ export interface GuiItem {
   extra?: any
   extraWidth?: number
   extraType?: "string" | "custom"
+  extraAfter?: string
   min?: number
   max?: number
   step?: number

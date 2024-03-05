@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" top="10" right="10" bottom="40" width="450">
+  <mars-dialog :visible="true" top="10" right="10" bottom="40" width="390">
     <!-- 右侧图表面板-->
     <div class="bg">
       <div class="_item_top">

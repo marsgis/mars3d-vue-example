@@ -30,7 +30,7 @@
           <a-space>
             <mars-button @click="drawExtent">矩形</mars-button>
             <mars-button @click="drawPolygon">多边形</mars-button>
-            <mars-button @click="clearWJ">清除</mars-button>
+            <mars-button @click="clearWJ" danger>清除</mars-button>
           </a-space>
         </div>
       </a-collapse-panel>
@@ -55,7 +55,7 @@
         <div class="f-mb">
           <a-space>
             <mars-button @click="clipLine">按线切</mars-button>
-            <mars-button @click="clearClip">清除</mars-button>
+            <mars-button @click="clearClip" danger>清除</mars-button>
           </a-space>
         </div>
       </a-collapse-panel>

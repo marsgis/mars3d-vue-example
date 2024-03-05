@@ -1,7 +1,7 @@
 <template>
   <div class="scene-pannel">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
-      <a-collapse-panel key="1" header="场景scene:">
+      <a-collapse-panel key="1" header="场景scene">
         <div v-for="(scene, index) in sceneData" :key="scene.key">
           <div class="f-mb">
             <a-space>
@@ -37,7 +37,7 @@
         </div>
       </a-collapse-panel>
 
-      <a-collapse-panel key="2" header="地球Globe:">
+      <a-collapse-panel key="2" header="地球Globe">
         <div v-for="(globe, index) in globeData" :key="globe.key">
           <div class="f-mb">
             <a-space>
@@ -65,7 +65,7 @@
 
       </a-collapse-panel>
 
-      <a-collapse-panel key="3" header="鼠标交互:">
+      <a-collapse-panel key="3" header="鼠标交互">
 
         <div v-for="( mouse, index) in mouseData" :key="mouse.key">
           <div class="f-mb">
@@ -445,6 +445,21 @@ const handleChange = (value: string) => {
   overflow-x: hidden;
 }
 
+:deep(.ant-collapse-header-text) {
+  margin-left: 10px;
+}
+
+:deep(.ant-collapse-header-text::after){
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 4px;
+      height: 19px;
+      border-radius: 2px;
+      background-color: var(--mars-primary-color);
+  }
+
 :deep(.ant-collapse-content) {
   background-color: var(--mars-dropdown-bg) !important;
 }
@@ -473,5 +488,9 @@ const handleChange = (value: string) => {
 
 .mars-pannel-item-label {
   min-width: 112px;
+}
+
+::-webkit-scrollbar {
+  width: 0px
 }
 </style>

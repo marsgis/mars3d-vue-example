@@ -1,11 +1,11 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <a-space>
-      <mars-button @click="drawLine">通视分析</mars-button>
-      <mars-button @click="drawCircle">圆形通视分析</mars-button>
-      <mars-button @click="clearAll">清除</mars-button>
-      <mars-button href="editor-vue.html?id=thing/analysis/sightline-terrain" target="_blank">地形精确分析示例</mars-button>
-    </a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="btn_container">
+      <mars-button class="btn" @click="drawLine">通视分析</mars-button>
+      <mars-button class="btn" @click="drawCircle">圆形通视分析</mars-button>
+      <mars-button class="btn" danger @click="clearAll">清除</mars-button>
+      <mars-button class="btn" href="editor-vue.html?id=thing/analysis/sightline-terrain" target="_blank">地形精确分析示例</mars-button>
+    </div>
   </mars-dialog>
 
   <location-to />
@@ -30,7 +30,15 @@ const clearAll = () => {
 }
 </script>
 <style scoped lang="less">
-.ant-space {
-  display: grid;
+.btn_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.btn {
+  width: 146px;
+  &:nth-child(n+3) {
+    margin-top: 10px;
+  }
 }
 </style>

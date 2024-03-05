@@ -1,27 +1,37 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <span>模型URL地址: </span> &nbsp;&nbsp;
-      <a-checkbox v-model:checked="isProxy">使用代理</a-checkbox>
-      <mars-input v-model:value="modelUrl"></mars-input>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <mars-button @click="onClickStartDarw" :disabled="isDisabled" :title="isDisabled ? '请输入url' : ''">标绘</mars-button>
-        <mars-button @click="clear">清除</mars-button>
-        <mars-button @click="saveGeoJSON">保存</mars-button>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
-          <mars-button> 打开... </mars-button>
-        </a-upload>
-      </a-space>
-      <div class="f-pt">
-        <a-space>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding">
+      <a-form-item label="模型URL地址:">
+        <mars-input v-model:value="modelUrl"></mars-input>
+        <a-checkbox v-model:checked="isProxy">使用代理</a-checkbox>
+      </a-form-item>
+
+
+      <a-form-item label="">
+        <mars-button class="w-full" @click="onClickStartDarw" :disabled="isDisabled"
+          :title="isDisabled ? '请输入url' : ''">标绘</mars-button>
+      </a-form-item>
+
+      <a-form-item label="">
+        <div class="flex-btns">
+          <mars-button @click="saveGeoJSON">保存</mars-button>
+          <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON"
+            :beforeUpload="() => false">
+            <mars-button title="打开模型文件"> 打开... </mars-button>
+          </a-upload>
+
+          <mars-button @click="clear" danger>清除</mars-button>
+        </div>
+      </a-form-item>
+
+      <a-form-item label="">
+        <div class="flex-checkboxs">
           <a-checkbox @change="chkTestTerrain" v-model:checked="isTestTerrain">深度检测</a-checkbox>
           <a-checkbox @change="onlyVertexPosition" v-model:checked="isonlyModel">开启顶点吸附</a-checkbox>
           <a-checkbox @change="chkHasTerrain" v-model:checked="isHasTerrain">地形</a-checkbox>
-        </a-space>
-      </div>
-    </div>
+        </div>
+      </a-form-item>
+    </a-form>
   </mars-dialog>
 
   <location-to />
@@ -148,3 +158,28 @@ const showEditor = (e: any) => {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.mars-input {
+  margin-bottom: 8px;
+}
+.flex-btns {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 94px);
+  :deep(.ant-upload) {
+    width: 100%;
+    .mars-button {
+      width: 100%;
+    }
+  }
+}
+.flex-checkboxs {
+  display: flex;
+  justify-content: space-between;
+  :deep(.ant-checkbox+span) {
+    padding-inline-end: 0 !important;
+
+  }
+}
+</style>

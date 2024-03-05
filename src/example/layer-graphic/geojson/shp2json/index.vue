@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" height="90">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <mars-button @click="shoXZM">社区面</mars-button>
       <mars-button @click="shoGCD">高程点</mars-button>
@@ -26,5 +26,9 @@ const shoGCD = () => {
 .pannel {
   max-height: 750px;
   overflow-y: auto;
+}
+
+.mars-button {
+  width: 146px;
 }
 </style>

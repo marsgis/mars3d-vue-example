@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div >
       <div class="f-mb">
         <a-space>
@@ -65,6 +65,6 @@ const onChangeDirection = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 145px;
-}
+  width: 220px;
+} 
 </style>

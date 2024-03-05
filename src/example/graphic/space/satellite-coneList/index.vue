@@ -1,41 +1,60 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="f-mb">
+      <a-space>
+        <span class="mars-pannel-item-label">视椎体状态：</span>
+        <mars-button @click="locate">定位至卫星</mars-button>
+      </a-space>
+
+    </div>
     <a-space>
-      <mars-button @click="locate">定位至卫星</mars-button>
-      <span class="mars-pannel-item-label">参考系</span>
+      <span class="mars-pannel-item-label">参考系：</span>
       <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
     </a-space>
-    <table class="mars-table tb-border f-mt">
-      <tr>
-        <td class="nametd">名称</td>
-        <td id="td_name">{{ formState.name }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">TLE1</td>
-        <td id="td_tle1">{{ formState.tle1 }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">TLE2</td>
-        <td id="td_tle2">{{ formState.tle2 }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">时间</td>
-        <td id="td_time">{{ formState.time }}</td>
-      </tr>
+  </mars-dialog>
 
-      <tr>
-        <td class="nametd">经度</td>
-        <td id="td_jd">{{ formState.td_jd }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">纬度</td>
-        <td id="td_wd">{{ formState.td_wd }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">高程</td>
-        <td id="td_gd">{{ formState.td_gd }}</td>
-      </tr>
-    </table>
+
+  <mars-dialog :visible="true" right="10" top="120" width="330">
+    <div class="time">
+      <span class="time-title">时间</span>
+      <span class="time-num"> {{ formState.time }}</span>
+    </div>
+
+    <div class="postions">
+      <a-space>
+        <div class="postions-lng">
+          <p class="mars-td-text">{{ formState.td_jd }}</p>
+          <p class="mars-td-name">经度</p>
+        </div>
+
+        <div class="postions-lat">
+          <p class="mars-td-text">{{ formState.td_wd }}</p>
+          <p class="mars-td-name">纬度</p>
+        </div>
+
+        <div class="postions-alt">
+          <p class="mars-td-text">{{ formState.td_gd }}</p>
+          <p class="mars-td-name">高程</p>
+        </div>
+      </a-space>
+
+    </div>
+
+    <div class="tle">
+      <div class="tle-1">
+        <p class="mars-text">{{ formState.tle1 }}</p>
+        <p class="mars-td-name">TLE1</p>
+      </div>
+      <div class="tle-2">
+        <p class="mars-text">{{ formState.tle2 }}</p>
+        <p class="mars-td-name">TLE2</p>
+      </div>
+
+    </div>
+    <div class="name f-push-10-t">
+      <span class="time-title">名称</span>
+      <span class="time-num"> {{ formState.name }}</span>
+    </div>
   </mars-dialog>
 </template>
 
@@ -88,36 +107,84 @@ const chkShowModelMatrix = () => {
 }
 </script>
 <style scoped lang="less">
-th.column-money,
-td.column-money {
-  text-align: right !important;
-}
-.ant-slider {
-  width: 110px;
-}
-.mars-table {
-  width: 280px;
-  border-collapse: collapse;
-  border-spacing: 0;
+.mars-button {
+  width: 206px;
 }
 
-.mars-table tr td {
-  padding: 5px 10px;
-  text-align: left;
+.mars-pannel-item-label {
+  min-width: 84px;
 }
 
-.mars-table tr td:first-child {
-  border-left: none;
+.mars-text {
+  color: rgba(234, 242, 255, 0.5);
 }
 
-.mars-table .nametd {
-  padding: 5px 20px 5px 10px;
-}
-.tb-border {
-  border: 1px solid #4db3ff70;
+.mars-td-text {
+  display: inline-block;
+  margin-top: 10px;
+  color: #EAF2FF;
 }
 
-.tb-border tr td {
-  border: 1px solid #4db3ff70;
+.mars-td-name {
+  color: rgba(234, 242, 255, 0.7);
+
+}
+
+.time,
+.name {
+  width: 300px;
+  height: 30px;
+  line-height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  font-size: 14px;
+
+  .time-title {
+    color: rgba(234, 242, 255, 0.7);
+    margin-left: 10px;
+  }
+
+  .time-num {
+    color: #EAF2FF;
+    margin-left: 10px;
+
+  }
+}
+
+.postions {
+  margin-top: 10px;
+  width: 300px;
+
+  .postions-lng,
+  .postions-lat,
+  .postions-alt {
+    width: 95px;
+    height: 60px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+}
+
+.tle {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin-top: 10px;
+
+  .tle-1,
+  .tle-2 {
+    width: 146px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    height: 122px;
+    text-align: center;
+
+    .mars-text {
+      margin-top: 10px;
+      padding-bottom: 5px;
+      color: #EAF2FF;
+    }
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">速度系数:</span>
@@ -52,10 +52,9 @@
     </div>
 
     <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">线颜色:</span>
+      <a-form-item label="线颜色:">
         <mars-color-picker v-model:value="formState.color" @change="changeColor" />
-      </a-space>
+      </a-form-item>
     </div>
   </mars-dialog>
 </template>
@@ -102,7 +101,7 @@ const changeColor = (e) => {
 </script>
 <style scoped lang="less">
 :deep(.ant-slider) {
-  width: 160px !important;
+  width: 214px ;
 }
 .mars-pannel-item-label {
   width: 60px;

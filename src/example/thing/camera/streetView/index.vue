@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-form>
       <a-form-item>
         <a-radio-group @change="shadingMaterials" v-model:value="radioValue">
@@ -9,7 +9,7 @@
       </a-form-item>
 
       <a-form-item v-show="radioValue === 1">
-        <span>
+        <span class="info">
           操作说明：<br />
           1、右键拖拽，以相机视角为中心进行旋转。<br />
           2、中键拖拽，可以升高或降低相机高度。<br />
@@ -34,3 +34,8 @@ const shadingMaterials = () => {
   mapWork.shadingMaterials(radioValue.value)
 }
 </script>
+<style lang="less" scoped>
+.info {
+  width: 300px
+}
+</style>

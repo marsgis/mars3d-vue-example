@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span>数据:</span>
@@ -9,7 +9,7 @@
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div>
       <a-space>
         <span>计算:</span>
         <mars-button @click="shortestPath">最短路径</mars-button>

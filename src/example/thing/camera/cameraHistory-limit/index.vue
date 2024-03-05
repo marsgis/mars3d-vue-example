@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-checkbox v-model:checked="formState.chkUnderground" @change="chkUnderground"> 显示限定范围 </a-checkbox>
     </div>

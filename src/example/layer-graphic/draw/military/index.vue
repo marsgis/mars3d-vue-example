@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="362">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-row>
         <a-col :span="5">图层状态:</a-col>
@@ -19,23 +19,16 @@
         <a-col :span="5">数据管理:</a-col>
         <a-col :span="19">
           <a-space>
-            <mars-button @click="onClickClear">清除</mars-button>
-            <mars-button @click="onClickExpFile">保存GeoJSON</mars-button>
-            <a-upload
-              :multiple="false"
-              name="file"
-              accept="json,geojson"
-              :file-list="fileList"
-              :showUploadList="false"
-              :supportServerRender="true"
-              :beforeUpload="() => false"
-              @change="onClickImpFile"
-            >
-              <mars-button> 打开GeoJSON </mars-button>
+            <mars-button class="geojson-btn" @click="onClickExpFile">保存GeoJSON</mars-button>
+            <a-upload :multiple="false" name="file" accept="json,geojson" :file-list="fileList" :showUploadList="false"
+              :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
+              <mars-button class="geojson-btn"> 打开GeoJSON </mars-button>
             </a-upload>
           </a-space>
         </a-col>
       </a-row>
+      <mars-button class="remove-btn" @click="onClickClear" danger>清除</mars-button>
+
     </div>
 
     <div class="f-mb">
@@ -48,10 +41,10 @@
             <mars-button @click="drawPolygon('attackArrow')">攻击箭头</mars-button>
             <mars-button @click="drawPolygon('gatheringPlace')">集结地</mars-button>
             <mars-button @click="drawPolygon('straightArrow')">粗直箭头</mars-button>
-            <mars-button @click="drawPolygon('fineArrowYW')">燕尾直箭头</mars-button>
-            <mars-button @click="drawPolygon('fineArrow')">粗单尖直箭头</mars-button>
-            <mars-button @click="drawPolygon('attackArrowPW')">平尾攻击箭头</mars-button>
-            <mars-button @click="drawPolygon('attackArrowYW')">燕尾攻击箭头</mars-button>
+            <mars-button class="small-size" @click="drawPolygon('fineArrowYW')">燕尾直箭头</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon('fineArrow')">粗单尖直箭头</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon('attackArrowPW')">平尾攻击箭头</mars-button>
+            <mars-button class="long-btn" @click="drawPolygon('attackArrowYW')">燕尾攻击箭头</mars-button>
           </a-space>
         </a-col>
       </a-row>
@@ -67,10 +60,10 @@
             <mars-button @click="drawExtrudedPolygon('attackArrow')">攻击箭头</mars-button>
             <mars-button @click="drawExtrudedPolygon('gatheringPlace')">集结地</mars-button>
             <mars-button @click="drawExtrudedPolygon('straightArrow')">粗直箭头</mars-button>
-            <mars-button @click="drawExtrudedPolygon('fineArrowYW')">燕尾直箭头</mars-button>
-            <mars-button @click="drawExtrudedPolygon('fineArrow')">粗单尖直箭头</mars-button>
-            <mars-button @click="drawExtrudedPolygon('attackArrowPW')">平尾攻击箭头</mars-button>
-            <mars-button @click="drawExtrudedPolygon('attackArrowYW')">燕尾攻击箭头</mars-button>
+            <mars-button class="small-size" @click="drawExtrudedPolygon('fineArrowYW')">燕尾直箭头</mars-button>
+            <mars-button class="long-btn" @click="drawExtrudedPolygon('fineArrow')">粗单尖直箭头</mars-button>
+            <mars-button class="long-btn" @click="drawExtrudedPolygon('attackArrowPW')">平尾攻击箭头</mars-button>
+            <mars-button class="long-btn" @click="drawExtrudedPolygon('attackArrowYW')">燕尾攻击箭头</mars-button>
           </a-space>
         </a-col>
       </a-row>
@@ -222,5 +215,28 @@ const showEditor = (e: any) => {
 <style scoped lang="less">
 :deep(.ant-space) {
   flex-wrap: wrap;
+}
+
+.geojson-btn {
+  width: 109px !important;
+}
+
+.long-btn {
+  width: 109px !important;
+}
+
+.small-size {
+  // font-size: 12px !important;
+  padding: 0 !important;
+}
+
+.remove-btn {
+  width: 228px !important;
+  margin-left: 63px;
+  margin-top: 10px;
+}
+
+.mars-button {
+  width: 69px;
 }
 </style>

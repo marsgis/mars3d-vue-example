@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <layer-state />
     </div>
@@ -8,9 +8,9 @@
       <a-space>
         <span>快捷视角:</span>
         <mars-button @click="startPoint">起点</mars-button>
-        <mars-button @click="halfWayPoint">半程点</mars-button>
+        <mars-button class="pad-none" @click="halfWayPoint">半程点</mars-button>
         <mars-button @click="endPoint">终点</mars-button>
-        <mars-button @click="allLine">全程路线</mars-button>
+        <mars-button class="pad-none f-fs12" @click="allLine">全程路线</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -36,4 +36,8 @@ const allLine = () => {
   mapWork.allLine()
 }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.mars-button {
+  width: 52px;
+}
+</style>

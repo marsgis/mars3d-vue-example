@@ -28,7 +28,7 @@ export default defineComponent({
   border-radius: 2px;
   box-shadow: none;
   :deep(.ant-select-selector) {
-    border-radius: 0;
+    height: 100% !important; 
     border-color: var(--mars-control-border);
     border-radius: 2px;
     background: none;
@@ -43,7 +43,7 @@ export default defineComponent({
   }
 
   :deep(.ant-select-arrow) {
-    color: var(--mars-control-icon);
+    color: var(--mars-control-placeholder);
   }
 }
 </style>

@@ -1,116 +1,102 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="345">
-    <div>
-      <a-row>
-        <a-col :span="5">图层管理:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
-            <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
-            <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip绑定</a-checkbox>
-            <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
-            <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
-            <a-checkbox v-model:checked="onlyVertexPosition" @change="updateOnlyVertexPosition">开启顶点吸附 </a-checkbox>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">数据管理:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="onClickClear">清除</mars-button>
-            <a-upload
-              :multiple="false"
-              name="file"
-              accept="json,geojson,kml,kmz"
-              :showUploadList="false"
-              @change="onClickOpenJson"
-              :beforeUpload="() => false"
-            >
-              <mars-button>打开</mars-button>
-            </a-upload>
-            <mars-button @click="onClickSaveJson">保存GeoJSON</mars-button>
-            <mars-button @click="onClickSaveKml">另存KML</mars-button>
-            <mars-button @click="onClickSaveWKT">另存WKT</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">单个点类:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="drawPoint">点</mars-button>
-            <mars-button @click="drawLabel">文字</mars-button>
-            <mars-button @click="drawMarker">图标点</mars-button>
-            <mars-button @click="onClickStartDarw">小模型</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">二维空间:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="drawPolyline(false)">线</mars-button>
-            <mars-button @click="drawBrushLine(false)">自由线</mars-button>
-            <mars-button @click="drawPolygon(false)">面</mars-button>
-            <mars-button @click="drawEllipse(false)">圆</mars-button>
-            <mars-button @click="drawRectangle(false)">矩形</mars-button>
-            <mars-button @click="draPlane">平面</mars-button>
-            <mars-button @click="drawCurve(false)">曲线</mars-button>
-            <mars-button @click="drawCorridor(false)">走廊</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">二维贴地:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="drawPolyline(true)">线</mars-button>
-            <mars-button @click="drawBrushLine(true)">自由线</mars-button>
-            <mars-button @click="drawPolygon(true)">面</mars-button>
-            <mars-button @click="drawEllipse(true)">圆</mars-button>
-            <mars-button @click="drawCurve(true)">曲线</mars-button>
-            <mars-button @click="drawCorridor(true)">走廊</mars-button>
-            <mars-button @click="drawRectangle(true)">矩形</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">三维空间:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="drawEllipsoid">球</mars-button>
-            <mars-button @click="draWall(false)">墙</mars-button>
-            <mars-button @click="drawBox">盒子</mars-button>
-            <mars-button @click="drawExtrudedCircle">圆柱</mars-button>
-            <mars-button @click="drawCylinder">圆锥</mars-button>
-            <mars-button @click="draWall(true)">闭合墙</mars-button>
-            <mars-button @click="drawExtrudedPolygon">面立体</mars-button>
-            <mars-button @click="drawExtrudedRectangle">矩形立体</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
-    <div class="f-pt">
-      <a-row>
-        <a-col :span="5">其他:</a-col>
-        <a-col :span="19">
-          <a-space>
-            <mars-button @click="mapWork.drawSatellite()">卫星</mars-button>
-          </a-space>
-        </a-col>
-      </a-row>
-    </div>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">图层管理:</a-col>
+      <a-col :span="18">
+        <div class="grid-checkboxs">
+          <a-checkbox v-model:checked="enabledShowHide" @change="onChangeShow">显示隐藏</a-checkbox>
+          <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
+          <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip绑定</a-checkbox>
+          <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
+          <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
+          <a-checkbox v-model:checked="onlyVertexPosition" @change="updateOnlyVertexPosition">开启顶点吸附 </a-checkbox>
+        </div>
+      </a-col>
+    </a-row>
+
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">数据管理:</a-col>
+      <a-col :span="18">
+        <div class="grid-btns">
+          <a-upload :multiple="false" name="file" accept="json,geojson,kml,kmz" :showUploadList="false"
+            @change="onClickOpenJson" :beforeUpload="() => false">
+            <mars-button class="open-btn">打开</mars-button>
+          </a-upload>
+          <mars-button class="save-btn" @click="onClickSaveJson">保存GeoJSON</mars-button>
+          <mars-button class="kml-btn" @click="onClickSaveKml">另存KML</mars-button>
+          <mars-button class="wkt-btn" @click="onClickSaveWKT">另存WKT</mars-button>
+          <mars-button class="remove-btn" @click="onClickClear" danger>清除</mars-button>
+        </div>
+      </a-col>
+    </a-row>
+
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">单个点类:</a-col>
+      <a-col :span="18">
+        <a-space>
+          <mars-button @click="drawPoint">点</mars-button>
+          <mars-button @click="drawLabel">文字</mars-button>
+          <mars-button class="pad-none" @click="drawMarker">图标点</mars-button>
+          <mars-button class="pad-none" @click="onClickStartDarw">小模型</mars-button>
+        </a-space>
+      </a-col>
+    </a-row>
+
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">二维空间:</a-col>
+      <a-col :span="18">
+        <a-space>
+          <mars-button @click="drawPolyline(false)">线</mars-button>
+          <mars-button class="pad-none" @click="drawBrushLine(false)">自由线</mars-button>
+          <mars-button @click="drawPolygon(false)">面</mars-button>
+          <mars-button @click="drawEllipse(false)">圆</mars-button>
+          <mars-button @click="drawRectangle(false)">矩形</mars-button>
+          <mars-button @click="draPlane">平面</mars-button>
+          <mars-button @click="drawCurve(false)">曲线</mars-button>
+          <mars-button @click="drawCorridor(false)">走廊</mars-button>
+        </a-space>
+      </a-col>
+    </a-row>
+
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">二维贴地:</a-col>
+      <a-col :span="18">
+        <a-space>
+          <mars-button @click="drawPolyline(true)">线</mars-button>
+          <mars-button class="pad-none" @click="drawBrushLine(true)">自由线</mars-button>
+          <mars-button @click="drawPolygon(true)">面</mars-button>
+          <mars-button @click="drawEllipse(true)">圆</mars-button>
+          <mars-button @click="drawCurve(true)">曲线</mars-button>
+          <mars-button @click="drawCorridor(true)">走廊</mars-button>
+          <mars-button @click="drawRectangle(true)">矩形</mars-button>
+        </a-space>
+      </a-col>
+    </a-row>
+
+    <a-row class="f-mb">
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">三维空间:</a-col>
+      <a-col :span="18">
+        <a-space>
+          <mars-button @click="drawEllipsoid">球</mars-button>
+          <mars-button @click="draWall(false)">墙</mars-button>
+          <mars-button @click="drawBox">盒子</mars-button>
+          <mars-button @click="drawExtrudedCircle">圆柱</mars-button>
+          <mars-button @click="drawCylinder">圆锥</mars-button>
+          <mars-button class="pad-none" @click="draWall(true)">闭合墙</mars-button>
+          <mars-button class="pad-none" @click="drawExtrudedPolygon">面立体</mars-button>
+          <mars-button class="pad-none f-fs12" @click="drawExtrudedRectangle">矩形立体</mars-button>
+        </a-space>
+      </a-col>
+    </a-row>
+
+    <a-row>
+      <a-col :span="5" class="mars-pannel-item-label f-push-5-r">其他:</a-col>
+      <a-col :span="18">
+        <a-space>
+          <mars-button @click="mapWork.drawSatellite()">卫星</mars-button>
+        </a-space>
+      </a-col>
+    </a-row>
   </mars-dialog>
   <location-to />
 </template>
@@ -336,5 +322,42 @@ const showEditor = (e: any) => {
 <style scoped lang="less">
 :deep(.ant-space) {
   flex-wrap: wrap;
+}
+
+.save-btn,
+.open-btn {
+  width: 109px !important;
+}
+
+.kml-btn,
+.wkt-btn,
+.remove-btn {
+  width: 70px !important;
+  padding: 0 5px;
+}
+
+.mars-button {
+  width: 50px;
+}
+
+.mars-pannel-item-label {
+  line-height: 32px;
+}
+
+.grid-checkboxs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  :deep(.ant-checkbox+span) {
+    padding-inline-end: 0 !important;
+  }
+}
+
+.grid-btns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
 }
 </style>

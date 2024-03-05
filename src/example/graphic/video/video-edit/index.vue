@@ -1,16 +1,22 @@
 <template>
-  <mars-dialog :visible="true" right="0" top="10">
+  <mars-dialog :visible="true" right="10" top="10" height="470" width="330">
     <graphic-layer-state :defaultCount="10" drawLabel1="绘制" drawLabel2="按当前相机" />
 
+
+  </mars-dialog>
+
+
+  <mars-dialog :visible="true" right="10" top="490" width="330">
     <div class="toolbar">
       <a-space>
         <span class="mars-pannel-item-label">编辑Canvas:</span>
         <mars-button @click="draw()">{{ isDrawing ? "停止绘制" : "开始绘制" }}</mars-button>
-        <mars-button @click="clear()">清除</mars-button>
-        <a-checkbox :checked="isEdit" @click="chooseEdit">编辑点</a-checkbox>
+        <mars-button @click="clear()" danger>清除</mars-button>
       </a-space>
+      <a-checkbox class="edit-point f-pt" :checked="isEdit" @click="chooseEdit">编辑点</a-checkbox>
+
     </div>
-    <div class="toolbar">
+    <div class="toolbar f-pt">
       <a-space>
         <span class="mars-pannel-item-label">编辑矢量面:</span>
         <a-checkbox-group v-model:value="isChoosePoint" @change="choosePoint()">
@@ -20,8 +26,9 @@
     </div>
 
     <div class="canvas-container">
-      <canvas class="drawCanvas" width="360" height="202" id="drawVideo">不支持canvas</canvas>
-      <video muted class="video_test" autoplay loop width="360" height="202" id="videotest" src="//data.mars3d.cn/file/video/lukou.mp4"></video>
+      <canvas class="drawCanvas" width="300" height="170" id="drawVideo">不支持canvas</canvas>
+      <video muted class="video_test" autoplay loop width="300" height="170" id="videotest"
+        src="//data.mars3d.cn/file/video/lukou.mp4"></video>
     </div>
   </mars-dialog>
 </template>
@@ -90,14 +97,15 @@ const chooseEdit = () => {
 </script>
 <style scoped lang="less">
 .canvas-container {
-  width: 360px;
-  height: 202px;
+  width: 300px;
+  height: 170px;
   margin: 0 auto;
   margin-top: 10px;
   background-color: transparent;
+
   .video_test {
-    width: 360px;
-    height: 202px;
+    width: 300px;
+    height: 170px;
     position: absolute;
   }
 
@@ -106,5 +114,13 @@ const chooseEdit = () => {
     left: -500;
     z-index: 1000;
   }
+}
+
+.mars-button {
+  width: 100px;
+}
+
+.edit-point {
+  margin-left: 83px;
 }
 </style>

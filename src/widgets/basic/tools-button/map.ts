@@ -5,7 +5,6 @@
  * @author 火星渣渣灰 2022-01-05
  */
 import * as mars3d from "mars3d"
-import iconLayer from "./icon/manager-layers.svg"
 import iconBasemaps from "./icon/manager-basemaps.svg"
 export const eventTarget = new mars3d.BaseClass()
 
@@ -29,7 +28,7 @@ export function onMounted(mapInstance: mars3d.Map, mars3d): void {
   layersTool = new mars3d.control.ToolButton({
     // @ts-ignore
     title: (e) => { return map.lang.type === "cn" ? "图层控制" : "Layer control" }, // 切换语音的支持
-    icon: iconLayer,
+    icon: "img/svg/layers.svg",
     insertBefore: "homeButton",
     click: () => {
       eventTarget.fire("openManageLayer")

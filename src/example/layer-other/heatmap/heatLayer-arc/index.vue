@@ -1,8 +1,7 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
-      <span>显示对应的数据点:</span>
-      <a-checkbox v-model:checked="enabledUnderground" @change="chkUnderground" />
+      <a-checkbox v-model:checked="enabledUnderground" @change="chkUnderground" />显示对应的数据点
     </a-space>
   </mars-dialog>
   <div class="divPanel">

@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="300">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">视椎体状态:</span>
@@ -32,60 +32,53 @@
       </a-space>
     </div> -->
 
-    <div class="f-mb">
-      <a-row :gutter="[0, 10]">
-        <a-col :span="8">heading值:</a-col>
-        <a-col :span="5">
-          <mars-switch v-model:checked="formState.customHeading" @change="changeAutoHeading" />
-        </a-col>
-        <a-col :span="6" v-if="formState.customHeading">
-          <mars-slider class="sliderlen" @change="updateHeading" v-model:value="formState.slideHeadingStep" :min="0" :max="360" :step="0.01" />
-        </a-col>
-        <a-col :span="8" v-if="!formState.customHeading"> 根据路线自动 </a-col>
-      </a-row>
+    <div class="f-push-15-b">
+      <a-space align="center">
+        <span class="mars-pannel-item-label">heading值:</span>
+        <mars-switch v-model:checked="formState.customHeading" @change="changeAutoHeading" />
+        <mars-slider v-if="formState.customHeading" class="sliderlen" @change="updateHeading"
+          v-model:value="formState.slideHeadingStep" :min="0" :max="360" :step="0.01" />
+        <span class="mars-text" v-if="!formState.customHeading"> 根据路线自动 </span>
+      </a-space>
     </div>
 
-    <div class="f-mb">
-      <a-row :gutter="[0, 10]">
-        <a-col :span="8">pitch值:</a-col>
-        <a-col :span="5">
-          <mars-switch v-model:checked="formState.customPitch" @change="changeAutoPitch" />
-        </a-col>
-        <a-col :span="6" v-if="formState.customPitch">
-          <mars-slider class="sliderlen" @change="updatePitch" v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
-        </a-col>
-        <a-col :span="8" v-if="!formState.customPitch"> 根据路线自动 </a-col>
-      </a-row>
+    <div class="f-push-15-b">
+      <a-space>
+        <span class="mars-pannel-item-label">pitch值:</span>
+        <mars-switch v-model:checked="formState.customPitch" @change="changeAutoPitch" />
+        <mars-slider v-if="formState.customPitch" class="sliderlen" @change="updatePitch"
+          v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
+        <span class="mars-text" v-if="!formState.customPitch"> 根据路线自动 </span>
+      </a-space>
     </div>
 
-    <div class="f-mb">
-      <a-row :gutter="[0, 10]">
-        <a-col :span="8">roll值:</a-col>
-        <a-col :span="5">
-          <mars-switch v-model:checked="formState.customRoll" @change="changeAutoRoll" />
-        </a-col>
-        <a-col :span="6" v-if="formState.customRoll">
-          <mars-slider class="sliderlen" @change="updateRoll" v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
-        </a-col>
-        <a-col :span="8" v-if="!formState.customRoll"> 根据路线自动 </a-col>
-      </a-row>
+    <div class="f-push-15-b">
+      <a-space>
+        <span class="mars-pannel-item-label">roll值:</span>
+        <mars-switch v-model:checked="formState.customRoll" @change="changeAutoRoll" />
+        <mars-slider v-if="formState.customRoll" class="sliderlen" @change="updateRoll"
+          v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
+        <span class="mars-text" v-if="!formState.customRoll"> 根据路线自动 </span>
+      </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
         <span class="mars-pannel-item-label">夹角1:</span>
-        <mars-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" />值{{ angleValue1 }}
+        <mars-slider @change="angle1" v-model:value="angleValue1" :min="1" :max="89" :step="0.01" /><span
+          class="mars-text">值{{ angleValue1 }}</span>
       </a-space>
     </div>
 
-    <div class="f-mb" v-if="value === '2'">
+    <div class="f-push-15-b" v-if="value === '2'">
       <a-space>
         <span class="mars-pannel-item-label">夹角2:</span>
-        <mars-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" />值{{ angleValue2 }}
+        <mars-slider @change="angle2" v-model:value="angleValue2" :min="1" :max="89" :step="0.01" /> <span
+          class="mars-text">值{{ angleValue2 }}</span>
       </a-space>
     </div>
 
-    <div class="f-mb">
+    <div class="f-push-15-b">
       <a-space>
         <span class="mars-pannel-item-label">参考系轴:</span>
         <a-checkbox v-model:checked="formState.enabledShowMatrix" @change="chkShowModelMatrix">显示/隐藏</a-checkbox>
@@ -93,38 +86,47 @@
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" bottom="60px">
-    <table class="mars-table tb-border">
-      <tr>
-        <td class="nametd">名称</td>
-        <td id="td_name">{{ formState.name }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">TLE1</td>
-        <td id="td_tle1">{{ formState.tle1 }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">TLE2</td>
-        <td id="td_tle2">{{ formState.tle2 }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">时间</td>
-        <td id="td_time">{{ formState.time }}</td>
-      </tr>
+  <mars-dialog :visible="true" right="10" top="348" width="330">
+    <div class="time">
+      <span class="time-title">时间</span>
+      <span class="time-num"> {{ formState.time }}</span>
+    </div>
 
-      <tr>
-        <td class="nametd">经度</td>
-        <td id="td_jd">{{ formState.td_jd }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">经度</td>
-        <td id="td_wd">{{ formState.td_wd }}</td>
-      </tr>
-      <tr>
-        <td class="nametd">高程</td>
-        <td id="td_gd">{{ formState.td_gd }}</td>
-      </tr>
-    </table>
+    <div class="postions">
+      <a-space>
+        <div class="postions-lng">
+          <p class="mars-td-text">{{ formState.td_jd }}</p>
+          <p class="mars-td-name">经度</p>
+        </div>
+
+        <div class="postions-lat">
+          <p class="mars-td-text">{{ formState.td_wd }}</p>
+          <p class="mars-td-name">纬度</p>
+        </div>
+
+        <div class="postions-alt">
+          <p class="mars-td-text">{{ formState.td_gd }}</p>
+          <p class="mars-td-name">高程</p>
+        </div>
+      </a-space>
+
+    </div>
+
+    <div class="tle">
+      <div class="tle-1">
+        <p class="mars-text">{{ formState.tle1 }}</p>
+        <p class="mars-td-name">TLE1</p>
+      </div>
+      <div class="tle-2">
+        <p class="mars-text">{{ formState.tle2 }}</p>
+        <p class="mars-td-name">TLE2</p>
+      </div>
+
+    </div>
+    <div class="name f-push-10-t">
+      <span class="time-title">名称</span>
+      <span class="time-num"> {{ formState.name }}</span>
+    </div>
   </mars-dialog>
 </template>
 
@@ -253,40 +255,95 @@ const chkSensorType = () => {
 }
 </script>
 <style scoped lang="less">
-th.column-money,
-td.column-money {
-  text-align: right !important;
-}
 .ant-slider {
-  width: 110px;
-}
-.mars-table {
-  width: 270px;
-  border-collapse: collapse;
-  border-spacing: 0;
+  width: 142px;
 }
 
-.mars-table tr td {
-  padding: 5px 10px;
-  text-align: left;
-}
-
-.mars-table tr td:first-child {
-  border-left: none;
-}
-
-.mars-table .nametd {
-  padding: 5px 20px 5px 10px;
-}
-.tb-border {
-  border: 1px solid #4db3ff70;
-}
-
-.tb-border tr td {
-  border: 1px solid #4db3ff70;
-}
-.ant-form-item .ant-select,
-.sliderlen {
+.mars-button {
   width: 100px;
+}
+
+.mars-pannel-item-label {
+  min-width: 75px;
+}
+
+
+.sliderlen {
+  margin-top: 4px;
+  width: 160px;
+
+}
+
+.mars-text {
+  color: rgba(234, 242, 255, 0.5);
+}
+
+.mars-td-text {
+  display: inline-block;
+  margin-top: 10px;
+  color: #EAF2FF;
+}
+
+.mars-td-name {
+  color: rgba(234, 242, 255, 0.7);
+
+}
+
+.time,
+.name {
+  width: 300px;
+  height: 30px;
+  line-height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  font-size: 14px;
+
+  .time-title {
+    color: rgba(234, 242, 255, 0.7);
+    margin-left: 10px;
+  }
+
+  .time-num {
+    color: #EAF2FF;
+    margin-left: 10px;
+
+  }
+}
+
+.postions {
+  margin-top: 10px;
+  width: 300px;
+
+  .postions-lng,
+  .postions-lat,
+  .postions-alt {
+    width: 95px;
+    height: 60px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+}
+
+.tle {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin-top: 10px;
+
+  .tle-1,
+  .tle-2 {
+    width: 146px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    height: 122px;
+    text-align: center;
+
+    .mars-text {
+      margin-top: 10px;
+      padding-bottom: 5px;
+      color: #EAF2FF;
+    }
+  }
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <graphic-layer-state />
 
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">方法演示:</span>
-        <mars-button @click="btnStartBounce">开始弹跳</mars-button>
-        <mars-button @click="btnStartBounce2">开始弹跳（自动停止）</mars-button>
-        <mars-button @click="btnStopBounce">停止弹跳</mars-button>
+        <mars-button class="bounce-btn" @click="btnStartBounce">开始弹跳</mars-button>
+        <mars-button class="bounce-btn" @click="btnStopBounce">停止弹跳</mars-button>
       </a-space>
+      <mars-button class="stop-bounce-btn" @click="btnStartBounce2">开始弹跳（自动停止）</mars-button>
+
     </div>
   </mars-dialog>
   <location-to />
@@ -29,3 +30,15 @@ const btnStopBounce = () => {
   mapWork.btnStopBounce()
 }
 </script>
+
+<style lang="less" scoped>
+.bounce-btn {
+  width: 110px;
+}
+
+.stop-bounce-btn {
+  width: 228px;
+  margin-top: 10px;
+  margin-left: 68px;
+}
+</style>

@@ -1,7 +1,8 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <div class="f-mb">
-      <a-checkbox @change="isVChecked" v-model:checked="checked">开启天际线</a-checkbox>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <div class="f-mb show_skyline">
+      <span>开启天际线</span>
+      <mars-switch @change="isVChecked" v-model:checked="checked"/>
     </div>
 
     <a-space>
@@ -35,6 +36,10 @@ const isVChecked = () => {
 </script>
 <style scoped lang="less">
 .ant-input-number {
-  width: 60px !important;
+  width: 168px !important;
+}
+.show_skyline {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

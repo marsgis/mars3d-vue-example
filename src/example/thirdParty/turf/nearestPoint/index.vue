@@ -1,9 +1,9 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
       <span>绘制:</span>
-      <mars-button @click="drawPoint">选择点</mars-button>
-      <mars-button @click="clearAll">清除</mars-button>
+      <mars-button class="btn" @click="drawPoint">选择点</mars-button>
+      <mars-button danger class="btn" @click="clearAll">清除</mars-button>
     </a-space>
   </mars-dialog>
 </template>
@@ -20,3 +20,8 @@ const clearAll = () => {
   mapWork.clearAll()
 }
 </script>
+<style scoped lang="less">
+  .btn {
+    width: 126px;
+  }
+</style>

@@ -13,7 +13,7 @@ import "./message.less"
  */
 
 message.config({
-  top: `100px` 
+  top: `100px`
 })
 export const $message = (msg: string, type: keyof typeof message = "info") => {
   if (message[type] && typeof message[type] === "function") {

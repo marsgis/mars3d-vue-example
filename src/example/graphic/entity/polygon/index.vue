@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10" width="330">
     <graphic-layer-state drawLabel1="绘制面" drawLabel2="绘制立体面" />
   </mars-dialog>
   <location-to />

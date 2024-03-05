@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
+  <mars-dialog :visible="true" right="10" top="10"  width="330">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">启用:</span>
@@ -35,6 +35,6 @@ const onChangeState = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 110px;
+  width: 220px;
 }
 </style>

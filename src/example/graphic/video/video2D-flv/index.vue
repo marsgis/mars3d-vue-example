@@ -1,29 +1,15 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10">
-    <graphic-layer-state
-      :defaultCount="5"
-      drawLabel1="绘制"
-      drawLabel2="按当前相机"
-      :customEditor="'video2D'"
-      @onStartEditor="onStartEditor"
-      @onStopEditor="onStopEditor"
-    />
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <graphic-layer-state :defaultCount="5" drawLabel1="绘制" drawLabel2="按当前相机" :customEditor="'video2D'"
+      @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
   </mars-dialog>
 
   <!-- 左侧面板 -->
-  <mars-dialog
-    left="10"
-    top="10"
-    :draggable="true"
-    :visible="selectedGraphic"
-    :title="pannelTitle"
-    :closeable="true"
-    :beforeClose="
-      () => {
+  <mars-dialog left="10" top="10" :draggable="true" :visible="selectedGraphic" :title="pannelTitle" :closeable="true"
+    :beforeClose="() => {
         selectedGraphic = false
       }
-    "
-  >
+      ">
     <div class="f-mb">
       <a-space>
         <span class="mars-pannel-item-label">相机位置:</span>
@@ -210,6 +196,7 @@ const playOrpause = () => {
 .ant-slider {
   width: 160px;
 }
+
 :deep(.mars-pannel-item-label) {
   width: 75px;
 }

@@ -1,12 +1,13 @@
 <template>
-  <mars-dialog :visible="true" right="10" top="10" width="190">
-    <a-form>
+  <mars-dialog :visible="true" right="10" top="10" width="330">
+    <a-form class="mars-form_nopadding" :labelCol="{ span:4 }">
       <a-form-item label="启用">
         <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
       </a-form-item>
 
       <a-form-item label="焦距">
-        <mars-slider v-model:value="formState.focalDistance" @change="onChangeFocalDistance" :min="0.0" :max="500.0" :step="1" />
+        <mars-slider v-model:value="formState.focalDistance" @change="onChangeFocalDistance" :min="0.0" :max="500.0"
+          :step="1" />
       </a-form-item>
       <a-form-item label="增量">
         <mars-slider v-model:value="formState.delta" @change="onChangeDelta" :min="0.1" :max="2" :step="0.01" />
@@ -53,8 +54,4 @@ const onChangeStepSize = () => {
   mapWork.setStepSize(formState.stepSize)
 }
 </script>
-<style scoped lang="less">
-.ant-slider {
-  width: 100px;
-}
-</style>
+<style scoped lang="less"></style>

@@ -1,19 +1,11 @@
 <template>
-  <mars-dialog :visible="true" width="300" right="10" top="10">
-    <div class="f-mb f-tac">
-      <a-space>
-        <mars-button v-show="!formState.isStart" @click="btnStart">开始</mars-button>
-        <mars-button v-show="formState.isStart && !formState.isPause" @click="btnPause">暂停</mars-button>
-        <mars-button v-show="formState.isStart && formState.isPause" @click="btnProceed">继续</mars-button>
-        <mars-button v-show="formState.isStart" @click="btnStop">停止</mars-button>
-      </a-space>
-    </div>
-
+  <mars-dialog :visible="true" width="330" right="10" top="10">
     <div class="f-mb">
       <a-row :gutter="[0, 10]">
         <a-col :span="8">漫游视角:</a-col>
         <a-col :span="16">
-          <mars-select class="w-full" @change="changeSelect" v-model:value="formState.select" :options="selectOptions"> </mars-select>
+          <mars-select class="w-full" @change="changeSelect" v-model:value="formState.select" :options="selectOptions">
+          </mars-select>
         </a-col>
 
         <a-col v-show="formState.showFollowedX === '1'" :span="8" title="距离漫游对象的水平距离，单位：米">视角距离:</a-col>
@@ -50,7 +42,8 @@
           <mars-switch v-model:checked="formState.customHeading" @change="changeAutoHeading" />
         </a-col>
         <a-col :span="6" v-if="formState.customHeading">
-          <mars-slider class="sliderlen" @change="updateHeading" v-model:value="formState.slideHeadingStep" :min="0" :max="360" :step="0.01" />
+          <mars-slider class="sliderlen" @change="updateHeading" v-model:value="formState.slideHeadingStep" :min="0"
+            :max="360" :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customHeading"> 根据路线自动 </a-col>
       </a-row>
@@ -63,7 +56,8 @@
           <mars-switch v-model:checked="formState.customPitch" @change="changeAutoPitch" />
         </a-col>
         <a-col :span="6" v-if="formState.customPitch">
-          <mars-slider class="sliderlen" @change="updatePitch" v-model:value="formState.slidePitchStep" :min="0" :max="360" :step="0.01" />
+          <mars-slider class="sliderlen" @change="updatePitch" v-model:value="formState.slidePitchStep" :min="0"
+            :max="360" :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customPitch"> 根据路线自动 </a-col>
       </a-row>
@@ -76,10 +70,22 @@
           <mars-switch v-model:checked="formState.customRoll" @change="changeAutoRoll" />
         </a-col>
         <a-col :span="6" v-if="formState.customRoll">
-          <mars-slider class="sliderlen" @change="updateRoll" v-model:value="formState.slideRollStep" :min="0" :max="360" :step="0.01" />
+          <mars-slider class="sliderlen" @change="updateRoll" v-model:value="formState.slideRollStep" :min="0" :max="360"
+            :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customRoll"> 根据路线自动 </a-col>
       </a-row>
+    </div>
+
+    <div class="f-mb f-tac">
+      <div class="play-control">
+        <mars-button class="start-btn" v-show="!formState.isStart" @click="btnStart">开始</mars-button>
+        <mars-button class="pause-btn" v-show="formState.isStart && !formState.isPause" @click="btnPause">暂停</mars-button>
+        <mars-button class="proceed-btn" v-show="formState.isStart && formState.isPause"
+          @click="btnProceed">继续</mars-button>
+        <mars-button class="stop-btn" v-show="formState.isStart" @click="btnStop">停止</mars-button>
+      </div>
+
     </div>
   </mars-dialog>
 
@@ -223,6 +229,7 @@ const changeAutoHeading = () => {
     mapWork.fixedRoute.model.heading = undefined
   }
 }
+
 const updateHeading = () => {
   mapWork.fixedRoute.model.heading = formState.slideHeadingStep
 }
@@ -234,6 +241,7 @@ const changeAutoPitch = () => {
     mapWork.fixedRoute.model.pitch = undefined
   }
 }
+
 const updatePitch = () => {
   mapWork.fixedRoute.model.pitch = formState.slidePitchStep
 }
@@ -251,9 +259,21 @@ const updateRoll = () => {
 </script>
 
 <style scoped lang="less">
-.roamLinePanel {
-  width: 290px;
+.play-control {
+  display: flex;
+  justify-content: space-between;
+
+  .start-btn {
+    width: 302px;
+  }
+
+  .pause-btn,
+  .proceed-btn,
+  .stop-btn {
+    width: 145px;
+  }
 }
+
 .ant-form-item .ant-select,
 .sliderlen {
   width: 100px;
