@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" :width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item label="状态:">
         <a-checkbox @change="onChangeState" v-model:checked="enabled">开启效果</a-checkbox>
       </a-form-item>

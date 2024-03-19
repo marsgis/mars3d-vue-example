@@ -57,12 +57,12 @@ export default defineComponent({
 }
 
 .ant-btn:disabled {
-  color: #ffffff;
+  color: var(--mars-text-color);
   background: var(--mars-disable-color);
 
   &:hover {
     background: var(--mars-disable-color);
-    color: #ffffff;
+    color: var(--mars-text-color);
   }
 }
 

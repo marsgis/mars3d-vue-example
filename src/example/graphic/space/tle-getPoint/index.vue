@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item label="卫星张角:">
         <mars-slider @change="changeAngle" v-model:value="formState.slideAngle" :min="1" :max="70" :step="1" />
       </a-form-item>

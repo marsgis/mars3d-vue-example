@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" title="属性编辑" width="315" top="60" bottom="40" left="10" :minWidth="200">
+  <mars-dialog :nopadding="true" title="属性编辑" width="315" top="60" bottom="40" left="10" :minWidth="200">
     <div class="top-handle-bar">
       <a-space>
         <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
@@ -87,6 +87,10 @@ function updataLayer() {
 
   console.log("开始编辑style样式", graphic.style)
   style.value = _.cloneDeep(graphic.style)
+
+  // if (graphic.style.lastMaterialType) {
+  //   style.value.lastMaterialType = graphic.style.lastMaterialType
+  // }
 
   const avail = graphic.availability
   console.log("开始编辑availability时序", avail)

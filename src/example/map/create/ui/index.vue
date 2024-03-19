@@ -1,7 +1,7 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" bottom="50" width="330">
+  <mars-dialog :nopadding="true" :visible="true" right="10" top="10" bottom="50" width="330">
     <div class="ui-container">
-      <a-form class="mars-form_nopadding" :model="formState" :rules="rules" :label-col="{ span: 6 }"
+      <a-form  :model="formState" :rules="rules" :label-col="{ span: 6 }"
         :wrapper-col="{ span: 18 }">
         <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
           <a-collapse-panel key="1" header="表单控件">

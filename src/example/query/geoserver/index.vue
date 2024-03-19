@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>

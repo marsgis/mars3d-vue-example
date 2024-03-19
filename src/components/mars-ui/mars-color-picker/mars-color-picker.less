@@ -37,6 +37,7 @@
 
 .hu-color-picker canvas {
   vertical-align: top;
+  width: 100%;
 }
 
 .hu-color-picker .color-set {
@@ -46,6 +47,8 @@
 .hu-color-picker .color-show {
   margin-top: 8px;
   display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
 }
 
 .saturation {
@@ -155,12 +158,15 @@
   width: 100%;
   height: 100%;
   border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .color-type {
   display: flex;
   margin-top: 8px;
   font-size: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 }
 
 .color-type .name {
@@ -171,7 +177,7 @@
   justify-content: center;
   align-items: center;
   color: #999;
-  background: #252930;
+  background: var(--mars-control-bg);
 }
 
 .color-type .value {
@@ -180,8 +186,8 @@
   min-width: 100px;
   padding: 0 12px;
   border: 0;
-  color: #fff;
-  background: #2e333a;
+  color: var(--mars-text-color);
+  background: var(--mars-control-bg);
   box-sizing: border-box;
 }
 
@@ -211,15 +217,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .mars-button {
     width: 100%;
   }
 }
+
 // 父元素
 .mars-color-view {
   position: relative;
   height: 32px;
+  min-width: 100px;
 }
+
 // 展示的输入框样式
 .mars-color-bg {
   display: inline-block;
@@ -227,16 +237,18 @@
   width: 100%;
   background-color: var(--mars-control-bg);
   border: 1px solid;
-  border-color: var(--mars-control-border);
+  border-color: rgba(0, 0, 0, 0.15);
   border-radius: 2px;
   padding: 3px 4px;
   position: absolute;
   top: 0;
   left: 0;
+
   &:hover {
     border-color: var(--mars-primary-color);
   }
 }
+
 // 色值
 .mars-color-label {
   max-width: calc(100% - 40px);
@@ -257,6 +269,7 @@
 .mars-color-picker {
   width: 24px;
   height: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   display: inline-block;
   z-index: 2;
   position: absolute;

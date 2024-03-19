@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="330">
+  <mars-dialog :nopadding="true" :visible="true" right="10" top="10" width="330">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="I3S示例">
         <div class="basis-button-contain">

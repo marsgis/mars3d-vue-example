@@ -3,21 +3,21 @@
     <div class="mars-dialog-thumb" v-show="isFold && show" ref="thumbnailRef" @click="toogleFold(false)">
       <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#FFFFFF"></mars-icon>
     </div>
-    <!-- :style="{ 'padding-top': showHeader ? '44px' : '1px', 'padding-bottom': slots.footer ? '44px' : '1px' }" -->
-    <div class="mars-dialog" :class="[customClass, animationClass]"
-      ref="dialogRef" v-show="visible && !isFold && show">
+    <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
       <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
-        @mousedown="dragStart">
+           @mousedown="dragStart">
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
+        <slot v-else-if="slots.icon" name="icon"></slot>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
         <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
-          @click="close"></mars-icon>
+                   @click="close"></mars-icon>
       </div>
       <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
-        class="close-btn__flot" @click="close"></mars-icon>
+                 class="close-btn__flot" @click="close"></mars-icon>
 
-      <div :class='["mars-dialog__content", showHeader ? "content-show_header" : ""]'>
+      <div :class='["mars-dialog__content", showHeader ? "content-show_header" : "", mergeProps.nopadding ? "pad-none" : ""]'
+           :style="{ 'padding-bottom': slots.footer ? '44px' : '14px' }">
         <slot></slot>
       </div>
 
@@ -26,10 +26,11 @@
       </div>
 
       <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
-        @mousedown="resizeStart(handle, $event)"></div>
+           @mousedown="resizeStart(handle, $event)"></div>
     </div>
   </teleport>
 </template>
+
 <script lang="ts" setup>
 /**
  * dialog弹框
@@ -67,6 +68,7 @@ interface Props {
   right?: number | string // 定位right值
   top?: number | string // 定位top值
   bottom?: number | string // 定位bottom值
+  nopadding?: boolean // 是否存在 padding 值
   position?: Position // 统一设置位置属性，优先级高于 left right top bottom
 
   handles?: boolean | string // 缩放控制器
@@ -95,6 +97,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   visible: false,
   show: true,
+  nopadding: false,
   closeable: false,
   closeButton: true,
   draggable: true,
@@ -103,8 +106,8 @@ const props = withDefaults(defineProps<Props>(), {
   defaultFold: false,
   minWidth: 100,
   minHeight: 100,
-  maxWidth: 100000,
-  maxHeight: 1000,
+  maxWidth: window.innerWidth,
+  maxHeight: window.innerHeight,
   zIndex: 900
 })
 
@@ -574,11 +577,11 @@ export default {
 .mars-dialog {
   position: absolute;
   box-sizing: border-box;
-  border-radius: 4px !important;
   z-index: 999 !important;
-  box-shadow: var(--mars-base-shadow) !important;
 
   .mars-drop-bg();
+  box-shadow: var(--mars-base-shadow);
+  border-radius: 4px;
   // border-image 与 border-radius 无法共存
   // padding 作为边框，与 mars-dialog__content 背景
   padding: 1px;
@@ -600,8 +603,8 @@ export default {
     left: 0;
 
     .icon {
-      margin-right: 5px;
-      color: #ffffff;
+      margin-right: 11px;
+      color: #41A8FF;
     }
 
     .title {
@@ -612,7 +615,7 @@ export default {
       float: right;
       cursor: pointer;
       margin-top: 12px;
-      color: #ffffff;
+      color: var(--mars-text-color);
     }
   }
 
@@ -636,6 +639,10 @@ export default {
     overflow: auto;
     border-radius: 4px;
     background-color: var(--mars-dropdown-bg);
+
+    :deep(.ant-form) {
+      padding: 0;
+    }
   }
 
   .mars-dialog__footer {
@@ -648,7 +655,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 14px;
   }
 
   .mars-dialog__handle {

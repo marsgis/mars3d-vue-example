@@ -1,8 +1,8 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="330">
+  <mars-dialog :nopadding="true" :visible="true" right="10" top="10" width="330">
     <div class="title">闸门控制</div>
 
-    <a-form>
+    <a-form class="p-14">
       <a-form-item label="高度（米）">
         <mars-input-number v-model:value="formState.height" :min="0" :max="4" :step="0.1" />
       </a-form-item>

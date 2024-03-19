@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" width="330" right="10" top="10">
+  <mars-dialog :nopadding="true" :visible="true" width="330" right="10" top="10">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="景点视角">
         <div class="position-list">

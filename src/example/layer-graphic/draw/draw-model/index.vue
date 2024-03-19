@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item label="模型URL地址:">
         <mars-input v-model:value="modelUrl"></mars-input>
         <a-checkbox v-model:checked="isProxy">使用代理</a-checkbox>

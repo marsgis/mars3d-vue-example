@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog customClass="dialog-nopadding" :visible="true" right="10" top="10" width="280">
+  <mars-dialog custom-class="property-pannel" :nopadding="true" :visible="true" right="10" top="10" width="280">
     <div class="property-content">
       <div class="content-title">
         <h2 class="f-mb title">瓦片底图通用参数</h2>
@@ -104,6 +104,18 @@ const setLayerOptions = (attribute: string, val: number) => {
   mapWork.setLayerOptions(attribute, val)
 }
 </script>
+
+<style lang="less">
+.property-pannel {
+  .mars-dialog__content {
+    .mars-gui-form {
+      padding-right: 15px !important;
+      padding-bottom: 10px !important;
+    }
+  }
+}
+</style>
+
 <style lang="less" scoped>
 .property-content {
   width: 100%;

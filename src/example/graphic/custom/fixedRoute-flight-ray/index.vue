@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item>
         <a-row :gutter="[0, 10]">
           <a-col :span="7">模型角度:</a-col>
@@ -35,7 +35,8 @@
       </a-form-item>
     </a-form>
   </mars-dialog>
-  <fixedRoute-info top="140" />
+
+  <fixedRoute-info />
 </template>
 
 <script setup lang="ts">

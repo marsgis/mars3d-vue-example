@@ -38,7 +38,12 @@ export default defineComponent({
   &:hover {
     border-color: var(--mars-hover-color);
   }
+
+  &::placeholder {
+    color: var(--mars-control-placeholder);
+  }
 }
+
 .mars-textarea[disabled] {
   color: var(--mars-disable-color);
 }

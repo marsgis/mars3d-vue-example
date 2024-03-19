@@ -219,6 +219,9 @@ function setDefault() {
     }
   })
 
+  if (styleValue.value.lastMaterialType) {
+    styleValue.value.materialType = styleValue.value.lastMaterialType
+  }
   if (materialType && materialTypeOption) {
     if (!styleValue.value.materialOptions) {
       styleValue.value.materialOptions = {}
@@ -354,7 +357,11 @@ function updateStyle(item: any) {
   }
 
   // console.log("修改了普通参数", data)
-  emit("styleChange", data)
+  if (data.materialType) {
+    emit("styleChange", { ...data, lastMaterialType: val })
+  } else {
+    emit("styleChange", data)
+  }
 }
 
 // 处理材质相关属性的现实隐藏，通过配置中的show属性来控制

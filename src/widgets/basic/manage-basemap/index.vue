@@ -1,7 +1,8 @@
 <template>
   <mars-dialog :draggable="true" title="底图" :width="380" :position="{ top: 50, left: 50 }">
     <ul class="basemap">
-      <li v-for="(item, i) in baseMaps" :key="i" class="basemap-card" :class="{ 'active-card': active === item.id }" @click="changeBaseMaps(item)">
+      <li v-for="(item, i) in baseMaps" :key="i" class="basemap-card" :class="{ 'active-card': active === item.id }"
+          @click="changeBaseMaps(item)">
         <div><img class="icon" :src="`${item.options.icon || 'img/basemaps/bingAerial.png'}`" /></div>
         <div>{{ item.name }}</div>
       </li>
@@ -56,21 +57,26 @@ function changeTerrain() {
 <style lang="less" scoped>
 .basemap {
   height: calc(100% - 40px);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
 }
+
 .basemap-card {
   display: inline-block;
-  width: 75px;
+  width: 100%;
   list-style-type: none;
-  margin-top: 10px;
-  margin-left: 10px;
   vertical-align: top;
   text-align: center;
   cursor: pointer;
   font-size: 12px;
   color: var(--mars-text-color);
+
   &:hover {
     .active-card();
   }
+
   .icon {
     border: 1px solid #4db3ff78;
     width: 75px;
@@ -81,6 +87,7 @@ function changeTerrain() {
 
 .active-card {
   color: #337fe5 !important;
+
   .icon {
     border-color: #337fe5;
   }

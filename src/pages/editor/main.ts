@@ -2,7 +2,7 @@ import { createApp, defineComponent } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, key } from "@mars/widgets/common/store/widget"
-import { getExampleId, getQueryString } from "@mars/utils/mars-util" 
+import { getExampleId, getQueryString } from "@mars/utils/mars-util"
 import store from "@mars/widgets/widget-store"
 import { Editor as MarsgisEditor } from "@marsgis/editor"
 import "@marsgis/editor/dist/style.css"
@@ -76,6 +76,5 @@ function destoryUI() {
 marsEditor.render({
   container: document.getElementById("root"),
   exampleId: getExampleId(),
-  exampleKey: getQueryString("key"),
-  fullName: getQueryString("name")
+  exampleKey: getQueryString("key")
 })

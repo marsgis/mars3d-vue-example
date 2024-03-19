@@ -1,6 +1,6 @@
 <template>
   <mars-dialog right="10" :visible="true" width="330">
-    <a-form class="mars-form_nopadding">
+    <a-form >
       <a-form-item label="方式">
         <mars-select v-model:value="selectWay" :options="selectWayOptions" @change="onHiddenRoam"> </mars-select>
       </a-form-item>

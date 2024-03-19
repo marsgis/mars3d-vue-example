@@ -71,6 +71,7 @@ export default defineComponent({
     &.ant-picker-cell-selected {
       .ant-picker-cell-inner {
         background-color: var(--mars-primary-color) !important;
+        color:#fff
       }
     }
   }

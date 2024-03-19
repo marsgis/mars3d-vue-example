@@ -82,7 +82,7 @@ const clear = () => {
 </script>
 <style scoped lang="less">
 .ant-slider {
-  width: 145px;
+  width: 110px;
   margin: 0;
 }
 

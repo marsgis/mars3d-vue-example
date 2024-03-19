@@ -1,14 +1,19 @@
 <template>
-  <a-form :class='{ "mars-gui-form": true, "mars-form_nopadding": props.noPadding }' :label-col="labelCol"
-          :wrapper-col="wrapperCol">
+  <a-form :class="{ 'mars-gui-form': true, 'pad-none': props.noPadding }" :label-col="labelCol"
+    :wrapper-col="wrapperCol">
     <template v-for="(item, i) in renderOptions" :key="i">
       <a-form-item v-if="(item.show as any)(attrForm)" :label="item.label">
         <div :style="getItemStyle(item)">
-          <component :is="getComponent(item.type)" v-model:value="item.value"
-                     :min="item.min || item.min === 0 ? item.min : -Infinity"
-                     :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
-                     :range="item.range || false" :options="item.data || []" :units="item.units"
-                     @change="itemChange(item)">
+          <component
+            :is="getComponent(item.type)"
+            v-model:value="item.value"
+            :min="item.min || item.min === 0 ? item.min : -Infinity"
+            :max="item.max || item.max === 0 ? item.max : Infinity"
+            :step="item.step || 0.1"
+            :range="item.range || false"
+            :options="item.data || []"
+            :units="item.units"
+            @change="itemChange(item)">
           </component>
           <span v-if="item.extraAfter" class="extra_follow_close">{{ item.extraAfter }}</span>
         </div>
@@ -202,6 +207,14 @@ export default {
       font-weight: normal;
       color: var(--mars-extra-text-color);
       margin-left: 10px;
+    }
+
+    .ant-input-affix-wrapper {
+      padding: 4px;
+
+      .ant-input {
+        text-align: center;
+      }
     }
   }
 }

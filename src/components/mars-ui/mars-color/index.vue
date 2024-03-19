@@ -44,10 +44,10 @@ export default defineComponent({
 
   > input {
     outline: none !important;
-    border: 0px !important;
     width: 24px;
     height: 24px;
     cursor: pointer;
+    border: 1px solid var(--mars-control-border);
   }
   > label {
     height: 32px;

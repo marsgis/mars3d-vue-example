@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :draggable="true" title="图层" width="312" :min-width="250" top="50" left="50">
-    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
+    <mars-tree  class="layer-tree"  checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="node">
         <mars-dropdown-menu :trigger="['contextmenu']">
           <span @dblclick="flyTo(node)">{{ node.title }}</span>
@@ -322,10 +322,27 @@ function onClickBimLayer(event: any) {
 }
 </script>
 
+
+<style lang="less">
+.layer-tree {
+  .ant-tree-treenode-checkbox-checked {
+    .ant-tree-node-content-wrapper {
+      width: calc(100% - 55px);
+      .ant-tree-title {
+        display: inline-flex;
+        width: calc(100% - 30px);
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  }
+}
+</style>
+
 <style scoped lang="less">
 .tree-slider {
   display: inline-block;
-  width: 70px;
+  width: 100px;
   margin-left: 5px;
   vertical-align: middle;
 }

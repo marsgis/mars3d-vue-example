@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="false" customClass="query-poi-pannel" top="10" left="10">
+  <mars-dialog :draggable="false" customClass="query-poi-pannel" width="330" top="10" left="10">
     <div class="query-poi" @mousedown="clickVoid">
       <div class="mars-base-border_gradient">
         <div class="query-poi__search">
@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <div  v-if="searchListShow" class="mars-base-border_gradient f-push-5-t">
+      <div v-if="searchListShow" class="mars-base-border_gradient f-push-5-t">
         <ul class="search-list">
           <li v-for="(item, i) in dataSource" :key="i" class="search-list__item" @click="selectPoint(item.value)">
             <mars-icon icon="history" width="16"></mars-icon>
@@ -146,22 +146,25 @@ const selectPoint = async (value: any) => {
   $showLoading()
   addHistory(value)
   console.log("开始搜索", value)
+
+  siteSource.value = []
+  allCount.value = 0
+
   await querySiteList(value, 1)
   $hideLoading()
-  siteListShow.value = true
   searchListShow.value = false
 }
 
 // 表格数据内部
-const pagination = {
-  onChange: (page: number) => {
-    querySiteList(searchTxt.value, page)
-  },
-  size: "small",
-  total: 0,
-  pageSize: 6,
-  simple: true
-}
+// const pagination = {
+//   onChange: (page: number) => {
+//     querySiteList(searchTxt.value, page)
+//   },
+//   size: "small",
+//   total: 0,
+//   pageSize: 6,
+//   simple: true
+// }
 
 function clickVoid(e) {
   if (e.target.dataset?.event !== "prevent" && e.target.tagName !== "INPUT") {
@@ -177,7 +180,8 @@ async function querySiteList(text: string, page: number) {
     return
   }
 
-  pagination.total = Number(result.allcount) || 0
+  siteListShow.value = true
+  // pagination.total = Number(result.allcount) || 0
   siteSource.value = result.list || []
   allCount.value = Number(result.allcount) || 0
 
@@ -228,7 +232,6 @@ function addHistory(data: any) {
   background-color: transparent !important;
 }
 </style>
-
 <style lang="less" scoped>
 .query-poi {
   color: #fff;
@@ -242,8 +245,8 @@ function addHistory(data: any) {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 320px;
-    height: 44px;
+    width: 100%;
+    height: 45px;
     background: var(--mars-base-bg);
     padding: 3px;
     border-radius: 4px;
@@ -292,6 +295,10 @@ function addHistory(data: any) {
     padding-left: 14px;
     color: var(--mars-sub-title-color);
     cursor: pointer;
+
+    &:hover {
+      background-color: var(--mars-list-select);
+    }
   }
 
   .search-list__clear {
@@ -333,6 +340,7 @@ function addHistory(data: any) {
 
       .query-site-text {
         width: calc(100% - 12px);
+        max-width: 255px;
         font-size: 14px;
         font-family: var(--mars-font-family);
         font-weight: normal;

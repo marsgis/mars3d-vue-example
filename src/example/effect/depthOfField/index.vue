@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form class="mars-form_nopadding" :labelCol="{ span:4 }">
+    <a-form  :labelCol="{ span:4 }">
       <a-form-item label="启用">
         <mars-switch v-model:checked="formState.enabled" @change="onChangeState" />
       </a-form-item>
