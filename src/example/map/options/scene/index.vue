@@ -222,7 +222,7 @@ const globeData = ref([
     max: 80,
     step: 1,
     change(index: number) {
-      mapWork.setSceneGlobeOptions("terrainExaggeration", globeData.value[index].value)
+      mapWork.setSceneGlobeOptions("verticalExaggeration", globeData.value[index].value)
     }
   },
   {

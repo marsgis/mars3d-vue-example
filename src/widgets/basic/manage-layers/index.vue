@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="true" title="图层" width="312" :min-width="250" top="50" left="50">
+  <mars-dialog custom-class="manage-layer_pannel" :draggable="true" title="图层" width="300" :min-width="250" top="50" left="50">
     <mars-tree  class="layer-tree"  checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
       <template #title="node">
         <mars-dropdown-menu :trigger="['contextmenu']">
@@ -18,8 +18,13 @@
         </span>
       </template>
     </mars-tree>
+
+    <template #footer>
+      <div class="tips">提示：双击可定位视域至其所在位置</div>
+    </template>
   </mars-dialog>
 </template>
+
 <script lang="ts" setup>
 import { onUnmounted, nextTick, reactive, ref, onMounted } from "vue"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
@@ -324,10 +329,17 @@ function onClickBimLayer(event: any) {
 
 
 <style lang="less">
+.manage-layer_pannel {
+  .mars-dialog__content {
+    overflow-x: hidden !important;
+  }
+}
+
 .layer-tree {
   .ant-tree-treenode-checkbox-checked {
     .ant-tree-node-content-wrapper {
       width: calc(100% - 55px);
+
       .ant-tree-title {
         display: inline-flex;
         width: calc(100% - 30px);
@@ -340,10 +352,32 @@ function onClickBimLayer(event: any) {
 </style>
 
 <style scoped lang="less">
+.title {
+  width: 50%;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-family: var(--mars-font-family);
+}
+
 .tree-slider {
   display: inline-block;
   width: 100px;
   margin-left: 5px;
+  margin-right: 5px;
   vertical-align: middle;
+}
+
+.tips {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  color: #9E9E9E;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

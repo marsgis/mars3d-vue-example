@@ -16,6 +16,9 @@
 
   .ant-dropdown-menu-title-content {
     color: var(--mars-control-text);
+    .mars-icon {
+      color: var(--mars-collapse-icon);
+    }
   }
 
   .ant-dropdown-menu-item,
@@ -23,6 +26,9 @@
     border-radius: 2px !important;
     &:hover {
       background-color: var(--mars-list-active) !important;
+      .ant-dropdown-menu-title-content{
+        color: var(--mars-collapse-icon);
+      }
     }
     .ant-upload {
       color: var(--mars-control-text);

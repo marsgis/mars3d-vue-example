@@ -39,6 +39,7 @@ export default defineComponent({
     }
     .ant-select-selection-item {
       color: var(--mars-control-text) !important;
+      line-height: 32px !important;
     }
   }
 

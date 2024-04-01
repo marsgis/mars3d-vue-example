@@ -60,12 +60,9 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
   map.on(mars3d.EventType.cameraChanged, cameraChanged)
 }
 
-function cameraChanged() {
-  queryPoi.getAddress({
-    location: map.getCenter(),
-    success: (result: any) => {
-      address = result
-    }
+async function cameraChanged() {
+  address = await queryPoi.getAddress({
+    location: map.getCenter()
   })
 }
 

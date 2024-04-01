@@ -314,7 +314,7 @@ html {
 }
 
 .cesium-cesiumInspector {
-  background-color: rgba(23, 49, 71, 0.8);
+  background-color: var(--mars-base-bg, rgba(63, 72, 84, 0.9));
 }
 
 /**覆盖mars3d内部控件的颜色等样式*/
@@ -328,8 +328,14 @@ html {
 
 .mars3d-contextmenu-ul,
 .mars3d-sub-menu {
-  background-color: rgba(23, 49, 71, 0.8);
+  background-color: var(--mars-base-bg, rgba(63, 72, 84, 0.9));
 }
+.mars3d-contextmenu-ul {
+  border-radius: 2px;
+  border-width: 1px;
+  border-image: url("/img/svg/border.svg") 1 round stretch;
+}
+
 
 .mars3d-contextmenu-ul>li>a:hover,
 .mars3d-sub-menu>li>a:hover,

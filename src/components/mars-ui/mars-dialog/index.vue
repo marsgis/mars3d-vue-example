@@ -16,9 +16,14 @@
       <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
                  class="close-btn__flot" @click="close"></mars-icon>
 
-      <div :class='["mars-dialog__content", showHeader ? "content-show_header" : "", mergeProps.nopadding ? "pad-none" : ""]'
-           :style="{ 'padding-bottom': slots.footer ? '44px' : '14px' }">
+      <div
+        class="mars-dialog__content"
+        :style="getContentStyle()">
         <slot></slot>
+      </div>
+
+      <div v-if="slots.leftBar" class="mars-dialog_leftbar">
+        <slot name="leftBar"></slot>
       </div>
 
       <div v-if="slots.footer" class="mars-dialog__footer">
@@ -166,6 +171,33 @@ const mergeProps = computed(() => {
 })
 
 const showHeader = computed(() => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title))
+const getContentStyle = () => {
+  const style:any = {}
+  style.height = "100%"
+  // 头部和脚部各有一个时
+  if (showHeader.value) {
+    style.height = "calc(100% - 40px)"
+    style.borderTopLeftRadius = "0 !important"
+    style.borderTopRightRadius = "0 !important"
+  }
+  if (slots.footer) {
+    style.height = "calc(100% - 40px)"
+    style.borderBottomLeftRadius = "0 !important"
+    style.borderBottomRightRadius = "0 !important"
+  }
+
+  // 头部和脚部都有时
+  if (showHeader.value && slots.footer) {
+    style.height = "calc(100% - 80px)"
+    style.paddingBottom = 0
+  }
+
+  // 无内边距
+  if (mergeProps.value.nopadding) {
+    style.padding = "0 !important"
+  }
+  return style
+}
 
 const dialogRef = ref()
 const thumbnailRef = ref()
@@ -595,6 +627,7 @@ export default {
     line-height: 44px;
     overflow: hidden;
     .mars-msg-title();
+    box-shadow: var(--mars-collapse-title-shadow);
     border-radius: 4px 4px 0 0;
     padding: 0 5px 0px 10px;
     color: var(--mars-text-color);
@@ -604,7 +637,7 @@ export default {
 
     .icon {
       margin-right: 11px;
-      color: #41A8FF;
+      color: #41a8ff;
     }
 
     .title {
@@ -626,13 +659,6 @@ export default {
     cursor: pointer;
   }
 
-  // 主题内容
-  .content-show_header {
-    height: calc(100% - 40px) !important;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
-
   .mars-dialog__content {
     height: 100%;
     padding: 14px;
@@ -645,13 +671,19 @@ export default {
     }
   }
 
-  .mars-dialog__footer {
-    height: 44px;
-    width: 100%;
-    color: var(--mars-text-color);
+  .mars-dialog_leftbar {
     position: absolute;
-    left: 0;
-    bottom: 0;
+    top: 42px;
+  }
+
+  .mars-dialog__footer {
+    height: 39px;
+    width: calc(100% - 2px);
+    color: var(--mars-text-color);
+    background-color: var(--mars-dropdown-bg);
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
