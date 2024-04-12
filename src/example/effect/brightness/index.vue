@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" :width="330">
-    <a-form >
+    <a-form :labelCol="{ span:4 }">
       <a-form-item label="状态:">
         <a-checkbox @change="onChangeState" v-model:checked="enabled">开启效果</a-checkbox>
       </a-form-item>
@@ -29,8 +29,3 @@ const onChangeState = () => {
   mapWork.setBrightnessEffect(enabled.value)
 }
 </script>
-<style scoped lang="less">
-.ant-slider {
-  width: 245px;
-}
-</style>

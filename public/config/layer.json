@@ -1,0 +1,8 @@
+{
+  "name": "ArcGIS电子",
+  "type": "xyz",
+  "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+  "chinaCRS": "GCJ02",
+  "flyTo": true,
+  "show": true
+}

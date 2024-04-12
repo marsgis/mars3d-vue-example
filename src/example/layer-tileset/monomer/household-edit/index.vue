@@ -249,15 +249,15 @@ const clearPannelData = () => {
 
 // 拾取底部高度
 const getMinHeight = () => {
-  mapWork.getBuildingHeight().then((data) => {
-    dthPara.value.minHeight = data.height
+  mapWork.getBuildingHeight().then((height) => {
+    dthPara.value.minHeight = height
   })
 }
 
 // 拾取顶部高度
 const getMaxHeight = () => {
-  mapWork.getBuildingHeight().then((data) => {
-    dthPara.value.maxHeight = data.height
+  mapWork.getBuildingHeight().then((height) => {
+    dthPara.value.maxHeight = height
   })
 }
 

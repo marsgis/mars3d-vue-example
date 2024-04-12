@@ -1,5 +1,5 @@
 <template>
-  <mars-dialog :draggable="true" title="底图" :width="380" :position="{ top: 50, left: 50 }">
+  <mars-dialog customClass="manage-basemap-pannel" :draggable="true" title="底图" :width="380" :position="{ top: 50, left: 50 }">
     <ul class="basemap">
       <li v-for="(item, i) in baseMaps" :key="i" class="basemap-card" :class="{ 'active-card': active === item.id }"
           @click="changeBaseMaps(item)">
@@ -54,6 +54,15 @@ function changeTerrain() {
   mapWork.changeTerrain(chkHasTerrain.value)
 }
 </script>
+
+
+<style lang="less">
+.manage-basemap-pannel {
+  .mars-dialog__footer {
+    padding-left: 14px;
+  }
+}
+</style>
 <style lang="less" scoped>
 .basemap {
   height: calc(100% - 40px);

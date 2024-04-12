@@ -2,11 +2,14 @@
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="btns-list">
       <mars-button @click="onBindMapDemo">Map上直接弹出</mars-button>
-      <mars-button @click="onBindLayerTemplateDemo">自定义模版</mars-button>
-      <mars-button @click="onBindGraphicDemo1">Graphic上绑定</mars-button>
+
       <mars-button @click="onBindLayerDemo">图层上绑定</mars-button>
       <mars-button @click="onBindLayerDemo2">图层上预定义配置</mars-button>
+      <mars-button @click="onBindLayerTemplateDemo">自定义模版</mars-button>
+
+      <mars-button @click="onBindGraphicDemo1">Graphic上绑定</mars-button>
       <mars-button @click="onBindGraphicDemo2">Graphic上局部刷新</mars-button>
+      <mars-button @click="onBindGraphicDynamicAttrDemo">后端动态属性</mars-button>
     </div>
   </mars-dialog>
 
@@ -40,6 +43,9 @@ const onBindLayerDemo2 = () => {
 const onBindLayerTemplateDemo = () => {
   mapWork.bindLayerTemplateDemo()
 }
+const onBindGraphicDynamicAttrDemo = () => {
+  mapWork.bindGraphicDynamicAttrDemo()
+}
 
 const onBindGraphicDemo1 = () => {
   mapWork.bindGraphicDemo1()
@@ -54,5 +60,5 @@ const onBindGraphicDemo2 = () => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
-} 
+}
 </style>

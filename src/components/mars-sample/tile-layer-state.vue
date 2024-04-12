@@ -1,7 +1,8 @@
 <template>
   <!-- 使用表格实现界面 -->
   <div class="showTable" v-if="formState.showTable">
-    <mars-table class="mars-noHeader-table" :row-selection="tileLayerRowSelection" :dataSource="tileLayerList" :columns="tileLayerColumns"
+    <mars-table class="mars-noHeader-table" :row-selection="tileLayerRowSelection" :dataSource="tileLayerList"
+      :columns="tileLayerColumns"
       :showHeader="false" :bordered="false" :pagination="false" size="small" :customRow="tileLayerCustomRowObj">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'edit'">
@@ -36,23 +37,22 @@
 
   <!-- 编辑图层的面板 -->
   <div class="property-content" v-if="formState.showTable && formState.layerName">
-
     <div>
       <h2 class="title">{{ formState.layerName }}</h2>
     </div>
 
     <!-- 图层状态、交互、操作的盒子 -->
-    <div class="bottomBox">
+    <div class="bottom-box">
       <!-- 图层状态 -->
-      <div class="f-pt">
+      <div class="f-mb f-pt">
         <a-space>
           <span class="mars-pannel-item-label">状态:</span>
           <a-checkbox v-model:checked="formState.show" @change="onChangeShow" title="显示隐藏状态">显示</a-checkbox>
         </a-space>
       </div>
 
-      <div>
-        <mars-gui :options="options"></mars-gui>
+      <div class="f-mb">
+        <mars-gui :options="options" labelCol="6"></mars-gui>
       </div>
 
       <!-- 图层交互 -->
@@ -445,15 +445,19 @@ const onChangeHighlight = () => {
 }
 
 .mars-pannel-item-label {
-  width: auto;
+  // width: auto;
+  width: 68px;
+  min-width: auto;
 }
 
 .guiBox {
   margin-left: -3px;
 }
 
-.bottomBox {
+.bottom-box {
   margin-left: -3px;
+  padding-right: 14px;
+  padding-left: 5px;
 }
 
 :deep(.ant-table-pagination) {

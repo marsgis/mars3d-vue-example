@@ -1,42 +1,25 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">状 态:</span>
+    <a-form  :labelCol="{ span:4 }">
+      <a-form-item label="状态:">
         <a-checkbox v-model:checked="formState.enabled" @change="onChangeState">开启效果</a-checkbox>
-      </a-space>
-    </div>
-
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">对比度:</span>
+      </a-form-item>
+      <a-form-item label="对比度:">
         <mars-slider v-model:value="formState.contrast" @change="onChangeContrast" :min="-255.0" :max="255.0" :step="0.01" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">亮 度:</span>
+      </a-form-item>
+      <a-form-item label="亮度:">
         <mars-slider v-model:value="formState.brightness" @change="onChangeBrightness" :min="-0.1" :max="3.0" :step="0.01" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">增 量:</span>
+      </a-form-item>
+      <a-form-item label="增量:">
         <mars-slider v-model:value="formState.delta" @change="onChangeDelta" :min="1" :max="5" :step="0.01" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">步 长:</span>
+      </a-form-item>
+      <a-form-item label="步长:">
         <mars-slider v-model:value="formState.stepSize" @change="onChangeStep" :min="0" :max="7" :step="0.01" />
-      </a-space>
-    </div>
-    <div class="f-mb">
-      <a-space>
-        <span class="mars-pannel-item-label">Sigma:</span>
+      </a-form-item>
+      <a-form-item label="Sigma:">
         <mars-slider v-model:value="formState.sigma" @change="onChangeSigma" :min="1" :max="10" :step="0.01" />
-      </a-space>
-    </div>
+      </a-form-item>
+    </a-form>
   </mars-dialog>
 </template>
 
@@ -77,8 +60,3 @@ const onChangeSigma = () => {
   mapWork.setSigma(formState.sigma)
 }
 </script>
-<style scoped lang="less">
-.ant-slider {
-  width: 220px;
-} 
-</style>

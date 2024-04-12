@@ -26,7 +26,34 @@ export function onMounted(mapInstance) {
   // 1. 需要地形和模型等需要分析区域对应的数据加载完成后才能分析。
   // 2. 如果有遮挡了分析区域的任何矢量对象，都需要分析前隐藏下，分析结束后再改回显示。
 
-  addMeasure()
+  measure = new mars3d.thing.Measure({
+    label: {
+      color: "#ffffff",
+      font_family: "楷体",
+      font_size: 20
+    }
+  })
+  map.addThing(measure)
+
+  measure.on(mars3d.EventType.start, function (event) {
+    console.log("开始分析", event)
+    showLoading()
+    console.log("坐标为", JSON.stringify(mars3d.LngLatArray.toArray(event.positions))) // 方便测试拷贝坐标
+  })
+
+  measure.on(mars3d.EventType.end, function (event) {
+    console.log("分析完成", event)
+
+    measureVolume = event.graphic
+    showHeightVal()
+
+    hideLoading()
+  })
+
+  // 直接传入坐标分析
+  setTimeout(() => {
+    addDemoGraphic1()
+  }, 5000)
 }
 
 /**
@@ -37,70 +64,59 @@ export function onUnmounted() {
   map = null
 }
 
-function addMeasure() {
-  measure = new mars3d.thing.Measure({
-    label: {
-      color: "#ffffff",
-      font_family: "楷体",
-      font_size: 20
+function addDemoGraphic1() {
+  const graphic = new mars3d.graphic.VolumeDepthMeasure({
+    positions: [
+      [116.191817, 30.864845, 309.3],
+      [116.192869, 30.8757, 521.81],
+      [116.190478, 30.886266, 672.79],
+      [116.19247, 30.893748, 448.91],
+      [116.200836, 30.889954, 379.92],
+      [116.204063, 30.882578, 532.5],
+      [116.203027, 30.873828, 498.8],
+      [116.201795, 30.865941, 443.06]
+    ],
+    height: 450,
+    depth: true, // 使用离屏渲染深度图的方式
+    offsetHeight: 500, // 偏移高度来展示
+    measured: {
+      // 固化测量结果,可以测量后graphic.toJSON()获取对应值
+      fillVolume: 152230843.6381974,
+      digVolume: 64063629.525086574,
+      totalArea: 3040811.5379096316
     }
   })
-  map.addThing(measure)
+  measure.graphicLayer.addGraphic(graphic)
 
-  // 直接传入坐标分析
-  setTimeout(() => {
-    measure
-      .volume({
-        positions: mars3d.PointTrans.lonlats2cartesians([
-          [116.191817, 30.864845, 309.3],
-          [116.192869, 30.8757, 521.81],
-          [116.190478, 30.886266, 672.79],
-          [116.19247, 30.893748, 448.91],
-          [116.200836, 30.889954, 379.92],
-          [116.204063, 30.882578, 532.5],
-          [116.203027, 30.873828, 498.8],
-          [116.201795, 30.865941, 443.06]
-        ]),
-        height: 450,
-        depth: true, // 使用离屏渲染深度图的方式
-        offsetHeight: 500 // 偏移高度来展示
-      })
-      .then((e) => {
-        measureVolume = e
-        showHeightVal()
-      })
-  }, 3000)
-
-  // 有模型时
-  // tiles3dLayer.readyPromise.then((layer) => {
-  //   // 关键代码,等模型readyPromise加载后执行volume
-  //   measureVolume = measure.volume({
-  //     positions: mars3d.PointTrans.lonlats2cartesians([
-  //       [119.033856, 33.591473, 14.5],
-  //       [119.033098, 33.591836, 13.2],
-  //       [119.033936, 33.592146, 16.9]
-  //     ]),
-  //     depth: true, // 使用离屏渲染深度图的方式
-  //     height: 150
-  //   })
-  // })
-
-  measure.on(mars3d.EventType.start, function (event) {
-    console.log("开始分析", event)
-    showLoading()
-    console.log("坐标为", JSON.stringify(mars3d.LngLatArray.toArray(event.positions))) // 方便测试拷贝坐标
-  })
-
-  measure.on(mars3d.EventType.end, function (event) {
-    console.log("分析完成", event)
-    hideLoading()
-  })
+  // 记录下
+  measureVolume = graphic
 }
+
+// async function addDemoGraphic2() {
+//   // await tiles3dLayer.readyPromise //有模型时
+
+//   measureVolume = await measure.volume({
+//     positions: [
+//       [116.191817, 30.864845, 309.3],
+//       [116.192869, 30.8757, 521.81],
+//       [116.190478, 30.886266, 672.79],
+//       [116.19247, 30.893748, 448.91],
+//       [116.200836, 30.889954, 379.92],
+//       [116.204063, 30.882578, 532.5],
+//       [116.203027, 30.873828, 498.8],
+//       [116.201795, 30.865941, 443.06]
+//     ],
+//     height: 450,
+//     depth: true, // 使用离屏渲染深度图的方式
+//     offsetHeight: 500, // 偏移高度来展示
+//     cameraHeight: 3000
+//   })
+// }
 
 // 点选高度
 function showHeightVal() {
-  const baseHeight = measureVolume.height.toFixed(1)
-  const minHeight = measureVolume.minHeight.toFixed(1)
+  const baseHeight = getFixedNum(measureVolume.height)
+  const minHeight = getFixedNum(measureVolume.minHeight)
   const maxHeight = getFixedNum(measureVolume.maxHeight)
 
   // 触发自定义事件 heightVal ，改变组件面板中的值
@@ -112,17 +128,12 @@ function getFixedNum(val) {
 }
 
 // 方量分析
-export function analysisMeasure() {
+export async function analysisMeasure() {
   // 手动绘制的方式分析
-  measure
-    .volume({
-      depth: true // 使用离屏渲染深度图的方式
-      // minHeight: 50 , //可以设置一个固定的最低高度
-    })
-    .then((e) => {
-      measureVolume = e
-      showHeightVal()
-    })
+  measureVolume = await measure.volume({
+    depth: true // 使用离屏渲染深度图的方式
+    // minHeight: 50 , //可以设置一个固定的最低高度
+  })
 }
 
 // 清除
@@ -183,5 +194,5 @@ export async function selHeight() {
 
   measureVolume.height = height
 
-  showHeightVal(height)
+  showHeightVal()
 }
