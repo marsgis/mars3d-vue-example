@@ -163,6 +163,7 @@ html {
 
 .cesium-toolbar-button img {
   width:22px;
+  height: 100%;
 }
 .cesium-toolbar-button:hover img {
   width:28px;
@@ -230,11 +231,12 @@ html {
   bottom: 0;
   left: 40px;
   transform-origin: left bottom;
+  background-color: rgba(23, 49, 71, 0.8);
 }
 
 .cesium-navigation-help-instructions,
 .cesium-navigation-button {
-  background-color: rgba(23, 49, 71, 0.8);
+  background: none;
 }
 
 .cesium-navigation-button-selected,

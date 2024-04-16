@@ -12,7 +12,7 @@
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
-const activeIndex = ref(1)
+const activeIndex = ref(0)
 
 const setStyleDef = () => {
   activeIndex.value = 0

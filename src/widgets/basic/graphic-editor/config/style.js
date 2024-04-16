@@ -216,7 +216,7 @@ const styleConfig = {
         name: "font_family",
         label: "字体",
         type: "combobox",
-        defval: "楷体",
+        defval: "微软雅黑",
         data: [
           { label: "微软雅黑", value: "微软雅黑" },
           { label: "宋体", value: "宋体" },

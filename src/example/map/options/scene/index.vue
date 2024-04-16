@@ -222,7 +222,7 @@ const globeData = ref([
     max: 80,
     step: 1,
     change(index: number) {
-      mapWork.setSceneGlobeOptions("verticalExaggeration", globeData.value[index].value)
+      mapWork.setSceneOptions("verticalExaggeration", globeData.value[index].value)
     }
   },
   {
@@ -277,7 +277,7 @@ const globeData = ref([
     key: "15",
     describe: "地球背景色",
     operation: "color",
-    value: "#000000",
+    value: "#546a53",
     change(index: number) {
       mapWork.setSceneGlobeOptions("baseColor", globeData.value[index].value)
     }
