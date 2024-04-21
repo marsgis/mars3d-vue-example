@@ -7,7 +7,8 @@
             <a-space>
               <span class="mars-pannel-item-label">{{ scene.describe }}</span>
               <span>:</span>
-              <mars-select v-if="scene.operation === 'select'" v-model:value="sceneView" ref="select" style="width: 110px"
+              <mars-select v-if="scene.operation === 'select'" v-model:value="sceneView" ref="select"
+                style="width: 110px"
                 @change="handleChange" :options="selectOptions">
               </mars-select>
               <a-radio-group v-if="scene.operation === 'checked'" v-model:value="sceneData[index].value"
@@ -21,19 +22,6 @@
                 @change="(sceneData[index] as any).change(index)" v-model:value="sceneData[index].value" />
             </a-space>
           </div>
-
-
-
-
-          <!-- radio
-          <a-radio-group @change="(scene[index] as any).change(index)" v-if="scene[index].operation === 'checked'"
-            v-model:value="scene[index].value" :name="'radioGroup' + index">
-            <a-radio value="1">是</a-radio>
-            <a-radio value="2">否</a-radio>
-          </a-radio-group>
-         颜色选择器
-          <mars-color-picker v-if="scene.operation === 'color'" @change="(scene[index] as any).change(index)"
-            v-model:value="scene[index].value" /> -->
         </div>
       </a-collapse-panel>
 
@@ -54,19 +42,16 @@
                 @change="(globeData[index] as any).change(index)" v-model:value="globeData[index].value" />
 
               <!-- range滑动 -->
-              <mars-slider @change="(globeData[index] as any).change(index)" v-if="globeData[index].operation === 'range'"
+              <mars-slider @change="(globeData[index] as any).change(index)"
+                v-if="globeData[index].operation === 'range'"
                 v-model:value="globeData[index].value" :min="globeData[index].min" :max="globeData[index].max"
                 :step="globeData[index].step" />
             </a-space>
           </div>
-
-
         </div>
-
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="鼠标交互">
-
         <div v-for="( mouse, index) in mouseData" :key="mouse.key">
           <div class="f-mb">
             <a-space>
@@ -80,14 +65,13 @@
               </a-radio-group>
 
               <!-- range滑动 -->
-              <mars-slider @change="(mouseData[index] as any).change(index)" v-if="mouseData[index].operation === 'range'"
+              <mars-slider @change="(mouseData[index] as any).change(index)"
+                v-if="mouseData[index].operation === 'range'"
                 v-model:value="mouseData[index].value" :min="mouseData[index].min" :max="mouseData[index].max"
                 :step="mouseData[index].step" />
             </a-space>
           </div>
         </div>
-
-
       </a-collapse-panel>
     </a-collapse>
   </div>
@@ -435,6 +419,7 @@ const handleChange = (value: string) => {
   mapWork.sceneMode(value)
 }
 </script>
+
 <style scoped lang="less">
 .scene-pannel {
   position: absolute;
@@ -443,51 +428,51 @@ const handleChange = (value: string) => {
   width: 330px;
   max-height: calc(100% - 40px);
   overflow-x: hidden;
-}
 
-:deep(.ant-collapse-header-text) {
-  margin-left: 10px;
-}
 
-:deep(.ant-collapse-header-text::after){
-      content: "";
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      width: 4px;
-      height: 19px;
-      border-radius: 2px;
-      background-color: var(--mars-primary-color);
-  }
+  :deep(.ant-collapse-item) {
+    margin-bottom: 10px;
 
-:deep(.ant-collapse-content) {
-  background-color: var(--mars-dropdown-bg) !important;
-}
+    .ant-collapse-header-text {
+      margin-left: 10px;
 
-:deep(.ant-collapse-item) {
-  margin-bottom: 10px;
-}
+      &::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 4px;
+        height: 19px;
+        border-radius: 2px;
+        background-color: var(--mars-primary-color);
+      }
+    }
 
-.mars-select,
-.mars-slider {
-  width: 176px !important;
-}
-
-.mars-color-view {
-  width: 176px;
-}
-
-:deep(.ant-radio-group) {
-  .ant-radio-wrapper {
-    &:last-child {
-      margin-left: 20px;
+    .ant-collapse-content {
+      background: var(--mars-dropdown-bg) !important;
     }
   }
-}
 
+  .mars-select,
+  .mars-slider {
+    width: 176px !important;
+  }
 
-.mars-pannel-item-label {
-  min-width: 112px;
+  .mars-color-view {
+    width: 176px;
+  }
+
+  :deep(.ant-radio-group) {
+    .ant-radio-wrapper {
+      &:last-child {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .mars-pannel-item-label {
+    min-width: 112px;
+  }
 }
 
 ::-webkit-scrollbar {

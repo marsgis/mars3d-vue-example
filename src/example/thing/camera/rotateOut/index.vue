@@ -1,8 +1,14 @@
 <template>
   <div class="map_btn">
     <a-space :size="10">
-      <mars-button class="btn" @click="startRotate">开始</mars-button>
-      <mars-button danger class="btn" @click="stopRotate">停止</mars-button>
+      <mars-button class="btn" @click="startRotate">
+        <mars-icon icon="play" color="#f2f2f2" :size="16"></mars-icon>
+        开始
+      </mars-button>
+      <mars-button danger class="btn" @click="stopRotate">
+        <mars-icon icon="power" color="#f2f2f2" :size="16" />
+        停止
+      </mars-button>
     </a-space>
   </div>
 </template>
