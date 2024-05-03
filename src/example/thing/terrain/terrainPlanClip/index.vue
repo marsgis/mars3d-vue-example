@@ -23,6 +23,15 @@
         <mars-button type="primary" danger @click="removeAll">清除</mars-button>
       </a-space>
     </div>
+      <div class="f-mb draw-tools">
+      <a-space>
+        <div class="f-mb">
+          <a-space>
+            <mars-button @click="mapWork.drawLine">按绘制线裁剪</mars-button>
+          </a-space>
+        </div>
+      </a-space>
+    </div>
   </mars-dialog>
 </template>
 

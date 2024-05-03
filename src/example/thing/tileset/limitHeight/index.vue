@@ -8,11 +8,18 @@
         <mars-button @click="clear" danger>清除</mars-button>
       </a-space>
     </div>
-
-    <a-space>
-      <span>限定高度</span>
-      <mars-slider @change="currHeight" v-model:value="inputValue" :min="0" :max="180" />高度{{ inputValue }}
-    </a-space>
+    <div class="f-mb">
+      <a-space>
+        <span>限定高度</span>
+        <mars-slider @change="currHeight" v-model:value="inputValue" :min="0" :max="180" />高度{{ inputValue }}
+      </a-space>
+    </div>
+    <div class="f-mb">
+      <a-space>
+        <span>高度差</span>
+        <mars-slider @change="setDiffHeight" v-model:value="diffHeight" :min="1" :max="1000" />高度{{ diffHeight }}
+      </a-space>
+    </div>
   </mars-dialog>
 </template>
 
@@ -21,10 +28,16 @@ import { ref } from "vue"
 import * as mapWork from "./map.js"
 
 const inputValue = ref<number>(80)
+const diffHeight = ref<number>(1000)
 
 const currHeight = () => {
   mapWork.currHeight(inputValue.value)
 }
+
+const setDiffHeight = () => {
+  mapWork.setDiffHeight(diffHeight.value)
+}
+
 // 绘制矩形
 const drawExtent = () => {
   mapWork.drawExtent()

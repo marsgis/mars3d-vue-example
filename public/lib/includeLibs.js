@@ -134,11 +134,14 @@ window.configLibs = {
   'shpGeojson': [
     "geojson/shp-geojson.js"  // 项目KML/KMZ解析加载GeoJson插件
   ],
+  geotiff:["geotiff/geotiff.js","geotiff/plotty.js"],
+
   kriging: ["kriging/kriging.min.js"],
   three: ["three/three.js"],
   'hls': ["video/hls/hls.js"],
   'flv': ["video/flv/flv.min.js"],
   tween: ["tween/Tween.js"],
-  localforage: ["localforage/localforage.min.js"]
+  localforage: ["localforage/localforage.min.js"],
+  xlsx: ["xlsx/xlsx.full.min.js"],
 }
 
