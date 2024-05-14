@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="300">
-    <layer-state />
+
 
     <div class="f-pt">
       <a-space>
@@ -32,7 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
