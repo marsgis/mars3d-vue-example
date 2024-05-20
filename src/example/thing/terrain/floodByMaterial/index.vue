@@ -4,20 +4,20 @@
       <div class="f-mb">
         <a-space>
           <span class="text-default">最低海拔:</span>
-          <mars-input-number v-model:value="formState.minHeight" :step="1" addon-after="米"/>
+          <mars-input-number v-model:value="formState.minHeight" :step="1" addon-after="米" />
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
           <span class="text-default">最高海拔:</span>
-          <mars-input-number v-model:value="formState.maxHeight" :step="1" addon-after="米"/>
+          <mars-input-number v-model:value="formState.maxHeight" :step="1" addon-after="米" />
         </a-space>
       </div>
       <div class="f-mb">
         <a-space>
           <span class="text-default">淹没速度:</span>
-          <mars-input-number v-model:value="formState.speed" :step="1" addon-after="米/秒"/>
+          <mars-input-number v-model:value="formState.speed" :step="1" addon-after="米/秒" />
         </a-space>
       </div>
 
@@ -65,12 +65,11 @@
       <div class="f-tac control-btn">
         <a-space>
           <mars-button :class="isStart ? 'pause-btn' : 'play-btn'" @click="startPlay">
-
             <mars-icon v-if="!isStart" icon="play"></mars-icon>
             <mars-icon v-else icon="pause-one"></mars-icon>
+            {{ isStart ? "暂停" : "播放" }}
+          </mars-button>
 
-            {{ isStart ? "暂停" : "播放"
-            }}</mars-button>
           <mars-button @click="goBack">返回</mars-button>
         </a-space>
       </div>

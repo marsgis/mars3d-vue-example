@@ -1,15 +1,26 @@
 <template>
+  <div class="f-fr f-pdg-10-b">
+    <mars-switch v-model:checked="formState.showTable" title="显示图层内所有矢量数据列表" />
+    <span class="f-push-10-l">显示列表</span>
+  </div>
+
   <!-- 使用表格实现界面 -->
-  <div class="showTable" v-if="formState.showTable">
-    <mars-table class="mars-noHeader-table" :row-selection="tileLayerRowSelection" :dataSource="tileLayerList"
+  <div v-if="formState.showTable" class="tile-state">
+    <mars-table class="mars-noHeader-table"
+      :row-selection="tileLayerRowSelection"
+      :dataSource="tileLayerList"
       :columns="tileLayerColumns"
-      :showHeader="false" :bordered="false" :pagination="false" size="small" :customRow="tileLayerCustomRowObj">
+      :showHeader="false"
+      :bordered="false"
+      :pagination="false"
+      size="small"
+      :customRow="tileLayerCustomRowObj">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'edit'">
           <div class="table-tools">
             <a-space>
-              <mars-icon icon="send" color="#f2f2f2" class="icon-vertical-a" title="飞行定位"
-                @click.stop="flyToLayer(record)" />
+              <mars-icon icon="editor" color="#f2f2f2" class="icon-vertical-a" title="修改图层参数"
+                @click.stop="startEditingLayer(record)" />
               <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层"
                 @click.stop="deleteLayer(record)" />
             </a-space>
@@ -19,27 +30,16 @@
     </mars-table>
   </div>
 
-  <div>
-    <div class="showTableControl f-mb f-pt">
-      <mars-switch v-model:checked="formState.showTable" title="显示图层内所有矢量数据列表" />
-      <span class="f-push-10-l">显示列表</span>
-    </div>
-
-    <div class="layer-control">
-      <a-space>
-        <mars-button v-if="formState.hasAddTileLayer" @click="addTileLayer">添加图层</mars-button>
-        <mars-button type="primary" danger v-if="formState.hasAddTileLayer" @click="removeTileLayer">移除图层</mars-button>
-      </a-space>
-    </div>
+  <div class="layer-control">
+    <a-space>
+      <mars-button v-if="formState.hasAddTileLayer" @click="addTileLayer">添加图层</mars-button>
+      <mars-button type="primary" danger v-if="formState.hasAddTileLayer" @click="removeTileLayer">移除图层</mars-button>
+    </a-space>
   </div>
-
-
 
   <!-- 编辑图层的面板 -->
   <div class="property-content" v-if="formState.showTable && formState.layerName">
-    <div>
-      <h2 class="title">{{ formState.layerName }}</h2>
-    </div>
+    <h2 class="title">{{ formState.layerName }}</h2>
 
     <!-- 图层状态、交互、操作的盒子 -->
     <div class="bottom-box">
@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue"
+import { ref, reactive, onMounted, watch } from "vue"
 import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
 import type { UnwrapRef } from "vue"
 
@@ -131,6 +131,12 @@ interface LayerTableItem {
 const tileLayerList = ref([])
 const rowKeys = ref<string[]>([])
 
+
+watch(() => rowKeys.value, () => {
+  formState.show = rowKeys.value.includes(thisLayer?.id)
+})
+
+
 const tileLayerColumns = ref([
   {
     title: "名称",
@@ -163,7 +169,10 @@ const tileLayerRowSelection = ref({
 const tileLayerCustomRowObj = (record) => {
   return {
     onClick: () => {
-      startEditingLayer(record)
+      const layer = map.getLayerById(record.key)
+      if (layer) {
+        layer.flyTo()
+      }
     }
   }
 }
@@ -189,13 +198,14 @@ onMounted(() => {
       name: `${layer.type} - ${layer.name || "未命名"}`,
       isTile: layer.isTile
     })
+
+    // 实现默认全部选中
+    rowKeys.value.push(layer.id)
   }
   tileLayerList.value = list
 
   console.log("当前图层列表为", list)
 
-  // 实现默认全部选中
-  rowKeys.value = list.map((item) => item.key)
 
   selectedFirst()
 
@@ -213,9 +223,9 @@ onMounted(() => {
     })
 
     // 将新添加的图层也默认选中
-    rowKeys.value = tileLayerList.value.map((item) => item.key)
+    rowKeys.value.push(layer.id)
 
-    selectedFirst()
+    // selectedFirst()
   })
 
   // 删除图层
@@ -343,15 +353,7 @@ const removeTileLayer = () => {
   mapWork.removeTileLayer()
 }
 
-// 表格行：点击定位图层
-const flyToLayer = (record: LayerTableItem) => {
-  const layer = map.getLayerById(record.key)
-  if (layer) {
-    layer.flyTo()
-  }
-}
-
-// 表格行：点击删除图层
+// 表格行：删除图层
 const deleteLayer = (record: LayerTableItem) => {
   const layer = map.getLayerById(record.key)
   if (layer) {
@@ -375,6 +377,13 @@ const startEditingLayer = (record: LayerTableItem) => {
 // 调试显示隐藏
 const onChangeShow = () => {
   if (thisLayer) {
+    const idx = rowKeys.value.findIndex((item) => item === thisLayer.id)
+    if (idx !== -1 && !formState.show) {
+      rowKeys.value.splice(idx, 1)
+    } else if (formState.show) {
+      rowKeys.value.push(thisLayer.id)
+    }
+
     thisLayer.show = formState.show
   }
 }
@@ -412,17 +421,13 @@ const onChangeHighlight = () => {
 </script>
 
 <style scoped lang="less">
-.imageRectangle {
-  width: 337px;
-  margin-right: 0;
-}
+.tile-state {
+  :deep(.mars-noHeader-table) {
+    .ant-table {
+      margin-top: 0;
+    }
+  }
 
-.iconLeft {
-  margin-right: 10px;
-}
-
-.showBtn {
-  margin-bottom: 10px;
 }
 
 .title {
@@ -464,15 +469,9 @@ const onChangeHighlight = () => {
   margin: 10px 0 1px 0 !important;
 }
 
-
-.showTableControl {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  align-items: center;
-}
-
 .layer-control {
+  margin-top: 10px;
+
   .mars-button {
     width: 146px;
   }

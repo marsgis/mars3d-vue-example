@@ -11,7 +11,7 @@
   </div>
 
   <!-- 使用表格实现界面 -->
-  <div class="showTable" v-if="formState.showTable">
+  <div class="f-mt" v-if="formState.showTable">
     <mars-table
       :row-selection="tileLayerRowSelection"
       :dataSource="tileLayerList"
@@ -19,13 +19,14 @@
       bordered
       :pagination="{ pageSize: 5 }"
       size="small"
-      :customRow="tileLayerCustomRowObj"
-    >
+      :customRow="tileLayerCustomRowObj">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'edit'">
           <a-space>
-            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="飞行定位" @click.stop="flyToLayer(record)" />
-            <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层" @click.stop="deleteLayer(record)" />
+            <mars-icon icon="aiming" color="#f2f2f2" class="icon-vertical-a" title="飞行定位"
+              @click.stop="flyToLayer(record)" />
+            <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层"
+              @click.stop="deleteLayer(record)" />
           </a-space>
         </template>
       </template>
@@ -218,19 +219,6 @@ const startEditingLayer = (record: LayerTableItem) => {
 </script>
 
 <style scoped lang="less">
-.imageRectangle {
-  width: 337px;
-  margin-right: 0;
-}
-
-.iconLeft {
-  margin-right: 10px;
-}
-
-.showBtn {
-  margin-bottom: 10px;
-}
-
 .title {
   text-align: center;
   color: var(--mars-text-color);
@@ -243,10 +231,6 @@ const startEditingLayer = (record: LayerTableItem) => {
 
 :deep(.ant-table-pagination) {
   margin: 10px 0 1px 0 !important;
-}
-
-.showTable {
-  margin-top: 10px;
 }
 
 .showTableControl {
