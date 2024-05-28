@@ -267,6 +267,8 @@ const onOpacityChange = () => {
 
 // 生成大数据
 const addRandomGraphicByCount = () => {
+  disable("graphic-editor")
+
   $showLoading()
   const startTime = new Date().getTime()
 

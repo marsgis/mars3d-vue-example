@@ -31,7 +31,6 @@ export function onUnmounted() {
 }
 
 function createMapvLayer() {
-
   // 构造数据
   const positions = []
   const geojson = []
@@ -59,8 +58,6 @@ function createMapvLayer() {
     destination: Cesium.Rectangle.fromCartesianArray(positions)
   })
 
-
-
   const options = {
     draw: "cluster",
     depthTest: false,
@@ -83,6 +80,7 @@ function createMapvLayer() {
       // shadowBlur: 10,
     },
     gradient: { 0: "blue", 0.5: "yellow", 1.0: "rgb(255,0,0)" }, // 聚合图标渐变色
+    // pointerEvents: true,
 
     data: geojson // 数据
   }
@@ -90,8 +88,11 @@ function createMapvLayer() {
   // 创建MapV图层
   const mapVLayer = new mars3d.layer.MapVLayer(options)
   map.addLayer(mapVLayer)
-}
 
+  mapVLayer.on(mars3d.EventType.click, (event) => {
+    console.log("单击了图层", event)
+  })
+}
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
