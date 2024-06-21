@@ -18,7 +18,7 @@
   <mars-dialog :visible="true" right="10" top="230" bottom="70"  width="330" customClass="czml_dialog">
     <div class="czml_tree">
       <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData"
-        @check="checkedChange">
+        @check="checkedChange" @select="flytoModelNode">
       </mars-tree>
     </div>
   </mars-dialog>
@@ -98,7 +98,11 @@ const checkedChange = (keys: any, item: any) => {
     }
   }
 }
-
+// 点击节点 定位
+const flytoModelNode = (keys: any, item: any) => {
+  const id = item.node.key
+  mapWork.flytoModel(id)
+}
 const showAircraft = () => {
   selectedKeys.value = []
   mapWork.showAircraft()

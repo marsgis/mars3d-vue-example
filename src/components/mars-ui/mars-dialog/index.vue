@@ -93,6 +93,7 @@ interface Props {
     right?: number | string // 定位right值
     top?: number | string // 定位top值
     bottom?: number | string // 定位bottom值
+
     icon?: string
   } // 折叠状态下的配置
 
@@ -236,9 +237,11 @@ function toogleFold(status) {
 function initThumbnail() {
   const thOp = mergeProps.value.thumbnail
   thumbnailRef.value.style.right = autoUnit(thOp.right)
-  thumbnailRef.value.style.left = autoUnit(thOp.left)
+  thumbnailRef.value.style.left = autoUnit(thOp.right) ? null : autoUnit(thOp.left) // 为了解决在折叠状态下的位置问题
   thumbnailRef.value.style.bottom = autoUnit(thOp.bottom)
   thumbnailRef.value.style.top = autoUnit(thOp.top)
+  thumbnailRef.value.style.width = autoUnit(thOp.width) ?? autoUnit(30)// 为了解决在折叠状态下的弹出框长度问题
+  thumbnailRef.value.style.height = autoUnit(thOp.height) ?? autoUnit(30) // 为了解决在折叠状态下的弹出框高度问题
 
   observeDialog = false
 }

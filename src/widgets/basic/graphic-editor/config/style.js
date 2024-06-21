@@ -527,7 +527,7 @@ const styleConfig = {
   billboard: {
     name: "图标点标记",
     primitive: true,
-    extends: ["divBillboard", "canvasBillboard"],
+    extends: ["divBillboard","divBillboardP", "canvasBillboard"],
     style: [
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
       { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
@@ -1466,6 +1466,7 @@ const styleConfig = {
   cylinder: {
     name: "圆锥体",
     primitive: true,
+    extends: ["coneTrack", "coneTrackP"],
     style: [
       { name: "topRadius", label: "顶部半径", type: "number", step: 1, defval: 0.0 },
       { name: "bottomRadius", label: "底部半径", type: "number", step: 1, defval: 100.0 },

@@ -21,6 +21,7 @@ export const mapOptions = {
       icon: "img/basemaps/google_img.png",
       type: "xyz",
       url: "//192.168.0.115/tile16/img/{z}/{x}/{y}.jpg",
+      chinaCRS: mars3d.ChinaCRS.GCJ02,
       minimumLevel: 0,
       maximumLevel: 16,
       show: true
@@ -31,15 +32,7 @@ export const mapOptions = {
       icon: "img/basemaps/google_vec.png",
       type: "xyz",
       url: "//192.168.0.115/tile16/vec/{z}/{x}/{y}.png",
-      minimumLevel: 0,
-      maximumLevel: 16
-    },
-    {
-      pid: 10,
-      name: "地形地图",
-      icon: "img/basemaps/google_ter.png",
-      type: "xyz",
-      url: "//192.168.0.115/tile16/ter/{z}/{x}/{y}.jpg",
+      chinaCRS: mars3d.ChinaCRS.GCJ02,
       minimumLevel: 0,
       maximumLevel: 16
     }
