@@ -13,8 +13,8 @@
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="190" bottom="40" width="330" customClass="pannel">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="checkedKeys"
+  <mars-dialog :visible="true" right="10" top="190" width="330">
+    <mars-tree checkable :height="433" :tree-data="treeData" v-model:checkedKeys="checkedKeys" @check="checkedChange"
       v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
@@ -27,6 +27,7 @@
 import { nextTick, onMounted, ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
+// tree节点太多，八千朝上，内存溢出报错，使用height虚拟滚动处理
 
 const treeData = ref<any[]>([
   {
@@ -37,28 +38,57 @@ const treeData = ref<any[]>([
   }
 ])
 
-const checkedKeys = ref<string[]>([])
-const expandedKeys = ref<any[]>([])
-expandedKeys.value.push(0)
+const checkedKeys = ref<string[] | number[]>([])
+const expandedKeys = ref<any[]>([0])
 
 let layersObj: any = {}
 
-onMounted(() => {
-  initTree()
+mapWork.eventTarget.on("tree", function (event: any) {
+  initTree(event.treeData)
 })
+
+
+// 初始化树控件
+function initTree(dataItems: any) {
+  // 重置上一次的树状数据
+  treeData.value[0].children = []
+  layersObj = {}
+
+  const children: any[] = []
+  const dataKeys: any = []
+
+  // 遍历出所有的树状数据
+  for (let i = 0; i < dataItems.length; i++) {
+    const layer = dataItems[i]
+    if (layer) {
+      const key = "01-" + Math.random()
+      children.push({
+        title: layer.name || "未命名",
+        key: key,
+        id: layer._entity._id
+      })
+
+      if (layer._entity.show) {
+        dataKeys.push(key)
+      }
+      layersObj[layer._entity._id] = layer._entity
+    }
+  }
+
+  treeData.value[0].children = children
+
+  nextTick(() => {
+    checkedKeys.value = dataKeys
+  })
+}
+
 
 const checkedChange = (_keys: string[], checkedNodes: any) => {
   const show = checkedNodes.checked
   const entity = layersObj[checkedNodes.node.id]
 
   if (checkedNodes.node.id === -1) {
-    Object.keys(layersObj).forEach((k) => {
-      const layer = layersObj[k]
-      layer.show = show
-      if (layer._labelEx) {
-        layer._labelEx.show = show
-      }
-    })
+    mapWork.graphicLayer.show = show
     return
   }
 
@@ -73,39 +103,6 @@ const checkedChange = (_keys: string[], checkedNodes: any) => {
   mapWork.flyToEntity()
 }
 
-function initTree() {
-  mapWork.treeEvent.on("tree", function (event: any) {
-    // 重置上一次的树状数据
-    treeData.value[0].children = []
-    layersObj = {}
-
-    const children: any[] = []
-    const dataKeys: any = []
-    const dataItems = event.treeData
-
-    // 遍历出所有的树状数据
-    for (let i = 0; i < dataItems.length; i++) {
-      const layer = dataItems[i]
-      if (layer) {
-        const key = "01-" + Math.random()
-        children.push({
-          title: layer.name || "未命名",
-          key: key,
-          id: layer._entity._id
-        })
-
-        if (layer._entity.show) {
-          dataKeys.push(key)
-        }
-        layersObj[layer._entity._id] = layer._entity
-      }
-    }
-    treeData.value[0].children = children
-    nextTick(() => {
-      checkedKeys.value = dataKeys
-    })
-  })
-}
 
 const shoRailway = () => {
   checkedKeys.value = []

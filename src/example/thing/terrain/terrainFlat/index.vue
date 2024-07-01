@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref } from "vue"
+import { onMounted, reactive, ref } from "vue"
 import type { UnwrapRef } from "vue"
 import * as mapWork from "./map.js"
 
@@ -120,11 +120,11 @@ onMounted(() => {
 })
 
 mapWork.eventTabel.on("tableObject", function (event: any) {
-  dataSource.value = []
-  nextTick(() => {
-    dataSource.value = event.table
-    rowKeys.value = event.table.map((item: any) => item.key)
-  })
+  if (!event.tableItem) {
+    return
+  }
+  dataSource.value.push(event.tableItem)
+  rowKeys.value.push(event.tableItem.key)
 })
 
 // 表格的操作
@@ -134,8 +134,6 @@ const flyto = (record: any) => {
 const deleted = (record: any) => {
   mapWork.deletedGraphic(record.key, record.lineId)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
-
-  mapWork.changeTable(dataSource.value)
 }
 
 // 是否挖地

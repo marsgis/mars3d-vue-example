@@ -13,7 +13,7 @@
   </mars-dialog>
 
   <mars-dialog :visible="true" right="10" top="195" customClass="pannel" width="330">
-    <mars-tree checkable :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys"
+    <mars-tree checkable :height="433" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys"
       v-model:expandedKeys="expandedKeys">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, nextTick } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
@@ -35,57 +35,69 @@ const treeData = ref<any[]>([
     children: []
   }
 ])
-const selectedKeys = ref<any[]>([])
-const expandedKeys = ref<any[]>([])
-expandedKeys.value.push(0)
-selectedKeys.value.push(0)
+const selectedKeys = ref<any[]>([0])
+const expandedKeys = ref<any[]>([0])
 
-const layersObj: any = {}
+let layersObj: any = {}
 
 mapWork.treeEvent.on("tree", (event: any) => {
-  initTree(event)
+  initTree(event.treeData)
 })
 
 const checkedChange = (_keys: string[], checkedNodes: any) => {
-  const node = checkedNodes.node
-  if (!node.children && node.checked) {
-    layersObj[node.key].show = false
+
+  const show = checkedNodes.checked
+  const entity = layersObj[checkedNodes.node.id]
+
+  if (checkedNodes.node.id === -1) {
+    mapWork.graphicLayer.show = show
+    return
   }
-  if (!node.children && !node.checked) {
-    layersObj[node.key].show = true
+  // 处理图层显示隐藏
+  entity.show = show
+  if (entity._labelEx) {
+    entity._labelEx.show = show
+  }
+  if (entity == null) {
+    return
   }
 
-  if (node.id === -1 && node.checked) {
-    node.children.forEach((element: any) => {
-      layersObj[element.key].show = false
-    })
-  }
-  if (node.id === -1 && !node.checked) {
-    node.children.forEach((element: any) => {
-      layersObj[element.key].show = true
-    })
-  }
   mapWork.flyToEntity()
 }
 
 // 初始化树控件
-function initTree(event: any) {
-  const modelList = event.treeData
+function initTree(dataItems: any) {
+  // 重置上一次的树状数据
+  treeData.value[0].children = []
+  layersObj = {}
 
   const tree = []
-  for (let i = 0; i < modelList.length; i++) {
-    const node = modelList[i].graphic
+  const dataKeys: any = []
+
+  for (let i = 0; i < dataItems.length; i++) {
+    const node = dataItems[i].graphic
 
     if (node) {
+      const key = "01-" + Math.random()
       const nodeList: any = {
         title: node.name || "未命名",
-        key: node.id
+        key: key,
+        id: node._id
       }
       tree.push(nodeList)
+
+      if (node.show) {
+        dataKeys.push(key)
+      }
+
       layersObj[nodeList.key] = node
     }
   }
   treeData.value[0].children = tree
+
+  nextTick(() => {
+    selectedKeys.value = dataKeys
+  })
 }
 
 const shoRailway = () => {

@@ -22,17 +22,17 @@
         </a-col>
 
         <a-col :span="24">
-        <div class="checkbox-tools">
-        </div>
+          <div class="checkbox-tools">
+          </div>
         </a-col>
 
         <a-col :span="24">
           <a-form-item :labelCol="labelCol" :labelAlign="labelAlign">
             <div class="draw-tools">
               <a-space>
-          <mars-button @click="mapWork.btnMovingAnimation">上升动画</mars-button>
-          <mars-button @click="mapWork.btnMovingAnimation2">下降动画</mars-button>
-          <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
+                <mars-button @click="mapWork.btnMovingAnimation">上升动画</mars-button>
+                <mars-button @click="mapWork.btnMovingAnimation2">下降动画</mars-button>
+                <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
               </a-space>
             </div>
 
@@ -52,7 +52,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <mars-table class="mars-noHeader-table" :pagination="false" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
+          <mars-table class="mars-noHeader-table" :pagination="false" :row-selection="rowSelection"
+            :dataSource="dataSource" :columns="columns"
             size="small" :showHeader="false" :bordered="false">
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'caozuo'">
@@ -138,11 +139,11 @@ onMounted(() => {
 })
 
 mapWork.eventTabel.on("tableObject", function (event: any) {
-  dataSource.value = []
-  nextTick(() => {
-    dataSource.value = event.table
-    rowKeys.value = event.table.map((item: any) => item.key)
-  })
+  if (!event.tableItem) {
+    return
+  }
+  dataSource.value.push(event.tableItem)
+  rowKeys.value.push(event.tableItem.key)
 })
 
 // 表格的操作
@@ -152,8 +153,6 @@ const flyto = (record: any) => {
 const deleted = (record: any) => {
   mapWork.deletedGraphic(record.key)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
-
-  mapWork.changeTable(dataSource.value)
 }
 
 // 是否挖地
@@ -220,5 +219,4 @@ const changeUpHeight = () => {
     width: 94px;
   }
 }
-
 </style>
