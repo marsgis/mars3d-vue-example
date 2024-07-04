@@ -527,7 +527,7 @@ const styleConfig = {
   billboard: {
     name: "图标点标记",
     primitive: true,
-    extends: ["divBillboard","divBillboardP", "canvasBillboard"],
+    extends: ["divBillboard", "divBillboardP", "canvasBillboard", "billboardIndicator"],
     style: [
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
       { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
@@ -3658,7 +3658,10 @@ const styleConfig = {
       { name: "shiny", label: "光照强度", type: "number", min: 1.0, max: 1000.0, step: 1.0, defval: 100.0 },
       { name: "animationSpeed", label: "动画速度", type: "number", min: 0.1, max: 10.0, step: 0.1, defval: 1.0 },
       { name: "specularIntensity", label: "反射强度", type: "slider", min: 0.0, max: 0.9, step: 0.01, defval: 0.3 },
-      { name: "distortion", label: "倒影扭曲程度", type: "number", min: 0.0, max: 10.0, step: 0.1, defval: 3.7 }
+      { name: "distortion", label: "倒影扭曲程度", type: "number", min: 0.0, max: 10.0, step: 0.1, defval: 3.7 },
+
+      { name: "farDistance", label: "远距离", type: "number", step: 1, defval: 10000},
+      { name: "farColor", label: "远距离颜色", type: "color", defval: "#91B3FF" },
     ]
   }
 }
