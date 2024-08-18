@@ -1443,6 +1443,12 @@
             "download": false
           },
           {
+            "name": "可拖拽图标点",
+            "thumbnail": "graphic-primitive-billboard-indicator.jpg",
+            "main": "graphic/primitive/billboard-indicator",
+            "hasPannel": true
+          },
+          {
             "name": "平面图标(FlatBillboard)",
             "thumbnail": "graphic-combine-flatBillboard.jpg",
             "main": "graphic/combine/flatBillboard",

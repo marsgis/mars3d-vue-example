@@ -274,6 +274,9 @@ const addRandomGraphicByCount = () => {
 
   const result = mapWork.addRandomGraphicByCount(formState.count)
 
+  if (!result) {
+    return
+  }
   $hideLoading()
   const endTime = new Date().getTime()
   const usedTime = (endTime - startTime) / 1000 // 两个时间戳相差的毫秒数
@@ -839,6 +842,8 @@ const graphicCustomRowObj = (recode: any) => {
     onClick: () => {
       const graphicLayer = getManagerLayer()
       const graphic = graphicLayer.getGraphicById(recode.key)
+      console.log("recode.key", recode.key)
+      console.log("graphic", graphic)
       graphic.flyTo()
     }
   }

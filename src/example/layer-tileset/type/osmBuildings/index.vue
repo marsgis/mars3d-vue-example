@@ -9,11 +9,9 @@
       </a-space>
     </div>
 
-    <div>
-      <a-space>
-        <span>建筑物颜色:</span>
-        <mars-color-picker @change="selectColor" v-model:value="color" />
-      </a-space>
+    <div class="building-color">
+      <span>建筑物颜色:</span>
+      <mars-color-picker @change="selectColor" v-model:value="color" />
     </div>
   </mars-dialog>
 </template>
@@ -28,3 +26,15 @@ const selectColor = (e) => {
   mapWork.selectColor(color.value)
 }
 </script>
+
+<style scoped lang="less">
+.building-color {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .mars-color-view {
+    width: calc(100% - 85px);
+  }
+}
+</style>

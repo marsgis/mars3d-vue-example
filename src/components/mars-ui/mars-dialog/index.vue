@@ -5,16 +5,16 @@
     </div>
     <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
       <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
-           @mousedown="dragStart">
+        @mousedown="dragStart">
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
         <slot v-else-if="slots.icon" name="icon"></slot>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
         <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
-                   @click="close"></mars-icon>
+          @click="close"></mars-icon>
       </div>
       <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
-                 class="close-btn__flot" @click="close"></mars-icon>
+        class="close-btn__flot" @click="close"></mars-icon>
 
       <div
         class="mars-dialog__content"
@@ -31,7 +31,7 @@
       </div>
 
       <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
-           @mousedown="resizeStart(handle, $event)"></div>
+        @mousedown="resizeStart(handle, $event)"></div>
     </div>
   </teleport>
 </template>
@@ -106,7 +106,7 @@ const props = withDefaults(defineProps<Props>(), {
   nopadding: false,
   closeable: false,
   closeButton: true,
-  draggable: true,
+  draggable: false, // 默认不拖拽，向外拉宽时太快会失去焦点，
   animation: true,
   handles: false,
   defaultFold: false,
@@ -173,7 +173,7 @@ const mergeProps = computed(() => {
 
 const showHeader = computed(() => slots.title || isAllowValue(mergeProps.value.icon) || isAllowValue(mergeProps.value.title))
 const getContentStyle = () => {
-  const style:any = {}
+  const style: any = {}
   style.height = "100%"
   // 头部和脚部各有一个时
   if (showHeader.value) {

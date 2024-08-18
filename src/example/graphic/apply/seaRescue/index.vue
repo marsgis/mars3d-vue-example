@@ -28,7 +28,7 @@
         <span v-else>{{ title }}</span>
       </template>
     </mars-tree>
-    <template v-if="isPlay">
+    <template v-if="isPlay && counter !== 0">
       <h3 class="f-mb show-time">总时长：{{ totalTimes }}</h3>
       <h3 class="f-mb show-time">当前: {{ currentWork }}&nbsp;{{ counter }}秒</h3>
     </template>
@@ -69,7 +69,14 @@ function play() {
   start()
 }
 function pause() {
-  clearTimeout(timer)
+  if (timer) {
+    clearTimeout(timer)
+  }
+  if (interval) {
+    clearInterval(interval)
+  }
+  counter.value = 0
+
   currentIndex.value--
   isPause.value = true
 }

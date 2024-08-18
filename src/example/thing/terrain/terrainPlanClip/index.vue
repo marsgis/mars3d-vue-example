@@ -19,15 +19,15 @@
     <div class="f-mb draw-tools">
       <a-space>
         <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-        <mars-button @click="btnDraw">添加多边行</mars-button>
+        <mars-button @click="btnDraw">添加多边形</mars-button>
         <mars-button type="primary" danger @click="removeAll">清除</mars-button>
       </a-space>
     </div>
-      <div class="f-mb draw-tools">
+    <div class="f-mb draw-tools">
       <a-space>
         <div class="f-mb">
           <a-space>
-            <mars-button @click="mapWork.drawLine">按绘制线裁剪</mars-button>
+            <mars-button class="f-tac" @click="mapWork.drawLine">按绘制线裁剪</mars-button>
           </a-space>
         </div>
       </a-space>
@@ -103,7 +103,7 @@ const changeClipHeight = () => {
 
 .draw-tools {
   .mars-button {
-    width: 94px;
+    min-width: 94px;
   }
 }
 </style>

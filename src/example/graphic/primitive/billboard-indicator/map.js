@@ -1,9 +1,16 @@
 import * as mars3d from "mars3d"
-import { BillboardIndicator } from "./BillboardIndicator"
 
 export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 
+export const mapOptions = {
+  scene: {
+    center: { lat: 31.530403, lng: 117.315144, alt: 38555.2, heading: 360, pitch: -45 }
+  }
+}
+
+// 事件对象，用于抛出事件给面板
+export const eventTarget = new mars3d.BaseClass()
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
@@ -39,30 +46,30 @@ export function onUnmounted() {
 }
 
 function addDemoGraphic1(graphicLayer) {
-  const divIndicator = new BillboardIndicator({
-    position: [116.115794, 30.973847, 1455.6],
+  const divIndicator = new mars3d.graphic.BillboardIndicator({
+    position: [117.376411, 31.804661, 4.1],
     style: {
-      // 圆点(不动的)
-      pointColor: "#0000ff", // 颜色
-      pointSize: 10, // 像素大小
-      pointOutline: true, // 是否边框
-      pointOutlineWidth: 2, // 边框宽度
-      pointOutlineColor: "#ffffff", // 边框颜色
-
+      // 文本
+      label: {
+        text: "自动连线最近角",
+        font: "40px 楷体",
+        color: "#ffffff"
+      },
+      // 矩形（可拖拽的）
+      rectX: 100,
+      rectY: -50,
+      scaleByDistance: new Cesium.NearFarScalar(800, 0.8, 2500, 0.3),
+      rectColor: "rgb(16 238 220)",
       // 连线（自动的）
       lineColor: "#00ff00",
       lineWidth: 2,
       lineDash: "5,5", // 虚线
-
-      // 文本
-      text: "自动连线最近角",
-      textFont: "40px 楷体",
-      textColor: "#ffffff",
-
-      // 矩形（可拖拽的）
-      rectX: 100,
-      rectY: -50,
-      rectColor: "rgb(16 238 220)"
+      // 圆点(不动的)
+      pointColor: "#0000ff", // 颜色
+      pointSize: 4, // 像素大小
+      pointOutline: true, // 是否边框
+      pointOutlineWidth: 2, // 边框宽度
+      pointOutlineColor: "#ffffff" // 边框颜色
     },
     attr: { remark: "示例1" }
   })
@@ -70,13 +77,18 @@ function addDemoGraphic1(graphicLayer) {
 }
 
 function addDemoGraphic2(graphicLayer) {
-  const divIndicator = new BillboardIndicator({
-    position: [116.326555, 30.849435, 410.2],
+  const divIndicator = new mars3d.graphic.BillboardIndicator({
+    position: [117.207965, 31.842734, 37.8],
     style: {
-      autoPoistion: false,
-      lineDash: "5,5", // 虚线
       // 文本
-      text: "连线位置固定"
+      label: {
+        text: "连线位置固定",
+        font: "20px 楷体",
+        color: "#ffffff"
+      },
+      // 连线（自动的）
+      lineDash: "5,5", // 虚线
+      autoPoistion: false
     },
     attr: { remark: "示例2" }
   })
@@ -92,40 +104,45 @@ export function addRandomGraphicByCount(count) {
   const result = mars3d.PolyUtil.getGridPoints(bbox, count, 30)
   console.log("生成的测试网格坐标", result)
 
+  // const graphics = []
   for (let j = 0; j < result.points.length; ++j) {
     const position = result.points[j]
     const index = j + 1
 
-    const graphic = new BillboardIndicator({
+    const graphicOptions = {
+      id: "m" + index,
       position,
       style: {
-        // 圆点(不动的)
-        pointColor: "#0000ff", // 颜色
-        pointSize: 10, // 像素大小
-        pointOutline: true, // 是否边框
-        pointOutlineWidth: 2, // 边框宽度
-        pointOutlineColor: "#ffffff", // 边框颜色
-
+        // 文本
+        label: {
+          text: "数据" + index,
+          font: "20px 楷体",
+          color: "#ffffff"
+        },
+        // 矩形（可拖拽的）
+        rectX: 100,
+        rectY: -50,
         // 连线（自动的）
         lineColor: "#00ff00",
         lineWidth: 2,
         lineDash: "5, 5", // 虚线
-
-        // 矩形（可拖拽的）
-        rectX: 100,
-        rectY: -50,
-
-        // 矩形内文本
-        text: "数据" + index,
-        textFont: "20px 楷体",
-        textColor: "#ffffff"
+        // 圆点(不动的)
+        pointColor: "#0000ff", // 颜色
+        pointSize: 2, // 像素大小
+        pointOutline: true, // 是否边框
+        pointOutlineWidth: 2, // 边框宽度
+        pointOutlineColor: "#ffffff" // 边框颜色
       },
       attr: { index }
-    })
+    }
+
+    const graphic = new mars3d.graphic.BillboardIndicator(graphicOptions)
     graphicLayer.addGraphic(graphic)
   }
 
   graphicLayer.enabledEvent = true // 恢复事件
+  graphicLayer.flyTo()
+
   return result.points.length
 }
 
@@ -134,26 +151,25 @@ export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "billboardIndicator",
     style: {
-      // 圆点(不动的)
-      pointColor: "#0000ff", // 颜色
-      pointSize: 10, // 像素大小
-      pointOutline: true, // 是否边框
-      pointOutlineWidth: 2, // 边框宽度
-      pointOutlineColor: "#ffffff", // 边框颜色
-
+      // 矩形内文本
+      label: {
+        text: "我是文本信息",
+        font: "20px 楷体",
+        color: "#ffffff"
+      },
+      // 矩形（可拖拽的）
+      rectX: 100,
+      rectY: -50,
       // 连线（自动的）
       lineColor: "#00ff00",
       lineWidth: 2,
       lineDash: "5, 5", // 虚线
-
-      // 矩形（可拖拽的）
-      rectX: 100,
-      rectY: -50,
-
-      // 矩形内文本
-      text: "我是文本信息",
-      textFont: "20px 楷体",
-      textColor: "#ffffff"
+      // 圆点(不动的)
+      pointColor: "#0000ff", // 颜色
+      pointSize: 2, // 像素大小
+      pointOutline: true, // 是否边框
+      pointOutlineWidth: 2, // 边框宽度
+      pointOutlineColor: "#ffffff" // 边框颜色
     }
   })
 }
