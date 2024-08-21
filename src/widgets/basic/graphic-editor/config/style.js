@@ -865,10 +865,9 @@ const styleConfig = {
   },
   billboardIndicator: {
     name: "可拖拽图标点",
-    primitive: true,
     style: [
       { name: "opacity", label: "透明度", type: "slider", defval: 1.0, min: 0, max: 1, step: 0.01 },
-      { name: "scale", label: "大小比例", type: "number", step: 1, defval: 1.0 },
+      { name: "scale", label: "大小比例", type: "number", step: 1, min: 0, defval: 1.0 },
 
       {
         name: "scaleByDistance",
@@ -943,7 +942,6 @@ const styleConfig = {
           return style.distanceDisplayCondition
         }
       },
-
       {
         name: "clampToGround",
         label: "是否贴地",
@@ -954,8 +952,6 @@ const styleConfig = {
         }
       },
       { name: "visibleDepth", label: "是否被遮挡", type: "radio", defval: true },
-
-      { name: "image", label: "图标", type: "label", defval: "" }
     ]
   },
 
