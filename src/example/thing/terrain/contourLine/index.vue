@@ -11,7 +11,8 @@
     </div>
 
     <div class="f-pt">
-      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource" :columns="columns"
+      <mars-table :pagination="{ pageSize: 5 }" :row-selection="rowSelection" :dataSource="dataSource"
+        :columns="columns"
         size="small" :showHeader="false" :bordered="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'caozuo'">
@@ -186,7 +187,9 @@ const flyto = (record: any) => {
 const deleted = (record: any) => {
   mapWork.deletedGraphic(record.key)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
-
+  if (dataSource.value.length === 0) {
+    marsGuiRef.value.updateField("control", true)
+  }
   mapWork.changeTable(dataSource.value)
 }
 
@@ -203,6 +206,7 @@ const clearAll = () => {
   mapWork.clearAll()
 
   // formState.showElse = true
+  marsGuiRef.value.updateField("control", true)
   // 清除表格
   dataSource.value = []
 }
@@ -222,12 +226,13 @@ const clearAll = () => {
 }
 
 :deep(.ant-radio-wrapper-in-form-item) {
-  margin:0px;
+  margin: 0px;
 }
 
 
 .draw-tools {
-  margin-top:10px;
+  margin-top: 10px;
+
   .mars-button {
     width: 94px;
   }

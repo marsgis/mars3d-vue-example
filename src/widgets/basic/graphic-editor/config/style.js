@@ -2466,6 +2466,7 @@ const styleConfig = {
         data: [
           { label: "实线", value: "Color" },
           { label: "虚线", value: "PolylineDash" },
+          { label: "虚线箭头", value: "LineDashArrow" },
           { label: "衬色线", value: "PolylineOutline" },
           { label: "箭头", value: "PolylineArrow" },
           { label: "光晕", value: "PolylineGlow" },

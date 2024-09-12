@@ -30,14 +30,14 @@
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="光照参数">
-        <a-form-item label="光泽度:">
+        <!-- <a-form-item label="光泽度:">
           <mars-slider  @change="changeShininess" v-model:value="formState.shininess" :min="0"
             :max="50" :step="1" />
         </a-form-item>
         <a-form-item label="高光:">
           <mars-slider  @change="changeSpecular" v-model:value="formState.specular" :min="0"
             :max="1" :step="0.1" />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item label="颜色选择">
           <mars-color-picker v-model:value="formState.emission"  @change="changeColor" />
         </a-form-item>

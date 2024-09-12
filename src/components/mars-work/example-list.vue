@@ -111,7 +111,7 @@
               <template v-for="item2 in item1.children" :key="item2.id">
                 <li
                   v-if="item2.main && item2.hidden != true"
-                  :title="item2.name + '  ' + item2.main"
+                  :title="getTitle(item2)"
                   @click="jumpurl(item2)"
                   style="overflow: hidden"
                 >
@@ -257,6 +257,16 @@ export default {
       } else {
         return (this.wrapFixed = false)
       }
+    },
+    getTitle(item) {
+        let title = `${item.name}
+目录：${item.main}`
+      if (item.api) {
+        const api_name = item.api.replaceAll(".html", "").replaceAll("global.", "")
+        title += `
+API：mars3d.${api_name}`
+      }
+      return title
     },
     jumpurl(item) {
       this.$emit("jump", item)

@@ -7,6 +7,11 @@ const materialConfig = {
     { name: "gapColor", label: "间隔颜色", type: "color", defval: "rgba(255,255,255,0)" },
     { name: "dashLength", label: "虚线间长", type: "number", step: 1, defval: 16.0 }
   ],
+  LineDashArrow: [
+    { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
+    { name: "gapColor", label: "间隔颜色", type: "color", defval: "rgba(255,255,255,0)" },
+    { name: "dashLength", label: "虚线间长", type: "number", step: 1, defval: 16.0 }
+  ],
   PolylineOutline: [
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "outlineColor", label: "衬色", type: "color", defval: "rgba(255,255,255,0)" },

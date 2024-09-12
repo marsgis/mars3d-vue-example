@@ -342,6 +342,7 @@ html {
   border-radius: 2px;
   border-width: 1px;
   border-image: url("/img/svg/border.svg") 1 round stretch;
+  min-width: auto;
 }
 
 

@@ -56,7 +56,7 @@ const formState = reactive<FormState>({
   maxDistance: 5,
   duration: 1000,
   maxHeight: 120,
-  inRangeColor: "rgb(255,0,0)",
+  inRangeColor: "rgba(255, 0, 0, 0.5)",
   outRangeColor: "rgb(255,255,255)"
 })
 

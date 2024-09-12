@@ -3,11 +3,12 @@
 
     <a-form  :labelCol="{ span:4 }">
       <a-form-item label="分析值:">
-        <mars-slider v-model:value="delta" :min="1" :max="100" :step="1" /></a-form-item>
+        <mars-slider v-model:value="delta" :min="10" :max="60" :step="1" /></a-form-item>
       </a-form>
       <a-form-item label="">
         <a-space>
           <mars-button @click="drawRectangle">绘制区域</mars-button>
+          <mars-button @click="clearDraw">清除</mars-button>
         </a-space>
       </a-form-item>
   </mars-dialog>
@@ -17,12 +18,16 @@
 import { ref } from "vue"
 import * as mapWork from "./map.js"
 
-const delta = ref(50)
+const delta = ref(20)
 
 // 绘制线
 const drawRectangle = () => {
   mapWork.drawRectangle(delta.value)
 }
+const clearDraw = () => {
+  mapWork.clearDraw()
+}
+
 
 </script>
 

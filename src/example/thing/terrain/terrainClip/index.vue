@@ -155,7 +155,6 @@ function resetEnabled() {
   mapWork.chkClippingPlanes(formState.enabledWadi)
 
   // 是否外切割
-  formState.enabledWaiqiege = false
   mapWork.chkUnionClippingRegions(formState.enabledWaiqiege)
 }
 
