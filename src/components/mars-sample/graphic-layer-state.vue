@@ -766,11 +766,17 @@ const graphicRowSelection = {
     const graphicLayer = getManagerLayer()
     const graphic = graphicLayer.getGraphicById(record.key)
     if (graphic) {
-      if (graphic.isEditing) {
-        $message(`编辑状态不允许修改show属性`)
-        return
+      // if (graphic.isEditing) {
+      //   $message(`编辑状态不允许修改show属性`)
+      //   return
+      // }
+
+      if (graphic.isEditing && graphic.stopEditing) {
+        graphic.stopEditing()
+        $message(`隐藏时，停止编辑`)
       }
       graphic.show = selected
+
     }
   }
 }

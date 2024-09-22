@@ -1,6 +1,13 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
     <div id="section" style="width: 500px; height: 200px"></div>
+
+    <a-space>
+      <span class="mars-pannel-item-label">最近点计算:</span>
+      <mars-button class="draw_btn" @click="mapWork.drawPoint">绘制点</mars-button>
+      <mars-button class="draw_btn" @click="mapWork.testGraphicLayer.clear()">清除</mars-button>
+      <mars-button class="draw_btn" @click="mapWork.batchComputing">批量计算(与树求交)</mars-button>
+    </a-space>
   </mars-dialog>
 </template>
 
