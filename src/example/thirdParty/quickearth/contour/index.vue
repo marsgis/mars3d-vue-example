@@ -5,10 +5,16 @@
       <a-form-item label="分析值:">
         <mars-slider v-model:value="delta" :min="10" :max="60" :step="1" /></a-form-item>
       </a-form>
-      <a-form-item label="">
+      <a-form-item label="显示立体">
         <a-space>
           <mars-button @click="drawRectangle">绘制区域</mars-button>
           <mars-button @click="clearDraw">清除</mars-button>
+        </a-space>
+      </a-form-item>
+      <a-form-item label="剖面分析">
+        <a-space>
+        <mars-button @click="mapWork.drawLine">绘制线</mars-button>
+          <mars-button @click="mapWork.removeSectionPath">清除</mars-button>
         </a-space>
       </a-form-item>
   </mars-dialog>

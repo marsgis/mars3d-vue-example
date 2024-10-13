@@ -122,6 +122,7 @@
                   <p>
                     {{ item2.name }}
 
+
                     <svg
                       class="vue"
                       v-if="item2.hasPannel === true"
@@ -141,6 +142,7 @@
                       >[{{ item2.plugins }}插件]</span
                     >
                   </p>
+                  <span class="hideInfo">{{ item2.main  }} , {{ item2.api  }}</span>
                 </li>
               </template>
             </ul>
@@ -290,7 +292,7 @@ API：mars3d.${api_name}`
             if (ite.children) {
               const lis = []
               ite.children.forEach((itemes) => {
-                if (itemes.name.toLowerCase().search(searchValue) !== -1) {
+                if (itemes.name.toLowerCase().search(searchValue) !== -1 || (itemes.api && itemes.api.toLowerCase().search(searchValue) !== -1)) {
                   lis.push(itemes)
                 }
               })
@@ -915,6 +917,13 @@ input:-ms-input-placeholder {
   vertical-align: middle;
   margin-left: 10px;
   cursor: pointer;
+}
+
+.hideInfo{
+  color: rgba(255, 255, 255, 0.01);
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .three .tan1 {

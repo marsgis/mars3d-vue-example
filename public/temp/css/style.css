@@ -226,6 +226,7 @@ html {
   max-height: 700px;
   margin-bottom: 5px;
   background-color: rgba(39, 44, 54, 0.8);
+  z-index: 9999;
 }
 
 /**cesium 帮助面板*/

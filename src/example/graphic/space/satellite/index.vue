@@ -191,35 +191,59 @@ mapWork.eventTarget.on("satelliteChange", function (event: any) {
 
 const changeAutoHeading = () => {
   if (formState.customHeading) {
-    mapWork.weixin.model.heading = formState.slideHeadingStep
+    updateHeading()
   } else {
-    mapWork.weixin.model.heading = undefined
+    if (mapWork.weixin.model) {
+      mapWork.weixin.model.heading = undefined
+    } else {
+      mapWork.weixin.heading = undefined
+    }
   }
 }
 const updateHeading = () => {
-  mapWork.weixin.model.heading = formState.slideHeadingStep
+  if (mapWork.weixin.model) {
+    mapWork.weixin.model.heading = formState.slideHeadingStep
+  } else {
+    mapWork.weixin.heading = formState.slideHeadingStep
+  }
 }
 
 const changeAutoPitch = () => {
   if (formState.customPitch) {
-    mapWork.weixin.model.pitch = formState.slidePitchStep
+    updatePitch()
   } else {
-    mapWork.weixin.model.pitch = undefined
+    if (mapWork.weixin.model) {
+      mapWork.weixin.model.pitch = undefined
+    } else {
+      mapWork.weixin.pitch = undefined
+    }
   }
 }
 const updatePitch = () => {
-  mapWork.weixin.model.pitch = formState.slidePitchStep
+  if (mapWork.weixin.model) {
+    mapWork.weixin.model.pitch = formState.slidePitchStep
+  } else {
+    mapWork.weixin.pitch = formState.slidePitchStep
+  }
 }
 
 const changeAutoRoll = () => {
   if (formState.customPitch) {
-    mapWork.weixin.model.roll = formState.slideRollStep
+    updateRoll()
   } else {
-    mapWork.weixin.model.roll = undefined
+    if (mapWork.weixin.model) {
+      mapWork.weixin.model.roll = undefined
+    } else {
+      mapWork.weixin.roll = undefined
+    }
   }
 }
 const updateRoll = () => {
-  mapWork.weixin.model.roll = formState.slideRollStep
+  if (mapWork.weixin.model) {
+    mapWork.weixin.model.roll = formState.slideRollStep
+  } else {
+    mapWork.weixin.roll = formState.slideRollStep
+  }
 }
 // 夹角
 const angle1 = () => {
