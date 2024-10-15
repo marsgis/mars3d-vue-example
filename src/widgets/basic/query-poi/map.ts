@@ -10,8 +10,10 @@ const Cesium = mars3d.Cesium
 
 let map: mars3d.Map // 地图对象
 export let graphicLayer: mars3d.layer.GraphicLayer
-let queryPoi: mars3d.query.GaodePOI // GaodePOI查询
+let queryPoi: mars3d.query.TdtPOI // TdtPOI查询
 let address: any = null
+let queryAddressDOM
+
 const imgArr = []
 
 // 初始化当前业务
@@ -23,7 +25,18 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
 
   map = mapInstance // 记录map
 
-  queryPoi = new mars3d.query.GaodePOI({
+  // 下侧状态栏提示
+  const locationBar = map.controls.locationBar?.container
+  if (locationBar) {
+    queryAddressDOM = mars3d.DomUtil.create(
+      "div",
+      "mars3d-locationbar-content mars3d-locationbar-autohide",
+      map.controls.locationBar.container
+    )
+    queryAddressDOM.style.marginRight = "50px"
+  }
+
+  queryPoi = new mars3d.query.TdtPOI({
     // city: '合肥市',
   })
 
@@ -61,9 +74,17 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
 }
 
 async function cameraChanged() {
+  const radius = map.camera.positionCartographic.height // 单位：米
+  if (radius > 100000) {
+    address = null
+    if (queryAddressDOM) { queryAddressDOM.innerHTML = "" }
+    return
+  }
+
   address = await queryPoi.getAddress({
     location: map.getCenter()
   })
+  if (address && queryAddressDOM) { queryAddressDOM.innerHTML = "地址：" + address.address }
 }
 
 // 释放当前业务

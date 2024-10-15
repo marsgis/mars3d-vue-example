@@ -18,7 +18,7 @@
               </a-radio-group>
 
               <!-- 颜色选择器 -->
-              <mars-color-picker v-if="sceneData[index].operation === 'color'"
+              <mars-color-picker v-if="sceneData[index].operation === 'color'" hiddenAlpha="true"
                 @change="(sceneData[index] as any).change(index)" v-model:value="sceneData[index].value" />
             </a-space>
           </div>
@@ -38,7 +38,7 @@
                 <a-radio value="2">否</a-radio>
               </a-radio-group>
               <!-- 颜色选择器 -->
-              <mars-color-picker v-if="globeData[index].operation === 'color'"
+              <mars-color-picker v-if="globeData[index].operation === 'color'" hiddenAlpha="true"
                 @change="(globeData[index] as any).change(index)" v-model:value="globeData[index].value" />
 
               <!-- range滑动 -->

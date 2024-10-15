@@ -226,6 +226,10 @@ onMounted(() => {
         formState.enabledOpacity = lastgraphic.hasOpacity
         formState.enabledEdit = lastgraphic.hasEdit
       }
+      // 当加载矢量只有一条时，自动打开编辑面板
+      if (graphics.length === 1) {
+        startEditGraphic({ key: graphics[0].id, name: graphics[0].name })
+      }
 
       formState.hasTable = graphics.length > 0
 
