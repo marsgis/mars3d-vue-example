@@ -225,10 +225,10 @@ onMounted(() => {
         const lastgraphic = graphics[graphics.length - 1]
         formState.enabledOpacity = lastgraphic.hasOpacity
         formState.enabledEdit = lastgraphic.hasEdit
-      }
-      // 当加载矢量只有一条时，自动打开编辑面板
-      if (graphics.length === 1) {
-        startEditGraphic({ key: graphics[0].id, name: graphics[0].name })
+
+        if (graphics.length < 3) {
+          startEditGraphic({ key: lastgraphic.id, name: lastgraphic.name })// 自动打开编辑面板
+        }
       }
 
       formState.hasTable = graphics.length > 0
@@ -620,11 +620,10 @@ const onClickImpFile = (info: any) => {
       console.log("打开了json文件", geojson)
 
       if (geojson.type === "graphic" && geojson.data) {
-        graphicLayer.addGraphic(geojson.data)
+        graphicLayer.loadJSON(geojson.data)
         graphicLayer.flyTo()
       } else {
         graphicLayer.loadGeoJSON(geojson, { flyTo: true })
-        // initGraphicableData(graphicLayer)
       }
 
       initGraphicableData(graphicLayer)

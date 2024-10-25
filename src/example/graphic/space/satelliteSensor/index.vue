@@ -147,10 +147,13 @@
       </div>
     </div>
   </mars-dialog>
+
+  <location-to />
 </template>
 
 <script lang="ts" setup>
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
+import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import { reactive, ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 

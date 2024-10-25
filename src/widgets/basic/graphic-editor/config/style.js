@@ -2400,7 +2400,9 @@ const styleConfig = {
       { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
       { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
 
-      { name: "topShow", label: "显示顶盖", type: "radio", defval: true }
+      { name: "topShow", label: "显示顶盖", type: "radio", defval: true },
+
+      { name: "rayEllipsoid", label: "求交地球", type: "radio", defval: false }
     ]
   },
   pointLight: {

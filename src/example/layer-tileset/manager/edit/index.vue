@@ -46,13 +46,13 @@
               <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
             </a-form-item>
             <a-form-item label="绕X轴旋转模型">
-              <mars-input-number v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Y轴旋转模型">
-              <mars-input-number v-model:value="formState.rotationY" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationY" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Z轴旋转模型">
-              <mars-input-number v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
           </a-collapse-panel>
 

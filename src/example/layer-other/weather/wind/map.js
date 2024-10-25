@@ -84,14 +84,13 @@ function addLayer() {
   })
 }
 
-let canrefresh
+
 
 // 参数调整面板
 export function onParticleSystemOptionsChange(options) {
-  clearTimeout(canrefresh)
-  canrefresh = setTimeout(() => {
+  mars3d.Util.funDebounce(() => {
     windLayer.setOptions(options)
-  }, 500)
+  }, 500)()
 }
 
 // 加载并解析NC数据

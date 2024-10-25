@@ -67,4 +67,3 @@ class CanvasBillboard extends mars3d.graphic.BillboardPrimitive {
 // 注册下
 mars3d.GraphicUtil.register("canvasBillboard", CanvasBillboard)
 
-mars3d.graphic.CanvasBillboard = CanvasBillboard
