@@ -35,7 +35,6 @@ export function onMounted(mapInstance) {
   // map.scene.skyAtmosphere.saturationShift = 0.1
   // map.scene.skyAtmosphere.brightnessShift = 0.08 // 地面0.08 海底
 
-
   addLayer()
 }
 
@@ -84,13 +83,14 @@ function addLayer() {
   })
 }
 
-
+let canrefresh
 
 // 参数调整面板
 export function onParticleSystemOptionsChange(options) {
-  mars3d.Util.funDebounce(() => {
+  clearTimeout(canrefresh)
+  canrefresh = setTimeout(() => {
     windLayer.setOptions(options)
-  }, 500)()
+  }, 500)
 }
 
 // 加载并解析NC数据

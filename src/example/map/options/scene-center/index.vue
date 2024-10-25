@@ -81,30 +81,25 @@ const changeView4 = () => {
 // **************************** 相机和视角控制********************** //
 const cameraData = [
   {
+    name: "飞行至默认视角",
+    title: "默认视角一般为config.json中的center参数配置的视角",
+    callback: () => mapWork.mapFlyHome()
+  },
+
+  {
     name: "获取当前地图视角",
     title: "",
     callback: () => mapWork.mapGetCameraView()
   },
   {
-    name: "停止视角定位",
-    title: "",
-    callback: () => mapWork.mapCancelFlyTo()
-  },
-  {
-    name: "飞行至默认视角",
-    title: "默认视角一般为config.json中的center参数配置的视角",
-    callback: () => mapWork.mapFlyHome()
-  },
-  {
-    name: "定位至指定位置",
+    name: "定位至指定视角",
     title: "",
     callback: () => mapWork.mapSetCameraView()
   },
-
   {
-    name: "定位至矩形区域处",
+    name: "停止视角定位",
     title: "",
-    callback: () => mapWork.mapFlyToExtent()
+    callback: () => mapWork.mapCancelFlyTo()
   },
   {
     name: "定位至目标点",
@@ -115,6 +110,11 @@ const cameraData = [
     name: "定位至坐标数组处",
     title: "",
     callback: () => mapWork.mapFlyToPositions()
+  },
+  {
+    name: "定位至矩形区域处",
+    title: "",
+    callback: () => mapWork.mapFlyToExtent()
   },
   {
     name: "定位至矢量数据",
