@@ -35,6 +35,10 @@
 
     <a-checkbox class="rightMenu-checkbox f-pt" v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu"
       title="是否绑定右键菜单">右键菜单</a-checkbox>
+
+    <a-checkbox class="rightMenu-checkbox f-pt" v-model:checked="formState.clusterEnabled" @change="onChangClustering"
+    title="是否对点数据进行聚合">是否聚合</a-checkbox>
+
   </div>
 
   <div class="f-mb" v-if="props.enabledDraw">
@@ -145,6 +149,7 @@ interface FormState {
   enabledPopup: boolean
   enabledTooltip: boolean
   enabledRightMenu: boolean
+  clusterEnabled: boolean
   enabledOpacity: boolean
   opacity: number
   enabledEdit: boolean
@@ -159,6 +164,7 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledPopup: true,
   enabledTooltip: false,
   enabledRightMenu: false,
+  clusterEnabled: false,
   enabledOpacity: true,
   opacity: 1,
   enabledEdit: true,
@@ -372,6 +378,10 @@ const onChangeRightMenu = () => {
   } else {
     layer.unbindContextMenu(true)
   }
+}
+const onChangClustering = () => {
+  const layer = getManagerLayer()
+  layer.clusterEnabled = formState.clusterEnabled
 }
 
 // 在图层绑定Popup弹窗

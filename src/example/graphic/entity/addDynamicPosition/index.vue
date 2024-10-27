@@ -3,6 +3,8 @@
     <layer-state />
     <mars-button class="f-push-10-t" href="editor-vue.html?id=graphic/entity/addDynamicPosition-tileset"
       target="_blank">动态贴模型示例</mars-button>
+
+
   </mars-dialog>
   <location-to />
 </template>
