@@ -77,9 +77,13 @@ function addLayer() {
   })
   map.addLayer(windLayer)
 
+  showLoading()
+
   loadNetCDF("//data.mars3d.cn/file/apidemo/wind.nc").then((data) => {
     console.log("数据加载解析完成", data)
     windLayer.setData(data)
+
+    hideLoading()
   })
 }
 

@@ -114,14 +114,14 @@ const goBack = () => {
 const btnDrawExtent = () => {
   mapWork.btnDrawExtent((min: any, max: any) => {
     formState.minHeight = Math.ceil(min)
-    formState.maxHeight = Math.ceil(max)
+    formState.maxHeight = Math.ceil(max * 1.1)
   })
 }
 // 添加多边形
 const btnDraw = () => {
   mapWork.btnDraw((min: any, max: any) => {
     formState.minHeight = Math.ceil(min)
-    formState.maxHeight = Math.ceil(max)
+    formState.maxHeight = Math.ceil(max * 1.1)
   })
 }
 

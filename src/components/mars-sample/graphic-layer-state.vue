@@ -32,12 +32,12 @@
       <a-checkbox v-model:checked="formState.enabledTooltip" @change="onChangeTooltip"
         title="是否绑定Tooltip鼠标移入弹窗">移入Tooltip</a-checkbox>
     </a-space>
-
-    <a-checkbox class="rightMenu-checkbox f-pt" v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu"
+    <a-space>
+      <a-checkbox class="rightMenu-checkbox" v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu"
       title="是否绑定右键菜单">右键菜单</a-checkbox>
-
-    <a-checkbox class="rightMenu-checkbox f-pt" v-model:checked="formState.clusterEnabled" @change="onChangClustering"
-    title="是否对点数据进行聚合">是否聚合</a-checkbox>
+      <a-checkbox  class="rightMenu-checkbox1"  v-if="formState.enabledCluster"  v-model:checked="formState.isCluster" @change="onChangClustering"
+      title="是否对点数据进行聚合">是否聚合</a-checkbox>
+    </a-space>
 
   </div>
 
@@ -149,11 +149,14 @@ interface FormState {
   enabledPopup: boolean
   enabledTooltip: boolean
   enabledRightMenu: boolean
-  clusterEnabled: boolean
+  enabledCluster: boolean
+  isCluster: boolean
   enabledOpacity: boolean
   opacity: number
+
   enabledEdit: boolean
   hasEdit: boolean
+
   hasTable: boolean
   count: number
   isDrawing: boolean
@@ -164,7 +167,8 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledPopup: true,
   enabledTooltip: false,
   enabledRightMenu: false,
-  clusterEnabled: false,
+  enabledCluster: true,
+  isCluster: false,
   enabledOpacity: true,
   opacity: 1,
   enabledEdit: true,
@@ -187,9 +191,10 @@ defineExpose({
     graphicDataList.value = []
     rowKeys.value = []
 
+    let graphic
     const list = graphicLayer.graphics
     for (let i = list.length - 1; i >= 0; i--) {
-      const graphic = list[i]
+      graphic = list[i]
       if (graphic.isPrivate) {
         continue
       }
@@ -200,6 +205,12 @@ defineExpose({
       if (graphic.show) {
         rowKeys.value.push(graphic.id)
       }
+    }
+
+    if (graphic) {
+      formState.enabledOpacity = graphic.hasOpacity
+      formState.enabledEdit = graphic.hasEdit
+      formState.enabledCluster = graphic.hasCluster
     }
   }
 })
@@ -231,6 +242,7 @@ onMounted(() => {
         const lastgraphic = graphics[graphics.length - 1]
         formState.enabledOpacity = lastgraphic.hasOpacity
         formState.enabledEdit = lastgraphic.hasEdit
+        formState.enabledCluster = lastgraphic.hasCluster
 
         if (graphics.length < 3) {
           startEditGraphic({ key: lastgraphic.id, name: lastgraphic.name })// 自动打开编辑面板
@@ -381,7 +393,7 @@ const onChangeRightMenu = () => {
 }
 const onChangClustering = () => {
   const layer = getManagerLayer()
-  layer.clusterEnabled = formState.clusterEnabled
+  layer.clusterEnabled = formState.isCluster
 }
 
 // 在图层绑定Popup弹窗
@@ -472,7 +484,7 @@ function bindLayerContextMenu() {
       icon: "fa fa-trash-o",
       show: (event) => {
         const graphic = event.graphic
-        if (!graphic || graphic.isDestroy) {
+        if (!graphic || graphic.isDestroy || graphic.graphicIds) {
           return false
         } else {
           return true
@@ -487,6 +499,33 @@ function bindLayerContextMenu() {
         graphicLayer.removeGraphic(graphic)
         if (parent) {
           graphicLayer.removeGraphic(parent)
+        }
+      }
+    },
+    {
+      text: "查看聚合列表",
+      icon: "fa fa-info",
+      show: (event) => {
+        const graphic = event.graphic
+        if (graphic.graphicIds) {
+          return true
+        } else {
+          return false
+        }
+      },
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return
+        }
+        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        if (graphics) {
+          const names = []
+          for (let index = 0; index < graphics.length; index++) {
+            const g = graphics[index]
+            names.push(g.attr.name || g.attr.text || g.id)
+          }
+          return $alert(`${names.join(",")}`, `共${graphics.length}个聚合对象`)
         }
       }
     },
@@ -839,20 +878,21 @@ function initGraphicableData(graphicLayer) {
 }
 
 function getGraphicName(graphic) {
-  if (graphic.name) {
-    return `${graphic.type} - ${graphic.name}`
-  }
-  if (graphic.attr.index) {
-    return `${graphic.type} - ${graphic.attr.index}`
-  }
-  if (graphic.attr.remark) {
-    return `${graphic.type} - ${graphic.attr.remark}`
-  }
-  if (graphic?.style?.label?.text && graphic.style.label.text !== "0") {
-    return `${graphic.type} - ${graphic.style.label.text}`
-  }
+  let name
+  if (graphic.attr.name) {
+    name = `${graphic.attr.name}`
+  } if (graphic.name) {
+    name = `${graphic.type} - ${graphic.name}`
+  } else if (graphic.attr.index) {
+    name = `${graphic.type} - ${graphic.attr.index}`
+  } else if (graphic.attr.remark) {
+    name = `${graphic.type} - ${graphic.attr.remark}`
+  } else if (graphic?.style?.label?.text && graphic.style.label.text !== "0") {
+    name = `${graphic.type} - ${graphic.style.label.text}`
+  } else { name = `${graphic.type} - ${graphic.name || "未命名"}` }
 
-  return `${graphic.type} - ${graphic.name || "未命名"}`
+  graphic.attr.name = name // 记录备用
+  return name
 }
 
 // 表格行: 点击含，飞行定位
@@ -918,6 +958,10 @@ const deleteGraphic = (record: GraphicTableItem) => {
 .data-edit,
 .rightMenu-checkbox {
   margin-left: 68px;
+}
+
+.rightMenu-checkbox1 {
+  margin-left: 15px;
 }
 
 .data-edit {
