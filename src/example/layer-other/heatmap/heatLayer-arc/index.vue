@@ -5,7 +5,7 @@
     </a-space>
   </mars-dialog>
   <div class="divPanel">
-    <img src="/img/legend/heatmap.png" />
+    <img src="//data.mars3d.cn/img/busines/legend-heatmap.png" />
   </div>
 </template>
 

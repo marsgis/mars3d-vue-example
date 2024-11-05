@@ -13,7 +13,9 @@
   </mars-dialog>
 
   <mars-dialog left="100" right="100" top="80" bottom="80" title="查看历史" v-model:visible="showLayer">
-    <iframe class="mars-iframe" src="http://marsgis.cn/" frameborder="0"></iframe>
+    <iframe class="mars-iframe" src="http://marsgis.cn/"
+     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+     frameborder="0" style="height: 100%;width: 100%;"></iframe>
   </mars-dialog>
 </template>
 

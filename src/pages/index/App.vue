@@ -2,7 +2,7 @@
   <!--导航-->
   <Head :navActive="navActive" @clickNav="clickNav" />
   <example-list v-show="!showIframe" @jump="jumpUrl"></example-list>
-  <iframe v-show="showIframe" style="width: 100%; height: 100vh; overflow: auto; margin-top: 68px" frameborder="0" :src="iframeSrc"></iframe>
+  <iframe v-show="showIframe" style="width: 100%; height: 100vh; overflow: auto; margin-top: 68px" frameborder="0" :src="iframeSrc"  ></iframe>
 </template>
 
 <script lang="ts" setup>

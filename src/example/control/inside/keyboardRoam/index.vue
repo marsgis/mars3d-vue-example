@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <div class="f-mb keyboard-btns"> 
+    <div class="f-mb keyboard-btns">
       <span>演示视角：</span>
       <mars-button class="f-push-10-r" @click="onChangeCenterAtDX1">室内</mars-button>
       <mars-button @click="onChangeCenterAtDX2">室外</mars-button>
@@ -13,7 +13,7 @@
       </a-space>
     </div>
 
-    <img class="keyboard-img" src="/img/tietu/keyboard.png" alt="" />
+    <img class="keyboard-img" src="./img/keyboard.png" alt="" />
   </mars-dialog>
 </template>
 

@@ -91,7 +91,7 @@ const stopRotate = () => {
   width: 100%;
   color: #ffffff;
   padding: 10px;
-  background: url("/img/btnBar/infoBox.png") no-repeat;
+  background: url("./img/infoBox.png") no-repeat;
   background-size: 100% 100%;
   margin-right: 5px;
 
@@ -125,12 +125,12 @@ const stopRotate = () => {
   .mars-button:not([disabled]) {
     &:hover {
       color: var(--mars-control-text);
-      background: url("/img/btnBar/button_select.png") no-repeat !important;
+      background: url("./img/button_select.png") no-repeat !important;
     }
 
     &:focus {
       color: var(--mars-control-text);
-      background: url("/img/btnBar/button_select.png") no-repeat !important;
+      background: url("./img/button_select.png") no-repeat !important;
     }
   }
 }
@@ -145,7 +145,7 @@ const stopRotate = () => {
   line-height: 40px;
   text-align: center;
   border: none;
-  background: url("/img/btnBar/button.png") no-repeat;
+  background: url("./img/button.png") no-repeat;
   background-size: 100% 100%;
   margin-right: 40px;
 }

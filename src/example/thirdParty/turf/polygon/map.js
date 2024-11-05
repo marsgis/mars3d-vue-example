@@ -141,7 +141,6 @@ export function zoomPolygons(scale) {
     })
     polygonsLayer.addGraphic(spinGraphic)
   }
-
 }
 
 function clearGraphic() {

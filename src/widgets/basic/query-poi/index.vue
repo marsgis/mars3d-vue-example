@@ -7,7 +7,7 @@
                       @blur="startCloseSearch" @focus="showHistoryList" allowClear
                       @input="handleSearch(searchTxt)"></mars-input>
           <mars-button class="button">
-            <img src="/img/poi/search.png" alt="" />
+            <img src="/img/icon/search.png" alt="" />
           </mars-button>
         </div>
       </div>

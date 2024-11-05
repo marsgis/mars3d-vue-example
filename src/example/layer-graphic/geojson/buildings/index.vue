@@ -7,14 +7,14 @@
       </div>
       <div class="_item_row _item_full_box_width justify-between">
         <div class="row1 flex-1">
-          <img src="/img/icon/监测建筑.png" alt="" class="icon" />
+          <img src="./img/jianzhu.png" alt="" class="icon" />
           <div class="row1_right">
             <div class="right_title">87</div>
             <div class="right_sub_title">监测建筑</div>
           </div>
         </div>
         <div class="row1 flex-1 ml">
-          <img src="/img/icon/监测面积.png" alt="" class="icon" />
+          <img src="./img/area.png" alt="" class="icon" />
           <div class="row1_right">
             <div class="right_title">2021</div>
             <div class="right_sub_title">监测面积(万m²)</div>
@@ -584,7 +584,7 @@ function fontSize(res: number) {
   content: "";
   width: 26.5rem;
   height: 0.63rem;
-  background: url("/img/icon/分割.png");
+  background: url("./img/line.png");
   background-repeat: no-repeat;
   position: absolute;
   left: 0;

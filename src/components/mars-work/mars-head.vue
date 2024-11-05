@@ -2,11 +2,11 @@
   <div class="top-nav">
     <div class="logo-wrap">
       <div class="l-logo mobile_hide">
-        <img src="/img/head/logo.png" />
+        <img src="/img/icon/logo.png" />
         <span class="logo-name">Mars3D</span>
       </div>
       <div class="l-logo pc_hide">
-        <img src="/img/head/logo.png" />
+        <img src="/img/icon/logo.png" />
         <span class="logo-name">Mars3D</span>
       </div>
       <div class="r-item mobile_hide">
@@ -37,7 +37,7 @@
       <div v-for="(item, index) in nav_list" :key="index">
         <div class="nav-path" @click="changeNav(index, item)">
           <div class="nav-msg">{{ item.name }}</div>
-          <div class="nav-pic"><img src="/img/head/r-1.png" /></div>
+          <div class="nav-pic"><img src="/img/icon/r-1.png" /></div>
         </div>
         <div class="select" v-if="item.children && indexActive === index">
           <div class="item-select" v-for="(childItem, childIdx) in item.children" :key="childIdx" @click="showPage(childItem)">

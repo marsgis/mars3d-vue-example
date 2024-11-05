@@ -46,13 +46,13 @@
               <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
             </a-form-item>
             <a-form-item label="绕X轴旋转模型">
-              <mars-slider v-model:value="formState.rotationX" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationX" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Y轴旋转模型">
-              <mars-slider v-model:value="formState.rotationY" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationY" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Z轴旋转模型">
-              <mars-slider v-model:value="formState.rotationZ" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationZ" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
             </a-form-item>
           </a-collapse-panel>
 
@@ -67,7 +67,7 @@
               <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="模型亮度">
-              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.luminanceAtZenith" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.brightness" @change="formStateChange" />
             </a-form-item>
 
             <a-form-item label="单击高亮构件">
@@ -120,7 +120,7 @@ interface FormState {
   highlightEnable: boolean
   popupEnable: boolean
   transform: boolean
-  luminanceAtZenith: number
+  brightness: number
 }
 
 const formState = reactive<FormState>({
@@ -140,7 +140,7 @@ const formState = reactive<FormState>({
   highlightEnable: false,
   popupEnable: true,
   transform: false,
-  luminanceAtZenith: 0.2
+  brightness: 0.2
 })
 
 const axisOptions = [
@@ -232,7 +232,7 @@ function getLayerOptions() {
     axis: formState.axis ? formState.axis : undefined,
     proxy: formState.chkProxy ? "//server.mars3d.cn/proxy/" : undefined,
     opacity: formState.opacity,
-    luminanceAtZenith: formState.luminanceAtZenith,
+    brightness: formState.brightness,
     show: true,
     highlightEnable: formState.highlightEnable,
     popupEnable: formState.popupEnable

@@ -181,7 +181,7 @@ let indexMark
 // 获取Canvas对象
 async function getCanvas(text) {
   if (!indexMark) {
-    indexMark = await Cesium.Resource.fetchImage({ url: "img/poi/indexMark.png" })
+    indexMark = await Cesium.Resource.fetchImage({ url: "//data.mars3d.cn/img/marker/bg/poi-num.png" })
   }
 
   const canvas = document.createElement("canvas")

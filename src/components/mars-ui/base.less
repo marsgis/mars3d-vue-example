@@ -294,6 +294,10 @@
   .ant-table-row-selected > td {
     background-color: transparent !important;
   }
+  // 解决移入移出会闪一下
+  .ant-table-cell-row-hover {
+    background: transparent !important;
+  }
 
   .ant-table-cell {
     font-family: var(--mars-font-family);
@@ -302,6 +306,8 @@
     color: var(--mars-control-text);
     border: 0.5px solid var(--mars-control-border);
     background: transparent;
+    border-top: 0.5px solid var(--mars-control-border) !important;// 这两行是为了覆盖原本and表格边框
+    border-bottom: 0.5px solid var(--mars-control-border) !important;
   }
 
 

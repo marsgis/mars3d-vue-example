@@ -18,7 +18,7 @@ export const mapOptions = {
     {
       pid: 10,
       name: "影像地图",
-      icon: "img/basemaps/google_img.png",
+      icon: "//data.mars3d.cn/img/control/basemap/google_img.png",
       type: "xyz",
       url: "//192.168.0.115/tile16/img/{z}/{x}/{y}.jpg",
       chinaCRS: mars3d.ChinaCRS.GCJ02,
@@ -29,7 +29,7 @@ export const mapOptions = {
     {
       pid: 10,
       name: "电子地图",
-      icon: "img/basemaps/google_vec.png",
+      icon: "//data.mars3d.cn/img/control/basemap/google_vec.png",
       type: "xyz",
       url: "//192.168.0.115/tile16/vec/{z}/{x}/{y}.png",
       chinaCRS: mars3d.ChinaCRS.GCJ02,
