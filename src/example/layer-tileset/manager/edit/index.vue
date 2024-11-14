@@ -67,7 +67,7 @@
               <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="模型亮度">
-              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.brightness" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="2" :step="0.1" v-model:value="formState.brightness" @change="formStateChange" />
             </a-form-item>
 
             <a-form-item label="单击高亮构件">
@@ -140,7 +140,7 @@ const formState = reactive<FormState>({
   highlightEnable: false,
   popupEnable: true,
   transform: false,
-  brightness: 0.2
+  brightness: 1
 })
 
 const axisOptions = [
@@ -232,7 +232,9 @@ function getLayerOptions() {
     axis: formState.axis ? formState.axis : undefined,
     proxy: formState.chkProxy ? "//server.mars3d.cn/proxy/" : undefined,
     opacity: formState.opacity,
-    brightness: formState.brightness,
+    colorCorrection: {
+      brightness: formState.brightness
+    },
     show: true,
     highlightEnable: formState.highlightEnable,
     popupEnable: formState.popupEnable

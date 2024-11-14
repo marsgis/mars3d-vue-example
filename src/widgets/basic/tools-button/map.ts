@@ -36,7 +36,7 @@ export function onMounted(mapInstance: mars3d.Map, mars3d): void {
   })
   map.addControl(layersTool)
 
-  if (!map.controls.baseLayerPicker && map.options.basemaps?.length > 0) {
+  if (!map.control.baseLayerPicker && map.options.basemaps?.length > 0) {
     basemapsTool = new mars3d.control.ToolButton({
       title: "底图切换",
       icon: iconBasemaps,

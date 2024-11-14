@@ -26,12 +26,12 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
   map = mapInstance // 记录map
 
   // 下侧状态栏提示
-  const locationBar = map.controls.locationBar?.container
+  const locationBar = map.control.locationBar?.container
   if (locationBar) {
     queryAddressDOM = mars3d.DomUtil.create(
       "div",
       "mars3d-locationbar-content mars3d-locationbar-autohide",
-      map.controls.locationBar.container
+      map.control.locationBar.container
     )
     queryAddressDOM.style.marginRight = "50px"
   }
