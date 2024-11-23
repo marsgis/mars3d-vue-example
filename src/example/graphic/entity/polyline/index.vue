@@ -4,7 +4,7 @@
 
     <div class="f-mb">
       <a-space>
-        <mars-button @click="startDrawBrushLine">绘制自由曲线</mars-button>
+        <mars-button @click="  mapWork.startDrawBrushLine">绘制自由曲线</mars-button>
       </a-space>
     </div>
   </mars-dialog>
@@ -16,7 +16,4 @@ import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import * as mapWork from "./map.js"
 
-const startDrawBrushLine = () => {
-  mapWork.startDrawBrushLine()
-}
 </script>

@@ -3201,7 +3201,8 @@ const styleConfig = {
       "gatheringPlace",
       "isosTriangle",
       "lune",
-      "regular"
+      "regular",
+      "parallelogram"
     ],
     style: [
       {
