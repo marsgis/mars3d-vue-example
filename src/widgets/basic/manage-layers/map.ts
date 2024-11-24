@@ -31,10 +31,48 @@ export function addLayer(layer: mars3d.layer.BaseLayer) {
 }
 
 export function getLayers() {
-  return map.getLayers({
+  const layers = map.getLayers({
     basemaps: true, // 是否取config.json中的basempas
-    layers: true // 是否取config.json中的layers
+    layers: true, // 是否取config.json中的layers
+    filter: function (layer) {
+      if (!layer.name) {
+        console.log("未命名图层不加入图层管理", layer)
+        return false // 未命名图层不在管理器展示
+      }
+      return true
+    }
   })
+  console.log("地图layers列表", layers)
+  return layers
+}
+
+// export function getLayers() {
+//    /**
+//    * 获取所有图层的配置信息，通常用于配置图层树
+//    * 返回值： {
+//    *    list: [], // id与pid关联的原始数组
+//    *    tree: [], // 按children组织好的上下级树数组
+//    *    showIds: [], // 是显示状态的图层id集合
+//    *    openIds: [] // 存在open:true配置的图层id集合（用于展开树）
+//    *  }
+//    */
+//   const layers = map.getLayrsTree({
+//     basemaps: true, // 是否取config.json中的basempas
+//     filter: function (layer) {
+//       if (!layer.name) {
+//         console.log("未命名图层不加入图层管理", layer)
+//         return false // 未命名图层不在管理器展示
+//       }
+//       return true
+//     }
+//   })
+
+//   console.log("地图layers列表", layers)
+//   return layers
+// }
+
+export function getLayerById(id) {
+  return map.getLayerById(id)
 }
 
 // **********************************  图层的结构树控件  ****************************** //
@@ -85,3 +123,20 @@ export function checkModelStyle(layerid: number, arrIds: any) {
     }
   })
 }
+
+export function exchangeLayer(thisLayerId, moveLayerId) {
+  const thisLayer = map.getLayerById(thisLayerId)
+  const moveLayer = map.getLayerById(moveLayerId)
+
+  if (thisLayer == null || moveLayer == null) {
+    return
+
+  }
+  const or = thisLayer.zIndex
+  thisLayer.zIndex = moveLayer.zIndex // 向上移动
+  moveLayer.zIndex = or // 向下移动
+  console.log(`${thisLayer.name}:${thisLayer.zIndex},  ${moveLayer.name}:${moveLayer.zIndex}`)
+}
+
+
+
