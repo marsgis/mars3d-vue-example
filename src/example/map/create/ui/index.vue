@@ -102,7 +102,7 @@
 
           <a-collapse-panel key="3" header="树控件">
             <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys"
-              v-model:checkedKeys="checkedKeys" @check="onCheckTreeItem">
+              v-model:checkedKeys="checkedKeys" @check="checkedChange">
               <template #title="{ title }">
                 <span>{{ title }}</span>
               </template>
@@ -364,76 +364,56 @@ const customTableRow = (selectedRow: any) => {
 }
 
 // ========================= 树控件相关处理============================
-
-const layersObj: any = {}
-const treeData = ref<any[]>([])
-const expandedKeys = ref<string[]>([])
-const checkedKeys = ref<string[]>([])
+const treeData = ref<any[]>()
+const expandedKeys = ref<string[]>()
+const checkedKeys = ref<string[]>()
 
 onMounted(() => {
-  // 取图层列表数据
-  const url = "/config/tileset.json"
-  axios.get(url).then(function (res: any) {
-    const data = res.data
-    const layers = data.layers
-    for (let i = layers.length - 1; i >= 0; i--) {
-      const layer = mapWork.createLayer(layers[i]) // 创建图层
-      if (layer && layer.pid === 20) {
-        const node: any = {
-          title: layer.name,
-          key: layer.id,
-          id: layer.id,
-          pId: layer.pid
-        }
-        node.children = findChild(node, layers)
-        treeData.value.push(node)
-        expandedKeys.value.push(node.key)
-      }
-    }
+  mapWork.eventTarget.on("initTree", function (event: any) {
+    initTree()
   })
 })
 
-function findChild(parent: any, list: any[]) {
-  return list
-    .filter((item: any) => item.pid === parent.id)
-    .map((item: any) => {
-      const node: any = {
-        title: item.name,
-        key: item.id,
-        id: item.id,
-        pId: item.pid
-      }
-      const nodeLayer = mapWork.createLayer(item) // 创建图层
-      layersObj[item.id] = nodeLayer
-      node.children = findChild(node, list)
-      expandedKeys.value.push(node.key)
-      if (item.isAdded && item.show) {
-        checkedKeys.value.push(node.key)
-      }
-      return node
-    })
-}
+// 初始化树构件
+function initTree() {
+  const showIds = [] // 是显示状态的图层id集合
+  const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
+  const result = mapWork.getLayrsTree({
+    forEach: function (item) {
+      item.key = item.id // 树控件api需要的唯一标识
+      item.title = item.name // 树控件api需要的显示文本字段
 
-// 勾选了树节点
-const onCheckTreeItem = (keys: string[]) => {
-  Object.keys(layersObj).forEach((k) => {
-    const newKeys = keys.map((item) => {
-      return String(item)
-    })
-    const show = newKeys.indexOf(k) !== -1
-    const layer = layersObj[k]
-    layer.show = show
-    if (show) {
-      if (!layer.isAdded) {
-        mapWork.map.addLayer(layer)
+      if (item.show) {
+        showIds.push(item.id)
       }
-      layer.flyTo()
-    } else {
-      if (layer.isAdded) {
-        mapWork.map.removeLayer(layer)
+      if (item.group && item.open !== false) {
+        openIds.push(item.id)
       }
     }
   })
+  console.log("获取到的map图层树", result)
+
+  // 赋予树控件
+  treeData.value = result.tree
+  checkedKeys.value = showIds
+  expandedKeys.value = openIds
+}
+
+// 树控件 勾选事件
+function checkedChange(keys: string[], e: any) {
+  const layer = mapWork.getLayerById(e.node.key)
+
+  if (layer) {
+    const show = keys.indexOf(e.node.key) !== -1
+    mapWork.updateLayerShow(layer, show)
+
+    // 处理子节点
+    if (e.node.children && e.node.children.length) {
+      e.node.children.forEach((child) => {
+        checkedChange(keys, child)
+      })
+    }
+  }
 }
 </script>
 <style lang="less">

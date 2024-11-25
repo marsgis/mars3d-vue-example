@@ -34,6 +34,7 @@ export function getLayers() {
   const layers = map.getLayers({
     basemaps: true, // 是否取config.json中的basempas
     layers: true, // 是否取config.json中的layers
+    // @ts-ignore
     filter: function (layer) {
       if (!layer.name) {
         console.log("未命名图层不加入图层管理", layer)

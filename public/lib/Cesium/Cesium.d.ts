@@ -3133,7 +3133,7 @@ export const Check: {
       lessThanOrEquals(
         name: string,
         test: any,
-        limit: number
+        limit: number,
       ): asserts test is number;
       /**
        * Throws if test is not typeof 'number' and greater than limit
@@ -3146,7 +3146,7 @@ export const Check: {
       greaterThan(
         name: string,
         test: any,
-        limit: number
+        limit: number,
       ): asserts test is number;
       /**
        * Throws if test is not typeof 'number' and greater than or equal to limit
@@ -3159,7 +3159,7 @@ export const Check: {
       greaterThanOrEquals(
         name: string,
         test: any,
-        limit: number
+        limit: number,
       ): asserts test is number;
       /**
        * Throws if test1 and test2 is not typeof 'number' and not equal in value
@@ -7195,17 +7195,17 @@ export class Geometry {
      * Optional index data that - along with {@link Geometry#primitiveType} -
     determines the primitives in the geometry.
      */
-    indices: any[];
+    indices: any[] | undefined;
     /**
      * The type of primitives in the geometry.  This is most often {@link PrimitiveType.TRIANGLES},
     but can varying based on the specific geometry.
      */
-    primitiveType: PrimitiveType;
+    primitiveType: PrimitiveType | undefined;
     /**
      * An optional bounding sphere that fully encloses the geometry.  This is
     commonly used for culling.
      */
-    boundingSphere: BoundingSphere;
+    boundingSphere: BoundingSphere | undefined;
     /**
      * Computes the number of vertices in a geometry.  The runtime is linear with
     respect to the number of attributes in a vertex, not the number of vertices.
@@ -7237,17 +7237,17 @@ the geometry's vertices.
   primitiveType : Cesium.PrimitiveType.LINE_LOOP
 });
  * @param [options] - Object with the following properties:
- * @param [options.componentDatatype] - The datatype of each component in the attribute, e.g., individual elements in values.
- * @param [options.componentsPerAttribute] - A number between 1 and 4 that defines the number of components in an attributes.
+ * @param options.componentDatatype - The datatype of each component in the attribute, e.g., individual elements in values.
+ * @param options.componentsPerAttribute - A number between 1 and 4 that defines the number of components in an attributes.
  * @param [options.normalize = false] - When <code>true</code> and <code>componentDatatype</code> is an integer format, indicate that the components should be mapped to the range [0, 1] (unsigned) or [-1, 1] (signed) when they are accessed as floating-point for rendering.
- * @param [options.values] - The values for the attributes stored in a typed array.
+ * @param options.values - The values for the attributes stored in a typed array.
  */
 export class GeometryAttribute {
     constructor(options?: {
-        componentDatatype?: ComponentDatatype;
-        componentsPerAttribute?: number;
+        componentDatatype: ComponentDatatype;
+        componentsPerAttribute: number;
         normalize?: boolean;
-        values?: number[] | Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array;
+        values: number[] | Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array;
     });
     /**
      * The datatype of each component in the attribute, e.g., individual elements in
@@ -7318,42 +7318,42 @@ export class GeometryAttributes {
     64-bit floating-point (for precision).  3 components per attribute.
     </p>
      */
-    position: GeometryAttribute;
+    position: GeometryAttribute | undefined;
     /**
      * The normal attribute (normalized), which is commonly used for lighting.
     <p>
     32-bit floating-point.  3 components per attribute.
     </p>
      */
-    normal: GeometryAttribute;
+    normal: GeometryAttribute | undefined;
     /**
      * The 2D texture coordinate attribute.
     <p>
     32-bit floating-point.  2 components per attribute
     </p>
      */
-    st: GeometryAttribute;
+    st: GeometryAttribute | undefined;
     /**
      * The bitangent attribute (normalized), which is used for tangent-space effects like bump mapping.
     <p>
     32-bit floating-point.  3 components per attribute.
     </p>
      */
-    bitangent: GeometryAttribute;
+    bitangent: GeometryAttribute | undefined;
     /**
      * The tangent attribute (normalized), which is used for tangent-space effects like bump mapping.
     <p>
     32-bit floating-point.  3 components per attribute.
     </p>
      */
-    tangent: GeometryAttribute;
+    tangent: GeometryAttribute | undefined;
     /**
      * The color attribute.
     <p>
     8-bit unsigned integer. 4 components per attribute.
     </p>
      */
-    color: GeometryAttribute;
+    color: GeometryAttribute | undefined;
 }
 
 /**
@@ -7428,7 +7428,7 @@ export class GeometryInstance {
     /**
      * User-defined object returned when the instance is picked or used to get/set per-instance attributes.
      */
-    id: any;
+    id: any | undefined;
     /**
      * Per-instance attributes like {@link ColorGeometryInstanceAttribute} or {@link ShowGeometryInstanceAttribute}.
     {@link Geometry} attributes varying per vertex; these attributes are constant for the entire instance.
@@ -7752,7 +7752,7 @@ export class GoogleEarthEnterpriseMetadata {
     /**
      * True if imagery is sent as a protocol buffer, false if sent as plain images. If undefined we will try both.
      */
-    protoImagery: boolean;
+    protoImagery: boolean | undefined;
     /**
      * True if terrain is available.
      */
@@ -11126,8 +11126,8 @@ export class Matrix4 implements ArrayLike<number> {
      * Computes a Matrix4 instance representing an off center perspective transformation.
      * @param left - The number of meters to the left of the camera that will be in view.
      * @param right - The number of meters to the right of the camera that will be in view.
-     * @param bottom - The number of meters below of the camera that will be in view.
-     * @param top - The number of meters above of the camera that will be in view.
+     * @param bottom - The number of meters below the camera that will be in view.
+     * @param top - The number of meters above the camera that will be in view.
      * @param near - The distance to the near plane in meters.
      * @param far - The distance to the far plane in meters.
      * @param result - The object in which the result will be stored.
@@ -12331,11 +12331,11 @@ export class OrthographicFrustum {
     /**
      * The horizontal width of the frustum in meters.
      */
-    width: number;
+    width: number | undefined;
     /**
      * The aspect ratio of the frustum's width to it's height.
      */
-    aspectRatio: number;
+    aspectRatio: number | undefined;
     /**
      * The distance of the near plane.
      */
@@ -12454,19 +12454,19 @@ export class OrthographicOffCenterFrustum {
     /**
      * The left clipping plane.
      */
-    left: number;
+    left: number | undefined;
     /**
      * The right clipping plane.
      */
-    right: number;
+    right: number | undefined;
     /**
      * The top clipping plane.
      */
-    top: number;
+    top: number | undefined;
     /**
      * The bottom clipping plane.
      */
-    bottom: number;
+    bottom: number | undefined;
     /**
      * The distance of the near plane.
      */
@@ -12656,11 +12656,11 @@ export class PerspectiveFrustum {
     as the horizontal FOV if the width is greater than the height, otherwise
     it will be the vertical FOV.
      */
-    fov: number;
+    fov: number | undefined;
     /**
      * The aspect ratio of the frustum's width to it's height.
      */
-    aspectRatio: number;
+    aspectRatio: number | undefined;
     /**
      * The distance of the near plane.
      */
@@ -12699,6 +12699,7 @@ export class PerspectiveFrustum {
     static unpack(array: number[], startingIndex?: number, result?: PerspectiveFrustum): PerspectiveFrustum;
     /**
      * Gets the perspective projection matrix computed from the view frustum.
+    If necessary, the projection matrix will be recomputed.
      */
     readonly projectionMatrix: Matrix4;
     /**
@@ -12708,7 +12709,7 @@ export class PerspectiveFrustum {
     /**
      * Gets the angle of the vertical field of view, in radians.
      */
-    readonly fovy: number;
+    readonly fovy: number | undefined;
     /**
      * Creates a culling volume for this frustum.
      * @example
@@ -12804,19 +12805,19 @@ export class PerspectiveOffCenterFrustum {
     /**
      * Defines the left clipping plane.
      */
-    left: number;
+    left: number | undefined;
     /**
      * Defines the right clipping plane.
      */
-    right: number;
+    right: number | undefined;
     /**
      * Defines the top clipping plane.
      */
-    top: number;
+    top: number | undefined;
     /**
      * Defines the bottom clipping plane.
      */
-    bottom: number;
+    bottom: number | undefined;
     /**
      * The distance of the near plane.
      */
@@ -12827,6 +12828,7 @@ export class PerspectiveOffCenterFrustum {
     far: number;
     /**
      * Gets the perspective projection matrix computed from the view frustum.
+    The projection matrix will be recomputed if any frustum parameters have changed.
      */
     readonly projectionMatrix: Matrix4;
     /**
@@ -19058,6 +19060,67 @@ export class BoxGraphics {
 }
 
 /**
+ * A {@link PositionProperty} whose value is lazily evaluated by a callback function.
+ * @param callback - The function to be called when the position property is evaluated.
+ * @param isConstant - <code>true</code> when the callback function returns the same value every time, <code>false</code> if the value will change.
+ * @param [referenceFrame = ReferenceFrame.FIXED] - The reference frame in which the position is defined.
+ */
+export class CallbackPositionProperty {
+    constructor(callback: CallbackPositionProperty.Callback, isConstant: boolean, referenceFrame?: ReferenceFrame);
+    /**
+     * Gets a value indicating if this property is constant.
+     */
+    readonly isConstant: boolean;
+    /**
+     * Gets the event that is raised whenever the definition of this property changes.
+    The definition is considered to have changed if a call to getValue would return
+    a different result for the same time.
+     */
+    readonly definitionChanged: Event;
+    /**
+     * Gets the reference frame in which the position is defined.
+     */
+    referenceFrame: ReferenceFrame;
+    /**
+     * Gets the value of the property at the provided time in the fixed frame.
+     * @param [time = JulianDate.now()] - The time for which to retrieve the value. If omitted, the current system time is used.
+     * @param [result] - The object to store the value into, if omitted, a new instance is created and returned.
+     * @returns The modified result parameter or a new instance if the result parameter was not supplied.
+     */
+    getValue(time?: JulianDate, result?: Cartesian3): Cartesian3 | undefined;
+    /**
+     * Sets the callback to be used.
+     * @param callback - The function to be called when the property is evaluated.
+     * @param isConstant - <code>true</code> when the callback function returns the same value every time, <code>false</code> if the value will change.
+     */
+    setCallback(callback: CallbackPositionProperty.Callback, isConstant: boolean): void;
+    /**
+     * Gets the value of the property at the provided time and in the provided reference frame.
+     * @param time - The time for which to retrieve the value.
+     * @param referenceFrame - The desired referenceFrame of the result.
+     * @param [result] - The object to store the value into, if omitted, a new instance is created and returned.
+     * @returns The modified result parameter or a new instance if the result parameter was not supplied.
+     */
+    getValueInReferenceFrame(time: JulianDate, referenceFrame: ReferenceFrame, result?: Cartesian3): Cartesian3 | undefined;
+    /**
+     * Compares this property to the provided property and returns
+    <code>true</code> if they are equal, <code>false</code> otherwise.
+     * @param [other] - The other property.
+     * @returns <code>true</code> if left and right are equal, <code>false</code> otherwise.
+     */
+    equals(other?: Property): boolean;
+}
+
+export namespace CallbackPositionProperty {
+    /**
+     * A function that returns the value of the position property.
+     * @param [time = JulianDate.now()] - The time for which to retrieve the value. If omitted, the current system time is used.
+     * @param [result] - The object to store the value into. If omitted, the function must create and return a new instance.
+     */
+    type Callback = (time?: JulianDate, result?: Cartesian3) => Cartesian3 | undefined;
+}
+
+/**
  * A {@link Property} whose value is lazily evaluated by a callback function.
  * @param callback - The function to be called when the property is evaluated.
  * @param isConstant - <code>true</code> when the callback function returns the same value every time, <code>false</code> if the value will change.
@@ -22634,6 +22697,7 @@ export namespace ModelGraphics {
      * @property [show = true] - A boolean Property specifying the visibility of the model.
      * @property [uri] - A string or Resource Property specifying the URI of the glTF asset.
      * @property [scale = 1.0] - A numeric Property specifying a uniform linear scale.
+     * @property [enableVerticalExaggeration = true] - A boolean Property specifying if the model is exaggerated along the ellipsoid normal when {@link Scene.verticalExaggeration} is set to a value other than <code>1.0</code>.
      * @property [minimumPixelSize = 0.0] - A numeric Property specifying the approximate minimum pixel size of the model regardless of zoom.
      * @property [maximumScale] - The maximum scale size of a model. An upper limit for minimumPixelSize.
      * @property [incrementallyLoadTextures = true] - Determine if textures may continue to stream in after the model is loaded.
@@ -22658,6 +22722,7 @@ export namespace ModelGraphics {
         show?: Property | boolean;
         uri?: Property | string | Resource;
         scale?: Property | number;
+        enableVerticalExaggeration?: Property | boolean;
         minimumPixelSize?: Property | number;
         maximumScale?: Property | number;
         incrementallyLoadTextures?: Property | boolean;
@@ -22713,6 +22778,10 @@ export class ModelGraphics {
     values less than 1.0 decrease it.
      */
     scale: Property | undefined;
+    /**
+     * Gets or sets the boolean Property specifying if the model is exaggerated along the ellipsoid normal when {@link Scene.verticalExaggeration} is set to a value other than <code>1.0</code>.
+     */
+    enableVerticalExaggeration: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the approximate minimum
     pixel size of the model regardless of zoom. This can be used to ensure that
@@ -24144,90 +24213,6 @@ export class PositionPropertyArray {
      * @returns <code>true</code> if left and right are equal, <code>false</code> otherwise.
      */
     equals(other?: Property): boolean;
-}
-
-/**
- * billboard, point, label 的 Primitive对象聚合类， 由火星科技Mars3D开发
- * @param [options] - An object with the following properties:
- * @param [options.enabled = false] - Whether or not to enable clustering.
- * @param [options.pixelRange = 80] - The pixel range to extend the screen space bounding box.
- * @param [options.minimumClusterSize = 2] - The minimum number of screen space objects that can be clustered.
- * @param [options.clusterBillboards = true] - Whether or not to cluster the billboards of an entity.
- * @param [options.clusterLabels = true] - Whether or not to cluster the labels of an entity.
- * @param [options.clusterPoints = true] - Whether or not to cluster the points of an entity.
- * @param [options.show = true] - Determines if the entities in the cluster will be shown.
- */
-export class PrimitiveCluster {
-    constructor(options?: {
-        enabled?: boolean;
-        pixelRange?: number;
-        minimumClusterSize?: number;
-        clusterBillboards?: boolean;
-        clusterLabels?: boolean;
-        clusterPoints?: boolean;
-        show?: boolean;
-    });
-    /**
-     * Determines if entities in this collection will be shown.
-     */
-    show: boolean;
-    /**
-     * Gets or sets whether clustering is enabled.
-     */
-    enabled: boolean;
-    /**
-     * Gets or sets the pixel range to extend the screen space bounding box.
-     */
-    pixelRange: number;
-    /**
-     * Gets or sets the minimum number of screen space objects that can be clustered.
-     */
-    minimumClusterSize: number;
-    /**
-     * Gets the event that will be raised when a new cluster will be displayed. The signature of the event listener is {@link PrimitiveCluster.newClusterCallback}.
-     */
-    clusterEvent: Event<PrimitiveCluster.newClusterCallback>;
-    /**
-     * Gets or sets whether clustering billboard entities is enabled.
-     */
-    clusterBillboards: boolean;
-    /**
-     * Gets or sets whether clustering labels entities is enabled.
-     */
-    clusterLabels: boolean;
-    /**
-     * Gets or sets whether clustering point entities is enabled.
-     */
-    clusterPoints: boolean;
-    /**
-     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
-    release of WebGL resources, instead of relying on the garbage collector to destroy this object.
-    <p>
-    Unlike other objects that use WebGL resources, this object can be reused. For example, if a data source is removed
-    from a data source collection and added to another.
-    </p>
-     */
-    destroy(): void;
-}
-
-export namespace PrimitiveCluster {
-    /**
-     * A event listener function used to style clusters.
-     * @example
-     * // The default cluster values.
-    dataSource.clustering.clusterEvent.addEventListener(function(entities, cluster) {
-        cluster.label.show = true;
-        cluster.label.text = entities.length.toLocaleString();
-    });
-     * @param clusteredEntities - An array of the entities contained in the cluster.
-     * @param cluster - An object containing the Billboard, Label, and Point
-    primitives that represent this cluster of entities.
-     */
-    type newClusterCallback = (clusteredEntities: Entity[], cluster: {
-        billboard: Billboard;
-        label: Label;
-        point: PointPrimitive;
-    }) => void;
 }
 
 /**
@@ -31614,6 +31599,16 @@ export enum DepthFunction {
 }
 
 /**
+ * Returns the type that the given class property has in a GLSL shader.
+
+It returns the same string as `PropertyTextureProperty.prototype.getGlslType`
+for a property texture property with the given class property
+ * @param classProperty - The class property
+ * @returns The GLSL shader type string for the property
+ */
+export function getGlslType(classProperty: MetadataClassProperty): string;
+
+/**
  * A light that gets emitted in a single direction from infinitely far away.
  * @param options - Object with the following properties:
  * @param options.direction - The direction in which light gets emitted.
@@ -36738,6 +36733,291 @@ export enum CustomShaderTranslucencyMode {
     TRANSLUCENT = 2
 }
 
+export namespace AnchorPointDirect {
+    /**
+     * Initialization options for the AnchorPointDirect constructor
+     * @property position - Anchor point geographic coordinates
+     * @property adjustmentParams - The adjustment values in meters
+     */
+    type ConstructorOptions = {
+        position: Cartesian3;
+        adjustmentParams: Cartesian3;
+    };
+}
+
+/**
+ * Metadata for one stored anchor point using direct storage.
+
+This reflects the `anchronPointDirect` definition of the
+{@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local} glTF extension.
+ * @param options - An object describing initialization options
+ */
+export class AnchorPointDirect {
+    constructor(options: AnchorPointDirect.ConstructorOptions);
+    /**
+     * Anchor point geographic coordinates in meters as X/Easting, Y/Northing, Z/HAE
+     */
+    readonly position: Cartesian3;
+    /**
+     * The delta-x delta-y delta-z adjustment values in meters per anchor
+    point.
+     */
+    readonly adjustmentParams: Cartesian3;
+}
+
+export namespace AnchorPointIndirect {
+    /**
+     * Initialization options for the AnchorPointIndirect constructor
+     * @property position - Anchor point geographic coordinates
+     * @property adjustmentParams - The adjustment values in meters
+     * @property covarianceMatrix - The 3x3 covariance matrix
+     */
+    type ConstructorOptions = {
+        position: Cartesian3;
+        adjustmentParams: Cartesian3;
+        covarianceMatrix: Matrix3;
+    };
+}
+
+/**
+ * Metadata for one stored anchor point.
+
+This reflects the `anchronPointIndirect` definition of the
+{@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local} glTF extension.
+ * @param options - An object describing initialization options
+ */
+export class AnchorPointIndirect {
+    constructor(options: AnchorPointIndirect.ConstructorOptions);
+    /**
+     * Anchor point geographic coordinates in meters as X/Easting, Y/Northing, Z/HAE
+     */
+    readonly position: Cartesian3;
+    /**
+     * The delta-x delta-y delta-z adjustment values in meters per anchor
+    point.
+     */
+    readonly adjustmentParams: Cartesian3;
+    /**
+     * The 3x3 covariance matrix.
+     */
+    readonly covarianceMatrix: Matrix3;
+}
+
+export namespace CorrelationGroup {
+    /**
+     * Initialization options for the CorrelationGroup constructor
+     * @property groupFlags - Array of 3 booleans indicating if
+    parameters delta-x delta-y delta-z used in the correlation group
+     * @property rotationThetas - Rotations in milliradians
+    about X, Y, Z axes, respectively
+     * @property params - Array of `Spdcf` (Strictly Positive-Definite
+    Correlation Function) parameters, for the U, V, W directions, respectively
+     */
+    type ConstructorOptions = {
+        groupFlags: boolean[];
+        rotationThetas: Cartesian3;
+        params: Spdcf[];
+    };
+}
+
+/**
+ * Metadata identifying parameters using same correlation modeling and
+associated correlation parameters.
+
+This reflects the `correlationGroup` definition of the
+{@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local} glTF extension.
+ * @param options - An object describing initialization options
+ */
+export class CorrelationGroup {
+    constructor(options: CorrelationGroup.ConstructorOptions);
+    /**
+     * Array of 3 booleans indicating if parameters delta-x delta-y delta-z
+    used in the correlation group
+     */
+    readonly groupFlags: boolean[];
+    /**
+     * Rotations in milliradians about X, Y, Z axes, respectively
+     */
+    readonly rotationThetas: Cartesian3;
+    /**
+     * Array of 3 sets of SPDCF parameters, for the U, V, W directions, respectively
+     */
+    readonly params: Spdcf[];
+}
+
+/**
+ * Creates a Matrix3 that describes a covariance matrix (which is
+symmetric) from the array containing the upper triangle, in
+column-major order.
+ * @param array - The input array
+ * @returns The Matrix3
+ */
+export function createCovarianceMatrixFromUpperTriangle(array: number[]): Matrix3;
+
+/**
+ * Creates an `AnchorPointDirect` from the given JSON representation
+ * @param anchorPointDirectJson - The input JSON
+ * @returns The direct anchor point
+ */
+export function createAnchorPointDirect(anchorPointDirectJson: any): AnchorPointDirect;
+
+/**
+ * Creates an `AnchorPointIndirect` from the given JSON representation
+ * @param anchorPointIndirectJson - The input JSON
+ * @returns The indirect anchor point
+ */
+export function createAnchorPointIndirect(anchorPointIndirectJson: any): AnchorPointIndirect;
+
+/**
+ * Creates a `CorrelationGroup` from the given JSON representation
+ * @param correlationGroupJson - The input JSON
+ * @returns The correlation group
+ */
+export function createCorrelationGroup(correlationGroupJson: any): CorrelationGroup;
+
+export namespace GltfGpmLocal {
+    /**
+     * Initialization options for the GltfGpmLocal constructor
+     * @property storageType - The storage type.
+    This must be one of the `StorageType` constants, i.e. `Direct` or `Indirect`.
+     * @property [anchorPointsIndirect] - The indirect anchor points.
+    This must be present if and only if the storage type is `Indirect`.
+     * @property [intraTileCorrelationGroups] - The intra-tile correlation groups.
+    This must be present if and only if the storage type is `Indirect`.
+     * @property [anchorPointsDirect] - The direct anchor points.
+    This must be present if and only if the storage type is `Direct`.
+     * @property [covarianceDirect] - The covariance of anchor point parameters.
+    This must be present if and only if the storage type is `Direct`.
+     */
+    type ConstructorOptions = {
+        storageType: string;
+        anchorPointsIndirect?: AnchorPointIndirect[] | undefined;
+        intraTileCorrelationGroups?: CorrelationGroup[] | undefined;
+        anchorPointsDirect?: AnchorPointDirect[] | undefined;
+        covarianceDirect?: Matrix3 | undefined;
+    };
+}
+
+/**
+ * The GPM metadata for a Ground-Space Indirect implementation stored
+locally (i.e. a tile and/or leaf node).
+
+This reflects the root extension object of the {@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local}
+glTF extension. When a model that contains this extension was loaded,
+then an object of this type can be obtained by calling
+```
+const gltfGpmLocal = model.getExtension("NGA_gpm_local");
+```
+
+The storage type determines the presence of the optional properties:
+<ul>
+ <li>
+  When the storage type is `StorageType.Indirect`, then the
+  `anchorPointsIndirect` and `intraTileCorrelationGroups`
+  are present.
+ </li>
+ <li>
+  When the storage type is `StorageType.Direct`, then the
+  `anchorPointsDirect` and `covarianceDirect` are present.
+ </li>
+</ul>
+ * @param options - An object describing initialization options
+ */
+export class GltfGpmLocal {
+    constructor(options: GltfGpmLocal.ConstructorOptions);
+    /**
+     * Specifies if covariance storage is indirect or direct.
+     */
+    readonly storageType: StorageType;
+    /**
+     * Array of stored indirect anchor points
+     */
+    readonly anchorPointsIndirect: AnchorPointIndirect[] | undefined;
+    /**
+     * Array of stored direct anchor points
+     */
+    readonly anchorPointsDirect: AnchorPointDirect[] | undefined;
+    /**
+     * Metadata identifying parameters using same correlation modeling and
+    associated correlation parameters
+     */
+    readonly intraTileCorrelationGroups: CorrelationGroup[] | undefined;
+    /**
+     * The full covariance of anchor point parameters
+     */
+    readonly covarianceDirect: Matrix3 | undefined;
+}
+
+export namespace Spdcf {
+    /**
+     * Initialization options for the Spdcf constructor
+     * @property A - The factor A, in (0, 1]
+     * @property alpha - The alpha value, in [0, 1)
+     * @property beta - The beta value, in [0, 10]
+     * @property T - the tau value, in (0, +inf)
+     */
+    type ConstructorOptions = {
+        A: number;
+        alpha: number;
+        beta: number;
+        T: number;
+    };
+}
+
+/**
+ * Variables for a Strictly Positive-Definite Correlation Function.
+
+This reflects the `spdcf` definition of the
+{@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local} glTF extension.
+Instances of this type are stored as the parameters within a
+`CorrelationGroup`.
+
+Parameters (A, alpha, beta, T) describe the correlation decrease
+between points as a function of delta time:
+```
+spdcf(delta_t) = A_t * (alpha_t + ((1 - alpha_t)(1 + beta_t)) / (beta_t + e^(delta_t/T_t)))
+```
+ * @param options - An object describing initialization options
+ */
+export class Spdcf {
+    constructor(options: Spdcf.ConstructorOptions);
+    /**
+     * In (0, 1]
+     */
+    readonly A: number;
+    /**
+     * In [0, 1)
+     */
+    readonly alpha: number;
+    /**
+     * In [0, 10]
+     */
+    readonly beta: number;
+    /**
+     * In (0, +inf)
+     */
+    readonly T: number;
+}
+
+/**
+ * An enum of storage types for covariance information.
+
+This reflects the `gltfGpmLocal.storageType` definition of the
+{@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local} glTF extension.
+ */
+export enum StorageType {
+    /**
+     * Store the full error covariance of the anchor points, to include the cross-covariance terms
+     */
+    Direct = "Direct",
+    /**
+     * A full covariance matrix is stored for each of the anchor points. However, in this case the
+    cross-covariance terms are not directly stored, but can be computed by a set of spatial
+    correlation function parameters which are stored in the metadata.
+     */
+    Indirect = "Indirect"
+}
+
 /**
  * The lighting model to use for lighting a {@link Model}.
  */
@@ -36818,6 +37098,9 @@ Cesium supports glTF assets with the following extensions:
  </li>
  <li>
  {@link https://github.com/KhronosGroup/glTF/blob/main/extensions/1.0/Vendor/WEB3D_quantized_attributes/README.md|WEB3D_quantized_attributes}
+ </li>
+ <li>
+ {@link https://nsgreg.nga.mil/csmwg.jsp|NGA_gpm_local (experimental)}
  </li>
 </ul>
 </p>
@@ -36994,6 +37277,14 @@ export class Model {
      */
     clippingPolygons: ClippingPolygonCollection;
     /**
+     * If <code>true</code>, the model is exaggerated along the ellipsoid normal when {@link Scene.verticalExaggeration} is set to a value other than <code>1.0</code>.
+     * @example
+     * // Exaggerate terrain by a factor of 2, but prevent model exaggeration
+    scene.verticalExaggeration = 2.0;
+    model.enableVerticalExaggeration = false;
+     */
+    enableVerticalExaggeration: boolean;
+    /**
      * The light color when shading the model. When <code>undefined</code> the scene's light color is used instead.
     <p>
     Disabling additional light sources by setting
@@ -37096,6 +37387,17 @@ export class Model {
     transformations on participating nodes.
      */
     applyArticulations(): void;
+    /**
+     * Returns the object that was created for the given extension.
+    
+    The given name may be the name of a glTF extension, like `"EXT_example_extension"`.
+    If the specified extension was present in the root of the underlying glTF asset,
+    and a loder for the specified extension has processed the extension data, then
+    this will return the model representation of the extension.
+     * @param extensionName - The name of the extension
+     * @returns The object, or `undefined`
+     */
+    getExtension(extensionName: string): any | undefined;
     /**
      * Marks the model's {@link Model#style} as dirty, which forces all features
     to re-evaluate the style in the next frame the model is visible.
@@ -37200,6 +37502,7 @@ export class Model {
      * @param [options.show = true] - Whether or not to render the model.
      * @param [options.modelMatrix = Matrix4.IDENTITY] - The 4x4 transformation matrix that transforms the model from model to world coordinates.
      * @param [options.scale = 1.0] - A uniform scale applied to this model.
+     * @param [options.enableVerticalExaggeration = true] - If <code>true</code>, the model is exaggerated along the ellipsoid normal when {@link Scene.verticalExaggeration} is set to a value other than <code>1.0</code>.
      * @param [options.minimumPixelSize = 0.0] - The approximate minimum pixel size of the model regardless of zoom.
      * @param [options.maximumScale] - The maximum scale size of a model. An upper limit for minimumPixelSize.
      * @param [options.id] - A user-defined object to return when the model is picked with {@link Scene#pick}.
@@ -37252,6 +37555,7 @@ export class Model {
         show?: boolean;
         modelMatrix?: Matrix4;
         scale?: number;
+        enableVerticalExaggeration?: boolean;
         minimumPixelSize?: number;
         maximumScale?: number;
         id?: any;
@@ -38503,6 +38807,54 @@ export class PerInstanceColorAppearance {
      */
     getRenderState(): any;
 }
+
+/**
+ * The optional ID of the metadata schema
+ */
+export var schemaId: string | undefined;
+
+/**
+ * The name of the metadata class
+ */
+export var className: string;
+
+/**
+ * The name of the metadata property
+ */
+export var propertyName: string;
+
+/**
+ * The optional ID of the metadata schema
+ */
+export var classProperty: MetadataClassProperty;
+
+/**
+ * Compute the rectangle that describes the part of the drawing buffer
+that is relevant for picking.
+ * @param drawingBufferHeight - The height of the drawing buffer
+ * @param position - The position inside the drawing buffer
+ * @param width - The width of the rectangle, assumed to
+be an odd integer number, default : 3.0
+ * @param height - The height of the rectangle. If unspecified,
+height will default to the value of <code>width</code>
+ * @param result - The result rectangle
+ * @returns The result rectangle
+ */
+export function computePickingDrawingBufferRectangle(drawingBufferHeight: number, position: Cartesian2, width: number | undefined, height: number | undefined, result: BoundingRectangle): BoundingRectangle;
+
+/**
+ * Information about metadata that is supposed to be picked
+ * @property schemaId - The optional ID of the metadata schema
+ * @property className - The name of the metadata class
+ * @property propertyName - The name of the metadata property
+ * @property classProperty - The metadata class property
+ */
+export type PickedMetadataInfo = {
+    schemaId: string | undefined;
+    className: string;
+    propertyName: string;
+    classProperty: MetadataClassProperty;
+};
 
 /**
  * Options for performing point attenuation based on geometric error when rendering
@@ -40851,6 +41203,26 @@ export class Scene {
      */
     pickVoxel(windowPosition: Cartesian2, width?: number, height?: number): VoxelCell | undefined;
     /**
+     * Pick a metadata value at the given window position.
+     * @param windowPosition - Window coordinates to perform picking on.
+     * @param schemaId - The ID of the metadata schema to pick values
+    from. If this is `undefined`, then it will pick the values from the object
+    that match the given class- and property name, regardless of the schema ID.
+     * @param className - The name of the metadata class to pick
+    values from
+     * @param propertyName - The name of the metadata property to pick
+    values from
+     * @returns The metadata value
+     */
+    pickMetadata(windowPosition: Cartesian2, schemaId: string | undefined, className: string, propertyName: string): any;
+    /**
+     * Pick the schema of the metadata of the object at the given position
+     * @param windowPosition - Window coordinates to perform picking on.
+     * @returns The metadata schema, or `undefined` if there is no object with
+    associated metadata at the given position.
+     */
+    pickMetadataSchema(windowPosition: Cartesian2): MetadataSchema;
+    /**
      * Returns the cartesian position reconstructed from the depth buffer and window position.
     <p>
     The position reconstructed from the depth buffer in 2D may be slightly different from those
@@ -41032,6 +41404,18 @@ export class Scene {
      */
     destroy(): void;
 }
+
+/**
+ * Determine how translucent surfaces will be handled.
+
+When OIT is enabled, then this will delegate to OIT.executeCommands.
+Otherwise, it will just be executeTranslucentCommandsBackToFront
+for render passes, or executeTranslucentCommandsFrontToBack for
+other passes.
+ * @param scene - The scene.
+ * @returns A function to execute translucent commands.
+ */
+export function obtainTranslucentCommandExecutionFunction(scene: Scene): (...params: any[]) => any;
 
 /**
  * Indicates if the scene is viewed in 3D, 2D, or 2.5D Columbus view.
@@ -41241,6 +41625,13 @@ export class ScreenSpaceCameraController {
      * When disabled, the values of <code>maximumZoomDistance</code> and <code>minimumZoomDistance</code> are ignored.
      */
     enableCollisionDetection: boolean;
+    /**
+     * The angle, relative to the ellipsoid normal, restricting the maximum amount that the user can tilt the camera. If <code>undefined</code>, the angle of the camera tilt is unrestricted.
+     * @example
+     * // Prevent the camera from tilting below the ellipsoid surface
+    viewer.scene.screenSpaceCameraController.maximumTiltAngle = Math.PI / 2.0;
+     */
+    maximumTiltAngle: number | undefined;
     /**
      * Returns true if this object was destroyed; otherwise, false.
     <br /><br />
