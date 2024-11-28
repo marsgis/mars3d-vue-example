@@ -24,6 +24,16 @@
       <layer-state label="" />
     </div>
   </mars-dialog>
+
+
+  <mars-dialog :visible="true" right="10" top="300" customClass="pannel" width="250">
+    <mars-tree checkable :height="400" :tree-data="treeData" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys"
+      @check="checkedChange"  @select="flyToGraphic">
+      <template #title="{ title }">
+        <span :title="title">{{ title }}</span>
+      </template>
+    </mars-tree>
+  </mars-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -35,6 +45,7 @@ import * as mapWork from "./map.js"
 const { updateWidget } = useWidget()
 
 function setDefuatData() {
+  treeData.value = []
   layerOpacity.value = 1.0
 
   mapWork.eventTarget.fire("defuatData", {
@@ -124,6 +135,66 @@ function changeGraphicData() {
 const layerOpacity = ref<number>(1.0)
 const onOpacityChange = () => {
   mapWork.graphicLayer.opacity = layerOpacity.value
+}
+
+
+
+mapWork.eventTarget.on("refTree", (event: any) => {
+  initTree()
+})
+
+// 初始化树控件
+const treeData = ref<any[]>()
+const checkedKeys = ref<any[]>([])
+const expandedKeys = ref<any[]>([])
+
+function initTree() {
+  // 重置上一次的树状数据
+  const showIds = [] // 是显示状态的图层id集合
+  const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
+  const result = mapWork.getGraphicsTree({
+    forEach: function (item) {
+      item.key = item.id // 树控件api需要的唯一标识
+      item.title = item.name || "未命名" // 树控件api需要的显示文本字段
+
+      if (item.show) {
+        showIds.push(item.id)
+      }
+      if (item.group && item.open !== false) {
+        openIds.push(item.id)
+      }
+    },
+    autoGroup: "type"
+  })
+  console.log("获取到的graphics树", result)
+
+  // 赋予树控件
+  treeData.value = result.tree
+  checkedKeys.value = showIds
+  expandedKeys.value = openIds
+}
+
+// 树控件 勾选事件
+function checkedChange(keys: string[], e: any) {
+  const graphic = mapWork.getGraphicById(e.node.key)
+
+  if (graphic) {
+    const show = keys.indexOf(e.node.key) !== -1
+    graphic.show = show
+
+    // 处理子节点
+    if (e.node.children && e.node.children.length) {
+      e.node.children.forEach((child) => {
+        checkedChange(keys, child)
+      })
+    }
+  }
+}
+
+// 点击节点 定位
+const flyToGraphic = (keys: any, item: any) => {
+  const graphic = mapWork.getGraphicById(item.node.key)
+  graphic.flyTo()
 }
 </script>
 <style scoped lang="less">

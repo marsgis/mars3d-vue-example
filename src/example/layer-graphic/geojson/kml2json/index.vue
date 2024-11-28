@@ -12,9 +12,9 @@
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="195" customClass="pannel" width="330">
-    <mars-tree checkable :height="433" :tree-data="treeData" @check="checkedChange" v-model:checkedKeys="selectedKeys"
-      v-model:expandedKeys="expandedKeys">
+  <mars-dialog :visible="true" right="10" top="195" customClass="pannel" width="300">
+    <mars-tree checkable :height="550" :tree-data="treeData" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys"
+      @check="checkedChange"  @select="flyToGraphic">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -23,108 +23,109 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue"
+import { ref } from "vue"
 import LayerState from "@mars/components/mars-sample/layer-state.vue"
 import * as mapWork from "./map.js"
 
-const treeData = ref<any[]>([
-  {
-    title: "全部",
-    key: 0,
-    id: -1,
-    children: []
-  }
-])
-const selectedKeys = ref<any[]>([0])
-const expandedKeys = ref<any[]>([0])
-
-let layersObj: any = {}
-
-mapWork.treeEvent.on("tree", (event: any) => {
-  initTree(event.treeData)
-})
-
-const checkedChange = (_keys: string[], checkedNodes: any) => {
-
-  const show = checkedNodes.checked
-  const entity = layersObj[checkedNodes.node.id]
-
-  if (checkedNodes.node.id === -1) {
-    mapWork.graphicLayer.show = show
-    return
-  }
-  // 处理图层显示隐藏
-  entity.show = show
-  if (entity._labelEx) {
-    entity._labelEx.show = show
-  }
-  if (entity == null) {
-    return
-  }
-
-  mapWork.flyToEntity()
-}
-
-// 初始化树控件
-function initTree(dataItems: any) {
-  // 重置上一次的树状数据
-  treeData.value[0].children = []
-  layersObj = {}
-
-  const tree = []
-  const dataKeys: any = []
-
-  for (let i = 0; i < dataItems.length; i++) {
-    const node = dataItems[i].graphic
-
-    if (node) {
-      const key = "01-" + Math.random()
-      const nodeList: any = {
-        title: node.name || "未命名",
-        key: key,
-        id: node._id
-      }
-      tree.push(nodeList)
-
-      if (node.show) {
-        dataKeys.push(key)
-      }
-
-      layersObj[nodeList.key] = node
-    }
-  }
-  treeData.value[0].children = tree
-
-  nextTick(() => {
-    selectedKeys.value = dataKeys
-  })
-}
 
 const shoRailway = () => {
-  selectedKeys.value = []
+  treeData.value = []
 
   mapWork.shoRailway()
 }
 const showExpressway = () => {
-  selectedKeys.value = []
+  treeData.value = []
 
   mapWork.showExpressway()
 }
 const showMeteorological = () => {
-  selectedKeys.value = []
+  treeData.value = []
 
   mapWork.showMeteorological()
 }
 const showGDP = () => {
-  selectedKeys.value = []
+  treeData.value = []
 
   mapWork.showGDP()
 }
 const showSafetyNotice = () => {
-  selectedKeys.value = []
+  treeData.value = []
 
   mapWork.showSafetyNotice()
 }
+
+
+
+mapWork.treeEvent.on("refTree", (event: any) => {
+  initTree()
+})
+
+// 初始化树控件
+const treeData = ref<any[]>()
+const checkedKeys = ref<any[]>([])
+const expandedKeys = ref<any[]>([])
+
+function initTree() {
+  // 重置上一次的树状数据
+  const showIds = [] // 是显示状态的图层id集合
+  const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
+  const result = mapWork.getGraphicsTree({
+    forEach: function (item) {
+      item.key = item.id // 树控件api需要的唯一标识
+      item.title = item.name || "未命名" // 树控件api需要的显示文本字段
+
+      if (item.show) {
+        showIds.push(item.id)
+      }
+      if (item.group && item.open !== false) {
+        openIds.push(item.id)
+      }
+    },
+    // autoGroup: "type"
+    autoGroup: function(item) {
+      const name = item.name
+      if (name) {
+        if (name.indexOf("专线") !== -1 || name.indexOf("合九") !== -1) { return "专线" }
+        if (name.indexOf("高铁") !== -1) { return "高铁" }
+        if (name.indexOf("城际铁路") !== -1) { return "城际铁路" }
+        if (name.indexOf("铁路") !== -1) { return "铁路" }
+        if (name.indexOf("宁西") !== -1) { return "宁西" }
+        if (name.indexOf("合肥轨道") !== -1 || name.indexOf("有轨") !== -1 || name.indexOf("地铁") !== -1) { return "合肥轨道" }
+      }
+      return name || "未知"
+    }
+  })
+  console.log("获取到的graphics树", result)
+
+  // 赋予树控件
+  treeData.value = result.tree
+  checkedKeys.value = showIds
+  expandedKeys.value = openIds
+}
+
+// 树控件 勾选事件
+function checkedChange(keys: string[], e: any) {
+  const graphic = mapWork.getGraphicById(e.node.key)
+
+  if (graphic) {
+    const show = keys.indexOf(e.node.key) !== -1
+    graphic.show = show
+
+    // 处理子节点
+    if (e.node.children && e.node.children.length) {
+      e.node.children.forEach((child) => {
+        checkedChange(keys, child)
+      })
+    }
+  }
+}
+
+// 点击节点 定位
+const flyToGraphic = (keys: any, item: any) => {
+  const graphic = mapWork.getGraphicById(item.node.key)
+  graphic.flyTo()
+}
+
 </script>
 <style lang="less">
 .pannel {

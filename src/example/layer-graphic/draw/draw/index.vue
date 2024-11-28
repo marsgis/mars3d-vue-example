@@ -22,10 +22,11 @@
             @change="onClickOpenJson" :beforeUpload="() => false">
             <mars-button class="open-btn">打开</mars-button>
           </a-upload>
-          <mars-button class="save-btn" @click="onClickSaveJson">保存GeoJSON</mars-button>
-          <mars-button class="kml-btn" @click="onClickSaveKml">另存KML</mars-button>
-          <mars-button class="wkt-btn" @click="onClickSaveWKT">另存WKT</mars-button>
-          <mars-button class="remove-btn" @click="onClickClear" danger>清除</mars-button>
+          <mars-button class="small-btn" @click="onClickClear" danger>清除</mars-button>
+          <mars-button class="long-btn" @click="onClickSaveJson">保存JSON</mars-button>
+          <mars-button class="long-btn" @click="onClickSaveGeoJson">存GeoJSON</mars-button>
+          <mars-button class="small-btn" @click="onClickSaveKml">保存KML</mars-button>
+          <mars-button class="small-btn" @click="onClickSaveWKT">保存WKT</mars-button>
         </div>
       </a-col>
     </a-row>
@@ -175,9 +176,12 @@ const onClickClear = () => {
 
 // 点击保存GeoJSON
 const onClickSaveJson = () => {
-  mapWork.saveGeoJSON()
+  mapWork.saveJSON()
 }
 
+const onClickSaveGeoJson = () => {
+  mapWork.saveGeoJSON()
+}
 // 打开GeoJSON
 const onClickOpenJson = (info: FileInfo) => {
   mapWork.openGeoJSON(info.file)
@@ -324,14 +328,10 @@ const showEditor = (e: any) => {
   flex-wrap: wrap;
 }
 
-.save-btn,
-.open-btn {
-  width: 109px !important;
+.long-btn {
+  width: 100px !important;
 }
-
-.kml-btn,
-.wkt-btn,
-.remove-btn {
+.small-btn {
   width: 70px !important;
   padding: 0 5px;
 }

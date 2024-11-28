@@ -19,10 +19,10 @@
         <a-col :span="5">数据管理:</a-col>
         <a-col :span="19">
           <a-space>
-            <mars-button class="geojson-btn" @click="onClickExpFile">保存GeoJSON</mars-button>
+            <mars-button class="long-btn" @click="onClickExpFile">保存GeoJSON</mars-button>
             <a-upload :multiple="false" name="file" accept="json,geojson" :file-list="fileList" :showUploadList="false"
               :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
-              <mars-button class="geojson-btn"> 打开GeoJSON </mars-button>
+              <mars-button class="long-btn"> 打开GeoJSON </mars-button>
             </a-upload>
           </a-space>
         </a-col>
@@ -217,9 +217,6 @@ const showEditor = (e: any) => {
   flex-wrap: wrap;
 }
 
-.geojson-btn {
-  width: 109px !important;
-}
 
 .long-btn {
   width: 109px !important;

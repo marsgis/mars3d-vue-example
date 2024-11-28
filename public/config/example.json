@@ -881,7 +881,8 @@
             "name": "业务后端数据图层",
             "thumbnail": "layerg-basis-busineData.jpg",
             "main": "layer-graphic/basis/busineData",
-            "api": "BusineDataLayer.html"
+            "api": "BusineDataLayer.html",
+            "hasPannel": true
           },
           {
             "name": "DIV 数据图层",
@@ -958,7 +959,8 @@
             "thumbnail": "layerg-geojson-polyGradient.jpg",
             "main": "layer-graphic/geojson/polyGradient",
             "api": "GeoJsonLayer.html",
-            "developerShow": false
+            "developerShow": false,
+            "hasPannel": true
           },
           {
             "name": "立体户型图(自定义扩展)",

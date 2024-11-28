@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.8.8
- * 编译日期：2024-11-25 23:40
+ * 版本信息：v3.8.9
+ * 编译日期：2024-11-28 22:57
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2024-08-01
  */
@@ -4681,6 +4681,7 @@ declare namespace BaseGraphic {
  * @param [options.contextmenuItems] - 当矢量数据支持右键菜单时，也可以bindContextMenu方法绑定
  * @param [options.script] - 用于矢量对象加载后执行的js脚本，提示：目前主要是Studio平台绑定自定义脚本使用
  * @param [options.id = createGuid()] - 矢量数据id标识
+ * @param [options.pid] - 图层父级的id，一般列表树管理中使用
  * @param [options.name] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的图层对象，false时不冒泡
@@ -4701,6 +4702,7 @@ declare class BaseGraphic extends BaseClass {
         contextmenuItems?: any;
         script?: string;
         id?: string | number;
+        pid?: string | number;
         name?: string;
         show?: boolean;
         eventParent?: BaseClass | boolean;
@@ -4722,6 +4724,10 @@ declare class BaseGraphic extends BaseClass {
      * 对象的id标识
      */
     readonly id: string | number;
+    /**
+     * 对象的pid标识
+     */
+    pid: string | number;
     /**
      * 当前对象的状态
      */
@@ -15319,6 +15325,22 @@ declare class GroupGraphic extends BaseGraphic {
      * @returns 是否同名
      */
     hasGraphic(name: string, excludedGraphic?: BaseGraphic): boolean;
+    /**
+     * 获取组内所有数据的 矩形边界值
+     * @param [options] - 控制参数
+     * @param [options.isFormat = false] - 是否格式化，格式化时示例： { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 }
+     * @param [options.onePoint = true] - 一个点位时是否返回边界值
+     * @returns isFormat：true时，返回格式化对象，isFormat：false时返回Cesium.Rectangle对象
+     */
+    getRectangle(options?: {
+        isFormat?: boolean;
+        onePoint?: boolean;
+    }): Cesium.Rectangle | any;
+    /**
+     * 将矢量数据的坐标、样式及属性等信息导出为对象，可以用于存储。
+     * @returns 导出的坐标、样式及属性等信息
+     */
+    toJSON(): any;
 }
 
 /**
@@ -21457,7 +21479,7 @@ declare class BaseLayer extends BaseClass {
      */
     id: string | number;
     /**
-     * 名称 标识
+     * 名称
      */
     name: string;
     /**
@@ -23597,6 +23619,19 @@ declare class GraphicLayer extends BaseGraphicLayer {
      * @returns 矢量数据对象列表
      */
     getGraphicsByIds(ids: string[] | number[]): BaseGraphic[];
+    /**
+     * 获取所有矢量数据的配置信息，通常用于配置 数据列表树
+     * @param [options] - 参数对象，包括以下：
+     * @param [options.filter] - 筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
+     * @param [options.forEach] - 递归调用对象配置信息，可以对导出的对象数据进行格式化或转换键值操作
+     * @param [options.autoGroup] - 自动分组处理方法(string时指定属性进行分组，比如传 autoGroup:"type")，注意：如果图层内有group对象时，该参数无效。
+     * @returns 返回值包括 { list: [id与pid关联的原始数组],  tree: [按children组织好的上下级树数组]}
+     */
+    getGraphicsTree(options?: {
+        filter?: (...params: any[]) => any;
+        forEach?: (...params: any[]) => any;
+        autoGroup?: ((...params: any[]) => any) | string;
+    }): any;
     /**
      * 清除图层内所有矢量数据
      * @param [hasDestroy = true] - 是否释放矢量对象
@@ -29282,6 +29317,7 @@ declare class Map extends BaseClass {
      * @param [options] - 参数对象，包括以下：
      * @param [options.filter] - 筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
      * @param [options.forEach] - 递归调用图层配置信息，可以对导出的图层数据进行格式化或转换键值操作
+     * @param [options.autoGroup] - 自动分组(string时指定属性进行分组，比如传 autoGroup:"type")，注意：如果map有group图层时，该参数无效。
      * @param [options.basemaps = false] - 默认不比较及处理，true:返回所有basemps中配置图层，false：排除所有所有basemps中配置图层[但已加到map的除外]
      * @param [options.childs = true] - 是否获取GroupLayer内的已经实例化的子图层, 但没有加到map的图层不会去读取内部子图层
      * @returns 返回值包括 { list: [id与pid关联的原始数组],  tree: [按children组织好的上下级树数组]}
@@ -29289,6 +29325,7 @@ declare class Map extends BaseClass {
     getLayrsTree(options?: {
         filter?: (...params: any[]) => any;
         forEach?: (...params: any[]) => any;
+        autoGroup?: ((...params: any[]) => any) | string;
         basemaps?: boolean;
         childs?: boolean;
     }): any;
