@@ -863,6 +863,25 @@ const styleConfig = {
       { name: "html", label: "Html文本", type: "label", defval: "" }
     ]
   },
+  divGif: {
+    name: "动态图标",
+    style: [
+      {
+        name: "image",
+        label: "图标",
+        type: "label",
+      },
+      {
+        name: "width",
+        label: "宽度",
+        type: "number",
+        min: 0,
+        step: 1,
+        defval: 0.0
+      },
+      { name: "height", label: "高度", type: "number", min: 0, step: 1, defval: 0.0 }
+    ]
+  },
   billboardIndicator: {
     name: "可拖拽图标点",
     style: [

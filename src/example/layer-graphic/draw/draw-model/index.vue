@@ -15,7 +15,7 @@
       <a-form-item label="">
         <div class="flex-btns">
           <mars-button @click="saveGeoJSON">保存</mars-button>
-          <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON"
+          <a-upload :multiple="false" name="file" accept=".json,.geojson" :showUploadList="false" @change="openGeoJSON"
             :beforeUpload="() => false">
             <mars-button title="打开模型文件"> 打开... </mars-button>
           </a-upload>

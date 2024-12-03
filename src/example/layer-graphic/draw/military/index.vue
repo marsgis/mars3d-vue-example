@@ -20,7 +20,7 @@
         <a-col :span="19">
           <a-space>
             <mars-button class="long-btn" @click="onClickExpFile">保存GeoJSON</mars-button>
-            <a-upload :multiple="false" name="file" accept="json,geojson" :file-list="fileList" :showUploadList="false"
+            <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
               :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
               <mars-button class="long-btn"> 打开GeoJSON </mars-button>
             </a-upload>

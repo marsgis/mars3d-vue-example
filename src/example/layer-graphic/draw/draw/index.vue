@@ -18,7 +18,7 @@
       <a-col :span="5" class="mars-pannel-item-label f-push-5-r">数据管理:</a-col>
       <a-col :span="18">
         <div class="grid-btns">
-          <a-upload :multiple="false" name="file" accept="json,geojson,kml,kmz" :showUploadList="false"
+          <a-upload :multiple="false" name="file" accept=".json,.geojson,.kml,.kmz" :showUploadList="false"
             @change="onClickOpenJson" :beforeUpload="() => false">
             <mars-button class="open-btn">打开</mars-button>
           </a-upload>

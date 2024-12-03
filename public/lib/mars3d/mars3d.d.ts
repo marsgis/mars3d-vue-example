@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.8.9
- * 编译日期：2024-11-28 22:57
+ * 编译日期：2024-12-03 18:04
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2024-08-01
  */
@@ -3762,18 +3762,25 @@ declare class MarsArray {
      */
     splitArr(num: number): any[];
     /**
-     * 从集合中移除键值对
-     * @param key - 主键
-     * @returns 是否移除
-     */
-    remove(key: string | number): boolean;
-    /**
      * 遍历每一个对象并将其作为参数传递给回调函数
      * @param method - 回调方法
      * @param [context] - 侦听器的上下文(this关键字将指向的对象)。
      * @param [reverse] - 是否倒序执行
      */
     forEach(method: (...params: any[]) => any, context?: any, reverse?: boolean): void;
+    /**
+     * 从集合中移除键值对
+     * @param key - 主键
+     * @returns 是否移除
+     */
+    remove(key: string | number): boolean;
+    /**
+     * 根据筛选方法从集合中移除部分对象
+     * @param filterFun - 数据筛选方法，方法体内返回false时排除数据 filter:function(feature){return true}
+     * @param [removeFun] - 移除后的回调
+     * @returns 是否移除
+     */
+    removeByFilter(filterFun: (...params: any[]) => any, removeFun?: (...params: any[]) => any): boolean;
     /**
      * 清空集合
      */
@@ -4022,6 +4029,11 @@ declare class BaseEffect extends BaseThing {
      * })
      */
     availability: Cesium.TimeIntervalCollection;
+    /**
+     * 获取时间范围的简单对象数组（转为相对map.clock.startTime的相对数字）
+     * @returns 时间对象列表
+     */
+    getAvailabilityJson(): any;
     /**
      * 获取指定时间下的时序对应的 显示隐藏 状态
      * @param time - 指定时间
@@ -4802,6 +4814,11 @@ declare class BaseGraphic extends BaseClass {
      * })
      */
     availability: Cesium.TimeIntervalCollection;
+    /**
+     * 获取时间范围的简单对象数组（转为相对map.clock.startTime的相对数字）
+     * @returns 时间对象列表
+     */
+    getAvailabilityJson(): any;
     /**
      * 获取指定时间下的时序对应的 显示隐藏 状态
      * @param time - 指定时间
@@ -21574,6 +21591,11 @@ declare class BaseLayer extends BaseClass {
      */
     availability: Cesium.TimeIntervalCollection;
     /**
+     * 获取时间范围的简单对象数组（转为相对map.clock.startTime的相对数字）
+     * @returns 时间对象列表
+     */
+    getAvailabilityJson(): any;
+    /**
      * 获取指定时间下的时序对应的 显示隐藏 状态
      * @param time - 指定时间
      * @returns 显示隐藏 状态
@@ -23501,9 +23523,15 @@ declare class GraphicLayer extends BaseGraphicLayer {
     /**
      * 参数方式添加矢量对象, 同addGraphic
      * @param json - 矢量数据构造参数，可以用toJSON方法导出的值； 传string时对应的值存放的json路径地址。
+     * @param [options] - 加载控制参数,包含：
+     * @param [options.clear = false] - 是否清除图层已有数据
+     * @param [options.flyTo = false] - 是否加载完成后进行飞行到数据区域
      * @returns 绘制创建完成的Promise 添加后的Graphic对象
      */
-    loadJSON(json: any | any | string): Promise<BaseGraphic[] | any>;
+    loadJSON(json: any | any | string, options?: {
+        clear?: boolean;
+        flyTo?: boolean;
+    }): Promise<BaseGraphic[] | any>;
     /**
      * 加载转换GeoJSON格式规范数据为Graphic后加载到图层中。
      * @param geojson - GeoJSON格式规范数据
@@ -29114,10 +29142,15 @@ declare class Map extends BaseClass {
     /**
      * 设置Map所有参数构造参数 【测试中功能，可能部分参数无法更新,欢迎反馈问题 】
      * @param newOptions - 新的构造参数
-     * @param [isMerge = true] - 是否合并参数,如需完整覆盖，可以传入fasle
+     * @param [funOptions] - 方法参数
+     * @param [funOptions.isMerge = true] - 是否合并参数,如需完整覆盖，可以传入fasle
+     * @param [funOptions.filterLayer] - 过滤图层，方法体内返回false时排除图层不更新 filter:function(feature){return true}
      * @returns 当前对象本身，可以链式调用
      */
-    setOptions(newOptions: any, isMerge?: boolean): Map;
+    setOptions(newOptions: any, funOptions?: {
+        isMerge?: boolean;
+        filterLayer?: (...params: any[]) => any;
+    }): Map;
     /**
      * 设置Scene场景参数
      * @param options - 参数
@@ -29233,9 +29266,13 @@ declare class Map extends BaseClass {
     /**
      * 重新设置layers图层，对options.layers重新赋值
      * @param arr - 可以叠加显示的图层配置
+     * @param [funOptions] - 方法参数
+     * @param [funOptions.filter] - 过滤图层，方法体内返回false时排除图层不更新 filter:function(feature){return true}
      * @returns 图层数组
      */
-    setLayersOptions(arr: Map.layerOptions[]): BaseLayer[];
+    setLayersOptions(arr: Map.layerOptions[], funOptions?: {
+        filter?: (...params: any[]) => any;
+    }): BaseLayer[];
     /**
      * 获取图层ID值，按顺序取值。
      * 没有id的图层，会自动使用本方法进行id赋值处理
@@ -29977,10 +30014,13 @@ declare class Map extends BaseClass {
      */
     closeSmallTooltip(): Map;
     /**
-     * 获取当前地图下【图层、矢量对象、特效】绑定的所有availability列表
-     * @returns availability时序列表
+     * 获取当前地图下时序相关列表
+     * 1.subtitles：字幕控件列表；
+     * 2.task：任务列表；
+     * 3.availability：所有 图层、矢量对象、特效 绑定的availability；
+     * @returns 时序列表返回对象
      */
-    getAvailabilityList(): AvailabilityItem[];
+    getTimeTaskList(): TimeTaskListResult;
     /**
      * 移除所有加载的图层、控件、对象。慎用
      * @param [hasDestroy = true] - 是否释放对象
@@ -30019,23 +30059,41 @@ declare class Map extends BaseClass {
 }
 
 /**
- * 时序列表
- * @property [origin] - 来源：layer、graphic、effect
+ * 时序列表单个值
+ * @property [type] - 类型：subtitles、task、availability
+ * @property [start] - 任务开始时间
+ * @property [duration] - 任务时长
+ * @property [stop] - 任务结束时间
  * @property [name] - 对象的名称
- * @property [type] - effect、control时 对应的类型
- * @property [id] - layer、graphic时 对应的对象ID
- * @property [layerId] - graphic时 对应的图层ID
- * @property [availability] - 时序数组对象
- * @property [target] - mars3d对应对象
+ * @property [listIndex] - subtitles、task时所在数组中的顺序,和多个availability时的数组中顺序
+ * @property [origin] - availability时的来源：layer、graphic、effect
+ * @property [graphicId] - graphic时 对应的对象ID
+ * @property [layerId] - graphic、layer时 对应的图层ID
+ * @property [effectType] - effect时 对应的类型
+ * @property [taskType] - task时 对应的类型
  */
-declare type AvailabilityItem = {
-    origin?: string;
-    name?: string;
+declare type TimeTaskItem = {
     type?: string;
-    id?: number;
+    start?: number;
+    duration?: number;
+    stop?: number;
+    name?: string;
+    listIndex?: number;
+    origin?: string;
+    graphicId?: number;
     layerId?: number;
-    availability?: any;
-    target?: any;
+    effectType?: string;
+    taskType?: string;
+};
+
+/**
+ * 时序列表返回对象
+ * @property [list] - 时序列表
+ * @property [duration] - 总时长秒数
+ */
+declare type TimeTaskListResult = {
+    list?: TimeTaskItem[];
+    duration?: number;
 };
 
 declare namespace Map {
@@ -40579,16 +40637,18 @@ declare namespace Util {
      * 指定时间范围内显示对象所用到的TimeIntervalCollection对象
      * SDK内 graphic.availability 等赋值时会自动调用该方法转换为cesium本身对象。
      * @param availability - 指定时间范围
-     * @param [clock] - 时钟对象，如果传数字秒数时，需要取 clock.startTime
+     * @param [startTime] - 开始对象，如果传数字秒数时，是相当于startTime的增加秒数
      * @returns JulianDate时间
      */
-    function getAvailability(availability: Cesium.TimeIntervalCollection | Cesium.TimeInterval | any[] | any, clock?: Cesium.Clock): Cesium.TimeIntervalCollection;
+    function getAvailability(availability: Cesium.TimeIntervalCollection | Cesium.TimeInterval | any[] | any, startTime?: Cesium.JulianDate): Cesium.TimeIntervalCollection;
     /**
      * 获取时间范围的简单对象数组，用于对象的编辑
      * @param availability - 指定时间范围
-     * @returns JulianDate时间
+     * @param [toNum] - 是否转为数字秒数
+     * @param [startTime] - 如果toNum取数字秒数时，是相当于startTime的增加秒数
+     * @returns 时间对象列表
      */
-    function getAvailabilityJson(availability: Cesium.TimeIntervalCollection): any;
+    function getAvailabilityJson(availability: Cesium.TimeIntervalCollection, toNum?: boolean, startTime?: Cesium.JulianDate): any;
     /**
      * 取属性值，简化Cesium内的属性，去掉getValue等，取最简的键值对。
      * 方便popup、tooltip等构造方法使用
@@ -40910,10 +40970,12 @@ declare namespace Util {
      * @param timeNum - 时长
      * @param [options] - 参数：
      * @param [options.getLangText] - 获取文本的对应方法
+     * @param [options.digits = 0] - 小数位数
      * @returns 格式化字符串，如XX小时XX分钟
      */
     function formatTime(timeNum: number, options?: {
         getLangText?: (...params: any[]) => any;
+        digits?: number;
     }): string;
     /**
      * 请求服务返回JSON结果

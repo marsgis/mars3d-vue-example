@@ -19,7 +19,7 @@
     <div class="f-mb">
       <a-space>
         <mars-button class="control_btn" @click="saveGeoJSON">保存Json</mars-button>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
+        <a-upload :multiple="false" name="file" accept=".json,.geojson" :showUploadList="false" @change="openGeoJSON" :beforeUpload="() => false">
           <mars-button class="control_btn"> 打开Json </mars-button>
         </a-upload>
         <mars-button class="control_btn" danger @click="clear">清除</mars-button>

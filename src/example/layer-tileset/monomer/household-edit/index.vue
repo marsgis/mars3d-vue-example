@@ -4,7 +4,7 @@
       <a-space>
         <mars-button @click="showAddDataPannel = true" :disabled="showAddDataPannel">新增</mars-button>
         <mars-button @click="onClickSaveJson">导出</mars-button>
-        <a-upload :multiple="false" name="file" accept="json,geojson,kml,kmz" :showUploadList="false"
+        <a-upload :multiple="false" name="file" accept=".json,.geojson,.kml,.kmz" :showUploadList="false"
           @change="onClickOpenJson" :beforeUpload="() => false">
           <mars-button>导入</mars-button>
         </a-upload>

@@ -4,7 +4,7 @@
 
     <div v-if="value === '1'" class="f-pt">
       <a-space>
-        <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" :beforeUpload="() => false"
+        <a-upload :multiple="false" name="file" accept=".json,.geojson" :showUploadList="false" :beforeUpload="() => false"
           @change="openGeoJSON">
           <mars-button> 打开</mars-button>
         </a-upload>
