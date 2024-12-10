@@ -6,7 +6,7 @@
           <mars-input placeholder="搜索 地点" v-model:value="searchTxt" class="input" data-event="prevent"
                       @blur="startCloseSearch" @focus="showHistoryList" allowClear
                       @input="handleSearch(searchTxt)"></mars-input>
-          <mars-button class="button">
+          <mars-button class="button" @click="selectPoint(searchTxt)">
             <img src="/img/icon/search.png" alt="" />
           </mars-button>
         </div>

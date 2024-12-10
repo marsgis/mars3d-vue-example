@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.8.9
- * 编译日期：2024-12-06 08:39
+ * 编译日期：2024-12-10 22:08
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：免费公开版 ，2024-08-01
  */
@@ -1244,12 +1244,12 @@ declare enum Lang {
     "_关闭键盘漫游" = "\u5173\u95ED\u952E\u76D8\u6F2B\u6E38",
     "_跟踪锁定" = "\u8DDF\u8E2A\u9501\u5B9A",
     "_取消锁定" = "\u53D6\u6D88\u9501\u5B9A",
-    "_三维模型" = "\u4E09\u7EF4\u6A21\u578B",
+    "_图层" = "\u56FE\u5C42",
     "_显示三角网" = "\u663E\u793A\u4E09\u89D2\u7F51",
     "_关闭三角网" = "\u5173\u95ED\u4E09\u89D2\u7F51",
     "_显示包围盒" = "\u663E\u793A\u5305\u56F4\u76D2",
     "_关闭包围盒" = "\u5173\u95ED\u5305\u56F4\u76D2",
-    "_地形服务" = "\u5730\u5F62\u670D\u52A1",
+    "_地形" = "\u5730\u5F62",
     "_开启地形" = "\u5F00\u542F\u5730\u5F62",
     "_关闭地形" = "\u5173\u95ED\u5730\u5F62",
     "_图上标记" = "\u56FE\u4E0A\u6807\u8BB0",
@@ -1260,7 +1260,7 @@ declare enum Lang {
     "_标记矩形" = "\u6807\u8BB0\u77E9\u5F62",
     "_允许编辑" = "\u5141\u8BB8\u7F16\u8F91",
     "_禁止编辑" = "\u7981\u6B62\u7F16\u8F91",
-    "_导出文件" = "\u5BFC\u51FA\u6587\u4EF6",
+    "_导出JSON" = "\u5BFC\u51FAJSON",
     "_导入文件" = "\u5BFC\u5165\u6587\u4EF6",
     "_清除标记" = "\u6E05\u9664\u6807\u8BB0",
     "_特效效果" = "\u7279\u6548\u6548\u679C",
@@ -1280,7 +1280,7 @@ declare enum Lang {
     "_关闭黑白" = "\u5173\u95ED\u9ED1\u767D",
     "_开启拾取高亮" = "\u5F00\u542F\u62FE\u53D6\u9AD8\u4EAE",
     "_关闭拾取高亮" = "\u5173\u95ED\u62FE\u53D6\u9AD8\u4EAE",
-    "_场景设置" = "\u573A\u666F\u8BBE\u7F6E",
+    "_场景" = "\u573A\u666F",
     "_开启深度监测" = "\u5F00\u542F\u6DF1\u5EA6\u76D1\u6D4B",
     "_关闭深度监测" = "\u5173\u95ED\u6DF1\u5EA6\u76D1\u6D4B",
     "_显示星空背景" = "\u663E\u793A\u661F\u7A7A\u80CC\u666F",
@@ -4581,7 +4581,7 @@ declare namespace BaseGraphic {
     /**
      * 【从后端读取的动态属性】
      * 动态时SDK内判断规则: `if (attr.type === "ajax" && attr.url)`
-     * 动态属性仅Popup等使用时才会自动获取，如外部代码中需要使用时，请调用代码实时获取: `let attr = await this.getAjaxAttr()`
+     * 动态属性仅Popup等使用时才会自动获取，如外部代码中需要使用时，请调用代码实时获取: `let attr = await graphic.getAjaxAttr()`
      * @property type - 类型，目前仅支持 "ajax"
      * @property url - 后端服务URL地址
      * @property [queryParameters] - 与请求一起发送的 URL 参数,例如 {id: 1987 }
@@ -4766,10 +4766,10 @@ declare class BaseGraphic extends BaseClass {
     show: boolean;
     /**
      * 获取当前对象真实实际的显示状态
-     * @param time - 当前时间
+     * @param [time] - 当前时间，不传时不做availability判断
      * @returns 真实的实时显示状态，当时序范围外，被聚合时返回的是false
      */
-    getRealShow(time: Cesium.JulianDate): boolean;
+    getRealShow(time?: Cesium.JulianDate): boolean;
     /**
      * 是否支持聚合
      */
@@ -8361,6 +8361,7 @@ declare namespace DivGraphic {
      * @property [offsetY] - 用于非规则div时，垂直方向偏移的px像素值
      * @property [className] - 自定义的样式名
      * @property [editClassName = "mars3d-divGraphic-edit"] - 编辑状态下的的样式名
+     * @property [scale = 1.0] - 缩放比例
      * @property [scaleByDistance = false] - 是否按视距缩放
      * @property [scaleByDistance_far = 1000000] - 上限
      * @property [scaleByDistance_farValue = 0.1] - 比例值
@@ -8385,6 +8386,7 @@ declare namespace DivGraphic {
         offsetY?: number;
         className?: string;
         editClassName?: string;
+        scale?: number;
         scaleByDistance?: boolean;
         scaleByDistance_far?: number;
         scaleByDistance_farValue?: number;
@@ -8622,6 +8624,10 @@ declare class DivGraphic extends BaseGraphic {
      * @returns 无
      */
     removeClass(className: string, isParent?: boolean): void;
+    /**
+     * 是否正在绘制状态
+     */
+    readonly isDrawing: boolean;
     /**
      * 开始绘制创建矢量数据，绘制的数据会加载在layer图层。
      * @param layer - 图层
@@ -9087,8 +9093,8 @@ declare namespace Popup {
      * @property [zIndex = "10000000"] - 指定固定的zIndex层级属性(当hasZIndex为true时无效)
      * @property [depthTest = false] - 是否打开深度判断（true时判断是否在球背面）
      * @property [hasCache = true] - 是否启用缓存机制，如为true，在视角未变化时不重新渲染。
+     * @property [checkData] - 在多个Popup时，校验是否相同Popup进行判断关闭
      * @property [useGraphicPostion] - 是否固定使用graphic本身的坐标，而不用鼠标单击处坐标（比如固定在图标本身点、线面中心点）
-     * @property [animation = true] - 是否执行打开时的动画效果
      * @property [toggle] - 是否打开状态下再次单击时关闭Popup
      */
     type StyleOptions = any | {
@@ -9124,8 +9130,8 @@ declare namespace Popup {
         zIndex?: number | string;
         depthTest?: boolean;
         hasCache?: boolean;
+        checkData?: (...params: any[]) => any;
         useGraphicPostion?: boolean;
-        animation?: boolean;
         toggle?: boolean;
     };
 }
@@ -9394,6 +9400,10 @@ declare class BaseEntity extends BaseGraphic {
      */
     stopFlicker(): void;
     /**
+     * 是否正在绘制状态
+     */
+    readonly isDrawing: boolean;
+    /**
      * 开始绘制矢量数据，绘制的数据会加载在layer图层。
      * @param layer - 图层
      * @returns 无
@@ -9616,10 +9626,6 @@ declare class BasePointEntity extends BaseEntity {
      * @returns 当前坐标
      */
     setCallbackPosition(position?: string | any[] | any | Cesium.Cartesian3 | any): Cesium.Cartesian3;
-    /**
-     * 显示隐藏状态（属性值）
-     */
-    show: boolean;
     /**
      * 指定时间范围内显示该对象 [提示：仅部分子类实现，非所有对象都支持]
      * @example
@@ -9865,6 +9871,7 @@ declare namespace BillboardEntity {
      * //  * @param {string} [highlight.type] 事件方式，鼠标移入高亮 或 单击高亮(type:'click')
      * //  * @param {boolean} [highlight.enabled=true] 是否启用
      * @property [label] - 支持附带文字的显示
+     * //  * @param {boolean} [label.combine=false] 文本是否使用Entity附带文本，比如使用动态坐标时，请传入true
      */
     type StyleOptions = any | {
         image?: string | HTMLCanvasElement;
@@ -10424,6 +10431,7 @@ declare namespace CircleEntity {
      * //  * @param {string} [highlight.type] 事件方式，鼠标移入高亮 或 单击高亮(type:'click')
      * //  * @param {boolean} [highlight.enabled=true] 是否启用
      * @property [label] - 支持附带文字的显示
+     * //  * @param {boolean} [label.combine=false] 文本是否使用Entity附带文本，比如使用动态坐标时，请传入true
      */
     type StyleOptions = any | {
         radius?: number;
@@ -12229,6 +12237,7 @@ declare namespace ModelEntity {
      * //  * @param {string} [highlight.type] 事件方式，鼠标移入高亮 或 单击高亮(type:'click')
      * //  * @param {boolean} [highlight.enabled=true] 是否启用
      * @property [label] - 支持附带文字的显示
+     * //  * @param {boolean} [label.combine=false] 文本是否使用Entity附带文本，比如使用动态坐标时，请传入true
      */
     type StyleOptions = any | {
         url?: string | Cesium.Resource;
@@ -12290,6 +12299,7 @@ declare namespace ModelEntity {
  * @param [options.viewFrom] - 观察这个物体时建议的初始偏移量。
  * @param [options.parent] - 要与此实体关联的父实体。
  * @param [options.onBeforeCreate] - 在 new Cesium.Entity(addattr) 前的回调方法，可以对addattr做额外个性化处理。
+ * @param [options.colorCorrection] - 颜色校正 对象, 可传入{@link TilesetColorCorrection}构造参数
  * @param [options.maxCacheCount = 50] - 当使用addDynamicPosition设置为动画轨迹位置时，保留的坐标点数量，传-1时不限制
  * @param [options.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时，在任何可用坐标之后一次请求值时要执行的推断类型，默认为最后一个坐标位置。
  * @param [options.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD] - 当使用addDynamicPosition设置为动画轨迹位置时， 在任何可用坐标之前一次请求值时要执行的推断类型，默认为第一个坐标位置。
@@ -12335,6 +12345,7 @@ declare class ModelEntity extends BasePointEntity {
         viewFrom?: Cesium.Property;
         parent?: Cesium.Entity;
         onBeforeCreate?: (...params: any[]) => any;
+        colorCorrection?: any;
         maxCacheCount?: number;
         forwardExtrapolationType?: Cesium.ExtrapolationType;
         backwardExtrapolationType?: Cesium.ExtrapolationType;
@@ -12385,6 +12396,10 @@ declare class ModelEntity extends BasePointEntity {
      * 卷帘对比时，设置所在的屏幕，NONE时不分屏
      */
     splitDirection: Cesium.SplitDirection;
+    /**
+     * 颜色校正 对象
+     */
+    readonly colorCorrection: TilesetColorCorrection;
     /**
      * 获取模型完成解析加载完成的Promise承诺, 等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
      * @example
@@ -12948,6 +12963,7 @@ declare namespace PointEntity {
      * //  * @param {string} [highlight.type] 事件方式，鼠标移入高亮 或 单击高亮(type:'click')
      * //  * @param {boolean} [highlight.enabled=true] 是否启用
      * @property [label] - 支持附带文字的显示
+     * //  * @param {boolean} [label.combine=false] 文本是否使用Entity附带文本，比如使用动态坐标时，请传入true
      */
     type StyleOptions = any | {
         pixelSize?: number;
@@ -13084,6 +13100,7 @@ declare namespace PolygonEntity {
      * @property [outlineOpacity = 0.6] - 边框透明度
      * @property [outlineStyle] - 边框的完整自定义样式，会覆盖outlineWidth、outlineColor等参数。
      * //  * @property {boolean} [outlineStyle.closure = true] 边线是否闭合
+     * //  * @property {boolean} [outlineStyle.usePolyline = false] 强制使用polyline对象模拟边线
      * @property [textureCoordinates] - 纹理坐标，是Cartesian2的UV坐标数组的多边形层次结构。对贴地对象无效。
      * @property [distanceDisplayCondition = false] - 是否按视距显示 或 指定此框将显示在与摄像机的多大距离。【编辑状态下开启了会无法拾取】
      * @property [distanceDisplayCondition_far = number.MAX_VALUE] - 最大距离
@@ -14948,7 +14965,8 @@ declare class Lune extends PolygonEntity {
 }
 
 /**
- * 平行四边形  Entity矢量数据
+ * 平行四边形  Entity矢量数据，
+ *  提示：目前不适用于全球大区域
  * @param options - 参数对象，包括以下：
  * @param [options.positions] - 坐标位置
  * @param options.style - 样式信息
@@ -15250,7 +15268,7 @@ declare class StraightArrow extends PolygonEntity {
 /**
  * group组对象,可用于矢量数据树结构的虚拟节点
  * @param options - 参数对象，包括以下：
- * @param [options.graphics] - 子矢量对象数组，每个矢量对象的配置见按各类型API即可。
+ * @param [options.graphics] - 子矢量对象数组，可传入未实例化的参数，具体配置见各类型API即可。
  * @param [options.id = createGuid()] - 矢量数据id标识
  * @param [options.name] - 矢量数据名称
  * @param [options.show = true] - 矢量数据是否显示
@@ -15261,7 +15279,7 @@ declare class StraightArrow extends PolygonEntity {
  */
 declare class GroupGraphic extends BaseGraphic {
     constructor(options: {
-        graphics?: any;
+        graphics?: any | BaseGraphic[];
         id?: string | number;
         name?: string;
         show?: boolean;
@@ -16813,6 +16831,10 @@ declare class BasePrimitive extends BaseGraphic {
      */
     closeHighlight(): void;
     /**
+     * 是否正在绘制状态
+     */
+    readonly isDrawing: boolean;
+    /**
      * 开始绘制矢量数据，绘制的数据会加载在layer图层。
      * @param layer - 图层
      * @returns 无
@@ -16843,10 +16865,6 @@ declare class BasePrimitive extends BaseGraphic {
      * 矢量数据对应的 Cesium内部对象 (不同子类中实现)
      */
     readonly czmObject: Cesium.Entity | Cesium.Primitive | Cesium.GroundPrimitive | Cesium.ClassificationPrimitive | any;
-    /**
-     * 显示隐藏状态（属性值）
-     */
-    show: boolean;
     /**
      * 设置事件的启用和禁用状态
      */
@@ -19237,6 +19255,7 @@ declare namespace ModelPrimitive {
  * @param [options.modelMatrix] - 将图元(所有几何实例)从模型转换为世界坐标的4x4变换矩阵,可以替代position。
  * @param options.style - 样式信息
  * @param [options.attr] - 附件的属性信息，可以任意附加属性，导出geojson或json时会自动处理导出。
+ * @param [options.colorCorrection] - 颜色校正 对象, 可传入{@link TilesetColorCorrection}构造参数
  * @param [options.frameRate = 1] - 当postion为CallbackProperty时，多少帧获取一次数据。用于控制效率，如果卡顿就把该数值调大一些。
  * @param [options.appearance] - [cesium原生]用于渲染图元的外观。
  * @param [options.attributes] - [cesium原生]每个实例的属性。
@@ -19270,6 +19289,7 @@ declare class ModelPrimitive extends BasePointPrimitive {
         modelMatrix?: Cesium.Matrix4;
         style: ModelPrimitive.StyleOptions | any;
         attr?: any | BaseGraphic.AjaxAttr;
+        colorCorrection?: any;
         frameRate?: number;
         appearance?: Cesium.Appearance;
         attributes?: Cesium.Appearance;
@@ -19317,6 +19337,10 @@ declare class ModelPrimitive extends BasePointPrimitive {
      */
     splitDirection: Cesium.SplitDirection;
     /**
+     * 颜色校正 对象
+     */
+    readonly colorCorrection: TilesetColorCorrection;
+    /**
      * 获取模型完成解析加载完成的Promise承诺, 等价于load事件(区别在于load事件必须在load完成前绑定才能监听)。
      */
     readonly readyPromise: Promise<Cesium.Model>;
@@ -19352,8 +19376,8 @@ declare class ModelPrimitive extends BasePointPrimitive {
 }
 
 /**
- * 平行四边形  Primitive图元 矢量对象
- * 提示：不支持贴地
+ * 平行四边形  Primitive图元 矢量对象，
+ * 提示：不支持贴地，且目前不适用于全球大区域
  * @param options - 参数对象，包括以下：
  * @param options.positions - 坐标位置
  * @param options.style - 样式信息
@@ -19805,6 +19829,7 @@ declare namespace PolygonPrimitive {
      * @property [outlineColor = "#ffffff"] - 边框颜色
      * @property [outlineOpacity = 0.6] - 边框透明度
      * @property [outlineStyle] - 边框的样式，会覆盖outlineColor、outlineOpacity
+     * //  * @property {boolean} [outlineStyle.usePolyline = false] 强制使用polyline对象模拟边线
      * @property [height = 0] - 高程，圆相对于椭球面的高度。
      * @property [diffHeight = 100] - 高度差（相对于本身的高度的差值），与extrudedHeight二选一。
      * @property [extrudedHeight] - 指定走廊挤压面相对于椭球面的高度。
@@ -21753,7 +21778,7 @@ declare namespace CzmGeoJsonLayer {
  * @param [options.symbol] - 矢量数据的style样式
  * @param options.symbol.styleOptions - 数据的Style样式
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, entity, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数,还包括：
@@ -22070,7 +22095,7 @@ declare class CzmlLayer extends CzmGeoJsonLayer {
  * @param [options.symbol] - 矢量数据的style样式
  * @param options.symbol.styleOptions - 数据的Style样式
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, entity, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.popup] - 绑定的popup弹窗值，也可以bindPopup方法绑定，支持：'all'、数组、字符串模板
  * @param [options.popupOptions] - popup弹窗时的配置参数，也支持如pointerEvents等{@link Popup}构造参数,还包括：
@@ -22209,7 +22234,7 @@ declare class KmlLayer extends CzmGeoJsonLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
@@ -22368,7 +22393,7 @@ declare class ArcGisWfsLayer extends LodGraphicLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
@@ -22527,7 +22552,7 @@ declare class ArcGisWfsSingleLayer extends GeoJsonLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
@@ -22682,7 +22707,7 @@ declare class BusineDataLayer extends GraphicLayer {
  * @param [options.symbol] - 矢量数据的style样式
  * @param options.symbol.styleOptions - 点的Style样式。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.cluster] - 聚合参数(Tip:不参与聚合的类型：合并渲染对象、处于标绘或编辑状态的对象)：
  * @param [options.cluster.enabled = false] - 是否开启聚合
  * @param [options.cluster.pixelRange = 20] - 多少像素矩形范围内聚合
@@ -22856,7 +22881,7 @@ declare namespace GeoJsonLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
@@ -23302,7 +23327,7 @@ declare namespace GraphicLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  * @param [options.cluster] - 聚合参数(Tip:不参与聚合的类型：合并渲染对象、处于标绘或编辑状态的对象)：
@@ -24224,7 +24249,7 @@ declare namespace LodGraphicLayer {
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
  * @param options.symbol.styleOptions - 数据的Style样式
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.cluster] - 聚合参数(Tip:不参与聚合的类型：合并渲染对象、处于标绘或编辑状态的对象)：
@@ -24407,7 +24432,7 @@ declare class LodGraphicLayer extends GraphicLayer {
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.allowDrillPick] - 是否允许鼠标穿透拾取
  * @param [options.cluster] - 聚合参数(Tip:不参与聚合的类型：合并渲染对象、处于标绘或编辑状态的对象)：
@@ -25245,7 +25270,7 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param [options.getCapabilities = true] - 是否通过服务本身的GetCapabilities来读取一些参数，减少options配置项
  * @param [options.minimumLevel = 0] - 图层所支持的最低层级，当地图小于该级别时，平台不去请求服务数据。【影响效率的重要参数】
  * @param [options.maximumLevel] - 图层所支持的最大层级,当地图大于该级别时，平台不去请求服务数据。
- * @param options.rectangle - 瓦片数据的矩形区域范围
+ * @param [options.rectangle] - 瓦片数据的矩形区域范围
  * @param options.rectangle.xmin - 最小经度值, -180 至 180
  * @param options.rectangle.xmax - 最大经度值, -180 至 180
  * @param options.rectangle.ymin - 最小纬度值, -90 至 90
@@ -25256,9 +25281,9 @@ declare class TilesetLayer extends BaseGraphicLayer {
  * @param [options.zIndex] - 控制图层的叠加层次（部分图层），默认按加载的顺序进行叠加，但也可以自定义叠加顺序，数字大的在上面。
  * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
- * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
+ * @param [options.symbol.styleOptions] - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
- * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+ * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
  * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并。
  * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
  * @param [options.graphicOptions] - 默认的graphic的构造参数，每种不同类型数据都有不同的属性，具体见各{@link GraphicType}矢量数据的构造参数。
@@ -25331,7 +25356,7 @@ declare class WfsLayer extends LodGraphicLayer {
         getCapabilities?: boolean;
         minimumLevel?: number;
         maximumLevel?: number;
-        rectangle: {
+        rectangle?: {
             xmin: number;
             xmax: number;
             ymin: number;
@@ -25343,7 +25368,7 @@ declare class WfsLayer extends LodGraphicLayer {
         zIndex?: number;
         symbol?: {
             type?: GraphicType | string;
-            styleOptions: any;
+            styleOptions?: any;
             styleField?: string;
             styleFieldOptions?: any;
             merge?: boolean;
@@ -25413,7 +25438,7 @@ declare class WfsLayer extends LodGraphicLayer {
 /**
  * 图层组，可以用于将多个图层组合起来方便控制（比如将 卫星底图 和 文字注记层 放在一起控制管理），或用于 图层管理 的图层分组节点（虚拟节点）。
  * @param [options] - 参数对象，包括以下：
- * @param [options.layers] - 子图层数组，每个子图层的配置见按各类型图层配置即可。
+ * @param [options.layers] - 子图层数组，可传入未实例化的参数，具体配置见各类型图层API即可。
  * @param [options.id = mars3d.Util.createGuid()] - 图层id标识
  * @param [options.pid] - 图层父级的id，一般图层管理中使用
  * @param [options.name] - 图层名称
@@ -25431,7 +25456,7 @@ declare class WfsLayer extends LodGraphicLayer {
  */
 declare class GroupLayer extends BaseGraphicLayer {
     constructor(options?: {
-        layers?: any;
+        layers?: any | BaseLayer[];
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -34827,18 +34852,18 @@ declare namespace WindUtil {
 declare namespace WindLayer {
     /**
      * 风场图层， data数据结构
-     * @property rows - 行总数
-     * @property cols - 列总数
+     * @property rows - 网格行总数
+     * @property cols - 网格列总数
      * @property xmin - 最小经度（度数，-180-180）
      * @property xmax - 最大经度（度数，-180-180）
      * @property ymin - 最小纬度（度数，-90-90）
      * @property ymax - 最大纬度（度数，-90-90）
      * @property udata - U值一维数组, 数组长度应该是 rows*cols。
-     * @property [umin] - 最小U值
-     * @property [umax] - 最大U值
+     * @property [umin] - 最小U值, 可选
+     * @property [umax] - 最大U值, 可选
      * @property vdata - V值一维数组, 数组长度应该是 rows*cols。
-     * @property [vmin] - 最小v值
-     * @property [vmax] - 最大v值
+     * @property [vmin] - 最小v值, 可选
+     * @property [vmax] - 最大v值, 可选
      */
     type DataOptions = {
         rows: number;
@@ -34861,13 +34886,26 @@ declare namespace WindLayer {
  * 【需要引入 mars3d-wind 插件库】
  * @param [options] - 参数对象，包括以下：
  * @param [options.data] - 风场数据
- * @param [options.particlesnumber = 4096] - 初始粒子总数
- * @param [options.fadeOpacity = 0.996] - 消失不透明度
- * @param [options.dropRate = 0.003] - 下降率
- * @param [options.dropRateBump = 0.01] - 下降速度
- * @param [options.speedFactor = 0.5] - 速度系数
- * @param [options.lineWidth = 2.0] - 线宽度
  * @param [options.colors = ["rgb(206,255,255)"]] - 颜色色带数组
+ * @param [options.particlesTextureSize = 100] - 粒子纹理大小，决定粒子最大数量（size * size）
+ * @param [options.lineWidth] - 粒子轨迹宽度范围
+ * @param [options.lineWidth.min = 1] - 最小值
+ * @param [options.lineWidth.max = 5] - 最大值
+ * @param [options.lineLength] - 粒子轨迹长度范围
+ * @param [options.lineLength.min = 20] - 最小值
+ * @param [options.lineLength.max = 100] - 最大值
+ * @param [options.speedFactor = 0.5] - 速度系数
+ * @param [options.dropRate = 0.003] - 粒子消失率
+ * @param [options.dropRateBump = 0.01] - 额外消失率
+ * @param [options.flipY = false] - 是否翻转 Y 坐标
+ * @param [options.useViewerBounds = false] - 是否使用视域范围生成粒子
+ * @param [options.domain] - 速度渲染范围
+ * @param [options.domain.min] - 最小速度值
+ * @param [options.domain.max] - 最大速度值
+ * @param [options.displayRange] - 速度显示范围
+ * @param [options.displayRange.min] - 最小速度值
+ * @param [options.displayRange.max] - 最大速度值
+ * @param [options.dynamic = true] - 是否启用动态粒子动画
  * @param [options.id = mars3d.Util.createGuid()] - 图层id标识
  * @param [options.pid] - 图层父级的id，一般图层管理中使用
  * @param [options.name] - 图层名称
@@ -34885,13 +34923,30 @@ declare namespace WindLayer {
 declare class WindLayer extends BaseLayer {
     constructor(options?: {
         data?: WindLayer.DataOptions;
-        particlesnumber?: number;
-        fadeOpacity?: number;
+        colors?: string[];
+        particlesTextureSize?: number;
+        lineWidth?: {
+            min?: number;
+            max?: number;
+        };
+        lineLength?: {
+            min?: number;
+            max?: number;
+        };
+        speedFactor?: number;
         dropRate?: number;
         dropRateBump?: number;
-        speedFactor?: number;
-        lineWidth?: number;
-        colors?: string[];
+        flipY?: boolean;
+        useViewerBounds?: boolean;
+        domain?: {
+            min?: number;
+            max?: number;
+        };
+        displayRange?: {
+            min?: number;
+            max?: number;
+        };
+        dynamic?: boolean;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -34922,9 +34977,10 @@ declare class WindLayer extends BaseLayer {
     /**
      * 设置 风场数据
      * @param data - 风场数据
+     * @param [redraw] - 是否重新绘制，当区域范围发生变化时，请传入ture
      * @returns 无
      */
-    setData(data: WindLayer.DataOptions): void;
+    setData(data: WindLayer.DataOptions, redraw?: boolean): void;
 }
 
 /**
@@ -35651,7 +35707,7 @@ declare class TdtPOI {
      * 天地图搜索提示
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 输入建议关键字（支持拼音）
-     * @param [queryOptions.location] - 建议使用location参数，可在此location附近优先返回搜索关键词信息,在请求参数city不为空时生效
+     * @param [queryOptions.extent] - 查询的地图范围: { xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 } ，可以传入extent: map.getExtent()
      * @param [queryOptions.city] - 可以限定查询的行政区
      * @param [queryOptions.success] - 查询完成的回调方法
      * @param [queryOptions.error] - 查询失败的回调方法
@@ -35659,7 +35715,7 @@ declare class TdtPOI {
      */
     autoTip(queryOptions: {
         text: string;
-        location?: LngLatPoint | Cesium.Cartesian3 | string | any[] | any;
+        extent?: any;
         city?: string;
         success?: (...params: any[]) => any;
         error?: (...params: any[]) => any;
@@ -35696,7 +35752,7 @@ declare class TdtPOI {
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
      * @param [queryOptions.city] - 可以重新限定查询的城市(行政区的国标码)
      * @param [queryOptions.level = 18] - 查询的级别,1-18级
-     * @param [queryOptions.mapBound] - 查询的地图范围: "minx,miny,maxx,maxy"
+     * @param [queryOptions.extent] - 查询的地图范围: { xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 } ，可以传入extent: map.getExtent()
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回300条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
@@ -35708,7 +35764,7 @@ declare class TdtPOI {
         types?: string;
         city?: string;
         level?: string;
-        mapBound?: string;
+        extent?: any;
         count?: number;
         page?: number;
         success?: (...params: any[]) => any;
@@ -35767,7 +35823,7 @@ declare class TdtPOI {
      * @param queryOptions - 查询参数
      * @param queryOptions.text - 检索关键字。支持多个关键字并集检索，不同关键字间以空格符号分隔，最多支持10个关键字检索。
      * @param [queryOptions.types = ''] - 检索分类偏好，与text组合进行检索，多个分类以","分隔（POI分类），如果需要严格按分类检索，请通过text参数设置
-     * @param queryOptions.extent - 可传入左上右下两顶点坐标对；
+     * @param queryOptions.extent - 可传入左上右下两顶点坐标对或{ xmin: 70,  xmax: 140,  ymin: 0,  ymax: 55 }；
      * @param [queryOptions.count = 20] - 单次召回POI数量，最大返回25条。多关键字检索时，返回的记录数为关键字个数*count。多关键词检索时，单页返回总数=关键词数量*count
      * @param [queryOptions.page = 0] - 分页页码，默认为0, 0代表第一页，1代表第二页，以此类推。常与 count 搭配使用，仅当返回结果为poi时可以翻页。
      * @param [queryOptions.success] - 查询完成的回调方法
@@ -37851,7 +37907,7 @@ declare class TilesetClip extends TilesetEditBase {
 /**
  * 3dtiles模型 颜色校正 的效果
  * @param [options] - 参数对象，包括以下：
- * @param options.layer - 需要模型分析的对象（3dtiles图层）
+ * @param options.layer - 需要模型分析的对象（3dtiles图层或gltf对象）
  * @param [options.brightness = 1.0] - 亮度
  * @param [options.contrast = 1.0] - 对比度
  * @param [options.hue = 0.0] - 色调
@@ -37862,7 +37918,7 @@ declare class TilesetClip extends TilesetEditBase {
  */
 declare class TilesetColorCorrection extends BaseThing {
     constructor(options?: {
-        layer: TilesetLayer;
+        layer: TilesetLayer | ModelEntity | ModelPrimitive;
         brightness?: number;
         contrast?: number;
         hue?: number;
@@ -40757,7 +40813,7 @@ declare namespace Util {
      * @param [options.symbol.merge] - 是否合并并覆盖json中已有的style，默认不合并，仅适用symbol配置。
      * @param [options.symbol.styleOptions] - Style样式，每种不同类型数据都有不同的样式，具体见各矢量数据的style参数。{@link GraphicType}
      * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
-     * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。
+     * @param [options.symbol.styleFieldOptions] - 按styleField值与对应style样式的键值对象。默认与styleOptions合并，可以设置merge:false不合并
      * @param [options.symbol.callback] - 自定义判断处理返回style ，示例：callback: function (attr, styleOpt){  return { color: "#ff0000" };  }
      * @param [options.crs] - 原始数据的坐标系，如'EPSG:3857' （可以从 {@link http://epsg.io }查询）
      * @param [options.simplify] - 是否简化坐标点位，为空时不简化

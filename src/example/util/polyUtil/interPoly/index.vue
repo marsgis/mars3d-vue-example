@@ -54,6 +54,17 @@
       </div>
     </div>
 
+    <div class="f-mb">
+      <a-space>
+        <span>平行距离:</span>
+        <mars-input-number v-model:value="formState.offsetWidth" :step="1"></mars-input-number>
+      </a-space>
+      <div class="inter f-mt">
+        <mars-button @click="getOffsetLine">计算平行线</mars-button>
+      </div>
+    </div>
+
+
     <mars-button class="w-full f-mb" @click="removeAll" danger>清除</mars-button>
 
     <span class="fontMsg">提示：插值数大时分析略慢，请耐心等待。</span>
@@ -72,13 +83,15 @@ interface FormState {
   inputNumberPolygonDepth: number
   inputNumberPolyline: number
   inputNumberPolylineDepth: number
+  offsetWidth: number
 }
 
 const formState: UnwrapRef<FormState> = reactive({
   inputNumberPolygon: 10,
   inputNumberPolygonDepth: 300,
   inputNumberPolyline: 100,
-  inputNumberPolylineDepth: 300
+  inputNumberPolylineDepth: 300,
+  offsetWidth: 500
 })
 
 const removeAll = () => {
@@ -102,6 +115,9 @@ const interLine = () => {
 }
 const interLineByDepth = () => {
   mapWork.interLineByDepth(formState.inputNumberPolylineDepth)
+}
+const getOffsetLine = () => {
+  mapWork.getOffsetLine(formState.offsetWidth)
 }
 </script>
 <style scoped lang="less">

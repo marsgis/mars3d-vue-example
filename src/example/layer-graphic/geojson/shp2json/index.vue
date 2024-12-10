@@ -88,20 +88,21 @@ function initTree() {
 
 // 树控件 勾选事件
 function checkedChange(keys: string[], e: any) {
-  const graphic = mapWork.getGraphicById(e.node.key)
-
+  const node = e.node
+  const graphic = mapWork.getGraphicById(node.key)
   if (graphic) {
-    const show = keys.indexOf(e.node.key) !== -1
+    const show = keys.indexOf(node.key) !== -1
     graphic.show = show
+  }
 
-    // 处理子节点
-    if (e.node.children && e.node.children.length) {
-      e.node.children.forEach((child) => {
-        checkedChange(keys, child)
-      })
-    }
+  // 处理子节点
+  if (node.children && node.children.length) {
+    node.children.forEach((child) => {
+      checkedChange(keys, { node: child })
+    })
   }
 }
+
 // 点击节点 定位
 const flyToGraphic = (keys: any, item: any) => {
   const graphic = mapWork.getGraphicById(item.node.key)

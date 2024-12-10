@@ -1885,6 +1885,13 @@
             "api": "ModelEntity.html#rotateStart"
           },
           {
+            "name": "gLTF模型颜色校正",
+            "thumbnail": "thing-tileset-colorCorrection-gltf.jpg",
+            "main": "thing/tileset/colorCorrection-gltf",
+            "api": "TilesetColorCorrection.html",
+            "hasPannel": true
+          },
+          {
             "name": "gLTF模型剖切",
             "thumbnail": "thing-gltf-modelPlanClip.jpg",
             "main": "thing/gltf/modelPlanClip",

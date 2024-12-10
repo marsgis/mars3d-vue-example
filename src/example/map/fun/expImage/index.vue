@@ -6,8 +6,6 @@
     <mars-button class="btn" @click="downLoad2">下载场景缩略图</mars-button>
     <mars-button class="btn" @click="screenShots">截缩略图</mars-button>
 
-    <mars-button class="btn_div" @click="downLoadDiv">下载场景出图(含DIV部分)</mars-button>
-
     <img class="f-mt" :src="imges" v-if="showScreenShot" style="width: 100%; height: 100%" />
   </mars-dialog>
 
@@ -37,10 +35,6 @@ const downLoad = () => {
 }
 const downLoad2 = () => {
   mapWork.downLoad2()
-}
-
-const downLoadDiv = () => {
-  mapWork.downLoadDiv()
 }
 
 // 截图

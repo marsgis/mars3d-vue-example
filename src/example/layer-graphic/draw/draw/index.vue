@@ -10,6 +10,8 @@
           <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键菜单绑定</a-checkbox>
           <a-checkbox v-model:checked="enabledEdit" @change="onChangeHasEdit">是否编辑</a-checkbox>
           <a-checkbox v-model:checked="onlyVertexPosition" @change="updateOnlyVertexPosition">开启顶点吸附 </a-checkbox>
+
+          <a-checkbox v-model:checked="isDrawPrimitive" @change="changeDrawPrimitive">用Primitive绘制 </a-checkbox>
         </div>
       </a-col>
     </a-row>
@@ -119,6 +121,10 @@ interface FileItem {
 interface FileInfo {
   file: FileItem
   fileList: FileItem[]
+}
+const isDrawPrimitive = ref(false)
+const changeDrawPrimitive = () => {
+  mapWork.changeDrawEntity(!isDrawPrimitive.value)
 }
 
 // 显示隐藏

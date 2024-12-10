@@ -34,9 +34,9 @@
     </a-space>
     <a-space>
       <a-checkbox class="rightMenu-checkbox" v-model:checked="formState.enabledRightMenu" @change="onChangeRightMenu"
-      title="是否绑定右键菜单">右键菜单</a-checkbox>
-      <a-checkbox  class="rightMenu-checkbox1"  v-if="formState.enabledCluster"  v-model:checked="formState.isCluster" @change="onChangClustering"
-      title="是否对点数据进行聚合">是否聚合</a-checkbox>
+        title="是否绑定右键菜单">右键菜单</a-checkbox>
+      <a-checkbox class="rightMenu-checkbox1" v-if="formState.enabledCluster" v-model:checked="formState.isCluster"
+        @change="onChangClustering" title="是否对点数据进行聚合">是否聚合</a-checkbox>
     </a-space>
 
   </div>
@@ -186,32 +186,7 @@ const mars3d = mapWork.mars3d
 
 defineExpose({
   addTableData(graphicLayer) {
-    console.log("addTableData", graphicLayer)
-
-    graphicDataList.value = []
-    rowKeys.value = []
-
-    let graphic
-    const list = graphicLayer.graphics
-    for (let i = list.length - 1; i >= 0; i--) {
-      graphic = list[i]
-      if (graphic.isPrivate) {
-        continue
-      }
-      graphicDataList.value.push({
-        key: graphic.id,
-        name: getGraphicName(graphic)
-      })
-      if (graphic.show) {
-        rowKeys.value.push(graphic.id)
-      }
-    }
-
-    if (graphic) {
-      formState.enabledOpacity = graphic.hasOpacity
-      formState.enabledEdit = graphic.hasEdit
-      formState.enabledCluster = graphic.hasCluster
-    }
+    initGraphicableData(graphicLayer)
   }
 })
 
@@ -714,13 +689,7 @@ const onClickImpFile = (info: any) => {
     reader.onloadend = function (e) {
       const geojson = JSON.parse(this.result as string)
       console.log("打开了json文件", geojson)
-
-      if (geojson.type === "graphic" && geojson.data) {
-        graphicLayer.loadJSON(geojson.data)
-        graphicLayer.flyTo()
-      } else {
-        graphicLayer.loadGeoJSON(geojson, { flyTo: true })
-      }
+      graphicLayer.loadJSON(geojson, { flyTo: true, clear: true })
 
       initGraphicableData(graphicLayer)
     }
@@ -733,9 +702,7 @@ const onClickImpFile = (info: any) => {
       mapWork.kgUtil.toGeoJSON(strkml).then((geojson) => {
         console.log("kml2geojson转换结果为", geojson)
 
-        graphicLayer.loadGeoJSON(geojson, {
-          flyTo: true
-        })
+        graphicLayer.loadGeoJSON(geojson, { flyTo: true })
       })
     }
   } else if (fileType === "kmz") {
@@ -744,9 +711,7 @@ const onClickImpFile = (info: any) => {
     mapWork.kgUtil.toGeoJSON(item).then((geojson) => {
       console.log("kmz2geojson", geojson)
 
-      graphicLayer.loadGeoJSON(geojson, {
-        flyTo: true
-      })
+      graphicLayer.loadGeoJSON(geojson, { flyTo: true })
     })
   } else {
     $message("暂不支持 " + fileType + " 文件类型的数据！")
@@ -762,9 +727,7 @@ onMounted(() => {
 
   // 矢量数据创建完成
   graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    if (formState.hasEdit || props.customEditor) {
-      showEditor(e.graphic)
-    }
+    showEditor(e.graphic)
   })
 
   // 单击开始编辑
@@ -774,14 +737,12 @@ onMounted(() => {
       showEditor(e.graphic)
     }, 150)
   })
+
   // 修改了矢量数据
   graphicLayer.on([mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint], function (e) {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(e.graphic)
-      }
-    })
+    updateEditor(e.graphic)
   })
+
   // 停止编辑
   graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
     setTimeout(() => {
@@ -793,8 +754,8 @@ onMounted(() => {
 })
 
 let lastUUid = ""
-const showEditor = (graphic: any) => {
-  if (graphic.isDestroy) {
+function showEditor(graphic: any) {
+  if (graphic.isDestroy || graphic.isPrivate) {
     return
   }
 
@@ -824,7 +785,28 @@ const showEditor = (graphic: any) => {
   }
 }
 
-const closeEditor = () => {
+function updateEditor(graphic) {
+  if (graphic.isDestroy || graphic.isPrivate) {
+    return
+  }
+
+  if (props.customEditor) {
+    closeEditor() // 关闭属性面板
+    emit("onStartEditor", {
+      graphicId: graphic.id,
+      graphicName: getGraphicName(graphic)
+    })
+  } else {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  }
+}
+
+
+function closeEditor() {
   if (props.customEditor) {
     emit("onStopEditor")
   } else {
@@ -867,17 +849,7 @@ const graphicRowSelection = {
     const graphicLayer = getManagerLayer()
     const graphic = graphicLayer.getGraphicById(record.key)
     if (graphic) {
-      // if (graphic.isEditing) {
-      //   $message(`编辑状态不允许修改show属性`)
-      //   return
-      // }
-
-      if (graphic.isEditing && graphic.stopEditing) {
-        graphic.stopEditing()
-        $message(`隐藏时，停止编辑`)
-      }
       graphic.show = selected
-
     }
   }
 }
@@ -909,13 +881,13 @@ onMounted(() => {
 })
 
 function initGraphicableData(graphicLayer) {
-  const list = graphicLayer.graphics
-  for (let i = list.length - 1; i >= 0; i--) {
-    const graphic = list[i]
-    if (graphic.isPrivate) {
-      continue
-    }
+  graphicDataList.value = []
+  rowKeys.value = []
 
+  const list = graphicLayer.graphics
+  let graphic
+  for (let i = list.length - 1; i >= 0; i--) {
+    graphic = list[i]
     graphicDataList.value.push({
       key: graphic.id,
       name: getGraphicName(graphic)
@@ -923,6 +895,12 @@ function initGraphicableData(graphicLayer) {
     if (graphic.show) {
       rowKeys.value.push(graphic.id)
     }
+  }
+
+  if (graphic) {
+    formState.enabledOpacity = graphic.hasOpacity
+    formState.enabledEdit = graphic.hasEdit
+    formState.enabledCluster = graphic.hasCluster
   }
 }
 

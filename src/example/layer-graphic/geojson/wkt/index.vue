@@ -4,8 +4,8 @@
   </mars-dialog>
 
   <mars-dialog :visible="true" right="10" top="100" customClass="pannel" width="230">
-    <mars-tree checkable :height="600" :tree-data="treeData" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys"
-      @check="checkedChange"  @select="flyToGraphic">
+    <mars-tree checkable :height="600" :tree-data="treeData" v-model:checkedKeys="checkedKeys"
+      v-model:expandedKeys="expandedKeys" @check="checkedChange" @select="flyToGraphic">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -53,18 +53,18 @@ function initTree() {
 
 // 树控件 勾选事件
 function checkedChange(keys: string[], e: any) {
-  const graphic = mapWork.getGraphicById(e.node.key)
-
+  const node = e.node
+  const graphic = mapWork.getGraphicById(node.key)
   if (graphic) {
-    const show = keys.indexOf(e.node.key) !== -1
+    const show = keys.indexOf(node.key) !== -1
     graphic.show = show
+  }
 
-    // 处理子节点
-    if (e.node.children && e.node.children.length) {
-      e.node.children.forEach((child) => {
-        checkedChange(keys, child)
-      })
-    }
+  // 处理子节点
+  if (node.children && node.children.length) {
+    node.children.forEach((child) => {
+      checkedChange(keys, { node: child })
+    })
   }
 }
 
@@ -74,5 +74,3 @@ const flyToGraphic = (keys: any, item: any) => {
   graphic.flyTo()
 }
 </script>
-
-
