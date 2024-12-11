@@ -67,7 +67,7 @@ mapWork.eventTarget.on("getTableData", (event) => {
   allDuration.value = event.allDuration
 
   dataSource.value = list.map((item, index) => {
-    return { key: index + 1, name: item.options.name, startstop: item.start + "-" + item.stop, duration: item.duration }
+    return { key: index + 1, name: item.name, startstop: item.start + "-" + item.stop, duration: item.duration }
   })
 })
 

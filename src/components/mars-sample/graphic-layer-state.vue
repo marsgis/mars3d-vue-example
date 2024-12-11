@@ -740,7 +740,7 @@ onMounted(() => {
 
   // 修改了矢量数据
   graphicLayer.on([mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint], function (e) {
-    updateEditor(e.graphic)
+    showEditor(e.graphic)
   })
 
   // 停止编辑
@@ -753,7 +753,6 @@ onMounted(() => {
   })
 })
 
-let lastUUid = ""
 function showEditor(graphic: any) {
   if (graphic.isDestroy || graphic.isPrivate) {
     return
@@ -774,44 +773,27 @@ function showEditor(graphic: any) {
     graphic._conventStyleJson = true // 只处理一次
   }
 
-  if (lastUUid !== graphic.id) {
+  if (isActivate("graphic-editor")) {
+    updateWidget("graphic-editor", {
+      data: {
+        graphic: markRaw(graphic)
+      }
+    })
+  } else {
     activate({
       name: "graphic-editor",
       data: {
         graphic: markRaw(graphic)
       }
     })
-    lastUUid = graphic.id
   }
 }
-
-function updateEditor(graphic) {
-  if (graphic.isDestroy || graphic.isPrivate) {
-    return
-  }
-
-  if (props.customEditor) {
-    closeEditor() // 关闭属性面板
-    emit("onStartEditor", {
-      graphicId: graphic.id,
-      graphicName: getGraphicName(graphic)
-    })
-  } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
-  }
-}
-
 
 function closeEditor() {
   if (props.customEditor) {
     emit("onStopEditor")
   } else {
     disable("graphic-editor")
-    lastUUid = ""
   }
 }
 

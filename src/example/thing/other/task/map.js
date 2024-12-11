@@ -54,13 +54,14 @@ export function onMounted(mapInstance) {
         center: { lat: 30.461755, lng: 116.280775, alt: 36600.2, heading: 0.8, pitch: -39.7 }
       },
       {
-        type: "flickerEntity",
+        type: "graphicStyle",
         name: "高亮矢量对象",
         start: 12,
         duration: 6,
         layerId: "20241101",
-        graphicId: "M-4492C7B1-F860-4F4B-A30D-3863A83F99C5",
-        color: "#ffff00"
+        graphicIds: ["M-4492C7B1-F860-4F4B-A30D-3863A83F99C5"],
+        interval: true,
+        style: { color: "#ffff00" }
       },
       {
         type: "camera",
@@ -68,6 +69,23 @@ export function onMounted(mapInstance) {
         start: 18,
         duration: 3,
         center: { lat: 31.822251, lng: 117.170363, alt: 2225.3, heading: 0.7, pitch: -46 }
+      },
+      {
+        type: "createTarget",
+        name: "创建标记",
+        start: 22,
+        duration: 8,
+        graphics: [
+          {
+            type: "billboardP",
+            position: [117.171218, 31.841133, 253.6],
+            style: {
+              image: "//data.mars3d.cn/img/marker/mark-blue.png",
+              horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+            }
+          }
+        ]
       },
       { type: "zoomIn", name: "放大地图", start: 22, duration: 2 },
       { type: "zoomOut", name: "缩小地图", start: 24, duration: 2 },
@@ -170,10 +188,8 @@ export function startPlay() {
 }
 
 export function updateShouldAnimate(value) {
-   map.clock.shouldAnimate = value
+  map.clock.shouldAnimate = value
 }
-
-
 
 function autoAddTimeControl() {
   const taskResult = map.getTimeTaskList()
