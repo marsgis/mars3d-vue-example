@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :defaultCount="10" drawLabel1="贴地矩形" drawLabel2="竖立墙" />
+    <graphic-layer-state  :openEditor="true" :defaultCount="10" drawLabel1="贴地矩形" drawLabel2="竖立墙" />
 
     <div class="f-mb">
       <a-space>

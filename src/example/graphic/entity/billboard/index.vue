@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state />
+    <graphic-layer-state drawLabel2="绘制时序点"  />
 
     <div class="f-mb">
       <a-space>

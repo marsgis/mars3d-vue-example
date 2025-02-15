@@ -17,6 +17,12 @@
   </div>
 
   <fixedRoute-info top="70" />
+
+
+  <div class="play-control" style="top:346px;">
+    <mars-button class="f-mr" @click="mapWork.startDrawGraphic">绘制</mars-button>
+    <mars-button @click="clear">清除</mars-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -38,31 +44,42 @@ mapWork.eventTarget.on("endRoam", () => {
   udpateState()
 })
 
+const clear = () => {
+  mapWork.clear()
+  udpateState()
+}
+
+
 // 按钮事件
 const btnStart = () => {
-  mapWork.fixedRoute.start() // 启动漫游
+  if (mapWork.fixedRoute) { mapWork.fixedRoute.start() } // 启动漫游
   udpateState()
 }
 
 const btnPause = () => {
-  mapWork.fixedRoute.pause()
+  if (mapWork.fixedRoute) { mapWork.fixedRoute.pause() }
   udpateState()
 }
 
 const btnProceed = () => {
-  mapWork.fixedRoute.proceed()
+  if (mapWork.fixedRoute) { mapWork.fixedRoute.proceed() }
   udpateState()
 }
 
 const btnStop = () => {
-  mapWork.fixedRoute.stop()
+  if (mapWork.fixedRoute) { mapWork.fixedRoute.stop() }
   udpateState()
 }
 
 function udpateState() {
   setTimeout(() => {
-    formState.isStart = mapWork.fixedRoute.isStart
-    formState.isPause = mapWork.fixedRoute.isPause
+    if (mapWork.fixedRoute) {
+      formState.isStart = mapWork.fixedRoute.isStart
+      formState.isPause = mapWork.fixedRoute.isPause
+    } else {
+      formState.isStart = false
+      formState.isPause = false
+    }
   }, 100)
 }
 </script>

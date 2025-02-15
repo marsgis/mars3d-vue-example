@@ -3,8 +3,10 @@
     <div class="f-mb">
       <a-form-item label="演示数据:">
         <a-space>
-          <mars-button @click="loadEarthData">全球区域</mars-button>
-          <mars-button @click="loadDongnanData">局部区域</mars-button>
+          <mars-button @click="mapWork.loadHongkongData">香港</mars-button>
+          <mars-button @click="mapWork.loadDongnanData1">新加坡</mars-button>
+          <mars-button @click="mapWork.loadDongnanData2">洋流</mars-button>
+          <mars-button @click="mapWork.loadEarthData">全球</mars-button>
         </a-space>
       </a-form-item>
     </div>
@@ -26,7 +28,7 @@
     <div class="f-mb">
       <a-space>
         <a-form-item label="移动速率:">
-          <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="100" :step="1" />
+          <mars-slider v-model:value="formState.speed" @change="changeSpeed" :min="1" :max="200" :step="1" />
         </a-form-item>
       </a-space>
     </div>
@@ -90,14 +92,6 @@ const changeColor = (e) => {
   mapWork.changeColor(formState.color)
 }
 
-// 全球加载数据
-const loadEarthData = () => {
-  mapWork.loadEarthData()
-}
-// 局部加载数据
-const loadDongnanData = () => {
-  mapWork.loadDongnanData()
-}
 </script>
 <style scoped lang="less">
 .ant-slider {

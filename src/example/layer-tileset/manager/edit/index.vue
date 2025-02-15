@@ -135,7 +135,7 @@ const formState = reactive<FormState>({
   rotationY: 0.0,
   scale: 1,
   axis: "",
-  maximumScreenSpaceError: 3,
+  maximumScreenSpaceError: 16,
   opacity: 1,
   highlightEnable: false,
   popupEnable: true,
@@ -168,26 +168,26 @@ mapWork.eventTarget.on("historyUrl", function (event: any) {
 })
 
 mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
-  const tiles3dLayer = event.layer
+  const json = event.layer
 
-  const locParams = tiles3dLayer.center // 取模型中心点信息
+  const locParams = json.position // 取模型中心点信息
   if (locParams.alt < -1000 || locParams.alt > 10000) {
     locParams.alt = 0 // 高度异常数据，自动赋值高度为0
   }
 
-  formState.transform = tiles3dLayer.transform
-  formState.txtX = Number(locParams.lng.toFixed(6))
-  formState.txtY = Number(locParams.lat.toFixed(6))
-  formState.txtZ = Number(locParams.alt.toFixed(6))
+  formState.transform = json.transform
+  formState.txtX = locParams.lng
+  formState.txtY = locParams.lat
+  formState.txtZ = locParams.alt
 
-  formState.maximumScreenSpaceError = tiles3dLayer.tileset.maximumScreenSpaceError
+  formState.maximumScreenSpaceError = json.maximumScreenSpaceError ?? 16
 
-  if (tiles3dLayer.transform) {
-    formState.rotationX = Number(tiles3dLayer.rotation_x.toFixed(1))
-    formState.rotationY = Number(tiles3dLayer.rotation_y.toFixed(1))
-    formState.rotationZ = Number(tiles3dLayer.rotation_z.toFixed(1))
-    formState.scale = tiles3dLayer.scale || 1
-    formState.axis = tiles3dLayer.axis
+  if (json.transform) {
+    formState.rotationX = json.rotation.x ?? 0
+    formState.rotationY = json.rotation.y ?? 0
+    formState.rotationZ = json.rotation.z ?? 0
+    formState.scale = json.scale ?? 1
+    formState.axis = json.axis
   } else {
     mapWork.updateHeightForSurfaceTerrain(locParams)
   }
@@ -277,7 +277,7 @@ mapWork.eventTarget.on("compTree", function (event: any) {
   const data = event.data
 
   data.forEach((item: any, index: number) => {
-    const childeren = isHaveChildren(item, index)
+    const childeren = isHaveChildren(item, index + "")
 
     treeData.value = [
       {
@@ -292,7 +292,7 @@ mapWork.eventTarget.on("compTree", function (event: any) {
   })
 })
 
-function isHaveChildren(arr: any, index: number) {
+function isHaveChildren(arr: any, keyPrefix: string) {
   if (!arr.children) {
     return
   }
@@ -301,11 +301,12 @@ function isHaveChildren(arr: any, index: number) {
   const childeren: any[] = []
   childerens.forEach((item: any, i: number) => {
     i++
-    const childOne = isHaveChildren(item, i)
+    const newKeyPrefix = keyPrefix + "-" + i
+    const childOne = isHaveChildren(item, newKeyPrefix)
 
     childeren.push({
       title: item.name,
-      key: index + "-" + i,
+      key: newKeyPrefix,
       id: item.eleid,
       sphere: item.sphere,
       children: childOne

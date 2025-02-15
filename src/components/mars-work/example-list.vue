@@ -275,8 +275,11 @@ API：mars3d.${api_name}`
     },
     imgOnError(e) {
       const img = e.srcElement
+      console.log(`缺少缩略图图片: ${img.src}`)
+
       img.src = "/config/thumbnail/map-options-basemaps.jpg"
       img.onerror = null
+
     },
     searchDetail() {
       if (!this.searchValue) {

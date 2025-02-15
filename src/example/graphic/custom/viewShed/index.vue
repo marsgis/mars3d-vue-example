@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <graphic-layer-state
-      :defaultCount="10"
+      :defaultCount="10"  :openEditor="true"
       :interaction="false"
       :customEditor="'viewShed'"
       @onStartEditor="onStartEditor"

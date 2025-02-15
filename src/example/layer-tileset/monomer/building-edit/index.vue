@@ -4,7 +4,8 @@
 
     <div v-if="value === '1'" class="f-pt">
       <a-space>
-        <a-upload :multiple="false" name="file" accept=".json,.geojson" :showUploadList="false" :beforeUpload="() => false"
+        <a-upload :multiple="false" name="file" accept=".json,.geojson" :showUploadList="false"
+          :beforeUpload="() => false"
           @change="openGeoJSON">
           <mars-button> 打开</mars-button>
         </a-upload>
@@ -78,58 +79,20 @@ const saveGeoJSON = () => {
   mapWork.saveGeoJSON()
 }
 
-//* ************************属性面板*****************************/
-// 数据编辑属性面板 相关处理
+// ************************属性面板************************/
 const { activate, disable, isActivate, updateWidget } = useWidget()
-onMounted(() => {
-  const mars3d = window.mapWork.mars3d
-  // 矢量数据创建完成
-  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    if (value.value === "1") {
-      showEditor(e)
-    }
-  })
-  // 修改了矢量数据
-  mapWork.graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      showEditor(e)
-    }
-  )
-  // 停止编辑
-  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    setTimeout(() => {
-      if (!mapWork.graphicLayer.isEditing) {
-        disable("graphic-editor")
-      }
-    }, 100)
-  })
-})
-
-const showEditor = (e: any) => {
-  const graphic = e.graphic
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
-  }
-
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(graphic),
-        hideAvailability: true
-      }
-    })
+mapWork.eventTarget.on("updateGraphicOptionsWidget", (event) => {
+  if (event.disable) {
+    disable("graphic-options")
   } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic),
-        hideAvailability: true
-      }
-    })
+    const data = { layerId: event.layerId, graphicId: event.graphicId }
+    if (!isActivate("graphic-options")) {
+      activate({ name: "graphic-options", data })
+    } else {
+      updateWidget("graphic-options", data)
+    }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>

@@ -56,12 +56,12 @@
   </div>
 
   <div class="data-edit">
-    <a-checkbox v-if="props.interaction && formState.enabledEdit" v-model:checked="formState.hasEdit"
+    <a-checkbox v-if="props.interaction && formState.enabledEdit" v-model:checked="formState.isAutoEditing"
       @change="onChangeHasEdit" title="是否单击进行编辑状态">是否编辑</a-checkbox>
     <a-checkbox v-if="enabledTable" v-model:checked="formState.hasTable" title="显示图层内所有矢量数据列表">显示列表</a-checkbox>
   </div>
 
-  <div class="f-mb f-pt">
+  <div class="f-mb f-pt" v-if="mapWork.addRandomGraphicByCount">
     <a-space>
       <span class="mars-pannel-item-label">数据测试:</span>
       <mars-input-number :min="1" :max="1000000" v-model:value="formState.count" step="1"></mars-input-number>条
@@ -74,19 +74,23 @@
 
   <div class="f-mb">
     <a-space>
-      <span class="mars-pannel-item-label">数据导出:</span>
-      <mars-button @click="expGeoJSONFile" title="保存GeoJSON">
+      <span class="mars-pannel-item-label">保存文件:</span>
+      <!-- <mars-button @click="expGeoJSONFile" title="保存GeoJSON">
         导出GeoJSON
-      </mars-button>
-      <mars-button @click="expJSONFile" title="导出构造参数Json"> 导出构造JSON </mars-button>
-    </a-space>
+      </mars-button> -->
 
-    <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
-      :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
-      <mars-button class="open-file-btn" title="打开GeoJSON">
-        打开
+      <mars-button @click="expJSONFile" title="导出图层数据为JSON文件">导出数据</mars-button>
+      <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
+        :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
+        <mars-button title="打开历史导出的JSON文件图层数据">
+          导入数据
+        </mars-button>
+      </a-upload>
+
+      <mars-button v-if="!mapWork.addRandomGraphicByCount" @click="onClickClear" danger>
+        清除
       </mars-button>
-    </a-upload>
+    </a-space>
   </div>
 
 
@@ -132,6 +136,7 @@ const props = withDefaults(
     drawLabel2?: string // 绘制按钮2 文本
     defaultCount?: number // 默认的数据量
     customEditor?: string
+    openEditor?: boolean // 是否自动打开属性面板
   }>(),
   {
     interaction: true,
@@ -140,7 +145,8 @@ const props = withDefaults(
     drawLabel1: "图上标绘",
     drawLabel2: undefined,
     defaultCount: 100,
-    customEditor: ""
+    customEditor: "",
+    openEditor: false
   }
 )
 
@@ -155,7 +161,7 @@ interface FormState {
   opacity: number
 
   enabledEdit: boolean
-  hasEdit: boolean
+  isAutoEditing: boolean
 
   hasTable: boolean
   count: number
@@ -172,7 +178,7 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledOpacity: true,
   opacity: 1,
   enabledEdit: true,
-  hasEdit: false,
+  isAutoEditing: false,
   hasTable: false,
   count: props.defaultCount,
   isDrawing: false
@@ -185,7 +191,8 @@ const mapWork = window.mapWork
 const mars3d = mapWork.mars3d
 
 defineExpose({
-  addTableData(graphicLayer) {
+  addTableData() {
+    const graphicLayer = getManagerLayer()
     initGraphicableData(graphicLayer)
   }
 })
@@ -209,7 +216,7 @@ onMounted(() => {
       formState.enabledPopup = layer.hasPopup()
       formState.enabledTooltip = layer.hasTooltip()
       formState.enabledRightMenu = layer.hasContextMenu()
-      formState.hasEdit = layer.hasEdit // 图层是否打开了编辑
+      formState.isAutoEditing = layer.isAutoEditing // 图层是否打开了编辑
 
       const graphics = layer.getGraphics()
 
@@ -219,7 +226,7 @@ onMounted(() => {
         formState.enabledEdit = lastgraphic.hasEdit
         formState.enabledCluster = lastgraphic.hasCluster
 
-        if (graphics.length < 3) {
+        if (props.openEditor) {
           startEditGraphic({ key: lastgraphic.id, name: lastgraphic.name })// 自动打开编辑面板
         }
       }
@@ -249,10 +256,10 @@ const pageSizeChange = (pagination) => {
 // 是否编辑
 const onChangeHasEdit = () => {
   const layer = getManagerLayer()
-  layer.hasEdit = formState.hasEdit
+  layer.isAutoEditing = formState.isAutoEditing
 
   // 编辑时，为了方便操作自动关闭Popup，真实项目中请按需修改
-  formState.enabledPopup = !formState.hasEdit
+  formState.enabledPopup = !formState.isAutoEditing
   onChangePopup()
 }
 
@@ -264,7 +271,7 @@ const onOpacityChange = () => {
 
 // 生成大数据
 const addRandomGraphicByCount = () => {
-  closeEditor() // 关闭属性面板
+  closeGraphicOptionsWidget() // 关闭属性面板
 
   $showLoading()
   const startTime = new Date().getTime()
@@ -290,14 +297,14 @@ const onClickFlyTo = () => {
 }
 
 const onClickStartDraw = () => {
-  closeEditor() // 关闭属性面板
+  closeGraphicOptionsWidget() // 关闭属性面板
 
   mapWork.startDrawGraphic()
   const layer = getManagerLayer()
   formState.isDrawing = layer?.isDrawing
 }
 const onClickStartDraw2 = () => {
-  closeEditor() // 关闭属性面板
+  closeGraphicOptionsWidget() // 关闭属性面板
 
   mapWork.startDrawGraphic2()
   const layer = getManagerLayer()
@@ -532,18 +539,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {
@@ -650,7 +653,7 @@ const onClickClear = () => {
   // 清除列表
   graphicDataList.value = []
   rowKeys.value = []
-  closeEditor() // 关闭属性面板
+  closeGraphicOptionsWidget() // 关闭属性面板
 }
 
 // 保存json
@@ -662,19 +665,20 @@ const expJSONFile = () => {
     return
   }
   const geojson = graphicLayer.toJSON()
+  console.log("导出的数据为", geojson)
   mars3d.Util.downloadFile("矢量数据构造参数.json", JSON.stringify(geojson))
 }
 // 保存geojson
-const expGeoJSONFile = () => {
-  const graphicLayer = getManagerLayer()
+// const expGeoJSONFile = () => {
+//   const graphicLayer = getManagerLayer()
 
-  if (graphicLayer.length === 0) {
-    $message("当前没有标注任何数据，无需保存！")
-    return
-  }
-  const geojson = graphicLayer.toGeoJSON()
-  mars3d.Util.downloadFile("矢量数据GeoJSON.json", JSON.stringify(geojson))
-}
+//   if (graphicLayer.length === 0) {
+//     $message("当前没有标注任何数据，无需保存！")
+//     return
+//   }
+//   const geojson = graphicLayer.toGeoJSON()
+//   mars3d.Util.downloadFile("矢量数据GeoJSON.json", JSON.stringify(geojson))
+// }
 // 打开geojson
 const onClickImpFile = (info: any) => {
   const graphicLayer = getManagerLayer()
@@ -725,41 +729,31 @@ const { activate, disable, isActivate, updateWidget } = useWidget()
 onMounted(() => {
   const graphicLayer = getManagerLayer()
 
-  // 矢量数据创建完成
-  graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    showEditor(e.graphic)
-  })
+  const editUpdateFun = mars3d.Util.funDebounce(openGraphicOptionsWidget, 500)
+  graphicLayer.on(
+    [
+      mars3d.EventType.click,
+      mars3d.EventType.drawCreated,
+      mars3d.EventType.editStart,
+      mars3d.EventType.editStyle
+    ],
+    editUpdateFun
+  )
 
-  // 单击开始编辑
-  graphicLayer.on(mars3d.EventType.editStart, (e: any) => {
-    setTimeout(() => {
-      // 属性面板打开时，点击其他的矢量数据，打开后会被下面的执行关闭
-      showEditor(e.graphic)
-    }, 150)
-  })
-
-  // 修改了矢量数据
-  graphicLayer.on([mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint], function (e) {
-    showEditor(e.graphic)
-  })
-
-  // 停止编辑
-  graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    setTimeout(() => {
-      if (!graphicLayer.isEditing) {
-        closeEditor() // 关闭属性面板
-      }
-    }, 100)
-  })
+  const removeFun = mars3d.Util.funDebounce(closeGraphicOptionsWidget, 500)
+  graphicLayer.on(mars3d.EventType.removeGraphic, removeFun)
 })
 
-function showEditor(graphic: any) {
-  if (graphic.isDestroy || graphic.isPrivate) {
+function openGraphicOptionsWidget(event: any) {
+  const graphic = event.graphic
+  const graphicLayer = getManagerLayer()
+
+  if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine) {
     return
   }
 
   if (props.customEditor === graphic.type) {
-    closeEditor() // 关闭属性面板
+    closeGraphicOptionsWidget() // 关闭属性面板
     emit("onStartEditor", {
       graphicId: graphic.id,
       graphicName: getGraphicName(graphic)
@@ -768,32 +762,20 @@ function showEditor(graphic: any) {
   }
   emit("onStopEditor") // 关闭参数调节面板
 
-  if (!graphic._conventStyleJson) {
-    graphic.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
-  }
 
-  if (isActivate("graphic-editor")) {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+  const data = { layerId: graphicLayer.id, graphicId: graphic.id }
+  if (isActivate("graphic-options")) {
+    updateWidget("graphic-options", data)
   } else {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+    activate({ name: "graphic-options", data: data })
   }
 }
 
-function closeEditor() {
+function closeGraphicOptionsWidget() {
   if (props.customEditor) {
     emit("onStopEditor")
   } else {
-    disable("graphic-editor")
+    disable("graphic-options")
   }
 }
 
@@ -923,7 +905,7 @@ const emit = defineEmits(["onStartEditor", "onStopEditor"])
 function startEditGraphic(record: GraphicTableItem) {
   const graphicLayer = getManagerLayer()
   const graphic = graphicLayer.getGraphicById(record.key)
-  showEditor(graphic) // 修改style
+  openGraphicOptionsWidget({ graphic }) // 修改style
 }
 
 // 表格行: 删除graphic

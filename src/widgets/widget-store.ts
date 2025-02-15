@@ -39,8 +39,8 @@ const store: StoreOptions<WidgetState> = {
         name: "layer-picture-guihua"
       },
       {
-        component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/graphic-editor/index.vue"))),
-        name: "graphic-editor",
+        component: markRaw(defineAsyncComponent(() => import("@mars/widgets/basic/graphic-options/index.vue"))),
+        name: "graphic-options",
         meta: {
           props: {
             position: {

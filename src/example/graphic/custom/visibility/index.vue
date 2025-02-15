@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state drawLabel1="椎形" drawLabel2="圆形" :defaultCount="10" :interaction="false" />
+    <graphic-layer-state drawLabel1="椎形" drawLabel2="圆形" :defaultCount="10" :interaction="false"  :openEditor="true" />
   </mars-dialog>
 </template>
 

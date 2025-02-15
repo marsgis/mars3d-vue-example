@@ -10,10 +10,8 @@ import * as mapWork from "./map.js"
 import { ref } from "vue"
 
 const graphicLayerStateRef = ref()
-let graphicLayer: any
 
 mapWork.eventTarget.on("addTableData", function (event: any) {
-  graphicLayer = event.graphicLayer
-  graphicLayerStateRef.value.addTableData(graphicLayer)
+  graphicLayerStateRef.value.addTableData()
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :defaultCount="10" drawLabel1="绘制" drawLabel2="按当前相机" :interaction="false"
+    <graphic-layer-state  :openEditor="true" :defaultCount="10" drawLabel1="绘制" drawLabel2="按当前相机" :interaction="false"
       :customEditor="'video3D'" @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
   </mars-dialog>
 

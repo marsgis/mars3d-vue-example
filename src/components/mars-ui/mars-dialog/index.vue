@@ -4,21 +4,23 @@
       <mars-icon :icon="mergeProps.thumbnail.icon" :width="20" color="#FFFFFF"></mars-icon>
     </div>
     <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
-      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }"
-        @mousedown="dragStart">
+      <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }" @mousedown="dragStart">
         <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
         <slot v-else-if="slots.icon" name="icon"></slot>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
-        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn"
-          @click="close"></mars-icon>
+        <mars-icon v-if="mergeProps.closeable && mergeProps.closeButton" icon="close" :width="18" class="close-btn" @click="close"></mars-icon>
       </div>
-      <mars-icon v-else-if="mergeProps.closeable && mergeProps.closeButton" icon="close-one" :width="18"
-        class="close-btn__flot" @click="close"></mars-icon>
 
-      <div
-        class="mars-dialog__content"
-        :style="getContentStyle()">
+      <mars-icon
+        v-else-if="mergeProps.closeable && mergeProps.closeButton"
+        icon="close-one"
+        :width="18"
+        class="close-btn__flot"
+        @click="close"
+      ></mars-icon>
+
+      <div class="mars-dialog__content" :style="getContentStyle()">
         <slot></slot>
       </div>
 
@@ -30,8 +32,13 @@
         <slot name="footer"></slot>
       </div>
 
-      <div v-for="handle in actualHandles" :key="handle" class="mars-dialog__handle" :class="['handle-' + handle]"
-        @mousedown="resizeStart(handle, $event)"></div>
+      <div
+        v-for="handle in actualHandles"
+        :key="handle"
+        class="mars-dialog__handle"
+        :class="['handle-' + handle]"
+        @mousedown="resizeStart(handle, $event)"
+      ></div>
     </div>
   </teleport>
 </template>
@@ -93,7 +100,6 @@ interface Props {
     right?: number | string // 定位right值
     top?: number | string // 定位top值
     bottom?: number | string // 定位bottom值
-
     icon?: string
   } // 折叠状态下的配置
 
@@ -106,7 +112,7 @@ const props = withDefaults(defineProps<Props>(), {
   nopadding: false,
   closeable: false,
   closeButton: true,
-  draggable: false, // 默认不拖拽，向外拉宽时太快会失去焦点，
+  draggable: true,
   animation: true,
   handles: false,
   defaultFold: false,
@@ -240,7 +246,7 @@ function initThumbnail() {
   thumbnailRef.value.style.left = autoUnit(thOp.right) ? null : autoUnit(thOp.left) // 为了解决在折叠状态下的位置问题
   thumbnailRef.value.style.bottom = autoUnit(thOp.bottom)
   thumbnailRef.value.style.top = autoUnit(thOp.top)
-  thumbnailRef.value.style.width = autoUnit(thOp.width) ?? autoUnit(30)// 为了解决在折叠状态下的弹出框长度问题
+  thumbnailRef.value.style.width = autoUnit(thOp.width) ?? autoUnit(30) // 为了解决在折叠状态下的弹出框长度问题
   thumbnailRef.value.style.height = autoUnit(thOp.height) ?? autoUnit(30) // 为了解决在折叠状态下的弹出框高度问题
 
   observeDialog = false
@@ -690,7 +696,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 14px;
+    // padding-left: 14px;  会导致图上标绘弹出框底部tab栏错位
   }
 
   .mars-dialog__handle {

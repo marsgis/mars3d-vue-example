@@ -202,12 +202,12 @@ const modelOptions = [
   {
     value: "jingche",
     label: "警车",
-    style: { scale: 1, url: "//data.mars3d.cn/gltf/mars/jingche/jingche.gltf" }
+    style: { scale: 1, url: "https://data.mars3d.cn/gltf/mars/jingche/jingche.gltf" }
   },
   {
     value: "qiche",
     label: "小汽车",
-    style: { scale: 1, url: "//data.mars3d.cn/gltf/mars/qiche.gltf" }
+    style: { scale: 1, url: "https://data.mars3d.cn/gltf/mars/qiche.gltf" }
   },
   {
     value: "dkc",
@@ -330,7 +330,7 @@ interface typhoon {
 const typhoonList = ref<typhoon[]>([]) // 列表数据
 onMounted(() => {
   // 访问后端接口，取台风列表数据
-  const url = "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
+  const url = "https://data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
   axios.get(url).then(function (res: any) {
     const data = res.data
     typhoonList.value = data.typhoonList.map((item: any) => ({

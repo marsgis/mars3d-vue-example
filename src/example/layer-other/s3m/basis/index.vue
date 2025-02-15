@@ -15,12 +15,14 @@
           <mars-button @click="mapWork.showQxSuofeiyaDemo">倾斜摄影(哈尔滨索菲亚)</mars-button>
           <mars-button @click="mapWork.showQxSrsbDemo">倾斜摄影(萨尔茨堡)</mars-button>
           <mars-button @click="mapWork.showCloudDemo">点云</mars-button>
+
+          <mars-button @click="mapWork.removeLayer">清除</mars-button>
         </div>
       </a-collapse-panel>
 
-      <!-- <a-collapse-panel key="2" header="开源仓库">
+      <a-collapse-panel key="2" header="开源仓库">
         <mars-button href="https://gitee.com/marsgis/mars3d-link-supermap" target="_blank">与超图结合开源仓库</mars-button>
-      </a-collapse-panel> -->
+      </a-collapse-panel>
     </a-collapse>
   </mars-dialog>
 </template>

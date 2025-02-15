@@ -89,6 +89,13 @@ class CreateTarget extends mars3d.TaskItem {
       })
       delete this._effects
     }
+
+    if (this._controls) {
+      this._controls.forEach((control) => {
+        control.remove(true)
+      })
+      delete this._controls
+    }
   }
 }
 mars3d.thing.Task.register("createTarget", CreateTarget)

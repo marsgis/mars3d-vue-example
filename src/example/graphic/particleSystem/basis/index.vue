@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <graphic-layer-state :defaultCount="100" :interaction="false" drawLabel1="绘制水柱" drawLabel2="绘制火焰"
-      :customEditor="'particleSystem'" @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
+    :openEditor="true" :customEditor="'particleSystem'" @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" />
   </mars-dialog>
 
   <!-- 左侧面板 -->

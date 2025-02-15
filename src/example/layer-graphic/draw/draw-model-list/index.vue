@@ -12,7 +12,7 @@
       <div class="gltfImg">
         <ul>
           <li v-for="imgs in dataList" :key="imgs.name">
-            <img class="gltfImg_image" :src="imgs.image" alt="" @click="showModel(imgs.style)" />
+            <img class="gltfImg_image" :src="imgs.icon" alt="" @click="showModel(imgs.style)" />
           </li>
         </ul>
       </div>
@@ -20,15 +20,16 @@
   </mars-dialog>
 
 
-  <mars-dialog :visible="true" right="339" top="10" width="32px" :min-width="32" :height="111" customClass="draw-model-icons">
-    <div class="info-view-content"> 
+  <mars-dialog :visible="true" right="339" top="10" width="32px" :min-width="32" :height="111"
+    customClass="draw-model-icons">
+    <div class="info-view-content">
       <a-upload :multiple="false" name="file" accept="json,geojson" :showUploadList="false" @change="openGeoJSON"
         :beforeUpload="() => false">
-        <i title="打开GeoJSON文件"><mars-icon icon="folder-close" width="18"  color="#ffffffb3" /></i>
+        <i title="打开GeoJSON文件"><mars-icon icon="folder-close" width="18" color="#ffffffb3" /></i>
       </a-upload>
       <mars-icon icon="inbox-download-r" width="18" color="#ffffffb3" @click="saveGeoJSON" title="保存GeoJSON" />
       <mars-icon icon="delete" width="18" color="#ffffffb3" @click="deleteMoXin" title="删除" />
- 
+
     </div>
   </mars-dialog>
 
@@ -71,33 +72,38 @@ const showModel = (style: any) => {
 }
 
 //* **********************下拉框******************* */
-let modelData: any
+let plotDataJSON: any
 const selectOptions = ref<any[]>([])
 const value1 = ref<string>("车辆")
 const dataList = ref<any[]>([])
 
 mapWork.eventTarget.on("loadModelList", function (event: any) {
-  modelData = event.data
-  // 下拉框数据
-  Object.keys(modelData).forEach((k) => {
-    selectOptions.value.push({
-      value: k,
-      lable: k
+  let jsonData = event.data
+  // 替换路径JSON内的mars3d_data路径
+  jsonData = JSON.parse(JSON.stringify(jsonData).replaceAll("{mars3d_data}", `//data.mars3d.cn`))
+  const arrNewGroup = []
+  plotDataJSON = {}
+  for (let i = 0; i < jsonData.length; i++) {
+    const item1 = jsonData[i]
+    const arrNew = item1.children
+    if (arrNew.length === 0) {
+      continue
+    }
+
+    const name = `${item1.name}`
+    arrNewGroup.push({
+      value: name,
+      label: name + "(" + arrNew.length + ")"
     })
-  })
+    plotDataJSON[name] = arrNew
+  }
+  // 下拉框数据
+  selectOptions.value = arrNewGroup
   handleChange()
 })
 // 下拉框改变
 const handleChange = () => {
-  dataList.value = modelData[value1.value]
-
-  for (let i = 0; i < dataList.value.length; i++) {
-    const item = dataList.value[i]
-
-    item.image = mapWork.changeItemImage(item)
-    item.style.url = mapWork.changeItemUrl(item)
-    dataList.value[i] = item
-  }
+  dataList.value = plotDataJSON[value1.value]
 }
 
 // ************************JSON文件************************/
@@ -116,66 +122,31 @@ const saveGeoJSON = () => {
   mapWork.saveGeoJSON()
 }
 
-// ************************属性面板************************/
-
-// 数据编辑属性面板 相关处理
-const { activate, disable, isActivate, updateWidget } = useWidget()
-onMounted(() => {
-  const mars3d = window.mapWork.mars3d
-  // 矢量数据创建完成
-  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    showEditor(e)
-  })
-  // 修改了矢量数据
-  mapWork.graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      showEditor(e)
-    }
-  )
-  // 停止编辑
-  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    setTimeout(() => {
-      if (!mapWork.graphicLayer.isEditing) {
-        disable("graphic-editor")
-      }
-    }, 100)
-  })
-})
-
-const showEditor = (e: any) => {
-  const graphic = e.graphic
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
-  }
-
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
-  } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
-  }
-}
-
 const deleteMoXin = () => {
   mapWork.deleteAll()
 }
+
+// ************************属性面板************************/
+const { activate, disable, isActivate, updateWidget } = useWidget()
+mapWork.eventTarget.on("updateGraphicOptionsWidget", (event) => {
+  if (event.disable) {
+    disable("graphic-options")
+  } else {
+    const data = { layerId: event.layerId, graphicId: event.graphicId }
+    if (!isActivate("graphic-options")) {
+      activate({ name: "graphic-options", data })
+    } else {
+      updateWidget("graphic-options", data)
+    }
+  }
+})
 </script>
 <style scoped lang="less">
-.info-view-content { 
+.info-view-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;  
+  gap: 16px;
 }
 
 .gltf-list {
@@ -187,12 +158,12 @@ const deleteMoXin = () => {
     max-height: 670px;
     overflow-y: auto;
 
-    >ul {
+    > ul {
       display: flex;
       flex-wrap: wrap;
       gap: 10px 10px;
 
-      >li {
+      > li {
         width: 94px;
         height: 94px;
         border-radius: 4px;
@@ -219,7 +190,7 @@ const deleteMoXin = () => {
 // 修改双滑动条问题
 .draw-model-icons {
   .mars-dialog__content {
-    padding: 5px 12px 8px !important; 
+    padding: 5px 12px 8px !important;
   }
 }
 </style>

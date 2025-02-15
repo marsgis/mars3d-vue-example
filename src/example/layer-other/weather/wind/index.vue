@@ -3,9 +3,10 @@
     <div class="f-mb">
       <a-form-item label="演示数据:">
         <a-space>
-          <mars-button @click="mapWork.loadDongnanData">局部风场</mars-button>
-          <mars-button @click="mapWork.loadDongnanData2">局部洋流</mars-button>
-          <mars-button @click="mapWork.loadEarthData">全球区域</mars-button>
+          <mars-button @click="mapWork.loadHongkongData">香港</mars-button>
+          <mars-button @click="mapWork.loadDongnanData1">新加坡</mars-button>
+          <mars-button @click="mapWork.loadDongnanData2">洋流</mars-button>
+          <mars-button @click="mapWork.loadEarthData">全球</mars-button>
         </a-space>
       </a-form-item>
     </div>

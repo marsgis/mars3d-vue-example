@@ -4,6 +4,7 @@
  * @copyright 火星科技 mars3d.cn
  * @author 木遥 2022-01-01
  */
+import axios from "axios"
 
 /**
  * 判断是否 "经度,纬度" 字符串值
@@ -107,4 +108,22 @@ export function apiArrayToSync(context: any, apiNames: string[], success = "succ
         apiFunc.call(context, options)
       })
   })
+}
+
+/**
+ * 请求服务返回JSON结果
+ *
+ * @param {object} options 请求参数
+ * @param {string} options.url 服务URL地址
+ * @return {Promise<object>} 返回Promise异步处理结果，对象为JSON数据
+ */
+export async function fetchJson(options) {
+  const result: any = await axios.get(options.url, options)
+  return result.data
+}
+
+export const aloneTypeStyle = {
+  fixedRoute: ["label", "billboard", "point", "model", "circle", "coneTrack", "path", "polyline", "wall"],
+  route: ["label", "billboard", "point", "model", "circle", "coneTrack", "path", "polyline", "wall"],
+  satellite: [["tle1", "tle2"], "model", "label", "billboard", "point", "path"]
 }

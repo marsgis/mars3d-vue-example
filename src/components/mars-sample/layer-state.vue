@@ -300,18 +300,14 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.graphicIds) {
+        if (graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
         }
       },
       callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return
-        }
-        const graphics = graphic.getGraphics() // 对应的grpahic数组，可以自定义显示
+        const graphics = e.graphic?.graphics
         if (graphics) {
           const names = []
           for (let index = 0; index < graphics.length; index++) {
@@ -409,49 +405,43 @@ onMounted(async () => {
   const graphicLayer = await getManagerLayer()
   // 矢量数据创建完成
   if (graphicLayer) {
-    graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-      showEditor(e)
-    })
-    // 修改了矢量数据
+
+    const editUpdateFun = mars3d.Util.funDebounce(openGraphicOptionsWidget, 500)
     graphicLayer.on(
-      [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-      function (e) {
-        showEditor(e)
-      }
+      [
+        mars3d.EventType.click,
+        mars3d.EventType.drawCreated,
+        mars3d.EventType.editStart,
+        mars3d.EventType.editStyle
+      ],
+      editUpdateFun
     )
-    // 停止编辑
-    graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-      setTimeout(() => {
-        if (!graphicLayer.isEditing) {
-          disable("graphic-editor")
-        }
-      }, 100)
-    })
+    const removeFun = mars3d.Util.funDebounce(closeGraphicOptionsWidget, 500)
+    graphicLayer.on(mars3d.EventType.removeGraphic, removeFun)
   }
 })
 
-const showEditor = (e: any) => {
-  const graphic = e.graphic
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
+function openGraphicOptionsWidget(event: any) {
+  const graphic = event.graphic
+  const graphicLayer = getManagerLayer()
+
+  if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine) {
+    return
   }
 
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+
+  const data = { layerId: graphicLayer.id, graphicId: graphic.id }
+  if (isActivate("graphic-options")) {
+    updateWidget("graphic-options", data)
   } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+    activate({ name: "graphic-options", data: data })
   }
 }
+
+function closeGraphicOptionsWidget() {
+  disable("graphic-options")
+}
+
 </script>
 <style scoped lang="less">
 .mars-pannel-item-label {

@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :defaultCount="5" :interaction="false" :customEditor="'satelliteSensor'"
+    <graphic-layer-state :openEditor="true"  :defaultCount="5" :interaction="false" :customEditor="'satelliteSensor'"
       @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" ref="graphicLayerStateRef" />
   </mars-dialog>
 

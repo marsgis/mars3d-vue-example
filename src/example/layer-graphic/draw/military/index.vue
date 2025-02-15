@@ -9,7 +9,7 @@
             <a-checkbox v-model:checked="enabledPopup" @change="onChangePopup">Popup绑定</a-checkbox>
             <a-checkbox v-model:checked="enabledTooltip" @change="onChangeTooltip">Tooltip</a-checkbox>
             <a-checkbox v-model:checked="enabledRightMenu" @change="onChangeContextMenu">右键绑定</a-checkbox>
-            <a-checkbox v-model:checked="isEditable" @change="isEditableChange">是否编辑</a-checkbox>
+            <a-checkbox v-model:checked="isAutoEditing" @change="isEditableChange">是否编辑</a-checkbox>
           </a-space>
         </a-col>
       </a-row>
@@ -20,7 +20,8 @@
         <a-col :span="19">
           <a-space>
             <mars-button class="long-btn" @click="onClickExpFile">保存GeoJSON</mars-button>
-            <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
+            <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList"
+              :showUploadList="false"
               :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
               <mars-button class="long-btn"> 打开GeoJSON </mars-button>
             </a-upload>
@@ -80,9 +81,9 @@ import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
 
 // 是否可编辑
-const isEditable = ref(true)
+const isAutoEditing = ref(true)
 const isEditableChange = () => {
-  mapWork.graphicLayer.hasEdit = isEditable.value
+  mapWork.graphicLayer.isAutoEditing = isAutoEditing.value
 }
 
 // 显示隐藏
@@ -160,57 +161,20 @@ const drawPolygon = (type: any) => {
 const drawExtrudedPolygon = (type: any) => {
   mapWork.drawExtrudedPolygon(type)
 }
-
-// 数据编辑属性面板 相关处理
+// ************************属性面板************************/
 const { activate, disable, isActivate, updateWidget } = useWidget()
-onMounted(() => {
-  const mars3d = window.mapWork.mars3d
-  // 矢量数据创建完成
-  mapWork.graphicLayer.on(mars3d.EventType.drawCreated, function (e) {
-    showEditor(e)
-  })
-  // 修改了矢量数据
-  mapWork.graphicLayer.on(
-    [mars3d.EventType.editStart, mars3d.EventType.editMovePoint, mars3d.EventType.editStyle, mars3d.EventType.editRemovePoint],
-    function (e) {
-      showEditor(e)
-    }
-  )
-  // 停止编辑
-  mapWork.graphicLayer.on([mars3d.EventType.editStop, mars3d.EventType.removeGraphic], function (e) {
-    setTimeout(() => {
-      if (!mapWork.graphicLayer.isEditing) {
-        disable("graphic-editor")
-      }
-    }, 100)
-  })
-})
-
-const showEditor = (e: any) => {
-  if (!isEditable.value) {
-    return
-  }
-  const graphic = e.graphic
-  if (!graphic._conventStyleJson) {
-    graphic.options.style = graphic.toJSON().style // 因为示例中的样式可能有复杂对象，需要转为单个json简单对象
-    graphic._conventStyleJson = true // 只处理一次
-  }
-
-  if (!isActivate("graphic-editor")) {
-    activate({
-      name: "graphic-editor",
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+mapWork.eventTarget.on("updateGraphicOptionsWidget", (event) => {
+  if (event.disable) {
+    disable("graphic-options")
   } else {
-    updateWidget("graphic-editor", {
-      data: {
-        graphic: markRaw(graphic)
-      }
-    })
+    const data = { layerId: event.layerId, graphicId: event.graphicId }
+    if (!isActivate("graphic-options")) {
+      activate({ name: "graphic-options", data })
+    } else {
+      updateWidget("graphic-options", data)
+    }
   }
-}
+})
 </script>
 <style scoped lang="less">
 :deep(.ant-space) {

@@ -10,15 +10,8 @@
         <span class="logo-name">Mars3D</span>
       </div>
       <div class="r-item mobile_hide">
-        <div
-          class="nav-name"
-          :class="navActive === index ? 'active' : ''"
-          @click="changeNav(index, item)"
-          v-for="(item, index) in nav_list"
-          :key="index"
-          @mouseover="selectStyle(index)"
-          @mouseleave="leaver(index)"
-        >
+        <div class="nav-name" :class="navActive === index ? 'active' : ''" @click="changeNav(index, item)"
+          v-for="(item, index) in nav_list" :key="index" @mouseover="selectStyle(index)" @mouseleave="leaver(index)">
           {{ item.name }}
           <!-- <span v-if="item.children" class="iconfont iconjiantouarrow483"></span> -->
           <mars-icon v-if="item.children" icon="down" class="icon-vertical-a" />
@@ -40,7 +33,8 @@
           <div class="nav-pic"><img src="/img/icon/r-1.png" /></div>
         </div>
         <div class="select" v-if="item.children && indexActive === index">
-          <div class="item-select" v-for="(childItem, childIdx) in item.children" :key="childIdx" @click="showPage(childItem)">
+          <div class="item-select" v-for="(childItem, childIdx) in item.children" :key="childIdx"
+            @click="showPage(childItem)">
             {{ childItem.name }}
           </div>
         </div>
@@ -59,61 +53,36 @@ export default {
     navActive: Number
   },
   emits: ["clickNav"],
-  data() {
+  data () {
     return {
       indexActive: "",
       nav_list: [
-        // {
-        //   url: "/",
-        //   name: "首页"
-        // },
         {
           url: "/",
           name: "功能"
         },
-        // {
-        //   url: "/template.html",
-        //   name: "项目"
-        // },
         {
-          name: "开发",
+          name: "帮助",
           children: [
             {
               name: "开发教程",
-              attr: "//mars3d.cn/dev/guide/index.html"
+              attr: "http://mars3d.cn/dev/guide/index.html"
             },
             {
               name: "API文档",
-              attr: "//mars3d.cn/api/Map.html"
+              attr: "http://mars3d.cn/api/Map.html"
+            },
+            {
+              name: "技术交流群",
+              attr: "http://mars3d.cn/community.html"
+            },
+            {
+              name: "Mars3D官网",
+              attr: "http://mars3d.cn/",
+              target: "_blank"
             }
-            // {
-            //   url: "/download.html",
-            //   name: "下载SDK"
-            // },
-            // {
-            //   url: "/community.html",
-            //   name: "交流群"
-            // }
           ]
         }
-        // {
-        //   name: "商务",
-        //   children: [
-        //     {
-        //       url: "http://mall.marsgis.cn",
-        //       target: "_blank",
-        //       name: "付费服务"
-        //     },
-        //     {
-        //       url: "/question.html",
-        //       name: "常见问题"
-        //     },
-        //     {
-        //       url: "/contact.html",
-        //       name: "联系我们"
-        //     }
-        //   ]
-        // }
       ],
       activeUrl: "/",
       needPath: false,
@@ -121,30 +90,34 @@ export default {
     }
   },
   watch: {
-    navActive(e) {
+    navActive (e) {
       // console.log(e)
     }
   },
   methods: {
-    selectStyle(index) {
+    selectStyle (index) {
       this.indexActive = index
     },
-    leaver() {
+    leaver () {
       this.indexActive = -1
     },
-    showPath() {
+    showPath () {
       this.needPath = !this.needPath
     },
-    changeNav(index, item) {
+    changeNav (index, item) {
       if (item.children) {
         this.indexActive = index
       } else {
         this.showPage(item)
       }
     },
-    showPage(item) {
-      this.$emit("clickNav", item.attr)
-      this.needPath = false
+    showPage (item) {
+      if (item.target === "_blank") {
+        window.open(item.attr, "_blank")
+      } else {
+        this.$emit("clickNav", item.attr)
+        this.needPath = false
+      }
     }
   }
 }
@@ -155,6 +128,7 @@ export default {
   .pc_hide {
     display: none !important;
   }
+
   .logo-wrap {
     max-width: 1080px;
     width: 90%;
@@ -172,10 +146,12 @@ export default {
   .l-logo {
     display: flex;
     align-items: center;
+
     img {
       height: 50px;
     }
   }
+
   .logo-name {
     font-size: 25px;
     line-height: 24px;
@@ -222,9 +198,11 @@ export default {
     padding-left: 20px;
     box-sizing: border-box;
   }
+
   .item-select:hover {
     color: #f08519;
   }
+
   .top-nav {
     width: 100%;
     height: 68px;
@@ -238,10 +216,12 @@ export default {
     z-index: 9999;
   }
 }
+
 @media screen and (max-width: 992px) {
   .mobile_hide {
     display: none !important;
   }
+
   .mb-fix {
     background: white;
     top: 80px;
@@ -252,6 +232,7 @@ export default {
     box-sizing: border-box;
     position: fixed;
   }
+
   .nav-path {
     display: flex;
     align-items: center;
@@ -259,6 +240,7 @@ export default {
     padding: 15px 0;
     border-bottom: 1px solid #f1f1f1;
   }
+
   .nav-msg {
     font-size: 24px;
     line-height: 32px;
@@ -271,10 +253,12 @@ export default {
     font-size: 15px;
     color: #333333;
   }
+
   .nav-pic {
     width: 10px;
     height: 18px;
   }
+
   .top-nav {
     width: 100%;
     position: fixed;
@@ -284,6 +268,7 @@ export default {
     box-sizing: border-box;
     z-index: 9999;
   }
+
   .top-nav {
     background: white !important;
     height: 80px !important;
@@ -292,33 +277,40 @@ export default {
     padding-right: 13px !important;
     padding-left: 27px !important;
   }
+
   .logo-wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   .l-logo {
     img {
       height: 50px;
     }
   }
+
   .logo-name {
     font-size: 30px;
     line-height: 40px;
     color: #888888;
   }
+
   .r-item {
     display: flex;
   }
+
   .check-item {
     width: 50%;
     flex: 0 0 auto;
   }
+
   .r-icon {
     width: 24px;
     height: 23px;
     position: relative;
   }
+
   .r-icon img {
     width: 100%;
     height: 100%;

@@ -53,7 +53,7 @@ interface DataItem {
   name: string
   age: number
   address: string
-  graphic: any
+  graphicId: any
 }
 
 const serverName = ref("")
@@ -90,7 +90,7 @@ const columns = ref([
 mapWork.eventTarget.on("beforUI", function (event: any) {
   dataSource.value = []
   event.list.forEach((item: any, index: number) => {
-    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
+    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphicId: item.graphicId })
   })
 })
 
@@ -103,11 +103,11 @@ mapWork.eventTarget.on("result", (e: any) => {
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
-      if (record.graphic == null) {
+      if (record.graphicId == null) {
         $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      mapWork.flyToGraphic(toRaw(record.graphic))
+      mapWork.flyToGraphic(toRaw(record.graphicId))
     }
   }
 }

@@ -32,7 +32,7 @@ onMounted(() => {
   if (modelUrl) {
     url.value = modelUrl
   } else {
-    url.value = "//data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
+    url.value = "https://data.mars3d.cn/3dtiles/qx-simiao/tileset.json"
   }
   setTimeout(() => {
     mapWork.showModel(url.value)

@@ -1,8 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" height="470" width="330">
     <graphic-layer-state :defaultCount="10" drawLabel1="绘制" drawLabel2="按当前相机" />
-
-
   </mars-dialog>
 
 
@@ -22,6 +20,7 @@
         <a-checkbox-group v-model:value="isChoosePoint" @change="choosePoint()">
           <a-checkbox value="true">编辑网格点</a-checkbox>
         </a-checkbox-group>
+        <mars-button @click="playOrpause">播放暂停</mars-button>
       </a-space>
     </div>
 
@@ -93,6 +92,18 @@ const choosePoint = () => {
 const chooseEdit = () => {
   isEdit.value = !isEdit.value
   drawVideoCanvas.edit(isEdit.value)
+}
+
+// 播放暂停
+const playOrpause = () => {
+  const play = mapWork.playOrpause()
+
+  const videoContainer:any = document.getElementById("videotest")
+  if (play) {
+    videoContainer.play()
+  } else {
+    videoContainer.pause()
+  }
 }
 </script>
 <style scoped lang="less">
