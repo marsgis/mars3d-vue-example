@@ -19,9 +19,9 @@
         </template>
 
         <template v-else>
-          <mars-styles :graphicType="graphicType" v-model:style="style" @styleChange="styleChange" />
+          <mars-styles :graphicType="graphicType" v-model:style="style" isParent @styleChange="styleChange" />
           <template v-for="(item, index) in styleParArr" :key="index">
-            <div v-if="typeof item === 'string'" class="alone-item">
+            <div v-if="typeof item === 'string'">
               <mars-styles :graphicType="item" :parentType="graphicType" v-model:style="style[item]"
                 @styleChange="styleChange" />
             </div>

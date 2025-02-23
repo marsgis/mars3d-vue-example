@@ -21,7 +21,7 @@
               <!-- 含有下一级参数 -->
               <template v-if="item.next">
                 <AttrComp
-                  v-if="item.show(props.style, props.graphicType, props.parentType)"
+                  v-if="item.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
                   :label="item.label"
                   :type="item.type"
                   size="small"
@@ -36,7 +36,7 @@
               </template>
               <template v-else>
                 <AttrComp
-                  v-if="item.show(props.style, props.graphicType, props.parentType)"
+                  v-if="item.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
                   :label="item.label"
                   :type="item.type"
                   size="small"
@@ -50,11 +50,17 @@
               </template>
 
               <!-- 材质相关属性 -->
-              <template
-                v-if="item.name === 'materialType' && viewMaterials && styleValue.materialOptions && item.show(props.style, props.graphicType, props.parentType)">
+              <template v-if="item.name === 'materialType'
+                && viewMaterials
+                && styleValue.materialOptions
+                && item.show({
+                  allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
+                })">
                 <template v-for="(material, mi) in viewMaterials" :key="mi">
                   <AttrComp
-                    v-if="material.show(props.style, props.graphicType, props.parentType)"
+                    v-if="material.show({
+                      allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
+                    })"
                     :label="material.label"
                     :type="material.type"
                     size="small"
@@ -70,11 +76,17 @@
               </template>
 
               <!-- 子级参数的材质相关属性 -->
-              <template
-                v-if="item.next === 'materialType' && nextViewMaterials && styleValue[item.name].materialOptions && item.show(props.style, props.graphicType, props.parentType)">
+              <template v-if="item.next === 'materialType'
+                && nextViewMaterials
+                && styleValue[item.name].materialOptions
+                && item.show({
+                  allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
+                })">
                 <template v-for="(nextmaterial, nextmi) in nextViewMaterials" :key="nextmi">
                   <AttrComp
-                    v-if="nextmaterial.show(props.style[item.name], props.graphicType, props.parentType)"
+                    v-if="nextmaterial.show({
+                      allStyle: styleValue, style: props.style[item.name], graphicType: props.graphicType, parentType: props.parentType
+                    })"
                     :label="nextmaterial.label"
                     :type="nextmaterial.type"
                     size="small"
@@ -93,11 +105,12 @@
       </a-row>
     </a-collapse-panel>
 
-    <a-collapse-panel v-if="styleValue && styleValue.label" key="2" header="注记信息">
+    <a-collapse-panel v-if="styleValue && styleValue.label && !props.graphicType && !props.isParent" key="2"
+      header="注记信息">
       <a-row :gutter="[0, 10]">
         <template v-for="(item, i) in viewLabels" :key="i">
           <AttrComp
-            v-if="item.show(props.style.label, 'label', props.parentType)"
+            v-if="item.show({ style: props.style.label, allStyle: styleValue.label, graphicType: 'label', })"
             :label="item.label"
             :type="item.type"
             size="small"
@@ -126,8 +139,10 @@ const props = withDefaults(defineProps<{
   customType?: string
   style: any
   parentType?: string
+  isParent?: boolean
 }>(), {
-  parentType: null
+  parentType: null,
+  isParent: false
 })
 
 const emit = defineEmits(["styleChange", "update:style"])
@@ -195,7 +210,7 @@ function getViewShow(config) {
 
 function getViewDefval(config, styleOptions) {
   if (typeof config.defval === "function") {
-    return config.defval(styleOptions, styleValue.value, props.graphicType)
+    return config.defval(props.style, props.graphicType)
   } else {
     return config.defval
   }
@@ -280,9 +295,9 @@ function setMaterial(dataRef: any, materialTypeOption: any) {
       dataRef.materialOptions = {}
     }
 
-    const realyMaterialType = dataRef.materialType.split("-")[0]
+    const realyMaterialType = materialType.split("-")[0]
     const materialResult = materialTypeOption.data.find(item => item.value === realyMaterialType)
-    const defval = materialResult.defval ?? {}
+    const defval = materialResult?.defval ?? {}
     const viewMaterialsConfig = [...(materialConfig[realyMaterialType] ?? [])]
 
     viewMaterialsConfig.forEach((p) => {
@@ -314,6 +329,7 @@ const changeSwitch = (value) => {
 // 非材质属性改变
 function unionChange(item: any, selectOptions?: any[]) {
   const name = item.name
+
   if (name === "fill" || name === "outline") {
     if (styleValue.value.fill === false && styleValue.value.outline === false) {
       $message("填充和边框不能同时为否")
@@ -390,13 +406,8 @@ function unionChange(item: any, selectOptions?: any[]) {
   }
 
   // console.log("修改了普通参数", data)
-  if (data.materialType) {
-    updateValue({ ...data })
-    changeValue({ ...data })
-  } else {
-    updateValue({ ...data })
-    changeValue({ ...data })
-  }
+  updateValue({ ...data })
+  changeValue({ ...data })
 }
 
 
@@ -446,22 +457,23 @@ function updateNextStyle(parent: string, param: string) {
 }
 
 function nextMaterialChange(_material: any, item: any) {
-  // console.log("nextMaterialChange 修改子级材质", item)
   const styleValues = { ...styleValue.value }
 
   let changeVal = null
   // 纯色样式 - 直接改style内参数，否则面板会以style内color值为主，mars3d的效果以materialOptions内color值为主，导致不一致
-  if (!styleValues.materialType || styleValues.materialType === "Color") {
+  if (!styleValues[item.name].materialType || styleValues[item.name].materialType === "Color") {
     changeVal = {
       [item.name]: {
+        ...styleValues[item.name],
         materialOptions: styleValues[item.name].materialOptions,
         color: styleValues[item.name].materialOptions.color
       }
     }
   } else {
-    changeVal = { [item.name]: { materialOptions: styleValues[item.name].materialOptions } }
+    changeVal = { [item.name]: { ...styleValues[item.name], materialOptions: styleValues[item.name].materialOptions } }
   }
 
+  // console.log("nextMaterialChange 修改子级材质 changeVal", item, changeVal)
   updateValue({ ...changeVal })
   changeValue(changeVal)
 }
@@ -488,7 +500,7 @@ function changeValue(changeVal, key?) {
     obj = { [props.graphicType]: changeVal }
   }
 
-  // console.log("修改的操作", { ...obj })
+  // console.log("修改的操作", { ...obj }, key)
   emit("styleChange", obj, key)
 }
 </script>

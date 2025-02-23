@@ -25,6 +25,7 @@ function initTree() {
   const showIds = [] // 是显示状态的图层id集合
   const openIds = [] // 展开的树节点id集合（如果不想展开，对应图层配置open:false）
   const result = mapWork.getLayrsTree({
+    basemaps: true, // 是否取config.json中的basempas
     forEach: function (item) {
       item.key = item.id // 树控件api需要的唯一标识
       item.title = item.name // 树控件api需要的显示文本字段

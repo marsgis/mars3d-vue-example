@@ -423,6 +423,9 @@ onMounted(async () => {
 
 function openGraphicOptionsWidget(event: any) {
   const graphic = event.graphic
+  if (graphic.isDrawing) {
+    return
+  }
   const graphicLayer = getManagerLayer()
 
   if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine) {
