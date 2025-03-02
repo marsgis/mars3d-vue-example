@@ -5,6 +5,7 @@
         <mars-icon icon="send" width="20" @click="flyToGraphic" title="飞行定位"></mars-icon>
         <mars-icon icon="delete" width="20" @click="deleteEntity" title="删除"></mars-icon>
         <mars-icon icon="save" width="20" @click="getJson" title="导出JSON"></mars-icon>
+        <mars-icon v-if="showMoveBtn" icon="play-two" width="20" @click="startMove" title="开始漫游"></mars-icon>
       </a-space>
     </div>
     <div class="attr-editor-main">
@@ -48,6 +49,7 @@ import MarsStyles from "./mars-styles.vue"
 import MarsBaseinfo from "./mars-baseinfo.vue"
 import * as mapWork from "./map"
 import useLifecycle from "@mars/widgets/common/uses/use-lifecycle"
+import { $message } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
 import { aloneTypeStyle } from "@mars/utils/mars-util"
 
@@ -72,6 +74,7 @@ useLifecycle(mapWork)
 
 onMounted(() => {
   initGraphicItem(currentWidget.data.layerId, currentWidget.data.graphicId)
+  setMoveBtn()
 })
 
 if (currentWidget) {
@@ -80,6 +83,7 @@ if (currentWidget) {
       graphicType.value = null
       nextTick(() => {
         initGraphicItem(event.layerId, event.graphicId)
+        setMoveBtn()
       })
     }
   })
@@ -149,6 +153,23 @@ function flyToGraphic() {
 function deleteEntity() {
   mapWork.graphic.remove() // 删除
 }
+
+function startMove() {
+  $message("开始漫游")
+  // @ts-ignore
+  mapWork.graphic.start()
+}
+
+const showMoveBtn = ref(false)
+function setMoveBtn() {
+  // @ts-ignore
+  if (mapWork.graphic?.start) {
+    showMoveBtn.value = true
+  } else {
+    showMoveBtn.value = false
+  }
+}
+
 </script>
 <style lang="less">
 .top-handle-bar {

@@ -13,8 +13,9 @@
   </mars-dialog>
 
   <mars-dialog :visible="true" right="10" top="195" customClass="pannel" width="300">
-    <mars-tree checkable :height="550" :tree-data="treeData" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys"
-      @check="checkedChange"  @select="flyToGraphic">
+    <mars-tree checkable :height="550" :tree-data="treeData" v-model:checkedKeys="checkedKeys"
+      v-model:expandedKeys="expandedKeys"
+      @check="checkedChange" @select="flyToGraphic">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -82,7 +83,7 @@ function initTree() {
       }
     },
     // autoGroup: "type"
-    autoGroup: function(item) {
+    autoGroup: function (item) {
       const name = item.name
       if (name) {
         if (name.indexOf("专线") !== -1 || name.indexOf("合九") !== -1) { return "专线" }
@@ -130,8 +131,11 @@ const flyToGraphic = (keys: any, item: any) => {
 <style lang="less">
 .pannel {
   max-height: 676px;
-  overflow-x: hidden;
-  overflow-y: auto;
+
+  .mars-dialog__content {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .example-list {

@@ -342,9 +342,9 @@ const mouseData = ref([
     value: "1",
     change(index: number) {
       if (Number(mouseData.value[index].value) === 1) {
-        mapWork.setSceneCameraControllerOptions("enableCollisionDetection", true)
+        mapWork.setSceneCameraControllerOptions("enableCollisionDetection", false) // 不允许 地形相机的碰撞检测 = 可进入地下
       } else {
-        mapWork.setSceneCameraControllerOptions("enableCollisionDetection", false)
+        mapWork.setSceneCameraControllerOptions("enableCollisionDetection", true) // 允许 地形相机的碰撞检测 = 不可进入地下
       }
     }
   },

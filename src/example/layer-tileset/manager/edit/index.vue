@@ -23,10 +23,12 @@
               <mars-button @click="locateToModel">定位至模型</mars-button>
             </template>
             <a-form-item label="经度" :labelCol="{ span: 4 }" v-show="formState.transform">
-              <mars-input-number v-model:value="formState.txtX" :step="0.000001" @change="formStateChange" style="width: 100%" />
+              <mars-input-number v-model:value="formState.txtX" :step="0.000001" @change="formStateChange"
+                style="width: 100%" />
             </a-form-item>
             <a-form-item label="纬度" :labelCol="{ span: 4 }" v-show="formState.transform">
-              <mars-input-number v-model:value="formState.txtY" :step="0.000001" @change="formStateChange" style="width: 100%" />
+              <mars-input-number v-model:value="formState.txtY" :step="0.000001" @change="formStateChange"
+                style="width: 100%" />
             </a-form-item>
 
             <a-form-item label="高度" :labelCol="{ span: 4 }">
@@ -35,7 +37,8 @@
                   <mars-input-number v-model:value="formState.txtZ" :step="0.1" @change="formStateChange" />
                 </a-col>
                 <a-col :span="10">
-                  <a-checkbox v-model:checked="formState.depthTestAgainstTerrain" @change="updateDepthTest">深度检测</a-checkbox>
+                  <a-checkbox v-model:checked="formState.depthTestAgainstTerrain"
+                    @change="updateDepthTest">深度检测</a-checkbox>
                 </a-col>
               </a-row>
             </a-form-item>
@@ -43,16 +46,20 @@
 
           <a-collapse-panel key="3" header="模型方向" v-show="formState.transform">
             <a-form-item label="变换垂直轴">
-              <mars-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></mars-select>
+              <mars-select v-model:value="formState.axis" @change="formStateChange"
+                :options="axisOptions"></mars-select>
             </a-form-item>
             <a-form-item label="绕X轴旋转模型">
-              <mars-slider v-model:value="formState.rotationX" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationX" :min="0" :max="360" :step="0.1" @change="formStateChange"
+                style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Y轴旋转模型">
-              <mars-slider v-model:value="formState.rotationY" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationY" :min="0" :max="360" :step="0.1" @change="formStateChange"
+                style="width: 100%" />
             </a-form-item>
             <a-form-item label="绕Z轴旋转模型">
-              <mars-slider v-model:value="formState.rotationZ" :min="0" :max="360" :step="0.1" @change="formStateChange" style="width: 100%" />
+              <mars-slider v-model:value="formState.rotationZ" :min="0" :max="360" :step="0.1" @change="formStateChange"
+                style="width: 100%" />
             </a-form-item>
           </a-collapse-panel>
 
@@ -61,13 +68,16 @@
               <mars-input-number v-model:value="formState.scale" :step="0.1" @change="formStateChange" />
             </a-form-item>
             <a-form-item label="显示精度">
-              <mars-slider :min="1" :max="30" v-model:value="formState.maximumScreenSpaceError" @change="formStateChange" />
+              <mars-slider :min="1" :max="30" v-model:value="formState.maximumScreenSpaceError"
+                @change="formStateChange" />
             </a-form-item>
             <a-form-item label="透明度">
-              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="1" :step="0.1" v-model:value="formState.opacity"
+                @change="formStateChange" />
             </a-form-item>
             <a-form-item label="模型亮度">
-              <mars-slider :min="0.1" :max="2" :step="0.1" v-model:value="formState.brightness" @change="formStateChange" />
+              <mars-slider :min="0.1" :max="2" :step="0.1" v-model:value="formState.brightness"
+                @change="formStateChange" />
             </a-form-item>
 
             <a-form-item label="单击高亮构件">
@@ -155,11 +165,6 @@ const axisOptions = [
 
 const labelCol = { span: 9 }
 
-// 初始化界面
-// onMounted(() => {
-//   mapWork.showModel(formState.txtModel)
-// })
-
 mapWork.eventTarget.on("historyUrl", function (event: any) {
   if (event.url) {
     formState.txtModel = event.url
@@ -187,7 +192,7 @@ mapWork.eventTarget.on("tiles3dLayerLoad", function (event: any) {
     formState.rotationY = json.rotation.y ?? 0
     formState.rotationZ = json.rotation.z ?? 0
     formState.scale = json.scale ?? 1
-    formState.axis = json.axis
+    formState.axis = json.axis ?? ""
   } else {
     mapWork.updateHeightForSurfaceTerrain(locParams)
   }

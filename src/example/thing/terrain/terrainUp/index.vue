@@ -3,7 +3,6 @@
     <div class="terrain-contain">
       <a-row :gutter="[1, 10]">
         <a-col :span="24">
-
           <a-form-item label="抬升高度" :labelCol="labelCol" :labelAlign="labelAlign" title="不能针对单个区域，整体抬升">
             <a-space>
               <mars-input-number v-model:value="formState.upHeight" @change="changeUpHeight" :step="1" :min="-99999"
@@ -22,11 +21,6 @@
         </a-col>
 
         <a-col :span="24">
-          <div class="checkbox-tools">
-          </div>
-        </a-col>
-
-        <a-col :span="24">
           <a-form-item :labelCol="labelCol" :labelAlign="labelAlign">
             <div class="draw-tools">
               <a-space>
@@ -35,7 +29,6 @@
                 <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
               </a-space>
             </div>
-
           </a-form-item>
         </a-col>
 

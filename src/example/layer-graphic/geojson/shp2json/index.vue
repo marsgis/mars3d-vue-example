@@ -11,8 +11,9 @@
 
 
   <mars-dialog :visible="true" right="10" top="150" customClass="pannel" width="300">
-    <mars-tree checkable :height="550" :tree-data="treeData" v-model:checkedKeys="checkedKeys" v-model:expandedKeys="expandedKeys"
-      @check="checkedChange"  @select="flyToGraphic">
+    <mars-tree checkable :height="550" :tree-data="treeData" v-model:checkedKeys="checkedKeys"
+      v-model:expandedKeys="expandedKeys"
+      @check="checkedChange" @select="flyToGraphic">
       <template #title="{ title }">
         <span :title="title">{{ title }}</span>
       </template>
@@ -113,7 +114,11 @@ const flyToGraphic = (keys: any, item: any) => {
 <style lang="less">
 .pannel {
   max-height: 750px;
-  overflow-y: auto;
+
+  .mars-dialog__content {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .mars-button {

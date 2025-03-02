@@ -39,11 +39,11 @@
       </a-form-item>
     </div>
 
-    <div class="f-mb">
+    <!-- <div class="f-mb">
       <a-form-item label="线颜色:">
         <mars-color-picker v-model:value="formState.color" @change="changeColor" />
       </a-form-item>
-    </div>
+    </div> -->
   </mars-dialog>
 </template>
 

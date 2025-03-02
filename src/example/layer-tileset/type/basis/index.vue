@@ -1,7 +1,7 @@
 <template>
-  <mars-dialog :nopadding="true" :visible="true" right="10" top="10" width="330">
+  <mars-dialog :nopadding="true" :visible="true" left="10" top="10" width="330">
     <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
-      <a-collapse-panel key="1" header="3D Tiles示例">
+      <a-collapse-panel v-if="isShowControl" key="1" header="3D Tiles示例">
         <div class="basis-button-contain">
           <mars-button @click="showJzwHefeiDemo">城市白膜(合肥)</mars-button>
           <mars-button @click="showMaxShihuaDemo">人工建模(石化工厂)</mars-button>
@@ -56,6 +56,11 @@ const formState: UnwrapRef<FormState> = reactive({
   enabledWireframe: false,
   enabledBoundbox: false,
   enabledGfirstperson: false
+})
+
+const isShowControl = ref(false)
+mapWork.eventTarget.on("showControl", () => {
+  isShowControl.value = true
 })
 
 const bindTestTerrain = () => {
