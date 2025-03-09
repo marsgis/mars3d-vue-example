@@ -293,7 +293,7 @@ const reset = () => {
 }
 
 const saveParams = () => {
-  mapWork.saveParams(updateValue)
+  mapWork.saveParams()
 }
 
 onMounted(() => {

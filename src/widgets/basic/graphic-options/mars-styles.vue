@@ -426,9 +426,9 @@ function materialChange(item) {
 
   // 纯色样式 - 直接改style内参数，否则面板会以style内color值为主，mars3d的效果以materialOptions内color值为主，导致不一致
   if (!styleValues.materialType || styleValues.materialType === "Color") {
-    changeVal = { color: styleValues.materialOptions.color, materialOptions: styleValues.materialOptions }
+    changeVal = { color: styleValues.materialOptions.color, materialOptions: { ...styleValues.materialOptions } }
   } else {
-    changeVal = { materialOptions: styleValues.materialOptions }
+    changeVal = { materialOptions: { ...styleValues.materialOptions } }
   }
 
   updateValue({ ...changeVal })
@@ -465,12 +465,12 @@ function nextMaterialChange(_material: any, item: any) {
     changeVal = {
       [item.name]: {
         ...styleValues[item.name],
-        materialOptions: styleValues[item.name].materialOptions,
+        materialOptions: { ...styleValues[item.name].materialOptions },
         color: styleValues[item.name].materialOptions.color
       }
     }
   } else {
-    changeVal = { [item.name]: { ...styleValues[item.name], materialOptions: styleValues[item.name].materialOptions } }
+    changeVal = { [item.name]: { ...styleValues[item.name], materialOptions: { ...styleValues[item.name].materialOptions } } }
   }
 
   // console.log("nextMaterialChange 修改子级材质 changeVal", item, changeVal)

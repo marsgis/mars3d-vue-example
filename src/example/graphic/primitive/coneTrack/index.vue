@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :defaultCount="1000" :enabledDraw="false" />
+    <graphic-layer-state :defaultCount="1000"  />
     <div>
       <a-space>
         <span class="mars-pannel-item-label">方法演示:</span>

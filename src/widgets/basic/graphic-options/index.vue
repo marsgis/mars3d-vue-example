@@ -124,7 +124,7 @@ function initGraphicItem(layerId, graphicId) {
 }
 
 function styleChange(newStyle: any) {
-  // console.log("修改了style样式", newStyle)
+  // console.log("修改了style样式", { ...newStyle })
 
   if (styleParArr.value?.length) {
     mapWork.setGraphicOptions({ ...newStyle })

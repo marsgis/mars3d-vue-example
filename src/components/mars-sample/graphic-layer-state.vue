@@ -746,6 +746,7 @@ onMounted(() => {
 
 function openGraphicOptionsWidget(event: any) {
   const graphic = event.graphic
+  // || !formState.isAutoEditing  -- 加上后只有选中 是否编辑 才弹出属性面板
   if (graphic.isDrawing) {
     return
   }

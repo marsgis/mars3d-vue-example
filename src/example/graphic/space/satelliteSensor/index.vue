@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :openEditor="true"  :defaultCount="5" :interaction="false" :customEditor="'satelliteSensor'"
+    <graphic-layer-state :openEditor="true" :defaultCount="5" :interaction="false" :customEditor="'satelliteSensor'"
       @onStartEditor="onStartEditor" @onStopEditor="onStopEditor" ref="graphicLayerStateRef" />
   </mars-dialog>
 
@@ -18,15 +18,8 @@
       </a-space>
 
       <div class="location-tools">
-        <a-space>
-
-
-          <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
-
-        </a-space>
-
+        <a-checkbox v-model:checked="formState.enabledShowHide" @change="sensorShowHide">显示/隐藏</a-checkbox>
       </div>
-
     </div>
     <div class="f-mb">
       <a-space>
@@ -100,7 +93,7 @@
         <mars-slider @change="lengthChange" v-model:value="formState.matrixLength" :min="1" :max="10000" :step="1" />
         <span class="mars-text"> 当前值{{
           formState.matrixLength
-        }}</span>
+          }}</span>
 
       </a-space>
     </div>
@@ -110,8 +103,8 @@
         <a-space>
           <span class="mars-pannel-item-label">类型：</span>
           <a-radio-group v-model:value="sensorType" name="radioGroup" @change="chkSensorType">
-            <a-radio value="1">圆锥体</a-radio>
-            <a-radio value="2">四棱锥体</a-radio>
+            <a-radio :value=1>圆锥体</a-radio>
+            <a-radio :value=0>四棱锥体</a-radio>
           </a-radio-group>
         </a-space>
       </div>
@@ -126,7 +119,7 @@
         </a-space>
       </div>
 
-      <div class="f-push-15-b" v-if="sensorType === '2'">
+      <div class="f-push-15-b" v-if="sensorType === 0">
         <a-space>
           <span class="mars-pannel-item-label">夹角2：</span>
           <mars-slider @change="angle2" v-model:value="formState.angleValue2" :min="0" :max="89" :step="0.001" />
@@ -157,7 +150,7 @@ import LocationTo from "@mars/components/mars-sample/location-to.vue"
 import { reactive, ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
 
-const sensorType = ref<string>("2")
+const sensorType = ref<number>(0)
 
 interface SatelliteSensor {
   enabledShowHide: boolean
@@ -200,7 +193,11 @@ const formState = reactive<SatelliteSensor>({
 
 // 点击表格开始编辑矢量数据的参数
 function onStartEditor(data) {
+  console.log("触发了这个")
+
   const graphic = mapWork.getGraphic(data.graphicId)
+
+  sensorType.value = graphic?.sensorType
   formState.pannelTitle = data.graphicName
 
   formState.angleValue1 = graphic?.angle

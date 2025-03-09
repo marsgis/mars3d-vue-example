@@ -6,5 +6,4 @@
 
 <script lang="ts" setup>
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
-import * as mapWork from "./map.js"
 </script>

@@ -12,7 +12,30 @@ class MyXyzImageryProvider extends mars3d.provider.XyzImageryProvider {
     super(options)
   }
 
+  // 构建ImageryProvider
   // requestImage(x, y, level, request) {
+  //   const resource = this._resource
+  //   const url = resource.getUrlComponent(true)
+  //   const webpUrl = mars3d.Util.template(url, {
+  //     z: level,
+  //     x: x,
+  //     y: y
+  //   })
+  //   return new Promise((resolve, reject) => {
+  //     const img = new Image()
+  //     img.onload = () => {
+  //       const canvas = document.createElement("canvas")
+  //       canvas.width = img.width
+  //       canvas.height = img.height
+  //       const ctx = canvas.getContext("2d")
+  //       ctx.drawImage(img, 0, 0)
+  //       resolve(canvas)
+  //     }
+  //     img.onerror = (error) => {
+  //       reject(new Error("Failed to load WebP image: " + error))
+  //     }
+  //     img.src = webpUrl
+  //   })
   // }
 }
 

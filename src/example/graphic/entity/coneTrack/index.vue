@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <graphic-layer-state :enabledDraw="false" />
+    <graphic-layer-state  />
 
     <div class="f-mb">
       <a-space>
