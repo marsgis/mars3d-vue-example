@@ -20,7 +20,7 @@
 
 
   <div class="play-control" style="top:346px;">
-    <mars-button class="f-mr" @click="mapWork.startDrawGraphic">绘制</mars-button>
+    <mars-button class="f-mr" @click="startDrawGraphic">绘制</mars-button>
     <mars-button @click="clear">清除</mars-button>
   </div>
 </template>
@@ -44,7 +44,16 @@ mapWork.eventTarget.on("endRoam", () => {
   udpateState()
 })
 
+const startDrawGraphic = () => {
+  btnStop()
+
+  mapWork.startDrawGraphic()
+}
+
+
 const clear = () => {
+  btnStop()
+
   mapWork.clear()
   udpateState()
 }

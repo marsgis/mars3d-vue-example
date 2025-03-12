@@ -15,7 +15,7 @@
     </div>
   </mars-dialog>
 
-  <mars-dialog :visible="true" right="10" top="230" bottom="70"  width="330" customClass="czml_dialog">
+  <mars-dialog :visible="true" right="10" top="200" bottom="70"  width="330" customClass="czml_dialog">
     <div class="czml_tree">
       <mars-tree checkable v-model:expandedKeys="expandedKeys" v-model:checkedKeys="selectedKeys" :tree-data="treeData"
         @check="checkedChange" @select="flytoModelNode">

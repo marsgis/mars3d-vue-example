@@ -224,7 +224,7 @@ onMounted(() => {
         const lastgraphic = graphics[graphics.length - 1]
         formState.enabledOpacity = lastgraphic.hasOpacity
         formState.enabledEdit = lastgraphic.hasEdit
-        formState.enabledCluster = lastgraphic.hasCluster
+        formState.enabledCluster = layer.collisionEnabled ? false : lastgraphic.hasCluster
 
         if (props.openEditor) {
           startEditGraphic({ key: lastgraphic.id, name: lastgraphic.name })// 自动打开编辑面板
@@ -746,12 +746,6 @@ onMounted(() => {
 
 function openGraphicOptionsWidget(event: any) {
   const graphic = event.graphic
-  // || !formState.isAutoEditing  -- 加上后只有选中 是否编辑 才弹出属性面板
-  if (graphic.isDrawing) {
-    return
-  }
-  const graphicLayer = getManagerLayer()
-
   if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine) {
     return
   }
@@ -767,6 +761,7 @@ function openGraphicOptionsWidget(event: any) {
   emit("onStopEditor") // 关闭参数调节面板
 
 
+  const graphicLayer = getManagerLayer()
   const data = { layerId: graphicLayer.id, graphicId: graphic.id }
   if (isActivate("graphic-options")) {
     updateWidget("graphic-options", data)
