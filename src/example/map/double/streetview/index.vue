@@ -8,7 +8,7 @@
   </mars-dialog>
 
   <mars-dialog :visible="true" right="10" top="10">
-    <img src="//data.mars3d.cn/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
+    <img src="https://data.mars3d.cn/img/marker/street.png" alt="" class="imgIcon" @click="chooseStree" />
   </mars-dialog>
 </template>
 

@@ -128,7 +128,7 @@ const formState = reactive<typhoon>({
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_default", //在线实时接口
-  const url = "//data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
+  const url = "https://data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
   axios.get(url).then(function (res: any) {
     const data = res.data
     typhoonList.value = data.typhoonList.map((item: any) => ({

@@ -27,7 +27,7 @@ class CanvasBillboard extends mars3d.graphic.BillboardPrimitive {
     if (this._pngImage) {
       this._updateCanvas()
     } else {
-      Cesium.Resource.fetchImage({ url: "//data.mars3d.cn/img/marker/bg/textPnl.png" }).then((img) => {
+      Cesium.Resource.fetchImage({ url: "https://data.mars3d.cn/img/marker/bg/textPnl.png" }).then((img) => {
         this._pngImage = img
         this._updateCanvas()
       })

@@ -56,7 +56,7 @@ interface FileInfo {
   fileList: FileItem[]
 }
 
-const modelUrl = ref<string>("//data.mars3d.cn/gltf/mars/feiji.glb")
+const modelUrl = ref<string>("https://data.mars3d.cn/gltf/mars/feiji.glb")
 
 // 代理
 const isProxy = ref<boolean>(false)

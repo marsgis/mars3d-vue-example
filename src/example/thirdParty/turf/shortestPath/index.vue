@@ -13,6 +13,7 @@
       <a-space>
         <span>计算:</span>
         <mars-button @click="shortestPath">最短路径</mars-button>
+        <mars-button @click="shortPathByTerrain">根据地形计算</mars-button>
         <mars-button @click="clearAll">清除</mars-button>
       </a-space>
     </div>
@@ -37,6 +38,11 @@ const endPoint = () => {
 // 计算最短路径
 const shortestPath = () => {
   mapWork.shortestPath()
+}
+
+// 根据地形计算最短路径
+const shortPathByTerrain = () => {
+  mapWork.shortPathByTerrain()
 }
 // 清除
 const clearAll = () => {

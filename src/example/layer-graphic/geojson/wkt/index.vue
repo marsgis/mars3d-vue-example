@@ -71,6 +71,8 @@ function checkedChange(keys: string[], e: any) {
 // 点击节点 定位
 const flyToGraphic = (keys: any, item: any) => {
   const graphic = mapWork.getGraphicById(item.node.key)
-  graphic.flyTo()
+  if (graphic) {
+    graphic.flyTo()
+  }
 }
 </script>

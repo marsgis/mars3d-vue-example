@@ -24,7 +24,7 @@ const options: GuiItem[] = [
     type: "input",
     field: "url",
     label: "图层URL",
-    value: "//data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
+    value: "https://data.mars3d.cn/tile/dizhiChina/{z}/{x}/{y}.png",
     change(data) {
       onCheckedoutUrl(data)
       dataUpdate()

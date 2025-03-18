@@ -1,6 +1,6 @@
 <template>
   <div class="divPanel">
-    <img src="//data.mars3d.cn/img/busines/legend-heatmap.png" />
+    <img src="https://data.mars3d.cn/img/busines/legend-heatmap.png" />
   </div>
 </template>
 

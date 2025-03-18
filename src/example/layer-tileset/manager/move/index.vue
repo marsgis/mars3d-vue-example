@@ -73,7 +73,7 @@ onMounted(() => {
     // 历史记录模型地址
     url.value = modelUrl
   } else {
-    url.value = "//data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
+    url.value = "https://data.mars3d.cn/3dtiles/qx-dyt/tileset.json"
   }
 
   setTimeout(() => {

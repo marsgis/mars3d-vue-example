@@ -13,7 +13,7 @@
     <div class="openPanel" v-show="satelliteParams.openPannel === true">
       <div class="closeAction" @click="closePannel">收缩&gt;</div>
       <video width="420" :muted="true" :autoplay="true">
-        <source src="//data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
+        <source src="https://data.mars3d.cn/file/video/lukou.mp4" type="video/mp4" />
       </video>
     </div>
     <div v-show="satelliteParams.openPannel === false">

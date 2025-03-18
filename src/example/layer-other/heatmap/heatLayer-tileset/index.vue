@@ -1,6 +1,6 @@
 <template>
   <div class="divPanel">
-    <img style="width: 40px; height: 180px" src="//data.mars3d.cn/img/busines/legend-heatmap.png" />
+    <img style="width: 40px; height: 180px" src="https://data.mars3d.cn/img/busines/legend-heatmap.png" />
   </div>
 </template>
 

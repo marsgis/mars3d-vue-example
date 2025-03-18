@@ -134,7 +134,7 @@ interface FormState {
 }
 
 const formState = reactive<FormState>({
-  txtModel: "//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
+  txtModel: "https://data.mars3d.cn/3dtiles/max-fsdzm/tileset.json",
   chkProxy: false,
   txtX: 0,
   txtY: 0,

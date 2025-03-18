@@ -172,7 +172,9 @@ const graphicCustomRowObj = (recode: any) => {
     onClick: () => {
       const graphicLayer = getManagerLayer()
       const graphic = graphicLayer.getGraphicById(recode.key)
-      graphic.flyTo()
+      if (graphic) {
+        graphic.flyTo()
+      }
     }
   }
 }

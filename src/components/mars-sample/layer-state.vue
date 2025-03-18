@@ -226,6 +226,9 @@ function bindLayerContextMenu() {
         }
 
         const graphic = event.graphic
+        if (!graphic) {
+          return false
+        }
         if (hasRestore(graphic)) {
           return true
         }
@@ -255,6 +258,9 @@ function bindLayerContextMenu() {
         }
 
         const graphic = event.graphic
+        if (!graphic) {
+          return false
+        }
         if (hasRevoke(graphic)) {
           return true
         }
@@ -300,7 +306,7 @@ function bindLayerContextMenu() {
       icon: "fa fa-info",
       show: (event) => {
         const graphic = event.graphic
-        if (graphic.cluster && graphic.graphics) {
+        if (graphic && graphic.cluster && graphic.graphics) {
           return true
         } else {
           return false
