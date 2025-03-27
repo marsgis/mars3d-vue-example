@@ -24,7 +24,7 @@ import { onMounted, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const url = ref<any>()
-const color = ref("#363635")
+const color = ref("#00FFC4")
 
 onMounted(() => {
   // 历史记录模型地址

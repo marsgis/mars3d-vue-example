@@ -7,12 +7,18 @@
             <mars-switch v-model:checked="styleValue.show" @change="changeSwitch" />
           </template>
         </AttrComp>
-
-        <AttrComp v-else label="样式类型">
-          <template #right>
-            {{ styleType || "未配置" }}
-          </template>
-        </AttrComp>
+        <template v-else>
+          <AttrComp label="标号类型">
+            <template #right>
+              {{ props.graphicType }}
+            </template>
+          </AttrComp>
+          <AttrComp v-if="props.graphicType !== styleType" label="样式类型">
+            <template #right>
+              {{ styleType || "未配置" }}
+            </template>
+          </AttrComp>
+        </template>
 
         <template v-if="stylePanIsHidden()">
           <template v-for="(item, i) in viewStyles" :key="i">

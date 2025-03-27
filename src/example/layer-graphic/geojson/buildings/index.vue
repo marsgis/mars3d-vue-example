@@ -365,6 +365,7 @@ function initEcharts() {
       left: "center",
       icon: "circle",
       type: "scroll",
+      padding: [5, 0, 0, 0],
       itemHeight: fontSize(0.5),
       itemWidth: fontSize(0.5),
       textStyle: {
@@ -372,9 +373,9 @@ function initEcharts() {
       }
     },
     grid: {
-      left: "0%",
+      left: "5%",
       right: "0%",
-      top: "18%",
+      top: "25%",
       bottom: "5%",
       containLabel: true
     },
@@ -411,7 +412,7 @@ function initEcharts() {
       axisLabel: {
         fontSize: fontSize(0.6875),
         interval: 0,
-        padding: [0, 0, 0, 0]
+        padding: [20, 0, 0, 20]
       },
       nameLocation: "end",
       nameTextStyle: {
@@ -769,20 +770,24 @@ function fontSize(res: number) {
   width: 100%;
   height: 100%;
 }
+
 .bar {
   width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
 }
+
 .bar_chart {
   width: 100%;
   height: 100%;
 }
+
 #bar {
   width: 100%;
   height: 100%;
 }
+
 .container-last-chart {
   margin-top: 8px;
 }

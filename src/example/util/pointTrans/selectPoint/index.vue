@@ -51,10 +51,10 @@
             <a-radio value="2">六度带</a-radio>
           </a-radio-group>
         </a-form-item>
-        <a-form-item label="纵坐标" class="shijingzhi">
+        <a-form-item label="横坐标" class="shijingzhi">
           <mars-input class="point_Trans_input1" v-model:value="formState.gk6X" @change="changeGKZone"> </mars-input>
         </a-form-item>
-        <a-form-item label="横坐标" class="shijingzhi">
+        <a-form-item label="纵坐标" class="shijingzhi">
           <mars-input class="point_Trans_input1" v-model:value="formState.gk6Y" @change="changeGKZone"> </mars-input>
         </a-form-item>
         <a-form-item label="高度值" class="shijingzhi">

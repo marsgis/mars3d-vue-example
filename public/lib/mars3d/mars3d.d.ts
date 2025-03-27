@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.9.3
- * 编译日期：2025-03-18 22:12
+ * 版本信息：v3.9.5
+ * 编译日期：2025-03-26 21:31
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：火星科技免费公开版 ，2025-02-01
  */
@@ -29439,6 +29439,7 @@ declare namespace Map {
      * @property [setPitchRange] - 设置鼠标操作限定的Pitch范围, 同{@link Map#setPitchRange }
      * @property setPitchRange.max - 最大值（角度值）
      * @property [setPitchRange.min = -90] - 最小值（角度值）
+     * @property [setPitchRange.enabled = true] - 开启或开关控制，默认是开启的
      * @property [setCameraViewList] - 定位到多个相机视角位置，按数组顺序播放, 同{@link Map#setCameraViewList }
      * @property setCameraViewList.list - arr 视角参数数组, 内部参数见{@link Map#setCameraViewList }
      * @property [setCameraViewList.maximumHeight] - 飞行高峰时的最大高度。
@@ -29446,14 +29447,17 @@ declare namespace Map {
      * @property [setCameraViewList.flyOverLongitude] - 地球上的两点之间总有两条路。这个选项迫使相机选择战斗方向飞过那个经度。
      * @property [setCameraViewList.flyOverLongitudeWeight] - 仅在通过flyOverLongitude指定的lon上空飞行，只要该方式的时间不超过flyOverLongitudeWeight的短途时间。
      * @property [setCameraViewList.convert = true] - 是否将目的地从世界坐标转换为场景坐标（仅在不使用3D时相关）。
+     * @property [setCameraViewList.enabled = true] - 开启或开关控制，默认是开启的
      * @property [openFlyAnimation] - 执行开场动画，动画播放地球飞行定位到指定区域（1.旋转地球+2.降低高度+3.指定视角）, 同{@link Map#openFlyAnimation }
      * @property [openFlyAnimation.center = getCameraView()] - 飞行到的指定区域视角参数
      * @property [openFlyAnimation.duration1 = 2] - 第一步旋转地球时长，单位：秒
      * @property [openFlyAnimation.duration2 = 2] - 第二步降低高度时长，单位：秒
      * @property [openFlyAnimation.duration3 = 2] - 第三步指定视角飞行时长，单位：秒
+     * @property [openFlyAnimation.enabled = true] - 开启或开关控制，默认是开启的
      * @property [rotateAnimation] - 执行旋转地球动画, 同{@link Map#rotateAnimation }
      * @property [rotateAnimation.duration = 10] - 动画时长（单位：秒）
      * @property [rotateAnimation.center = getCameraView()] - 飞行到的指定区域视角参数
+     * @property [rotateAnimation.enabled = true] - 开启或开关控制，默认是开启的
      */
     type methodOptions = {
         chinaCRS?: ChinaCRS | string;
@@ -29472,6 +29476,7 @@ declare namespace Map {
         setPitchRange?: {
             max: number;
             min?: number;
+            enabled?: boolean;
         };
         setCameraViewList?: {
             list: any;
@@ -29480,16 +29485,19 @@ declare namespace Map {
             flyOverLongitude?: number;
             flyOverLongitudeWeight?: number;
             convert?: boolean;
+            enabled?: boolean;
         };
         openFlyAnimation?: {
             center?: any;
             duration1?: number;
             duration2?: number;
             duration3?: number;
+            enabled?: boolean;
         };
         rotateAnimation?: {
             duration?: number;
             center?: any;
+            enabled?: boolean;
         };
     };
     /**
@@ -37885,6 +37893,7 @@ declare class TilesetBoxClip extends BaseThing {
  * @param [options.precise = true] - true:精确模式, 直接存储范围,但传入的范围顶点数量多时，就会造成一定程度的卡顿； false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重（模型面积越大越严重）
  * @param [options.maxCanvasSize = 4096] - 掩膜模式下最大分辨率半径（单位：像素）,值过大时会WebGL报错: INVALID_VALUE: texImage2D: no canvas
  * @param [options.czm = true] - true:使用cesium原生clippingPolygons接口来操作，false：使用mars3d自定义方式操作
+ * @param [options.brightness = 1.0] - 亮度, czm: false时可以同时设置亮度 （因为与多个TilesetColorCorrection的shader有冲突）
  * @param [options.id = createGuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
@@ -37897,6 +37906,7 @@ declare class TilesetClip extends TilesetEditBase {
         precise?: boolean;
         maxCanvasSize?: number;
         czm?: boolean;
+        brightness?: number;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -37905,6 +37915,11 @@ declare class TilesetClip extends TilesetEditBase {
      * 是否外裁剪
      */
     clipOutSide: boolean;
+    /**
+     * 亮度,
+     * czm: false时可以同时设置亮度 （因为与多个TilesetColorCorrection的shader有冲突）
+     */
+    brightness: number;
     /**
      * 清除分析
      * @returns 无
@@ -38134,6 +38149,7 @@ declare namespace TilesetFlood {
  * @param [options.limitMin = false] - 显示效果中是否不显示最低高度以下的部分颜色
  * @param [options.precise = true] - true:精确模式, 直接存储范围,但传入的范围顶点数量多时，就会造成一定程度的卡顿； false: 掩膜模式，栅格化范围,效率与范围顶点数量无关,但放大后锯齿化严重（模型面积越大越严重）
  * @param [options.maxCanvasSize = 4096] - 掩膜模式下最大分辨率半径（单位：像素）
+ * @param [options.brightness = 1.0] - 亮度, czm: false时可以同时设置亮度 （因为与多个TilesetColorCorrection的shader有冲突）
  * @param [options.id = createGuid()] - 对象的id标识
  * @param [options.enabled = true] - 对象的启用状态
  * @param [options.eventParent] - 指定的事件冒泡对象，默认为所加入的map对象，false时不冒泡事件
@@ -38150,6 +38166,7 @@ declare class TilesetFlood extends TilesetEditBase {
         limitMin?: boolean;
         precise?: boolean;
         maxCanvasSize?: number;
+        brightness?: number;
         id?: string | number;
         enabled?: boolean;
         eventParent?: BaseClass | boolean;
@@ -38170,6 +38187,11 @@ declare class TilesetFlood extends TilesetEditBase {
      * 淹没颜色
      */
     color: Cesium.Color;
+    /**
+     * 亮度,
+     * czm: false时可以同时设置亮度 （因为与多个TilesetColorCorrection的shader有冲突）
+     */
+    brightness: number;
     /**
      * 开始播放淹没动画效果
      * @returns 无
