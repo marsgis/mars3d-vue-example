@@ -2457,6 +2457,7 @@ const styleConfig = {
           { label: "实线", value: "Color" },
           { label: "虚线", value: "PolylineDash" },
           { label: "虚线箭头", value: "LineDashArrow" },
+          { label: "虚线箭头2", value: "LineFlow-dashArrow", defval: { image: "https://data.mars3d.cn/img/textures/line-dashArrow.png",speed:0, repeat_x: 10 } },
           { label: "衬色线", value: "PolylineOutline" },
           { label: "箭头", value: "PolylineArrow" },
           { label: "光晕", value: "PolylineGlow" },

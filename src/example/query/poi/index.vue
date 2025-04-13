@@ -98,10 +98,11 @@ const changeService = () => {
   mapWork.changeService(selectService.value)
 }
 
+let cityShi = "合肥市"
+let cityShiKey = "340100"
+
 const radioFanwei = ref("1")
 const serverName = ref("")
-const cityShi = ref("合肥市")
-const cityShiKey = ref("340100")
 const tableShow = computed(() => dataSource.value.length > 0)
 
 const columns = ref([
@@ -157,9 +158,9 @@ const drawPolygon = () => {
 const query = () => {
   mapWork.clearAll(true)
   if (selectService.value === "tdt") {
-    mapWork.query(radioFanwei.value, cityShiKey.value, serverName.value)
+    mapWork.query(radioFanwei.value, cityShiKey, serverName.value)
   } else {
-    mapWork.query(radioFanwei.value, cityShi.value, serverName.value)
+    mapWork.query(radioFanwei.value, cityShi, serverName.value)
   }
 }
 
@@ -186,8 +187,8 @@ onBeforeMount(async () => {
 // 改变选择的城市
 const onChange = (_value: any, selectedOptions: Option[]) => {
   const sel = selectedOptions[selectedOptions.length - 1]
-  cityShi.value = sel.label
-  cityShiKey.value = sel.value
+  cityShi = sel.label
+  cityShiKey = sel.value
 }
 
 // 表格数据

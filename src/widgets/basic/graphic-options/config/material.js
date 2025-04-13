@@ -224,8 +224,7 @@ const materialConfig = {
     { name: "darkColor", label: "衬色primitive", type: "color", defval: "#ffffff" },
 
     { name: "repeat_x", label: "横向数量", type: "number", step: 1, defval: 10 },
-    { name: "repeat_y", label: "纵向数量", type: "number", step: 1, defval: 10 },
-
+    { name: "repeat_y", label: "纵向数量", type: "number", step: 1, defval: 10 }
   ],
   Stripe: [
     { name: "evenColor", label: "主色", type: "color", defval: "#000000" },
@@ -286,6 +285,7 @@ const materialConfig = {
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "count", label: "数量", type: "number", step: 1, defval: 1 },
     { name: "gradient", label: "圈间系数", type: "slider", min: 0, max: 1, step: 0.1, defval: 0.1 },
+    { name: "diffusePower", label: "漫射系数", type: "number", min: 0, max: 50, step: 0.1, defval: 1.6 },
     { name: "speed", label: "速度", type: "number", step: 1, defval: 10 }
   ],
   RadarLine: [

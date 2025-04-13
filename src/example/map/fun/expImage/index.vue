@@ -6,6 +6,8 @@
     <mars-button class="btn" @click="downLoad2">下载场景缩略图</mars-button>
     <mars-button class="btn" @click="screenShots">截缩略图</mars-button>
 
+    <mars-button class="btn" @click="shotPartImg">局部截图(screenShotPlugin插件)</mars-button>
+
     <img class="f-mt" :src="imges" v-if="showScreenShot" style="width: 100%; height: 100%" />
   </mars-dialog>
 
@@ -44,10 +46,20 @@ const screenShots = () => {
     imges.value = image
   })
 }
+
+// 截取部分图片
+const shotPartImg = () => {
+  mapWork.shotPartImg()
+}
+
+mapWork.eventTarget.on("showPartImg", ({ base64 }) => {
+  showScreenShot.value = true
+  imges.value = base64
+})
 </script>
 <style scoped lang="less">
 .btn {
-  width:145px;
+  min-width:145px;
   margin-bottom: 10px;
   &:nth-child(odd) {
     margin-right: 10px;
