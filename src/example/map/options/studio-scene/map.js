@@ -2,17 +2,31 @@ import * as mars3d from "mars3d"
 
 export let map
 
+// 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
+export const mapOptions = {
+  scene: {
+    clock: {
+      shouldAnimate: false
+    }
+  },
+  basemaps: [],
+  layers: []
+}
+
+
+
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export async function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
 export async function loadScene(url, token) {
-  let mapOptions = await mars3d.Util.fetchJson({ url: `${url}?token=${token}` })
+  let mapOptions = await mars3d.Util.fetchJson({ url: url + "?token=" + token })
   mapOptions = replaceUrlTemplateStr(mapOptions)
   console.log("场景参数", mapOptions)
 
   map.setOptions(mapOptions, { merge: false })
+
   autoAddTimeControl()
 }
 
@@ -39,7 +53,7 @@ function autoAddTimeControl() {
     console.log(`当前地图所有时序相关任务清单`, taskResult)
 
     // 停止，手动开始
-    map.clock.shouldAnimate = false
+    // map.clock.shouldAnimate = false
     globalMsg(`5秒后自动开始播放，如需暂停可单击"左下角"按钮。`)
     setTimeout(() => {
       map.clock.shouldAnimate = true

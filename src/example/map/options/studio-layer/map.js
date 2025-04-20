@@ -8,7 +8,7 @@ export async function onMounted(mapInstance) {
 }
 
 export async function loadLayer(url, token) {
-  let layerOptions = await mars3d.Util.fetchJson({ url: `${url}?token=${token}` })
+  let layerOptions = await mars3d.Util.fetchJson({ url: url + "?token=" + token })
   layerOptions = replaceUrlTemplateStr(layerOptions, token)
   layerOptions.show = true // 避免默认隐藏
   layerOptions.flyTo = true

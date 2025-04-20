@@ -102,7 +102,6 @@ const materialConfig = {
 
   Image: [
     { name: "image", label: "图片", type: "label", defval: "" },
-    { name: "transparent", label: "是否透明", type: "radio", defval: false },
     {
       name: "opacity",
       label: "透明度",
@@ -110,11 +109,19 @@ const materialConfig = {
       min: 0,
       max: 1,
       step: 0.1,
-      defval: 1,
-      show({ style, graphicType }) {
-        return style.materialOptions?.transparent
-      }
+      defval: 1
     },
+    { name: "repeat_x", label: "X重复次数", type: "number", step: 1, defval: 1 },
+    { name: "repeat_y", label: "Y重复次数", type: "number", step: 1, defval: 1 }
+  ],
+  Image2: [
+    { name: "image", label: "图片", type: "label", defval: "" },
+    { name: "opacity", label: "透明度", type: "slider", min: 0, max: 1, step: 0.1, defval: 1 },
+    { name: "noWhite", label: "不显示白色", type: "radio", defval: true },
+    { name: "rotation", label: "旋转角度", type: "slider", min: 0, max: 360, step: 1, defval: 0},
+    { name: "flipx", label: "X方向翻转", type: "radio", defval: false },
+    { name: "flipy", label: "Y方向翻转", type: "radio", defval: false },
+    { name: "speed", label: "滚动速度", type: "number", step: 1, defval: 0 },
     { name: "repeat_x", label: "X重复次数", type: "number", step: 1, defval: 1 },
     { name: "repeat_y", label: "Y重复次数", type: "number", step: 1, defval: 1 }
   ],
@@ -217,10 +224,10 @@ const materialConfig = {
     { name: "lineThickness", label: "网格宽度", type: "number", step: 1, defval: 2 }
   ],
   Checkerboard: [
-    { name: "evenColor", label: "主色", type: "color", defval: "#000000" },//entity用，属性材质
+    { name: "evenColor", label: "主色", type: "color", defval: "#000000" }, //entity用，属性材质
     { name: "oddColor", label: "衬色", type: "color", defval: "#ffffff" },
 
-    { name: "lightColor", label: "主色primitive", type: "color", defval: "#000000" },//primitive用，材质 【Cesium本身问题，命名不一样】
+    { name: "lightColor", label: "主色primitive", type: "color", defval: "#000000" }, //primitive用，材质 【Cesium本身问题，命名不一样】
     { name: "darkColor", label: "衬色primitive", type: "color", defval: "#ffffff" },
 
     { name: "repeat_x", label: "横向数量", type: "number", step: 1, defval: 10 },
@@ -318,7 +325,6 @@ const materialConfig = {
 }
 
 // 部分矢量对应与其他基本类型完全相同配置时，复制配置
-materialConfig.Image2 = materialConfig.Image
 materialConfig.PolyFacet = materialConfig.PolyBlob
 materialConfig.PolyGrass = materialConfig.PolyBlob
 materialConfig.RadarWave = materialConfig.RadarLine

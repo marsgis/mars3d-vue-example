@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <a-form >
+    <a-form>
       <a-form-item label="名称">
         <mars-input class="inputServe" v-model:value="serverName" placeholder="请输入查询关键字"></mars-input>
       </a-form-item>
@@ -26,7 +26,8 @@
 
       <div v-show="showTable" class="f-pt">
         <a-form-item>
-          <mars-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow" size="small"
+          <mars-table :pagination="true" :dataSource="dataSource" :columns="columns" :custom-row="customRow"
+            size="small"
             bordered :scroll="{ y: 400 }" />
         </a-form-item>
       </div>
@@ -44,7 +45,7 @@ interface DataItem {
   name: string
   age: number
   address: string
-  graphic: any
+  graphicId: string
 }
 
 const serverName = ref("")
@@ -56,7 +57,7 @@ const dataSource = ref([])
 mapWork.eventTarget.on("befortUI", function (event: any) {
   dataSource.value = []
   event.list.forEach((item: any, index: number) => {
-    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphic: item.graphic })
+    dataSource.value.push({ key: index, name: item["项目名称"], type: item["设施类型"], address: item["具体位置"], graphicId: item.graphicId })
   })
 })
 
@@ -82,11 +83,11 @@ const columns = ref([
 const customRow = (record: DataItem) => {
   return {
     onClick: () => {
-      if (record.graphic == null) {
+      if (record.graphicId == null) {
         $message(record.name + " 无经纬度坐标信息！")
         return
       }
-      mapWork.flyToGraphic(toRaw(record.graphic))
+      mapWork.flyToGraphic(record.graphicId)
     }
   }
 }

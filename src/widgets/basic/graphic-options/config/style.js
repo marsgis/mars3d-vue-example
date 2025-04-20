@@ -2005,16 +2005,34 @@ const styleConfig = {
     name: "双面渲染图片平面",
     primitive: true,
     style: [
-      { name: "image", label: "填充的图片", type: "label" },
-      { name: "opacity", label: "透明度", type: "slider", min: 0, max: 1, step: 0.1, defval: 1 },
-      { name: "noWhite", label: "不显示白色", type: "radio", defval: true },
-
       { name: "dimensions_x", label: "长度", type: "number", step: 1, defval: 100.0 },
       { name: "dimensions_y", label: "宽度", type: "number", step: 1, defval: 100.0 },
 
       { name: "heading", label: "方向角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
       { name: "pitch", label: "俯仰角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
-      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 }
+      { name: "roll", label: "翻滚角", type: "slider", min: 0.0, max: 360.0, step: 0.01, defval: 0.0 },
+
+      {
+        name: "materialType",
+        label: "填充材质",
+        type: "combobox",
+        defval: "Image2",
+        data: [
+          { label: "图片", value: "Image2", defval: { image: "https://data.mars3d.cn/img/textures/wzplane.png" } },
+          { label: "文本", value: "Text" },
+          { label: "纯色", value: "Color" },
+          { label: "网格", value: "Grid" },
+          // { label: "条纹", value: "Stripe" },
+          { label: "棋盘", value: "Checkerboard" },
+
+          { label: "渐变面", value: "PolyGradient" },
+          { label: "水面", value: "Water" },
+          { label: "蓝光水面", value: "WaterLight" }
+        ],
+        show({ style, graphicType }) {
+          return style?.fill !== false && graphicType !== "video2D"
+        }
+      },
     ]
   },
   box: {
@@ -2457,7 +2475,11 @@ const styleConfig = {
           { label: "实线", value: "Color" },
           { label: "虚线", value: "PolylineDash" },
           { label: "虚线箭头", value: "LineDashArrow" },
-          { label: "虚线箭头2", value: "LineFlow-dashArrow", defval: { image: "https://data.mars3d.cn/img/textures/line-dashArrow.png",speed:0, repeat_x: 10 } },
+          {
+            label: "虚线箭头2",
+            value: "LineFlow-dashArrow",
+            defval: { image: "https://data.mars3d.cn/img/textures/line-dashArrow.png", speed: 0, repeat_x: 10 }
+          },
           { label: "衬色线", value: "PolylineOutline" },
           { label: "箭头", value: "PolylineArrow" },
           { label: "光晕", value: "PolylineGlow" },
@@ -2935,7 +2957,7 @@ const styleConfig = {
         defval: "Color",
         data: [
           { label: "纯色", value: "Color" },
-          { label: "网格", value: "Grid" }
+          { label: "条纹", value: "Stripe" },
         ]
       },
 
