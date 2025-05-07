@@ -212,16 +212,16 @@ mapWork.eventTarget.on("changeHeight", function (event: any) {
   formState.txtZ = event.alt
 })
 
-/**
- * UI面板参数 转为  图层API参数
- * @param {object} formState 面板改变的值
- * @return {object} params  模型的参数
- */
-function getLayerOptions() {
+
+const showModel = () => {
+  mapWork.showModel(formState.txtModel)
+
+  formState.opacity = 1
+  formState.highlightEnable = false
+  formState.popupEnable = true
+}
+const formStateChange = () => {
   const params = {
-    name: "模型名称",
-    type: "3dtiles",
-    url: formState.txtModel,
     maximumScreenSpaceError: formState.maximumScreenSpaceError, // 【重要】数值加大，能让最终成像变模糊
     position: {
       lat: formState.txtY,
@@ -240,22 +240,17 @@ function getLayerOptions() {
     colorCorrection: {
       brightness: formState.brightness
     },
-    show: true,
-    highlightEnable: formState.highlightEnable,
-    popupEnable: formState.popupEnable
+    highlight: formState.highlightEnable
+      ? {
+        type: "click",
+        outlineEffect: true,
+        color: "#00FF00"
+      }
+      : false,
+    popup: formState.popupEnable ? "all" : false,
+    show: true
   }
-  return params
-}
-
-const showModel = () => {
-  mapWork.showModel(formState.txtModel)
-
-  formState.opacity = 1
-  formState.highlightEnable = false
-  formState.popupEnable = true
-}
-const formStateChange = () => {
-  mapWork.updateModel(getLayerOptions(), formState)
+  mapWork.setLayerOptions(params)
 }
 const updateDepthTest = () => {
   mapWork.updateDepthTest(formState.depthTestAgainstTerrain)
