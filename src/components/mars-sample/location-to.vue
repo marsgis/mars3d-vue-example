@@ -38,7 +38,7 @@ export default defineComponent({
       if (!modelTest) {
         modelTest = new mars3d.layer.TilesetLayer({
           url: "https://data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
-          position: { alt: 38.8 },
+          position: { alt: 41 },
           maximumScreenSpaceError: 1,
           enableCollision: true,
           flyTo: true

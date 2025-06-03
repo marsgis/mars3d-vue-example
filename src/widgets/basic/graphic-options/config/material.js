@@ -246,6 +246,12 @@ const materialConfig = {
     { name: "alphaPower", label: "透明系数", type: "number", min: 0, max: 50, step: 0.1, defval: 1.5 },
     { name: "diffusePower", label: "漫射系数", type: "number", min: 0, max: 50, step: 0.1, defval: 1.6 }
   ],
+  PolyGradient2: [
+    { name: "color", label: "颜色", type: "color", defval: "#ff0000" },
+    { name: "color2", label: "颜色", type: "color", defval: "#ffffff" },
+    { name: "alphaPower", label: "透明系数", type: "number", min: 0, max: 50, step: 0.1, defval: 1.0 },
+    { name: "diffusePower", label: "漫射系数", type: "number", min: -0.5, max: 0.5, step: 0.1, defval: 0.1 }
+  ],
   PolyAsphalt: [
     { name: "color", label: "颜色", type: "color", defval: "#3388ff" },
     { name: "size", label: "透明系数", type: "number", min: 0, max: 10, step: 0.01, defval: 0.02 },

@@ -209,6 +209,11 @@ onMounted(() => {
     })
   }
 
+  const layer = getManagerLayer()
+  layer.on("initGraphicableData", function (e) {
+    initGraphicableData(layer)
+  })
+
   setTimeout(() => {
     const layer = getManagerLayer()
     if (layer) {
@@ -221,6 +226,8 @@ onMounted(() => {
       const graphics = layer.getGraphics()
 
       if (graphics.length > 0) {
+        formState.hasTable = true
+
         const lastgraphic = graphics[graphics.length - 1]
         formState.enabledOpacity = lastgraphic.hasOpacity
         formState.enabledEdit = lastgraphic.hasEdit
@@ -231,11 +238,12 @@ onMounted(() => {
         }
       }
 
-      formState.hasTable = graphics.length > 0
 
       layer.on([mars3d.EventType.drawCreated, mars3d.EventType.addGraphic, mars3d.EventType.removeGraphic], function (e) {
         formState.isDrawing = layer.isDrawing
       })
+
+
     }
   }, 500)
 })
@@ -890,6 +898,9 @@ function initGraphicableData(graphicLayer) {
     }
   }
 
+  if (list.length > 0) {
+    formState.hasTable = true
+  }
   if (graphic) {
     formState.enabledOpacity = graphic.hasOpacity
     formState.enabledEdit = graphic.hasEdit

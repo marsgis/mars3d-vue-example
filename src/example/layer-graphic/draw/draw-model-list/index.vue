@@ -155,7 +155,7 @@ mapWork.eventTarget.on("updateGraphicOptionsWidget", (event) => {
   .gltfImg {
     width: calc(100% + 14px);
     height: calc(100% - 42px);
-    max-height: 670px;
+    // max-height: 670px;
     overflow-y: auto;
 
     > ul {

@@ -1,15 +1,17 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="geojson-example">
-      <mars-button @click="showChinaLine">省界线</mars-button>
-      <mars-button @click="showPlanningSurface">规划面</mars-button>
       <mars-button @click="showDraw">标绘数据</mars-button>
-      <mars-button @click="showMonomer">单体化面</mars-button>
-      <mars-button @click="showWorld">世界各国</mars-button>
       <mars-button @click="showPoint">体育设施点</mars-button>
-      <mars-button @click="showBuilding">立体建筑物</mars-button>
+      <mars-button @click="showPointForHeat">热力图点</mars-button>
+
+      <mars-button @click="showChinaLine">省界线</mars-button>
       <mars-button @click="showBoundaryWall">合肥边界墙</mars-button>
+      <mars-button @click="showPlanningSurface">规划面</mars-button>
       <mars-button @click="showRegion">合肥区域面</mars-button>
+      <mars-button @click="showWorld">世界各国</mars-button>
+      <mars-button @click="showMonomer">单体化面</mars-button>
+      <mars-button @click="showBuilding">立体建筑物</mars-button>
       <mars-button class="floor" @click="showFloor">分层分户楼栋</mars-button>
       <mars-button @click="showGCJ02Data">GCJ纠偏</mars-button>
     </div>
@@ -68,6 +70,13 @@ const showPoint = () => {
 
   changeGraphicData()
 }
+const showPointForHeat = () => {
+  setDefuatData()
+  mapWork.showPointForHeat()
+
+  changeGraphicData()
+}
+
 const showChinaLine = () => {
   setDefuatData()
   mapWork.showChinaLine()
