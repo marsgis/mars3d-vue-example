@@ -91,7 +91,7 @@
     <a-collapse-panel v-if="hasLabel" key="2" header="注记信息">
       <a-row :gutter="[0, 10]">
         <template v-for="(item, i) in viewLabels" :key="i">
-          <AttrComp v-if="item.show({ style: props.style.label, allStyle: styleValue.label, graphicType: 'label', })"
+          <AttrComp v-if="item.show({ style: props.style?.label, allStyle: styleValue.label, graphicType: 'label', })"
             :label="item.label" :type="item.type" size="small" v-model:value="styleValue.label[item.name]"
             :min="item.min || item.min === 0 ? item.min : -Infinity"
             :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1" :options="item.data || []"
@@ -156,7 +156,7 @@ watch(
     hasLabel.value = (hasLabelGraphicType.includes(props.graphicType) || props.style?.label) && !props.isParent
 
     if (hasLabel.value) {
-      setLabelDefault({ ...props.style.label })
+      setLabelDefault({ ...props.style?.label })
     }
   },
   {
@@ -258,8 +258,8 @@ function setMaterial(dataRef: any, materialTypeOption: any) {
    * 材质同一类但有多个不同参数设置时，根据-*区分的(如LineFlow-2)，使用workMaterialType记录下，便于业务区分
    */
   function getMaterialType() {
-    if (dataRef.workMaterialType) {
-      dataRef.materialType = dataRef.workMaterialType
+    if (dataRef._workMaterialType) {
+      dataRef.materialType = dataRef._workMaterialType
       return dataRef.materialType
     } else if (dataRef.materialType) {
       return dataRef.materialType
@@ -382,7 +382,7 @@ function unionChange(item: any, selectOptions?: any[]) {
   if (item.name === "materialType") {
     data.materialOptions = { ...styleValue.value.materialOptions }
     // 材质同一类但有多个不同参数设置时，根据-*区分的(如LineFlow-2)，使用workMaterialType记录下，便于业务区分
-    data.workMaterialType = val
+    data._workMaterialType = val
   }
 
   // console.log("修改了普通参数", data)
@@ -402,14 +402,17 @@ function materialChange(item) {
     styleValues.materialOptions.image2 = styleValues.image2
   }
 
-  let changeVal = null
 
+  const changeVal = { materialOptions: { ...styleValues.materialOptions } }
+
+  // TODO: 不要下面这样写，示例项目不用为了兼容1个问题，造成更多bug问题,项目中有什么属性就配置什么属性（color或materialOptions.color）。
+  // let changeVal = null
   // 纯色样式 - 直接改style内参数，否则面板会以style内color值为主，mars3d的效果以materialOptions内color值为主，导致不一致
-  if (!styleValues.materialType || styleValues.materialType === "Color") {
-    changeVal = { color: styleValues.materialOptions.color, materialOptions: { ...styleValues.materialOptions } }
-  } else {
-    changeVal = { materialOptions: { ...styleValues.materialOptions } }
-  }
+  // if (!styleValues.materialType || styleValues.materialType === "Color") {
+  //   changeVal = { color: styleValues.materialOptions.color, materialOptions: { ...styleValues.materialOptions } }
+  // } else {
+    // changeVal = { materialOptions: { ...styleValues.materialOptions } }
+  // }
 
   updateValue({ ...changeVal })
   changeValue(changeVal)
@@ -427,7 +430,7 @@ function updateNextStyle(parent: string, param: string) {
   if (param === "materialType") {
     data.materialOptions = { ...styleValue.value[parent].materialOptions }
     // 材质同一类但有多个不同参数设置时，根据-*区分的(如LineFlow-2)，使用workMaterialType记录下，便于业务区分
-    data.workMaterialType = val
+    data._workMaterialType = val
   }
 
   // console.log("修改 updateNextStyle 子级普通参数", data)
@@ -465,7 +468,7 @@ function labelChange(item: any) {
   }
 
 
-  updateValue({ label: { ...props.style.label, ...label } })
+  updateValue({ label: { ...props.style?.label, ...label } })
   changeValue({ label })
 }
 

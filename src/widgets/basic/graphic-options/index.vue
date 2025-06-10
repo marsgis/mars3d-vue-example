@@ -12,10 +12,7 @@
       <template v-if="activeTab === 'style' && graphicType">
 
         <template v-if="!styleParArr.length">
-          <mars-styles
-            v-model:style="style"
-            :customType="customType"
-            :graphicType="graphicType"
+          <mars-styles v-model:style="style" :customType="customType" :graphicType="graphicType"
             @styleChange="styleChange" />
         </template>
 
@@ -124,13 +121,13 @@ function initGraphicItem(layerId, graphicId) {
 }
 
 function styleChange(newStyle: any) {
-  // console.log("修改了style样式", { ...newStyle })
 
   if (styleParArr.value?.length) {
     mapWork.setGraphicOptions({ ...newStyle })
-    return
+  } else {
+    mapWork.setGraphicOptions({ style: { ...newStyle } })
+    console.log("修改了style样式", newStyle)
   }
-  mapWork.setGraphicOptions({ style: { ...newStyle } })
 }
 
 // 基础信息修改

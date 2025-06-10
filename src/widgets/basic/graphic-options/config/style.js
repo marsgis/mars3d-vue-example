@@ -1766,13 +1766,13 @@ const styleConfig = {
     name: "球体",
     primitive: true,
     style: [
-      { name: "radii_x", label: "X半径", type: "number", step: 1, defval: 100.0 },
-      { name: "radii_y", label: "Y半径", type: "number", step: 1, defval: 100.0 },
-      { name: "radii_z", label: "Z半径", type: "number", step: 1, defval: 100.0 },
+      { name: "radii_x", label: "X半径", type: "number", step: 1, min: 1, defval: 100.0 },
+      { name: "radii_y", label: "Y半径", type: "number", step: 1, min: 1, defval: 100.0 },
+      { name: "radii_z", label: "Z半径", type: "number", step: 1, min: 1, defval: 100 },
 
-      { name: "innerRadii_x", label: "内部X半径", type: "number", step: 1, defval: 0.0 },
-      { name: "innerRadii_y", label: "内部Y半径", type: "number", step: 1, defval: 0.0 },
-      { name: "innerRadii_z", label: "内部Z半径", type: "number", step: 1, defval: 0.0 },
+      { name: "innerRadii_x", label: "内部X半径", type: "number", step: 1, min: 1, defval: 0.0 },
+      { name: "innerRadii_y", label: "内部Y半径", type: "number", step: 1, min: 1, defval: 0.0 },
+      { name: "innerRadii_z", label: "内部Z半径", type: "number", step: 1, min: 1, defval: 0.0 },
 
       { name: "minimumClockDegree", label: "最小时钟角度", type: "number", defval: 0.0 },
       { name: "maximumClockDegree", label: "最大时钟角度", type: "number", defval: 360.0 },
@@ -4138,16 +4138,6 @@ const styleConfig = {
         ],
         show({ style, graphicType }) {
           return style?.fill
-        }
-      },
-
-      {
-        name: "fillColor",
-        label: "填充颜色",
-        type: "color",
-        defval: "#ff0000",
-        show({ style }) {
-          return style?.fill && (!style?.materialType || style?.materialType === "Color")
         }
       },
 

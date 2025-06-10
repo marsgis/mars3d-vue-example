@@ -24,8 +24,8 @@
           <a-form-item :labelCol="labelCol" :labelAlign="labelAlign">
             <div class="draw-tools">
               <a-space>
-                <mars-button @click="mapWork.btnMovingAnimation">上升动画</mars-button>
-                <mars-button @click="mapWork.btnMovingAnimation2">下降动画</mars-button>
+                <mars-button @click="mapWork.btnMovingAnimation(formState.upHeight)">上升动画</mars-button>
+                <mars-button @click="mapWork.btnMovingAnimation2(formState.upHeight)">下降动画</mars-button>
                 <a-checkbox v-model:checked="formState.enabledWadi" @change="chkClippingPlanes"> 是否挖地 </a-checkbox>
               </a-space>
             </div>
