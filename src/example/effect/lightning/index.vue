@@ -32,13 +32,13 @@ const formState = reactive({
   interval: 0.8
 })
 
-// 下雪速度
+// 混合系数
 const setOpacity = () => {
   mapWork.setOpacity(formState.opacity)
 }
 
 
-// 积雪厚度
+// 间隔
 const setInterval = () => {
   mapWork.setInterval(formState.interval)
 }

@@ -2,6 +2,8 @@ import * as mars3d from "mars3d"
 
 export let map
 
+export const eventTarget = new mars3d.BaseClass()
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并)
 export const mapOptions = {
   scene: {
@@ -33,6 +35,9 @@ export function onMounted(mapInstance) {
   addReceiverPoints() // 信关站
   addLocationPoints() // 终端(在线+离线)
   addSatellite() // 卫星轨道
+
+  // 绑定事件
+  eventTarget.fire("loadGraphicLayer", {})
 }
 
 export let controlCenterLayer
@@ -246,6 +251,7 @@ function addLocationPoints() {
   }
 }
 
+const satelliteList = []
 // 卫星
 function addSatellite() {
   // 卫星轨道
@@ -322,106 +328,115 @@ function addSatellite() {
   satelliteGraphicLayer.clear()
 
   for (const satellite of satellites) {
-    let weixingPosition = null
-    const weixing = new mars3d.graphic.Satellite({
-      name: satellite.name,
-      tle1: satellite.tle1,
-      tle2: satellite.tle2,
-      model: {
-        url: "https://data.mars3d.cn/gltf/mars/weixin.gltf",
-        scale: 0.7,
-        minimumPixelSize: 90,
-        color: "#388CF8",
-        fill: true,
-        colorBlendMode: Cesium.ColorBlendMode.MIX,
-        colorBlendAmount: 0.8
-      },
-      label: {
-        text: satellite.name,
-        font_size: 40,
-        font_weight: "bold",
-        pixelOffsetX: 0,
-        pixelOffsetY: -30,
-        scaleByDistance: true,
-        scaleByDistance_far: 10000000,
-        scaleByDistance_farValue: 0.4,
-        scaleByDistance_near: 100000,
-        scaleByDistance_nearValue: 1
-      },
-      path: getPathColor(satellite.type),
-      attr: {
-        type: satellite.type
-      }
-    })
+    addSatelliteItem(satellite)
+  }
+}
+function addSatelliteItem(satellite) {
+  let weixingPosition = null
+  const weixing = new mars3d.graphic.Satellite({
+    name: satellite.name,
+    tle1: satellite.tle1,
+    tle2: satellite.tle2,
+    model: {
+      url: "https://data.mars3d.cn/gltf/mars/weixin.gltf",
+      scale: 0.7,
+      minimumPixelSize: 90,
+      color: "#388CF8",
+      fill: true,
+      colorBlendMode: Cesium.ColorBlendMode.MIX,
+      colorBlendAmount: 0.8
+    },
+    label: {
+      text: satellite.name,
+      font_size: 40,
+      font_weight: "bold",
+      pixelOffsetX: 0,
+      pixelOffsetY: -30,
+      scaleByDistance: true,
+      scaleByDistance_far: 10000000,
+      scaleByDistance_farValue: 0.4,
+      scaleByDistance_near: 100000,
+      scaleByDistance_nearValue: 1
+    },
+    path: getPathColor(satellite.type),
+    attr: {
+      type: satellite.type
+    }
+  })
 
-    satelliteGraphicLayer.addGraphic(weixing)
+  satelliteGraphicLayer.addGraphic(weixing)
+  satelliteList.push(weixing)
 
-    let weixingPoint = mars3d.LngLatPoint.fromCartesian(weixing.position)
+  let weixingPoint = mars3d.LngLatPoint.fromCartesian(weixing.position)
 
-    const cylinderGraphic = new mars3d.graphic.CylinderEntity({
-      position: new Cesium.CallbackProperty(() => {
-        return Cesium.Cartesian3.fromDegrees(weixingPoint.lng, weixingPoint.lat, weixingPoint.alt / 2)
-      }, false),
-      allowDrillPick: true,
-      style: {
-        length: 0,
-        topRadius: 0,
-        bottomRadius: satellite.cone.length,
-        color: Cesium.Color.WHITE.withAlpha(0.3),
-        outline: true,
-        outlineColor: "#518afa",
-        outlineOpacity: 0.8,
-        numberOfVerticalLines: 0,
-        heading: 0,
-        pitch: 0,
-        roll: 0
-      },
-      attr: {
-        type: satellite.type
-      }
-    })
+  const cylinderGraphic = new mars3d.graphic.CylinderEntity({
+    position: new Cesium.CallbackProperty(() => {
+      return Cesium.Cartesian3.fromDegrees(weixingPoint.lng, weixingPoint.lat, weixingPoint.alt / 2)
+    }, false),
+    allowDrillPick: true,
+    style: {
+      length: 0,
+      topRadius: 0,
+      bottomRadius: satellite.cone.length,
+      color: Cesium.Color.WHITE.withAlpha(0.3),
+      outline: true,
+      outlineColor: "#518afa",
+      outlineOpacity: 0.8,
+      numberOfVerticalLines: 0,
+      heading: 0,
+      pitch: 0,
+      roll: 0
+    },
+    attr: {
+      type: satellite.type
+    }
+  })
 
-    satelliteGraphicLayer.addGraphic(cylinderGraphic)
+  satelliteGraphicLayer.addGraphic(cylinderGraphic)
+  satelliteList.push(cylinderGraphic)
 
-    weixing.on(mars3d.EventType.change, (event) => {
-      const graphic = event.graphic
-      weixingPosition = graphic.position
-      weixingPoint = mars3d.LngLatPoint.fromCartesian(weixingPosition)
-      const constantProperty = new Cesium.ConstantProperty(weixingPoint.alt) // Example property with a constant value of 42
-      cylinderGraphic.entityGraphic.length = constantProperty
-      cylinderGraphic.entity.orientation = graphic.orientation
-    })
+  weixing.on(mars3d.EventType.change, (event) => {
+    const graphic = event.graphic
+    weixingPosition = graphic.position
+    weixingPoint = mars3d.LngLatPoint.fromCartesian(weixingPosition)
+    const constantProperty = new Cesium.ConstantProperty(weixingPoint.alt) // Example property with a constant value of 42
+    cylinderGraphic.entityGraphic.length = constantProperty
+    cylinderGraphic.entity.orientation = graphic.orientation
+  })
 
-    for (const receiver of receiverPoints) {
-      const sendLine = new mars3d.graphic.PolylineEntity({
-        positions: new Cesium.CallbackProperty(() => {
-          const receiverPosition = Cesium.Cartesian3.fromDegrees(receiver.lng, receiver.lat, receiver.alt)
-          // 卫星当前的经纬度
-          if (weixingPosition) {
-            const weixingPositionP = mars3d.LngLatPoint.fromCartesian(weixingPosition)
-            // 卫星圆锥覆盖的近似最远距离
-            const maxDistance = calculateHypotenuse(weixingPositionP.alt, satellite.cone.length)
-            // 卫星和接收器的距离
-            const distance = Cesium.Cartesian3.distance(weixingPosition, receiverPosition)
-            if (maxDistance && distance && maxDistance > distance) {
-              return [weixingPosition, receiverPosition]
-            }
-          }
-          return []
-        }, false),
-        style: {
-          width: 5,
-          materialType: mars3d.MaterialType.LineFlowColor,
-          materialOptions: {
-            color: "#00ffff",
-            speed: 10,
-            percent: 0.15,
-            alpha: 0.2
+  for (const receiver of receiverPoints) {
+    const sendLine = new mars3d.graphic.PolylineEntity({
+      positions: new Cesium.CallbackProperty(() => {
+        const receiverPosition = Cesium.Cartesian3.fromDegrees(receiver.lng, receiver.lat, receiver.alt)
+        // 卫星当前的经纬度
+        if (weixingPosition) {
+          const weixingPositionP = mars3d.LngLatPoint.fromCartesian(weixingPosition)
+          // 卫星圆锥覆盖的近似最远距离
+          const maxDistance = calculateHypotenuse(weixingPositionP.alt, satellite.cone.length)
+          // 卫星和接收器的距离
+          const distance = Cesium.Cartesian3.distance(weixingPosition, receiverPosition)
+          if (maxDistance && distance && maxDistance > distance) {
+            return [weixingPosition, receiverPosition]
           }
         }
-      })
-      satelliteGraphicLayer.addGraphic(sendLine)
-    }
+        return []
+      }, false),
+      style: {
+        width: 5,
+        materialType: mars3d.MaterialType.LineFlowColor,
+        materialOptions: {
+          color: "#00ffff",
+          speed: 10,
+          percent: 0.15,
+          alpha: 0.2
+        }
+      },
+      attr: {
+        type: satellite.type
+      }
+    })
+    satelliteGraphicLayer.addGraphic(sendLine)
+    satelliteList.push(sendLine)
   }
 }
 
@@ -459,7 +474,7 @@ function getPathColor(type) {
 }
 
 export function switchSatellites(show, type) {
-  satelliteGraphicLayer.eachGraphic((graphic) => {
+  satelliteList.forEach((graphic) => {
     if (graphic.attr.type === type) {
       graphic.show = show
     }

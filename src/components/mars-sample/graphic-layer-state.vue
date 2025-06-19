@@ -80,13 +80,7 @@
       </mars-button> -->
 
       <mars-button @click="expJSONFile" title="导出图层数据为JSON文件">导出数据</mars-button>
-      <a-upload :multiple="false" name="file" accept=".json,.geojson" :file-list="fileList" :showUploadList="false"
-        :supportServerRender="true" :beforeUpload="() => false" @change="onClickImpFile">
-        <mars-button title="打开历史导出的JSON文件图层数据">
-          导入数据
-        </mars-button>
-      </a-upload>
-
+      <mars-button @click="impJSONFile" title="打开历史导出的JSON文件图层数据">导入数据</mars-button>
       <mars-button v-if="!mapWork.addRandomGraphicByCount" @click="onClickClear" danger>
         清除
       </mars-button>
@@ -717,40 +711,27 @@ const expJSONFile = () => {
 //   const geojson = graphicLayer.toGeoJSON()
 //   mars3d.Util.downloadFile("矢量数据GeoJSON.json", JSON.stringify(geojson))
 // }
-// 打开geojson
-const onClickImpFile = (info: any) => {
+// 打开json
+const impJSONFile = async (info: any) => {
   const graphicLayer = getManagerLayer()
 
-  const item = info.file
-  const fileName = item.name
-  const fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+  const result = await mars3d.Util.openFile({ accept: ".json,.geojson,.kml" })
+  console.log("打开了文件", result)
+  const fileType = result.type
 
   if (fileType === "json" || fileType === "geojson") {
-    const reader = new FileReader()
-    reader.readAsText(item, "UTF-8")
-    reader.onloadend = function (e) {
-      const geojson = JSON.parse(this.result as string)
-      console.log("打开了json文件", geojson)
-      graphicLayer.loadJSON(geojson, { flyTo: true, clear: true })
+    graphicLayer.loadJSON(result.text, { flyTo: true, clear: true })
+    initGraphicableData(graphicLayer)
 
-      initGraphicableData(graphicLayer)
-    }
   } else if (fileType === "kml") {
-    const reader = new FileReader()
-    reader.readAsText(item, "UTF-8")
-    reader.onloadend = function (e) {
-      const strkml = this.result
+    mapWork.kgUtil.toGeoJSON(result.text).then((geojson) => {
+      console.log("kml2geojson转换结果为", geojson)
 
-      mapWork.kgUtil.toGeoJSON(strkml).then((geojson) => {
-        console.log("kml2geojson转换结果为", geojson)
-
-        graphicLayer.loadGeoJSON(geojson, { flyTo: true })
-      })
-    }
+      graphicLayer.loadGeoJSON(geojson, { flyTo: true })
+    })
   } else if (fileType === "kmz") {
     // 加载input文件控件的二进制流
-
-    mapWork.kgUtil.toGeoJSON(item).then((geojson) => {
+    mapWork.kgUtil.toGeoJSON(result.file).then((geojson) => {
       console.log("kmz2geojson", geojson)
 
       graphicLayer.loadGeoJSON(geojson, { flyTo: true })

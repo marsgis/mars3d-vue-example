@@ -58,7 +58,7 @@
                 </div>
               </div>
               <p>1. 您可以访问<a :href="`https://gitee.com/marsgis/mars3d-vue-example`" target="_black">GitHub</a>下载当前示例代码到本地运行</p>
-              <p>2. 名称内有 demo 的属于存在已知问题的示例，此处仅做演示</p>
+              <p>2. 存在已知问题 的示例打开后有对应已知问题提示，此处仅做演示。</p>
               <p>
                 3. 如果您访问体验当中发现bug问题或有好的建议，欢迎随时反馈给
                 <a href="http://marsgis.cn/weixin.html" target="_blank">我们</a>.
