@@ -2505,7 +2505,7 @@
         "children": [
           {
             "name": "点状军标",
-            "jumpHref": "http://mars3d.cn/community.html",
+            "jumpHref": "https://www.bilibili.com/video/BV1zSMMz8Etx/",
             "thumbnail": "graphic-plot-point.jpg",
             "main": "graphic/plot/point",
             "hasPannel": true,
@@ -2513,7 +2513,7 @@
           },
           {
             "name": "线面军标",
-            "jumpHref": "http://mars3d.cn/community.html",
+            "jumpHref": "https://www.bilibili.com/video/BV1zSMMz8Etx/",
             "thumbnail": "graphic-plot-poly.jpg",
             "main": "graphic/plot/poly",
             "hasPannel": true,
@@ -2521,7 +2521,7 @@
           },
           {
             "name": "标号库",
-            "jumpHref": "http://mars3d.cn/community.html",
+            "jumpHref": "https://www.bilibili.com/video/BV1zSMMz8Etx/",
             "thumbnail": "graphic-plot-symbol-list.jpg",
             "main": "graphic/plot/symbol-list",
             "hasPannel": true,
@@ -3544,6 +3544,14 @@
             "thumbnail": "thing-analysis-measure-volume-depth.jpg",
             "main": "thing/analysis/measure-volume-depth",
             "api": "VolumeDepthMeasure.html",
+            "hasPannel": true
+          },
+          {
+            "name": "模型差异对比方量分析",
+            "thumbnail": "thing-analysis-measure-volume-2model.jpg",
+            "main": "thing/analysis/measure-volume-2model",
+            "resources": ["Volume2ModelMeasure.js"],
+            "new":true,
             "hasPannel": true
           },
           {

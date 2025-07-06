@@ -57,6 +57,10 @@ window.configLibs = {
     "mars3d/plugins/supermap/SuperMap3D.js", // s3m支持原生cesium的独立插件
     "mars3d/plugins/supermap/mars3d-supermap.js" // mars3d-supermap简化调用封装
   ],
+  "mars3d-plot": [
+    "mars3d/plugins/plot/plotc.js",
+    "mars3d/plugins/plot/mars3d-plot.js"
+  ],
 
   "mars3d-next": ["mars3d/plugins/next/mars3d-next.js"],
 

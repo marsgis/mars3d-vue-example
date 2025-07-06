@@ -4024,6 +4024,45 @@ const styleConfig = {
         }
       },
 
+      { name: "serif", label: "是否衬线", type: "radio", defval: false },
+      {
+        name: "serifDirect",
+        label: "衬线类型",
+        type: "combobox",
+        valType: "number",
+        defval: 0,
+        data: [
+          { label: "无衬线", value: -1 },
+          { label: "内衬", value: 0 },
+          { label: "外衬", value: 1 },
+          { label: "双衬", value: 2 }
+        ],
+        show({ style }) {
+          return style?.serif
+        }
+      },
+      {
+        name: "serifColor",
+        label: "衬线颜色",
+        type: "color",
+        defval: "#ffff00",
+        show({ style }) {
+          return style?.serif
+        }
+      },
+      {
+        name: "serifWidth",
+        label: "衬线线宽",
+        type: "number",
+        min: 1.0,
+        max: 50.0,
+        step: 0.1,
+        defval: 1.0,
+        show({ style }) {
+          return style?.serif
+        }
+      },
+
       {
         name: "fill",
         label: "是否填充",

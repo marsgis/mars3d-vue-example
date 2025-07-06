@@ -33,7 +33,7 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // map.basemap = 2017 // 暗色底图
 
-  showHeatMap2()
+  showHeatMap()
   // addTerrainClip()
 }
 
@@ -49,16 +49,13 @@ async function showHeatMap() {
   const arrPoints = []
   for (let i = 0; i < result.Data.length; i++) {
     const item = result.Data[i]
-    arrPoints.push({ lng: item.x, lat: item.y, value: item.t0 / 100 })
+    arrPoints.push({ lng: item.x, lat: item.y, value: item.t0 })
   }
-  showHeatMap(arrPoints)
 
   // 热力图 图层
   heatLayer = new mars3d.layer.HeatLayer({
     positions: arrPoints,
     // 以下为热力图本身的样式参数，可参阅api：https://www.patrick-wied.at/static/heatmapjs/docs.html
-    // min: 0,
-    // max: 200,
     heatStyle: {
       radius: 20,
       minOpacity: 0,
@@ -75,14 +72,14 @@ async function showHeatMap() {
     // 以下为矩形矢量对象的样式参数
     style: {
       opacity: 1.0
-      // clampToGround: true,
+      // outline: true, // 显示范围线，方便对照
+      // outlineColor: "#ffffff",
+      // outlineWidth: 2
     },
     redrawZoom: true, // 视角缩放时是否进行按新的raduis进行渲染。
     flyTo: true
   })
   map.addLayer(heatLayer)
-
-  window.heatLayer = heatLayer
 
   map.on(mars3d.EventType.mouseMove, (e) => {
     const point = mars3d.LngLatPoint.fromCartesian(e.cartesian)
@@ -132,7 +129,7 @@ async function showHeatMap2() {
         opacity: 1.0,
         outline: true, // 显示范围线，方便对照
         outlineColor: "#ffffff",
-        outlineWidth: 1
+        outlineWidth: 2
       }
     },
     flyTo: true
@@ -142,7 +139,7 @@ async function showHeatMap2() {
   // 绑定事件
   graphicLayer.on(mars3d.EventType.load, function (event) {
     console.log("数据加载完成", event)
-    heatLayer = event.graphics
+    heatLayer = event.otherLayer
   })
 }
 

@@ -114,6 +114,10 @@ function addDemoGraphic2(graphicLayer) {
 
   // 测试整体平移
   setTimeout(function () {
+    if (!graphic.isAdded) {
+      return
+    }
+
     const centerNew = [117.169529, 31.841169, 235.3]
     const positionsNew = mars3d.PolyUtil.movePoints(graphic.positions, {
       center: centerNew

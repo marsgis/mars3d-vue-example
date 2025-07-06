@@ -91,7 +91,9 @@ function showCarList(arr) {
       lastClickCar = null
     }
 
-    car.circle.show = true
+    car.setOptions({
+      circle: { show: true }
+    })
     lastClickCar = car
 
     // 视角定位下
