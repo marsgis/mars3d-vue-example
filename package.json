@@ -27,7 +27,7 @@
     "lodash-es": "^4.17.21",
     "mars3d": "~3.10.0",
     "mars3d-cesium": "^1.131.0",
-    "monaco-editor": "^0.46.0",
+    "monaco-editor": "^0.52.2",
     "nprogress": "^0.2.0",
     "serve": "^14.2.4",
     "split.js": "^1.6.5",
