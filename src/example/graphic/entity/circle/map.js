@@ -40,6 +40,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic10(graphicLayer)
   addDemoGraphic11(graphicLayer)
   addDemoGraphic12(graphicLayer)
+  addDemoGraphic13(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -207,6 +208,7 @@ function addDemoGraphic4(graphicLayer) {
       radius: 1500.0,
       materialType: mars3d.MaterialType.CircleWave,
       materialOptions: {
+        square: true, // 正方形
         // color: "#ff0000",
         color: new Cesium.CallbackProperty(function () {
           return Cesium.Color.BLUE
@@ -257,7 +259,7 @@ function addDemoGraphic6(graphicLayer) {
       materialType: mars3d.MaterialType.Image2,
       materialOptions: {
         image: "https://data.mars3d.cn/img/textures/circle-two.png",
-        color: "#ffff00"
+        color: "#00ffff"
       },
       stRotation: new Cesium.CallbackProperty(function (e) {
         _rotation += 0.1
@@ -498,17 +500,13 @@ function addDemoGraphic10(graphicLayer) {
     style: {
       radius: 500,
       opacity: 0.4,
-      color: "#02D4FD",
       clampToGround: true,
-
-      outline: true,
-      outlineStyle: {
-        width: 12,
-        materialType: mars3d.MaterialType.Image2,
-        materialOptions: {
-          image: "https://data.mars3d.cn/img/textures/line-air.svg",
-          repeat: new mars3d.Cesium.Cartesian2(1000, 1)
-        }
+      materialType: mars3d.MaterialType.Sector, // 扇形材质
+      materialOptions: {
+        color: "#02D4FD",
+        startAngle: 60, // 开始角度(正东方向为0,顺时针到360度)
+        endAngle: 170,
+        isDouble: true
       }
     },
     attr: { remark: "示例10" }
@@ -582,6 +580,27 @@ function addDemoGraphic12(graphicLayer) {
       }
     },
     attr: { remark: "示例12" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic13(graphicLayer) {
+  const graphic = new mars3d.graphic.CircleEntity({
+    position: new mars3d.LngLatPoint(116.421389, 30.973764, 1213.2),
+    style: {
+      radius: 2000,
+      materialType: mars3d.MaterialType.CircleWave, // 扇形材质
+      materialOptions: {
+        color: "#02D4FD",
+        count: 5,
+        speed: 20,
+
+        startAngle: 60, // 开始角度(正东方向为0,顺时针到360度)
+        endAngle: 170,
+        isDouble: true
+      }
+    },
+    attr: { remark: "示例13" }
   })
   graphicLayer.addGraphic(graphic)
 }

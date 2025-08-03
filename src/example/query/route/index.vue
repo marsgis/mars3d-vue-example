@@ -68,18 +68,18 @@ const changeService = () => {
   onHiddenRoam()
 }
 
-const selectWay = ref(1)
+const selectWay = ref("")
 const selectWayOptions = ref([
   {
-    value: 1,
+    value: "Walking",
     label: "步行路线查询"
   },
   {
-    value: 2,
+    value: "Bicycling",
     label: "骑行路线查询"
   },
   {
-    value: 3,
+    value: "Driving",
     label: "驾车路线查询"
   }
 ])

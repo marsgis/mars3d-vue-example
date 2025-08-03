@@ -26,6 +26,7 @@ export function onMounted(mapInstance) {
   )
 
   tiles3dLayer = new mars3d.layer.OsmBuildingsLayer({
+    projectTo2D: true,
     highlight: {
       type: "click",
       color: "#00FF00"

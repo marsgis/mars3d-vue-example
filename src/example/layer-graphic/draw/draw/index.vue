@@ -180,7 +180,7 @@ const onClickClear = () => {
   mapWork.graphicLayer.clear()
 }
 
-// 点击保存GeoJSON
+// 点击保存JSON
 const onClickSaveJson = () => {
   mapWork.saveJSON()
 }

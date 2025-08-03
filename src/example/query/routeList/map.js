@@ -163,8 +163,10 @@ function queryRoute(type) {
     points.push([startPoint, [item.lng, item.lat]])
   })
 
+  routeLayer.clear()
+
   qRoute.queryArr({
-    type: Number(type), // GaodeRouteType枚举类型
+    type: type, // GaodeRouteType枚举类型
     points,
     success: function (data) {
       hideLoading()

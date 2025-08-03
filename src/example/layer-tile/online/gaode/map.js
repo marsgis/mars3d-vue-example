@@ -18,7 +18,31 @@ export const mapOptions = {
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
       type: "gaode",
       layer: "vec",
+      queryParameters: {
+        scale: 2
+      },
       show: true,
+      credit: creditHtml
+    },
+    {
+      name: "高德电子-style7",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
+      type: "gaode",
+      url: "https://webst0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&style=7",
+      credit: creditHtml
+    },
+    {
+      name: "高德电子-style9",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
+      type: "gaode",
+      url: "https://webst0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&style=9",
+      credit: creditHtml
+    },
+    {
+      name: "高德电子-style10",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/gaode_vec.png",
+      type: "gaode",
+      url: "https://webst0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&style=10",
       credit: creditHtml
     },
     {

@@ -123,6 +123,10 @@ export function onMounted(mapInstance) {
   })
   map.addEffect(outlineEffect)
 
+  outlineEffect.on(mars3d.EventType.click, function (event) {
+    console.log("点击了高亮了对象", event)
+  })
+
   setTimeout(() => {
     // 指定高亮Primitive
     outlineEffect.selected = [graphicBox1, graphic1]

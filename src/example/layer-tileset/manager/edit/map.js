@@ -57,7 +57,9 @@ export function onMounted(mapInstance) {
 
   // 读取localStorage值
   localforage.getItem(storageName).then(function (lastUrl) {
-    eventTarget.fire("historyUrl", { url: lastUrl })
+    if (lastUrl) {
+      eventTarget.fire("historyUrl", { url: lastUrl })
+    }
   })
 }
 
@@ -183,7 +185,7 @@ export function locate() {
   }
 }
 
-// 保存GeoJSON
+// 保存JSON
 export function saveBookmark() {
   const params = tiles3dLayer.toJSON()
 

@@ -893,7 +893,7 @@ function getGraphicName(graphic) {
   let name
   if (graphic.attr.name) {
     name = `${graphic.attr.name}`
-  } if (graphic.name) {
+  } else if (graphic.name) {
     name = `${graphic.type} - ${graphic.name}`
   } else if (graphic.attr.index) {
     name = `${graphic.type} - ${graphic.attr.index}`
@@ -901,7 +901,9 @@ function getGraphicName(graphic) {
     name = `${graphic.type} - ${graphic.attr.remark}`
   } else if (graphic?.style?.label?.text && graphic.style.label.text !== "0") {
     name = `${graphic.type} - ${graphic.style.label.text}`
-  } else { name = `${graphic.type} - ${graphic.name || "未命名"}` }
+  } else {
+    name = `${graphic.type} - ${graphic.name || "未命名"}`
+  }
 
   graphic.attr.name = name // 记录备用
   return name

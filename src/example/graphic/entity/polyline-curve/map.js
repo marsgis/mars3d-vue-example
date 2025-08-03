@@ -251,7 +251,30 @@ function addDemoGraphic5(graphicLayer) {
 
 // 自定义材质：箭头材质(从cesium代码拷贝出来的，方便自定义修改)
 function addDemoGraphic6(graphicLayer) {
-  // ==================== 自定义材质 开始 ====================
+  // registerPolylineArrow2Material() // 自定义PolylineArrow2Type材质
+
+  const graphic = new mars3d.graphic.CurveEntity({
+    positions: [
+      [117.187515, 31.717175, 11],
+      [117.199151, 31.746157, 19.4],
+      [117.217799, 31.770198, 23.8],
+      [117.257876, 31.748218, 19]
+    ],
+    style: {
+      width: 10,
+      // materialType: PolylineArrow2Type,
+      materialType: mars3d.MaterialType.PolylineArrow,
+      materialOptions: {
+        color: Cesium.Color.BLUE
+      }
+    },
+    attr: { remark: "示例6" }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+
+// 自定义PolylineArrow2Type材质
+function registerPolylineArrow2Material() {
   // 自定义材质的命名
   const PolylineArrow2Type = "PolylineArrow2"
 
@@ -347,25 +370,6 @@ function addDemoGraphic6(graphicLayer) {
     }
   }
   mars3d.MaterialUtil.registerPropertyClass(PolylineArrow2Type, PolylineArrow2MaterialProperty)
-  // ==================== 自定义材质 结束====================
-
-  const graphic = new mars3d.graphic.CurveEntity({
-    positions: [
-      [117.187515, 31.717175, 11],
-      [117.199151, 31.746157, 19.4],
-      [117.217799, 31.770198, 23.8],
-      [117.257876, 31.748218, 19]
-    ],
-    style: {
-      width: 10,
-      materialType: PolylineArrow2Type,
-      materialOptions: {
-        color: Cesium.Color.BLUE
-      }
-    },
-    attr: { remark: "示例6" }
-  })
-  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
 // 生成演示数据(测试数据量)

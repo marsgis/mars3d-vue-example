@@ -167,6 +167,7 @@ class Volume2ModelMeasure extends mars3d.graphic.VolumeDepthMeasure {
     const baseModelPositions = baseEvent.positions
     const compareModelPositions = compareEvent.positions
 
+    const positions = this.positionsShow
     // 计算体积
     const geometrysList = []
 
@@ -177,7 +178,7 @@ class Volume2ModelMeasure extends mars3d.graphic.VolumeDepthMeasure {
       const comparePosition = compareModelPositions[i]
 
       // 将范围外的排除
-      if (getInPolyPoint(basePosition, this.positions) && getInPolyPoint(comparePosition, this.positions)) {
+      if (getInPolyPoint(basePosition, positions) && getInPolyPoint(comparePosition, positions)) {
         const baseAlt = basePosition.height
         const compareAlt = comparePosition.height
 

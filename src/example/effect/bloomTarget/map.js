@@ -131,6 +131,10 @@ export function onMounted(mapInstance) {
   })
   map.addEffect(bloomTargetEffect)
 
+  bloomTargetEffect.on(mars3d.EventType.click, function (event) {
+    console.log("点击了高亮了对象", event)
+  })
+
   setTimeout(() => {
     // 指定高亮Primitive
     bloomTargetEffect.selected = [graphicBox4, graphic4]

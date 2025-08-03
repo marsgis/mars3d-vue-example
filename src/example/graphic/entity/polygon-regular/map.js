@@ -32,6 +32,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic2(graphicLayer)
   addDemoGraphic3(graphicLayer)
   addDemoGraphic4(graphicLayer)
+  addDemoGraphic5(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -200,6 +201,24 @@ function addDemoGraphic4(graphicLayer) {
       }
     },
     attr: { remark: "示例4", name: "正六角形" }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+}
+function addDemoGraphic5(graphicLayer) {
+  const graphic = new mars3d.graphic.Regular({
+    position: [117.460735, 31.825974, 17.8],
+    style: {
+      border: 4, // 多边形边数量
+      radius: 3000,
+      materialType: mars3d.MaterialType.CircleWave,
+      materialOptions: {
+        square: true,
+        color: "#ff0000",
+        count: 3, // 单个圆圈
+        speed: 10
+      }
+    },
+    attr: { remark: "示例5", name: "正方形" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }

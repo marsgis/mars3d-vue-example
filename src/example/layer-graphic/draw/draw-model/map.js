@@ -109,7 +109,7 @@ export function openGeoJSON(file) {
     reader.readAsText(file, "UTF-8")
     reader.onloadend = function (e) {
       const json = this.result
-      graphicLayer.loadGeoJSON(json, {
+      graphicLayer.loadJSON(json, {
         flyTo: true
       })
     }
@@ -143,6 +143,6 @@ export function saveGeoJSON() {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
   }
-  const geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toJSON()
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }

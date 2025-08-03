@@ -6,7 +6,10 @@ let fixedRoute
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.843773, lng: 117.251509, alt: 34, heading: 270, pitch: -11 }
+    center: { lat: 31.843773, lng: 117.251509, alt: 34, heading: 270, pitch: -11 },
+    cameraController: {
+      inertiaTranslate: 0.1 // 一个取值范围在<code>[0, 1)</code>内的参数，用于确定由于惯性，相机将继续平移多长时间。
+    }
   },
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)

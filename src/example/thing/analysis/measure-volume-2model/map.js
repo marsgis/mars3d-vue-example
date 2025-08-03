@@ -18,6 +18,15 @@ export const mapOptions = {
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
+// 如果模型地址内有“+”符号，可以加下面方法进行自定义处理
+Cesium.Resource.ReplaceUrl = function (url) {
+  if (url.endsWith(".json") || url.endsWith(".b3dm")) {
+    return url.replace(/\+/gm, "%2B") // 将3dtiles中的“+”符号转义下
+  } else {
+    return url
+  }
+}
+
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map

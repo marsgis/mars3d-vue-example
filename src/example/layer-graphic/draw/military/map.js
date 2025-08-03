@@ -312,7 +312,7 @@ export function bindLayerContextMenu() {
 
 // 保存GeoJSON
 export function downloadJsonFile() {
-  const geojson = graphicLayer.toGeoJSON()
+  const geojson = graphicLayer.toJSON()
   mars3d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
 }
 

@@ -335,6 +335,12 @@ function addDemoGraphic15(graphicLayer) {
   })
   groupGraphic.addGraphic(graphicLabel)
 
+  // 在指定时间范围显示对象 0-10，20-30,40-max
+  const now = map.clock.currentTime
+  groupGraphic.availability = [
+    { start: now, stop: Cesium.JulianDate.addSeconds(now, 10, new Cesium.JulianDate()) },
+    { start: Cesium.JulianDate.addSeconds(now, 40, new Cesium.JulianDate()), stop: "2999-01-01 00:00:00" }
+  ]
 }
 
 // 绑定右键菜单

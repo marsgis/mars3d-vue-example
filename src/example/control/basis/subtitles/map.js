@@ -40,6 +40,7 @@ export function onMounted(mapInstance) {
       right: "30px",
       bottom: "60px",
       fontSize: "30px",
+      // backgroundColor: "rgba(0,0,0,0.2)",
       fontFamily: "微软雅黑"
     }
   })

@@ -54,7 +54,7 @@ interface DataItem {
 
 const strat = ref("")
 const count = ref(0)
-const selectWay = ref("1")
+const selectWay = ref("")
 
 // 下拉菜单
 const selectService = ref("gaode")
@@ -114,12 +114,12 @@ const customRow = (record: DataItem) => {
 const selectWayOptions = ref([
   {
     // 1-步行路线
-    value: "1",
+    value: "Walking",
     label: "步行路线查询"
   },
   {
     // 2-行车路线
-    value: "3",
+    value: "Driving",
     label: "驾车路线查询"
   }
 ])

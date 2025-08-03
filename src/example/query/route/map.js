@@ -68,7 +68,7 @@ export function removeAll() {
  * 起点按钮
  *
  * @export
- * @param {number} type 不同方式路线查询
+ * @param {string} type 不同方式路线查询
  * @returns {string}
  */
 export function startPoint(type) {
@@ -101,7 +101,7 @@ export function startPoint(type) {
  * 终点按钮
  *
  * @export
- * @param {number} type 不同方式路线查询
+ * @param {string} type 不同方式路线查询
  * @returns {string}
  */
 export function endPoint(type) {
@@ -138,7 +138,7 @@ function queryRouteServe(type) {
   showLoading()
 
   query.query({
-    type: Number(type),
+    type: type,
     points: [startGraphic.coord, endGraphic.coord],
     success: function (data) {
       hideLoading()

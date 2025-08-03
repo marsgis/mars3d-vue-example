@@ -1,10 +1,23 @@
 <template>
-  <a-collapse v-model:activeKey="styleCollapse" expandIconPosition="end">
-    <a-collapse-panel v-if="viewStyles" key="1" :header="getCollapseName()">
+  <a-collapse
+    v-model:activeKey="styleCollapse"
+    expandIconPosition="end"
+  >
+    <a-collapse-panel
+      v-if="viewStyles"
+      key="1"
+      :header="getCollapseName()"
+    >
       <a-row :gutter="[0, 10]">
-        <AttrComp v-if="props.parentType" label="是否配置">
+        <AttrComp
+          v-if="props.parentType"
+          label="是否配置"
+        >
           <template #right>
-            <mars-switch v-model:checked="styleValue.show" @change="changeSwitch" />
+            <mars-switch
+              v-model:checked="styleValue.show"
+              @change="changeSwitch"
+            />
           </template>
         </AttrComp>
         <template v-else>
@@ -13,7 +26,10 @@
               {{ props.graphicType }}
             </template>
           </AttrComp>
-          <AttrComp v-if="props.graphicType !== styleType" label="样式类型">
+          <AttrComp
+            v-if="props.graphicType !== styleType"
+            label="样式类型"
+          >
             <template #right>
               {{ styleType || "未配置" }}
             </template>
@@ -21,43 +37,69 @@
         </template>
 
         <template v-if="stylePanIsHidden()">
-          <template v-for="(item, i) in viewStyles" :key="i">
+          <template
+            v-for="(item, i) in viewStyles"
+            :key="i"
+          >
             <!-- 不是hidden类型 -->
             <template v-if="item.type !== 'hidden'">
               <!-- 含有下一级参数 -->
               <template v-if="item.next">
                 <AttrComp
                   v-if="item.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
-                  :label="item.label" :type="item.type" size="small" v-model:value="styleValue[item.name][item.next]"
+                  :label="item.label"
+                  :type="item.type"
+                  size="small"
+                  v-model:value="styleValue[item.name][item.next]"
                   :min="item.min || item.min === 0 ? item.min : -Infinity"
-                  :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
-                  :options="item.data || []" @change="unionChange(item, item.data)" :tofixed="item.toFixed">
+                  :max="item.max || item.max === 0 ? item.max : Infinity"
+                  :step="item.step || 0.1"
+                  :options="item.data || []"
+                  :tofixed="item.toFixed"
+                  @change="unionChange(item, item.data)"
+                >
                 </AttrComp>
               </template>
               <template v-else>
                 <AttrComp
                   v-if="item.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
-                  :label="item.label" :type="item.type" size="small" v-model:value="styleValue[item.name]"
+                  v-model:value="styleValue[item.name]"
+                  :label="item.label"
+                  :type="item.type"
+                  size="small"
                   :min="item.min || item.min === 0 ? item.min : -Infinity"
-                  :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1"
-                  :options="item.data || []" @change="unionChange(item, item.data)" :tofixed="item.toFixed"></AttrComp>
+                  :max="item.max || item.max === 0 ? item.max : Infinity"
+                  :step="item.step || 0.1"
+                  :options="item.data || []"
+                  @change="unionChange(item, item.data)"
+                  :tofixed="item.toFixed"
+                >
+                </AttrComp>
               </template>
 
               <!-- 材质相关属性 -->
-              <template v-if="item.name === 'materialType'
-                && viewMaterials
-                && styleValue.materialOptions
-                && item.show({
-                  allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
-                })">
-                <template v-for="(material, mi) in viewMaterials" :key="mi">
-                  <AttrComp v-if="material.show({
-                    allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
-                  })" :label="material.label" :type="material.type" size="small"
+              <template
+                v-if="item.name === 'materialType'
+                  && viewMaterials
+                  && styleValue.materialOptions
+                  && item.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
+              >
+                <template
+                  v-for="(material, mi) in viewMaterials"
+                  :key="mi"
+                >
+                  <AttrComp
+                    v-if="material.show({ allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType })"
+                    :label="material.label"
+                    :type="material.type"
+                    size="small"
                     v-model:value="styleValue.materialOptions[material.name]"
                     :min="material.min || material.min === 0 ? material.min : -Infinity"
-                    :max="material.max || material.max === 0 ? material.max : Infinity" :step="material.step || 0.1"
-                    :options="material.data || []" @change="materialChange(material)">
+                    :max="material.max || material.max === 0 ? material.max : Infinity"
+                    :step="material.step || 0.1"
+                    :options="material.data || []"
+                    @change="materialChange(material)"
+                  >
                   </AttrComp>
                 </template>
 
@@ -70,15 +112,24 @@
                 && item.show({
                   allStyle: styleValue, style: props.style, graphicType: props.graphicType, parentType: props.parentType
                 })">
-                <template v-for="(nextmaterial, nextmi) in nextViewMaterials" :key="nextmi">
-                  <AttrComp v-if="nextmaterial.show({
-                    allStyle: styleValue, style: props.style[item.name], graphicType: props.graphicType, parentType: props.parentType
-                  })" :label="nextmaterial.label" :type="nextmaterial.type" size="small"
+                <template
+                  v-for="(nextmaterial, nextmi) in nextViewMaterials"
+                  :key="nextmi"
+                >
+                  <AttrComp
+                    v-if="nextmaterial.show({
+                      allStyle: styleValue, style: props.style[item.name], graphicType: props.graphicType, parentType: props.parentType
+                    })"
+                    :label="nextmaterial.label"
+                    :type="nextmaterial.type"
+                    size="small"
                     v-model:value="styleValue[item.name].materialOptions[nextmaterial.name]"
                     :min="nextmaterial.min || nextmaterial.min === 0 ? nextmaterial.min : -Infinity"
                     :max="nextmaterial.max || nextmaterial.max === 0 ? nextmaterial.max : Infinity"
-                    :step="nextmaterial.step || 0.1" :options="nextmaterial.data || []"
-                    @change="nextMaterialChange(nextmaterial, item)">
+                    :step="nextmaterial.step || 0.1"
+                    :options="nextmaterial.data || []"
+                    @change="nextMaterialChange(nextmaterial, item)"
+                  >
                   </AttrComp>
                 </template>
               </template>
@@ -88,14 +139,28 @@
       </a-row>
     </a-collapse-panel>
 
-    <a-collapse-panel v-if="hasLabel" key="2" header="注记信息">
+    <a-collapse-panel
+      v-if="hasLabel"
+      key="2"
+      header="注记信息"
+    >
       <a-row :gutter="[0, 10]">
-        <template v-for="(item, i) in viewLabels" :key="i">
-          <AttrComp v-if="item.show({ style: props.style?.label, allStyle: styleValue.label, graphicType: 'label', })"
-            :label="item.label" :type="item.type" size="small" v-model:value="styleValue.label[item.name]"
+        <template
+          v-for="(item, i) in viewLabels"
+          :key="i"
+        >
+          <AttrComp
+            v-if="item.show({ style: props.style?.label, allStyle: styleValue.label, graphicType: 'label', })"
+            :label="item.label"
+            :type="item.type"
+            size="small"
+            v-model:value="styleValue.label[item.name]"
             :min="item.min || item.min === 0 ? item.min : -Infinity"
-            :max="item.max || item.max === 0 ? item.max : Infinity" :step="item.step || 0.1" :options="item.data || []"
-            @change="labelChange(item)">
+            :max="item.max || item.max === 0 ? item.max : Infinity"
+            :step="item.step || 0.1"
+            :options="item.data || []"
+            @change="labelChange(item)"
+          >
           </AttrComp>
         </template>
       </a-row>

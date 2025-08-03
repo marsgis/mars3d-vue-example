@@ -20,7 +20,7 @@ export const mapOptions = {
       name: "影像地图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
       type: "xyz",
-      url: "//192.168.0.115/tile16/img/{z}/{x}/{y}.jpg",
+      url: "//192.168.0.6/img-world/{z}/{x}/{y}.jpg",
       chinaCRS: mars3d.ChinaCRS.GCJ02,
       minimumLevel: 0,
       maximumLevel: 16,
