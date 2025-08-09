@@ -28,7 +28,7 @@ export function onMounted(mapInstance) {
   // 字幕
   const subtitles = new mars3d.control.Subtitles({
     list: [
-      { text: "我是第1句话，0-5，持续5秒钟", start: 0, duration: 5 },
+      { text: "我是第1句话，3-5，持续2秒钟", start: 3, duration: 5 },
       { text: "我是第2句话，8-11，持续3秒钟", start: 8, duration: 3 },
       { text: "我是第3句话，15-19，持续4秒钟", start: 15, duration: 4 },
       { text: "我是第4句话，25-35，持续10秒钟", start: 25, duration: 10 },
@@ -40,7 +40,7 @@ export function onMounted(mapInstance) {
       right: "30px",
       bottom: "60px",
       fontSize: "30px",
-      // backgroundColor: "rgba(0,0,0,0.2)",
+      backgroundColor: "rgba(0,0,0,0.2)",
       fontFamily: "微软雅黑"
     }
   })

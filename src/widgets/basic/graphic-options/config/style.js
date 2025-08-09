@@ -4574,7 +4574,7 @@ const styleConfig = {
         type: "textarea",
         defval: "",
         show({ style, graphicType }) {
-          return style?.hasIntext
+          return style?.hasIntext ?? true
         }
       },
       {
@@ -4656,7 +4656,7 @@ const styleConfig = {
         type: "radio",
         defval: false,
         show({ style, graphicType }) {
-          return style?.hasFill
+          return style?.hasFill ?? true
         }
       },
       {
@@ -4790,7 +4790,7 @@ const styleConfig = {
         type: "radio",
         defval: false,
         show({ style }) {
-          return style?.hasFill
+          return style?.hasFill ?? true
         }
       },
       {

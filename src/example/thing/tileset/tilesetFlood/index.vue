@@ -30,14 +30,14 @@
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">最低海拔（米）:</span>
+          <span class="mars-pannel-item-label">最低高度（米）:</span>
           <mars-input-number v-model:value="formState.minHeight" :step="1" />
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
-          <span class="mars-pannel-item-label">最高海拔（米）:</span>
+          <span class="mars-pannel-item-label">最高高度（米）:</span>
           <mars-input-number v-model:value="formState.maxHeight" :step="1" />
         </a-space>
       </div>
