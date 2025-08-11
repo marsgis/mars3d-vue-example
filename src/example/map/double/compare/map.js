@@ -68,7 +68,7 @@ export function createControl() {
   }
 
   mapCompare = new mars3d.control.MapCompare({
-    basemap: "微软影像",
+    basemap: "天地图电子",
     terrain: mapOptions2.terrain,
     layers: mapOptions2.layers,
     control: { baseLayerPicker: true, homeButton: true, zoom: true },
