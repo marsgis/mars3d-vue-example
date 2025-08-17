@@ -138,7 +138,7 @@ export function showModel(url) {
         window.open(tiles3dLayer.options.url, "_blank")
       }
     }
-  ])
+  ], { mergeMap: true })
 }
 
 // 异步求准确高度

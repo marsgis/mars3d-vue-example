@@ -1515,6 +1515,12 @@
             "hasPannel": true
           },
           {
+            "name": "对象聚合-外部算法",
+            "thumbnail": "layerg-fun-clustering-supercluster.jpg",
+            "main": "layer-graphic/fun/clustering-supercluster",
+            "resources": ["https://unpkg.com/supercluster@8.0.0/dist/supercluster.min.js","PointSupercluster.js"]
+          },
+          {
             "name": "Property属性机制演示",
             "thumbnail": "graphic-entity-property.gif",
             "main": "graphic/entity/property",

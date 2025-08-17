@@ -16,25 +16,35 @@ export const mapOptions = {
   // 离线0-16级谷歌地图的配置
   basemaps: [
     {
-      pid: 10,
       name: "影像地图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
       type: "xyz",
-      url: "//192.168.0.6/img-world/{z}/{x}/{y}.jpg",
-      chinaCRS: mars3d.ChinaCRS.GCJ02,
+      url: "//192.168.0.6/tile/img-gaode/{z}/{x}/{y}.jpg",
+      chinaCRS: "GCJ02",
       minimumLevel: 0,
-      maximumLevel: 16,
+      maximumLevel: 18,
       show: true
     },
     {
-      pid: 10,
       name: "电子地图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
       type: "xyz",
-      url: "//192.168.0.115/tile16/vec/{z}/{x}/{y}.png",
-      chinaCRS: mars3d.ChinaCRS.GCJ02,
-      minimumLevel: 0,
-      maximumLevel: 16
+      url: "//192.168.0.115/tile/vec-gaode/{z}/{x}/{y}.jpg",
+      chinaCRS: "GCJ02"
+    },
+    {
+      name: "蓝色底图",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_blue.png",
+      type: "xyz",
+      url: "//192.168.0.115/tile/vec-gaode/{z}/{x}/{y}.jpg",
+      chinaCRS: "GCJ02",
+      invertColor: true,
+      filterColor: "#4e70a6",
+      brightness: 0.6,
+      contrast: 1.8,
+      gamma: 0.3,
+      hue: 1,
+      saturation: 0
     }
   ],
   layers: []
