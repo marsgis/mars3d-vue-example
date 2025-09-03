@@ -251,6 +251,7 @@ function onClickBimLayer(event: any) {
 <style lang="less">
 .manage-layer_pannel {
   .mars-dialog__content {
+    min-height: 100px;
     overflow-x: hidden !important;
   }
 }

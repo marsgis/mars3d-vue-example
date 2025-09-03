@@ -26,8 +26,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 
 // 时间控制参数
 const args = {
-  space: 100,
-  time: 5,
+  time: 1,
   martTimeInter: null,
   cleanTimeInter: null
 }
@@ -259,7 +258,6 @@ function addRailway(graphicHead, mpoints) {
   const orientations = []
 
   const times = graphicHead.position._property._times
-  const start = times[0].clone()
   const counts = times.length
 
   for (let k = 1; k < counts; k++) {
@@ -272,129 +270,110 @@ function addRailway(graphicHead, mpoints) {
     orientations.push(orientation)
   }
 
-  let i = 0
-  const roadNum = 80
 
+  const showRoadIndexArr = []
+  // const showZhiJiaIndexArr = []
+  // const showZhuZiIndexArr = []
+
+  const initRoadLength = 150
+
+  for (let i = 0; i < initRoadLength; i++) {
+    addData(i)
+  }
+
+  let arriveIndex = 80
+
+  const addAndRemoveLength = 100
   function addroad() {
-    const space = Math.round(map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay)
-    let spa = space + args.space
-    if (spa > counts) {
-      spa = counts
-    }
-    for (; i < spa; i++) {
-      const availability = new Cesium.TimeIntervalCollection([
-        new Cesium.TimeInterval({
-          start: Cesium.JulianDate.addSeconds(start, -roadNum + i, new Cesium.JulianDate()),
-          stop: Cesium.JulianDate.addSeconds(start, roadNum + i, new Cesium.JulianDate())
-        })
-      ])
+    const positionIndex =
+      Math.ceil(
+        ((map.clock.currentTime.secondsOfDay - map.clock.startTime.secondsOfDay) /
+          (map.clock.stopTime.secondsOfDay - map.clock.startTime.secondsOfDay)) *
+          positions.length
+      ) + 18
 
-      //  当高度在地下时，添加地下隧道
-      if (mpoints[i][2] - mpoints[i][3] < -20 || (i > 2 && mpoints[i - 3][2] - mpoints[i - 3][3] < -20)) {
-        //  mpoints[i][2] -- 设计高度；mpoints[i][3] -- 贴地高度
-        const id = "s" + i
-        const graphic = graphicLayer.getGraphicById(id)
-        if (!graphic) {
-          const graphicModel = new mars3d.graphic.ModelEntity({
-            id,
-            position: positions[i],
-            orientation: orientations[i],
-            availability,
-            style: {
-              url: "https://data.mars3d.cn/gltf/mars/railway/suidao.glb",
-              scale: 0.001
-            }
-          })
-          graphicLayer.addGraphic(graphicModel)
-        } else {
-          graphic.entity.availability._intervals[0].stop.secondsOfDay = availability._intervals[0].stop.secondsOfDay
+    if (positionIndex > arriveIndex && positionIndex < positions.length) {
+      for (let i = arriveIndex; i < arriveIndex + addAndRemoveLength; i++) {
+        addData(i)
+        if (i > initRoadLength) {
+          // 当轨道足够长的时候再开始删除尾部轨道
+          const railId = showRoadIndexArr.shift()
+          removeGraphic(railId)
+          // const zhiJiaId = showZhiJiaIndexArr.shift()
+          // removeGraphic(zhiJiaId)
+          // const zhuZiId = showZhuZiIndexArr.shift()
+          // removeGraphic(zhuZiId)
         }
       }
-
-      //  添加轨道地面
-      const id = "xl" + i
-      const graphic = graphicLayer.getGraphicById(id)
-      if (!graphic) {
-        const graphicModel = new mars3d.graphic.ModelEntity({
-          id,
-          position: positions[i],
-          orientation: orientations[i],
-          availability,
-          style: {
-            url: "https://data.mars3d.cn/gltf/mars/railway/railway.glb",
-            scale: 0.001
-          }
-        })
-        graphicLayer.addGraphic(graphicModel)
-      } else {
-        graphic.entity.availability._intervals[0].stop.secondsOfDay = availability._intervals[0].stop.secondsOfDay
-      }
-
-      // 添加轨道支架
-      if (mpoints[i][2] - mpoints[i][3] > 20 && i % 5 === 0) {
-        const id = "xq" + i
-        const graphic = graphicLayer.getGraphicById(id)
-        if (!graphic) {
-          const graphicModel = new mars3d.graphic.ModelEntity({
-            id,
-            position: positions[i],
-            orientation: orientations[i],
-            availability,
-            style: {
-              url: "https://data.mars3d.cn/gltf/mars/railway/bridge.glb",
-              scale: 0.001
-            }
-          })
-          graphicLayer.addGraphic(graphicModel)
-        } else {
-          graphic.entity.availability._intervals[0].stop.secondsOfDay = availability._intervals[0].stop.secondsOfDay
-        }
-      }
-
-      // 添加轨道边的柱子
-      if (i % 12 === 0) {
-        const id = "xd" + i
-        const graphic = graphicLayer.getGraphicById(id)
-        if (!graphic) {
-          const graphicModel = new mars3d.graphic.ModelEntity({
-            id,
-            position: positions[i],
-            orientation: orientations[i],
-            availability,
-            style: {
-              url: "https://data.mars3d.cn/gltf/mars/railway/jiazi.glb",
-              scale: 0.001
-            }
-          })
-          graphicLayer.addGraphic(graphicModel)
-        } else {
-          graphic.entity.availability._intervals[0].stop.secondsOfDay = availability._intervals[0].stop.secondsOfDay
-        }
-      }
-    }
-
-    // 移除铁路
-    for (let j = args.statate; j < args.statate - args.space; j++) {
-      removeGraphic("s" + j)
-      removeGraphic("xl" + j)
-      removeGraphic("xq" + j)
-      removeGraphic("xd" + j)
-      args.statate = j
+      arriveIndex += addAndRemoveLength
     }
   }
 
-  addroad()
+  function addData(i) {
+    // 添加轨道
+    const id = "xl" + i + initRoadLength
+    const graphic = graphicLayer.getGraphicById(id)
+    if (!graphic) {
+      const graphicModel = new mars3d.graphic.ModelEntity({
+        id,
+        position: positions[i],
+        orientation: orientations[i],
+        style: {
+          url: "https://data.mars3d.cn/gltf/mars/railway/railway.glb",
+          scale: 0.001
+        }
+      })
+      graphicLayer.addGraphic(graphicModel)
+      showRoadIndexArr.push(graphicModel.id)
+    }
 
-  args.cleanTimeInter = setInterval(addroad, args.time)
+    // 添加轨道支架
+    // if (mpoints[i][2] - mpoints[i][3] > 20 && i % 5 === 0) {
+    //   const id = "xq" + i
+    //   const graphic = graphicLayer.getGraphicById(id)
+    //   if (!graphic) {
+    //     const graphicModel = new mars3d.graphic.ModelEntity({
+    //       id,
+    //       position: positions[i],
+    //       orientation: orientations[i],
+    //       style: {
+    //         url: "https://data.mars3d.cn/gltf/mars/railway/bridge.glb",
+    //         scale: 0.001
+    //       }
+    //     })
+    //     graphicLayer.addGraphic(graphicModel)
+    //     showZhiJiaIndexArr.push(graphicModel.id)
+    //   }
+    // }
+
+    // // 添加轨道边的柱子
+    // if (i % 12 === 0) {
+    //   const id = "xd" + i
+    //   const graphic = graphicLayer.getGraphicById(id)
+    //   if (!graphic) {
+    //     const graphicModel = new mars3d.graphic.ModelEntity({
+    //       id,
+    //       position: positions[i],
+    //       orientation: orientations[i],
+    //       style: {
+    //         url: "https://data.mars3d.cn/gltf/mars/railway/jiazi.glb",
+    //         scale: 0.001
+    //       }
+    //     })
+    //     graphicLayer.addGraphic(graphicModel)
+    //     showZhuZiIndexArr.push(graphicModel.id)
+    //   }
+    // }
+  }
+
+  setInterval(addroad, 1)
   args.statate = 0
 }
 
 function removeGraphic(id) {
   const graphic = graphicLayer.getGraphicById(id)
   if (graphic) {
-    if (graphic.entity.availability._intervals[0].stop.secondsOfDay < map.clock.currentTime.secondsOfDay) {
-      graphic.remove(true)
-    }
+    graphic.remove(true)
   }
 }
 

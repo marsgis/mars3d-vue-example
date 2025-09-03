@@ -19,7 +19,7 @@
         <template v-if="column.dataIndex === 'edit'">
           <div class="table-tools">
             <a-space>
-              <mars-icon icon="editor" color="#f2f2f2" class="icon-vertical-a" title="修改图层参数"
+              <mars-icon v-if="record.isTile" icon="editor" color="#f2f2f2" class="icon-vertical-a" title="修改图层参数"
                 @click.stop="startEditingLayer(record)" />
               <mars-icon icon="delete" color="#F96868" class="icon-vertical-a" title="删除图层"
                 @click.stop="deleteLayer(record)" />

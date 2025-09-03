@@ -765,7 +765,7 @@ onMounted(() => {
 
 function openGraphicOptionsWidget(event: any) {
   const graphic = event.graphic
-  if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine) {
+  if (!graphic || graphic.isDestroy || graphic.isDrawing || graphic.isPrivate || graphic.isCombine || graphic.cluster) {
     return
   }
 

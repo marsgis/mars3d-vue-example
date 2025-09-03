@@ -68,7 +68,7 @@ const changeService = () => {
   onHiddenRoam()
 }
 
-const selectWay = ref("")
+const selectWay = ref("Walking")
 const selectWayOptions = ref([
   {
     value: "Walking",

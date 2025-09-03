@@ -54,7 +54,7 @@ interface DataItem {
 
 const strat = ref("")
 const count = ref(0)
-const selectWay = ref("")
+const selectWay = ref("Walking")
 
 // 下拉菜单
 const selectService = ref("gaode")

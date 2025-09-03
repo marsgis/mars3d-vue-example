@@ -1,3 +1,4 @@
+import { color } from "echarts"
 import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
@@ -8,7 +9,7 @@ export const eventTarget = new mars3d.BaseClass()
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.473861, lng: 117.225929, alt: 52974, heading: 2, pitch: -49 }
+    center: { lat: 31.597516, lng: 117.259165, alt: 17309, heading: 358.6, pitch: -29.5 }
   }
 }
 
@@ -37,6 +38,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic8(graphicLayer)
   addDemoGraphic9(graphicLayer)
   addDemoGraphic10(graphicLayer)
+  addDemoGraphic11(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -326,12 +328,9 @@ function addDemoGraphic7(graphicLayer) {
 
 function addDemoGraphic8(graphicLayer) {
   const graphic = new mars3d.graphic.WallEntity({
-    positions: [
-      [117.206138, 31.877321],
-      [117.206326, 31.901436]
-    ],
+    positions: [[117.195466, 31.940679, 27.7], [117.227062, 31.942539, 14.3]],
     style: {
-      diffHeight: 400,
+      diffHeight: 500,
       materialType: mars3d.MaterialType.Image,
       materialOptions: {
         image: getColorRampCanvas(),
@@ -428,6 +427,22 @@ function addDemoGraphic10() {
   })
   graphicLayer.addGraphic(graphic)
 }
+
+function addDemoGraphic11() {
+  const graphic = new mars3d.graphic.WallEntity({
+    positions: [[117.248503, 31.938683, 24.8], [117.272116, 31.939962, 27.9]],
+    style: {
+      diffHeight: 800,
+      materialType: mars3d.MaterialType.Image2,
+      color: "#ff0000",
+      image: "https://data.mars3d.cn/img/textures/arrow-top.png",
+      riseAnimationDuration: 5// 执行生长动画的时长（内部执行startRiseAnimation方法）
+    },
+    attr: { remark: "示例11" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
 
 // 生成演示数据(测试数据量)
 export function addRandomGraphicByCount(count) {

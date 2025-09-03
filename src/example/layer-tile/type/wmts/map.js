@@ -22,6 +22,13 @@ export const mapOptions = {
       show: true
     },
     {
+      name: "geoserver",
+      url: "http://localhost:8080/geoserver/ne/gwc/service/wmts",
+      layer: "ne:world",
+      type: "wmts",
+      show: false
+    },
+    {
       name: "单张图片",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/offline.png",
       type: "image",
@@ -30,6 +37,7 @@ export const mapOptions = {
     }
   ],
   layers: [
+
     // {
     //   name: "瓦片测试信息",
     //   type: "tileinfo",

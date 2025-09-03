@@ -150,6 +150,7 @@ function addSatellite() {
     position: {
       type: "time", // 时序动态坐标
       list: wxdata,
+      referenceFrame: Cesium.ReferenceFrame.FIXED, // 地固系
       timeField: "time",
       interpolation: true,
       interpolationDegree: 2,

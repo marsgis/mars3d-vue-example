@@ -258,7 +258,7 @@ let lastRoute
 export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
 
-  if (lastRoute) {
+  if (lastRoute?.entityGraphic) {
     lastRoute.entityGraphic.material = lastRoute.entityGraphic.material_old
     lastRoute.entityGraphic.width = lastRoute.entityGraphic.width_old
   }

@@ -4,7 +4,8 @@
       <mars-button @click="onBindMapDemo">Map上直接弹出</mars-button>
 
       <mars-button @click="onBindLayerDemo">图层上绑定</mars-button>
-      <mars-button @click="onBindLayerDemo2">图层上预定义配置</mars-button>
+      <mars-button @click="onBindLayerDemo2">图层上配置数组</mars-button>
+      <mars-button @click="mapWork.bindLayerDemo3">图层上配置iframe</mars-button>
       <mars-button @click="onBindLayerTemplateDemo">自定义模版</mars-button>
 
       <mars-button @click="onBindGraphicDemo1">Graphic上绑定</mars-button>

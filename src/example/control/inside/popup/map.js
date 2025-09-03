@@ -121,6 +121,23 @@ export function bindLayerDemo2() {
   map.addLayer(geoJsonLayer)
 }
 
+export function bindLayerDemo3() {
+  removeDemoLayer()
+
+  geoJsonLayer = new mars3d.layer.GeoJsonLayer({
+    name: "标绘示例数据",
+    url: "https://data.mars3d.cn/file/geojson/mars3d-draw.json",
+    popup: {
+      type: "iframe",
+      url: `//player.bilibili.com/player.html?isOutside=true&aid=464541155&bvid=BV1PL41177SS&from={id}`,
+      width: 600,
+      height: 400
+    }
+  })
+  map.addLayer(geoJsonLayer)
+}
+
+
 // 2.在layer图层上绑定Popup单击弹窗
 export function bindLayerTemplateDemo() {
   removeDemoLayer()
@@ -274,6 +291,9 @@ function showXQ() {
   const showHistoryLayer = true
   eventTarget.fire("showWebsite", { showHistoryLayer })
 }
+
+
+
 
 // 在原始ceisum对象绑定popup
 export function bindCesiumEntityDemo() {

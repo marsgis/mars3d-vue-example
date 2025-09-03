@@ -1396,9 +1396,6 @@ const styleConfig = {
         label: "是否填充",
         type: "radio",
         defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
       },
       {
         name: "materialType",
@@ -1607,9 +1604,6 @@ const styleConfig = {
         label: "是否填充",
         type: "radio",
         defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
       },
       {
         name: "materialType",
@@ -1917,9 +1911,6 @@ const styleConfig = {
         label: "是否填充",
         type: "radio",
         defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
       },
       {
         name: "materialType",
@@ -2035,9 +2026,6 @@ const styleConfig = {
         label: "是否填充",
         type: "radio",
         defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
       },
       {
         name: "materialType",
@@ -2189,9 +2177,6 @@ const styleConfig = {
         label: "是否填充",
         type: "radio",
         defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
       },
       {
         name: "materialType",
@@ -3369,10 +3354,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
+        defval: true
       },
       {
         name: "materialType",
@@ -3594,10 +3576,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
+        defval: true
       },
       {
         name: "materialType",
@@ -3853,10 +3832,7 @@ const styleConfig = {
         name: "fill",
         label: "是否填充",
         type: "radio",
-        defval: true,
-        show({ style }) {
-          return !style?.clampToGround
-        }
+        defval: true
       },
       {
         name: "materialType",

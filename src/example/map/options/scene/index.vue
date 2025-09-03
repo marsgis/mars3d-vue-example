@@ -285,7 +285,7 @@ const mouseData = ref([
   },
   {
     key: "17",
-    describe: "倾斜相机",
+    describe: "倾斜相机(3D和2.5D)",
     operation: "checked",
     value: "1",
     change(index: number) {
@@ -298,7 +298,7 @@ const mouseData = ref([
   },
   {
     key: "18",
-    describe: "旋转转换位置",
+    describe: "旋转转换位置(3D和2D)",
     operation: "checked",
     value: "1",
     change(index: number) {
@@ -311,7 +311,7 @@ const mouseData = ref([
   },
   {
     key: "19",
-    describe: "平移地图",
+    describe: "平移地图(2D和2.5D)",
     operation: "checked",
     value: "1",
     change(index: number) {
@@ -471,7 +471,7 @@ const handleChange = (value: string) => {
   }
 
   .mars-pannel-item-label {
-    min-width: 112px;
+    width: 112px;
   }
 }
 

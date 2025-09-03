@@ -16,6 +16,8 @@ export const mapOptions = {
 
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
 
+let serviceType = mars3d.QueryServiceType.GAODE
+
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -38,6 +40,7 @@ export function onUnmounted() {
 
 // 切换服务
 export function changeService(type) {
+  serviceType = type
   query.setOptions({ service: type })
 }
 
@@ -165,7 +168,12 @@ function queryRouteServe(type) {
       routeLayer.addGraphic(graphic)
 
       const allTime = mars3d.Util.formatTime(firstItem.allDuration)
-      const allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
+      let allDistance = mars3d.MeasureUtil.formatDistance(firstItem.allDistance)
+
+      if (serviceType === "tdt") {
+        allDistance = firstItem.allDistance + "公里" // tdt返回的就是公里，
+      }
+
       let dhHtml = ""
       for (let i = 0; i < firstItem.steps.length; i++) {
         const item = firstItem.steps[i]
