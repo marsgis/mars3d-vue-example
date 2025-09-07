@@ -5,10 +5,17 @@ export let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 36.468047, lng: 104.069505, alt: 16801717, heading: 0, pitch: -88 }
+    center: { lat: 31.249901, lng: 115.7937, alt: 2676583.1, heading: 360, pitch: -88 }
   },
   // 方式1：在创建地球前的参数中配置
   basemaps: [
+    {
+      name: "天地图影像",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/tdt_img.png",
+      type: "tdt",
+      layer: "img_d",
+      show: true
+    },
     {
       name: "山西天地图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_night.png",
@@ -19,7 +26,7 @@ export const mapOptions = {
       tileMatrixSetID: "Matrix_WD_DOM_1",
       crs: "EPSG:4490",
       proxy: "//server.mars3d.cn/proxy/", // 代理服务，解决跨域问题
-      show: true
+      show: false
     },
     {
       name: "geoserver",
@@ -37,7 +44,6 @@ export const mapOptions = {
     }
   ],
   layers: [
-
     // {
     //   name: "瓦片测试信息",
     //   type: "tileinfo",

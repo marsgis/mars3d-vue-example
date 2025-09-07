@@ -176,9 +176,11 @@ export function showPlyXiaoquDemo() {
 
   tiles3dLayer = new mars3d.layer.TilesetLayer({
     name: "3DGS高斯泼溅",
-    url: "https://data.mars3d.cn/3dtiles/ply-xiaoqu/tileset.json",
+    url: "http://data.mars3d.cn/3dtiles/ply-xiaoqu/tileset.json",
     maximumScreenSpaceError: 1,
     maxMemory: 1024, // 最大缓存内存大小(MB)
+    position: { lng: 117.140246, lat: 31.83299, alt: 43 },
+    axis: "Z_UP_TO_Y_UP",
     flyTo: true
   })
   map.addLayer(tiles3dLayer)

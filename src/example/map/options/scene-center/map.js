@@ -92,7 +92,7 @@ let graphic
 export function mapFlyToGraphic() {
   map.graphicLayer.clear()
 
-  if (!graphic || graphic.isDestory) {
+  if (!graphic || graphic.isDestroy) {
     graphic = new mars3d.graphic.EllipsoidEntity({
       position: [107.39956, 29.719738, 100.9],
       style: {

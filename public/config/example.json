@@ -1143,6 +1143,14 @@
         "name": "各类模型的支持",
         "children": [
           {
+            "name": "3DGS高斯泼溅",
+            "thumbnail": "layer3d-type-ply.jpg",
+            "main": "layer-tileset/type/basis",
+            "api": "TilesetLayer.html",
+            "hasPannel": true,
+            "params": "data=ply-xiaoqu"
+          },
+          {
             "name": "倾斜摄影(县城城区)",
             "thumbnail": "layer3d-type-basis.jpg",
             "main": "layer-tileset/type/basis",

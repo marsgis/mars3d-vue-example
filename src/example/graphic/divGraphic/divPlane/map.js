@@ -150,7 +150,7 @@ function addDemoGraphic5(graphicLayer) {
   const graphic = new mars3d.graphic.DivPlane({
     position: [116.311175, 30.99863, 1300],
     style: {
-      html: `<iframe style="width: 2000px; height: 1200px; border: none; "src="http://mars3d.cn/dev/guide/"  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe> `,
+      html: `<iframe style="width: 2000px; height: 1200px; border: none; "src="http://mars3d.cn/docs/"  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe> `,
       scale: 3,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM

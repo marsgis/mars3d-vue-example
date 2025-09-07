@@ -103,7 +103,8 @@ export function onMounted(mapInstance) {
               image: "https://data.mars3d.cn/img/textures/fence-top.png",
               color: "#0b88e3"
             }
-          }
+          },
+          attr: options.attr
         })
         graphicLayer.addGraphic(wall)
       })

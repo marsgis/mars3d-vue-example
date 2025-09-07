@@ -3,7 +3,11 @@ import * as mars3d from "mars3d"
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 31.804278, lng: 117.138924, alt: 22.3, heading: 36.5, pitch: -10.5 }
+    center: { lat: 31.804278, lng: 117.138924, alt: 22.3, heading: 36.5, pitch: -10.5 },
+    cameraController: {
+      minimumZoomDistance: 0.1,
+      enableCollisionDetection: false // 允许进入地下
+    }
   }
 }
 
