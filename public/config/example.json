@@ -133,6 +133,7 @@
               "/lib/mars3d/extends/ZoomIn.js",
               "/lib/mars3d/extends/ZoomOut.js",
               "/lib/mars3d/extends/GraphicStyle.js",
+              "/lib/mars3d/extends/GraphicOptions.js",
               "/lib/mars3d/extends/CreateTarget.js",
               "/lib/mars3d/extends/SceneOptions.js"
             ]
@@ -2540,6 +2541,18 @@
             "main": "graphic/plot/symbol-list",
             "hasPannel": true,
             "libs": ["mars3d", "mars3d-plot"]
+          },
+          {
+            "name": "军标时序动画",
+            "thumbnail": "graphic-plot-task.jpg",
+            "main": "graphic/plot/task",
+            "api": "Task.html",
+            "hasPannel": true,
+            "libs": ["mars3d", "mars3d-plot"],
+            "resources": [
+              "/lib/mars3d/extends/GraphicStyle.js",
+              "/lib/mars3d/extends/GraphicOptions.js"
+            ]
           }
         ]
       },

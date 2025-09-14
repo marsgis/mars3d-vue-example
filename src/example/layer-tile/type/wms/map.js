@@ -52,6 +52,9 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  Cesium.RequestScheduler.maximumRequests = 1000 // 同时活动请求的最大数量，不受限制的请求不遵守此限制
+  Cesium.RequestScheduler.maximumRequestsPerServer = 3000 // 每台服务器的最大同时活动请求数，不受限制的请求不遵守此限制
+
   addTileLayer()
 }
 

@@ -135,10 +135,10 @@ export async function btnDrawPoint() {
       color: "#ffff00"
     }
   })
-  const positions = graphic.positionsShow
+  const position = graphic.positionShow
   graphicLayer.clear()
 
-  slope.add(positions)
+  slope.add([position])
 }
 // 改变阴影
 export function changeShadingType(val) {

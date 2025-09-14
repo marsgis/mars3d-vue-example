@@ -74,7 +74,7 @@ export function onMounted(mapInstance) {
 
   // POI图层，演示大数据的分块加载
   graphicLayer = new mars3d.layer.PoiLayer({
-    service: "baidu",
+    service: "gaode",
     minimumLevel: 13,
     collision: { includeType: "label" }, // 文字避让 关键配置
     symbol: {

@@ -1,7 +1,7 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <a-space>
-      <mars-button @click="startPlay()" >重新开始</mars-button>
+      <mars-button @click="startPlay()" >播放</mars-button>
       <mars-button @click="ztPlay()" v-if="shouldAnimate" >暂停</mars-button>
       <mars-button @click="jxPlay()" v-if="!shouldAnimate" >继续</mars-button>
     </a-space>

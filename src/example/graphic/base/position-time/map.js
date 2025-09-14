@@ -11,6 +11,8 @@ export const mapOptions = {
     center: { lat: 31.687558, lng: 117.19754, alt: 31239.5, heading: 354.1, pitch: -67.4 }
   },
   control: {
+    // timeline: { format: "duration" },
+    // clockAnimate: { format: "duration" }
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true // 是否显示时间线控件
   }
@@ -38,6 +40,7 @@ export function onMounted(mapInstance) {
 
   addDemoGraphic21(graphicLayer)
   addDemoGraphic22(graphicLayer)
+  addDemoGraphic23(graphicLayer)
 
   const timeRange = graphicLayer.timeRange
   if (map.control.timeline && timeRange) {
@@ -252,6 +255,55 @@ function addDemoGraphic22(graphicLayer) {
     attr: { remark: "面数据的time类型positions" }
   })
   graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic23(graphicLayer) {
+  const graphic = new mars3d.graphic.PolylineEntity({
+    positions: [
+      [117.179527, 31.849457, 34.9],
+      [117.180944, 31.832325, 45.2],
+      [117.199388, 31.851221, 33.1],
+      [117.203297, 31.831931, 38.5],
+      [117.216989, 31.85195, 31.1]
+    ],
+    style: {
+      width: 4,
+      color: "#00ffff"
+    },
+    attr: { remark: "手动切换到时序坐标演示" }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
+
+  // 演示切换到时序坐标，可以加按钮事件中切换
+  setTimeout(() => {
+    changeToTimePositions(graphic)
+  }, 4000)
+}
+function changeToTimePositions(graphic) {
+  const positions = graphic.positionsShow
+  graphic.positions = {
+    type: "time", // 时序动态坐标
+    list: [
+      {
+        time: 0,
+        positions: positions
+      },
+      {
+        time: 10,
+        positions: getOffsetPostions(positions)
+      }
+    ],
+    interpolation: true // setInterpolationOptions插值
+  }
+}
+function getOffsetPostions(positions) {
+  const extent = mars3d.PolyUtil.getRectangle(positions, true)
+  const centerOld = Cesium.Cartesian3.fromDegrees(extent.xmin, extent.ymin)
+  const centerNew = Cesium.Cartesian3.fromDegrees(extent.xmax, extent.ymin)
+  const diff = Cesium.Cartesian3.subtract(centerNew, centerOld, new Cesium.Cartesian3()) // 记录差值
+
+  positions = mars3d.PolyUtil.movePoints(positions, { offset: diff })
+  return mars3d.LngLatArray.toArray(positions)
 }
 
 // 开始绘制

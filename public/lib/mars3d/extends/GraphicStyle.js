@@ -12,10 +12,15 @@
  * @param {boolean} [options.interval] 是否定时修改切换原样式（比如：达到闪烁效果）
  * @param {number} [options.intervalTime] 传定时器毫秒数
  * @param {object} [options.style] 需要修改的样式，原样式中必须有对应键值否则无法还原。
+ * @param {boolean} [options.reset=true] 离开时是否恢复原有值
  */
 class GraphicStyle extends mars3d.TaskItem {
   // 进入，激活开始处理事务
-  _activateWork() {
+  _activateWork () {
+    if (!this._map.clock.shouldAnimate) {
+      return
+    }
+
     const layer = this._map.getLayerById(this.options.layerId)
     if (layer && this.options.style) {
       if (!layer.show) {
@@ -25,14 +30,23 @@ class GraphicStyle extends mars3d.TaskItem {
       this._layer = layer
 
       layer.readyPromise.then(() => {
+        if (!this._isActivate) {
+          this._disableWork()
+          return
+        }
         const arrIds = this.options.graphicIds
         const arrGraphic = []
         for (let index = 0; index < arrIds.length; index++) {
-          this._graphic = layer.getGraphicById(arrIds[index])
-          if (this._graphic) {
-            this._graphic.show = true
-            this._openHighlight(this._graphic, this.options.style)
-            arrGraphic.push(this._graphic)
+          const graphic = layer.getGraphicById(arrIds[index])
+          if (graphic) {
+            graphic.show = true
+            this._updateGraphic(graphic, this.options.style)
+
+            if (graphic.availability) {
+              graphic._oldAvailability = graphic.availability
+              graphic.availability = undefined
+            }
+            arrGraphic.push(graphic)
           }
         }
         this._arrGraphic = arrGraphic
@@ -40,6 +54,7 @@ class GraphicStyle extends mars3d.TaskItem {
         // 如果设置了定时修改（比如：达到闪烁效果）
         if (this.options.interval) {
           let tag = true
+
           this._interVal = setInterval(() => {
             tag = !tag
             for (let index = 0; index < this._arrGraphic.length; index++) {
@@ -50,47 +65,59 @@ class GraphicStyle extends mars3d.TaskItem {
                 graphic.setStyle(graphic._task_new_style)
               }
             }
+
+            if (!this._isActivate) {
+              this._disableWork()
+            }
           }, this.options.intervalTime ?? 500)
         }
       })
     }
   }
 
-  _openHighlight(graphic, newStyle) {
-    const oldStyle = mars3d.Util.clone(graphic.style)
+  _updateGraphic (graphic, newStyle) {
+    let allStyle = mars3d.Util.clone(graphic.style)
+    const oldStyle = {}
+
     const noKey = []
     for (const key in newStyle) {
       if (key === "type") {
         continue
       }
+      oldStyle[key] = allStyle[key]
+
       if (!Cesium.defined(oldStyle[key])) {
         noKey.push(key)
       }
     }
-    if (noKey.length > 0) {
-      console.log("_openHighlight：原有style中不存在以下属性，关闭时将无法恢复", noKey)
+    if (noKey.length > 0 && this.options.reset !== false) {
+      console.log("_updateGraphic：原有style中不存在以下属性，关闭时将无法恢复", noKey)
     }
 
-    const styleAll = mars3d.Util.merge(mars3d.Util.clone(oldStyle), newStyle)
-    graphic.setStyle(styleAll)
-
     graphic._task_old_style = oldStyle
-    graphic._task_new_style = styleAll
+    graphic._task_new_style = newStyle
+
+    graphic.setStyle(newStyle)
   }
 
   // 离开，释放相关对象
-  _disableWork() {
+  _disableWork () {
     if (this._interVal) {
       clearInterval(this._interVal)
       delete this._interVal
     }
-    if (this._arrGraphic) {
+    if (this._arrGraphic && this.options.reset !== false) {
       for (let index = 0; index < this._arrGraphic.length; index++) {
         const graphic = this._arrGraphic[index]
-        graphic.setStyle(graphic._task_old_style)
 
+        graphic.setStyle(graphic._task_old_style)
         delete graphic._task_old_style
         delete graphic._task_new_style
+
+        if (graphic._oldAvailability) {
+          graphic.availability = graphic._oldAvailability
+          delete graphic._oldAvailability
+        }
       }
       delete this._arrGraphic
     }

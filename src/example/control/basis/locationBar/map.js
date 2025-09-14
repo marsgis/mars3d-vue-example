@@ -49,6 +49,8 @@ function addControl() {
   map.addControl(locationBar)
 
   window.locationBar = locationBar // 只是为了方便F12控制台测试
+
+  // updateControl()
 }
 
 // 如果config.json已加载，可以直接修改locationBar

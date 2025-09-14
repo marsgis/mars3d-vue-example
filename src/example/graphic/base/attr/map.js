@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
+export let graphicLayer
 export const eventTarget = new mars3d.BaseClass()
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -25,9 +26,8 @@ export function onUnmounted() {
 }
 
 function addDemoGraphic1() {
-
   // 创建矢量数据图层
-  const graphicLayer = new mars3d.layer.GraphicLayer({
+  graphicLayer = new mars3d.layer.GraphicLayer({
     popup: "all",
     popupOptions: {
       offsetY: -26

@@ -49,10 +49,10 @@ export function onMounted(mapInstance) {
   // 用于解决：目前加载之后直接按下按键会触发事件但是视角不移动，需要先点击一下屏幕，再按下按键才可以
   map.viewer.cesiumWidget.canvas.focus()
 
-  keyboardRoam.on(mars3d.EventType.keydown, function(event) {
+  keyboardRoam.on(mars3d.EventType.keydown, function (event) {
     eventTarget.fire(event.type, event)
   })
-  keyboardRoam.on(mars3d.EventType.keyup, function(event) {
+  keyboardRoam.on(mars3d.EventType.keyup, function (event) {
     eventTarget.fire(event.type, event)
   })
 
