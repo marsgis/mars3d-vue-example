@@ -2950,13 +2950,6 @@
             "libs": ["mars3d", "mars3d-space"]
           },
           {
-            "name": "全网运行态势",
-            "thumbnail": "graphic-space-satellite-list-ts.jpg",
-            "main": "graphic/space/satellite-list-ts",
-            "hasPannel": true,
-            "libs": ["mars3d", "mars3d-space"]
-          },
-          {
             "name": "卫星推演",
             "thumbnail": "graphic-space-deduce.gif",
             "main": "graphic/space/deduce",
