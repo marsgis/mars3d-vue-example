@@ -54,6 +54,13 @@ export function onMounted(mapInstance) {
   //   verticalOrigin: Cesium.VerticalOrigin.CENTER
   // })
 
+  // mars3d.DrawUtil.setAllEditPointStyle({
+  //   type: mars3d.GraphicType.billboardP, // 支持设置type指定编辑点类型
+  //   image: "https://data.mars3d.cn/img/marker/point.png",
+  //   horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+  //   verticalOrigin: Cesium.VerticalOrigin.CENTER
+  // })
+
   graphicLayer = new mars3d.layer.GraphicLayer({
     isAutoEditing: true // 是否自动激活编辑
     // isRestorePositions: true,

@@ -56,22 +56,31 @@ export function setStyle2() {
     {
       vec4 position = czm_inverseModelView * vec4(fsInput.attributes.positionEC,1); // 位置
 
-      // 注意shader中写浮点数是，一定要带小数点，否则会报错，比如0需要写成0.0，1要写成1.0
-      float _baseHeight = 50.0; // 物体的基础高度，需要修改成一个合适的建筑基础高度
-      float _heightRange = 380.0; // 高亮的范围(_baseHeight ~ _baseHeight + _heightRange)
-      float _glowRange = 400.0; // 光环的移动范围(高度)
 
-      // 建筑基础色
-      vec4 diffuse = vec4(material.diffuse, material.alpha); // 颜色
+      // 注意shader中写浮点数是，一定要带小数点，否则会报错，比如0需要写成0.0，1要写成1.0
+      float _baseHeight = 0.0; // 物体的基础高度，需要修改成一个合适的建筑基础高度
+      float _heightRange = 80.0; // 高亮的范围(_baseHeight ~ _baseHeight + _heightRange)
+      float _glowRange = 100.0; // 光环的移动范围(高度)
+
+      // 科幻蓝色渐变
       float mars_height = position.z - _baseHeight;
-      diffuse *= vec4(vec3(mars_height / _heightRange), 1.0);  // 渐变
+      float heightFactor = clamp(mars_height / _heightRange, 0.0, 1.0);
+
+      // 创建蓝色渐变效果，从深蓝到亮蓝
+      vec3 blueColor1 = vec3(0.0, 0.2, 0.5);  // 深蓝
+      vec3 blueColor2 = vec3(0.0, 0.8, 1.0);  // 亮蓝
+      vec3 finalColor = mix(blueColor1, blueColor2, heightFactor);
+
+      // material.diffuse = finalColor;
+      material.alpha = 0.8 + heightFactor * 0.2;  // 透明度渐变
 
       // 动态光环
       float time = fract(czm_frameNumber / 360.0);
       time = abs(time - 0.5) * 2.0;
       float diff = step(0.005, abs( clamp(mars_height / _glowRange, 0.0, 1.0) - time));
 
-      material.diffuse = vec3(diffuse.rgb + diffuse.rgb * (1.0 - diff)) ;
+      material.diffuse = vec3(finalColor + finalColor * (1.0 - diff)) ;
+
     } `
   })
   // tiles3dLayer.reload()

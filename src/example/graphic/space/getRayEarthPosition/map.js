@@ -20,7 +20,7 @@ export const mapOptions = {
   control: {
     clockAnimate: true, // 时钟动画控制(左下角)
     timeline: true, // 是否显示时间线控件
-    compass: { style: { top: "10px", right: "5px" } }
+    compass: { style: { top: "10px", left: "5px" } }
   }
 }
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中

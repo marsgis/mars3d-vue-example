@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.133.1
+ * Version 1.133.2
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -23,4 +23,4 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-import{a as t}from"./chunk-CCEQHI4V.js";import"./chunk-BU3TWJOX.js";import"./chunk-LGL2WBR7.js";import"./chunk-45HSE66B.js";import"./chunk-XL2ER6SY.js";import"./chunk-EG2WCLVN.js";import"./chunk-P7JUSWGY.js";import"./chunk-E2LNIBCP.js";import{a as c}from"./chunk-F65764VO.js";import"./chunk-F7XFQ673.js";import"./chunk-TTWGZOJV.js";import"./chunk-ZKARBYZN.js";import{b as u}from"./chunk-7VQGBJCE.js";import{e as a}from"./chunk-MM4XSZQN.js";function s(i){let e=i.radius??1,r={radii:new c(e,e,e),stackPartitions:i.stackPartitions,slicePartitions:i.slicePartitions,subdivisions:i.subdivisions};this._ellipsoidGeometry=new t(r),this._workerName="createSphereOutlineGeometry"}s.packedLength=t.packedLength;s.pack=function(i,e,o){return u.typeOf.object("value",i),t.pack(i._ellipsoidGeometry,e,o)};var l=new t,n={radius:void 0,radii:new c,stackPartitions:void 0,slicePartitions:void 0,subdivisions:void 0};s.unpack=function(i,e,o){let r=t.unpack(i,e,l);return n.stackPartitions=r._stackPartitions,n.slicePartitions=r._slicePartitions,n.subdivisions=r._subdivisions,a(o)?(c.clone(r._radii,n.radii),o._ellipsoidGeometry=new t(n),o):(n.radius=r._radii.x,new s(n))};s.createGeometry=function(i){return t.createGeometry(i._ellipsoidGeometry)};var d=s;function m(i,e){return a(e)&&(i=d.unpack(i,e)),d.createGeometry(i)}var h=m;export{h as default};
+import{a as t}from"./chunk-PLLNGUDR.js";import"./chunk-JR7HYP6T.js";import"./chunk-IXJXM2U4.js";import"./chunk-DJKMCWX5.js";import"./chunk-BJ452TA7.js";import"./chunk-A6VUCLHN.js";import"./chunk-YNUOUJTT.js";import"./chunk-AOU63PGD.js";import{a as c}from"./chunk-Y4PFCRMK.js";import"./chunk-RLETINPU.js";import"./chunk-YDRG5X7A.js";import"./chunk-FUJYB47T.js";import{b as u}from"./chunk-U3MALRGE.js";import{e as a}from"./chunk-QEWSVV5D.js";function s(i){let e=i.radius??1,r={radii:new c(e,e,e),stackPartitions:i.stackPartitions,slicePartitions:i.slicePartitions,subdivisions:i.subdivisions};this._ellipsoidGeometry=new t(r),this._workerName="createSphereOutlineGeometry"}s.packedLength=t.packedLength;s.pack=function(i,e,o){return u.typeOf.object("value",i),t.pack(i._ellipsoidGeometry,e,o)};var l=new t,n={radius:void 0,radii:new c,stackPartitions:void 0,slicePartitions:void 0,subdivisions:void 0};s.unpack=function(i,e,o){let r=t.unpack(i,e,l);return n.stackPartitions=r._stackPartitions,n.slicePartitions=r._slicePartitions,n.subdivisions=r._subdivisions,a(o)?(c.clone(r._radii,n.radii),o._ellipsoidGeometry=new t(n),o):(n.radius=r._radii.x,new s(n))};s.createGeometry=function(i){return t.createGeometry(i._ellipsoidGeometry)};var d=s;function m(i,e){return a(e)&&(i=d.unpack(i,e)),d.createGeometry(i)}var h=m;export{h as default};

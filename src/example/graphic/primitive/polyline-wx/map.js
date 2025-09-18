@@ -32,8 +32,8 @@ export function onMounted(mapInstance) {
 
 function addControlCenter() {
   const controlCenters = [
-    { position: [116.10981, 39.020859], label: "控制中心1" },
-    { position: [106.79559, 29.68831], label: "控制中心2" }
+    { position: [117.248912, 31.846071], label: "控制中心1" },
+    { position: [108.937777, 34.354027], label: "控制中心2" }
   ]
   for (let index = 0; index < controlCenters.length; index++) {
     const controlCenterItem = controlCenters[index]
@@ -56,10 +56,10 @@ function addControlCenter() {
     graphicLayer.addGraphic(model)
 
     const messageStations = [
-      { position: [130.403, 46.772], label: "信号站1" },
-      { position: [108.898, 34.932], label: "信号站2" },
-      { position: [86.232, 41.552], label: "信号站3" },
-      { position: [109.796, 19.599], label: "信号站4" },
+      { position: [126.542002, 45.825743], label: "信号站1" },
+      { position: [104.041492, 30.659712], label: "信号站2" },
+      { position: [87.589118, 43.827273], label: "信号站3" },
+      { position: [109.518558, 18.28559], label: "信号站4" },
       { position: [75.98976, 39.47042], label: "信号站5" }
     ]
     for (let i = 0; i < messageStations.length; i++) {

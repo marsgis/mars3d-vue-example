@@ -75,7 +75,7 @@ export function addRandomGraphicByCount(count) {
         angle: 46.3,
         angle2: 15.5,
         heading: 88.5,
-        pitch: -49.5,
+        pitch: 10,
         showFrustum: true
       },
       attr: { index }

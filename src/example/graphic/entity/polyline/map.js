@@ -604,6 +604,17 @@ function addDemoGraphic16(graphicLayer) {
   const positions_draw = graphic.setCallbackPositions() // 切换坐标为动态回调模式
   setInterval(() => {
     const position = new mars3d.LngLatPoint(116.979661 + Math.random() * 0.01, 31.863542 + Math.random() * 0.01, 38).toCartesian()
+
+    // 开始处理重复点位，cesium渲染存在问题：最后一个点会跟之前轨迹上的某一个点连在一起，形成错误的效果
+    const lastPt = positions_draw[positions_draw.length - 1]
+    if (lastPt) {
+      const distance = Cesium.Cartesian3.distance(lastPt, position)
+      if (distance < 0.01) {
+        return // 屏蔽重复点位
+      }
+    }
+    // 处理重复点位结束
+
     positions_draw.push(position) // 追加点
   }, 3000)
 }

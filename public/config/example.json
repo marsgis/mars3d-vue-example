@@ -2544,6 +2544,7 @@
           },
           {
             "name": "军标时序动画",
+            "jumpHref": "https://www.bilibili.com/video/BV1zSMMz8Etx/",
             "thumbnail": "graphic-plot-task.jpg",
             "main": "graphic/plot/task",
             "api": "Task.html",

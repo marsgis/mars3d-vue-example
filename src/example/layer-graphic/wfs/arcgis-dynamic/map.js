@@ -6,62 +6,62 @@ export let map // mars3d.Map三维地图对象
 export const mapOptions = {
   scene: {
     center: { lat: 30.931953, lng: 117.352307, alt: 207201, heading: 0, pitch: -64 }
-  },
+  }
   // 方式1：在创建地球前的参数中配置
-  basemaps: [
-    {
-      name: "ArcGIS影像",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/arcgis_img.png",
-      type: "arcgis",
-      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-      enablePickFeatures: false,
-      show: true
-    },
-    {
-      name: "ArcGIS电子街道",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/arcgis_vec.png",
-      type: "arcgis",
-      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-      enablePickFeatures: false
-    },
-    {
-      name: "ArcGIS NatGeo",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
-      type: "arcgis",
-      url: "https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer",
-      enablePickFeatures: false
-    },
-    {
-      name: "蓝色底图",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_blue.png",
-      type: "arcgis",
-      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-      enablePickFeatures: false,
-      chinaCRS: mars3d.ChinaCRS.GCJ02,
-      invertColor: true,
-      filterColor: "#4e70a6",
-      brightness: 0.6,
-      contrast: 1.8,
-      gamma: 0.3,
-      hue: 1,
-      saturation: 0
-    },
-    {
-      name: "灰色底图",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_dark.png",
-      type: "arcgis",
-      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-      enablePickFeatures: false,
-      chinaCRS: mars3d.ChinaCRS.GCJ02,
-      invertColor: true,
-      filterColor: "#909090",
-      brightness: 0.6,
-      contrast: 1.8,
-      gamma: 0.3,
-      hue: 1,
-      saturation: 0
-    }
-  ]
+  // basemaps: [
+  //   {
+  //     name: "ArcGIS影像",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/arcgis_img.png",
+  //     type: "arcgis",
+  //     url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+  //     enablePickFeatures: false,
+  //     show: true
+  //   },
+  //   {
+  //     name: "ArcGIS电子街道",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/arcgis_vec.png",
+  //     type: "arcgis",
+  //     url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+  //     enablePickFeatures: false
+  //   },
+  //   {
+  //     name: "ArcGIS NatGeo",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
+  //     type: "arcgis",
+  //     url: "https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer",
+  //     enablePickFeatures: false
+  //   },
+  //   {
+  //     name: "蓝色底图",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_blue.png",
+  //     type: "arcgis",
+  //     url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+  //     enablePickFeatures: false,
+  //     chinaCRS: mars3d.ChinaCRS.GCJ02,
+  //     invertColor: true,
+  //     filterColor: "#4e70a6",
+  //     brightness: 0.6,
+  //     contrast: 1.8,
+  //     gamma: 0.3,
+  //     hue: 1,
+  //     saturation: 0
+  //   },
+  //   {
+  //     name: "灰色底图",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_dark.png",
+  //     type: "arcgis",
+  //     url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+  //     enablePickFeatures: false,
+  //     chinaCRS: mars3d.ChinaCRS.GCJ02,
+  //     invertColor: true,
+  //     filterColor: "#909090",
+  //     brightness: 0.6,
+  //     contrast: 1.8,
+  //     gamma: 0.3,
+  //     hue: 1,
+  //     saturation: 0
+  //   }
+  // ]
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数

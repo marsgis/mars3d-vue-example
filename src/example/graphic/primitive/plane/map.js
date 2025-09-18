@@ -4,12 +4,6 @@ export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars3d.BaseClass()
 
-export const mapOptions = {
-  scene: {
-    center: { lat: 30.835441, lng: 116.285581, alt: 4536.2, heading: 2.8, pitch: -58.2 }
-  }
-}
-
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -27,6 +21,9 @@ export function onMounted(mapInstance) {
 
   // 加一些演示数据
   addDemoGraphic1(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -39,20 +36,22 @@ function addDemoGraphic1(graphicLayer) {
     position: [116.282587, 30.859197, 544.31],
     style: {
       plane_normal: Cesium.Cartesian3.UNIT_Y,
-      dimensions: new Cesium.Cartesian2(1000.0, 1000.0),
-      image: "https://data.mars3d.cn/img/map/gugong.jpg",
-      heading: 0,
-      pitch: 0,
-      roll: 0
+      dimensions_x: 2000.0,
+      dimensions_y: 1000.0,
+      color: "#00ff00",
+      opacity: 0.4,
+
+      // 高亮时的样式（默认为鼠标移入，也可以指定type:'click'单击高亮），构造后也可以openHighlight、closeHighlight方法来手动调用
+      highlight: {
+        opacity: 0.9
+      }
     },
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
-  const pointEdit = new mars3d.thing.MatrixMove({
-    position: graphic.position
-  })
-  map.addThing(pointEdit)
+  // 演示个性化处理graphic
+  initGraphicManager(graphic)
 }
 
 // 也可以在单个Graphic上做个性化管理及绑定操作
@@ -119,9 +118,11 @@ function addDemoGraphic2(graphicLayer) {
       dimensions: new Cesium.Cartesian2(1000.0, 1000.0),
       materialType: mars3d.MaterialType.Image2,
       materialOptions: {
-        image: "https://data.mars3d.cn/img/textures/poly-rivers.png",
+        // image: "https://data.mars3d.cn/img/textures/poly-rivers.png",
+        image: "https://data.mars3d.cn/img/map/gugong.jpg",
         transparent: true
       }
+
     },
     attr: { remark: "示例2" }
   })
@@ -290,36 +291,6 @@ export function bindLayerContextMenu() {
         }
         if (graphic) {
           graphic.stopEditing()
-        }
-      }
-    },
-    {
-      text: "复制",
-      icon: "fa fa-copy",
-      callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
-          map.contextmenu.copyGraphic.layerId = graphicLayer.id
-        }
-      }
-    },
-    {
-      text: "剪切",
-      icon: "fa fa-scissors",
-      callback: (e) => {
-        const graphic = e.graphic
-        if (!graphic) {
-          return false
-        }
-        if (graphic) {
-          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
-          map.contextmenu.copyGraphic.layerId = graphicLayer.id
-
-          graphic.remove(true) // 移除原有对象
         }
       }
     },
