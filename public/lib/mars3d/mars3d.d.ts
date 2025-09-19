@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.10.5
- * 编译日期：2025-09-16 22:05
+ * 版本信息：v3.10.6
+ * 编译日期：2025-09-19 11:37
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：火星科技免费公开版 ，2025-07-01
  */
@@ -1679,8 +1679,8 @@ declare namespace MaterialType {
      * @property [evenColor = Cesium.Color.WHITE] - 主色
      * @property [oddColor = Cesium.Color.BLACK] - 衬色，条纹中另外一个颜色
      * @property [repeat = 1] - 数量，条纹重复的次数
-     * @property [orientation = Cesium.StripeOrientation.HORIZONTAL] - 条纹方向,横向还是纵向
-     * @property [offset = 0] - 起始位置
+     * @property [horizontal] - 条纹方向, false纵向、true横向
+     * @property [offset = 0] - 起始位置偏移量 0.0-1.0
      */
     const Stripe: string;
     /**
@@ -7112,6 +7112,8 @@ declare class ConeVisibility extends PointVisibility {
  * @param [options.clockRange] - 设定全局时钟播放的模式，可以设置到达终点后停止或循环播放
  * @param [options.clockLoop] - 是否循环播放，与 clockRange: Cesium.ClockRange.LOOP_STOP 效果类似，但不改变全局时钟时间
  * @param [options.autoStart] - 是否加入后就自动启动播放
+ * @param [options.autoStart.enabled = true] - 是否启用
+ * @param [options.autoStart.delay = 0] - 延迟多少秒开始播放
  * @param [options.autoStop] - 是否自动停止
  * @param [options.frameRate = 1] - 多少帧获取一次数据。用于控制效率，如果卡顿就把该数值调大一些。
  * @param [options.maxCacheCount = 1000] - 保留的坐标点数量, 当为-1时保留所有
@@ -7175,7 +7177,10 @@ declare class FixedRoute extends Route {
         updateClock?: boolean;
         clockRange?: Cesium.ClockRange;
         clockLoop?: boolean;
-        autoStart?: boolean;
+        autoStart?: {
+            enabled?: boolean;
+            delay?: number;
+        };
         autoStop?: boolean;
         frameRate?: number;
         maxCacheCount?: number;
@@ -30736,18 +30741,18 @@ declare class Map extends BaseClass {
     setLangText(key: string | any, text: string): void;
     /**
      * 放大地图
-     * @param [relativeAmount = 2] - 相对量
+     * @param [delta = 2] - 缩放的相对量，0-100
      * @param [mandatory] - 是否强制更新，忽略screenSpaceCameraController的enableInputs/enableZoom限制
      * @returns 是否有移动位置
      */
-    zoomIn(relativeAmount?: number, mandatory?: boolean): boolean;
+    zoomIn(delta?: number, mandatory?: boolean): boolean;
     /**
      * 缩小地图
-     * @param [relativeAmount = 2] - 相对量
+     * @param [delta = 2] - 缩放的相对量，0-100
      * @param [mandatory] - 是否强制更新，忽略screenSpaceCameraController的enableInputs/enableZoom限制
      * @returns 是否有移动位置
      */
-    zoomOut(relativeAmount?: number, mandatory?: boolean): boolean;
+    zoomOut(delta?: number, mandatory?: boolean): boolean;
     /**
      * 设置鼠标操作习惯方式。
      * false：中键旋转，右键拉伸远近（默认）；
@@ -39980,7 +39985,7 @@ declare namespace DrawUtil {
      * @example
      * mars3d.DrawUtil.setEditPointStyle(mars3d.EditPointType.Control, {
      *   type: mars3d.GraphicType.billboardP, // 支持设置type指定编辑点类型
-     *   image: "https://data.mars3d.cn/img/marker/move.png",
+     *   image: "https://data.mars3d.cn/img/marker/dg.png",
      *   horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
      *   verticalOrigin: Cesium.VerticalOrigin.CENTER
      * })
@@ -39991,6 +39996,13 @@ declare namespace DrawUtil {
     function setEditPointStyle(type: EditPointType | number, newStyle: PointPrimitive.StyleOptions | any | any): void;
     /**
      * 更新所有编辑点的样式
+     * @example
+     * mars3d.DrawUtil.setAllEditPointStyle({
+     *   type: mars3d.GraphicType.billboardP, // 支持设置type指定编辑点类型
+     *   image: "https://data.mars3d.cn/img/marker/point.png",
+     *   horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+     *   verticalOrigin: Cesium.VerticalOrigin.CENTER
+     * })
      * @param style - 样式
      * @returns 无
      */

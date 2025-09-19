@@ -380,6 +380,61 @@ function addDemoGraphic10(graphicLayer) {
   graphicLayer.addGraphic(graphic)
 }
 
+function addDemoGraphic11(graphicLayer) {
+  // 注册自定义材质
+  const MianmianType = "Mianmian"
+  mars3d.MaterialUtil.register(MianmianType, {
+    fabric: {
+      uniforms: {
+        image: Cesium.Material.DefaultImageId,
+        imageW: 10
+      },
+      source: `
+    in float v_polylineAngle;
+    mat2 rotate(float rad) {
+        float c = cos(rad);
+        float s = sin(rad);
+        return mat2(
+            c, s,
+            -s, c
+        );
+    }
+    czm_material czm_getMaterial(czm_materialInput materialInput)
+      {
+        czm_material material = czm_getDefaultMaterial(materialInput);
+        vec2 st = materialInput.st;
+        vec2 pos = rotate(v_polylineAngle) * gl_FragCoord.xy;
+        float s = pos.x / (imageW * czm_pixelRatio);
+        float t = st.t;
+        vec4 colorImage = texture(image, vec2(fract(s), t));
+        material.diffuse = colorImage.rgb;
+        return material;
+      }`
+    },
+    translucent: true
+  })
+  const graphic = new mars3d.graphic.PolylinePrimitive({
+    positions: [
+      [117.203828, 31.715439, 11.3],
+      [117.299268, 31.715256, 11.3],
+      [117.297046, 31.693546, 8.8],
+      [117.266786, 31.661284, 9.7],
+      [117.279389, 31.611168, 5.3]
+    ],
+    style: {
+      width: 10,
+      clampToGround: true,
+      materialType: MianmianType, // 使用自定义材质
+      materialOptions: {
+        image: "https://data.mars3d.cn/img/textures/line-interval.png",
+        imageW: 74
+      }
+    },
+    attr: { remark: "示例11" }
+  })
+  graphicLayer.addGraphic(graphic)
+}
+
 // 注册自定义材质
 const LineSpriteType = "LineSprite"
 mars3d.MaterialUtil.register(LineSpriteType, {
@@ -401,28 +456,6 @@ mars3d.MaterialUtil.register(LineSpriteType, {
   },
   translucent: true
 })
-
-function addDemoGraphic11(graphicLayer) {
-  const graphic = new mars3d.graphic.PolylinePrimitive({
-    positions: [
-      [117.261209, 31.919032, 20.7],
-      [117.279865, 31.893017, 15.3],
-      [117.26716, 31.874204, 19.3]
-    ],
-    style: {
-      width: 1.7,
-      // 使用自定义材质
-      materialType: LineSpriteType,
-      materialOptions: {
-        image: "https://data.mars3d.cn/img/textures/line-sprite.png",
-        speed: 10
-      }
-    },
-    attr: { remark: "示例11" }
-  })
-  graphicLayer.addGraphic(graphic)
-}
-
 function addDemoGraphic12(graphicLayer) {
   const graphic = new mars3d.graphic.PolylinePrimitive({
     positions: [

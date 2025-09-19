@@ -188,7 +188,8 @@ export function showSatellite() {
 export function showRocket() {
   removeLayer()
 
-  map.basemap = "ArcGIS影像"
+  // map.basemap = "ArcGIS影像"  // 国外影像可能会被墙
+  map.basemap = "单张图片"
   map.setCameraView({ lat: 28.561843, lng: -80.577575, alt: 630, heading: 359, pitch: -85 })
 
   graphicLayer = new mars3d.layer.CzmlLayer({

@@ -82,45 +82,52 @@ function creteaPointPrimitive(graphicLayer, rs) {
   graphicLayer.enabledEvent = true // 恢复事件
 }
 
+let redSphere
+let yellowSphere
 // 半球范围圈
 export function createEllipsoid(redShow, yellowShow) {
-  graphicLayerElllipsoid.clear()
+  // graphicLayerElllipsoid.clear() // 会导致没有修改的椭球也会闪烁
   let radiu = 200
-  const redSphere = new mars3d.graphic.EllipsoidEntity({
-    name: "危险圈",
-    position: center,
-    style: {
-      radii: new Cesium.Cartesian3(radiu, radiu, radiu),
-      maximumConeDegree: 90,
-      slicePartitions: 45,
-      stackPartitions: 45,
-      color: Cesium.Color.RED.withAlpha(0.3),
-      outline: true,
-      outlineColor: Cesium.Color.WHITE.withAlpha(0.8)
-    },
-    show: redShow
-  })
-  graphicLayerElllipsoid.addGraphic(redSphere)
+  if (!redSphere) {
+    redSphere = new mars3d.graphic.EllipsoidEntity({
+      name: "危险圈",
+      position: center,
+      style: {
+        radii: new Cesium.Cartesian3(radiu, radiu, radiu),
+        maximumConeDegree: 90,
+        slicePartitions: 45,
+        stackPartitions: 45,
+        color: Cesium.Color.RED.withAlpha(0.3),
+        outline: true,
+        outlineColor: Cesium.Color.WHITE.withAlpha(0.8)
+      },
+      show: redShow
+    })
+    graphicLayerElllipsoid.addGraphic(redSphere)
+  }
 
   // 是否显示红色的危险圈
   redSphere.show = redShow
 
   radiu = 400
-  const yellowSphere = new mars3d.graphic.EllipsoidEntity({
-    name: "警告圈",
-    position: center,
-    style: {
-      radii: new Cesium.Cartesian3(radiu, radiu, radiu),
-      maximumConeDegree: 90,
-      slicePartitions: 45,
-      stackPartitions: 45,
-      color: Cesium.Color.YELLOW.withAlpha(0.3),
-      outline: true,
-      outlineColor: Cesium.Color.WHITE.withAlpha(0.8)
-    },
-    show: yellowShow
-  })
-  graphicLayerElllipsoid.addGraphic(yellowSphere)
+
+  if (!yellowSphere) {
+    yellowSphere = new mars3d.graphic.EllipsoidEntity({
+      name: "警告圈",
+      position: center,
+      style: {
+        radii: new Cesium.Cartesian3(radiu, radiu, radiu),
+        maximumConeDegree: 90,
+        slicePartitions: 45,
+        stackPartitions: 45,
+        color: Cesium.Color.YELLOW.withAlpha(0.3),
+        outline: true,
+        outlineColor: Cesium.Color.WHITE.withAlpha(0.8)
+      },
+      show: yellowShow
+    })
+    graphicLayerElllipsoid.addGraphic(yellowSphere)
+  }
 
   // 是否显示黄色的警告圈
   yellowSphere.show = yellowShow

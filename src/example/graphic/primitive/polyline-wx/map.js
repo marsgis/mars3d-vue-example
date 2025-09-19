@@ -40,7 +40,7 @@ function addControlCenter() {
     const model = new mars3d.graphic.BillboardPrimitive({
       position: controlCenterItem.position,
       style: {
-        image: "https://data.mars3d.cn/img/marker/oc-center.png",
+        image: "https://data.mars3d.cn/img/marker/symbol.png",
         scale: 0.6,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
@@ -71,11 +71,12 @@ function addControlCenter() {
       const messageLine = new mars3d.graphic.PolylinePrimitive({
         positions,
         style: {
-          width: 2,
+          width: 4,
           materialType: mars3d.MaterialType.LineFlow,
           materialOptions: {
-            image: "https://data.mars3d.cn/img/textures/line-gradient.png",
-            speed: 20
+            image: "https://data.mars3d.cn/img/textures/line-pulse.png",
+            color: "#3af2f3",
+            speed: 10
           }
         }
       })
@@ -84,7 +85,7 @@ function addControlCenter() {
       const model = new mars3d.graphic.BillboardPrimitive({
         position: messageStationItem.position,
         style: {
-          image: "https://data.mars3d.cn/img/marker/receiver.png",
+          image: "https://data.mars3d.cn/img/marker/lace-yellow.png",
           scale: 0.8,
           horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
