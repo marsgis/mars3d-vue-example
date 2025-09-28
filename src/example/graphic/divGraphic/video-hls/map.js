@@ -77,8 +77,8 @@ function addRandomGraphicByCount(graphicLayer, position) {
       offsetX: -16,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 100000)
     },
-    popup: `<video style="width: 200px;height:100px;" id="videoHLS"  muted="muted" autoplay="autoplay" loop="loop" crossorigin="" controls="">
-              </video>`,
+    popup: `<video style="width:400px;height:300px;" id="videoHLS"  muted="muted" autoplay="autoplay" loop="loop" crossorigin="" controls="">
+            </video>`,
     popupOptions: {
       offsetY: -170, // 显示Popup的偏移值，是DivGraphic本身的像素高度值
       template: `<div class="marsBlackPanel animation-spaceInDown">

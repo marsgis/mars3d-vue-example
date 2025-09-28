@@ -6,7 +6,7 @@ const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</sp
 -  甲测资字11111577 - <a href="https://geovisearth.com/declaration#/user" target="_blank" trace="tos">服务条款</a> `
 
 // 请自行申请token后替换，星图地球官方地址：https://datacloud.geovisearth.com/support/map/summary
-const geovisearthToken = "a56dddf720b90fd413d9795a90ddae83bc5806b951f3ed5f1ec7407a7b91d6c1"
+const geovisearthToken = "e798bab7f6b7f267972c054e193f2818786bbe4bb1755fc46ea0ea09c03e4693"
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {

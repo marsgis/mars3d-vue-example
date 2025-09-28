@@ -3,43 +3,21 @@
     <div class="logo-wrap">
       <div class="l-logo mobile_hide">
         <img src="/img/icon/logo.png" />
-        <span class="logo-name">Mars3D</span>
+        <span class="logo-name">Mars3D开发中心</span>
       </div>
       <div class="l-logo pc_hide">
         <img src="/img/icon/logo.png" />
-        <span class="logo-name">Mars3D</span>
+        <span class="logo-name">Mars3D开发中心</span>
       </div>
       <div class="r-item mobile_hide">
-        <div class="nav-name" :class="navActive === index ? 'active' : ''" @click="changeNav(index, item)"
-          v-for="(item, index) in nav_list" :key="index" @mouseover="selectStyle(index)" @mouseleave="leaver(index)">
+        <div class="nav-name" :class="indexActive === index ? 'active' : ''" @click="changeNav(index, item)"
+          v-for="(item, index) in nav_list" :key="index">
+          <mars-icon v-if="item.icon" :icon="item.icon" class="menu-icon"  width="18"/>
           {{ item.name }}
-          <!-- <span v-if="item.children" class="iconfont iconjiantouarrow483"></span> -->
-          <mars-icon v-if="item.children" icon="down" class="icon-vertical-a" />
-          <div class="select" v-if="item.children && indexActive === index">
-            <div class="item-select" v-for="(nav, ids) in item.children" :key="ids" @click="showPage(nav)">
-              {{ nav.name }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="r-icon pc_hide" @click="showPath">
-        <img src="../assets/img/18.png" />
-      </div> -->
-    </div>
-    <div class="mb-fix" v-if="needPath">
-      <div v-for="(item, index) in nav_list" :key="index">
-        <div class="nav-path" @click="changeNav(index, item)">
-          <div class="nav-msg">{{ item.name }}</div>
-          <div class="nav-pic"><img src="/img/icon/r-1.png" /></div>
-        </div>
-        <div class="select" v-if="item.children && indexActive === index">
-          <div class="item-select" v-for="(childItem, childIdx) in item.children" :key="childIdx"
-            @click="showPage(childItem)">
-            {{ childItem.name }}
-          </div>
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -49,75 +27,33 @@ export default {
   components: {
     MarsIcon
   },
-  props: {
-    navActive: Number
-  },
   emits: ["clickNav"],
   data () {
     return {
-      indexActive: "",
+      indexActive: 0,
       nav_list: [
         {
-          url: "/",
-          name: "功能"
+          name: "功能示例",
+          icon: "international",
+          url: "/"
         },
         {
-          name: "帮助",
-          children: [
-            {
-              name: "开发教程",
-              attr: "http://mars3d.cn/dev/guide/index.html"
-            },
-            {
-              name: "API文档",
-              attr: "http://mars3d.cn/api/Map.html"
-            },
-            {
-              name: "技术交流群",
-              attr: "http://mars3d.cn/community.html"
-            },
-            {
-              name: "Mars3D官网",
-              attr: "http://mars3d.cn/",
-              target: "_blank"
-            }
-          ]
+          name: "开发教程",
+          icon: "doc-search-two",
+          page: "//mars3d.cn/docs/"
+        },
+        {
+          name: "API文档",
+          icon: "api",
+          page: "//mars3d.cn/api/Map.html"
         }
-      ],
-      activeUrl: "/",
-      needPath: false,
-      hoverActive: -1
-    }
-  },
-  watch: {
-    navActive (e) {
-      // console.log(e)
+      ]
     }
   },
   methods: {
-    selectStyle (index) {
-      this.indexActive = index
-    },
-    leaver () {
-      this.indexActive = -1
-    },
-    showPath () {
-      this.needPath = !this.needPath
-    },
     changeNav (index, item) {
-      if (item.children) {
-        this.indexActive = index
-      } else {
-        this.showPage(item)
-      }
-    },
-    showPage (item) {
-      if (item.target === "_blank") {
-        window.open(item.attr, "_blank")
-      } else {
-        this.$emit("clickNav", item.attr)
-        this.needPath = false
-      }
+      this.$emit("clickNav", item)
+      this.indexActive = index
     }
   }
 }
@@ -155,6 +91,7 @@ export default {
   .logo-name {
     font-size: 25px;
     line-height: 24px;
+    font-weight: bold;
     color: #ffffff;
   }
 
@@ -164,12 +101,15 @@ export default {
   }
 
   .nav-name {
-    font-size: 16px;
+    font-size: 19px;
     color: #ffffff;
     margin-left: 56px;
     line-height: 50px;
     cursor: pointer;
     position: relative;
+  }
+  .menu-icon{
+    margin-right: 4px;
   }
 
   .select {

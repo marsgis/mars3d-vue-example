@@ -140,7 +140,8 @@ export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
   graphicLayer.enabledEvent = false // 关闭事件，大数据addGraphic时影响加载时间
 
-  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+
+  const bbox = [116.032217, 30.842147, 116.500915, 31.165476]
   const result = mars3d.PolyUtil.getGridPoints(bbox, count, 30)
   console.log("生成的测试网格坐标", result)
 
@@ -158,9 +159,8 @@ export function addRandomGraphicByCount(count) {
         color: "#ffff00",
         outline: true,
         outlineColor: "#000000",
-        outlineWidth: 2,
-        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+        outlineWidth: 2
+        // clampToGround: true
       },
       attr: { index }
     })

@@ -3592,6 +3592,7 @@ const styleConfig = {
           { label: "棋盘", value: "Checkerboard" },
           { label: "文本", value: "Text" },
 
+          { label: "波纹扩散", value: "CircleWave" },
           { label: "渐变面", value: "PolyGradient" },
           { label: "双色渐变面", value: "PolyGradient2" },
           { label: "水面", value: "Water" },
@@ -4307,7 +4308,9 @@ const styleConfig = {
       {
         name: "distance",
         label: "投射距离",
-        type: "text"
+        type: "number",
+        min: 0,
+        step: 1
       },
 
       {
@@ -4422,7 +4425,9 @@ const styleConfig = {
       {
         name: "distance",
         label: "投射距离",
-        type: "text"
+        type: "number",
+        min: 0,
+        step: 1
       },
 
       {
@@ -4751,7 +4756,7 @@ const styleConfig = {
         name: "serifWidth",
         label: "衬线线宽",
         type: "number",
-        min: 1.0,
+        min: 0.1,
         max: 50.0,
         step: 0.1,
         defval: 1.0,
@@ -4788,7 +4793,7 @@ const styleConfig = {
           { label: "蓝光水面", value: "WaterLight" }
         ],
         show({ style }) {
-          return style?.fill !== false && (style?.materialType ? this.data?.some((item) => item.value === style?.materialType) : true)
+          return style?.hasFill !== false && style?.fill
         }
       },
 

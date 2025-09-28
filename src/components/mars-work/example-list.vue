@@ -122,7 +122,6 @@
                   <p>
                     {{ item2.name }}
 
-
                     <svg
                       class="vue"
                       v-if="item2.hasPannel === true"
@@ -423,6 +422,7 @@ API：mars3d.${api_name}`
 
 <style scoped>
 .page-wrap {
+  margin-top: 68px;
   padding-top: 0px;
   height: 100vh;
   box-sizing: border-box;

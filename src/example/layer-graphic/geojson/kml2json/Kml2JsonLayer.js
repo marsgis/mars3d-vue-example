@@ -4,10 +4,11 @@
 /**
  * 通过转geojson方式 加载kml和kmz文件。
  *
- * 提示：静态引入项目中使用时，kgUtil使用需要引入 ../lib/geojson/kml-geojson.js文件
- * import "../lib/geojson/kml-geojson", 通过window.kgUtil使用
+ * 提示：静态引入项目中使用时，kgUtil使用需要引入 ../../../../../public/lib/geojson/kml-geojson.js文件(路径可能变动)
+ * import "../../../../../public/lib/geojson/kml-geojson.js", 通过window.kgUtil使用
  *
  * 提示：vue项目中使用时，
+ * 0.安装对应的依赖
  * 1.把顶部的import行注释取消；
  * 2.class Kml2JsonLayer前面加export；
  * 3.再把源码的 kgUtil.toGeoJSON 替换为 kml2geojson；

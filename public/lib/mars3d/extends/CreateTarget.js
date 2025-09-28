@@ -15,13 +15,11 @@
  * @param {object[]} [options.controls]  控件对象创建参数 列表
  */
 class CreateTarget extends mars3d.TaskItem {
-
-
-  _mountedHook () {
+  _mountedHook() {
     const graphicsOptions = this.options.graphics || []
     if (graphicsOptions && graphicsOptions.length > 0) {
-      const layerId = graphicsOptions[0].layer.id
-      const graphicLayer = this._map.getLayerById(layerId)
+      const layerId = graphicsOptions[0]?.layer?.id
+      const graphicLayer = layerId && this._map.getLayerById(layerId)
       if (graphicLayer) {
         graphicLayer.remove(true)
       }
@@ -48,7 +46,6 @@ class CreateTarget extends mars3d.TaskItem {
       })
     }
 
-
     const controlsOptions = this.options.controls
     if (controlsOptions && controlsOptions.length > 0) {
       controlsOptions.forEach((options) => {
@@ -58,15 +55,15 @@ class CreateTarget extends mars3d.TaskItem {
         }
       })
     }
-
   }
 
   // 进入，激活开始处理事务
-  _activateWork () {
+  _activateWork() {
     // 存在需要创建的矢量对象时
     const graphicsOptions = this.options.graphics || []
     if (graphicsOptions && graphicsOptions.length > 0) {
       this._graphicLayer = new mars3d.layer.GraphicLayer({
+        id: graphicsOptions[0].layerId,
         data: graphicsOptions // 直接支持传入构造参数数组
       })
       this._map.addLayer(this._graphicLayer)
@@ -119,7 +116,7 @@ class CreateTarget extends mars3d.TaskItem {
   }
 
   // 离开，释放相关对象
-  _disableWork () {
+  _disableWork() {
     if (this._graphicLayer) {
       this._graphicLayer.remove(true)
       delete this._graphicLayer

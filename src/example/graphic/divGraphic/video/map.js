@@ -55,12 +55,58 @@ export function onMounted(mapInstance) {
 
   // console.log("导出数据测试", graphicLayer.toJSON())
   // const layer = mars3d.LayerUtil.create(json)
+
+  graphicLayer.on(mars3d.EventType.popupOpen, function (event) {
+    const container = event.container // popup对应的DOM
+    console.log("图层上打开了popup", container)
+
+    const video = container.querySelector("video")
+    video.addEventListener("error", () => {
+      console.log("播放错误:", video.error)
+      // 尝试恢复播放
+      if (video.paused) {
+        video.play().catch((err) => console.log("恢复失败:", err))
+      }
+    })
+  })
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
 }
+
+// function addRandomGraphicByCount(graphicLayer, position) {
+//   const graphicImg = new mars3d.graphic.DivGraphic({
+//     position,
+//     style: {
+//       html: ` <div class="mars3d-divCameraPoint-content">
+//                       <img class="mars3d-divCameraPoint-img" src="https://data.mars3d.cn/img/marker/svg/camera.svg" >
+//                     </div>
+//                     <div class="mars3d-divCameraPoint-line" ></div>
+//                     <div class="mars3d-divCameraPoint-point"></div>
+//                   `,
+//       offsetX: -16,
+//       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 100000)
+//     },
+//     popup: `<video preload="auto" controls autoplay muted width="500">
+//       <source src="http://data.mars3d.cn/file/video/lukou.mp4" type="video/mp4">
+//     </video>`,
+//     popupOptions: {
+//       useGraphicPostion: true,
+//       offsetY: -170, // 显示Popup的偏移值，是DivGraphic本身的像素高度值
+//       template: `<div class="marsBlackPanel animation-spaceInDown">
+//                         <div class="marsBlackPanel-text">{content}</div>
+//                         <span class="mars3d-popup-close-button closeButton" >×</span>
+//                       </div>`,
+//       horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+//       verticalOrigin: Cesium.VerticalOrigin.CENTER
+//     }
+//   })
+//   graphicLayer.addGraphic(graphicImg)
+
+//   return graphicImg
+// }
 
 function addRandomGraphicByCount(graphicLayer, position) {
   const graphicImg = new mars3d.graphic.DivGraphic({
@@ -75,7 +121,12 @@ function addRandomGraphicByCount(graphicLayer, position) {
       offsetX: -16,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 100000)
     },
-    popup: `<video src='http://data.mars3d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`,
+    popup: {
+      type: "iframe",
+      url: `http://player.bilibili.com/player.html?isOutside=true&aid=464541155&bvid=BV1PL41177SS&from={id}`,
+      width: 600,
+      height: 400
+    },
     popupOptions: {
       useGraphicPostion: true,
       offsetY: -170, // 显示Popup的偏移值，是DivGraphic本身的像素高度值

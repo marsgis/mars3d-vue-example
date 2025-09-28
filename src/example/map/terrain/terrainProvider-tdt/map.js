@@ -21,7 +21,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // http://mars3d.cn/dev/guide/issue/token.html
+  // http://mars3d.cn/docs/issue/token/
   globalNotify("已知问题提示", `(1)如果天地图token超量或失效，请您自行申请替换mars3d.Token.updateTianditu("key value")。`)
 
   // 方式2：在创建地球后更新terrainProvider

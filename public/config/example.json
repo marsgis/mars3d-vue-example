@@ -61,7 +61,7 @@
   {
     "name": "三维场景",
     "icon": "fa-cubes",
-    "dev": "guide/map/map",
+    "dev": "basis/",
     "children": [
       {
         "name": "场景序列化",
@@ -153,6 +153,7 @@
               "/lib/mars3d/extends/ZoomIn.js",
               "/lib/mars3d/extends/ZoomOut.js",
               "/lib/mars3d/extends/GraphicStyle.js",
+              "/lib/mars3d/extends/GraphicOptions.js",
               "/lib/mars3d/extends/CreateTarget.js",
               "/lib/mars3d/extends/SceneOptions.js"
             ]
@@ -261,7 +262,7 @@
       {
         "name": "相机及视角控制",
         "developerShow": false,
-        "dev": "guide/map/camera",
+        "dev": "basis/camera/",
         "children": [
           {
             "name": "视角书签",
@@ -363,6 +364,7 @@
               "/lib/mars3d/extends/ZoomIn.js",
               "/lib/mars3d/extends/ZoomOut.js",
               "/lib/mars3d/extends/GraphicStyle.js",
+              "/lib/mars3d/extends/GraphicOptions.js",
               "/lib/mars3d/extends/CreateTarget.js",
               "/lib/mars3d/extends/SceneOptions.js"
             ]
@@ -479,7 +481,7 @@
   {
     "name": "三维地形",
     "icon": "fa-area-chart",
-    "dev": "guide/map/terrain",
+    "dev": "basis/terrain/",
     "children": [
       {
         "name": "地形图层",
@@ -583,7 +585,7 @@
   {
     "name": "瓦片底图",
     "icon": "fa-photo",
-    "dev": "guide/map/tileLayer",
+    "dev": "basis/tile/",
     "children": [
       {
         "name": "在线地图加载",
@@ -686,7 +688,7 @@
       {
         "name": "坐标系的支持",
         "details": "当前平台支持的底图坐标系演示",
-        "dev": "guide/map/crs",
+        "dev": "basis/crs/",
         "children": [
           {
             "name": "EPSG3857 Web墨卡托坐标系",
@@ -861,7 +863,7 @@
   {
     "name": "矢量图层",
     "icon": "fa-server",
-    "dev": "guide/map/graphicLayer",
+    "dev": "basis/graphicLayer/",
     "children": [
       {
         "name": "基础矢量图层",
@@ -1138,7 +1140,7 @@
   {
     "name": "3DTiles三维模型",
     "icon": "fa-building-o",
-    "dev": "guide/map/tileset",
+    "dev": "basis/tileset/",
     "children": [
       {
         "name": "各类模型的支持",
@@ -1464,7 +1466,7 @@
   {
     "name": "矢量对象",
     "icon": "fa-puzzle-piece",
-    "dev": "guide/map/graphic",
+    "dev": "basis/graphic/",
     "children": [
       {
         "name": "统一机制",
@@ -1814,7 +1816,7 @@
       {
         "name": "gLTF模型",
         "download": false,
-        "dev": "guide/map/gltf",
+        "dev": "basis/gltf/",
         "children": [
           {
             "name": "gLTF模型",
@@ -3150,7 +3152,7 @@
   {
     "name": "工具控件",
     "icon": "fa-briefcase",
-    "dev": "guide/map/control",
+    "dev": "basis/control/",
     "children": [
       {
         "name": "内置控件",
@@ -3394,7 +3396,7 @@
   {
     "name": "环境特效",
     "icon": "fa-futbol-o",
-    "dev": "guide/map/effect",
+    "dev": "basis/effect/",
     "children": [
       {
         "name": "对象交互特效",
@@ -3526,7 +3528,7 @@
   {
     "name": "管理及分析",
     "icon": "fa-futbol-o",
-    "dev": "guide/map/thing",
+    "dev": "basis/thing/",
     "children": [
       {
         "name": "综合空间分析",

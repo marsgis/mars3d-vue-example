@@ -29,7 +29,7 @@
 
  这是一个基于`Vue3.0`开发的 Mars3D 功能示例 演示项目。
 
- > 如果您不熟悉Vue，也可以阅读：[功能示例原生JS版](http://mars3d.cn/dev/guide/project/example-es5.html) 、[功能示例React版](http://mars3d.cn/dev/guide/project/example-react.html)
+ > 如果您不熟悉Vue，也可以阅读：[功能示例原生JS版](http://mars3d.cn/docs/guide/example-es5/) 、[功能示例React版](http://mars3d.cn/docs/guide/example-react/)
 
  
 ## 项目特性 

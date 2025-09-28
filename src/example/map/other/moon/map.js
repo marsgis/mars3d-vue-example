@@ -5,8 +5,9 @@ export let map // mars3d.Map三维地图对象
 // 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
-const ellipsoid = new Cesium.Ellipsoid(1737400, 1737400, 1737400)
-Cesium.Ellipsoid.default = ellipsoid
+// const ellipsoid = new Cesium.Ellipsoid(1737400, 1737400, 1737400)
+// Cesium.Ellipsoid.default = ellipsoid
+Cesium.Ellipsoid.default = Cesium.Ellipsoid.MOON
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -17,7 +18,7 @@ export const mapOptions = {
     showMoon: false,
     showSkyBox: false,
     showSkyAtmosphere: false,
-    ellipsoid: ellipsoid,
+    ellipsoid: Cesium.Ellipsoid.MOON,
     globe: {
       showGroundAtmosphere: false,
       enableLighting: false

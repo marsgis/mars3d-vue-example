@@ -1,4 +1,5 @@
 /**
+ *
  * 修改地图上矢量对象的样式（可用于show:出现、消失、闪烁、availability显示、postions移动、比例、popup属性）
  *
  * @param {object} [options] 参数对象，包括以下：
@@ -22,7 +23,7 @@ class GraphicOptions extends mars3d.TaskItem {
     }
 
     const layer = this._map.getLayerById(this.options.layerId)
-    let graphicOptions = this.options.graphicOptions
+    const graphicOptions = this.options.graphicOptions
     if (layer && graphicOptions) {
       if (!layer.show) {
         layer.show = true
@@ -50,7 +51,7 @@ class GraphicOptions extends mars3d.TaskItem {
 
         // 如果设置了定时修改（比如：达到闪烁效果）
         if (this.options.interval) {
-          let tag = true
+          let tag = false
 
           this._interVal = setInterval(() => {
             tag = !tag

@@ -69,6 +69,16 @@ export function onMounted(mapInstance) {
         style: { color: "#ffff00" }
       },
       {
+        type: "graphicOptions",
+        name: "属性显示",
+        start: 15,
+        duration: 6,
+        layerId: "20241101",
+        graphicIds: ["M-1A3A8E36-3764-4D4C-BAFF-737CEAB42D12"],
+        graphicOptions: { popup: "all", popupOptions: { open: true } }, // 修改的grpahic的options
+        reset: true // 如需要一直展示，不到时关闭，注释该行
+      },
+      {
         type: "camera",
         name: "单个视角定位",
         start: 21,
@@ -82,13 +92,15 @@ export function onMounted(mapInstance) {
         duration: 8,
         graphics: [
           {
+            id: "test-grpahic-0825",
             type: "billboardP",
             position: [117.171218, 31.841133, 253.6],
             style: {
               image: "https://data.mars3d.cn/img/marker/mark-blue.png",
               horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
               verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-            }
+            },
+            attr: { name: "我是创建标记创建的图标点" }
           }
         ]
       },

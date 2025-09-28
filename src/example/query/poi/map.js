@@ -88,7 +88,6 @@ export function changeService(type) {
   queryPOI.setOptions({ service: type })
 }
 
-
 /**
  * 查询
  *
@@ -100,21 +99,20 @@ export function changeService(type) {
  */
 export function query(radioFanwei, cityShi, text) {
   resultList = []
+
+  const queryOptions = {
+    page: 0
+  }
   switch (radioFanwei) {
     case "2": {
       // 当前视角范围
       const extent = map.getExtent()
-      loadData(
-        {
-          page: 0,
-          polygon: [
-            [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax]
-          ],
-          limit: true
-        },
-        text
-      )
+
+      queryOptions.limit = true
+      queryOptions.polygon = [
+        [extent.xmin, extent.ymin],
+        [extent.xmax, extent.ymax]
+      ]
       break
     }
     case "3": // 按范围
@@ -122,31 +120,25 @@ export function query(radioFanwei, cityShi, text) {
         globalMsg("请绘制限定范围！")
         return
       }
-      loadData(
-        {
-          page: 0,
-          graphic: drawGraphic,
-          limit: true
-        },
-        text
-      )
+      queryOptions.limit = true
+      queryOptions.graphic = drawGraphic
       break
     default: {
-      const dmmc = cityShi
-      loadData(
-        {
-          page: 0,
-          city: dmmc,
-          citylimit: true
-        },
-        text
-      )
+      queryOptions.cityShi = cityShi
+      queryOptions.citylimit = true
       break
     }
   }
-}
 
-function loadData(queryOptions, text) {
+  switch (queryPOI.options.service) {
+    case "tdt":
+      queryOptions.level = map.level
+      if (!queryOptions.polygon) {
+        queryOptions.extent = map.getExtent()
+      }
+      break
+  }
+
   if (!text) {
     globalMsg("请输入 名称 关键字筛选数据！")
     return

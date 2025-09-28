@@ -2,7 +2,8 @@
 
 /**
  * 通过转geojson方式 加载shp文件。
- * shpUtil 使用需要引入 ../lib/geojson/shp-geojson.js文件
+ * shpUtil 使用需要引入 ../../../../../public/lib/geojson/shp-geojson.js文件(路径可能变动)
+ *  import "../../../../../public/lib/geojson/shp-geojson.js"，通过window.shpUtil使用
  */
 class Shp2JsonLayer extends mars3d.layer.GeoJsonLayer {
   /**

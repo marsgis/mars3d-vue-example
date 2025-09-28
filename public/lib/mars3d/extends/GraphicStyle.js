@@ -16,7 +16,7 @@
  */
 class GraphicStyle extends mars3d.TaskItem {
   // 进入，激活开始处理事务
-  _activateWork () {
+  _activateWork() {
     if (!this._map.clock.shouldAnimate) {
       return
     }
@@ -53,7 +53,7 @@ class GraphicStyle extends mars3d.TaskItem {
 
         // 如果设置了定时修改（比如：达到闪烁效果）
         if (this.options.interval) {
-          let tag = true
+          let tag = false
 
           this._interVal = setInterval(() => {
             tag = !tag
@@ -75,8 +75,8 @@ class GraphicStyle extends mars3d.TaskItem {
     }
   }
 
-  _updateGraphic (graphic, newStyle) {
-    let allStyle = mars3d.Util.clone(graphic.style)
+  _updateGraphic(graphic, newStyle) {
+    const allStyle = mars3d.Util.clone(graphic.style)
     const oldStyle = {}
 
     const noKey = []
@@ -101,7 +101,7 @@ class GraphicStyle extends mars3d.TaskItem {
   }
 
   // 离开，释放相关对象
-  _disableWork () {
+  _disableWork() {
     if (this._interVal) {
       clearInterval(this._interVal)
       delete this._interVal

@@ -37,6 +37,7 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
   }
 
   queryPoi = new mars3d.query.QueryPOI({
+    service: "gaode"
     // city: '合肥市',
   })
 

@@ -10,6 +10,8 @@ dist
 /src/widgets/**/*.js
 /src/example/a-next/**
 /public/lib/
+/public/temp/
+/src/common/*.js
 /docs
 .husky
 .local

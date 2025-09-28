@@ -5,8 +5,9 @@ export let map // mars3d.Map三维地图对象
 // 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
-const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
-Cesium.Ellipsoid.default = ellipsoid
+// const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
+// Cesium.Ellipsoid.default = ellipsoid
+Cesium.Ellipsoid.default = Cesium.Ellipsoid.MARS
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -16,8 +17,8 @@ export const mapOptions = {
     showSun: false,
     showMoon: false,
     showSkyBox: false,
-    showSkyAtmosphere: false,
-    ellipsoid: ellipsoid,
+    ellipsoid: Cesium.Ellipsoid.MARS,
+    skyAtmosphere: new Cesium.SkyAtmosphere(Cesium.Ellipsoid.MARS),
     globe: {
       showGroundAtmosphere: false,
       enableLighting: false
@@ -82,6 +83,25 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的服务存在异常。`)
+
+  // Adjust the default atmosphere coefficients to be more Mars-like
+  const scene = map.scene
+  scene.skyAtmosphere.atmosphereMieCoefficient = new Cesium.Cartesian3(9.0e-5, 2.0e-5, 1.0e-5)
+  scene.skyAtmosphere.atmosphereRayleighCoefficient = new Cesium.Cartesian3(9.0e-6, 2.0e-6, 1.0e-6)
+  scene.skyAtmosphere.atmosphereRayleighScaleHeight = 9000
+  scene.skyAtmosphere.atmosphereMieScaleHeight = 2700.0
+  scene.skyAtmosphere.saturationShift = -0.1
+  scene.skyAtmosphere.perFragmentAtmosphere = true
+
+  // Adjust postprocess settings for brighter and richer features
+  const bloom = map.scene.postProcessStages.bloom
+  bloom.enabled = true
+  bloom.uniforms.brightness = -0.5
+  bloom.uniforms.stepSize = 1.0
+  bloom.uniforms.sigma = 3.0
+  bloom.uniforms.delta = 1.5
+  scene.highDynamicRange = true
+  map.scene.postProcessStages.exposure = 1.5
 
   openLighting()
 }

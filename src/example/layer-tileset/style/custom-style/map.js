@@ -72,6 +72,8 @@ export function onMounted(mapInstance) {
     }
 
     return "rgba(255,255,255,0.7)"
+
+    // return " " 这里返回一个空格字符串，就可以保持原本的颜色
   }
 
   // 还原或删除赋予的样式
