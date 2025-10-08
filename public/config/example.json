@@ -2052,8 +2052,7 @@
             "thumbnail": "graphic-custom-route-uva.jpg",
             "main": "graphic/custom/route-uva",
             "api": "FixedRoute.html",
-            "libs": ["mars3d", "mars3d-space"],
-            "new": true
+            "libs": ["mars3d", "mars3d-space"]
           },
           {
             "name": "Route实时轨迹路线",
@@ -2088,8 +2087,7 @@
             "thumbnail": "graphic-custom-fixedRoute-uva.jpg",
             "main": "graphic/custom/fixedRoute-uva",
             "api": "FixedRoute.html",
-            "libs": ["mars3d", "mars3d-space"],
-            "new": true
+            "libs": ["mars3d", "mars3d-space"]
           },
           {
             "name": "行人漫游",
@@ -2555,7 +2553,8 @@
             "resources": [
               "/lib/mars3d/extends/GraphicStyle.js",
               "/lib/mars3d/extends/GraphicOptions.js"
-            ]
+            ],
+            "new":true
           }
         ]
       },
@@ -3574,7 +3573,6 @@
             "thumbnail": "thing-analysis-measure-volume-2model.jpg",
             "main": "thing/analysis/measure-volume-2model",
             "resources": ["Volume2ModelMeasure.js"],
-            "new":true,
             "hasPannel": true
           },
           {

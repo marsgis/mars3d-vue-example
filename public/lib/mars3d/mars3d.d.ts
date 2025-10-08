@@ -3,7 +3,7 @@
  * Mars3D三维可视化平台  mars3d
  *
  * 版本信息：v3.10.6
- * 编译日期：2025-09-28 20:10
+ * 编译日期：2025-10-08 16:42
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：火星科技免费公开版 ，2025-07-01
  */
@@ -40422,13 +40422,21 @@ declare namespace MeasureUtil {
      */
     function getSurfaceArea(positions: Cesium.Cartesian3[] | LngLatPoint[]): number;
     /**
-     * 计算2点的角度值，角度已正东为0度，顺时针为正方向
+     * 计算2点的角度值，角度已正东为0度，顺时针为正方向 [采用经纬度坐标规则算法计算]
      * @param startPosition - 需要计算的点
      * @param endPosition - 目标点，以该点为参考中心。
      * @param [isNorthZero = false] - 是否正北为0度角度（如方位角）
      * @returns 返回角度值，0至360度
      */
     function getAngle(startPosition: Cesium.Cartesian3, endPosition: Cesium.Cartesian3, isNorthZero?: boolean): number;
+    /**
+     * 计算2点的角度值，角度已正东为0度，顺时针为正方向 [采用笛卡尔坐标规则算法计算]
+     * @param startPosition - 需要计算的点
+     * @param endPosition - 目标点，以该点为参考中心。
+     * @param [isNorthZero = false] - 是否正北为0度角度（如方位角）
+     * @returns 返回角度值，0至360度
+     */
+    function getAngle2(startPosition: Cesium.Cartesian3, endPosition: Cesium.Cartesian3, isNorthZero?: boolean): number;
     /**
      * 格式化显示距离值, 可指定单位
      * @param val - 距离值，米
