@@ -8610,7 +8610,7 @@
               n = Cesium.RuntimeError,
               r = Cesium.TrustedServers,
               a = Cesium.defined,
-              o = Cesium.defaultValue;
+              o = function (value, defaultValue) {return   value ?? defaultValue };
             const c = /^data:(.*?)(;base64)?,(.*)$/;
             function l(e, t) {
               const n = d(e, t),
@@ -8628,7 +8628,7 @@
               if (null !== g)
                 return void h.resolve(
                   (function (e, t) {
-                    t = o(t, "");
+                    t =  t ?? "";
                     const n = e[1],
                       r = !!e[2],
                       i = e[3];

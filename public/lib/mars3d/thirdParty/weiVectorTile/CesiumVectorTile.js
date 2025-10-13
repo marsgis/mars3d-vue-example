@@ -24398,52 +24398,52 @@ exports.inflateUndermine = inflateUndermine;
             return options
           }
 
-          options = Cesium["defaultValue"](options, {})
-          this.fillColor = Cesium["defaultValue"](getColor(options.fillColor), getColor([0, 255, 255, 30]))
-          this.fill = Cesium["defaultValue"](options.fill, true)
+          options = (options, {})
+          this.fillColor = (getColor(options.fillColor), getColor([0, 255, 255, 30]))
+          this.fill = (options.fill, true)
           this.labelStroke = options.labelStroke
-          this.labelStrokeWidth = Cesium["defaultValue"](options.labelStrokeWidth, 1)
-          this.labelStrokeColor = Cesium["defaultValue"](getColor(options.labelStrokeColor), getColor([160, 99, 57])) //线样式
+          this.labelStrokeWidth = (options.labelStrokeWidth, 1)
+          this.labelStrokeColor = (getColor(options.labelStrokeColor), getColor([160, 99, 57])) //线样式
 
-          this.outlineColor = Cesium["defaultValue"](getColor(options.outlineColor), getColor("yellow"))
+          this.outlineColor = (getColor(options.outlineColor), getColor("yellow"))
           this.backgroundColor = getColor(options.backgroundColor)
-          this.lineWidth = Cesium["defaultValue"](options.lineWidth, 1.5)
-          this.outline = Cesium["defaultValue"](options.outline, true) //注记样式
+          this.lineWidth = (options.lineWidth, 1.5)
+          this.outline = (options.outline, true) //注记样式
 
-          this.fontColor = getColor(Cesium["defaultValue"](options.fontColor, "black"))
-          this.fontSize = Cesium["defaultValue"](options.fontSize, 16)
-          this.fontFamily = Cesium["defaultValue"](options.fontFamily, "宋体")
-          this.pointSize = Cesium["defaultValue"](options.pointSize, 4)
-          this.pointColor = getColor(Cesium["defaultValue"](options.pointColor, "yellow"))
-          this.pointStyle = Cesium["defaultValue"](options.pointStyle, "Ring") //'Solid','Ring','Circle'
+          this.fontColor = getColor((options.fontColor, "black"))
+          this.fontSize = (options.fontSize, 16)
+          this.fontFamily = (options.fontFamily, "宋体")
+          this.pointSize = (options.pointSize, 4)
+          this.pointColor = getColor((options.pointColor, "yellow"))
+          this.pointStyle = (options.pointStyle, "Ring") //'Solid','Ring','Circle'
 
-          this.labelPropertyName = Cesium["defaultValue"](options.labelPropertyName, "NAME")
-          this.ringRadius = Cesium["defaultValue"](options.ringRadius, 2)
-          this.circleLineWidth = Cesium["defaultValue"](options.circleLineWidth, 2)
+          this.labelPropertyName = (options.labelPropertyName, "NAME")
+          this.ringRadius = (options.ringRadius, 2)
+          this.circleLineWidth = (options.circleLineWidth, 2)
 
           if (Cesium["defined"](options.showMaker)) {
-            this.showMarker = Cesium["defaultValue"](options.showMaker, true)
+            this.showMarker = (options.showMaker, true)
           }
 
           if (Cesium["defined"](options.showMarker)) {
-            this.showMarker = Cesium["defaultValue"](options.showMarker, true)
+            this.showMarker = (options.showMarker, true)
           }
 
-          this.showLabel = Cesium["defaultValue"](options.showLabel, true)
-          this.showCenterLabel = Cesium["defaultValue"](options.showCenterLabel, false)
+          this.showLabel = (options.showLabel, true)
+          this.showCenterLabel = (options.showCenterLabel, false)
           this.centerLabelPropertyName = options.centerLabelPropertyName
-          this.labelOffsetX = Cesium["defaultValue"](options.labelOffsetX, 0)
-          this.labelOffsetY = Cesium["defaultValue"](options.labelOffsetY, 0)
+          this.labelOffsetX = (options.labelOffsetX, 0)
+          this.labelOffsetY = (options.labelOffsetY, 0)
           this.markerImage = options.markerImage
           this.lineDash = options.lineDash //this.lineOffset = options.lineOffset;
 
-          this.lineCap = Cesium["defaultValue"](options.lineCap, "butt")
-          this.lineJoin = Cesium["defaultValue"](options.lineJoin, "miter")
+          this.lineCap = (options.lineCap, "butt")
+          this.lineJoin = (options.lineJoin, "miter")
           this.shadowColor = getColor(options.shadowColor)
           this.shadowBlur = options.shadowBlur
           this.shadowOffsetX = options.shadowOffsetX
           this.shadowOffsetY = options.shadowOffsetY
-          this.miterLimit = Cesium["defaultValue"](options.miterLimit, 10)
+          this.miterLimit = (options.miterLimit, 10)
           this.markerImageEl = null
           var makerImagePromise = null
           var deferred = Cesium["defer"]()
@@ -25038,27 +25038,26 @@ exports.inflateUndermine = inflateUndermine;
           this._tilingScheme = new Cesium["GeographicTilingScheme"]({
             ellipsoid: options.ellipsoid
           })
-          this._tileWidth = Cesium["defaultValue"](options.tileWidth, 256)
-          this._tileHeight = Cesium["defaultValue"](options.tileHeight, 256)
+          this._tileWidth = (options.tileWidth?? 256)
+          this._tileHeight = (options.tileHeight?? 256)
           this._url = options.source
           this._fileExtension = ext
-          this._removeDuplicate = Cesium["defaultValue"](options.removeDuplicate, true)
-          this._allowPick = Cesium["defaultValue"](options.allowPick, false)
-          this._simplifyTolerance = Cesium["defaultValue"](options.simplifyTolerance, 0.01)
-          this._simplify = Cesium["defaultValue"](options.simplify, false) //this._multipleTask = Cesium.defaultValue(options.multipleTask, true);
-          //this._taskWaitTime = Cesium.defaultValue(options.taskWaitTime, 10);
+          this._removeDuplicate = (options.removeDuplicate?? true)
+          this._allowPick = (options.allowPick?? false)
+          this._simplifyTolerance = (options.simplifyTolerance?? 0.01)
+          this._simplify = (options.simplify?? false)
 
-          this._maximumLevel = Cesium["defaultValue"](options.maximumLevel, 22)
-          this._minimumLevel = Cesium["defaultValue"](options.minimumLevel, 3)
-          this._showMaximumLevel = Cesium["defaultValue"](options.showMaximumLevel, true)
+          this._maximumLevel = (options.maximumLevel?? 22)
+          this._minimumLevel = (options.minimumLevel?? 3)
+          this._showMaximumLevel = (options.showMaximumLevel?? true)
           this._makerImage = options.markerImage
-          this._tileCacheSize = Cesium["defaultValue"](options.tileCacheSize, 200)
+          this._tileCacheSize = (options.tileCacheSize?? 200)
 
           if (typeof_default()(options.defaultStyle) == "object" && !(options.defaultStyle instanceof VectorStyle)) {
             options.defaultStyle = new VectorStyle(options.defaultStyle)
           }
 
-          this._defaultStyle = Cesium["defaultValue"](options.defaultStyle, VectorStyle.Default.clone())
+          this._defaultStyle = (options.defaultStyle?? VectorStyle.Default.clone())
           this._styleFilter = typeof options.styleFilter == "function" ? options.styleFilter : undefined
           this.clustering = options.clustering
           this._errorEvent = new Cesium["Event"]()

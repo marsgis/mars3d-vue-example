@@ -2,15 +2,14 @@
 
 // import * as mars3d from "mars3d"
 
-;(function (window) {
-  function MvtImageryProvider(options) {
-    options = Cesium.defaultValue(options, Cesium.defaultValue.EMPTY_OBJECT)
+; (function (window) {
+  function MvtImageryProvider (options = {}) {
     this.options = options
 
-    this._tileWidth = Cesium.defaultValue(options.tileWidth, 512)
-    this._tileHeight = Cesium.defaultValue(options.tileHeight, 512)
-    this._minimumLevel = Cesium.defaultValue(options.minimumLevel, 0)
-    this._maximumLevel = Cesium.defaultValue(options.maximumLevel, 18)
+    this._tileWidth = (options.tileWidth ?? 512)
+    this._tileHeight = (options.tileHeight ?? 512)
+    this._minimumLevel = (options.minimumLevel ?? 0)
+    this._maximumLevel = (options.maximumLevel ?? 18)
 
     if (options.rectangle && options.rectangle.xmin && options.rectangle.xmax && options.rectangle.ymin && options.rectangle.ymax) {
       var xmin = options.rectangle.xmin
@@ -19,10 +18,10 @@
       var ymax = options.rectangle.ymax
       options.rectangle = Cesium.Rectangle.fromDegrees(xmin, ymin, xmax, ymax)
     }
-    this._tilingScheme = Cesium.defaultValue(options.tilingScheme, new Cesium.WebMercatorTilingScheme({ ellipsoid: options.ellipsoid }))
-    this._rectangle = Cesium.defaultValue(options.rectangle, this._tilingScheme.rectangle)
+    this._tilingScheme = (options.tilingScheme ?? new Cesium.WebMercatorTilingScheme({ ellipsoid: options.ellipsoid }))
+    this._rectangle = (options.rectangle ?? this._tilingScheme.rectangle)
     this._rectangle = Cesium.Rectangle.intersection(this._rectangle, this._tilingScheme.rectangle)
-    this._hasAlphaChannel = Cesium.defaultValue(options.hasAlphaChannel, true)
+    this._hasAlphaChannel = (options.hasAlphaChannel ?? true)
 
     this._errorEvent = new Cesium.Event()
     this._readyPromise = Cesium.defer()
@@ -36,8 +35,8 @@
     this._ol = window.ol
     this._mvtParser = new this._ol.format.MVT()
 
-    this._key = Cesium.defaultValue(options.key, "")
-    this._url = Cesium.defaultValue(options.url, "")
+    this._key = (options.key ?? "")
+    this._url = (options.url ?? "")
 
     if (options.styleConfig) {
       //(glStyle, sources, resolutions = defaultResolutions, spriteData, spriteImageUrl, getFonts)
@@ -201,7 +200,6 @@
         canvas.zMvt = level
         that._tileQueue.markTileRendered(canvas)
 
-        delete _replayGroup
         _replayGroup = null
 
         return canvas
@@ -209,7 +207,7 @@
     }
   }
 
-  function findTileInQueue(x, y, level, tileQueue) {
+  function findTileInQueue (x, y, level, tileQueue) {
     var item = tileQueue.head
     while (item != undefined && !(item.xMvt == x && item.yMvt == y && item.zMvt == level)) {
       item = item.replacementNext
@@ -217,7 +215,7 @@
     return item
   }
 
-  function removeQueue(tileReplacementQueue, item) {
+  function removeQueue (tileReplacementQueue, item) {
     var previous = item.replacementPrevious
     var next = item.replacementNext
 
@@ -243,13 +241,12 @@
     --tileReplacementQueue.count
   }
 
-  function trimTiles(tileQueue, maximumTiles) {
+  function trimTiles (tileQueue, maximumTiles) {
     var tileToTrim = tileQueue.tail
     while (tileQueue.count > maximumTiles && Cesium.defined(tileToTrim)) {
       var previous = tileToTrim.replacementPrevious
 
       removeQueue(tileQueue, tileToTrim)
-      delete tileToTrim
       tileToTrim = null
 
       tileToTrim = previous
@@ -257,7 +254,7 @@
   }
 
   class PbfolLayer extends mars3d.layer.BaseTileLayer {
-    _addedHook() {
+    _addedHook () {
       let styleUrl = this.options.style
       if (mars3d.Util.isString(styleUrl) && styleUrl.endsWith(".json")) {
         this.getPbfStyle(styleUrl).then((data) => {
@@ -270,12 +267,12 @@
       }
     }
     //构建ImageryProvider
-    async _createImageryProvider(options) {
+    async _createImageryProvider (options) {
       return createImageryProvider(options)
     }
 
     //取样式数据
-    getPbfStyle(styleUrl) {
+    getPbfStyle (styleUrl) {
       return mars3d.Util.fetchJson({
         url: styleUrl,
         queryParameters: {
@@ -291,7 +288,7 @@
     }
   }
 
-  async function createImageryProvider(options) {
+  async function createImageryProvider (options) {
     return new MvtImageryProvider(options)
   }
   PbfolLayer.createImageryProvider = createImageryProvider

@@ -1693,7 +1693,7 @@ define('Util/defineProperty',[],function () {
     return defineProperty;
 });
 define('Core/MeshMaterial',['Util/defineProperty'], function (defineProperty) {
-    var defaultValue = Cesium.defaultValue;
+
     /**
     *
     *@param {Object}options
@@ -1719,9 +1719,8 @@ define('Core/MeshMaterial',['Util/defineProperty'], function (defineProperty) {
     *@constructor
     *@memberof Cesium
     */
-    function MeshMaterial(options) {
-        options = defaultValue(options, {});
-        options.uniforms = defaultValue(options.uniforms, {});
+    function MeshMaterial(options={}) {
+        options.uniforms =  (options.uniforms??  {});
         var that = this;
 
         this._uuid = Cesium.createGuid();
@@ -1772,16 +1771,16 @@ define('Core/MeshMaterial',['Util/defineProperty'], function (defineProperty) {
             }
             return _uniforms;
         }
-        this._defaultColor = defaultValue(options.defaultColor, Cesium.Color.WHITE);
+        this._defaultColor =  (options.defaultColor??  Cesium.Color.WHITE);
         if (typeof this._defaultColor == 'string') {
             this._defaultColor = Cesium.Color.fromCssColorString(this._defaultColor);
         }
 
-        this._pickedColor = defaultValue(options.pickedColor, Cesium.Color.YELLOW);
+        this._pickedColor =  (options.pickedColor??  Cesium.Color.YELLOW);
         if (typeof this._pickedColor == 'string') {
             this._pickedColor = Cesium.Color.fromCssColorString(this._pickedColor);
         }
-        this._picked = defaultValue(options.picked, 0);
+        this._picked =  (options.picked??  0);
         options.uniforms.pickedColor = this._pickedColor;
         options.uniforms.defaultColor = this._defaultColor;
         options.uniforms.picked = this._picked;
@@ -1792,11 +1791,11 @@ define('Core/MeshMaterial',['Util/defineProperty'], function (defineProperty) {
             that.needsUpdate = changed;
         }
 
-        defineProperty(this, "translucent", defaultValue(options.translucent, false), onPropertyChanged);
-        defineProperty(this, "wireframe", defaultValue(options.wireframe, false), onPropertyChanged);
-        defineProperty(this, "side", defaultValue(options.side, MeshMaterial.Sides.DOUBLE), onPropertyChanged);
+        defineProperty(this, "translucent",  (options.translucent??  false), onPropertyChanged);
+        defineProperty(this, "wireframe",  (options.wireframe??  false), onPropertyChanged);
+        defineProperty(this, "side",  (options.side??  MeshMaterial.Sides.DOUBLE), onPropertyChanged);
 
-        defineProperty(this, "uniformStateUsed", defaultValue(options.uniformStateUsed, [{
+        defineProperty(this, "uniformStateUsed",  (options.uniformStateUsed??  [{
             uniformStateName: "model",
             glslVarName: "modelMatrix"
         }]), onPropertyChanged);
@@ -1808,12 +1807,12 @@ define('Core/MeshMaterial',['Util/defineProperty'], function (defineProperty) {
         this._vertexShader = '//#inner\n void main() {\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\n}';
         this._fragmentShader = '//#inner' + this._uuid + '\n uniform float picked;\n uniform vec4  pickedColor;\n uniform vec4  defaultColor;\n void main() {\nout_FragColor = defaultColor;\n if(picked!=0.0){\nout_FragColor = pickedColor;}}';// vec4( ' + this._defaultColor.red + ',' + this._defaultColor.green + ',' + this._defaultColor.blue + ',' + this._defaultColor.alpha + ');\n}';
 
-        defineProperty(this, "vertexShader", defaultValue(options.vertexShader, this._vertexShader), onPropertyChanged);
-        defineProperty(this, "fragmentShader", defaultValue(options.fragmentShader, this._fragmentShader), onPropertyChanged);
+        defineProperty(this, "vertexShader",  (options.vertexShader??  this._vertexShader), onPropertyChanged);
+        defineProperty(this, "fragmentShader",  (options.fragmentShader??  this._fragmentShader), onPropertyChanged);
 
-        this.depthTest =defaultValue(options.depthTest, true);
-        this.depthMask = defaultValue(options.depthMask, true);
-        this.blending = defaultValue(options.blending, true);
+        this.depthTest = (options.depthTest??  true);
+        this.depthMask =  (options.depthMask??  true);
+        this.blending =  (options.blending??  true);
 
         this.needsUpdate = true;
     }
@@ -2649,9 +2648,9 @@ define('Core/MeshPhongMaterial',[
             emission: [0, 0, 0],
             specular: 0
         };
-        options.uniforms.shininess = Cesium.defaultValue(options.uniforms.shininess, 0);
-        options.uniforms.emission = Cesium.defaultValue(options.uniforms.emission, [0.2, 0.2, 0.2]);
-        options.uniforms.specular = Cesium.defaultValue(options.uniforms.specular, 0);
+        options.uniforms.shininess = (options.uniforms.shininess?? 0);
+        options.uniforms.emission = (options.uniforms.emission??  [0.2, 0.2, 0.2]);
+        options.uniforms.specular = (options.uniforms.specular??  0);
 
         MeshMaterial.apply(this, arguments);
         this.vertexShader = phong_vert;
@@ -2674,7 +2673,6 @@ define('Core/Mesh',[
     GeometryUtils,
     MeshPhongMaterial
     ) {
-    var defaultValue = Cesium.defaultValue;
     /**
     *
     *@param {Object|geometry}options
@@ -2738,12 +2736,12 @@ define('Core/Mesh',[
         }
 
         this.uuid = Cesium.createGuid();
-        this.show = defaultValue(options.show, true);
+        this.show =  (options.show??  true);
         this._geometry = options.geometry;
-        this._material = defaultValue(options.material, new MeshMaterial());
-        this._position = defaultValue(options.position, new Cesium.Cartesian3(0, 0, 0));
-        this._scale = defaultValue(options.scale, new Cesium.Cartesian3(1, 1, 1));
-        this._rotation = defaultValue(options.rotation, { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
+        this._material =  (options.material??  new MeshMaterial());
+        this._position =  (options.position??  new Cesium.Cartesian3(0, 0, 0));
+        this._scale =  (options.scale??  new Cesium.Cartesian3(1, 1, 1));
+        this._rotation =  (options.rotation??  { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
         this._rotation = new Rotation(this._rotation.axis, this._rotation.angle);
         this._needsUpdate = false;
         this._modelMatrix = new Cesium.Matrix4();
@@ -3689,7 +3687,6 @@ define('Core/LOD',[
     ) {
 
 
-    var defaultValue = Cesium.defaultValue;
     /**
     *
     *@param {Object|geometry}options
@@ -3792,16 +3789,15 @@ define('Core/LOD',[
 
         }
     */
-    function LOD(options) {
+    function LOD(options={}) {
 
-        options = defaultValue(options, {});
 
         this.uuid = Cesium.createGuid();
-        this.show = defaultValue(options.show, true);
-        this.maxAvailableDistance = defaultValue(options.maxAvailableDistance, Number.MAX_VALUE);
-        this._position = defaultValue(options.position, new Cesium.Cartesian3(0, 0, 0));
-        this._scale = defaultValue(options.scale, new Cesium.Cartesian3(1, 1, 1));
-        this._rotation = defaultValue(options.rotation, { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
+        this.show =  (options.show??  true);
+        this.maxAvailableDistance =  (options.maxAvailableDistance??  Number.MAX_VALUE);
+        this._position =  (options.position?? new Cesium.Cartesian3(0, 0, 0));
+        this._scale =  (options.scale??  new Cesium.Cartesian3(1, 1, 1));
+        this._rotation =  (options.rotation??  { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
         this._rotation = new Rotation(this._rotation.axis, this._rotation.angle);
         this._boundingSphere = new Cesium.BoundingSphere();
         this._needsUpdate = false;
@@ -4149,13 +4145,12 @@ define('Core/ArrowGeometry',[
     *@constructor
     *@memberof Cesium
     */
-    function ArrowGeometry(options) {
-        options = Cesium.defaultValue(options, {});
-        this.length = Cesium.defaultValue(options.length, 50000);
-        this.width = Cesium.defaultValue(options.width, 125);
-        this.headLength = Cesium.defaultValue(options.headLength, 5000);
-        this.headWidth = Cesium.defaultValue(options.headWidth, 1000);
-        this.reverse = Cesium.defaultValue(options.reverse, false);
+    function ArrowGeometry(options={}) {
+        this.length = (options.length??  50000);
+        this.width = (options.width??  125);
+        this.headLength = (options.headLength??  5000);
+        this.headWidth = (options.headWidth??  1000);
+        this.reverse = (options.reverse ?? false);
     }
 
     /**
@@ -4290,7 +4285,6 @@ define('Core/ReferenceMesh',[
     Rotation,
     RendererUtils
     ) {
-    var defaultValue = Cesium.defaultValue;
     /**
     *
     *@param {Object}[options]
@@ -4309,8 +4303,7 @@ define('Core/ReferenceMesh',[
     *@constructor
     *@memberof Cesium
     */
-    function ReferenceMesh(options) {
-        options = Cesium.defaultValue(options, {});
+    function ReferenceMesh(options={}) {
         this._axisParameter = new ArrowGeometry(options.axisParameter);
         this._axisParameterY = new ArrowGeometry(options.axisParameter);
         this._axisParameterY.reverse = true;
@@ -4363,10 +4356,10 @@ define('Core/ReferenceMesh',[
         this.z = meshZ;
 
         this.uuid = Cesium.createGuid();
-        this.show = defaultValue(options.show, true);
-        this._position = defaultValue(options.position, new Cesium.Cartesian3(0, 0, 0));
-        this._scale = defaultValue(options.scale, new Cesium.Cartesian3(1, 1, 1));
-        this._rotation = defaultValue(options.rotation, { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
+        this.show =  (options.show??  true);
+        this._position =  (options.position??  new Cesium.Cartesian3(0, 0, 0));
+        this._scale =  (options.scale??  new Cesium.Cartesian3(1, 1, 1));
+        this._rotation =  (options.rotation??  { axis: new Cesium.Cartesian3(0, 0, 1), angle: 0 });
         this._rotation = new Rotation(this._rotation.axis, this._rotation.angle);
         this._needsUpdate = true;
         this._modelMatrixNeedsUpdate = true;
@@ -7169,7 +7162,6 @@ define('Core/MeshVisualizer',[
     var DepthFunction = Cesium.DepthFunction;
     var CullFace = Cesium.CullFace;
     var RenderState = Cesium.RenderState;
-    var defaultValue = Cesium.defaultValue;
     var Texture = Cesium.Texture;
     var PixelFormat = Cesium.PixelFormat;
     var BoxGeometry = Cesium.BoxGeometry;
@@ -7370,23 +7362,23 @@ define('Core/MeshVisualizer',[
         meshVisualizer.add(customMesh);
     */
     function MeshVisualizer(options) {
-        this._modelMatrix = defaultValue(options.modelMatrix, Matrix4.IDENTITY);
+        this._modelMatrix =  (options.modelMatrix??  Matrix4.IDENTITY);
         this._actualModelMatrix = Matrix4.clone(this._modelMatrix);
         this._ready = true;
         this._modelMatrixNeedsUpdate = true;
 
         this._isWireframe = false;
-        this._up = defaultValue(options.up, new Cartesian3(0, 0, 1));
-        this._position = defaultValue(options.position, new Cartesian3(0, 0, 0));
-        this._scale = defaultValue(options.scale, new Cartesian3(1, 1, 1));
-        this._rotation = defaultValue(options.rotation, { axis: new Cartesian3(0, 0, 1), angle: 0 });
+        this._up =  (options.up?? new Cartesian3(0, 0, 1));
+        this._position =  (options.position??  new Cartesian3(0, 0, 0));
+        this._scale =  (options.scale??  new Cartesian3(1, 1, 1));
+        this._rotation =  (options.rotation??  { axis: new Cartesian3(0, 0, 1), angle: 0 });
         this._rotation = new Rotation(this._rotation.axis, this._rotation.angle);
         this._rotation.paramChanged.addEventListener(this.onModelMatrixNeedUpdate, this);
 
 
         this._chidren = [];
         this._debug = false;
-        this._show = defaultValue(options.show, true);
+        this._show =  (options.show??  true);
 
         this._center = new Cartesian3();
         Cesium.Matrix4.getTranslation(this._modelMatrix, this._center);
@@ -7395,8 +7387,8 @@ define('Core/MeshVisualizer',[
         this._textureCache = {};
         this._uniformMaps = {};
         this.referenceMesh = new ReferenceMesh({
-            axisParameter: defaultValue(options.referenceAxisParameter, { length: 50000 * 2 }),
-            show: defaultValue(options.showReference, false)
+            axisParameter:  (options.referenceAxisParameter??  { length: 50000 * 2 }),
+            show:  (options.showReference??  false)
         });
         this.add(this.referenceMesh);
         this._pickIds = [];
@@ -8855,13 +8847,13 @@ define('Core/BasicMeshMaterial',[
             normalMap: undefined,                  // map_Bump
             alphaMap: undefined                    // map_d
         };
-        options.uniforms.ambientColor = Cesium.defaultValue(options.uniforms.ambientColor, [0, 0, 0, 1.0]);
-        options.uniforms.emissionColor = Cesium.defaultValue(options.uniforms.emissionColor, [0, 0, 0, 1.0]);
-        options.uniforms.diffuseColor = Cesium.defaultValue(options.uniforms.diffuseColor, [0, 0, 0, 1.0]);
-        options.uniforms.specularColor = Cesium.defaultValue(options.uniforms.specularColor, [0, 0, 0, 1.0]);
-        options.uniforms.alpha = Cesium.defaultValue(options.uniforms.alpha, 1);
-        options.uniforms.specularShininess = Cesium.defaultValue(options.uniforms.specularShininess, 0);
-        options.side = Cesium.defaultValue(options.side, MeshMaterial.Sides.FRONT)
+        options.uniforms.ambientColor = (options.uniforms.ambientColor??  [0, 0, 0, 1.0]);
+        options.uniforms.emissionColor = (options.uniforms.emissionColor??  [0, 0, 0, 1.0]);
+        options.uniforms.diffuseColor = (options.uniforms.diffuseColor??  [0, 0, 0, 1.0]);
+        options.uniforms.specularColor = (options.uniforms.specularColor??  [0, 0, 0, 1.0]);
+        options.uniforms.alpha = (options.uniforms.alpha??  1);
+        options.uniforms.specularShininess = (options.uniforms.specularShininess??  0);
+        options.side = (options.side??  MeshMaterial.Sides.FRONT)
 
         MeshMaterial.apply(this, [options]);
         this.blendEnable = false;

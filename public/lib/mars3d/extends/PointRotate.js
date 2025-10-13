@@ -15,7 +15,7 @@
  */
 class PointRotate extends mars3d.TaskItem {
   // 进入，激活开始处理事务
-  _activateWork() {
+  _activateWork () {
     if (this.options.center) {
       this._map.setCameraView(this.options.center, { duration: 0 })
     }
@@ -38,9 +38,28 @@ class PointRotate extends mars3d.TaskItem {
       this._rotatePoint.start(this.options.point)
     }
   }
+  // 暂停(非必须)
+  _pauseWork (options) {
+   if (this._rotatePoint) {
+      this._rotatePoint.pause()
+    }
+    if (this._rotateOut) {
+      this._rotateOut.pause()
+    }
+  }
+
+  // 继续(非必须)
+  _proceedWork () {
+    if (this._rotatePoint) {
+      this._rotatePoint.proceed()
+    }
+    if (this._rotateOut) {
+      this._rotateOut.proceed()
+    }
+  }
 
   // 离开，释放相关对象
-  _disableWork() {
+  _disableWork () {
     if (this._rotatePoint) {
       this._rotatePoint.stop()
       this._rotatePoint.destroy()

@@ -478,7 +478,6 @@
 
   define("conic/conic-sensor-graphics", [
     "require",
-    "Cesium/Core/defaultValue",
     "Cesium/Core/defined",
     "Cesium/Core/DeveloperError",
     "Cesium/Core/Event",
@@ -487,7 +486,6 @@
   ], function (require) {
     "use strict"
 
-    var defaultValue = require("Cesium/Core/defaultValue")
     var defined = require("Cesium/Core/defined")
     var defineProperties = Object.defineProperties
     var DeveloperError = require("Cesium/Core/DeveloperError")
@@ -525,7 +523,7 @@
       this._showSubscription = undefined
       this._definitionChanged = new Event()
 
-      this.merge(defaultValue(options, defaultValue.EMPTY_OBJECT))
+      this.merge(options??{})
     }
 
     defineProperties(ConicSensorGraphics.prototype, {
@@ -649,16 +647,16 @@
       }
       // >>includeEnd('debug');
 
-      this.show = defaultValue(this.show, source.show)
-      this.innerHalfAngle = defaultValue(this.innerHalfAngle, source.innerHalfAngle)
-      this.outerHalfAngle = defaultValue(this.outerHalfAngle, source.outerHalfAngle)
-      this.minimumClockAngle = defaultValue(this.minimumClockAngle, source.minimumClockAngle)
-      this.maximumClockAngle = defaultValue(this.maximumClockAngle, source.maximumClockAngle)
-      this.radius = defaultValue(this.radius, source.radius)
-      this.showIntersection = defaultValue(this.showIntersection, source.showIntersection)
-      this.intersectionColor = defaultValue(this.intersectionColor, source.intersectionColor)
-      this.intersectionWidth = defaultValue(this.intersectionWidth, source.intersectionWidth)
-      this.lateralSurfaceMaterial = defaultValue(this.lateralSurfaceMaterial, source.lateralSurfaceMaterial)
+      this.show = (this.show?? source.show)
+      this.innerHalfAngle = (this.innerHalfAngle?? source.innerHalfAngle)
+      this.outerHalfAngle = (this.outerHalfAngle?? source.outerHalfAngle)
+      this.minimumClockAngle = (this.minimumClockAngle?? source.minimumClockAngle)
+      this.maximumClockAngle = (this.maximumClockAngle?? source.maximumClockAngle)
+      this.radius = (this.radius?? source.radius)
+      this.showIntersection = (this.showIntersection?? source.showIntersection)
+      this.intersectionColor = (this.intersectionColor?? source.intersectionColor)
+      this.intersectionWidth = (this.intersectionWidth?? source.intersectionWidth)
+      this.lateralSurfaceMaterial = (this.lateralSurfaceMaterial?? source.lateralSurfaceMaterial)
     }
 
     return ConicSensorGraphics
@@ -800,7 +798,6 @@
     "Cesium/Core/Color",
     "Cesium/Core/combine",
     "Cesium/Core/ComponentDatatype",
-    "Cesium/Core/defaultValue",
     "Cesium/Core/defined",
     "Cesium/Core/destroyObject",
     "Cesium/Core/DeveloperError",
@@ -829,7 +826,6 @@
     var Color = require("Cesium/Core/Color")
     var combine = require("Cesium/Core/combine")
     var ComponentDatatype = require("Cesium/Core/ComponentDatatype")
-    var defaultValue = require("Cesium/Core/defaultValue")
     var defined = require("Cesium/Core/defined")
     var defineProperties = Object.defineProperties
     var destroyObject = require("Cesium/Core/destroyObject")
@@ -866,11 +862,10 @@
      * @alias CustomSensorVolume
      * @constructor
      */
-    var CustomSensorVolume = function (options) {
-      options = defaultValue(options, defaultValue.EMPTY_OBJECT)
+    var CustomSensorVolume = function (options={}) {
 
       this._pickId = undefined
-      this._pickPrimitive = defaultValue(options._pickPrimitive, this)
+      this._pickPrimitive =  (options._pickPrimitive?? this)
 
       this._frontFaceColorCommand = new DrawCommand()
       this._backFaceColorCommand = new DrawCommand()
@@ -897,7 +892,7 @@
        * @type {Boolean}
        * @default true
        */
-      this.show = defaultValue(options.show, true)
+      this.show =  (options.show?? true)
 
       /**
        * When <code>true</code>, a polyline is shown where the sensor outline intersections the globe.
@@ -908,7 +903,7 @@
        *
        * @see CustomSensorVolume#intersectionColor
        */
-      this.showIntersection = defaultValue(options.showIntersection, true)
+      this.showIntersection =  (options.showIntersection?? true)
 
       /**
        * <p>
@@ -919,7 +914,7 @@
        * @type {Boolean}
        * @default false
        */
-      this.showThroughEllipsoid = defaultValue(options.showThroughEllipsoid, false)
+      this.showThroughEllipsoid =  (options.showThroughEllipsoid?? false)
       this._showThroughEllipsoid = this.showThroughEllipsoid
 
       /**
@@ -942,7 +937,7 @@
        * var center = Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883);
        * sensor.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
        */
-      this.modelMatrix = Matrix4.clone(defaultValue(options.modelMatrix, Matrix4.IDENTITY))
+      this.modelMatrix = Matrix4.clone(options.modelMatrix?? Matrix4.IDENTITY)
       this._modelMatrix = new Matrix4()
 
       /**
@@ -951,7 +946,7 @@
        * @type {Number}
        * @default {@link Number.POSITIVE_INFINITY}
        */
-      this.radius = defaultValue(options.radius, Number.POSITIVE_INFINITY)
+      this.radius =  (options.radius?? Number.POSITIVE_INFINITY)
 
       this._directions = undefined
       this._directionsDirty = false
@@ -988,7 +983,7 @@
        *
        * @see CustomSensorVolume#showIntersection
        */
-      this.intersectionColor = Color.clone(defaultValue(options.intersectionColor, Color.WHITE))
+      this.intersectionColor = Color.clone( (options.intersectionColor?? Color.WHITE))
 
       /**
        * The approximate pixel width of the polyline where the sensor outline intersects the globe.  The default is 5.0.
@@ -998,7 +993,7 @@
        *
        * @see CustomSensorVolume#showIntersection
        */
-      this.intersectionWidth = defaultValue(options.intersectionWidth, 5.0)
+      this.intersectionWidth =  (options.intersectionWidth?? 5.0)
 
       /**
        * User-defined object returned when the sensors is picked.
@@ -1684,7 +1679,6 @@
 
   define("custom/custom-pattern-sensor-graphics", [
     "require",
-    "Cesium/Core/defaultValue",
     "Cesium/Core/defined",
     "Cesium/Core/DeveloperError",
     "Cesium/Core/Event",
@@ -1693,7 +1687,6 @@
   ], function (require) {
     "use strict"
 
-    var defaultValue = require("Cesium/Core/defaultValue")
     var defined = require("Cesium/Core/defined")
     var defineProperties = Object.defineProperties
     var DeveloperError = require("Cesium/Core/DeveloperError")
@@ -1727,7 +1720,7 @@
       this._showSubscription = undefined
       this._definitionChanged = new Event()
 
-      this.merge(defaultValue(options, defaultValue.EMPTY_OBJECT))
+      this.merge(options??{})
     }
 
     defineProperties(CustomPatternSensorGraphics.prototype, {
@@ -1827,13 +1820,13 @@
       }
       // >>includeEnd('debug');
 
-      this.directions = defaultValue(this.directions, source.directions)
-      this.radius = defaultValue(this.radius, source.radius)
-      this.show = defaultValue(this.show, source.show)
-      this.showIntersection = defaultValue(this.showIntersection, source.showIntersection)
-      this.intersectionColor = defaultValue(this.intersectionColor, source.intersectionColor)
-      this.intersectionWidth = defaultValue(this.intersectionWidth, source.intersectionWidth)
-      this.lateralSurfaceMaterial = defaultValue(this.lateralSurfaceMaterial, source.lateralSurfaceMaterial)
+      this.directions = (this.directions?? source.directions)
+      this.radius = (this.radius?? source.radius)
+      this.show = (this.show?? source.show)
+      this.showIntersection = (this.showIntersection?? source.showIntersection)
+      this.intersectionColor = (this.intersectionColor?? source.intersectionColor)
+      this.intersectionWidth = (this.intersectionWidth?? source.intersectionWidth)
+      this.lateralSurfaceMaterial = (this.lateralSurfaceMaterial?? source.lateralSurfaceMaterial)
     }
 
     return CustomPatternSensorGraphics
@@ -2052,7 +2045,6 @@
 
   define("rectangular/rectangular-sensor-graphics", [
     "require",
-    "Cesium/Core/defaultValue",
     "Cesium/Core/defined",
     "Cesium/Core/DeveloperError",
     "Cesium/Core/Event",
@@ -2060,7 +2052,6 @@
   ], function (require) {
     "use strict"
 
-    var defaultValue = require("Cesium/Core/defaultValue")
     var defined = require("Cesium/Core/defined")
     var defineProperties = Object.defineProperties
     var DeveloperError = require("Cesium/Core/DeveloperError")
@@ -2201,14 +2192,14 @@
       }
       // >>includeEnd('debug');
 
-      this.xHalfAngle = defaultValue(this.xHalfAngle, source.xHalfAngle)
-      this.yHalfAngle = defaultValue(this.yHalfAngle, source.yHalfAngle)
-      this.radius = defaultValue(this.radius, source.radius)
-      this.show = defaultValue(this.show, source.show)
-      this.showIntersection = defaultValue(this.showIntersection, source.showIntersection)
-      this.intersectionColor = defaultValue(this.intersectionColor, source.intersectionColor)
-      this.intersectionWidth = defaultValue(this.intersectionWidth, source.intersectionWidth)
-      this.lateralSurfaceMaterial = defaultValue(this.lateralSurfaceMaterial, source.lateralSurfaceMaterial)
+      this.xHalfAngle = (this.xHalfAngle?? source.xHalfAngle)
+      this.yHalfAngle = (this.yHalfAngle?? source.yHalfAngle)
+      this.radius = (this.radius?? source.radius)
+      this.show = (this.show?? source.show)
+      this.showIntersection = (this.showIntersection?? source.showIntersection)
+      this.intersectionColor = (this.intersectionColor?? source.intersectionColor)
+      this.intersectionWidth = (this.intersectionWidth?? source.intersectionWidth)
+      this.lateralSurfaceMaterial = (this.lateralSurfaceMaterial?? source.lateralSurfaceMaterial)
     }
 
     return RectangularSensorGraphics
@@ -2217,7 +2208,6 @@
   define("rectangular/rectangular-pyramid-sensor-volume", [
     "require",
     "Cesium/Core/clone",
-    "Cesium/Core/defaultValue",
     "Cesium/Core/defined",
     "Cesium/Core/destroyObject",
     "Cesium/Core/DeveloperError",
@@ -2228,7 +2218,6 @@
     "use strict"
 
     var clone = require("Cesium/Core/clone")
-    var defaultValue = require("Cesium/Core/defaultValue")
     var defined = require("Cesium/Core/defined")
     var defineProperties = Object.defineProperties
     var destroyObject = require("Cesium/Core/destroyObject")
@@ -2267,16 +2256,15 @@
       rectangularSensor._customSensor.directions = directions
     }
 
-    var RectangularPyramidSensorVolume = function (options) {
-      options = defaultValue(options, defaultValue.EMPTY_OBJECT)
+    var RectangularPyramidSensorVolume = function (options={}) {
 
       var customSensorOptions = clone(options)
-      customSensorOptions._pickPrimitive = defaultValue(options._pickPrimitive, this)
+      customSensorOptions._pickPrimitive = (options._pickPrimitive?? this)
       customSensorOptions.directions = undefined
       this._customSensor = new CustomSensorVolume(customSensorOptions)
 
-      this._xHalfAngle = defaultValue(options.xHalfAngle, CesiumMath.PI_OVER_TWO)
-      this._yHalfAngle = defaultValue(options.yHalfAngle, CesiumMath.PI_OVER_TWO)
+      this._xHalfAngle = (options.xHalfAngle?? CesiumMath.PI_OVER_TWO)
+      this._yHalfAngle = (options.yHalfAngle?? CesiumMath.PI_OVER_TWO)
 
       updateDirections(this)
     }
@@ -2876,9 +2864,7 @@
   define("Cesium/DataSources/DataSourceDisplay", function () {
     return Cesium["DataSourceDisplay"]
   })
-  define("Cesium/Core/defaultValue", function () {
-    return Cesium["defaultValue"]
-  })
+
   define("Cesium/Core/DeveloperError", function () {
     return Cesium["DeveloperError"]
   })

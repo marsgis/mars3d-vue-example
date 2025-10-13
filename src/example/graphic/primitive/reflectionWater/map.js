@@ -8,7 +8,7 @@ export const eventTarget = new mars3d.BaseClass()
 
 export const mapOptions = {
   scene: {
-    center: { lat: 31.82191, lng: 117.218956, alt: 442.2, heading: 168.9, pitch: -21.9 }
+    center: { lat: 31.916952, lng: 117.210257, alt: 6227.9, heading: 168.9, pitch: -21.9 }
   }
 }
 
@@ -56,7 +56,8 @@ function addDemoGraphic1() {
     style: {
       normalMap: "https://data.mars3d.cn/img/textures/waterNormals.jpg", // 水正常扰动的法线图
       ripple: 100,
-      reflectivity: 0.8
+      reflectivity: 0.8,
+      farDistance: 10000 // 指定相机距离超过指定距离时，不进行反射(考虑效率增加的)
     },
     attr: { remark: "示例1" }
   })

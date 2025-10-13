@@ -66,18 +66,17 @@ export function onMounted(mapInstance) {
 
       // 有些地方的区域是多个，比如河北省
       arr.forEach((options) => {
+        let positions
         if (options.isRing) {
-          // 多面时
-          terrainClip.addArea(options.positions[0], { simplify: { tolerance: 0.002 } })
-          terrainClip.clipOutSide = true
+          positions = options.positions[0] // 多面时
         } else {
-          // 普通面
-          terrainClip.addArea(options.positions, { simplify: { tolerance: 0.002 } })
-          terrainClip.clipOutSide = true
+          positions = options.positions // 普通面
         }
+        terrainClip.addArea(positions) //, { simplify: { tolerance: 0.002 } }
+        terrainClip.clipOutSide = true
 
         const polylineGraphic = new mars3d.graphic.PolylineEntity({
-          positions: options.positions,
+          positions: positions,
           style: {
             width: 10,
             color: "#b3e0ff",
@@ -93,7 +92,7 @@ export function onMounted(mapInstance) {
         graphicLayer.addGraphic(polylineGraphic)
 
         const wall = new mars3d.graphic.WallPrimitive({
-          positions: options.positions,
+          positions: positions,
           style: {
             setHeight: -wallHeight,
             diffHeight: wallHeight, // 墙高

@@ -546,7 +546,7 @@
               (0x0,
               J['destroyObject'])(this)),
               fp = (0x0,
-              J['defaultValue'])(fp, J['defaultValue']['EMPTY_OBJECT']),
+              J['defaultValue'])(fp, {}),
               J['Check']['defined']('options.context', fp['context']);
               var fR = fp['context']
                 , fm = fp['width']

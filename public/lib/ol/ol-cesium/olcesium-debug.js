@@ -2608,7 +2608,7 @@ class OLCesium {
 
     //火星科技添加
     let viewer = options.viewer
- 
+
     viewer.container.appendChild(this.container_);
 
     // /**
@@ -2618,7 +2618,7 @@ class OLCesium {
     //  * @type {boolean}
     //  * @private
     //  */
-    // this.isOverMap_ = false; 
+    // this.isOverMap_ = false;
 
 
     // if (this.isOverMap_ && options.stopOpenLayersEventsPropagation) {
@@ -4831,7 +4831,7 @@ exports.createMatrixAtCoordinates = function(coordinates, rotation = 0, translat
 exports.rotateAroundAxis = function(camera, angle, axis, transform,
     opt_options) {
   const clamp = Cesium.Math.clamp;
-  const defaultValue = Cesium.defaultValue;
+  const defaultValue = function (value, defv) { return   value ?? defv };
 
   const options = opt_options || {};
   const duration = defaultValue(options.duration, 500); // ms
@@ -6443,7 +6443,7 @@ module.exports = ol.util;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -6457,14 +6457,14 @@ module.exports = ol.util;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -6477,7 +6477,7 @@ module.exports = ol.util;
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -6489,12 +6489,12 @@ module.exports = ol.util;
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -6505,7 +6505,7 @@ module.exports = ol.util;
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
