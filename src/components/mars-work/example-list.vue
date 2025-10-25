@@ -115,6 +115,7 @@
                   @click="jumpurl(item2)"
                   style="overflow: hidden"
                 >
+                  <span class="hideInfo">{{ item2.main  }} , {{ item2.api  }}</span>
                   <span title="这是最近新加的功能" :class="{ nweVer: isNew }" v-if="isnew(item2)">新</span>
                   <div class="pic">
                     <img :src="item2.thumbnail" :onerror="imgOnError" />
@@ -141,7 +142,6 @@
                       >[{{ item2.plugins }}插件]</span
                     >
                   </p>
-                  <span class="hideInfo">{{ item2.main  }} , {{ item2.api  }}</span>
                 </li>
               </template>
             </ul>
@@ -879,6 +879,7 @@ input:-ms-input-placeholder {
   border-radius: 10px;
   width: 100%;
   height: 100%;
+  min-height: 150px;
 }
 .three li .vue {
   width: 14px;

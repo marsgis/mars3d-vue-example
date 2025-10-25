@@ -3,7 +3,7 @@
 // const Cesium = mars3d.Cesium
 
 
-// 兼容1.124（2025-10-01）删除的方法
+// 兼容 1.134（2025-10-01）删除的方法
 if (!Cesium.defaultValue) {
   Cesium.defaultValue = function (value, defaultValue) {
     return   value ?? defaultValue

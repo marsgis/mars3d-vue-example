@@ -5,38 +5,48 @@ export let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 14.741847, lng: 108.420914, alt: 10003793, heading: 0, pitch: -83 }
+    center: { lat: 25.598554, lng: 101.908933, alt: 16767550.2, heading: 357.4, pitch: -89 },
+    mapProjection: "EPSG:3857", // 2D模式下避免瓦片拉伸
+    fxaa: true, // 是否开启抗锯齿
+    resolutionScale: 2.0, // 提示注记层清晰度
+    highDynamicRange: false // 避免瓦片太暗
   },
   // 离线12.5米地形的配置
   terrain: {
-    url: "//192.168.0.115/terrain15",
-    show: true,
-    clip: true
+    url: "https://data.mars3d.cn/terrain",
+    show: true
   },
   // 离线0-16级谷歌地图的配置
   basemaps: [
     {
-      name: "影像地图",
+      name: "影像地图-全国16",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
       type: "xyz",
-      url: "//192.168.0.6/tile/img-gaode/{z}/{x}/{y}.jpg",
+      url: "//localhost/mars3d-data/tile/img/{z}/{x}/{y}.jpg",
+      chinaCRS: "GCJ02",
+      show: true
+    },
+    {
+      name: "影像地图-全球13",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
+      type: "xyz",
+      url: "//localhost/img-world/{z}/{x}/{y}.jpg",
       chinaCRS: "GCJ02",
       minimumLevel: 0,
-      maximumLevel: 18,
-      show: true
+      maximumLevel: 13
     },
     {
       name: "电子地图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_vec.png",
       type: "xyz",
-      url: "//192.168.0.115/tile/vec-gaode/{z}/{x}/{y}.jpg",
+      url: "//localhost/mars3d-data/tile/vec/{z}/{x}/{y}.jpg",
       chinaCRS: "GCJ02"
     },
     {
       name: "蓝色底图",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_blue.png",
       type: "xyz",
-      url: "//192.168.0.115/tile/vec-gaode/{z}/{x}/{y}.jpg",
+      url: "//localhost/mars3d-data/tile/vec/{z}/{x}/{y}.jpg",
       chinaCRS: "GCJ02",
       invertColor: true,
       filterColor: "#4e70a6",

@@ -182,6 +182,7 @@ const CustomLang = {
   _公里: "km",
   _万米: "myriametre",
   _海里: "mile",
+  _平方海里: "mile²",
   _丈: "zhang",
   _平方米: "m²",
   _平方公里: "km²",

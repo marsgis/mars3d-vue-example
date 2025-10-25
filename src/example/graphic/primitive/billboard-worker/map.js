@@ -24,7 +24,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  globalNotify("已知问题提示", `(1) AQI来源于第三方服务，目前已无法访问`)
+  globalNotify("已知问题提示", `(1) AQI来源于第三方在线服务，可能不稳定造成无法访问`)
 
   // 创建矢量数据图层
   graphicLayer = new mars3d.layer.GraphicLayer()
@@ -102,6 +102,10 @@ const colorRamp = new mars3d.ColorRamp({
   steps: [25, 75, 125, 175, 250, 400],
   colors: ["rgb(0, 228, 0)", "rgb(256, 256, 0)", "rgb(256, 126, 0)", "rgb(256, 0, 0)", "rgb(153, 0, 76)", "rgb(126, 0, 35)"]
 })
+export function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
+
 
 function createGraphics(currentData) {
   graphicLayer.clear()

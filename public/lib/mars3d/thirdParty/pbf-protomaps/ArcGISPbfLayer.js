@@ -866,20 +866,18 @@
      * @param {number} [options.maximumNativeLevel=26] 矢量切片的最大切片层级
      * @param {Cesium.Rectangle} [options.rectangle] 显示范围
      */
-    constructor(options) {
-      options = Cesium.defaultValue(options, Cesium.defaultValue.EMPTY_OBJECT)
-
+    constructor(options={}) {
       this._url = options.url
 
       this._tileWidth = tileSize
       this._tileHeight = tileSize
-      this._minimumLevel = Cesium.defaultValue(options.minimumLevel, 0)
-      this._maximumLevel = Cesium.defaultValue(options.maximumLevel, 26)
-      this._maximumNativeLevel = Cesium.defaultValue(options.maximumNativeLevel, this._maximumLevel)
+      this._minimumLevel = (options.minimumLevel?? 0)
+      this._maximumLevel = (options.maximumLevel?? 26)
+      this._maximumNativeLevel = (options.maximumNativeLevel?? this._maximumLevel)
 
       this._tilingScheme = options.tilingScheme || new Cesium.WebMercatorTilingScheme()
 
-      this._rectangle = Cesium.defaultValue(options.rectangle, this._tilingScheme.rectangle)
+      this._rectangle = (options.rectangle?? this._tilingScheme.rectangle)
 
       this._ready = false
       this._readyPromise = Cesium.defer()

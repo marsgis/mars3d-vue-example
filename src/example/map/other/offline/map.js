@@ -11,7 +11,7 @@ export let map // mars3d.Map三维地图对象
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 39.772088, lng: 116.389826, alt: 55722.1, heading: 358.5, pitch: -76.3 },
+    center: { lat: 25.598554, lng: 101.908933, alt: 16767550.2, heading: 357.4, pitch: -89 },
     mapProjection: "EPSG:3857", // 2D模式下避免瓦片拉伸
     fxaa: true, // 是否开启抗锯齿
     resolutionScale: 2.0, // 提示注记层清晰度
@@ -19,8 +19,7 @@ export const mapOptions = {
   },
   terrain: {
     url: "https://data.mars3d.cn/terrain",
-    show: true,
-    clip: true
+    show: true
   },
   basemaps: [
     { id: 10, name: "地图底图", type: "group" },
@@ -44,6 +43,20 @@ export const mapOptions = {
       chinaCRS: "GCJ02",
       minimumLevel: 0,
       maximumLevel: 13
+    },
+    {
+      name: "蓝色底图",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_blue.png",
+      type: "xyz",
+      url: "https://data.mars3d.cn/tile/vec/{z}/{x}/{y}.png",
+      chinaCRS: "GCJ02",
+      invertColor: true,
+      filterColor: "#4e70a6",
+      brightness: 0.6,
+      contrast: 1.8,
+      gamma: 0.3,
+      hue: 1,
+      saturation: 0
     },
     {
       pid: 10,

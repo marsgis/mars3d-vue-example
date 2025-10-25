@@ -1,9 +1,12 @@
 <template>
-  <a-input-number class="mars-input-number" :class='{"unit-class": attrs["addon-after"]}' v-bind="attrs" :precision="attrs.tofixed">
+  <a-input-number class="mars-input-number"
+    :class='{ "addon-after-class": attrs["addon-after"], "unit-class": attrs.unit, }' v-bind="attrs"
+    :precision="attrs.tofixed">
     <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
       <component :is="comp" />
     </template>
   </a-input-number>
+  <span v-if="attrs.unit" class="mars-unit">{{ attrs.unit }}</span>
 </template>
 <script lang="ts">
 import { useAttrs, useSlots, defineComponent } from "vue"
@@ -34,31 +37,49 @@ export default defineComponent({
   border-radius: 2px;
   box-shadow: none;
   font-family: var(--mars-font-family);
+
+  .mars-unit{
+    height: 32px;
+  }
+
   :deep(.ant-input-number-input-wrap) {
     height: 100%; // size="small" 时将不生效，需要使用不同大小可注释
+
     .ant-input-number-input {
       height: 100%; // size="small" 时将不生效，需要使用不同大小可注释
       color: var(--mars-control-text);
       padding: 5px 11px;
+
       &::placeholder {
         color: var(--mars-control-placeholder);
       }
     }
   }
+
   &:hover {
     border-color: var(--mars-hover-color);
   }
 }
+
+.unit-class {
+  width: calc(100% - 25px);
+
+}
+
 :deep(.ant-input-number-handler-wrap) {
   background: none;
+
   .anticon {
     color: var(--mars-control-placeholder);
-    > svg {
+
+    >svg {
       font-size: 10px;
     }
   }
+
   .ant-input-number-handler {
     border-color: rgba(234, 242, 255, 0.2);
+
     &:hover {
       .anticon {
         color: var(--mars-control-placeholder);
@@ -66,13 +87,16 @@ export default defineComponent({
     }
   }
 }
-:deep(.unit-class) {
+
+:deep(.addon-after-class) {
   border-radius: 0px !important;
   background-color: var(--mars-control-bg);
 }
+
 :deep(.ant-input-number) {
   border-color: transparent
 }
+
 :deep(.ant-input-number-group-addon) {
   padding: 0 8px !important;
   border-radius: 0px !important;

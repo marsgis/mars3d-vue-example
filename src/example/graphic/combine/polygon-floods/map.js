@@ -10,7 +10,13 @@ export const mapOptions = {
   }
 }
 
-let colorRamp
+const colorRamp = new mars3d.ColorRamp({
+  steps: [0, 30],
+  colors: ["rgb(33, 113, 181)", "rgb(8, 48, 107)"]
+})
+export function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
 
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -21,11 +27,6 @@ export function onMounted(mapInstance) {
   graphicLayer.on(mars3d.EventType.click, function (event) {
     const pickedItem = event.pickedObject?.data
     console.log("单击了合并对象中的单个值为", pickedItem)
-  })
-
-  colorRamp = new mars3d.ColorRamp({
-    steps: [0, 30],
-    colors: ["rgb(33, 113, 181)", "rgb(8, 48, 107)"]
   })
 
   let progressValue = 0 // 当前进度
@@ -47,8 +48,8 @@ const floods = []
 
 // 加载洪水数据
 async function loadAndRenderGeoJSON(fileIndex) {
- const url = `//data.mars3d.cn/file/apidemo/floods/${fileIndex}.json`
-   const features = await mars3d.Util.sendAjax({ url })
+  const url = `//data.mars3d.cn/file/apidemo/floods/${fileIndex}.json`
+  const features = await mars3d.Util.sendAjax({ url })
   const instances = []
   features.forEach((item) => {
     instances.push({

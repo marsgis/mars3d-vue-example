@@ -2,7 +2,7 @@
   <mars-dialog :visible="true" right="10" top="10" width="290">
     <a-form>
       <a-form-item label="筛选值">
-        <mars-slider :min="0.0" :max="65.0" :step="0.01" v-model:value="formState.threshold" @change="changeThreshold" />
+        <mars-slider :min="0.0" :max="200.0" :step="0.01" v-model:value="formState.threshold" @change="changeThreshold" />
       </a-form-item>
       <a-form-item label="精细度">
         <mars-slider :min="300.0" :max="1000.0" :step="1" v-model:value="formState.detail" @change="changeSteps" />

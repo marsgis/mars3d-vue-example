@@ -21,10 +21,6 @@ export function onMounted(mapInstance) {
 
   globalNotify("已知问题提示", `模型上日照阴影可能存在锯齿。`)
 
-  // let imageryLayer = map.scene.imageryLayers.get(0)
-  // imageryLayer.dayAlpha = 0.1  //白天图层透明值
-  // imageryLayer.nightAlpha = 1.0 //夜晚图层透明值
-
   // 加个模型
   const tilesetLayer = new mars3d.layer.TilesetLayer({
     url: "https://data.mars3d.cn/3dtiles/qx-simiao/tileset.json",
@@ -36,13 +32,22 @@ export function onMounted(mapInstance) {
 
   addTestGrraphic()
 
+
   shadows = new mars3d.thing.Shadows({
     darkness: 0.4, // 阴影透明度, 0-1，值越大越透明
     multiplier: 1600
-    // terrain: false,
+    // terrain: false
     // lighting: false
   })
   map.addThing(shadows)
+
+  // 无地形时需设置
+  // for (let i = 0; i < map.scene.imageryLayers.length; i++) {
+  //   const imageryLayer = map.scene.imageryLayers.get(i)
+  //   imageryLayer.dayAlpha = 1.0// 白天图层透明值
+  //   imageryLayer.nightAlpha = 0.1 // 夜晚图层透明值
+  // }
+
 
   shadows.on(mars3d.EventType.change, function () {
     const shadowTime = shadows.time
@@ -159,6 +164,10 @@ const colorRamp = new mars3d.ColorRamp({
   steps: [5, 15, 25, 35, 50, 80],
   colors: ["rgb(0, 228, 0)", "rgb(256, 256, 0)", "rgb(256, 126, 0)", "rgb(256, 0, 0)", "rgb(153, 0, 76)", "rgb(126, 0, 35)"]
 })
+export function getColorRampInfo() {
+  return { image: colorRamp.getImage(), steps: [...colorRamp.steps].reverse() }
+}
+
 
 function showRateResult(result) {
   console.log("分析结果", result)

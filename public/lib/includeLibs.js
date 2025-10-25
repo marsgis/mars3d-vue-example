@@ -21,7 +21,7 @@ window.configLibs = {
   "cesium-comp": [
     //cesium版本间兼容处理
     "mars3d/plugins/compatible/cesium-version.js",
-    "mars3d/plugins/compatible/cesium-when.js"
+    // "mars3d/plugins/compatible/cesium-when.js"
   ],
   "mars3d-space": [
     // 卫星插件
@@ -107,6 +107,7 @@ window.configLibs = {
   ],
   "quickearth": [
     "geotiff/geotiff.js",
+    "mars3d/plugins/compatible/cesium-version.js",
     "mars3d/thirdParty/quickearth/quickearth.core.js",
     "mars3d/thirdParty/quickearth/quickearth.cesium.js",
   ],
@@ -149,6 +150,7 @@ window.configLibs = {
   'shpGeojson': [
     "geojson/shp-geojson.js"  // shp解析加载GeoJson插件
   ],
+
   geotiff:["geotiff/geotiff.js","geotiff/plotty.js"],
 
   kriging: ["kriging/kriging.min.js"],

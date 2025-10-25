@@ -23,6 +23,27 @@ export function onMounted(mapInstance) {
   // 加一些演示数据
   mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/volumeCloud.json" })
     .then(function (data) {
+      const nullValue = -1
+      let min = Number.MAX_VALUE
+      let max = Number.MIN_VALUE
+      const newDatas = []
+      data.values.forEach((value) => {
+        if (value !== nullValue) {
+          min = Math.min(value, min)
+          max = Math.max(value, max)
+        }
+      })
+      data.values.forEach((value) => {
+        if (value !== nullValue) {
+          // 将 value 根据 min 和 max 计算为 0 到 100 的值
+          const scaledValue = Math.round(((value - min) / (max - min)) * 100)
+          newDatas.push(scaledValue)
+        } else {
+          newDatas.push(value)
+        }
+      })
+      data.values = newDatas // 预处理数据
+
       console.log("演示数据data", data)
 
       addDemoGraphic1(data)
@@ -54,9 +75,11 @@ const colors = [
   "rgba(122,114,238,0.02)",
   "rgba(192,192,254,0.01)"
 ]
-const steps = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
+const steps = [0, 5, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 95, 100]
 
 function addDemoGraphic1(data) {
+
+
   // 创建气象数据体渲染模型
   const volumeCloud = new mars3d.graphic.VolumeCloud({
     data: {
