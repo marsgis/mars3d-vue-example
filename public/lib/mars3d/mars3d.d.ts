@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.10.7
- * 编译日期：2025-10-25 17:32
+ * 版本信息：v3.10.8
+ * 编译日期：2025-11-05 20:18
  * 版权所有：Copyright by 火星科技  http://mars3d.cn
  * 使用单位：火星科技免费公开版 ，2025-07-01
  */
@@ -4131,6 +4131,88 @@ declare class TaskItem extends BaseClass {
      */
     toJSON(): any;
 }
+
+/**
+ * 计算GeoJSON要素的面积
+ * @param geojson - 需要计算面积的GeoJSON要素
+ * @returns 面积值，如果计算出错则返回0
+ */
+declare function area(geojson: any): number;
+
+/**
+ * 计算GeoJSON要素的边界框(Bounding Box)
+ * @param geojson - 需要计算边界框的GeoJSON要素
+ * @returns 包含[minX, minY, maxX, maxY]的数组
+ */
+declare function bbox(geojson: any): any[];
+
+/**
+ * 创建贝塞尔曲线
+ * @param line - 输入的线要素
+ * @param options - 可选配置参数
+ * @returns 贝塞尔曲线要素，如果出错则返回原始线要素
+ */
+declare function bezierSpline(line: any, options: any): any;
+
+/**
+ * 对线要素进行偏移
+ * @param coordinates - 坐标数组
+ * @param distance - 偏移距离
+ * @param options - 可选配置参数
+ * @returns 偏移后的坐标数组，如果出错则返回原始坐标数组
+ */
+declare function lineOffset(coordinates: any[], distance: number, options: any): any[];
+
+/**
+ * 创建缓冲区
+ * @param feature - 输入要素
+ * @param radius - 缓冲区半径
+ * @param options - 可选配置参数
+ * @returns 带缓冲区的要素，如果出错则返回原始要素
+ */
+declare function buffer(feature: any, radius: number, options: any): any;
+
+/**
+ * 创建凸包
+ * @param geojson - 输入要素
+ * @param options - 可选配置参数
+ * @returns 凸包要素，如果出错则返回原始要素
+ */
+declare function convex(geojson: any, options: any): any;
+
+/**
+ * 在指定边界框内创建点网格
+ * @param bbox - 边界框 [minX, minY, maxX, maxY]
+ * @param cellSide - 网格单元边长
+ * @param options - 可选配置参数
+ * @returns 点网格要素集合，如果出错则返回空要素集合
+ */
+declare function pointGrid(bbox: any[], cellSide: number, options: any): any;
+
+/**
+ * 判断点是否在多边形内
+ * @param point - 点要素
+ * @param polygon - 多边形要素
+ * @param options - 可选配置参数
+ * @returns 点在多边形内返回true，否则返回false，出错时返回false
+ */
+declare function booleanPointInPolygon(point: any, polygon: any, options: any): boolean;
+
+/**
+ * 计算面要素的质心中心点
+ * @param coordinates - 面要素的坐标数组
+ * @param height - 可选的高度值，默认为0
+ * @returns 质心坐标[x, y, z]，如果出错或坐标数少于3则返回null
+ */
+declare function centerOfMass(coordinates: any[], height: number): any[] | null;
+
+/**
+ * 简化GeoJSON坐标
+ * @param coords - 坐标数组
+ * @param options - 简化选项，包括tolerance等参数
+ * @returns 简化后的坐标数组，如果出错则返回原始坐标数组
+ */
+declare function simplify(coords: any[], options: any): any[];
 
 /**
  * 特效（后处理） 基类

@@ -153,3 +153,11 @@ function addWmsLayer() {
 export function getManagerLayer() {
   return map.getLayerByAttr("建筑物面WFS", "name")
 }
+
+
+// 需要自定义bbox参数时参考
+// const _queryGridData_old = mars3d.layer.WfsLayer.prototype.queryGridData
+// mars3d.layer.WfsLayer.prototype.queryGridData = function (grid) {
+//   this.options.parameters.bbox = grid.extent.ymin + "," + grid.extent.xmin + "," + grid.extent.ymax + "," + grid.extent.xmax
+//   return _queryGridData_old.bind(this)(grid)
+// }

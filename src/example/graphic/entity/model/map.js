@@ -33,9 +33,9 @@ export function onMounted(mapInstance) {
 
   // 加一些演示数据
   addDemoGraphic1(graphicLayer)
-  // addDemoGraphic2(graphicLayer)
-  // addDemoGraphic3(graphicLayer)
-  // addDemoGraphic4(graphicLayer)
+  addDemoGraphic2(graphicLayer)
+  addDemoGraphic3(graphicLayer)
+  addDemoGraphic4(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -51,13 +51,41 @@ function addDemoGraphic1(graphicLayer) {
     name: "警车",
     position: [116.346929, 30.861947, 401.34],
     style: {
-      url: "http://192.168.5.205/staticmini/2025/09/18/设计河道/东渔河北支设计河道模型.glb",
+      url: "https://data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
       scale: 20,
       minimumPixelSize: 50,
-      heading: 90
-    }
+      heading: 90,
+
+      distanceDisplayCondition: true,
+      distanceDisplayCondition_near: 0,
+      distanceDisplayCondition_far: 10000,
+      distanceDisplayPoint: {
+        // 当视角距离超过一定距离(distanceDisplayCondition_far定义的) 后显示为点对象的样式
+        color: "#00ff00",
+        pixelSize: 8
+      },
+
+      label: {
+        text: "我是原始的",
+        font_size: 18,
+        color: "#ffffff",
+        pixelOffsetY: -50,
+        distanceDisplayCondition: true,
+        distanceDisplayCondition_far: 10000,
+        distanceDisplayCondition_near: 0
+      }
+    },
+    attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
+
+  // 演示个性化处理graphic
+  initGraphicManager(graphic)
+
+  // graphic转geojson
+  const geojson = graphic.toGeoJSON()
+  console.log("转换后的geojson", geojson)
+  addGeoJson(geojson, graphicLayer)
 }
 
 // 也可以在单个Graphic上做个性化管理及绑定操作

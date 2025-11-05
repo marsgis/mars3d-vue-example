@@ -40,6 +40,21 @@ export function onMounted(mapInstance) {
   //   url: "http://data.mars3d.cn/terrain"
   // })
   // map.addLayer(terrainLayer)
+
+  map.on(mars3d.EventType.click, function (event) {
+    console.log("单击了地图", event)
+
+    const point = mars3d.LngLatPoint.fromCartesian(event.cartesian)
+
+    const tilingScheme = map.terrainProvider.tilingScheme
+    const level = map.terrainProvider._availability._maximumLevel
+
+    const xy = tilingScheme.positionToTileXY(point.toCartographic(), level)
+    const reverseY = tilingScheme.getNumberOfYTilesAtLevel(level) - xy.y - 1 // 地形是TMS服务
+
+    const popup = `当前点击的坐标：${point.lng},${point.lat} <br /> 对应地形瓦片的xyz值：${xy.x},${reverseY},${level}`
+    map.openPopup(point, popup)
+  })
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）

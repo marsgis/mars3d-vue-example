@@ -96,8 +96,41 @@ function addDemoGraphic2(graphicLayer) {
     }
   })
   graphicLayer.addGraphic(coneTrack)
-}
 
+  // 动态参数测试
+  // let length = 1000
+  // let angle = 5
+  // let heading = 0
+  // let pitch = 0
+  // coneTrack = new mars3d.graphic.ConeTrack({
+  //   position,
+  //   // targetPosition: [116.317411, 30.972581, 1439.7], // 可选
+  //   style: {
+  //     angle: new Cesium.CallbackProperty(function (time) {
+  //       angle += 0.01 // 测试动态angle
+  //       return angle
+  //     }, false),
+  //     length: new Cesium.CallbackProperty(function (time) {
+  //       length += 100 // 测试动态length
+  //       return length
+  //     }, false),
+  //     heading: new Cesium.CallbackProperty(function (time) {
+  //       heading += 1 // 测试动态heading
+  //       return heading
+  //     }, false),
+  //     pitch: new Cesium.CallbackProperty(function (time) {
+  //       pitch += 1 // 测试动态pitch
+  //       return pitch
+  //     }, false),
+  //     // angle: 5, // 半场角度
+  //     materialType: mars3d.MaterialType.CircleWave,
+  //     materialOptions: {
+  //       color: "#02ff00"
+  //     }
+  //   }
+  // })
+  // graphicLayer.addGraphic(coneTrack)
+}
 
 // 修改飞机追踪的目标点
 export async function onClickSelPoint() {

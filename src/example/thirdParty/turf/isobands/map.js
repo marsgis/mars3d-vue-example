@@ -16,16 +16,33 @@ export function onMounted(mapInstance) {
     layer.brightness = 0.4
   })
 
-  mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/geojson/areas/340000.json" }).then(function (res) {
-    anhuiGeoJson = res.features[0]
-  })
+  // 外切裁剪面：行政区划
+  // mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/geojson/areas/340000.json" }).then(function (res) {
+  //   anhuiGeoJson = res.features[0]
+  // })
+
+  // 外切裁剪面，也可以手动指定
+  // anhuiGeoJson = {
+  //   type: "Feature",
+  //   geometry: {
+  //     type: "Polygon",
+  //     coordinates: [
+  //       [
+  //         [109.721098, 17.901026],
+  //         [110.552602, 17.883765],
+  //         [110.535818, 16.909481],
+  //         [109.637402, 16.990066],
+  //         [109.721098, 17.901026]
+  //       ]
+  //     ]
+  //   }
+  // }
 
   // 加载气象
   mars3d.Util.fetchJson({ url: "https://data.mars3d.cn/file/apidemo/windpoint.json" }).then(function (res) {
     showWindLine(res.data)
   })
 }
-
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
@@ -38,6 +55,8 @@ export const breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99] // 等值面的级数
 // 等值线面
 function showWindLine(arr) {
   const pointGrid = []
+  let min = Number.MAX_VALUE
+  let max = Number.MIN_VALUE
   for (let i = 0, len = arr.length; i < len; i++) {
     const item = arr[i]
 
@@ -49,12 +68,12 @@ function showWindLine(arr) {
         coordinates: [item.x, item.y]
       }
     })
+    min = Math.min(item.speed, min)
+    max = Math.max(item.speed, max)
   }
+  console.log("集合内数值范围是：", min, max)
 
-  const points = {
-    type: "FeatureCollection",
-    features: pointGrid
-  }
+  const points = { type: "FeatureCollection", features: pointGrid }
 
   // 如果下面没有展示，可能是数据精度不够，可以取消下面注释，对数据插值。
   // turf.interpolate() 提供了基于 IDW（反距离权重）算法的将数据插值为格点的方法。
@@ -70,9 +89,10 @@ function showWindLine(arr) {
   // points.features.map((i) => (i.properties.speed = Number(i.properties.speed.toFixed(2)))) // 适当降低插值结果的精度便于显示
 
   // 等值面
-  const geojsonPoly = turf.isobands(points, breaks, {
+  let geojsonPoly = turf.isobands(points, breaks, {
     zProperty: "speed"
   })
+  geojsonPoly = turf.flatten(geojsonPoly)
 
   // 按行政区划切割
   // geojsonPoly = intersectXzqh(geojsonPoly)
@@ -106,7 +126,6 @@ function showWindLine(arr) {
   const geojsonLine = turf.isolines(points, breaks, {
     zProperty: "speed"
   })
-
 
   // 进行平滑处理
   // let features = geojsonLine.features;
@@ -147,7 +166,6 @@ function getColor(value) {
   return colors[0]
 }
 
-
 // 按行政区划切割结果
 let anhuiGeoJson
 function intersectXzqh(geojsonPoly) {
@@ -162,11 +180,11 @@ function intersectXzqh(geojsonPoly) {
     let intersection = null
     try {
       // intersection = turf.intersect(anhuiGeoJson, feature)//turf v6.5
-      intersection = turf.intersect(turf.featureCollection([anhuiGeoJson, feature]))// v7.1
+      intersection = turf.intersect(turf.featureCollection([anhuiGeoJson, feature])) // v7.1
     } catch (e) {
       anhuiGeoJson = turf.buffer(anhuiGeoJson, 0)
       // intersection = turf.intersect(anhuiGeoJson, feature)//turf v6.5
-      intersection = turf.intersect(turf.featureCollection([anhuiGeoJson, feature]))// v7.1
+      intersection = turf.intersect(turf.featureCollection([anhuiGeoJson, feature])) // v7.1
     }
     if (intersection != null) {
       intersection.properties = feature.properties
