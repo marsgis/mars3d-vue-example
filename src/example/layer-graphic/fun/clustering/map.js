@@ -74,6 +74,7 @@ function addDemoLayer2() {
     cluster: {
       enabled: true,
       pixelRange: 20,
+      // image: getClusterImage, // 这是最简单方式，下面代码是做了优化效率（相同count的图片只生成一次）
       image: async function (count, result) {
         const key = "type1-" + count // 唯一标识，不同图层需要设置不一样
 

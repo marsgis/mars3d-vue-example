@@ -5,9 +5,9 @@ export let map // mars3d.Map三维地图对象
 // 事件对象，用于抛出事件给面板
 export const eventTarget = new mars3d.BaseClass()
 
-// const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
-// Cesium.Ellipsoid.default = ellipsoid
-Cesium.Ellipsoid.default = Cesium.Ellipsoid.MARS
+const ellipsoid = new Cesium.Ellipsoid(6378137, 6378137, 6356752.314245179)
+Cesium.Ellipsoid.default = ellipsoid
+// Cesium.Ellipsoid.default = Cesium.Ellipsoid.MARS
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -28,6 +28,7 @@ export const mapOptions = {
     }
   },
   control: {
+    baseLayerPicker: false,
     locationBar: {
       fps: true,
       template:
@@ -36,7 +37,7 @@ export const mapOptions = {
   },
   terrain: {
     url: "https://moon.bao.ac.cn/gis3globleMarsMoon/tilesets/MarsTerrain/1000",
-    show: true
+    show: false
   },
   basemaps: [
     {
@@ -82,7 +83,8 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的服务存在异常。`)
+  // https://moon.bao.ac.cn/
+  globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的 http://moon.bao.ac.cn 服务存在异常。`)
 
   // Adjust the default atmosphere coefficients to be more Mars-like
   const scene = map.scene

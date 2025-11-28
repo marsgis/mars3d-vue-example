@@ -111,6 +111,20 @@ export function bindMapDemo() {
       callback: "_test_callback" // 也支持window方法的名称配置
     },
     {
+      text: "测试异步show",
+      icon: "fa fa-camera", // 支持 font-class 的字体方式图标
+      show: async (e) => {
+        const newAttr = await mars3d.Util.sendAjax({ url: "http://studio-api.mars3d.cn/api/gap/open/appInfo" })
+        console.log("可以根据后端返回信息判断是否显示该菜单")
+        if (newAttr.data) {
+          return true
+        }
+      },
+      callback: (e) => {
+        globalAlert("异步show菜单被单击")
+      }
+    },
+    {
       text: "查看当前视角",
       icon: "fa fa-camera-retro", // 支持 font-class 的字体方式图标
       callback: (e) => {

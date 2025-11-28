@@ -145,6 +145,11 @@ function queryRouteServe(type) {
     points: [startGraphic.coord, endGraphic.coord],
     success: function (data) {
       hideLoading()
+
+      if (!data.paths || data.paths.length < 1) {
+        return
+      }
+
       const firstItem = data.paths[0]
       const points = firstItem.points
       if (!points || points.length < 1) {

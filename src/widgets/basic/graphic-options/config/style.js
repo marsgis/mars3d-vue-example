@@ -2195,7 +2195,23 @@ const styleConfig = {
           return style?.fill !== false && (style?.materialType ? this.data?.some((item) => item.value === style?.materialType) : true)
         }
       },
-
+      {
+        name: "outline",
+        label: "是否边框",
+        type: "radio",
+        defval(style) {
+          return !!style?.outlineWidth || !!style?.outlineColor
+        }
+      },
+      {
+        name: "outlineColor",
+        label: "边框颜色",
+        type: "color",
+        defval: "#000000",
+        show({ allStyle }) {
+          return allStyle.outline
+        }
+      },
       {
         name: "distanceDisplayCondition",
         label: "是否按视距显示",

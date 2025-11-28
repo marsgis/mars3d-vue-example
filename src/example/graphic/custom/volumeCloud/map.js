@@ -78,8 +78,6 @@ const colors = [
 const steps = [0, 5, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90, 95, 100]
 
 function addDemoGraphic1(data) {
-
-
   // 创建气象数据体渲染模型
   const volumeCloud = new mars3d.graphic.VolumeCloud({
     data: {
@@ -142,4 +140,8 @@ function showDebuggerRectangleOutline(volumeCloud) {
       })
     })
   )
+}
+
+export function updateClip(clip) {
+  graphicLayer.graphics[0].clip = clip
 }

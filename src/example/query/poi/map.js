@@ -124,7 +124,7 @@ export function query(radioFanwei, cityShi, text) {
       queryOptions.graphic = drawGraphic
       break
     default: {
-      queryOptions.cityShi = cityShi
+      queryOptions.city = cityShi
       queryOptions.citylimit = true
       break
     }

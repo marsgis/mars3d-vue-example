@@ -7,14 +7,14 @@
       <a-form-item label="精细度">
         <mars-slider :min="300.0" :max="1000.0" :step="1" v-model:value="formState.detail" @change="changeSteps" />
       </a-form-item>
-      <a-form-item label="X">
-        <mars-slider :min="-0.5" :max="0.5" :step="0.01" v-model:value="formState.xCut" @change="changeXCut" />
+      <a-form-item label="X轴">
+        <mars-slider range :min="-0.5" :max="0.5" :step="0.01" v-model:value="formState.rangeX" @change="changeXCut" />
       </a-form-item>
-      <a-form-item label="Y">
-        <mars-slider :min="-0.5" :max="0.5"  :step="0.01" v-model:value="formState.yCut" @change="changeYCut" />
+      <a-form-item label="Y轴">
+        <mars-slider range :min="-0.5" :max="0.5"  :step="0.01" v-model:value="formState.rangeY" @change="changeYCut" />
       </a-form-item>
-      <a-form-item label="Z">
-        <mars-slider :min="-0.5" :max="0.5"  :step="0.01" v-model:value="formState.zCut" @change="changeZCut" />
+      <a-form-item label="Z轴">
+        <mars-slider range :min="-0.5" :max="0.5"  :step="0.01" v-model:value="formState.rangeZ" @change="changeZCut" />
       </a-form-item>
     </a-form>
   </mars-dialog>
@@ -26,18 +26,18 @@ import * as mapWork from "./map.js"
 
 interface FormState {
   threshold: number
-  xCut: number
-  yCut: number
-  zCut: number
   detail: number
+  rangeX: [number, number]
+  rangeY: [number, number]
+  rangeZ: [number, number]
 }
 
 const formState = reactive<FormState>({
   threshold: 65,
   detail: 600,
-  xCut: 0,
-  yCut: 0,
-  zCut: 0
+  rangeX: [-0.5, 0.5],
+  rangeY: [-0.5, 0.5],
+  rangeZ: [-0.5, 0.5]
 })
 
 const changeThreshold = () => {
@@ -47,13 +47,22 @@ const changeSteps = () => {
   mapWork.graphicLayer.graphics[0].detail = formState.detail
 }
 const changeXCut = () => {
-  mapWork.graphicLayer.graphics[0].xCut = formState.xCut
+  mapWork.updateClip({
+   xmin: formState.rangeX[0],
+   xmax: formState.rangeX[1]
+  })
 }
 const changeYCut = () => {
-  mapWork.graphicLayer.graphics[0].yCut = formState.yCut
+  mapWork.updateClip({
+   ymin: formState.rangeY[0],
+   ymax: formState.rangeY[1]
+  })
 }
 const changeZCut = () => {
-  mapWork.graphicLayer.graphics[0].zCut = formState.zCut
+  mapWork.updateClip({
+   zmin: formState.rangeZ[0],
+   zmax: formState.rangeZ[1]
+  })
 }
 </script>
 <style scoped lang="less"></style>

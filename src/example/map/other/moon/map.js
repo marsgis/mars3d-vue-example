@@ -28,6 +28,7 @@ export const mapOptions = {
     }
   },
   control: {
+    baseLayerPicker: false,
     locationBar: {
       fps: true,
       template:
@@ -36,7 +37,7 @@ export const mapOptions = {
   },
   terrain: {
     url: "https://moon.bao.ac.cn/gis3globleMarsMoon/tilesets/MoonTerrain/2000/",
-    show: true
+    show: false
   },
   basemaps: [
     {
@@ -89,7 +90,8 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
-  // globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的服务存在异常。`)
+   // https://moon.bao.ac.cn/
+  globalNotify("已知问题提示", `如图层未显示或服务URL访问超时，是因为数据来源方“中国科学院国家天文台”的 http://moon.bao.ac.cn 服务存在异常。`)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）

@@ -26,6 +26,7 @@ export function onMounted(mapInstance) {
   addDemoGraphic3(graphicLayer)
   addDemoGraphic4(graphicLayer)
   addDemoGraphic5(graphicLayer)
+  addDemoGraphic6(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -232,6 +233,31 @@ function addDemoGraphic5(graphicLayer) {
     attr: { remark: "示例5" }
   })
   graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic6(graphicLayer) {
+  const graphic = new mars3d.graphic.PlaneEntity({
+    position: new mars3d.LngLatPoint(116.343197, 30.917222, 1200),
+    style: {
+      plane: new Cesium.Plane(Cesium.Cartesian3.UNIT_Z, 0.0),
+      dimensions: new Cesium.Cartesian2(2000.0, 2000.0),
+      materialType: mars3d.MaterialType.CircleWave, // 扇形材质
+      materialOptions: {
+        color: "#02D4FD",
+        count: 5,
+        speed: 20,
+
+        startAngle: 60, // 开始角度(正东方向为0,顺时针到360度)
+        endAngle: 170,
+        isDouble: true
+      },
+      heading: 145,
+      roll: -45,
+      pitch: 0
+    },
+    attr: { remark: "示例6" }
+  })
+  graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
 // 生成演示数据(测试数据量)

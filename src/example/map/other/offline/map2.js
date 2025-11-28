@@ -27,6 +27,26 @@ export const mapOptions = {
       show: true
     },
     {
+      name: "影像地图-全国16分注记",
+      type: "group",
+      icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
+      layers: [
+        {
+          name: "底图",
+          type: "xyz",
+          url: "//localhost/mars3d-data/tile/img/{z}/{x}/{y}.jpg",
+          chinaCRS: "GCJ02"
+        },
+        {
+          name: "注记",
+          type: "xyz",
+          url: "//localhost/mars3d-data/tile/img-zj/{z}/{x}/{y}.png",
+          chinaCRS: "GCJ02"
+        }
+      ],
+      show: true
+    },
+    {
       name: "影像地图-全球13",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/google_img.png",
       type: "xyz",

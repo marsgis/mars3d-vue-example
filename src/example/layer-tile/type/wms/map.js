@@ -8,38 +8,33 @@ export const mapOptions = {
     center: { lat: 31.816469, lng: 117.188323, alt: 6109.8, heading: 358.1, pitch: -64.6 }
   },
   // 方式1：在创建地球前的参数中配置
-  basemaps: [
-    // {
-    //   name: "光污染图层",
-    //   icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_night.png",
-    //   type: "wms",
-    //   url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms",
-    //   layers: "PostGIS:VIIRS_2019",
-    //   crs: "EPSG:3857",
-    //   parameters: {
-    //     transparent: true,
-    //     format: "image/png"
-    //   },
-    //   alpha: 0.6, // 透明度
-    //   proxy: "//server.mars3d.cn/proxy/", // 代理服务，解决跨域问题
-    //   show: true
-    // },
-    // {
-    //   // wms也可以换一种xyz的直接写法
-    //   name: "光污染图层(XYZ方式)",
-    //   icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_night.png",
-    //   type: "xyz",
-    //   url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms?transparent=true&format=image%2Fpng&service=WMS&version=1.1.1&request=GetMap&styles=&layers=PostGIS%3AVIIRS_2019&bbox={westProjected},{southProjected},{eastProjected},{northProjected}&width={width}&height={height}&srs=EPSG%3A3857",
-    //   alpha: 0.6, // 透明度
-    //   proxy: "//server.mars3d.cn/proxy/" // 代理服务，解决跨域问题
-    // },
-    {
-      name: "单张图片",
-      icon: "https://data.mars3d.cn/img/thumbnail/basemap/offline.png",
-      type: "image",
-      url: "https://data.mars3d.cn/img/map/world/world.jpg",
-      show: true
-    },
+  // basemaps: [
+  //   {
+  //     name: "光污染图层",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_night.png",
+  //     type: "wms",
+  //     url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms",
+  //     layers: "PostGIS:VIIRS_2019",
+  //     crs: "EPSG:3857",
+  //     parameters: {
+  //       transparent: true,
+  //       format: "image/png"
+  //     },
+  //     alpha: 0.6, // 透明度
+  //     proxy: "//server.mars3d.cn/proxy/", // 代理服务，解决跨域问题
+  //     show: true
+  //   },
+  //   {
+  //     // wms也可以换一种xyz的直接写法
+  //     name: "光污染图层(XYZ方式)",
+  //     icon: "https://data.mars3d.cn/img/thumbnail/basemap/my_night.png",
+  //     type: "xyz",
+  //     url: "//www.lightpollutionmap.info/geoserver/gwc/service/wms?transparent=true&format=image%2Fpng&service=WMS&version=1.1.1&request=GetMap&styles=&layers=PostGIS%3AVIIRS_2019&bbox={westProjected},{southProjected},{eastProjected},{northProjected}&width={width}&height={height}&srs=EPSG%3A3857",
+  //     alpha: 0.6, // 透明度
+  //     proxy: "//server.mars3d.cn/proxy/" // 代理服务，解决跨域问题
+  //   }
+  // ],
+  layers: [
     {
       name: "瓦片测试信息",
       type: "tileinfo",

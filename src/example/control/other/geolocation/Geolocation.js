@@ -27,8 +27,11 @@ class Geolocation extends mars3d.control.ToolButton {
   }
 
   startTracking() {
+    if (!AMap) {
+      globalMsg("当前token已失效，请替换token或确认正常引入高德地图JS: https://webapi.amap.com/maps?v=1.4.15&key=您申请的token值")
+      return
+    }
     AMap.plugin("AMap.Geolocation", () => {
-      console.log("ddd", AMap)
       mars3d.DomUtil.removeClass(this._container, "tracking-deactivated")
       mars3d.DomUtil.addClass(this._container, "tracking-activated")
 

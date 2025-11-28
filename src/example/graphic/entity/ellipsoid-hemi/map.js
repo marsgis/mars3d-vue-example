@@ -77,6 +77,9 @@ function addDemoGraphic1(graphicLayer) {
   })
   graphicLayer.addGraphic(graphic) // 还可以另外一种写法: graphic.addTo(graphicLayer)
 
+  //  const hpr = graphic.scanPlane[0]._getHeadingPitchRoll()
+  //  const heading = Cesium.Math.toDegrees(hpr.heading)
+
   // 演示个性化处理graphic
   initGraphicManager(graphic)
 }
@@ -491,7 +494,6 @@ export function addRandomGraphicByCount(count) {
         outlineColor: "rgba(0, 204, 0, 0.4)", // 绿色
         stackPartitions: 30, // 竖向
         slicePartitions: 30 // 横向
-
       },
       // 添加扫描面
       scanPlane: {

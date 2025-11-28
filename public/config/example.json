@@ -3598,7 +3598,7 @@
             "main": "control/other/geolocation",
             "developerShow": false,
             "resources": [
-              "https://webapi.amap.com/maps?v=1.4.15&key=616e615727a1134331ff9459856653f1",
+              "https://webapi.amap.com/maps?v=1.4.15&key=ac4fc0bd7dbc89e56265f7455591ee83",
               "Geolocation.js",
               "Geolocation.css"
             ],

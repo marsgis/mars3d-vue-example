@@ -18,6 +18,22 @@ export function onMounted(mapInstance) {
       return url
     }
   }
+
+
+  // modelMove = new mars3d.thing.MatrixMove({
+  //   position: tiles3dLayer.center
+  // })
+  // map.addThing(modelMove)
+
+  // // 记录初始位置
+  // const local = new mars3d.LocalWorldTransform(modelMove.position)
+  // const pt1 = local.worldToLocal(modelMove.position)
+  // modelMove.on(mars3d.EventType.change, (event) => {
+  //   // 计算偏差
+  //   const pt2 = local.worldToLocal(event.position)
+  //   const deviation = Cesium.Cartesian3.subtract(pt1, pt2, new Cesium.Cartesian3())
+  //   console.log("偏差:", deviation)
+  // })
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
@@ -82,3 +98,48 @@ export function setTranslation(x, y, z) {
   const point = mars3d.LngLatPoint.parse(position)
   console.log("新坐标为", point)
 }
+
+
+
+// const tilesetLayer2 = new mars3d.layer.TilesetLayer({
+//   url: "",
+//   updateMatrix: updateMatrix,
+//   translation: { x: 0, y: 0, z: 0 },
+//   rotation: { x: 0, y: 0, z: 0 }
+// })
+// map.addLayer(tilesetLayer2)
+
+// 自定义设置模型的矩阵
+// function updateMatrix(position, tilesetLayer) {
+//   const tileset = tilesetLayer._tileset // 原生cesium对象
+//   const options = tilesetLayer.options // 图层设置的参数
+
+//   if (!tilesetLayer._transform_orgin) {
+//     tilesetLayer._transform_orgin = tileset._root.transform.clone()
+//   }
+//   // const matrix = Cesium.Transforms.eastNorthUpToFixedFrame(position) // 如果设置模型位置，需要用这个
+//   let matrix = tilesetLayer._transform_orgin // 取模型中原始矩阵
+
+//   // 创建一个新的平移向量
+//   const translation = new Cesium.Cartesian3(options.translation.x, options.translation.y, options.translation.z) // x, y, z是你想要的平移量
+
+//   // 从平移向量创建一个变换矩阵
+//   const translationMatrix = Cesium.Matrix4.fromTranslation(translation)
+
+//   // 将平移应用到原变换矩阵（这会替换整个变换矩阵）
+//   matrix = Cesium.Matrix4.multiplyTransformation(matrix, translationMatrix, new Cesium.Matrix4())
+
+
+//   // 旋转模型
+//   const mx = Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(options.rotation.x))
+//   const my = Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(options.rotation.y))
+//   const mz = Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(options.rotation.z))
+//   const rotationX = Cesium.Matrix4.fromRotationTranslation(mx)
+//   const rotationY = Cesium.Matrix4.fromRotationTranslation(my)
+//   const rotationZ = Cesium.Matrix4.fromRotationTranslation(mz)
+//   Cesium.Matrix4.multiply(matrix, rotationX, matrix)
+//   Cesium.Matrix4.multiply(matrix, rotationY, matrix)
+//   Cesium.Matrix4.multiply(matrix, rotationZ, matrix)
+
+//   tileset._root.transform = matrix
+// }

@@ -14,6 +14,7 @@ window.configLibs = {
     // "https://registry.npmmirror.com/mars3d-cesium/1.127.0/files/Build/Cesium/Cesium.js",
     "Cesium/Widgets/widgets.css", // cesium
     "Cesium/Cesium.js",
+    // "https://unpkg.com/@turf/turf@7.1.0/turf.min.js",
     "turf/turf.min.js",
     "mars3d/mars3d.css", // mars3d
     "mars3d/mars3d.js"
