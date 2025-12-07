@@ -137,7 +137,6 @@ export function bindLayerDemo3() {
   map.addLayer(geoJsonLayer)
 }
 
-
 // 2.在layer图层上绑定Popup单击弹窗
 export function bindLayerTemplateDemo() {
   removeDemoLayer()
@@ -292,9 +291,6 @@ function showXQ() {
   eventTarget.fire("showWebsite", { showHistoryLayer })
 }
 
-
-
-
 // 在原始ceisum对象绑定popup
 export function bindCesiumEntityDemo() {
   const blueBox = map.viewer.entities.add({
@@ -341,7 +337,6 @@ export function bindGraphicDynamicAttrDemo() {
   })
   map.addLayer(geoJsonLayer)
 
-
   geoJsonLayer.on(mars3d.EventType.popupOpen, function (event) {
     const container = event.container // popup对应的DOM
     console.log("图层上打开了popup", container)
@@ -351,3 +346,63 @@ export function bindGraphicDynamicAttrDemo() {
     console.log("图层上移除了popup", container)
   })
 }
+
+// 像tooltip那样自适应的场景时，可以打开下面注释，再按需在bindPopup时传入autoDirection: true
+// const _getDivOffset_old = mars3d.graphic.Popup.prototype._getDivOffset
+// mars3d.graphic.Popup.prototype._getDivOffset = function (windowPosition) {
+//   if (!this.options.autoDirection) {
+//     return _getDivOffset_old.bind(this)(windowPosition)
+//   }
+
+//   const height = this.divHeight
+//   const width = this.divWidth
+//   const offset = 10
+//   let xOffset = this.style.offsetX ?? this.options.offsetX ?? 0
+//   let yOffset = this.style.offsetY ?? this.options.offsetY ?? 0
+
+//   let direction
+//   if (windowPosition.y < height + offset) {
+//     direction = "bottom"
+//   } else {
+//     direction = "top"
+//   }
+
+//   if (windowPosition.x < width + offset) {
+//     direction = "right"
+//   }
+//   if (windowPosition.x > this._map.scene.canvas.clientWidth - width - offset) {
+//     direction = "left"
+//   }
+
+//   // 默认模版时才往下走
+//   switch (direction) {
+//     case "center":
+//       xOffset += -width / 2
+//       yOffset += -height / 2
+//       break
+//     case "right":
+//       xOffset += offset
+//       yOffset += -height / 2
+//       break
+//     case "left":
+//       xOffset += -width - offset
+//       yOffset += -height / 2
+//       break
+//     case "bottom":
+//       xOffset += -width / 2
+//       yOffset += offset
+//       break
+//     case "top":
+//     default:
+//       xOffset += -width / 2
+//       yOffset += -height - offset
+//       break
+//   }
+
+//   return {
+//     height: height,
+//     width: width,
+//     xOffset: xOffset,
+//     yOffset: yOffset
+//   }
+// }

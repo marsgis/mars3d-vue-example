@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.135.0
+ * Version 1.136.0
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -23,4 +23,4 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-import{a as f}from"./chunk-S77XZCQ6.js";import"./chunk-SSQDOM4X.js";import"./chunk-HSO5NCO2.js";import{a as u}from"./chunk-V6M5VRUN.js";import"./chunk-4NESHLIW.js";import"./chunk-KJ2N7N2F.js";import"./chunk-YIDWXUKZ.js";import"./chunk-CUDDGE5L.js";import"./chunk-VUBH2SGE.js";import"./chunk-7DM4VRLC.js";import"./chunk-RQSOJS3W.js";import"./chunk-RVIN6KTA.js";import"./chunk-EKIWDFFL.js";import"./chunk-QUZOLRHP.js";import"./chunk-PVO6WFU6.js";import"./chunk-6INKH6TT.js";import"./chunk-CBDHYUZM.js";import"./chunk-WICKEAQ3.js";import"./chunk-VBZUTFOY.js";import"./chunk-SOJPBEDM.js";import"./chunk-74M7JUED.js";function h(c,d){let e=f.upsampleMesh(c),t=e.vertices.buffer,i=e.indices.buffer,s=e.westIndicesSouthToNorth.buffer,o=e.southIndicesEastToWest.buffer,r=e.eastIndicesNorthToSouth.buffer,n=e.northIndicesWestToEast.buffer;return d.push(t,i,s,o,r,n),{verticesBuffer:t,indicesBuffer:i,vertexCountWithoutSkirts:e.vertexCountWithoutSkirts,indexCountWithoutSkirts:e.indexCountWithoutSkirts,encoding:e.encoding,westIndicesBuffer:s,southIndicesBuffer:o,eastIndicesBuffer:r,northIndicesBuffer:n,minimumHeight:e.minimumHeight,maximumHeight:e.maximumHeight,boundingSphere:e.boundingSphere3D,orientedBoundingBox:e.orientedBoundingBox,horizonOcclusionPoint:e.horizonOcclusionPoint}}var I=u(h);export{I as default};
+import{a as f}from"./chunk-EBRPXF46.js";import"./chunk-CM4ICROJ.js";import"./chunk-QGOLNSX2.js";import{a as u}from"./chunk-YEN6SY2C.js";import"./chunk-DCJBRXQ3.js";import"./chunk-DCAJW75L.js";import"./chunk-I6TRDB5O.js";import"./chunk-UHYWWDIG.js";import"./chunk-VDPN3SFE.js";import"./chunk-VA2HZUHQ.js";import"./chunk-LOOC34UL.js";import"./chunk-AZECGCLU.js";import"./chunk-WNFYYD3I.js";import"./chunk-OREI43PJ.js";import"./chunk-4GQTSTSF.js";import"./chunk-HDT6ASXB.js";import"./chunk-V4GKMAF3.js";import"./chunk-I2OJC4V7.js";import"./chunk-KYKVWXMG.js";import"./chunk-JSRVU52I.js";import"./chunk-BCEL3FDA.js";import"./chunk-TEPAYIZU.js";import"./chunk-WT2QAEEE.js";import"./chunk-5ZPZOULN.js";function h(c,d){let e=f.upsampleMesh(c),t=e.vertices.buffer,i=e.indices.buffer,s=e.westIndicesSouthToNorth.buffer,o=e.southIndicesEastToWest.buffer,r=e.eastIndicesNorthToSouth.buffer,n=e.northIndicesWestToEast.buffer;return d.push(t,i,s,o,r,n),{verticesBuffer:t,indicesBuffer:i,vertexCountWithoutSkirts:e.vertexCountWithoutSkirts,indexCountWithoutSkirts:e.indexCountWithoutSkirts,encoding:e.encoding,westIndicesBuffer:s,southIndicesBuffer:o,eastIndicesBuffer:r,northIndicesBuffer:n,minimumHeight:e.minimumHeight,maximumHeight:e.maximumHeight,boundingSphere:e.boundingSphere3D,orientedBoundingBox:e.orientedBoundingBox,horizonOcclusionPoint:e.horizonOcclusionPoint}}var I=u(h);export{I as default};

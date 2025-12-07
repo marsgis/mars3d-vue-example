@@ -26,7 +26,7 @@
     "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "mars3d": "~3.10.0",
-    "mars3d-cesium": "^1.131.0",
+    "mars3d-cesium": "^1.136.0",
     "monaco-editor": "^0.52.2",
     "nprogress": "^0.2.0",
     "serve": "^14.2.4",

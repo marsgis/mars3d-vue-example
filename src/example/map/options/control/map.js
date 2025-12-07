@@ -24,7 +24,7 @@ function initMap() {
       // 以下是mars3d.control定义的控件
       contextmenu: { hasDefault: true },
       mouseDownView: true,
-      zoom: { insertIndex: 1 },
+      zoom: { insertBefore: "mars3d-fullscreenButton" },
       compass: { style: { top: "10px", right: "5px" } },
       distanceLegend: { style: { left: "10px", bottom: "27px" } }
     },

@@ -2556,12 +2556,6 @@
             "hasPannel": true
           },
           {
-            "name": "根据角度绘制波束圆",
-            "thumbnail": "graphic-primitive-circle-wx.jpg",
-            "main": "graphic/primitive/circle-wx",
-            "hasPannel": true
-          },
-          {
             "name": "扇形",
             "thumbnail": "graphic-entity-polygon-sector.gif",
             "main": "graphic/entity/polygon-sector",

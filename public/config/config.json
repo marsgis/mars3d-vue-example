@@ -67,7 +67,7 @@
     },
     "mouseDownView": true,
     "zoom": {
-      "insertBefore": "sceneModePicker",
+      "insertBefore": "mars3d-fullscreenButton",
       "zoomOutIcon": "https://data.mars3d.cn/img/control/zoom-out.svg",
       "zoomInIcon": "https://data.mars3d.cn/img/control/zoom-in.svg"
     },
