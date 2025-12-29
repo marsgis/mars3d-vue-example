@@ -36,6 +36,7 @@ export const mapOptions = function (option) {
     control: {
       baseLayerPicker: false,
       sceneModePicker: false,
+      zoom: true,
       cubeView: { style: { top: "10px", left: "5px" }, flyCenter: [119.031856, 33.592357, 31] },
       locationBar: {
         fps: true,

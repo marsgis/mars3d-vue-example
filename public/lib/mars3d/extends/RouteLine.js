@@ -25,10 +25,6 @@ class RouteLine extends mars3d.TaskItem {
 
   // 进入，激活开始处理事务
   _activateWork() {
-    // if (this.options.goBack) {
-    //   this._backCameraView = this._map.getCameraView({ simplify: false })
-    // }
-
     if (this.options.graphicId) {
       const layer = this._map.getLayerById(this.options.layerId)
       if (layer) {
@@ -44,7 +40,7 @@ class RouteLine extends mars3d.TaskItem {
       this._map.addLayer(this._graphicLayer)
 
       const fixedRoute = new mars3d.graphic.FixedRoute(this.options.route)
-      this._map.graphicLayer.addGraphic(fixedRoute)
+      this._graphicLayer.addGraphic(fixedRoute)
       this._fixedRoute = fixedRoute
     }
 
@@ -77,11 +73,6 @@ class RouteLine extends mars3d.TaskItem {
     if (this._graphicLayer) {
       this._graphicLayer.destroy()
       delete this._graphicLayer
-    }
-
-    if (this._backCameraView) {
-      this._map.setCameraView(this._backCameraView, { duration: 0 })
-      delete this._backCameraView
     }
   }
 }

@@ -1198,6 +1198,17 @@
             "hasPannel": true
           },
           {
+            "name": "iServer矢量服务查询",
+            "thumbnail": "query-iserver.jpg",
+            "main": "query/iserver",
+            "api": "QueryIServer.html",
+            "hasPannel": true,
+            "libs": [
+              "iserverGeojson",
+              "mars3d"
+            ]
+          },
+          {
             "name": "POI点查询",
             "thumbnail": "query-poi.jpg",
             "main": "query/poi",

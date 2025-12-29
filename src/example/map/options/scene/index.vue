@@ -1,6 +1,6 @@
 <template>
-  <div class="scene-pannel">
-    <a-collapse v-model:activeKey="activeKey" expandIconPosition="end">
+  <div class="right-pannel">
+    <a-collapse v-model:activeKey="rightActiveKey" expandIconPosition="end">
       <a-collapse-panel key="1" header="场景scene">
         <div v-for="(scene, index) in sceneData" :key="scene.key">
           <div class="f-mb">
@@ -8,8 +8,7 @@
               <span class="mars-pannel-item-label">{{ scene.describe }}</span>
               <span>:</span>
               <mars-select v-if="scene.operation === 'select'" v-model:value="sceneView" ref="select"
-                style="width: 110px"
-                @change="handleChange" :options="selectOptions">
+                style="width: 110px" @change="handleChange" :options="selectOptions">
               </mars-select>
               <a-radio-group v-if="scene.operation === 'checked'" v-model:value="sceneData[index].value"
                 :name="'radioGroup' + scene.key" @change="(sceneData[index] as any).change(index)">
@@ -43,16 +42,15 @@
 
               <!-- range滑动 -->
               <mars-slider @change="(globeData[index] as any).change(index)"
-                v-if="globeData[index].operation === 'range'"
-                v-model:value="globeData[index].value" :min="globeData[index].min" :max="globeData[index].max"
-                :step="globeData[index].step" />
+                v-if="globeData[index].operation === 'range'" v-model:value="globeData[index].value"
+                :min="globeData[index].min" :max="globeData[index].max" :step="globeData[index].step" />
             </a-space>
           </div>
         </div>
       </a-collapse-panel>
 
       <a-collapse-panel key="3" header="鼠标交互">
-        <div v-for="( mouse, index) in mouseData" :key="mouse.key">
+        <div v-for="(mouse, index) in mouseData" :key="mouse.key">
           <div class="f-mb">
             <a-space>
               <span class="mars-pannel-item-label">{{ mouse.describe }}</span>
@@ -66,9 +64,33 @@
 
               <!-- range滑动 -->
               <mars-slider @change="(mouseData[index] as any).change(index)"
-                v-if="mouseData[index].operation === 'range'"
-                v-model:value="mouseData[index].value" :min="mouseData[index].min" :max="mouseData[index].max"
-                :step="mouseData[index].step" />
+                v-if="mouseData[index].operation === 'range'" v-model:value="mouseData[index].value"
+                :min="mouseData[index].min" :max="mouseData[index].max" :step="mouseData[index].step" />
+            </a-space>
+          </div>
+        </div>
+      </a-collapse-panel>
+    </a-collapse>
+  </div>
+  <div class="left-pannel">
+    <a-collapse v-model:activeKey="leftActiveKey" expandIconPosition="end">
+      <a-collapse-panel key="1" header="大气设置">
+        <div v-for="(atmosphere, index) in atmosphereData" :key="atmosphere.key">
+          <div class="f-mb">
+            <a-space v-if="atmosphere.show || atmosphere.show === undefined">
+              <span class="mars-pannel-item-label">{{ atmosphere.describe }}</span>
+              <span>:</span>
+              <a-radio-group @change="(atmosphereData[index] as any).change(index)"
+                v-if="atmosphereData[index].operation === 'checked'" v-model:value="atmosphereData[index].value"
+                :name="'radioGroup' + index">
+                <a-radio value="1">是</a-radio>
+                <a-radio value="2">否</a-radio>
+              </a-radio-group>
+
+              <!-- range滑动 -->
+              <mars-slider @change="(atmosphereData[index] as any).change(index)"
+                v-if="atmosphereData[index].operation === 'range'" v-model:value="atmosphereData[index].value"
+                :min="atmosphereData[index].min" :max="atmosphereData[index].max" :step="atmosphereData[index].step" />
             </a-space>
           </div>
         </div>
@@ -78,11 +100,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import * as mapWork from "./map.js"
+import * as mars3d from "mars3d"
 
-const activeKey = ref(["1", "2", "3"])
+const rightActiveKey = ref(["1", "2", "3"])
+const leftActiveKey = ref(["1"])
 const sceneView = ref<string>("三维视图")
+
+let globe
+const Cesium = mars3d.Cesium
+onMounted(() => {
+  globe = mapWork.map.viewer.scene.globe
+})
 
 const sceneData = ref([
   {
@@ -168,19 +198,6 @@ const sceneData = ref([
   },
   {
     key: "8",
-    describe: "大气外光圈",
-    operation: "checked",
-    value: "1",
-    change(index: number) {
-      if (Number(sceneData.value[index].value) === 1) {
-        mapWork.setSceneOptions("showSkyAtmosphere", true)
-      } else {
-        mapWork.setSceneOptions("showSkyAtmosphere", false)
-      }
-    }
-  },
-  {
-    key: "9",
     describe: "雾化效果",
     operation: "checked",
     value: "1",
@@ -194,7 +211,6 @@ const sceneData = ref([
   }
 ]
 )
-
 
 const globeData = ref([
   {
@@ -224,19 +240,6 @@ const globeData = ref([
   },
   {
     key: "12",
-    describe: "绘制地面大气",
-    operation: "checked",
-    value: "1",
-    change(index: number) {
-      if (Number(globeData.value[index].value) === 1) {
-        mapWork.setSceneGlobeOptions("showGroundAtmosphere", true)
-      } else {
-        mapWork.setSceneGlobeOptions("showGroundAtmosphere", false)
-      }
-    }
-  },
-  {
-    key: "13",
     describe: "深度监测",
     operation: "checked",
     value: "2",
@@ -249,7 +252,7 @@ const globeData = ref([
     }
   },
   {
-    key: "14",
+    key: "13",
     describe: "显示底图",
     operation: "checked",
     value: "1",
@@ -258,7 +261,7 @@ const globeData = ref([
     }
   },
   {
-    key: "15",
+    key: "14",
     describe: "地球背景色",
     operation: "color",
     value: "#546a53",
@@ -267,7 +270,6 @@ const globeData = ref([
     }
   }
 ])
-
 
 const mouseData = ref([
   {
@@ -413,7 +415,185 @@ const selectOptions = ref([
   }
 ])
 
-
+const atmosphereData = ref([
+  {
+    key: "1",
+    describe: "大气外光圈",
+    operation: "checked",
+    value: "1",
+    change(index: number) {
+      if (Number(atmosphereData.value[index].value) === 1) {
+        mapWork.setSceneOptions("showSkyAtmosphere", true)
+      } else {
+        mapWork.setSceneOptions("showSkyAtmosphere", false)
+      }
+    }
+  },
+  {
+    key: "2",
+    describe: "绘制地面大气",
+    operation: "checked",
+    value: "1",
+    change(index: number) {
+      if (Number(atmosphereData.value[index].value) === 1) {
+        mapWork.setSceneGlobeOptions("showGroundAtmosphere", true)
+      } else {
+        mapWork.setSceneGlobeOptions("showGroundAtmosphere", false)
+      }
+      atmosphereData.value.forEach(item => {
+        if (item.show === true) {
+          item.show = false
+        } else if (item.show === false) {
+          item.show = true
+        }
+      })
+    }
+  },
+  {
+    key: "3",
+    describe: "光照强度",
+    operation: "range",
+    value: 33,
+    min: 2,
+    max: 100,
+    step: 1,
+    show: true,
+    change(index: number) {
+      globe.atmosphereLightIntensity = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "4",
+    describe: "色相",
+    operation: "range",
+    value: 0,
+    min: -1,
+    max: 1,
+    step: 0.01,
+    show: true,
+    change(index: number) {
+      globe.atmosphereHueShift = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "5",
+    describe: "饱和度",
+    operation: "range",
+    value: 0,
+    min: -1,
+    max: 1,
+    step: 0.01,
+    show: true,
+    change(index: number) {
+      globe.atmosphereSaturationShift = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "6",
+    describe: "亮度",
+    operation: "range",
+    value: 0,
+    min: -1,
+    max: 1,
+    step: 0.01,
+    show: true,
+    change(index: number) {
+      globe.atmosphereBrightnessShift = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "7",
+    describe: "瑞利散射系数（红）",
+    operation: "range",
+    value: 0.5,
+    min: 0,
+    max: 100,
+    step: 1,
+    show: true,
+    change(index: number) {
+      globe.atmosphereRayleighCoefficient.x = (atmosphereData.value[index].value as number) * 1e-6
+    }
+  },
+  {
+    key: "8",
+    describe: "瑞利散射系数（绿）",
+    operation: "range",
+    value: 0.5,
+    min: 0,
+    max: 100,
+    step: 1,
+    show: true,
+    change(index: number) {
+      globe.atmosphereRayleighCoefficient.y = (atmosphereData.value[index].value as number) * 1e-6
+    }
+  },
+  {
+    key: "9",
+    describe: "瑞利散射系数（蓝）",
+    operation: "range",
+    value: 2.8,
+    min: 0,
+    max: 100,
+    step: 1,
+    show: true,
+    change(index: number) {
+      globe.atmosphereRayleighCoefficient.z = (atmosphereData.value[index].value as number) * 1e-6
+    }
+  },
+  {
+    key: "10",
+    describe: "瑞利散射高度",
+    operation: "range",
+    value: 10000,
+    min: 100,
+    max: 20000,
+    step: 100,
+    show: true,
+    change(index: number) {
+      globe.atmosphereRayleighScaleHeight = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "11",
+    describe: "米氏散射系数",
+    operation: "range",
+    value: 0,
+    min: 0,
+    max: 100,
+    step: 1,
+    show: true,
+    change(index: number) {
+      const v = (atmosphereData.value[index].value as number) * 1e-6
+      globe.atmosphereMieCoefficient = new Cesium.Cartesian3(v, v, v)
+    }
+  },
+  {
+    key: "12",
+    describe: "米氏散射高度",
+    operation: "range",
+    value: 3200,
+    min: 100,
+    max: 10000,
+    step: 100,
+    show: true,
+    change(index: number) {
+      globe.atmosphereMieScaleHeight = atmosphereData.value[index].value
+    }
+  },
+  {
+    key: "13",
+    describe: "米氏散射各向异性",
+    operation: "range",
+    value: 0.9,
+    min: -1,
+    max: 1,
+    step: 0.1,
+    show: true,
+    change(index: number) {
+      globe.atmosphereMieAnisotropy = atmosphereData.value[index].value
+    }
+  }
+])
 
 const handleChange = (value: string) => {
   mapWork.sceneMode(value)
@@ -421,15 +601,26 @@ const handleChange = (value: string) => {
 </script>
 
 <style scoped lang="less">
-.scene-pannel {
+.left-pannel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 330px;
+  max-height: calc(100% - 40px);
+  overflow-x: hidden;
+}
+
+.right-pannel {
   position: absolute;
   top: 10px;
   right: 10px;
   width: 330px;
   max-height: calc(100% - 40px);
   overflow-x: hidden;
+}
 
-
+.left-pannel,
+.right-pannel {
   :deep(.ant-collapse-item) {
     margin-bottom: 10px;
 

@@ -4855,7 +4855,26 @@ const styleConfig = {
         show({ style }) {
           return !style?.clampToGround && style?.wall
         }
-      }
+      },
+
+      {
+        name: "subCode",
+        label: "子标号编码",
+        type: "textarea",
+        defval: "",
+        show({ style }) {
+          return style?.hasSubCode
+        }
+      },
+      {
+        name: "subColor",
+        label: "子标号颜色",
+        type: "color",
+        defval: "#ff0000",
+        show({ style }) {
+          return style?.hasSubCode
+        }
+      },
     ]
   }
 }

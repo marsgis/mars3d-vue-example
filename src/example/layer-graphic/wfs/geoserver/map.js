@@ -19,6 +19,7 @@ export const mapOptions = {
       parameters: {
         // 支持所有wfs的参数
         maxFeatures: 500
+        // cql_filter: "minLevel<{level} and {level}<maxLevel" //可以数据加限定的最大最小层级字段，达到按不同层级显示数据的优化策略
       },
       minimumLevel: 13,
       debuggerTileInfo: false,

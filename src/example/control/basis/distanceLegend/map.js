@@ -15,7 +15,12 @@ export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 方式2：在创建地球后按需调用addControl添加(直接new对应type类型的控件) 不可多次添加
-  const distanceLegend = new mars3d.control.DistanceLegend({ left: "100px", bottom: "2px" })
+  const distanceLegend = new mars3d.control.DistanceLegend({
+    // unit: "mile",
+    left: "100px",
+    bottom: "2px"
+  })
+
   map.addControl(distanceLegend)
 
   distanceLegend.on(mars3d.EventType.change, function (event) {
