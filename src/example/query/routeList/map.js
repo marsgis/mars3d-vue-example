@@ -131,11 +131,11 @@ export function endPoint() {
     count: 10,
     success: function (res) {
       hideLoading()
-
-      const count = res.count
-      eventTarget.fire("end", { count })
-
-      addEndPointEntity(res.list)
+      if (res) {
+        const count = res.count
+        eventTarget.fire("end", { count })
+        addEndPointEntity(res.list)
+      }
     },
     error: function (msg) {
       globalMsg(msg)

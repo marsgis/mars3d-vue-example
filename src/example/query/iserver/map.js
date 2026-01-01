@@ -23,8 +23,10 @@ export function onMounted(mapInstance) {
     layerName: "Province_R@China",
     crs: "EPSG:3857",
     toGeoJSON: function(features) {
+      if (features) {
       // eslint-disable-next-line no-undef
-      return iserverGeojson.toGeoJSON(features) // 引入 public\lib\geojson\iserver-geojson.js
+        return iserverGeojson.toGeoJSON(features) // 引入 public\lib\geojson\iserver-geojson.js
+      }
     }
   })
 
@@ -57,6 +59,9 @@ export function onUnmounted() {
 }
 
 export async function query(text) {
+  if (!drawGraphic) {
+    globalMsg("请绘制一个查询范围")
+  }
   const result = await queryMapserver.query({
     queryParams: {
       attributeFilter: `NAME like '%${text}%'`

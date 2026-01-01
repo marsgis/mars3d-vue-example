@@ -61,13 +61,15 @@ export function onMounted(mapInstance) {
     console.log("图层上打开了popup", container)
 
     const video = container.querySelector("video")
-    video.addEventListener("error", () => {
-      console.log("播放错误:", video.error)
-      // 尝试恢复播放
-      if (video.paused) {
-        video.play().catch((err) => console.log("恢复失败:", err))
-      }
-    })
+    if (video) {
+      video.addEventListener("error", () => {
+        console.log("播放错误:", video.error)
+        // 尝试恢复播放
+        if (video.paused) {
+          video.play().catch((err) => console.log("恢复失败:", err))
+        }
+      })
+    }
   })
 }
 

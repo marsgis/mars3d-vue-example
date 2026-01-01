@@ -40,6 +40,14 @@ class CanvasBillboard extends mars3d.graphic.BillboardPrimitive {
     super._addedHook(style)
   }
 
+  _updateStyleBaseHook(newStyle) {
+    if (Cesium.defined(newStyle.scale)) {
+      newStyle.label = newStyle.label || this.style.label || {}
+      newStyle.label.pixelOffsetY = -36 * (newStyle.scale ?? 1)
+    }
+    super._updateStyleBaseHook(newStyle)
+  }
+
   _toJSON_Ex(json) {
     delete json.style.image
     delete json.style.label

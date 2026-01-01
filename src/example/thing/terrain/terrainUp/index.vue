@@ -37,7 +37,7 @@
             <div class="draw-tools">
               <a-space>
                 <mars-button @click="btnDrawExtent">添加矩形</mars-button>
-                <mars-button @click="btnDraw">添加多边行</mars-button>
+                <mars-button @click="btnDraw">添加多边形</mars-button>
                 <mars-button type="primary" danger @click="removeAll">清除</mars-button>
               </a-space>
             </div>

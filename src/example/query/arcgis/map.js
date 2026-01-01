@@ -50,7 +50,7 @@ export function query(keyWords) {
 }
 
 function showGeoJsonLayer() {
-  queryMapserver = new mars3d.query.QueryIServer({
+  queryMapserver = new mars3d.query.QueryArcServer({
     url: "//server.mars3d.cn/arcgis/rest/services/mars/hfghss/MapServer/2",
     popup: "all",
     pageSize: 6

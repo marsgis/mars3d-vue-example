@@ -184,6 +184,8 @@ export function showPlyXiaoquDemo() {
     flyTo: true
   })
   map.addLayer(tiles3dLayer)
+
+  globalMsg("如果没有加载出来的话，使用mars3d-cesium1.132.0 版本试试")
 }
 
 /**
