@@ -61,6 +61,7 @@ export function onUnmounted() {
 export async function query(text) {
   if (!drawGraphic) {
     globalMsg("请绘制一个查询范围")
+    return
   }
   const result = await queryMapserver.query({
     queryParams: {

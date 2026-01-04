@@ -2388,12 +2388,6 @@
             "hasPannel": true
           },
           {
-            "name": "卫星站信号发送",
-            "thumbnail": "graphic-primitive-polyline-wx.jpg",
-            "main": "graphic/primitive/polyline-wx",
-            "hasPannel": false
-          },
-          {
             "name": "柱状线",
             "thumbnail": "graphic-primitive-polyline-vline.jpg",
             "main": "graphic/primitive/polyline-vline",
