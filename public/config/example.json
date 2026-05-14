@@ -2685,61 +2685,6 @@
         ]
       },
       {
-        "name": "军标",
-        "details": "【该代码涉密，请私聊沟通】提供全部2013版标准军标",
-        "children": [
-          {
-            "name": "点状军标",
-            "jumpHref": "http://marsgis.cn/weixin.html",
-            "thumbnail": "graphic-plot-point.jpg",
-            "main": "graphic/plot/point",
-            "hasPannel": true,
-            "libs": [
-              "mars3d",
-              "mars3d-plot"
-            ]
-          },
-          {
-            "name": "线面军标",
-            "jumpHref": "http://marsgis.cn/weixin.html",
-            "thumbnail": "graphic-plot-poly.jpg",
-            "main": "graphic/plot/poly",
-            "hasPannel": true,
-            "libs": [
-              "mars3d",
-              "mars3d-plot"
-            ]
-          },
-          {
-            "name": "标号库",
-            "jumpHref": "http://marsgis.cn/weixin.html",
-            "thumbnail": "graphic-plot-symbol-list.jpg",
-            "main": "graphic/plot/symbol-list",
-            "hasPannel": true,
-            "libs": [
-              "mars3d",
-              "mars3d-plot"
-            ]
-          },
-          {
-            "name": "军标时序动画",
-            "jumpHref": "http://marsgis.cn/weixin.html",
-            "thumbnail": "graphic-plot-task.jpg",
-            "main": "graphic/plot/task",
-            "api": "Task.html",
-            "hasPannel": true,
-            "libs": [
-              "mars3d",
-              "mars3d-plot"
-            ],
-            "resources": [
-              "/lib/mars3d/extends/GraphicStyle.js",
-              "/lib/mars3d/extends/GraphicOptions.js"
-            ]
-          }
-        ]
-      },
-      {
         "name": "水域",
         "children": [
           {
