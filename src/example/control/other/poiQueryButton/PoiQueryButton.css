@@ -1,0 +1,161 @@
+ .toolSearch {
+   width: 310px;
+   position: absolute;
+   left: 36px;
+   right: 0;
+   border: none;
+   color: white;
+   border: 1px solid #717171e0;
+   overflow: hidden;
+ }
+
+ .poiButtonResult {
+   position: absolute;
+   left: 36px;
+   bottom: 0;
+   width: 310px;
+   min-height: 120px;
+   border: none;
+   color: white;
+   overflow: hidden;
+ }
+
+ .deleteInput {
+   position: absolute;
+   top: -2px;
+   right: 5px;
+   line-height: 0;
+   font-size: 18px;
+   cursor: pointer;
+ }
+
+ .searchInput {
+   width: 100%;
+   height: 31px;
+   border: none;
+   color: white;
+   background-color: rgba(40, 40, 40, 0.7);
+ }
+
+ input::-webkit-search-cancel-button {
+   display: none;
+ }
+
+ .searchInput:focus {
+   border-color: #ea4;
+   background-color: rgba(63, 72, 84);
+   box-shadow: none;
+   outline: none;
+ }
+
+ /* 搜寻的结果显示 */
+ .searchResults {
+   width: 100%;
+   height: 88%;
+   overflow: auto;
+   font-size: 12px;
+   position: absolute;
+   background-color: rgba(40, 40, 40, 0.7);
+ }
+
+ .searchResults p {
+   margin-left: -20px;
+   width: 100%;
+   text-align: center;
+ }
+
+ .searchResults ul {
+   display: block;
+   line-height: 25px;
+   min-height: 100px;
+   max-height: 150px;
+   margin-top: 3px;
+ }
+
+ .searchResults li {
+   margin: 0 0 5px -40px;
+   color: #ebebebe7;
+   cursor: pointer;
+   position: relative;
+   text-align: left;
+   text-indent: 25px;
+ }
+
+ .searchResults li::after {
+   content: "";
+   position: absolute;
+   left: 0;
+   bottom: -3px;
+   width: 100%;
+   height: 1px;
+   background: #a79ecc;
+ }
+
+ .searchResults li:hover {
+   background: rgb(255 252 252 / 55%);
+   color: #795a5a;
+ }
+
+ .gaodesousuo img {
+   margin-right: 10px;
+   width: 18px;
+   transform: translateY(5px);
+ }
+
+ /*上下页数的样式 */
+ .resultNextPages {
+   width: 100%;
+   height: 12%;
+   color: #ebebebe7;
+   cursor: pointer;
+   font-size: 13px;
+   position: absolute;
+   bottom: 0;
+   padding-left: 10px;
+   line-height: 16px;
+   background-color: rgba(40, 40, 40, 0.7);
+ }
+
+ .resultNextPages p {
+   float: left;
+ }
+
+ /* 下一页 */
+ .resultNextPages p:nth-last-child(1) {
+   text-align: center;
+   position: relative;
+   right: -34px;
+   width: 18px;
+   border: 1px solid #f9ececb3;
+ }
+
+ /* 上一页 */
+ .resultNextPages p:nth-last-child(2) {
+   text-align: center;
+   position: relative;
+   right: -30px;
+   width: 18px;
+   border: 1px solid #f9ececb3;
+ }
+
+ /* 首页 */
+ .resultNextPages p:nth-last-child(3) {
+   text-align: center;
+   position: relative;
+   right: -10px;
+   width: 35px;
+   border: 1px solid #f9ececb3;
+ }
+
+ /* 页数 */
+ .resultNextPages p:nth-last-child(4) {
+   position: relative;
+   right: -5px;
+   width: 65px;
+ }
+
+ .resultNextPages p:nth-last-child(1):hover,
+ .resultNextPages p:nth-last-child(2):hover,
+ .resultNextPages p:nth-last-child(3):hover {
+   text-decoration: underline;
+ }
