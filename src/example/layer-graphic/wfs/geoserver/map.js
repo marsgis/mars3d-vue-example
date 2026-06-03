@@ -19,6 +19,24 @@ export const mapOptions = {
       parameters: {
         // 支持所有wfs的参数
         maxFeatures: 500
+        // filter: `<Filter xmlns="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+        //   <And>
+        //     <PropertyIsEqualTo>
+        //       <PropertyName>举办者类型</PropertyName>
+        //       <Literal>民办</Literal>
+        //     </PropertyIsEqualTo>
+        //     <Intersects>
+        //       <PropertyName>the_geom</PropertyName>
+        //       <gml:Polygon srsName="EPSG:4326">
+        //         <gml:outerBoundaryIs>
+        //           <gml:LinearRing>
+        //             <gml:coordinates>{xmin},{ymin} {xmax},{ymin} {xmax},{ymax} {xmin},{ymax} {xmin},{ymin}</gml:coordinates>
+        //           </gml:LinearRing>
+        //         </gml:outerBoundaryIs>
+        //       </gml:Polygon>
+        //     </Intersects>
+        //   </And>
+        // </Filter>`
         // cql_filter: "minLevel<{level} and {level}<maxLevel" //可以数据加限定的最大最小层级字段，达到按不同层级显示数据的优化策略
       },
       minimumLevel: 13,

@@ -144,9 +144,28 @@ function addSatellite() {
     }
   ]
 
+  // 也支持直接 position: property 传入属性坐标
+  // const property = new Cesium.SampledPositionProperty()
+  // property.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD
+
+  // for (let z = 0; z < wxdata.length; z++) {
+  //   const item = wxdata[z]
+
+  //   const thisTime = Cesium.JulianDate.fromIso8601(item.time)
+  //   const position = Cesium.Cartesian3.fromDegrees(item.lng, item.lat, item.alt)
+  //   // 添加每一个链接点的信息，到达的时间以及坐标位置
+  //   property.addSample(thisTime, position)
+  // }
+  // property.setInterpolationOptions({
+  //   interpolationDegree: 2,
+  //   interpolationAlgorithm: Cesium.LagrangePolynomialApproximation
+  // })
+
+
   const weixin = new mars3d.graphic.Satellite({
     name: "自定义轨道",
     // 无tle，传入自定义的动态轨道位置属性
+    // position: property,
     position: {
       type: "time", // 时序动态坐标
       list: wxdata,

@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 
-const creditHtml = `©2023 Tencent - <span>审图号：GS(2023)1号</span>
+const creditHtml = `地图服务由Tencent提供 - <span>审图号：GS(2023)1号</span>
 - <a target="_blank" href="https://lbs.qq.com/terms.html">服务条款</a>`
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -89,7 +89,7 @@ function addCreditDOM() {
     creditDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", locationBar)
     creditDOM.style["pointer-events"] = "all"
     creditDOM.style.float = "left"
-    creditDOM.style.marginLeft = "20px"
+    creditDOM.style.marginLeft = "120px"
 
     creditDOM.innerHTML = map.basemap?.options?.credit || ""
 

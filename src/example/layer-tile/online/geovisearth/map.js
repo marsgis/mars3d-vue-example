@@ -2,7 +2,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 
-const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</span>
+const creditHtml = `地图服务由中科星图提供- <span>审图号：GS (2023) 1924号</span>
 -  甲测资字11111577 - <a href="https://geovisearth.com/declaration#/user" target="_blank" trace="tos">服务条款</a> `
 
 // 请自行申请token后替换，星图地球官方地址：https://datacloud.geovisearth.com/support/map/summary
@@ -94,7 +94,7 @@ function addCreditDOM() {
     creditDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", locationBar)
     creditDOM.style["pointer-events"] = "all"
     creditDOM.style.float = "left"
-    creditDOM.style.marginLeft = "20px"
+    creditDOM.style.marginLeft = "120px"
 
     creditDOM.innerHTML = map.basemap?.options?.credit || ""
 

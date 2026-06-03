@@ -2,8 +2,10 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 
-const creditHtml = `自然资源部 - <span>审图号：GS(2023)336号</span>
+const creditHtml = `转自天地图，自然资源部 & NavInfo - <span>审图号：GS（2025）1508号</span>
  - 甲测资字1100471 - <a href="https://www.tianditu.gov.cn/about/contact.html?type=2" target="_blank" trace="tos">服务条款</a> `
+
+
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -206,7 +208,7 @@ function addCreditDOM() {
     creditDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", locationBar)
     creditDOM.style["pointer-events"] = "all"
     creditDOM.style.float = "left"
-    creditDOM.style.marginLeft = "20px"
+    creditDOM.style.marginLeft = "120px"
 
     creditDOM.innerHTML = map.basemap?.options?.credit || ""
 

@@ -1,5 +1,7 @@
 import * as mars3d from "mars3d"
 
+const creditHtml = `地图服务由 超图 提供 <a href="https://doc.supermapol.com/zh-hans/CloudLicense/cloudbuy.html" target="_blank" trace="tos">帮助文档</a> `
+
 export let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -32,6 +34,7 @@ export const mapOptions = {
 export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   map.fixedLight = true // 固定光照，避免gltf模型随时间存在亮度不一致。
+  addCreditDOM()
 
   globalNotify("已知问题提示", `当前使用的是原生Cesium+SuperMap3D插件方式，很多API不支持，完整方式需要参考Github开源代码切换Cesium到超图版Cesium。`)
 
@@ -250,3 +253,24 @@ export function showCloudDemo() {
   })
 }
 
+
+
+// 在下侧状态栏增加一个额外div展示图层版权信息
+let creditDOM
+function addCreditDOM() {
+  const locationBar = map.control.locationBar?.container
+  if (locationBar) {
+    creditDOM = mars3d.DomUtil.create("div", "mars3d-locationbar-content mars3d-locationbar-autohide", locationBar)
+    creditDOM.style["pointer-events"] = "all"
+    creditDOM.style.float = "left"
+    creditDOM.style.marginLeft = "120px"
+
+    creditDOM.innerHTML = creditHtml
+  }
+}
+function removeCreditDOM() {
+  if (creditDOM) {
+    mars3d.DomUtil.remove(creditDOM)
+    creditDOM = null
+  }
+}

@@ -35,7 +35,9 @@ export function onMounted(mapInstance) {
     if (mapEx) {
       const layerOptions = event.layer.toJSON() // 转为参数
       const newLayer = mars3d.LayerUtil.create(layerOptions) // 创建图层
-      mapEx.addLayer(newLayer)
+      setTimeout(() => {
+        mapEx.addLayer(newLayer)
+      }, 500)
     }
   })
 

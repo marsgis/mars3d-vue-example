@@ -2,8 +2,8 @@
 /**
  * Mars3D三维可视化平台  mars3d
  *
- * 版本信息：v3.11.3
- * 编译日期：2026-05-13 11:46
+ * 版本信息：v3.11.4
+ * 编译日期：2026-06-03 19:53
  * 版权所有：Copyright by http://mars3d.cn
  * 使用单位：免费公开版 ，2026-02-01
  */
@@ -21337,6 +21337,7 @@ declare namespace ReflectionWater {
 /**
  * 反射水面(显示模型倒影) Primitive图元 矢量对象, 目前仅支持少量数据（多了就卡）
  * 依赖：需要map.scene.highDynamicRange需要是false
+ * 已知问题：该对象与部分矢量对象存在渲染冲突问题，比如造成Polygon是回调属性坐标时且开启distanceDisplayCondition时不显示填充物，请按需选用。
  * @param options - 参数对象，包括以下：
  * @param options.positions - 坐标位置
  * @param options.style - 样式信息
@@ -30232,7 +30233,7 @@ declare namespace Map {
      * @property [automaticallyTrackDataSourceClocks = true] - 如果为true，则此小部件将自动跟踪新添加的数据源的时钟设置，并在数据源的时钟发生更改时进行更新。如果要独立配置时钟，请将其设置为false。
      * @property [contextOptions = {}] - WebGL创建属性 传递给 Cesium.Scene 的 options 。{@link Cesium.Scene}
      * @property [contextOptions.allowTextureFilterAnisotropic = true] - 允许纹理过滤各向异性
-     * @property [contextOptions.requestWebgl1 = false] - 是否启用webgl1，cesium v1.102起默认用webgl2渲染
+     * @property [contextOptions.requestWebgl1 = false] - 是否启用webgl1，cesium v1.102起默认用webgl2渲染。提示：webgl1下会引发很多错误，目前Cesium很多功能都依赖webgl2
      * @property [contextOptions.webgl] - WebGL画布,用于 canvas.getContext("webgl", webglOptions) See {@link https://registry.khronos.org/webgl/specs/latest/1.0/#5.2|WebGLContextAttributes}
      * @property [contextOptions.webgl.alpha = false] - 是否包含alpha缓冲区，如果需要DIV透明时，需要改为true
      * @property [contextOptions.webgl.depth] - 绘图缓冲区的深度缓冲区至少为16位
