@@ -41,13 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
 const fltjData = ref([])
 let ZJLY
 const NDTJ = ref()
+const resizeHandlers: (() => void)[] = [] // 图表resize监听引用，供卸载时移除
 
 onMounted(() => {
   ZJLY = document.getElementById("ul_ZJLY")
@@ -58,6 +59,14 @@ onMounted(() => {
   initCharts_Two(chartsData.zjly, ZJLY)
   // 分年度统计
   initCharts_Three(chartsData.ndtj)
+})
+
+// 组件卸载时移除resize监听，避免泄漏
+onUnmounted(() => {
+  resizeHandlers.forEach((handler) => {
+    window.removeEventListener("resize", handler)
+  })
+  resizeHandlers.length = 0
 })
 const btnUpdate = () => {
   mapWork.btnUpdate()
@@ -172,9 +181,11 @@ function initCharts_Two(arr: any, ZJLY: any) {
   }
   myChart.setOption(option)
 
-  window.addEventListener("resize", function () {
+  const zjlyResizeHandler = function () {
     myChart.resize()
-  })
+  }
+  resizeHandlers.push(zjlyResizeHandler)
+  window.addEventListener("resize", zjlyResizeHandler)
 }
 
 // chartThree   Echart柱状   年度统计
@@ -253,9 +264,11 @@ function histogram(arr: any, Word: string) {
   }
   myChart.setOption(option)
 
-  window.addEventListener("resize", function () {
+  const ndtjResizeHandler = function () {
     myChart.resize()
-  })
+  }
+  resizeHandlers.push(ndtjResizeHandler)
+  window.addEventListener("resize", ndtjResizeHandler)
 }
 </script>
 <style scoped lang="less">

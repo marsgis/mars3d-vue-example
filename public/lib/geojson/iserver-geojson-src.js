@@ -2,12 +2,16 @@
  * 超图iserver服务返回的json转为geojson工具类
  * 编译日期：2025-12-23 12:09
  * 版权所有：Copyright by 木遥
+ * Contains code Copyright (c) 2000-2022 SuperMap Software Co.Ltd., licensed under Apache-2.0
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.iserverGeojson = {}));
-})(this, (function (exports) { 'use strict';
+  typeof exports === "object" && typeof module !== "undefined"
+? factory(exports)
+  : typeof define === "function" && define.amd
+? define(["exports"], factory)
+  : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.iserverGeojson = {}))
+})(this, function (exports) {
+ "use strict"
 
   /* eslint-disable no-extend-native */
   /* Copyright© 2000 - 2022 SuperMap Software Co.Ltd. All rights reserved.
@@ -21,7 +25,7 @@
    * @description 字符串操作的一系列常用扩展函数。
    * @private
    */
-  let StringExt = {
+  const StringExt = {
     /**
      * @function StringExt.startsWith
      * @description 判断目标字符串是否以指定的子字符串开头。
@@ -63,11 +67,11 @@
      * @returns {string}
      */
     camelize: function (str) {
-      const oStringList = str.split("-");
-      let camelizedString = oStringList[0];
+      const oStringList = str.split("-")
+      let camelizedString = oStringList[0]
       for (let i = 1, len = oStringList.length; i < len; i++) {
-        const s = oStringList[i];
-        camelizedString += s.charAt(0).toUpperCase() + s.substring(1);
+        const s = oStringList[i]
+        camelizedString += s.charAt(0).toUpperCase() + s.substring(1)
       }
       return camelizedString
     },
@@ -111,30 +115,30 @@
      */
     format: function (template, context, args) {
       if (!context) {
-        context = window;
+        context = window
       }
 
       // Example matching:
       // str   = ${foo.bar}
       // match = foo.bar
       const replacer = function (str, match) {
-        let replacement;
+        let replacement
 
         // Loop through all subs. Example: ${a.b.c}
         // 0 -> replacement = context[a];
         // 1 -> replacement = context[a][b];
         // 2 -> replacement = context[a][b][c];
-        const subs = match.split(/\.+/);
+        const subs = match.split(/\.+/)
         for (let i = 0; i < subs.length; i++) {
           if (i == 0) {
-            replacement = context;
+            replacement = context
           }
 
-          replacement = replacement[subs[i]];
+          replacement = replacement[subs[i]]
         }
 
         if (typeof replacement === "function") {
-          replacement = args ? replacement.apply(null, args) : replacement();
+          replacement = args ? replacement.apply(null, args) : replacement()
         }
 
         // If replacement is undefined, return the string 'undefined'.
@@ -146,7 +150,7 @@
         } else {
           return replacement
         }
-      };
+      }
 
       return template.replace(StringExt.tokenRegEx, replacer)
     },
@@ -189,7 +193,7 @@
     numericIf: function (value) {
       return StringExt.isNumeric(value) ? parseFloat(value) : value
     }
-  };
+  }
 
   /**
    * @name Number
@@ -198,7 +202,7 @@
    * @description 数值操作的一系列常用扩展函数。
    * @private
    */
-  let NumberExt = {
+  const NumberExt = {
     /**
      * @member {string} [NumberExt.decimalSeparator='.']
      * @description 格式化数字时默认的小数点分隔符。
@@ -221,9 +225,9 @@
      * @returns {number} 将数字四舍五入到指定数量的有效位数。
      */
     limitSigDigs: function (num, sig) {
-      let fig = 0;
+      let fig = 0
       if (sig > 0) {
-        fig = parseFloat(num.toPrecision(sig));
+        fig = parseFloat(num.toPrecision(sig))
       }
       return fig
     },
@@ -238,41 +242,41 @@
      * @returns {string} 数字格式化后的字符串。
      */
     format: function (num, dec, tsep, dsep) {
-      dec = typeof dec !== "undefined" ? dec : 0;
-      tsep = typeof tsep !== "undefined" ? tsep : NumberExt.thousandsSeparator;
-      dsep = typeof dsep !== "undefined" ? dsep : NumberExt.decimalSeparator;
+      dec = typeof dec !== "undefined" ? dec : 0
+      tsep = typeof tsep !== "undefined" ? tsep : NumberExt.thousandsSeparator
+      dsep = typeof dsep !== "undefined" ? dsep : NumberExt.decimalSeparator
 
       if (dec != null) {
-        num = parseFloat(num.toFixed(dec));
+        num = parseFloat(num.toFixed(dec))
       }
 
-      const parts = num.toString().split(".");
+      const parts = num.toString().split(".")
       if (parts.length === 1 && dec == null) {
         // integer where we do not want to touch the decimals
-        dec = 0;
+        dec = 0
       }
 
-      let integer = parts[0];
+      let integer = parts[0]
       if (tsep) {
-        const thousands = /(-?[0-9]+)([0-9]{3})/;
+        const thousands = /(-?[0-9]+)([0-9]{3})/
         while (thousands.test(integer)) {
-          integer = integer.replace(thousands, "$1" + tsep + "$2");
+          integer = integer.replace(thousands, "$1" + tsep + "$2")
         }
       }
 
-      let str;
+      let str
       if (dec == 0) {
-        str = integer;
+        str = integer
       } else {
-        let rem = parts.length > 1 ? parts[1] : "0";
+        let rem = parts.length > 1 ? parts[1] : "0"
         if (dec != null) {
-          rem = rem + new Array(dec - rem.length + 1).join("0");
+          rem = rem + new Array(dec - rem.length + 1).join("0")
         }
-        str = integer + dsep + rem;
+        str = integer + dsep + rem
       }
       return str
     }
-  };
+  }
 
   if (!Number.prototype.limitSigDigs) {
     /**
@@ -284,7 +288,7 @@
      */
     Number.prototype.limitSigDigs = function (sig) {
       return NumberExt.limitSigDigs(this, sig)
-    };
+    }
   }
 
   /* Copyright© 2000 - 2022 SuperMap Software Co.Ltd. All rights reserved.
@@ -302,26 +306,26 @@
    */
   class Geometry {
     constructor() {
-      this.CLASS_NAME = "SuperMap.Geometry";
+      this.CLASS_NAME = "SuperMap.Geometry"
       /**
        * @member {string} Geometry.prototype.id
        * @description  几何对象的唯一标示符。
        *
        */
-      this.id = Util.createUniqueID(this.CLASS_NAME + "_");
+      this.id = Util.createUniqueID(this.CLASS_NAME + "_")
 
       /**
        * @member {Geometry} Geometry.prototype.parent
        * @description 父类几何对象。
        */
-      this.parent = null;
+      this.parent = null
 
       /**
        * @member {Bounds} Geometry.prototype.bounds
        * @description 几何对象的范围。
        *
        */
-      this.bounds = null;
+      this.bounds = null
 
       /**
        * @member {number} Geometry.prototype.SRID
@@ -331,7 +335,7 @@
        * geometry. SRID=4326;
        *
        */
-      this.SRID = null;
+      this.SRID = null
     }
 
     /**
@@ -339,9 +343,9 @@
      * @description 解构 Geometry 类，释放资源。
      */
     destroy() {
-      this.id = null;
-      this.bounds = null;
-      this.SRID = null;
+      this.id = null
+      this.bounds = null
+      this.SRID = null
     }
 
     /**
@@ -360,7 +364,7 @@
      */
     setBounds(bounds) {
       if (bounds) {
-        this.bounds = bounds.clone();
+        this.bounds = bounds.clone()
       }
     }
 
@@ -370,9 +374,9 @@
      * 如果该对象有父类，也会清除父类几何对象的 bounds。
      */
     clearBounds() {
-      this.bounds = null;
+      this.bounds = null
       if (this.parent) {
-        this.parent.clearBounds();
+        this.parent.clearBounds()
       }
     }
 
@@ -382,11 +386,11 @@
      * @param {Bounds} newBounds - 几何对象的 bounds。
      */
     extendBounds(newBounds) {
-      const bounds = this.getBounds();
+      const bounds = this.getBounds()
       if (!bounds) {
-        this.setBounds(newBounds);
+        this.setBounds(newBounds)
       } else {
-        this.bounds.extend(newBounds);
+        this.bounds.extend(newBounds)
       }
     }
 
@@ -397,7 +401,7 @@
      */
     getBounds() {
       if (this.bounds == null) {
-        this.calculateBounds();
+        this.calculateBounds()
       }
       return this.bounds
     }
@@ -479,58 +483,58 @@
    * ```
    */
   const Browser = (function () {
-    let name = "";
-    let version = "";
-    let device = "pc";
-    let uaMatch;
+    let name = ""
+    let version = ""
+    let device = "pc"
+    let uaMatch
     // 以下进行测试
-    const ua = navigator.userAgent.toLowerCase();
+    const ua = navigator.userAgent.toLowerCase()
     if (ua.indexOf("msie") > -1 || (ua.indexOf("trident") > -1 && ua.indexOf("rv") > -1)) {
-      name = "msie";
-      uaMatch = ua.match(/msie ([\d.]+)/) || ua.match(/rv:([\d.]+)/);
+      name = "msie"
+      uaMatch = ua.match(/msie ([\d.]+)/) || ua.match(/rv:([\d.]+)/)
     } else if (ua.indexOf("chrome") > -1) {
-      name = "chrome";
-      uaMatch = ua.match(/chrome\/([\d.]+)/);
+      name = "chrome"
+      uaMatch = ua.match(/chrome\/([\d.]+)/)
     } else if (ua.indexOf("firefox") > -1) {
-      name = "firefox";
-      uaMatch = ua.match(/firefox\/([\d.]+)/);
+      name = "firefox"
+      uaMatch = ua.match(/firefox\/([\d.]+)/)
     } else if (ua.indexOf("opera") > -1) {
-      name = "opera";
-      uaMatch = ua.match(/version\/([\d.]+)/);
+      name = "opera"
+      uaMatch = ua.match(/version\/([\d.]+)/)
     } else if (ua.indexOf("safari") > -1) {
-      name = "safari";
-      uaMatch = ua.match(/version\/([\d.]+)/);
+      name = "safari"
+      uaMatch = ua.match(/version\/([\d.]+)/)
     }
-    version = uaMatch ? uaMatch[1] : "";
+    version = uaMatch ? uaMatch[1] : ""
 
     if (ua.indexOf("ipad") > -1 || ua.indexOf("ipod") > -1 || ua.indexOf("iphone") > -1) {
-      device = "apple";
+      device = "apple"
     } else if (ua.indexOf("android") > -1) {
-      uaMatch = ua.match(/version\/([\d.]+)/);
-      version = uaMatch ? uaMatch[1] : "";
-      device = "android";
+      uaMatch = ua.match(/version\/([\d.]+)/)
+      version = uaMatch ? uaMatch[1] : ""
+      device = "android"
     }
     return { name: name, version: version, device: device }
-  })();
+  })()
 
   const isSupportCanvas = (function () {
-    let checkRes = true;
-    const broz = Browser;
+    let checkRes = true
+    const broz = Browser
     if (document.createElement("canvas").getContext) {
       if (broz.name === "firefox" && parseFloat(broz.version) < 5) {
-        checkRes = false;
+        checkRes = false
       }
       if (broz.name === "safari" && parseFloat(broz.version) < 4) {
-        checkRes = false;
+        checkRes = false
       }
       if (broz.name === "opera" && parseFloat(broz.version) < 10) {
-        checkRes = false;
+        checkRes = false
       }
       if (broz.name === "msie" && parseFloat(broz.version) < 9) {
-        checkRes = false;
+        checkRes = false
       }
     } else {
-      checkRes = false;
+      checkRes = false
     }
     return checkRes
   })();
@@ -540,10 +544,10 @@
    * @constant {number}
    * @private
    */
-  ((function () {
-    const ua = navigator.userAgent.toLowerCase();
+  (function () {
+    const ua = navigator.userAgent.toLowerCase()
     return ua.indexOf("webkit") === -1 && ua.indexOf("gecko") !== -1
-  }))();
+  })()
 
   /**
    * @constant {number}
@@ -551,7 +555,7 @@
    * @description 分辨率与比例尺之间转换的常量。
    * @private
    */
-  const DOTS_PER_INCH = 96;
+  const DOTS_PER_INCH = 96
 
   /**
    * @name CommonUtil
@@ -592,12 +596,12 @@
      */
 
     extend: function (destination, source) {
-      destination = destination || {};
+      destination = destination || {}
       if (source) {
         for (const property in source) {
-          const value = source[property];
+          const value = source[property]
           if (value !== undefined) {
-            destination[property] = value;
+            destination[property] = value
           }
         }
 
@@ -613,10 +617,10 @@
          * is an instance of window.Event.
          */
 
-        const sourceIsEvt = typeof window.Event === "function" && source instanceof window.Event;
+        const sourceIsEvt = typeof window.Event === "function" && source instanceof window.Event
 
         if (!sourceIsEvt && source.hasOwnProperty && source.hasOwnProperty("toString")) {
-          destination.toString = source.toString;
+          destination.toString = source.toString
         }
       }
       return destination
@@ -628,13 +632,13 @@
      * @param {Object} soc - 源对象。
      */
     copy: function (des, soc) {
-      des = des || {};
-      let v;
+      des = des || {}
+      let v
       if (soc) {
         for (const p in des) {
-          v = soc[p];
+          v = soc[p]
           if (typeof v !== "undefined") {
-            des[p] = v;
+            des[p] = v
           }
         }
       }
@@ -645,22 +649,22 @@
      * @param {Object} [obj] - 目标对象。
      */
     reset: function (obj) {
-      obj = obj || {};
+      obj = obj || {}
       for (const p in obj) {
         if (obj.hasOwnProperty(p)) {
           if (typeof obj[p] === "object" && obj[p] instanceof Array) {
             for (const i in obj[p]) {
               if (obj[p][i].destroy) {
-                obj[p][i].destroy();
+                obj[p][i].destroy()
               }
             }
-            obj[p].length = 0;
+            obj[p].length = 0
           } else if (typeof obj[p] === "object" && obj[p] instanceof Object) {
             if (obj[p].destroy) {
-              obj[p].destroy();
+              obj[p].destroy()
             }
           }
-          obj[p] = null;
+          obj[p] = null
         }
       }
     },
@@ -671,17 +675,17 @@
      * @returns {Array.<HTMLElement>} HTML 元素数组。
      */
     getElement: function () {
-      const elements = [];
+      const elements = []
 
       for (let i = 0, len = arguments.length; i < len; i++) {
-        let element = arguments[i];
+        let element = arguments[i]
         if (typeof element === "string") {
-          element = document.getElementById(element);
+          element = document.getElementById(element)
         }
         if (arguments.length === 1) {
           return element
         }
-        elements.push(element);
+        elements.push(element)
       }
       return elements
     },
@@ -716,7 +720,7 @@
     removeItem: function (array, item) {
       for (let i = array.length - 1; i >= 0; i--) {
         if (array[i] === item) {
-          array.splice(i, 1);
+          array.splice(i, 1)
           // break;more than once??
         }
       }
@@ -762,31 +766,31 @@
      */
     modifyDOMElement: function (element, id, px, sz, position, border, overflow, opacity) {
       if (id) {
-        element.id = id;
+        element.id = id
       }
       if (px) {
-        element.style.left = px.x + "px";
-        element.style.top = px.y + "px";
+        element.style.left = px.x + "px"
+        element.style.top = px.y + "px"
       }
       if (sz) {
-        element.style.width = sz.w + "px";
-        element.style.height = sz.h + "px";
+        element.style.width = sz.w + "px"
+        element.style.height = sz.h + "px"
       }
       if (position) {
-        element.style.position = position;
+        element.style.position = position
       }
       if (border) {
-        element.style.border = border;
+        element.style.border = border
       }
       if (overflow) {
-        element.style.overflow = overflow;
+        element.style.overflow = overflow
       }
       if (parseFloat(opacity) >= 0.0 && parseFloat(opacity) < 1.0) {
-        element.style.filter = "alpha(opacity=" + opacity * 100 + ")";
-        element.style.opacity = opacity;
+        element.style.filter = "alpha(opacity=" + opacity * 100 + ")"
+        element.style.opacity = opacity
       } else if (parseFloat(opacity) === 1.0) {
-        element.style.filter = "";
-        element.style.opacity = "";
+        element.style.filter = ""
+        element.style.opacity = ""
       }
     },
 
@@ -798,17 +802,17 @@
      * @returns {Object} 返回合并后的对象。
      */
     applyDefaults: function (to, from) {
-      to = to || {};
+      to = to || {}
       /*
        * FF/Windows < 2.0.0.13 reports "Illegal operation on WrappedNative
        * prototype object" when calling hawOwnProperty if the source object is an
        * instance of window.Event.
        */
-      const fromIsEvt = typeof window.Event === "function" && from instanceof window.Event;
+      const fromIsEvt = typeof window.Event === "function" && from instanceof window.Event
 
       for (const key in from) {
         if (to[key] === undefined || (!fromIsEvt && from.hasOwnProperty && from.hasOwnProperty(key) && !to.hasOwnProperty(key))) {
-          to[key] = from[key];
+          to[key] = from[key]
         }
       }
       /**
@@ -817,7 +821,7 @@
        * the source has its own toString property.
        */
       if (!fromIsEvt && from && from.hasOwnProperty && from.hasOwnProperty("toString") && !to.hasOwnProperty("toString")) {
-        to.toString = from.toString;
+        to.toString = from.toString
       }
 
       return to
@@ -830,19 +834,19 @@
      * @returns {string} HTTP 的 GET 请求中的参数字符串。
      */
     getParameterString: function (params) {
-      const paramsArray = [];
+      const paramsArray = []
 
       for (const key in params) {
-        const value = params[key];
+        const value = params[key]
         if (value != null && typeof value !== "function") {
-          let encodedValue;
+          let encodedValue
           if (Array.isArray(value) || value.toString() === "[object Object]") {
-            encodedValue = encodeURIComponent(JSON.stringify(value));
+            encodedValue = encodeURIComponent(JSON.stringify(value))
           } else {
             /* value is a string; simply encode */
-            encodedValue = encodeURIComponent(value);
+            encodedValue = encodeURIComponent(value)
           }
-          paramsArray.push(encodeURIComponent(key) + "=" + encodedValue);
+          paramsArray.push(encodeURIComponent(key) + "=" + encodedValue)
         }
       }
 
@@ -857,14 +861,14 @@
      * @returns {string} 新的 URL。
      */
     urlAppend: function (url, paramStr) {
-      let newUrl = url;
+      let newUrl = url
       if (paramStr) {
         if (paramStr.indexOf("?") === 0) {
-          paramStr = paramStr.substring(1);
+          paramStr = paramStr.substring(1)
         }
-        const parts = (url + " ").split(/[?&]/);
+        const parts = (url + " ").split(/[?&]/)
         // eslint-disable-next-line no-nested-ternary
-        newUrl += parts.pop() === " " ? paramStr : parts.length ? "&" + paramStr : "?" + paramStr;
+        newUrl += parts.pop() === " " ? paramStr : parts.length ? "&" + paramStr : "?" + paramStr
       }
       return newUrl
     },
@@ -877,18 +881,18 @@
      * @returns {string} 新的 URL。
      */
     urlPathAppend: function (url, pathStr) {
-      let newUrl = url;
+      let newUrl = url
       if (!pathStr) {
         return newUrl
       }
       if (pathStr.indexOf("/") === 0) {
-        pathStr = pathStr.substring(1);
+        pathStr = pathStr.substring(1)
       }
-      const parts = url.split("?");
+      const parts = url.split("?")
       if (parts[0].indexOf("/", parts[0].length - 1) < 0) {
-        parts[0] += "/";
+        parts[0] += "/"
       }
-      newUrl = `${parts[0]}${pathStr}${parts.length > 1 ? `?${parts[1]}` : ""}`;
+      newUrl = `${parts[0]}${pathStr}${parts.length > 1 ? `?${parts[1]}` : ""}`
       return newUrl
     },
 
@@ -909,10 +913,10 @@
      */
     toFloat: function (number, precision) {
       if (precision == null) {
-        precision = Util.DEFAULT_PRECISION;
+        precision = Util.DEFAULT_PRECISION
       }
       if (typeof number !== "number") {
-        number = parseFloat(number);
+        number = parseFloat(number)
       }
       return precision === 0 ? number : parseFloat(number.toPrecision(precision))
     },
@@ -935,46 +939,46 @@
      */
     getParameters: function (url) {
       // if no url specified, take it from the location bar
-      url = url === null || url === undefined ? window.location.href : url;
+      url = url === null || url === undefined ? window.location.href : url
 
       // parse out parameters portion of url string
-      let paramsString = "";
+      let paramsString = ""
       if (StringExt.contains(url, "?")) {
-        const start = url.indexOf("?") + 1;
-        const end = StringExt.contains(url, "#") ? url.indexOf("#") : url.length;
-        paramsString = url.substring(start, end);
+        const start = url.indexOf("?") + 1
+        const end = StringExt.contains(url, "#") ? url.indexOf("#") : url.length
+        paramsString = url.substring(start, end)
       }
 
-      const parameters = {};
-      const pairs = paramsString.split(/[&;]/);
+      const parameters = {}
+      const pairs = paramsString.split(/[&;]/)
       for (let i = 0, len = pairs.length; i < len; ++i) {
-        const keyValue = pairs[i].split("=");
+        const keyValue = pairs[i].split("=")
         if (keyValue[0]) {
-          let key = keyValue[0];
+          let key = keyValue[0]
           try {
-            key = decodeURIComponent(key);
+            key = decodeURIComponent(key)
           } catch (err) {
-            key = unescape(key);
+            key = unescape(key)
           }
 
           // being liberal by replacing "+" with " "
-          let value = (keyValue[1] || "").replace(/\+/g, " ");
+          let value = (keyValue[1] || "").replace(/\+/g, " ")
 
           try {
-            value = decodeURIComponent(value);
+            value = decodeURIComponent(value)
           } catch (err) {
-            value = unescape(value);
+            value = unescape(value)
           }
 
           // follow OGC convention of comma delimited values
-          value = value.split(",");
+          value = value.split(",")
 
           // if there's only one value, do not return as array
           if (value.length == 1) {
-            value = value[0];
+            value = value[0]
           }
 
-          parameters[key] = value;
+          parameters[key] = value
         }
       }
       return parameters
@@ -996,9 +1000,9 @@
      */
     createUniqueID: function (prefix) {
       if (prefix == null) {
-        prefix = "id_";
+        prefix = "id_"
       }
-      Util.lastSeqID += 1;
+      Util.lastSeqID += 1
       return prefix + Util.lastSeqID
     },
 
@@ -1009,7 +1013,7 @@
      * @returns {number} 正常的 scale 值。
      */
     normalizeScale: function (scale) {
-      const normScale = scale > 1.0 ? 1.0 / scale : scale;
+      const normScale = scale > 1.0 ? 1.0 / scale : scale
       return normScale
     },
 
@@ -1021,13 +1025,13 @@
      * @returns {number} 转化后的分辨率。
      */
     getResolutionFromScale: function (scale, units) {
-      let resolution;
+      let resolution
       if (scale) {
         if (units == null) {
-          units = "degrees";
+          units = "degrees"
         }
-        const normScale = Util.normalizeScale(scale);
-        resolution = 1 / (normScale * INCHES_PER_UNIT[units] * DOTS_PER_INCH);
+        const normScale = Util.normalizeScale(scale)
+        resolution = 1 / (normScale * INCHES_PER_UNIT[units] * DOTS_PER_INCH)
       }
       return resolution
     },
@@ -1041,10 +1045,10 @@
      */
     getScaleFromResolution: function (resolution, units) {
       if (units == null) {
-        units = "degrees";
+        units = "degrees"
       }
 
-      const scale = resolution * INCHES_PER_UNIT[units] * DOTS_PER_INCH;
+      const scale = resolution * INCHES_PER_UNIT[units] * DOTS_PER_INCH
       return scale
     },
 
@@ -1083,39 +1087,39 @@
       if (!url) {
         return true
       }
-      let index = url.indexOf("//");
-      const documentUrl = document.location.toString();
-      let documentIndex = documentUrl.indexOf("//");
+      let index = url.indexOf("//")
+      const documentUrl = document.location.toString()
+      let documentIndex = documentUrl.indexOf("//")
       if (index === -1) {
         return true
       } else {
-        let protocol;
-        let substring = (protocol = url.substring(0, index));
-        const documentSubString = documentUrl.substring(documentIndex + 2);
-        documentIndex = documentSubString.indexOf("/");
-        const documentPortIndex = documentSubString.indexOf(":");
-        let documentDomainWithPort = documentSubString.substring(0, documentIndex);
+        let protocol
+        let substring = (protocol = url.substring(0, index))
+        const documentSubString = documentUrl.substring(documentIndex + 2)
+        documentIndex = documentSubString.indexOf("/")
+        const documentPortIndex = documentSubString.indexOf(":")
+        let documentDomainWithPort = documentSubString.substring(0, documentIndex)
         // let documentPort;
 
-        const documentprotocol = document.location.protocol;
-        if (documentPortIndex !== -1) ; else {
-          documentDomainWithPort += ":" + (documentprotocol.toLowerCase() === "http:" ? 80 : 443);
+        const documentprotocol = document.location.protocol
+        if (documentPortIndex !== -1) { ; } else {
+          documentDomainWithPort += ":" + (documentprotocol.toLowerCase() === "http:" ? 80 : 443)
         }
         if (documentprotocol.toLowerCase() !== substring.toLowerCase()) {
           return false
         }
-        substring = url.substring(index + 2);
-        const portIndex = substring.indexOf(":");
-        index = substring.indexOf("/");
-        let domainWithPort = substring.substring(0, index);
-        let domain;
+        substring = url.substring(index + 2)
+        const portIndex = substring.indexOf(":")
+        index = substring.indexOf("/")
+        let domainWithPort = substring.substring(0, index)
+        let domain
         if (portIndex !== -1) {
-          domain = substring.substring(0, portIndex);
+          domain = substring.substring(0, portIndex)
         } else {
-          domain = substring.substring(0, index);
-          domainWithPort += ":" + (protocol.toLowerCase() === "http:" ? 80 : 443);
+          domain = substring.substring(0, index)
+          domainWithPort += ":" + (protocol.toLowerCase() === "http:" ? 80 : 443)
         }
-        const documentDomain = document.domain;
+        const documentDomain = document.domain
         if (domain === documentDomain && domainWithPort === documentDomainWithPort) {
           return true
         }
@@ -1138,23 +1142,23 @@
       if (!viewBounds || !viewer || !scale) {
         return
       }
-      const ratio = 10000;
-      const rvbWidth = viewBounds.getWidth();
-      const rvbHeight = viewBounds.getHeight();
-      const rvWidth = viewer.w;
-      const rvHeight = viewer.h;
+      const ratio = 10000
+      const rvbWidth = viewBounds.getWidth()
+      const rvbHeight = viewBounds.getHeight()
+      const rvWidth = viewer.w
+      const rvHeight = viewer.h
       // 用户自定义地图的Options时，若未指定该参数的值，则系统默认为6378137米，即WGS84参考系的椭球体长半轴。
-      datumAxis = datumAxis || 6378137;
-      coordUnit = coordUnit || "degrees";
-      let dpi;
+      datumAxis = datumAxis || 6378137
+      coordUnit = coordUnit || "degrees"
+      let dpi
       if (coordUnit.toLowerCase() === "degree" || coordUnit.toLowerCase() === "degrees" || coordUnit.toLowerCase() === "dd") {
-        const num1 = rvbWidth / rvWidth;
-        const num2 = rvbHeight / rvHeight;
-        const resolution = num1 > num2 ? num1 : num2;
-        dpi = (0.0254 * ratio) / resolution / scale / ((Math.PI * 2 * datumAxis) / 360) / ratio;
+        const num1 = rvbWidth / rvWidth
+        const num2 = rvbHeight / rvHeight
+        const resolution = num1 > num2 ? num1 : num2
+        dpi = (0.0254 * ratio) / resolution / scale / ((Math.PI * 2 * datumAxis) / 360) / ratio
       } else {
-        const resolution = rvbWidth / rvWidth;
-        dpi = (0.0254 * ratio) / resolution / scale / ratio;
+        const resolution = rvbWidth / rvWidth
+        dpi = (0.0254 * ratio) / resolution / scale / ratio
       }
       return dpi
     },
@@ -1166,27 +1170,27 @@
      * @returns {string} 转换后的 JSON 对象。
      */
     toJSON: function (obj) {
-      let objInn = obj;
+      let objInn = obj
       if (objInn == null) {
         return null
       }
       switch (objInn.constructor) {
         case String:
           // s = "'" + str.replace(/(["\\])/g, "\\$1") + "'";   string含有单引号出错
-          objInn = '"' + objInn.replace(/(["\\])/g, "\\$1") + '"';
-          objInn = objInn.replace(/\n/g, "\\n");
-          objInn = objInn.replace(/\r/g, "\\r");
-          objInn = objInn.replace("<", "&lt;");
-          objInn = objInn.replace(">", "&gt;");
-          objInn = objInn.replace(/%/g, "%25");
-          objInn = objInn.replace(/&/g, "%26");
+          objInn = '"' + objInn.replace(/(["\\])/g, "\\$1") + '"'
+          objInn = objInn.replace(/\n/g, "\\n")
+          objInn = objInn.replace(/\r/g, "\\r")
+          objInn = objInn.replace("<", "&lt;")
+          objInn = objInn.replace(">", "&gt;")
+          objInn = objInn.replace(/%/g, "%25")
+          objInn = objInn.replace(/&/g, "%26")
           return objInn
         case Array: {
-          let arr = "";
+          let arr = ""
           for (let i = 0, len = objInn.length; i < len; i++) {
-            arr += Util.toJSON(objInn[i]);
+            arr += Util.toJSON(objInn[i])
             if (i !== objInn.length - 1) {
-              arr += ",";
+              arr += ","
             }
           }
           return "[" + arr + "]"
@@ -1196,7 +1200,7 @@
         case Boolean:
           return String(objInn)
         case Date: {
-          let dateStr =
+          const dateStr =
             "{" +
             "'__type':\"System.DateTime\"," +
             "'Year':" +
@@ -1222,7 +1226,7 @@
             "," +
             "'TimezoneOffset':" +
             objInn.getTimezoneOffset() +
-            "}";
+            "}"
           return dateStr
         }
 
@@ -1232,17 +1236,17 @@
           }
           if (typeof objInn === "object") {
             if (objInn.length) {
-              const arr = [];
+              const arr = []
               for (let i = 0, len = objInn.length; i < len; i++) {
-                arr.push(Util.toJSON(objInn[i]));
+                arr.push(Util.toJSON(objInn[i]))
               }
               return "[" + arr.join(",") + "]"
             }
-            const arr = [];
+            const arr = []
             for (const attr in objInn) {
               // 为解决Geometry类型头json时堆栈溢出的问题，attr == "parent"时不进行json转换
               if (typeof objInn[attr] !== "function" && attr !== "CLASS_NAME" && attr !== "parent") {
-                arr.push("'" + attr + "':" + Util.toJSON(objInn[attr]));
+                arr.push("'" + attr + "':" + Util.toJSON(objInn[attr]))
               }
             }
 
@@ -1267,19 +1271,19 @@
      * @returns {number} 当前比例尺下的屏幕分辨率。
      */
     getResolutionFromScaleDpi: function (scale, dpi, coordUnit, datumAxis) {
-      let resolution = null;
-      const ratio = 10000;
+      let resolution = null
+      const ratio = 10000
       // 用户自定义地图的Options时，若未指定该参数的值，则系统默认为6378137米，即WGS84参考系的椭球体长半轴。
-      datumAxis = datumAxis || 6378137;
-      coordUnit = coordUnit || "";
+      datumAxis = datumAxis || 6378137
+      coordUnit = coordUnit || ""
       if (scale > 0 && dpi > 0) {
-        scale = Util.normalizeScale(scale);
+        scale = Util.normalizeScale(scale)
         if (coordUnit.toLowerCase() === "degree" || coordUnit.toLowerCase() === "degrees" || coordUnit.toLowerCase() === "dd") {
           // scale = Util.normalizeScale(scale);
-          resolution = (0.0254 * ratio) / dpi / scale / ((Math.PI * 2 * datumAxis) / 360) / ratio;
+          resolution = (0.0254 * ratio) / dpi / scale / ((Math.PI * 2 * datumAxis) / 360) / ratio
           return resolution
         } else {
-          resolution = (0.0254 * ratio) / dpi / scale / ratio;
+          resolution = (0.0254 * ratio) / dpi / scale / ratio
           return resolution
         }
       }
@@ -1296,17 +1300,17 @@
      * @returns {number} 当前屏幕分辨率下的比例尺。
      */
     getScaleFromResolutionDpi: function (resolution, dpi, coordUnit, datumAxis) {
-      let scale = null;
-      const ratio = 10000;
+      let scale = null
+      const ratio = 10000
       // 用户自定义地图的Options时，若未指定该参数的值，则系统默认为6378137米，即WGS84参考系的椭球体长半轴。
-      datumAxis = datumAxis || 6378137;
-      coordUnit = coordUnit || "";
+      datumAxis = datumAxis || 6378137
+      coordUnit = coordUnit || ""
       if (resolution > 0 && dpi > 0) {
         if (coordUnit.toLowerCase() === "degree" || coordUnit.toLowerCase() === "degrees" || coordUnit.toLowerCase() === "dd") {
-          scale = (0.0254 * ratio) / dpi / resolution / ((Math.PI * 2 * datumAxis) / 360) / ratio;
+          scale = (0.0254 * ratio) / dpi / resolution / ((Math.PI * 2 * datumAxis) / 360) / ratio
           return scale
         } else {
-          scale = (0.0254 * ratio) / dpi / resolution / ratio;
+          scale = (0.0254 * ratio) / dpi / resolution / ratio
           return scale
         }
       }
@@ -1321,7 +1325,7 @@
      */
     transformResult: function (result) {
       if (result.responseText && typeof result.responseText === "string") {
-        result = JSON.parse(result.responseText);
+        result = JSON.parse(result.responseText)
       }
       return result
     },
@@ -1334,12 +1338,12 @@
      *
      */
     copyAttributes: function (destination, source) {
-      destination = destination || {};
+      destination = destination || {}
       if (source) {
         for (const property in source) {
-          const value = source[property];
+          const value = source[property]
           if (value !== undefined && property !== "CLASS_NAME" && typeof value !== "function") {
-            destination[property] = value;
+            destination[property] = value
           }
         }
       }
@@ -1355,15 +1359,15 @@
      *
      */
     copyAttributesWithClip: function (destination, source, clip) {
-      destination = destination || {};
+      destination = destination || {}
       if (source) {
         for (const property in source) {
           // 去掉禁止拷贝的属性
-          let isInClip = false;
+          let isInClip = false
           if (clip && clip.length) {
             for (let i = 0, len = clip.length; i < len; i++) {
               if (property === clip[i]) {
-                isInClip = true;
+                isInClip = true
                 break
               }
             }
@@ -1372,9 +1376,9 @@
             continue
           }
 
-          const value = source[property];
+          const value = source[property]
           if (value !== undefined && property !== "CLASS_NAME" && typeof value !== "function") {
-            destination[property] = value;
+            destination[property] = value
           }
         }
       }
@@ -1395,23 +1399,23 @@
 
       // Handle Date
       if (obj instanceof Date) {
-        const copy = new Date();
-        copy.setTime(obj.getTime());
+        const copy = new Date()
+        copy.setTime(obj.getTime())
         return copy
       }
 
       // Handle Array
       if (obj instanceof Array) {
-        const copy = obj.slice(0);
+        const copy = obj.slice(0)
         return copy
       }
 
       // Handle Object
       if (obj instanceof Object) {
-        const copy = {};
+        const copy = {}
         for (const attr in obj) {
           if (obj.hasOwnProperty(attr)) {
-            copy[attr] = Util.cloneObject(obj[attr]);
+            copy[attr] = Util.cloneObject(obj[attr])
           }
         }
         return copy
@@ -1430,35 +1434,35 @@
      * @returns {Object} 如果相交返回交点，如果不相交返回两条线段的位置关系。
      */
     lineIntersection: function (a1, a2, b1, b2) {
-      let intersectValue = null;
-      let k1;
-      let k2;
-      const b = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
-      const a = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
-      const ab = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
+      let intersectValue = null
+      let k1
+      let k2
+      const b = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x)
+      const a = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x)
+      const ab = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y)
       // ab==0代表两条线断的斜率一样
       if (ab != 0) {
-        k1 = b / ab;
-        k2 = a / ab;
+        k1 = b / ab
+        k2 = a / ab
 
         if (k1 >= 0 && k2 <= 1 && k1 <= 1 && k2 >= 0) {
-          intersectValue = new Geometry.Point(a1.x + k1 * (a2.x - a1.x), a1.y + k1 * (a2.y - a1.y));
+          intersectValue = new Geometry.Point(a1.x + k1 * (a2.x - a1.x), a1.y + k1 * (a2.y - a1.y))
         } else {
-          intersectValue = "No Intersection";
+          intersectValue = "No Intersection"
         }
       } else {
         if (b == 0 && a == 0) {
-          const maxy = Math.max(a1.y, a2.y);
-          const miny = Math.min(a1.y, a2.y);
-          const maxx = Math.max(a1.x, a2.x);
-          const minx = Math.min(a1.x, a2.x);
+          const maxy = Math.max(a1.y, a2.y)
+          const miny = Math.min(a1.y, a2.y)
+          const maxx = Math.max(a1.x, a2.x)
+          const minx = Math.min(a1.x, a2.x)
           if ((((b1.y >= miny && b1.y <= maxy) || (b2.y >= miny && b2.y <= maxy)) && b1.x >= minx && b1.x <= maxx) || (b2.x >= minx && b2.x <= maxx)) {
-            intersectValue = "Coincident"; // 重合
+            intersectValue = "Coincident" // 重合
           } else {
-            intersectValue = "Parallel"; // 平行
+            intersectValue = "Parallel" // 平行
           }
         } else {
-          intersectValue = "Parallel"; // 平行
+          intersectValue = "Parallel" // 平行
         }
       }
       return intersectValue
@@ -1473,26 +1477,26 @@
      * @returns {Object} 裁剪后的宽度，高度信息。
      */
     getTextBounds: function (style, text, element) {
-      document.body.appendChild(element);
-      element.style.width = "auto";
-      element.style.height = "auto";
+      document.body.appendChild(element)
+      element.style.width = "auto"
+      element.style.height = "auto"
       if (style.fontSize) {
-        element.style.fontSize = style.fontSize;
+        element.style.fontSize = style.fontSize
       }
       if (style.fontFamily) {
-        element.style.fontFamily = style.fontFamily;
+        element.style.fontFamily = style.fontFamily
       }
       if (style.fontWeight) {
-        element.style.fontWeight = style.fontWeight;
+        element.style.fontWeight = style.fontWeight
       }
-      element.style.position = "relative";
-      element.style.visibility = "hidden";
+      element.style.position = "relative"
+      element.style.visibility = "hidden"
       // fix 在某些情况下，element内的文本变成竖起排列，导致宽度计算不正确的bug
-      element.style.display = "inline-block";
-      element.innerHTML = text;
-      const textWidth = element.clientWidth;
-      const textHeight = element.clientHeight;
-      document.body.removeChild(element);
+      element.style.display = "inline-block"
+      element.innerHTML = text
+      const textWidth = element.clientWidth
+      const textHeight = element.clientHeight
+      document.body.removeChild(element)
       return {
         textWidth: textWidth,
         textHeight: textHeight
@@ -1510,16 +1514,16 @@
         return path
       }
       return path.replace(/\{([\w-\.]+)\}/g, (fullMatch, key) => {
-        let value;
+        let value
         if (pathParams.hasOwnProperty(key)) {
-          value = paramToString(pathParams[key]);
+          value = paramToString(pathParams[key])
         } else {
-          value = fullMatch;
+          value = fullMatch
         }
         return encodeURIComponent(value)
       })
     }
-  };
+  }
 
   /**
    * @enum INCHES_PER_UNIT
@@ -1535,13 +1539,13 @@
     km: 39370.1,
     dd: 4374754,
     yd: 36
-  };
-  INCHES_PER_UNIT.in = INCHES_PER_UNIT.inches;
-  INCHES_PER_UNIT.degrees = INCHES_PER_UNIT.dd;
-  INCHES_PER_UNIT.nmi = 1852 * INCHES_PER_UNIT.m;
+  }
+  INCHES_PER_UNIT.in = INCHES_PER_UNIT.inches
+  INCHES_PER_UNIT.degrees = INCHES_PER_UNIT.dd
+  INCHES_PER_UNIT.nmi = 1852 * INCHES_PER_UNIT.m
 
   // Units from CS-Map
-  const METERS_PER_INCH = 0.0254000508001016002;
+  const METERS_PER_INCH = 0.0254000508001016002
   Util.extend(INCHES_PER_UNIT, {
     Inch: INCHES_PER_UNIT.inches,
     Meter: 1.0 / METERS_PER_INCH, // EPSG:9001
@@ -1600,7 +1604,7 @@
     "NautM-UK": 1853.184 / METERS_PER_INCH,
     "50kilometers": 50000.0 / METERS_PER_INCH,
     "150kilometers": 150000.0 / METERS_PER_INCH
-  });
+  })
 
   // unit abbreviations supported by PROJ.4
   Util.extend(INCHES_PER_UNIT, {
@@ -1620,16 +1624,16 @@
     "ind-yd": INCHES_PER_UNIT.IndianYd37, // Indian Yard
     "ind-ft": INCHES_PER_UNIT.IndianFt37, // Indian Foot
     "ind-ch": 20.11669506 / METERS_PER_INCH // Indian Chain
-  });
+  })
 
   // 将服务端的地图单位转成SuperMap的地图单位
-  INCHES_PER_UNIT.degree = INCHES_PER_UNIT.dd;
-  INCHES_PER_UNIT.meter = INCHES_PER_UNIT.m;
-  INCHES_PER_UNIT.foot = INCHES_PER_UNIT.ft;
-  INCHES_PER_UNIT.inch = INCHES_PER_UNIT.inches;
-  INCHES_PER_UNIT.mile = INCHES_PER_UNIT.mi;
-  INCHES_PER_UNIT.kilometer = INCHES_PER_UNIT.km;
-  INCHES_PER_UNIT.yard = INCHES_PER_UNIT.yd;
+  INCHES_PER_UNIT.degree = INCHES_PER_UNIT.dd
+  INCHES_PER_UNIT.meter = INCHES_PER_UNIT.m
+  INCHES_PER_UNIT.foot = INCHES_PER_UNIT.ft
+  INCHES_PER_UNIT.inch = INCHES_PER_UNIT.inches
+  INCHES_PER_UNIT.mile = INCHES_PER_UNIT.mi
+  INCHES_PER_UNIT.kilometer = INCHES_PER_UNIT.km
+  INCHES_PER_UNIT.yard = INCHES_PER_UNIT.yd
 
   function paramToString(param) {
     if (param == undefined || param == null) {
@@ -1650,7 +1654,7 @@
       return false
     }
     try {
-      const type = str.toString();
+      const type = str.toString()
       return type === "[object Object]" || type === "[object Array]"
     } catch (err) {
       return false
@@ -1673,32 +1677,32 @@
    */
   class Feature {
     constructor(layer, lonlat, data) {
-      this.CLASS_NAME = "SuperMap.Feature";
+      this.CLASS_NAME = "SuperMap.Feature"
       /**
        * @deprecated
        * @member {SuperMap.Layer} Feature.prototype.layer
        * @description 图层。
        */
-      this.layer = layer;
+      this.layer = layer
 
       /**
        * @member {string} Feature.prototype.id
        * @description 要素 ID。
        */
-      this.id = Util.createUniqueID(this.CLASS_NAME + "_");
+      this.id = Util.createUniqueID(this.CLASS_NAME + "_")
 
       /**
        * @member {LonLat} Feature.prototype.lonlat
        * @description 经纬度。
        *
        */
-      this.lonlat = lonlat;
+      this.lonlat = lonlat
 
       /**
        * @member {Object} Feature.prototype.data
        * @description 数据对象。
        */
-      this.data = data != null ? data : {};
+      this.data = data != null ? data : {}
     }
 
     /**
@@ -1706,9 +1710,9 @@
      * @description 释放相关资源。
      */
     destroy() {
-      this.id = null;
-      this.lonlat = null;
-      this.data = null;
+      this.id = null
+      this.lonlat = null
+      this.data = null
     }
   }
 
@@ -1747,59 +1751,59 @@
     INSERT: "Insert",
     UPDATE: "Update",
     DELETE: "Delete"
-  };
+  }
   class Vector extends Feature {
     constructor(geometry, attributes, style) {
-      super(null, null, attributes);
+      super(null, null, attributes)
       /**
        * @member {string} FeatureVector.prototype.fid
        * @description fid
        */
-      this.fid = null;
+      this.fid = null
 
       /**
        * @member {Geometry} FeatureVector.prototype.geometry
        * @description 存放几何信息。
        */
-      this.geometry = geometry || null;
+      this.geometry = geometry || null
 
       /**
        * @member {Object} FeatureVector.prototype.attributes
        * @description 描述要素的任意的可序列化属性。
        */
-      this.attributes = {};
+      this.attributes = {}
 
       if (attributes) {
-        this.attributes = Util.extend(this.attributes, attributes);
+        this.attributes = Util.extend(this.attributes, attributes)
       }
 
       /**
        * @member {Bounds} FeatureVector.prototype.bounds
        * @description 限制要素几何的边界。
        */
-      this.bounds = null;
+      this.bounds = null
 
       /**
        * @member {string} FeatureVector.prototype.state
        * @description state
        */
-      this.state = null;
+      this.state = null
 
       /**
        * @member {Object} FeatureVector.prototype.style
        * @description 要素的样式属性，地图查询返回的 feature 的 style，8C 变为null。
        */
-      this.style = style || null;
+      this.style = style || null
 
       /**
        * @member {string} FeatureVector.prototype.url
        * @description 如果设置了这个属性，在更新或者删除要素时需要考虑 {@link HTTP} 。
        */
-      this.url = null;
+      this.url = null
 
-      this.lonlat = null;
+      this.lonlat = null
 
-      this.CLASS_NAME = "SuperMap.Feature.Vector";
+      this.CLASS_NAME = "SuperMap.Feature.Vector"
 
       Vector.style = {
         default: {
@@ -1875,7 +1879,7 @@
         delete: {
           display: "none"
         }
-      };
+      }
     }
 
     /**
@@ -1884,12 +1888,12 @@
      */
     destroy() {
       if (this.layer) {
-        this.layer.removeFeatures(this);
-        this.layer = null;
+        this.layer.removeFeatures(this)
+        this.layer = null
       }
 
-      this.geometry = null;
-      super.destroy();
+      this.geometry = null
+      super.destroy()
     }
 
     /**
@@ -1911,7 +1915,7 @@
         switch (this.state) {
           case State.UNKNOWN:
           case State.DELETE:
-            this.state = state;
+            this.state = state
             break
         }
       } else if (state === State.INSERT) {
@@ -1919,7 +1923,7 @@
           case State.UNKNOWN:
             break
           default:
-            this.state = state;
+            this.state = state
             break
         }
       } else if (state === State.DELETE) {
@@ -1931,11 +1935,11 @@
             break
           case State.UNKNOWN:
           case State.UPDATE:
-            this.state = state;
+            this.state = state
             break
         }
       } else if (state === State.UNKNOWN) {
-        this.state = state;
+        this.state = state
       }
     }
   }
@@ -2036,14 +2040,14 @@
        * @member {number} [Size.prototype.w=0.0]
        * @description 宽度。
        */
-      this.w = w ? parseFloat(w) : 0.0;
+      this.w = w ? parseFloat(w) : 0.0
 
       /**
        * @member {number} [Size.prototype.h=0.0]
        * @description 高度。
        */
-      this.h = w ? parseFloat(h) : 0.0;
-      this.CLASS_NAME = "SuperMap.Size";
+      this.h = w ? parseFloat(h) : 0.0
+      this.CLASS_NAME = "SuperMap.Size"
     }
 
     /**
@@ -2084,9 +2088,9 @@
      *
      */
     equals(sz) {
-      let equals = false;
+      let equals = false
       if (sz != null) {
-        equals = (this.w === sz.w && this.h === sz.h) || (isNaN(this.w) && isNaN(this.h) && isNaN(sz.w) && isNaN(sz.h));
+        equals = (this.w === sz.w && this.h === sz.h) || (isNaN(this.w) && isNaN(this.h) && isNaN(sz.w) && isNaN(sz.h))
       }
       return equals
     }
@@ -2100,8 +2104,8 @@
      * size.destroy();
      */
     destroy() {
-      this.w = null;
-      this.h = null;
+      this.w = null
+      this.h = null
     }
   }
 
@@ -2133,20 +2137,20 @@
        * @member {number} [Pixel.prototype.x=0.0]
        * @description x 坐标。
        */
-      this.x = x ? parseFloat(x) : 0.0;
+      this.x = x ? parseFloat(x) : 0.0
 
       /**
        * @member {number} [Pixel.prototype.y=0.0]
        * @description y 坐标。
        */
-      this.y = y ? parseFloat(y) : 0.0;
+      this.y = y ? parseFloat(y) : 0.0
 
       /**
        * @member {Pixel.Mode} [Pixel.prototype.mode=Pixel.Mode.LeftTop]
        * @description 坐标模式，有左上、右上、右下、左下这几种模式，分别表示相对于左上角、右上角、右下角、左下角的坐标。
        */
-      this.mode = mode;
-      this.CLASS_NAME = "SuperMap.Pixel";
+      this.mode = mode
+      this.CLASS_NAME = "SuperMap.Pixel"
     }
 
     /**
@@ -2187,9 +2191,9 @@
      * @returns {boolean} 如果传入的像素点和当前像素点相同返回 true，如果不同或传入参数为 NULL 则返回 false。
      */
     equals(px) {
-      let equals = false;
+      let equals = false
       if (px != null) {
-        equals = (this.x == px.x && this.y == px.y) || (isNaN(this.x) && isNaN(this.y) && isNaN(px.x) && isNaN(px.y));
+        equals = (this.x == px.x && this.y == px.y) || (isNaN(this.x) && isNaN(this.y) && isNaN(px.x) && isNaN(px.y))
       }
       return equals
     }
@@ -2241,9 +2245,9 @@
      * @returns {Pixel} 新的 pixel，该 pixel 是由当前的 pixel 对象的 x，y 值与传入的 Pixel 对象的 x，y 值相加得到。
      */
     offset(px) {
-      let newPx = this.clone();
+      let newPx = this.clone()
       if (px) {
-        newPx = this.add(px.x, px.y);
+        newPx = this.add(px.x, px.y)
       }
       return newPx
     }
@@ -2257,9 +2261,9 @@
      * pixcel.destroy();
      */
     destroy() {
-      this.x = null;
-      this.y = null;
-      this.mode = null;
+      this.x = null
+      this.y = null
+      this.mode = null
     }
   }
   /**
@@ -2278,7 +2282,7 @@
     RightBottom: "rightbottom",
     /** 左下模式。 */
     LeftBottom: "leftbottom"
-  };
+  }
 
   /* Copyright© 2000 - 2022 SuperMap Software Co.Ltd. All rights reserved.
    * This program are made available under the terms of the Apache License, Version 2.0
@@ -2297,21 +2301,21 @@
   class LonLat {
     constructor(lon, lat) {
       if (Util.isArray(lon)) {
-        lat = lon[1];
-        lon = lon[0];
+        lat = lon[1]
+        lon = lon[0]
       }
       /**
        * @member {number} [LonLat.prototype.lon=0.0]
        * @description 地图的单位的 X 轴（横轴）坐标。
        */
-      this.lon = lon ? Util.toFloat(lon) : 0.0;
+      this.lon = lon ? Util.toFloat(lon) : 0.0
 
       /**
        * @member {number} [LonLat.prototype.lat=0.0]
        * @description 地图的单位的 Y 轴（纵轴）坐标。
        */
-      this.lat = lat ? Util.toFloat(lat) : 0.0;
-      this.CLASS_NAME = "SuperMap.LonLat";
+      this.lat = lat ? Util.toFloat(lat) : 0.0
+      this.CLASS_NAME = "SuperMap.LonLat"
     }
 
     /**
@@ -2380,9 +2384,9 @@
      *      致或传入的ll参数为NULL则返回false。
      */
     equals(ll) {
-      let equals = false;
+      let equals = false
       if (ll != null) {
-        equals = (this.lon === ll.lon && this.lat === ll.lat) || (isNaN(this.lon) && isNaN(this.lat) && isNaN(ll.lon) && isNaN(ll.lat));
+        equals = (this.lon === ll.lon && this.lat === ll.lat) || (isNaN(this.lon) && isNaN(this.lat) && isNaN(ll.lon) && isNaN(ll.lat))
       }
       return equals
     }
@@ -2401,17 +2405,17 @@
      * @returns {LonLat} 将坐标转换到范围对象以内，并返回新的坐标。
      */
     wrapDateLine(maxExtent) {
-      const newLonLat = this.clone();
+      const newLonLat = this.clone()
 
       if (maxExtent) {
         // shift right?
         while (newLonLat.lon < maxExtent.left) {
-          newLonLat.lon += maxExtent.getWidth();
+          newLonLat.lon += maxExtent.getWidth()
         }
 
         // shift left?
         while (newLonLat.lon > maxExtent.right) {
-          newLonLat.lon -= maxExtent.getWidth();
+          newLonLat.lon -= maxExtent.getWidth()
         }
       }
 
@@ -2428,8 +2432,8 @@
      * lonLat.destroy();
      */
     destroy() {
-      this.lon = null;
-      this.lat = null;
+      this.lon = null
+      this.lat = null
     }
 
     /**
@@ -2442,7 +2446,7 @@
      * @returns {LonLat} {@link LonLat} 对象。
      */
     static fromString(str) {
-      const pair = str.split(",");
+      const pair = str.split(",")
       return new LonLat(pair[0], pair[1])
     }
 
@@ -2453,9 +2457,9 @@
      * @returns {LonLat} {@link LonLat} 对象。
      */
     static fromArray(arr) {
-      const gotArr = Util.isArray(arr);
-      const lon = gotArr && arr[0];
-      const lat = gotArr && arr[1];
+      const gotArr = Util.isArray(arr)
+      const lon = gotArr && arr[0]
+      const lat = gotArr && arr[1]
       return new LonLat(lon, lat)
     }
   }
@@ -2483,41 +2487,41 @@
   class Bounds {
     constructor(left, bottom, right, top) {
       if (Util.isArray(left)) {
-        top = left[3];
-        right = left[2];
-        bottom = left[1];
-        left = left[0];
+        top = left[3]
+        right = left[2]
+        bottom = left[1]
+        left = left[0]
       }
       /**
        * @member {number} Bounds.prototype.left
        * @description 最小的水平坐标系。
        */
-      this.left = left != null ? Util.toFloat(left) : this.left;
+      this.left = left != null ? Util.toFloat(left) : this.left
 
       /**
        * @member {number} Bounds.prototype.bottom
        * @description 最小的垂直坐标系。
        */
-      this.bottom = bottom != null ? Util.toFloat(bottom) : this.bottom;
+      this.bottom = bottom != null ? Util.toFloat(bottom) : this.bottom
 
       /**
        * @member {number} Bounds.prototype.right
        * @description 最大的水平坐标系。
        */
-      this.right = right != null ? Util.toFloat(right) : this.right;
+      this.right = right != null ? Util.toFloat(right) : this.right
 
       /**
        * @member {number} Bounds.prototype.top
        * @description 最大的垂直坐标系。
        */
-      this.top = top != null ? Util.toFloat(top) : this.top;
+      this.top = top != null ? Util.toFloat(top) : this.top
 
       /**
        * @member {LonLat} Bounds.prototype.centerLonLat
        * @description bounds 的地图空间的中心点。用 getCenterLonLat() 获得。
        */
-      this.centerLonLat = null;
-      this.CLASS_NAME = "SuperMap.Bounds";
+      this.centerLonLat = null
+      this.CLASS_NAME = "SuperMap.Bounds"
     }
 
     /**
@@ -2543,9 +2547,9 @@
      * @returns {boolean} 如果 bounds 对象的边和传入的 bounds 一致则返回 true，不一致或传入的 bounds 参数为 NULL 则返回 false。
      */
     equals(bounds) {
-      let equals = false;
+      let equals = false
       if (bounds != null) {
-        equals = this.left === bounds.left && this.right === bounds.right && this.top === bounds.top && this.bottom === bounds.bottom;
+        equals = this.left === bounds.left && this.right === bounds.right && this.top === bounds.top && this.bottom === bounds.bottom
       }
       return equals
     }
@@ -2601,13 +2605,13 @@
      */
     toBBOX(decimal, reverseAxisOrder) {
       if (decimal == null) {
-        decimal = 6;
+        decimal = 6
       }
-      const mult = Math.pow(10, decimal);
-      const xmin = Math.round(this.left * mult) / mult;
-      const ymin = Math.round(this.bottom * mult) / mult;
-      const xmax = Math.round(this.right * mult) / mult;
-      const ymax = Math.round(this.top * mult) / mult;
+      const mult = Math.pow(10, decimal)
+      const xmin = Math.round(this.left * mult) / mult
+      const ymin = Math.round(this.bottom * mult) / mult
+      const xmax = Math.round(this.right * mult) / mult
+      const ymax = Math.round(this.top * mult) / mult
       if (reverseAxisOrder === true) {
         return ymin + "," + xmin + "," + ymax + "," + xmax
       } else {
@@ -2695,7 +2699,7 @@
      */
     getCenterLonLat() {
       if (!this.centerLonLat) {
-        this.centerLonLat = new LonLat((this.left + this.right) / 2, (this.bottom + this.top) / 2);
+        this.centerLonLat = new LonLat((this.left + this.right) / 2, (this.bottom + this.top) / 2)
       }
       return this.centerLonLat
     }
@@ -2711,26 +2715,26 @@
      * @returns {Bounds} 通过 ratio、origin 计算得到的新的边界范围。
      */
     scale(ratio, origin) {
-      ratio = ratio || 1;
+      ratio = ratio || 1
       if (origin == null) {
-        origin = this.getCenterLonLat();
+        origin = this.getCenterLonLat()
       }
 
-      let origx, origy;
+      let origx, origy
 
       // get origin coordinates
       if (origin.CLASS_NAME === "SuperMap.LonLat") {
-        origx = origin.lon;
-        origy = origin.lat;
+        origx = origin.lon
+        origy = origin.lat
       } else {
-        origx = origin.x;
-        origy = origin.y;
+        origx = origin.x
+        origy = origin.y
       }
 
-      const left = (this.left - origx) * ratio + origx;
-      const bottom = (this.bottom - origy) * ratio + origy;
-      const right = (this.right - origx) * ratio + origx;
-      const top = (this.top - origy) * ratio + origy;
+      const left = (this.left - origx) * ratio + origx
+      const bottom = (this.bottom - origy) * ratio + origy
+      const right = (this.right - origx) * ratio + origx
+      const top = (this.top - origy) * ratio + origy
 
       return new Bounds(left, bottom, right, top)
     }
@@ -2763,35 +2767,35 @@
      * @param {GeometryPoint|LonLat|Bounds} object - 可以是 point、lonlat 和 bounds。
      */
     extend(object) {
-      let bounds = null;
+      let bounds = null
       if (object) {
         // clear cached center location
         switch (object.CLASS_NAME) {
           case "SuperMap.LonLat":
-            bounds = new Bounds(object.lon, object.lat, object.lon, object.lat);
+            bounds = new Bounds(object.lon, object.lat, object.lon, object.lat)
             break
           case "SuperMap.Geometry.Point":
-            bounds = new Bounds(object.x, object.y, object.x, object.y);
+            bounds = new Bounds(object.x, object.y, object.x, object.y)
             break
 
           case "SuperMap.Bounds":
-            bounds = object;
+            bounds = object
             break
         }
 
         if (bounds) {
-          this.centerLonLat = null;
+          this.centerLonLat = null
           if (this.left == null || bounds.left < this.left) {
-            this.left = bounds.left;
+            this.left = bounds.left
           }
           if (this.bottom == null || bounds.bottom < this.bottom) {
-            this.bottom = bounds.bottom;
+            this.bottom = bounds.bottom
           }
           if (this.right == null || bounds.right > this.right) {
-            this.right = bounds.right;
+            this.right = bounds.right
           }
           if (this.top == null || bounds.top > this.top) {
-            this.top = bounds.top;
+            this.top = bounds.top
           }
         }
       }
@@ -2826,24 +2830,24 @@
      */
     containsLonLat(ll, options) {
       if (typeof options === "boolean") {
-        options = { inclusive: options };
+        options = { inclusive: options }
       }
-      options = options || {};
-      let contains = this.contains(ll.lon, ll.lat, options.inclusive);
-      const worldBounds = options.worldBounds;
+      options = options || {}
+      let contains = this.contains(ll.lon, ll.lat, options.inclusive)
+      const worldBounds = options.worldBounds
       // 日界线以外的也有可能算包含，
       if (worldBounds && !contains) {
-        const worldWidth = worldBounds.getWidth();
-        const worldCenterX = (worldBounds.left + worldBounds.right) / 2;
+        const worldWidth = worldBounds.getWidth()
+        const worldCenterX = (worldBounds.left + worldBounds.right) / 2
         // 这一步很关键
-        const worldsAway = Math.round((ll.lon - worldCenterX) / worldWidth);
+        const worldsAway = Math.round((ll.lon - worldCenterX) / worldWidth)
         contains = this.containsLonLat(
           {
             lon: ll.lon - worldsAway * worldWidth,
             lat: ll.lat
           },
           { inclusive: options.inclusive }
-        );
+        )
       }
       return contains
     }
@@ -2878,7 +2882,7 @@
     contains(x, y, inclusive) {
       // set default
       if (inclusive == null) {
-        inclusive = true;
+        inclusive = true
       }
 
       if (x == null || y == null) {
@@ -2888,11 +2892,11 @@
       // x = Util.toFloat(x);
       // y = Util.toFloat(y);
 
-      let contains = false;
+      let contains = false
       if (inclusive) {
-        contains = x >= this.left && x <= this.right && y >= this.bottom && y <= this.top;
+        contains = x >= this.left && x <= this.right && y >= this.bottom && y <= this.top
       } else {
-        contains = x > this.left && x < this.right && y > this.bottom && y < this.top;
+        contains = x > this.left && x < this.right && y > this.bottom && y < this.top
       }
       return contains
     }
@@ -2917,45 +2921,45 @@
      */
     intersectsBounds(bounds, options) {
       if (typeof options === "boolean") {
-        options = { inclusive: options };
+        options = { inclusive: options }
       }
-      options = options || {};
-      let self;
+      options = options || {}
+      let self
       if (options.worldBounds) {
-        self = this.wrapDateLine(options.worldBounds);
-        bounds = bounds.wrapDateLine(options.worldBounds);
+        self = this.wrapDateLine(options.worldBounds)
+        bounds = bounds.wrapDateLine(options.worldBounds)
       } else {
-        self = this;
+        self = this
       }
       if (options.inclusive == null) {
-        options.inclusive = true;
+        options.inclusive = true
       }
-      let intersects = false;
-      const mightTouch = self.left === bounds.right || self.right === bounds.left || self.top === bounds.bottom || self.bottom === bounds.top;
+      let intersects = false
+      const mightTouch = self.left === bounds.right || self.right === bounds.left || self.top === bounds.bottom || self.bottom === bounds.top
 
       // if the two bounds only touch at an edge, and inclusive is false,
       // then the bounds don't *really* intersect.
       if (options.inclusive || !mightTouch) {
         // otherwise, if one of the boundaries even partially contains another,
         // inclusive of the edges, then they do intersect.
-        const inBottom = (bounds.bottom >= self.bottom && bounds.bottom <= self.top) || (self.bottom >= bounds.bottom && self.bottom <= bounds.top);
-        const inTop = (bounds.top >= self.bottom && bounds.top <= self.top) || (self.top > bounds.bottom && self.top < bounds.top);
-        const inLeft = (bounds.left >= self.left && bounds.left <= self.right) || (self.left >= bounds.left && self.left <= bounds.right);
-        const inRight = (bounds.right >= self.left && bounds.right <= self.right) || (self.right >= bounds.left && self.right <= bounds.right);
-        intersects = (inBottom || inTop) && (inLeft || inRight);
+        const inBottom = (bounds.bottom >= self.bottom && bounds.bottom <= self.top) || (self.bottom >= bounds.bottom && self.bottom <= bounds.top)
+        const inTop = (bounds.top >= self.bottom && bounds.top <= self.top) || (self.top > bounds.bottom && self.top < bounds.top)
+        const inLeft = (bounds.left >= self.left && bounds.left <= self.right) || (self.left >= bounds.left && self.left <= bounds.right)
+        const inRight = (bounds.right >= self.left && bounds.right <= self.right) || (self.right >= bounds.left && self.right <= bounds.right)
+        intersects = (inBottom || inTop) && (inLeft || inRight)
       }
       // document me
       if (options.worldBounds && !intersects) {
-        const world = options.worldBounds;
-        const width = world.getWidth();
-        const selfCrosses = !world.containsBounds(self);
-        const boundsCrosses = !world.containsBounds(bounds);
+        const world = options.worldBounds
+        const width = world.getWidth()
+        const selfCrosses = !world.containsBounds(self)
+        const boundsCrosses = !world.containsBounds(bounds)
         if (selfCrosses && !boundsCrosses) {
-          bounds = bounds.add(-width, 0);
-          intersects = self.intersectsBounds(bounds, { inclusive: options.inclusive });
+          bounds = bounds.add(-width, 0)
+          intersects = self.intersectsBounds(bounds, { inclusive: options.inclusive })
         } else if (boundsCrosses && !selfCrosses) {
-          self = self.add(-width, 0);
-          intersects = bounds.intersectsBounds(self, { inclusive: options.inclusive });
+          self = self.add(-width, 0)
+          intersects = bounds.intersectsBounds(self, { inclusive: options.inclusive })
         }
       }
       return intersects
@@ -2977,15 +2981,15 @@
      */
     containsBounds(bounds, partial, inclusive) {
       if (partial == null) {
-        partial = false;
+        partial = false
       }
       if (inclusive == null) {
-        inclusive = true;
+        inclusive = true
       }
-      const bottomLeft = this.contains(bounds.left, bounds.bottom, inclusive);
-      const bottomRight = this.contains(bounds.right, bounds.bottom, inclusive);
-      const topLeft = this.contains(bounds.left, bounds.top, inclusive);
-      const topRight = this.contains(bounds.right, bounds.top, inclusive);
+      const bottomLeft = this.contains(bounds.left, bounds.bottom, inclusive)
+      const bottomRight = this.contains(bounds.right, bounds.bottom, inclusive)
+      const topLeft = this.contains(bounds.left, bounds.top, inclusive)
+      const topRight = this.contains(bounds.right, bounds.top, inclusive)
 
       return partial ? bottomLeft || bottomRight || topLeft || topRight : bottomLeft && bottomRight && topLeft && topRight
     }
@@ -3003,11 +3007,11 @@
      * @returns {string} 传入坐标所在的象限（"br" "tr" "tl" "bl" 分别对应"右下"，"右上"，"左上" "左下"）。
      */
     determineQuadrant(lonlat) {
-      let quadrant = "";
-      const center = this.getCenterLonLat();
+      let quadrant = ""
+      const center = this.getCenterLonLat()
 
-      quadrant += lonlat.lat < center.lat ? "b" : "t";
-      quadrant += lonlat.lon < center.lon ? "l" : "r";
+      quadrant += lonlat.lat < center.lat ? "b" : "t"
+      quadrant += lonlat.lon < center.lon ? "l" : "r"
 
       return quadrant
     }
@@ -3029,30 +3033,30 @@
      *                            若落在右边，则向左移动，即给当前的bounds值加上负的最大范围的宽度。
      */
     wrapDateLine(maxExtent, options) {
-      options = options || {};
+      options = options || {}
 
-      const leftTolerance = options.leftTolerance || 0;
-      const rightTolerance = options.rightTolerance || 0;
+      const leftTolerance = options.leftTolerance || 0
+      const rightTolerance = options.rightTolerance || 0
 
-      let newBounds = this.clone();
+      let newBounds = this.clone()
 
       if (maxExtent) {
-        const width = maxExtent.getWidth();
+        const width = maxExtent.getWidth()
         // 如果 newBounds 在 maxExtent 的左边，那么一直向右移动，直到相交或者包含为止，每次移动width
         // shift right?
         while (newBounds.left < maxExtent.left && newBounds.right - rightTolerance <= maxExtent.left) {
-          newBounds = newBounds.add(width, 0);
+          newBounds = newBounds.add(width, 0)
         }
         // 如果 newBounds 在 maxExtent 的右边，那么一直向左移动，直到相交或者包含为止，每次移动width
         // shift left?
         while (newBounds.left + leftTolerance >= maxExtent.right && newBounds.right > maxExtent.right) {
-          newBounds = newBounds.add(-width, 0);
+          newBounds = newBounds.add(-width, 0)
         }
         // 如果和右边相交，左边又在内部，那么再次向左边移动一次
         // crosses right only? force left
-        const newLeft = newBounds.left + leftTolerance;
+        const newLeft = newBounds.left + leftTolerance
         if (newLeft < maxExtent.right && newLeft > maxExtent.left && newBounds.right - rightTolerance > maxExtent.right) {
-          newBounds = newBounds.add(-width, 0);
+          newBounds = newBounds.add(-width, 0)
         }
       }
 
@@ -3075,7 +3079,7 @@
         right: this.right,
         top: this.top,
         bottom: this.bottom
-      };
+      }
       return jsonObject
     }
 
@@ -3089,11 +3093,11 @@
      * bounds.destroy();
      */
     destroy() {
-      this.left = null;
-      this.right = null;
-      this.top = null;
-      this.bottom = null;
-      this.centerLonLat = null;
+      this.left = null
+      this.right = null
+      this.top = null
+      this.bottom = null
+      this.centerLonLat = null
     }
 
     /**
@@ -3107,7 +3111,7 @@
      * @returns {Bounds} 给定的字符串创建的新的边界对象。
      */
     static fromString(str, reverseAxisOrder) {
-      const bounds = str.split(",");
+      const bounds = str.split(",")
       return Bounds.fromArray(bounds, reverseAxisOrder)
     }
 
@@ -3143,10 +3147,10 @@
      * @returns {string} 反转后的象限。
      */
     static oppositeQuadrant(quadrant) {
-      let opp = "";
+      let opp = ""
 
-      opp += quadrant.charAt(0) === "t" ? "b" : "t";
-      opp += quadrant.charAt(1) === "l" ? "r" : "l";
+      opp += quadrant.charAt(0) === "t" ? "b" : "t"
+      opp += quadrant.charAt(1) === "l" ? "r" : "l"
 
       return opp
     }
@@ -3174,24 +3178,24 @@
    */
   class Collection extends Geometry {
     constructor(components) {
-      super();
+      super()
 
       /**
        * @description 存储几何对象的数组。
        * @member {Array.<Geometry>} GeometryCollection.prototype.components
        */
-      this.components = [];
+      this.components = []
 
       /**
        * @member {Array.<string>} GeometryCollection.prototype.componentTypes
        * @description components 存储的的几何对象所支持的几何类型数组，为空表示类型不受限制。
        */
-      this.componentTypes = null;
+      this.componentTypes = null
       if (components != null) {
-        this.addComponents(components);
+        this.addComponents(components)
       }
-      this.CLASS_NAME = "SuperMap.Geometry.Collection";
-      this.geometryType = "Collection";
+      this.CLASS_NAME = "SuperMap.Geometry.Collection"
+      this.geometryType = "Collection"
     }
 
     /**
@@ -3199,9 +3203,9 @@
      * @description 销毁几何图形。
      */
     destroy() {
-      this.components.length = 0;
-      this.components = null;
-      super.destroy();
+      this.components.length = 0
+      this.components = null
+      super.destroy()
     }
 
     /**
@@ -3210,13 +3214,13 @@
      * @returns {GeometryCollection} 克隆的几何对象集合。
      */
     clone() {
-      const geometry = new Collection();
+      const geometry = new Collection()
       for (let i = 0, len = this.components.length; i < len; i++) {
-        geometry.addComponent(this.components[i].clone());
+        geometry.addComponent(this.components[i].clone())
       }
 
       // catch any randomly tagged-on properties
-      Util.applyDefaults(geometry, this);
+      Util.applyDefaults(geometry, this)
 
       return geometry
     }
@@ -3227,9 +3231,9 @@
      * @returns {string} components 字符串。
      */
     getComponentsString() {
-      const strings = [];
+      const strings = []
       for (let i = 0, len = this.components.length; i < len; i++) {
-        strings.push(this.components[i].toShortString());
+        strings.push(this.components[i].toShortString())
       }
       return strings.join(",")
     }
@@ -3239,18 +3243,18 @@
      * @description 通过遍历数组重新计算边界，在遍历每一子项中时调用 extend 方法。
      */
     calculateBounds() {
-      this.bounds = null;
-      const bounds = new Bounds();
-      const components = this.components;
+      this.bounds = null
+      const bounds = new Bounds()
+      const components = this.components
       if (components) {
         for (let i = 0, len = components.length; i < len; i++) {
-          bounds.extend(components[i].getBounds());
+          bounds.extend(components[i].getBounds())
         }
       }
       // to preserve old behavior, we only set bounds if non-null
       // in the future, we could add bounds.isEmpty()
       if (bounds.left != null && bounds.bottom != null && bounds.right != null && bounds.top != null) {
-        this.setBounds(bounds);
+        this.setBounds(bounds)
       }
     }
 
@@ -3264,10 +3268,10 @@
      */
     addComponents(components) {
       if (!Util.isArray(components)) {
-        components = [components];
+        components = [components]
       }
       for (let i = 0, len = components.length; i < len; i++) {
-        this.addComponent(components[i]);
+        this.addComponent(components[i])
       }
     }
 
@@ -3279,20 +3283,20 @@
      * @returns {boolean} 是否添加成功。
      */
     addComponent(component, index) {
-      let added = false;
+      let added = false
       if (component) {
         if (this.componentTypes == null || Util.indexOf(this.componentTypes, component.CLASS_NAME) > -1) {
           if (index != null && index < this.components.length) {
-            const components1 = this.components.slice(0, index);
-            const components2 = this.components.slice(index, this.components.length);
-            components1.push(component);
-            this.components = components1.concat(components2);
+            const components1 = this.components.slice(0, index)
+            const components2 = this.components.slice(index, this.components.length)
+            components1.push(component)
+            this.components = components1.concat(components2)
           } else {
-            this.components.push(component);
+            this.components.push(component)
           }
-          component.parent = this;
-          this.clearBounds();
-          added = true;
+          component.parent = this
+          this.clearBounds()
+          added = true
         }
       }
       return added
@@ -3305,13 +3309,13 @@
      * @returns {boolean} 元素是否被删除。
      */
     removeComponents(components) {
-      let removed = false;
+      let removed = false
 
       if (!Util.isArray(components)) {
-        components = [components];
+        components = [components]
       }
       for (let i = components.length - 1; i >= 0; --i) {
-        removed = this.removeComponent(components[i]) || removed;
+        removed = this.removeComponent(components[i]) || removed
       }
       return removed
     }
@@ -3323,11 +3327,11 @@
      * @returns {boolean} 几何对象是否移除成功。
      */
     removeComponent(component) {
-      Util.removeItem(this.components, component);
+      Util.removeItem(this.components, component)
 
       // clearBounds() so that it gets recalculated on the next call
       // to this.getBounds();
-      this.clearBounds();
+      this.clearBounds()
       return true
     }
 
@@ -3337,9 +3341,9 @@
      * @returns {number} 几何图形的面积，是几何对象中所有组成部分的面积之和。
      */
     getArea() {
-      let area = 0.0;
+      let area = 0.0
       for (let i = 0, len = this.components.length; i < len; i++) {
-        area += this.components[i].getArea();
+        area += this.components[i].getArea()
       }
       return area
     }
@@ -3351,15 +3355,15 @@
      * @returns {boolean} 输入的几何图形与当前几何图形是否相等。
      */
     equals(geometry) {
-      let equivalent = true;
+      let equivalent = true
       if (!geometry || !geometry.CLASS_NAME || this.CLASS_NAME !== geometry.CLASS_NAME) {
-        equivalent = false;
+        equivalent = false
       } else if (!Util.isArray(geometry.components) || geometry.components.length !== this.components.length) {
-        equivalent = false;
+        equivalent = false
       } else {
         for (let i = 0, len = this.components.length; i < len; ++i) {
           if (!this.components[i].equals(geometry.components[i])) {
-            equivalent = false;
+            equivalent = false
             break
           }
         }
@@ -3374,9 +3378,9 @@
      * @returns {Array} 几何对象的顶点列表。
      */
     getVertices(nodes) {
-      const vertices = [];
+      const vertices = []
       for (let i = 0, len = this.components.length; i < len; ++i) {
-        Array.prototype.push.apply(vertices, this.components[i].getVertices(nodes));
+        Array.prototype.push.apply(vertices, this.components[i].getVertices(nodes))
       }
       return vertices
     }
@@ -3402,18 +3406,18 @@
        * @member {Object} Format.prototype.data
        * @description 当 keepData 属性设置为 true，这是传递给 read 操作的要被解析的字符串。
        */
-      this.data = null;
+      this.data = null
 
       /**
        * @member {Object} [Format.prototype.keepData=false]
        * @description 保持最近读到的数据的引用（通过 data 属性）。
        */
-      this.keepData = false;
+      this.keepData = false
 
-      Util.extend(this, options);
-      this.options = options;
+      Util.extend(this, options)
+      this.options = options
 
-      this.CLASS_NAME = "SuperMap.Format";
+      this.CLASS_NAME = "SuperMap.Format"
     }
 
     /**
@@ -3469,36 +3473,36 @@
    */
   class JSONFormat extends Format {
     constructor(options) {
-      super(options);
+      super(options)
       /**
        * @member {string} [JSONFormat.prototype.indent="    "]
        * @description 用于格式化输出，indent 字符串会在每次缩进的时候使用一次。
        */
-      this.indent = "    ";
+      this.indent = "    "
 
       /**
        * @member {string} [JSONFormat.prototype.space=" "]
        * @description 用于格式化输出，space 字符串会在名值对的 ":" 后边添加。
        */
-      this.space = " ";
+      this.space = " "
 
       /**
        * @member {string} [JSONFormat.prototype.newline="\n"]
        * @description 用于格式化输出, newline 字符串会用在每一个名值对或数组项末尾。
        */
-      this.newline = "\n";
+      this.newline = "\n"
 
       /**
        * @member {number} [JSONFormat.prototype.level=0]
        * @description 用于格式化输出, 表示的是缩进级别。
        */
-      this.level = 0;
+      this.level = 0
 
       /**
        * @member {boolean} [JSONFormat.prototype.pretty=false]
        * @description 是否在序列化的时候使用额外的空格控制结构。在 write 方法中使用。
        */
-      this.pretty = false;
+      this.pretty = false
 
       /**
        * @member {boolean} JSONFormat.prototype.nativeJSON
@@ -3506,9 +3510,9 @@
        */
       this.nativeJSON = (function () {
         return !!(window.JSON && typeof JSON.parse === "function" && typeof JSON.stringify === "function")
-      })();
+      })()
 
-      this.CLASS_NAME = "SuperMap.Format.JSON";
+      this.CLASS_NAME = "SuperMap.Format.JSON"
       /**
        * @member JSONFormat.prototype.serialize
        * @description 提供一些类型对象转 JSON 字符串的方法。
@@ -3531,28 +3535,28 @@
           if (object.constructor === Array) {
             return this.serialize.array.apply(this, [object])
           }
-          let pieces = ["{"];
-          this.level += 1;
-          let key, keyJSON, valueJSON;
+          const pieces = ["{"]
+          this.level += 1
+          let key, keyJSON, valueJSON
 
-          let addComma = false;
+          let addComma = false
           for (key in object) {
             if (object.hasOwnProperty(key)) {
               // recursive calls need to allow for sub-classing
-              keyJSON = this.write.apply(this, [key, this.pretty]);
-              valueJSON = this.write.apply(this, [object[key], this.pretty]);
+              keyJSON = this.write.apply(this, [key, this.pretty])
+              valueJSON = this.write.apply(this, [object[key], this.pretty])
               if (keyJSON != null && valueJSON != null) {
                 if (addComma) {
-                  pieces.push(",");
+                  pieces.push(",")
                 }
-                pieces.push(this.writeNewline(), this.writeIndent(), keyJSON, ":", this.writeSpace(), valueJSON);
-                addComma = true;
+                pieces.push(this.writeNewline(), this.writeIndent(), keyJSON, ":", this.writeSpace(), valueJSON)
+                addComma = true
               }
             }
           }
 
-          this.level -= 1;
-          pieces.push(this.writeNewline(), this.writeIndent(), "}");
+          this.level -= 1
+          pieces.push(this.writeNewline(), this.writeIndent(), "}")
           return pieces.join("")
         },
 
@@ -3563,23 +3567,23 @@
          * @returns {string} JSON 字符串。
          */
         array: function (array) {
-          let json;
-          let pieces = ["["];
-          this.level += 1;
+          let json
+          const pieces = ["["]
+          this.level += 1
 
           for (let i = 0, len = array.length; i < len; ++i) {
             // recursive calls need to allow for sub-classing
-            json = this.write.apply(this, [array[i], this.pretty]);
+            json = this.write.apply(this, [array[i], this.pretty])
             if (json != null) {
               if (i > 0) {
-                pieces.push(",");
+                pieces.push(",")
               }
-              pieces.push(this.writeNewline(), this.writeIndent(), json);
+              pieces.push(this.writeNewline(), this.writeIndent(), json)
             }
           }
 
-          this.level -= 1;
-          pieces.push(this.writeNewline(), this.writeIndent(), "]");
+          this.level -= 1
+          pieces.push(this.writeNewline(), this.writeIndent(), "]")
           return pieces.join("")
         },
 
@@ -3594,7 +3598,7 @@
           // backslash characters, then we can simply slap some quotes around it.
           // Otherwise we must also replace the offending characters with safe
           // sequences.
-          let m = {
+          const m = {
             "\b": "\\b",
             "\t": "\\t",
             "\n": "\\n",
@@ -3602,17 +3606,17 @@
             "\r": "\\r",
             '"': '\\"',
             "\\": "\\\\"
-          };
+          }
           /* eslint-disable no-control-regex */
           if (/["\\\x00-\x1f]/.test(string)) {
             return (
               '"' +
               string.replace(/([\x00-\x1f\\"])/g, function (a, b) {
-                let c = m[b];
+                let c = m[b]
                 if (c) {
                   return c
                 }
-                c = b.charCodeAt();
+                c = b.charCodeAt()
                 return "\\u00" + Math.floor(c / 16).toString(16) + (c % 16).toString(16)
               }) +
               '"'
@@ -3669,7 +3673,7 @@
             '"'
           )
         }
-      };
+      }
     }
 
     /**
@@ -3680,10 +3684,10 @@
      * @returns {(Object|string|Array|number|boolean)} 对象，数组，字符串或数字。
      */
     read(json, filter) {
-      let object;
+      let object
       if (this.nativeJSON) {
         try {
-          object = JSON.parse(json, filter);
+          object = JSON.parse(json, filter)
         } catch (e) {
           // Fall through if the regexp test fails.
           return { data: json }
@@ -3691,7 +3695,7 @@
       }
 
       if (this.keepData) {
-        this.data = object;
+        this.data = object
       }
 
       return object
@@ -3706,12 +3710,12 @@
      *
      */
     write(value, pretty) {
-      this.pretty = !!pretty;
-      let json = null;
-      let type = typeof value;
+      this.pretty = !!pretty
+      let json = null
+      const type = typeof value
       if (this.serialize[type]) {
         try {
-          json = !this.pretty && this.nativeJSON ? JSON.stringify(value) : this.serialize[type].apply(this, [value]);
+          json = !this.pretty && this.nativeJSON ? JSON.stringify(value) : this.serialize[type].apply(this, [value])
         } catch (err) {
           // console.error("Trouble serializing: " + err);
         }
@@ -3726,10 +3730,10 @@
      * @returns {string} 一个适当的缩进字符串。
      */
     writeIndent() {
-      let pieces = [];
+      const pieces = []
       if (this.pretty) {
         for (let i = 0; i < this.level; ++i) {
-          pieces.push(this.indent);
+          pieces.push(this.indent)
         }
       }
       return pieces.join("")
@@ -3777,32 +3781,32 @@
    */
   class Point extends Geometry {
     constructor(x, y, type, tag) {
-      super(x, y, type, tag);
+      super(x, y, type, tag)
       /**
        * @member {number} GeometryPoint.prototype.x
        * @description 横坐标。
        */
-      this.x = parseFloat(x);
+      this.x = parseFloat(x)
 
       /**
        * @member {number} GeometryPoint.prototype.y
        * @description 纵坐标。
        */
-      this.y = parseFloat(y);
+      this.y = parseFloat(y)
 
       /**
        * @member {string} GeometryPoint.prototype.tag
        * @description  用来存储额外的属性，比如差值分析中的 Z 值。
        */
-      this.tag = tag || tag == 0 ? parseFloat(tag) : null;
+      this.tag = tag || tag == 0 ? parseFloat(tag) : null
 
       /**
        * @member {string} GeometryPoint.prototype.type
        * @description  用来存储点的类型
        */
-      this.type = type || "Point";
-      this.CLASS_NAME = "SuperMap.Geometry.Point";
-      this.geometryType = "Point";
+      this.type = type || "Point"
+      this.CLASS_NAME = "SuperMap.Geometry.Point"
+      this.geometryType = "Point"
     }
 
     /**
@@ -3812,11 +3816,11 @@
      */
     clone(obj) {
       if (obj == null) {
-        obj = new Point(this.x, this.y);
+        obj = new Point(this.x, this.y)
       }
 
       // catch any randomly tagged-on properties
-      Util.applyDefaults(obj, this);
+      Util.applyDefaults(obj, this)
 
       return obj
     }
@@ -3826,7 +3830,7 @@
      * @description 计算点对象的范围。
      */
     calculateBounds() {
-      this.bounds = new Bounds(this.x, this.y, this.x, this.y);
+      this.bounds = new Bounds(this.x, this.y, this.x, this.y)
     }
 
     /**
@@ -3840,9 +3844,9 @@
      * @returns {boolean} 两个点对象是否相等（true 为相等，false 为不等）。
      */
     equals(geom) {
-      let equals = false;
+      let equals = false
       if (geom != null) {
-        equals = (this.x === geom.x && this.y === geom.y) || (isNaN(this.x) && isNaN(this.y) && isNaN(geom.x) && isNaN(geom.y));
+        equals = (this.x === geom.x && this.y === geom.y) || (isNaN(this.x) && isNaN(this.y) && isNaN(geom.x) && isNaN(geom.y))
       }
       return equals
     }
@@ -3854,9 +3858,9 @@
      * @param {number} y - y 轴正方向上偏移量。
      */
     move(x, y) {
-      this.x = this.x + x;
-      this.y = this.y + y;
-      this.clearBounds();
+      this.x = this.x + x
+      this.y = this.y + y
+      this.clearBounds()
     }
 
     /**
@@ -3873,10 +3877,10 @@
      * @description 释放点对象的资源。
      */
     destroy() {
-      this.x = null;
-      this.y = null;
-      this.tag = null;
-      super.destroy();
+      this.x = null
+      this.y = null
+      this.tag = null
+      super.destroy()
     }
 
     /**
@@ -3909,15 +3913,15 @@
    */
   class MultiPoint extends Collection {
     constructor(components) {
-      super(components);
+      super(components)
       /**
        * @member {Array.<string>} [GeometryMultiPoint.prototype.componentTypes=["SuperMap.Geometry.Point"]]
        * @description components 存储的的几何对象所支持的几何类型数组。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.Point"];
-      this.CLASS_NAME = "SuperMap.Geometry.MultiPoint";
-      this.geometryType = "MultiPoint";
+      this.componentTypes = ["SuperMap.Geometry.Point"]
+      this.CLASS_NAME = "SuperMap.Geometry.MultiPoint"
+      this.geometryType = "MultiPoint"
     }
 
     /**
@@ -3927,7 +3931,7 @@
      * @param {number} [index] - 下标。
      */
     addPoint(point, index) {
-      this.addComponent(point, index);
+      this.addComponent(point, index)
     }
 
     /**
@@ -3936,7 +3940,7 @@
      * @param {GeometryPoint} point - 移除的点对象。
      */
     removePoint(point) {
-      this.removeComponent(point);
+      this.removeComponent(point)
     }
   }
 
@@ -3960,15 +3964,15 @@
    */
   class Curve extends MultiPoint {
     constructor(components) {
-      super(components);
+      super(components)
       /**
        * @member {Array.<string>} [GeometryCurve.prototype.componentTypes=["SuperMap.Geometry.Point", "SuperMap.PointWithMeasure"]]
        * @description components 存储的的几何对象所支持的几何类型数组。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.Point", "SuperMap.PointWithMeasure"];
-      this.CLASS_NAME = "SuperMap.Geometry.Curve";
-      this.geometryType = "Curve";
+      this.componentTypes = ["SuperMap.Geometry.Point", "SuperMap.PointWithMeasure"]
+      this.CLASS_NAME = "SuperMap.Geometry.Curve"
+      this.geometryType = "Curve"
     }
   }
 
@@ -3995,9 +3999,9 @@
    */
   class LineString extends Curve {
     constructor(points) {
-      super(points);
-      this.CLASS_NAME = "SuperMap.Geometry.LineString";
-      this.geometryType = "LineString";
+      super(points)
+      this.CLASS_NAME = "SuperMap.Geometry.LineString"
+      this.geometryType = "LineString"
     }
 
     /**
@@ -4008,9 +4012,9 @@
      */
     removeComponent(point) {
       // eslint-disable-line no-unused-vars
-      const removed = this.components && this.components.length > 2;
+      const removed = this.components && this.components.length > 2
       if (removed) {
-        super.removeComponent.apply(this, arguments);
+        super.removeComponent.apply(this, arguments)
       }
       return removed
     }
@@ -4021,27 +4025,27 @@
      * @returns {Array} 升序排列的点坐标对象数组。
      */
     getSortedSegments() {
-      const numSeg = this.components.length - 1;
-      const segments = new Array(numSeg);
-      let point1;
-      let point2;
+      const numSeg = this.components.length - 1
+      const segments = new Array(numSeg)
+      let point1
+      let point2
       for (let i = 0; i < numSeg; ++i) {
-        point1 = this.components[i];
-        point2 = this.components[i + 1];
+        point1 = this.components[i]
+        point2 = this.components[i + 1]
         if (point1.x < point2.x) {
           segments[i] = {
             x1: point1.x,
             y1: point1.y,
             x2: point2.x,
             y2: point2.y
-          };
+          }
         } else {
           segments[i] = {
             x1: point2.x,
             y1: point2.y,
             x2: point1.x,
             y2: point1.y
-          };
+          }
         }
       }
 
@@ -4060,13 +4064,13 @@
      * @returns {Array} 几何图形的顶点列表。
      */
     getVertices(nodes) {
-      let vertices;
+      let vertices
       if (nodes === true) {
-        vertices = [this.components[0], this.components[this.components.length - 1]];
+        vertices = [this.components[0], this.components[this.components.length - 1]]
       } else if (nodes === false) {
-        vertices = this.components.slice(1, this.components.length - 1);
+        vertices = this.components.slice(1, this.components.length - 1)
       } else {
-        vertices = this.components.slice();
+        vertices = this.components.slice()
       }
       return vertices
     }
@@ -4087,21 +4091,21 @@
       if (points.length < 3) {
         return points
       }
-      const centerPoint = {};
-      const p1 = points[0];
-      const p2 = points[1];
-      const p3 = points[2];
-      let R = 0;
-      let dStep = 0;
-      let direc = true;
-      let dRotation = 0;
-      let dRotationBegin = 0;
-      let dRotationAngle = 0;
-      const nSegmentCount = 72;
-      const circlePoints = [];
+      const centerPoint = {}
+      const p1 = points[0]
+      const p2 = points[1]
+      const p3 = points[2]
+      let R = 0
+      let dStep = 0
+      let direc = true
+      let dRotation = 0
+      let dRotationBegin = 0
+      let dRotationAngle = 0
+      const nSegmentCount = 72
+      const circlePoints = []
 
-      const KTan13 = (p3.y - p1.y) / (p3.x - p1.x);
-      const B13 = p3.y - KTan13 * p3.x;
+      const KTan13 = (p3.y - p1.y) / (p3.x - p1.x)
+      const B13 = p3.y - KTan13 * p3.x
       if (
         (p3.x != p1.x && p3.y != p1.y && p2.y == KTan13 * p2.x + B13) ||
         (p3.x == p1.x && p2.x == p1.x) ||
@@ -4110,122 +4114,122 @@
         (p3.x == p2.x && p3.y == p2.y) ||
         (p1.x == p2.x && p1.y == p2.y)
       ) {
-        circlePoints.push(p1);
-        circlePoints.push(p2);
-        circlePoints.push(p3);
+        circlePoints.push(p1)
+        circlePoints.push(p2)
+        circlePoints.push(p3)
       } else {
         const D =
           (p2.x * p2.x + p2.y * p2.y - (p1.x * p1.x + p1.y * p1.y)) * (2 * (p3.y - p1.y)) -
-          (p3.x * p3.x + p3.y * p3.y - (p1.x * p1.x + p1.y * p1.y)) * (2 * (p2.y - p1.y));
+          (p3.x * p3.x + p3.y * p3.y - (p1.x * p1.x + p1.y * p1.y)) * (2 * (p2.y - p1.y))
         const E =
           2 * (p2.x - p1.x) * (p3.x * p3.x + p3.y * p3.y - (p1.x * p1.x + p1.y * p1.y)) -
-          2 * (p3.x - p1.x) * (p2.x * p2.x + p2.y * p2.y - (p1.x * p1.x + p1.y * p1.y));
-        const F = 4 * ((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y));
-        centerPoint.x = D / F;
-        centerPoint.y = E / F;
-        R = Math.sqrt((p1.x - centerPoint.x) * (p1.x - centerPoint.x) + (p1.y - centerPoint.y) * (p1.y - centerPoint.y));
+          2 * (p3.x - p1.x) * (p2.x * p2.x + p2.y * p2.y - (p1.x * p1.x + p1.y * p1.y))
+        const F = 4 * ((p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y))
+        centerPoint.x = D / F
+        centerPoint.y = E / F
+        R = Math.sqrt((p1.x - centerPoint.x) * (p1.x - centerPoint.x) + (p1.y - centerPoint.y) * (p1.y - centerPoint.y))
 
-        const dis = (p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y);
-        let cons = (2 * R * R - dis) / (2 * R * R);
-        cons = cons >= 1 ? 1 : cons;
-        cons = cons <= -1 ? -1 : cons;
-        dRotationAngle = (Math.acos(cons) * 180) / Math.PI;
+        const dis = (p1.x - p3.x) * (p1.x - p3.x) + (p1.y - p3.y) * (p1.y - p3.y)
+        let cons = (2 * R * R - dis) / (2 * R * R)
+        cons = cons >= 1 ? 1 : cons
+        cons = cons <= -1 ? -1 : cons
+        dRotationAngle = (Math.acos(cons) * 180) / Math.PI
 
         if (p3.x == p1.x) {
-          dRotationAngle = (centerPoint.x > p1.x && p2.x > p1.x) || (centerPoint.x < p1.x && p2.x < p1.x) ? 360 - dRotationAngle : dRotationAngle;
+          dRotationAngle = (centerPoint.x > p1.x && p2.x > p1.x) || (centerPoint.x < p1.x && p2.x < p1.x) ? 360 - dRotationAngle : dRotationAngle
         } else {
           dRotationAngle =
             (centerPoint.y > KTan13 * centerPoint.x + B13 && p2.y > KTan13 * p2.x + B13) ||
             (centerPoint.y < KTan13 * centerPoint.x + B13 && p2.y < KTan13 * p2.x + B13)
               ? 360 - dRotationAngle
-              : dRotationAngle;
+              : dRotationAngle
         }
-        dStep = dRotationAngle / 72;
+        dStep = dRotationAngle / 72
 
         if (p3.y != p1.y) {
           if (p3.x == p1.x) {
             if (p3.y > p1.y) {
               if (p2.x < p1.x) {
-                direc = false;
+                direc = false
               }
             } else {
               if (p2.x > p1.x) {
-                direc = false;
+                direc = false
               }
             }
           } else if (p3.x < p1.x) {
             if (p2.y < KTan13 * p2.x + B13) {
-              direc = false;
+              direc = false
             }
           } else {
             if (p2.y > KTan13 * p2.x + B13) {
-              direc = false;
+              direc = false
             }
           }
         } else {
           if (p3.x > p1.x) {
             if (p2.y > p1.y) {
-              direc = false;
+              direc = false
             }
           } else {
             if (p2.y < p1.y) {
-              direc = false;
+              direc = false
             }
           }
         }
 
-        const K10 = (p1.y - centerPoint.y) / (p1.x - centerPoint.x);
-        let atan10 = K10 >= 0 ? (Math.atan(K10) * 180) / Math.PI : Math.abs((Math.atan(K10) * 180) / Math.PI) + 90;
+        const K10 = (p1.y - centerPoint.y) / (p1.x - centerPoint.x)
+        let atan10 = K10 >= 0 ? (Math.atan(K10) * 180) / Math.PI : Math.abs((Math.atan(K10) * 180) / Math.PI) + 90
 
-        const CY = Math.abs(centerPoint.y);
+        const CY = Math.abs(centerPoint.y)
         if (p1.y == CY && CY == p3.y) {
           if (p1.x < p3.x) {
-            atan10 = atan10 + 180;
+            atan10 = atan10 + 180
           }
         }
 
-        const newPY = p1.y - centerPoint.y;
-        circlePoints.push(p1);
+        const newPY = p1.y - centerPoint.y
+        circlePoints.push(p1)
         for (let i = 1; i < nSegmentCount; i++) {
-          dRotation = dStep * i;
-          dRotationBegin = atan10;
+          dRotation = dStep * i
+          dRotationBegin = atan10
 
           if (direc) {
             if (newPY >= 0) {
               if (K10 >= 0) {
-                dRotationBegin = dRotationBegin + dRotation;
+                dRotationBegin = dRotationBegin + dRotation
               } else {
-                dRotationBegin = 180 - (dRotationBegin - 90) + dRotation;
+                dRotationBegin = 180 - (dRotationBegin - 90) + dRotation
               }
             } else {
               if (K10 > 0) {
-                dRotationBegin = dRotationBegin - 180 + dRotation;
+                dRotationBegin = dRotationBegin - 180 + dRotation
               } else {
-                dRotationBegin = 90 - dRotationBegin + dRotation;
+                dRotationBegin = 90 - dRotationBegin + dRotation
               }
             }
           } else {
             if (newPY >= 0) {
               if (K10 >= 0) {
-                dRotationBegin = dRotationBegin - dRotation;
+                dRotationBegin = dRotationBegin - dRotation
               } else {
-                dRotationBegin = 180 - (dRotationBegin - 90) - dRotation;
+                dRotationBegin = 180 - (dRotationBegin - 90) - dRotation
               }
             } else {
               if (K10 >= 0) {
-                dRotationBegin = dRotationBegin - 180 - dRotation;
+                dRotationBegin = dRotationBegin - 180 - dRotation
               } else {
-                dRotationBegin = 90 - dRotationBegin - dRotation;
+                dRotationBegin = 90 - dRotationBegin - dRotation
               }
             }
           }
 
-          dRotationBegin = (dRotationBegin * Math.PI) / 180;
-          const x = centerPoint.x + R * Math.cos(dRotationBegin);
-          const y = centerPoint.y + R * Math.sin(dRotationBegin);
-          circlePoints.push(new Point(x, y));
+          dRotationBegin = (dRotationBegin * Math.PI) / 180
+          const x = centerPoint.x + R * Math.cos(dRotationBegin)
+          const y = centerPoint.y + R * Math.sin(dRotationBegin)
+          circlePoints.push(new Point(x, y))
         }
-        circlePoints.push(p3);
+        circlePoints.push(p3)
       }
       return circlePoints
     }
@@ -4245,20 +4249,20 @@
      * var lineEPS = GeometryLineString.createLineEPS(points);
      */
     static createLineEPS(points) {
-      let list = [];
-      const len = points.length;
+      let list = []
+      const len = points.length
       if (len < 2) {
         return points
       }
       for (let i = 0; i < len;) {
-        const type = points[i].type;
+        const type = points[i].type
         if (type == "LTypeArc") {
-          const listObj = LineString.createLineArc(list, i, len, points);
-          list = listObj[0];
-          i = listObj[1];
+          const listObj = LineString.createLineArc(list, i, len, points)
+          list = listObj[0]
+          i = listObj[1]
         } else {
-          list.push(points[i]);
-          i++;
+          list.push(points[i])
+          i++
         }
       }
       return list
@@ -4266,38 +4270,38 @@
 
     static createLineArc(list, i, len, points) {
       if (i == 0) {
-        const bezierPtsObj = LineString.addPointEPS(points, i, len, "LTypeArc");
-        Array.prototype.push.apply(list, bezierPtsObj[0]);
-        i = bezierPtsObj[1] + 1;
+        const bezierPtsObj = LineString.addPointEPS(points, i, len, "LTypeArc")
+        Array.prototype.push.apply(list, bezierPtsObj[0])
+        i = bezierPtsObj[1] + 1
       } else if (i == len - 1) {
-        const bezierP = [points[i - 1], points[i]];
-        const bezierPts = LineString.calculateCircle(bezierP);
-        Array.prototype.push.apply(list, bezierPts);
-        i++;
+        const bezierP = [points[i - 1], points[i]]
+        const bezierPts = LineString.calculateCircle(bezierP)
+        Array.prototype.push.apply(list, bezierPts)
+        i++
       } else {
-        const bezierPtsObj = LineString.addPointEPS(points, i, len, "LTypeArc");
-        list.pop();
-        Array.prototype.push.apply(list, bezierPtsObj[0]);
-        i = bezierPtsObj[1] + 1;
+        const bezierPtsObj = LineString.addPointEPS(points, i, len, "LTypeArc")
+        list.pop()
+        Array.prototype.push.apply(list, bezierPtsObj[0])
+        i = bezierPtsObj[1] + 1
       }
       return [list, i]
     }
 
     static addPointEPS(points, i, len, type) {
-      const bezierP = [];
-      const j = i + 1;
+      const bezierP = []
+      const j = i + 1
       if (i == 0) {
-        Array.prototype.push.apply(bezierP, [points[i], points[i + 1]]);
+        Array.prototype.push.apply(bezierP, [points[i], points[i + 1]])
       } else if (i == len - 1) {
-        Array.prototype.push.apply(bezierP, [points[i - 1], points[i]]);
+        Array.prototype.push.apply(bezierP, [points[i - 1], points[i]])
       } else {
-        Array.prototype.push.apply(bezierP, [points[i - 1], points[i], points[i + 1]]);
+        Array.prototype.push.apply(bezierP, [points[i - 1], points[i], points[i + 1]])
       }
-      let bezierPts;
+      let bezierPts
       if (type == "LTypeCurve") {
-        bezierPts = LineString.calculatePointsFBZN(bezierP);
+        bezierPts = LineString.calculatePointsFBZN(bezierP)
       } else if (type == "LTypeArc") {
-        bezierPts = LineString.calculateCircle(bezierP);
+        bezierPts = LineString.calculateCircle(bezierP)
       }
       return [bezierPts, j]
     }
@@ -4326,15 +4330,15 @@
    */
   class MultiLineString extends Collection {
     constructor(components) {
-      super(components);
+      super(components)
       /**
        * @member {Array.<string>} [GeometryMultiLineString.prototype.componentTypes=["SuperMap.Geometry.LineString"]]
        * @description components 存储的的几何对象所支持的几何类型数组。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.LineString"];
-      this.CLASS_NAME = "SuperMap.Geometry.MultiLineString";
-      this.geometryType = "MultiLineString";
+      this.componentTypes = ["SuperMap.Geometry.LineString"]
+      this.CLASS_NAME = "SuperMap.Geometry.MultiLineString"
+      this.geometryType = "MultiLineString"
     }
   }
 
@@ -4362,15 +4366,15 @@
    */
   class LinearRing extends LineString {
     constructor(points) {
-      super(points);
+      super(points)
       /**
        * @member {Array.<string>} [GeometryLinearRing.prototype.componentTypes=["SuperMap.Geometry.Point"]]
        * @description components 存储的的几何对象所支持的几何类型数组，为空表示类型不受限制。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.Point"];
-      this.CLASS_NAME = "SuperMap.Geometry.LinearRing";
-      this.geometryType = "LinearRing";
+      this.componentTypes = ["SuperMap.Geometry.Point"]
+      this.CLASS_NAME = "SuperMap.Geometry.LinearRing"
+      this.geometryType = "LinearRing"
     }
 
     /**
@@ -4383,20 +4387,20 @@
      * @returns {boolean} 点对象是否添加成功。
      */
     addComponent(point, index) {
-      let added = false;
+      let added = false
 
       // remove last point
-      const lastPoint = this.components.pop();
+      const lastPoint = this.components.pop()
 
       // given an index, add the point
       // without an index only add non-duplicate points
       if (index != null || !point.equals(lastPoint)) {
-        added = super.addComponent.apply(this, arguments);
+        added = super.addComponent.apply(this, arguments)
       }
 
       // append copy of first point
-      const firstPoint = this.components[0];
-      super.addComponent.apply(this, [firstPoint]);
+      const firstPoint = this.components[0]
+      super.addComponent.apply(this, [firstPoint])
 
       return added
     }
@@ -4409,16 +4413,16 @@
      */
     removeComponent(point) {
       // eslint-disable-line no-unused-vars
-      const removed = this.components && this.components.length > 3;
+      const removed = this.components && this.components.length > 3
       if (removed) {
         // remove last point
-        this.components.pop();
+        this.components.pop()
 
         // remove our point
-        super.removeComponent.apply(this, arguments);
+        super.removeComponent.apply(this, arguments)
         // append copy of first point
-        const firstPoint = this.components[0];
-        super.addComponent.apply(this, [firstPoint]);
+        const firstPoint = this.components[0]
+        super.addComponent.apply(this, [firstPoint])
       }
       return removed
     }
@@ -4429,15 +4433,15 @@
      * @returns {number} 环的面积。
      */
     getArea() {
-      let area = 0.0;
+      let area = 0.0
       if (this.components && this.components.length > 2) {
-        let sum = 0.0;
+        let sum = 0.0
         for (let i = 0, len = this.components.length; i < len - 1; i++) {
-          const b = this.components[i];
-          const c = this.components[i + 1];
-          sum += (b.x + c.x) * (c.y - b.y);
+          const b = this.components[i]
+          const c = this.components[i + 1]
+          sum += (b.x + c.x) * (c.y - b.y)
         }
-        area = -sum / 2.0;
+        area = -sum / 2.0
       }
       return area
     }
@@ -4477,15 +4481,15 @@
    */
   class Polygon extends Collection {
     constructor(components) {
-      super(components);
+      super(components)
       /**
        * @member {Array.<string>} [GeometryPolygon.prototype.componentTypes=["SuperMap.Geometry.LinearRing"]]
        * @description components 存储的的几何对象所支持的几何类型数组。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.LinearRing"];
-      this.CLASS_NAME = "SuperMap.Geometry.Polygon";
-      this.geometryType = "Polygon";
+      this.componentTypes = ["SuperMap.Geometry.LinearRing"]
+      this.CLASS_NAME = "SuperMap.Geometry.Polygon"
+      this.geometryType = "Polygon"
     }
 
     /**
@@ -4494,11 +4498,11 @@
      * @returns {number} 几何对象的面积。
      */
     getArea() {
-      let area = 0.0;
+      let area = 0.0
       if (this.components && this.components.length > 0) {
-        area += Math.abs(this.components[0].getArea());
+        area += Math.abs(this.components[0].getArea())
         for (let i = 1, len = this.components.length; i < len; i++) {
-          area -= Math.abs(this.components[i].getArea());
+          area -= Math.abs(this.components[i].getArea())
         }
       }
       return area
@@ -4532,15 +4536,15 @@
    */
   class MultiPolygon extends Collection {
     constructor(components) {
-      super(components);
+      super(components)
       /**
        * @member {Array.<string>} [GeometryMultiPolygon.prototype.componentTypes=["SuperMap.Geometry.Polygon"]]
        * @description components 存储的的几何对象所支持的几何类型数组。
        * @readonly
        */
-      this.componentTypes = ["SuperMap.Geometry.Polygon"];
-      this.CLASS_NAME = "SuperMap.Geometry.MultiPolygon";
-      this.geometryType = "MultiPolygon";
+      this.componentTypes = ["SuperMap.Geometry.Polygon"]
+      this.CLASS_NAME = "SuperMap.Geometry.MultiPolygon"
+      this.geometryType = "MultiPolygon"
     }
   }
 
@@ -4580,7 +4584,7 @@
     REGIONEPS: "REGIONEPS",
     /** GEOCOMPOUND */
     GEOCOMPOUND: "GEOCOMPOUND"
-  };
+  }
 
   /* Copyright© 2000 - 2022 SuperMap Software Co.Ltd. All rights reserved.
    * This program are made available under the terms of the Apache License, Version 2.0
@@ -4603,21 +4607,21 @@
        * @member {number} [ServerColor.prototype.red=255]
        * @description 获取或设置红色值。
        */
-      this.red = !red && red != 0 ? 255 : red;
+      this.red = !red && red != 0 ? 255 : red
 
       /**
        * @member {number} [ServerColor.prototype.green=0]
        * @description 获取或设置绿色值。
        */
-      this.green = green || 0;
+      this.green = green || 0
 
       /**
        * @member {number} [ServerColor.prototype.blue=0]
        * @description 获取或设置蓝色值。
        */
-      this.blue = blue || 0;
+      this.blue = blue || 0
 
-      this.CLASS_NAME = "SuperMap.ServerColor";
+      this.CLASS_NAME = "SuperMap.ServerColor"
     }
 
     /**
@@ -4625,10 +4629,10 @@
      * @description 释放资源，将引用资源的属性置空。
      */
     destroy() {
-      const me = this;
-      me.red = null;
-      me.green = null;
-      me.blue = null;
+      const me = this
+      me.red = null
+      me.green = null
+      me.blue = null
     }
 
     /**
@@ -4641,24 +4645,24 @@
       if (!jsonObject) {
         return
       }
-      const color = new ServerColor();
-      let red = 255;
+      const color = new ServerColor()
+      let red = 255
       if (jsonObject.red !== null) {
-        red = Number(jsonObject.red);
+        red = Number(jsonObject.red)
       }
-      color.red = red;
+      color.red = red
 
-      let green = 0;
+      let green = 0
       if (jsonObject.green !== null) {
-        green = Number(jsonObject.green);
+        green = Number(jsonObject.green)
       }
-      color.green = green;
+      color.green = green
 
-      let blue = 0;
+      let blue = 0
       if (jsonObject.blue !== null) {
-        blue = Number(jsonObject.blue);
+        blue = Number(jsonObject.blue)
       }
-      color.blue = blue;
+      color.blue = blue
       return color
     }
   }
@@ -4696,103 +4700,103 @@
        * @member {ServerColor} ServerStyle.prototype.fillBackColor
        * @description 填充背景颜色。当填充模式为渐变填充时，该颜色为填充终止色。
        */
-      this.fillBackColor = new ServerColor(255, 255, 255);
+      this.fillBackColor = new ServerColor(255, 255, 255)
 
       /**
        * @member {boolean} [ServerStyle.prototype.fillBackOpaque=false]
        * @description 背景是否不透明。false 表示透明。
        */
-      this.fillBackOpaque = false;
+      this.fillBackOpaque = false
 
       /**
        * @member {ServerColor} ServerStyle.prototype.fillForeColor
        * @description 填充颜色。当填充模式为渐变填充时，该颜色为填充起始颜色。
        */
-      this.fillForeColor = new ServerColor(255, 0, 0);
+      this.fillForeColor = new ServerColor(255, 0, 0)
 
       /**
        * @member {FillGradientMode} ServerStyle.prototype.fillGradientMode
        * @description 渐变填充风格的渐变类型。
        */
-      this.fillGradientMode = null;
+      this.fillGradientMode = null
 
       /**
        * @member {number} ServerStyle.prototype.fillGradientAngle -
        * @description 渐变填充的旋转角度。单位为度，精确到 0.1 度，逆时针方向为正方向。
        */
-      this.fillGradientAngle = 0;
+      this.fillGradientAngle = 0
 
       /**
        * @member {number} ServerStyle.prototype.fillGradientOffsetRatioX
        * @description 渐变填充中心点相对于填充区域范围中心点的水平偏移百分比。它们的关系如下：设填充区域范围中心点的坐标为（x0, y0），
        *              填充中心点的坐标为（x, y），填充区域范围的宽度为 a，水平偏移百分比为 dx，则 x=x0 + a*dx/100。
        */
-      this.fillGradientOffsetRatioX = 0;
+      this.fillGradientOffsetRatioX = 0
 
       /**
        * @member {number} ServerStyle.prototype.fillGradientOffsetRatioY
        * @description 填充中心点相对于填充区域范围中心点的垂直偏移百分比。它们的关系如下：<br>
        *              设填充区域范围中心点的坐标为（x0, y0），填充中心点的坐标为（x, y），填充区域范围的高度为 b，垂直偏移百分比为 dy，则 y=y0 + b*dx/100。
        */
-      this.fillGradientOffsetRatioY = 0;
+      this.fillGradientOffsetRatioY = 0
 
       /**
        * @member {number} [ServerStyle.prototype.fillOpaqueRate=100]
        * @description 填充不透明度。合法值为 0 - 100 的数值。其中为 0 表示完全透明；
        *              100 表示完全不透明。赋值小于 0 时按照 0 处理，大于 100 时按照 100 处理。
        */
-      this.fillOpaqueRate = 100;
+      this.fillOpaqueRate = 100
 
       /**
        * @member {number} ServerStyle.prototype.fillSymbolID
        * @description 填充符号的编码。此编码用于唯一标识各普通填充风格的填充符号。
        *              关于填充符号的样式与对应的 ID 号请在 SuperMap 桌面软件中查找。
        */
-      this.fillSymbolID = 0;
+      this.fillSymbolID = 0
 
       /**
        * @member {ServerColor} ServerStyle.prototype.lineColor
        * @description 矢量要素的边线颜色。如果等级符号是点符号，点符号的颜色由 lineColor 控制。
        */
-      this.lineColor = new ServerColor(0, 0, 0);
+      this.lineColor = new ServerColor(0, 0, 0)
 
       /**
        * @member {number} [ServerStyle.prototype.lineSymbolID=0]
        * @description 线状符号的编码。此编码用于唯一标识各普通填充风格的填充符号。
        *              关于线状符号的样式与对应的 ID 号请在 SuperMap 桌面软件中查找。
        */
-      this.lineSymbolID = 0;
+      this.lineSymbolID = 0
 
       /**
        * @member {number} [ServerStyle.prototype.lineWidth=1.0]
        * @description 边线的宽度。单位为毫米，精度到 0.1。
        */
-      this.lineWidth = 1;
+      this.lineWidth = 1
 
       /**
        * @member {number} [ServerStyle.prototype.markerAngle=0]
        * @description 点状符号的旋转角度。以度为单位，精确到 0.1 度，逆时针方向为正方向。
        */
-      this.markerAngle = 0;
+      this.markerAngle = 0
 
       /**
        * @member {number} [ServerStyle.prototype.markerSize=1.0]
        * @description 点状符号的大小。单位为毫米，精度为 0.1。当该属性设置为0时，采用符号默认大小 1.0 显示。
        *              当该属性设置为非法值时，交由服务器默认处理。
        */
-      this.markerSize = 1;
+      this.markerSize = 1
 
       /**
        * @member {number} [ServerStyle.prototype.markerSymbolID=-1]
        * @description 点状符号的编码。此编码用于唯一标识各点状符号。
        *              关于线状符号的样式与对应的 ID 号请在 SuperMap 桌面软件中查找。
        */
-      this.markerSymbolID = -1;
+      this.markerSymbolID = -1
       if (options) {
-        Util.extend(this, options);
+        Util.extend(this, options)
       }
 
-      this.CLASS_NAME = "SuperMap.ServerStyle";
+      this.CLASS_NAME = "SuperMap.ServerStyle"
     }
 
     /**
@@ -4800,32 +4804,32 @@
      * @description 释放资源，将引用资源的属性置空。
      */
     destroy() {
-      const me = this;
+      const me = this
       if (me.fillBackColor) {
-        me.fillBackColor.destroy();
-        me.fillBackColor = null;
+        me.fillBackColor.destroy()
+        me.fillBackColor = null
       }
-      me.fillBackOpaque = null;
+      me.fillBackOpaque = null
 
       if (me.fillForeColor) {
-        me.fillForeColor.destroy();
-        me.fillForeColor = null;
+        me.fillForeColor.destroy()
+        me.fillForeColor = null
       }
-      me.fillGradientMode = null;
-      me.fillGradientAngle = null;
-      me.fillGradientOffsetRatioX = null;
-      me.fillGradientOffsetRatioY = null;
-      me.fillOpaqueRate = null;
-      me.fillSymbolID = null;
+      me.fillGradientMode = null
+      me.fillGradientAngle = null
+      me.fillGradientOffsetRatioX = null
+      me.fillGradientOffsetRatioY = null
+      me.fillOpaqueRate = null
+      me.fillSymbolID = null
       if (me.lineColor) {
-        me.lineColor.destroy();
-        me.lineColor = null;
+        me.lineColor.destroy()
+        me.lineColor = null
       }
-      me.lineSymbolID = null;
-      me.lineWidth = null;
-      me.markerAngle = null;
-      me.markerSize = null;
-      me.markerSymbolID = null;
+      me.lineSymbolID = null
+      me.lineWidth = null
+      me.markerAngle = null
+      me.markerSize = null
+      me.markerSymbolID = null
     }
 
     /**
@@ -4834,8 +4838,8 @@
      * @returns {Object} 对应的 JSON 格式对象.
      */
     toServerJSONObject() {
-      let styleObj = {};
-      styleObj = Util.copyAttributes(styleObj, this);
+      let styleObj = {}
+      styleObj = Util.copyAttributes(styleObj, this)
       // 暂时先忽略serverColor往Json的转换
       return styleObj
     }
@@ -4888,19 +4892,19 @@
    */
   class PointWithMeasure extends Point {
     constructor(options) {
-      super(options);
+      super(options)
 
       /**
        * @member {number} PointWithMeasure.prototype.measure
        * @description 度量值，即路由对象属性值 M。
        */
-      this.measure = null;
+      this.measure = null
 
       if (options) {
-        Util.extend(this, options);
+        Util.extend(this, options)
       }
 
-      this.CLASS_NAME = "SuperMap.PointWithMeasure";
+      this.CLASS_NAME = "SuperMap.PointWithMeasure"
     }
 
     /**
@@ -4910,12 +4914,12 @@
      * @returns {boolean} 两个路由点对象是否相等（true 为相等，false 为不等）。
      */
     equals(geom) {
-      let equals = false;
+      let equals = false
       if (geom != null) {
-        const isValueEquals = this.x === geom.x && this.y === geom.y && this.measure === geom.measure;
-        const isNaNValue = isNaN(this.x) && isNaN(this.y) && isNaN(this.measure);
-        const isNaNGeometry = isNaN(geom.x) && isNaN(geom.y) && isNaN(geom.measure);
-        equals = isValueEquals || (isNaNValue && isNaNGeometry);
+        const isValueEquals = this.x === geom.x && this.y === geom.y && this.measure === geom.measure
+        const isNaNValue = isNaN(this.x) && isNaN(this.y) && isNaN(this.measure)
+        const isNaNGeometry = isNaN(geom.x) && isNaN(geom.y) && isNaN(geom.measure)
+        equals = isValueEquals || (isNaNValue && isNaNGeometry)
       }
       return equals
     }
@@ -4925,13 +4929,13 @@
      * @description 转换为 JSON 对象。
      * */
     toJson() {
-      let result = "{";
+      let result = "{"
       if (this.measure != null && this.measure != undefined) {
-        result += '"measure":' + this.measure + ",";
+        result += '"measure":' + this.measure + ","
       }
-      result += '"x":' + this.x + ",";
-      result += '"y":' + this.y;
-      result += "}";
+      result += '"x":' + this.x + ","
+      result += '"y":' + this.y
+      result += "}"
       return result
     }
 
@@ -4940,10 +4944,10 @@
      * @description 释放资源，将引用资源的属性置空。
      */
     destroy() {
-      const me = this;
-      me.measure = null;
-      me.x = null;
-      me.y = null;
+      const me = this
+      me.measure = null
+      me.x = null
+      me.y = null
     }
 
     /**
@@ -4986,49 +4990,49 @@
   class Route extends Collection {
 
       constructor(points, options) {
-          super(points, options);
+          super(points, options)
 
           /**
            * @member {number} Route.prototype.id
            * @description 路由对象在数据库中的 ID。
            */
-          this.id = null;
+          this.id = null
 
           /**
            * @member {number} Route.prototype.center
            * @description 路由对象的中心点。
            */
-          this.center = null;
+          this.center = null
 
           /**
            * @member {string} Route.prototype.style
            * @description 路由对象的样式。
            */
-          this.style = null;
+          this.style = null
 
           /**
            * @member {number} Route.prototype.length
            * @description 路由对象的长度。单位与数据集的单位相同。
            */
-          this.length = null;
+          this.length = null
 
           /**
            *  @member {number} Route.prototype.maxM
            *  @description 最大线性度量值，即所有结点到起始点的量算距离中最大值。
            */
-          this.maxM = null;
+          this.maxM = null
 
           /**
            * @member {number} Route.prototype.minM
            * @description 最小线性度量值，即所有结点到起始点的量算距离中最小值。
            */
-          this.minM = null;
+          this.minM = null
 
           /**
            * @member {Array.<number>} Route.prototype.parts
            * @description 服务端几何对象中各个子对象所包含的节点个数。
            */
-          this.parts = null;
+          this.parts = null
 
           /**
            * @member {Array.<Object>} Route.prototype.points
@@ -5049,26 +5053,26 @@
            * ]
            * (end)
            */
-          this.points = null;
+          this.points = null
 
           /**
            * @member {string} Route.prototype.type
            * @description 服务端几何对象类型。
            */
-          this.type = null;
+          this.type = null
 
           /**
            * @member {Array.<string>} [Route.prototype.componentTypes=LineString]
            * @description components 存储的的几何对象所支持的几何类型数组。
            */
-          this.componentTypes = ["SuperMap.Geometry.LinearRing", "SuperMap.Geometry.LineString"];
+          this.componentTypes = ["SuperMap.Geometry.LinearRing", "SuperMap.Geometry.LineString"]
 
           if (options) {
-              Util.extend(this, options);
+              Util.extend(this, options)
           }
 
-          this.CLASS_NAME = "SuperMap.Route";
-          this.geometryType = "LINEM";
+          this.CLASS_NAME = "SuperMap.Route"
+          this.geometryType = "LINEM"
       }
 
       /**
@@ -5078,48 +5082,48 @@
        * @returns {Object} JSON 对象。
        */
       toJson() {
-          let result = "{";
+          let result = "{"
           if (this.id != null && this.id != undefined) {
-              result += "\"id\":" + this.id + ",";
+              result += "\"id\":" + this.id + ","
           }
           if (this.center != null && this.center != undefined) {
-              result += "\"center\":" + this.center + ",";
+              result += "\"center\":" + this.center + ","
           }
           if (this.style != null && this.style != undefined) {
-              result += "\"style\":" + this.style + ",";
+              result += "\"style\":" + this.style + ","
           }
           if (this.length != null && this.length != undefined) {
-              result += "\"length\":" + this.length + ",";
+              result += "\"length\":" + this.length + ","
           }
           if (this.maxM != null && this.maxM != undefined) {
-              result += "\"maxM\":" + this.maxM + ",";
+              result += "\"maxM\":" + this.maxM + ","
           }
           if (this.minM != null && this.minM != undefined) {
-              result += "\"minM\":" + this.minM + ",";
+              result += "\"minM\":" + this.minM + ","
           }
           if (this.type != null && this.type != undefined) {
-              result += "\"type\":\"" + this.type + "\",";
+              result += "\"type\":\"" + this.type + "\","
           }
           if (this.parts != null && this.parts != undefined) {
-              result += "\"parts\":[" + this.parts[0];
+              result += "\"parts\":[" + this.parts[0]
 
               for (let i = 1; i < this.parts.length; i++) {
-                  result += "," + this.parts[i];
+                  result += "," + this.parts[i]
               }
-              result += "],";
+              result += "],"
           }
           if (this.components != null && this.components.length > 0) {
-              result += "\"points\":[";
+              result += "\"points\":["
               for (let j = 0, len = this.components.length; j < len; j++) {
                   for (let k = 0, len2 = this.components[j].components.length; k < len2; k++) {
-                      result += this.components[j].components[k].toJson() + ",";
+                      result += this.components[j].components[k].toJson() + ","
                   }
               }
-              result = result.replace(/,$/g, "");
-              result += "]";
+              result = result.replace(/,$/g, "")
+              result += "]"
           }
-          result = result.replace(/,$/g, "");
-          result += "}";
+          result = result.replace(/,$/g, "")
+          result += "}"
           return result
       }
 
@@ -5129,18 +5133,18 @@
        * @override
        */
       destroy() {
-          const me = this;
-          me.id = null;
-          me.center = null;
-          me.style = null;
-          me.length = null;
-          me.maxM = null;
-          me.minM = null;
-          me.type = null;
-          me.parts = null;
-          me.components.length = 0;
-          me.components = null;
-          me.componentTypes = null;
+          const me = this
+          me.id = null
+          me.center = null
+          me.style = null
+          me.length = null
+          me.maxM = null
+          me.minM = null
+          me.type = null
+          me.parts = null
+          me.components.length = 0
+          me.components = null
+          me.componentTypes = null
       }
 
 
@@ -5155,23 +5159,23 @@
               return
           }
 
-          const geoParts = jsonObject.parts || [];
-              const geoPoints = jsonObject.points || [];
-              const len = geoParts.length;
-              const lineList = [];
+          const geoParts = jsonObject.parts || []
+              const geoPoints = jsonObject.points || []
+              const len = geoParts.length
+              const lineList = []
           if (len > 0) {
               for (let i = 0, pointIndex = 0, pointList = []; i < len; i++) {
                   for (let j = 0; j < geoParts[i]; j++) {
-                      pointList.push(PointWithMeasure.fromJson(geoPoints[pointIndex + j]));
+                      pointList.push(PointWithMeasure.fromJson(geoPoints[pointIndex + j]))
                   }
-                  pointIndex += geoParts[i];
+                  pointIndex += geoParts[i]
                   // 判断线是否闭合，如果闭合，则返回LinearRing，否则返回LineString
                   if (pointList[0].equals(pointList[geoParts[i] - 1])) {
-                      lineList.push(new LinearRing(pointList));
+                      lineList.push(new LinearRing(pointList))
                   } else {
-                      lineList.push(new LineString(pointList));
+                      lineList.push(new LineString(pointList))
                   }
-                  pointList = [];
+                  pointList = []
               }
 
           } else {
@@ -5215,13 +5219,13 @@
        * @member {string} ServerGeometry.prototype.id
        * @description 服务端几何对象唯一标识符。
        */
-      this.id = 0;
+      this.id = 0
 
       /**
        * @member {ServerStyle} [ServerGeometry.prototype.style]
        * @description 服务端几何对象的风格（ServerStyle）。
        */
-      this.style = null;
+      this.style = null
 
       /**
        * @member {Array.<number>} ServerGeometry.prototype.parts
@@ -5238,7 +5242,7 @@
        * 那么这个岛状的几何对象的 Parts 字段值就是一个长度为 3 的整型数组，
        * 数组中每个成员的值分别代表这三个多边形所包含的节点个数。
        */
-      this.parts = null;
+      this.parts = null
 
       /**
        * @member {Array.<GeometryPoint>} ServerGeometry.prototype.points
@@ -5249,24 +5253,24 @@
        * 2.对于复杂的几何对象，根据 Parts 属性来确定每一个组成复杂几何对象的简单对象所对应的节点的个数，
        * 从而确定 Points 字段中坐标对的分配归属问题。
        */
-      this.points = null;
+      this.points = null
 
       /**
        * @member {GeometryType} ServerGeometry.prototype.type
        * @description 几何对象的类型（GeometryType）。
        */
-      this.type = null;
+      this.type = null
 
       /**
        * @member {Object} ServerGeometry.prototype.prjCoordSys
        * @description 投影坐标参数，现仅在缓冲区分析中有效。
        */
-      this.prjCoordSys = null;
+      this.prjCoordSys = null
       if (options) {
-        Util.extend(this, options);
+        Util.extend(this, options)
       }
 
-      this.CLASS_NAME = "SuperMap.ServerGeometry";
+      this.CLASS_NAME = "SuperMap.ServerGeometry"
     }
 
     /**
@@ -5274,14 +5278,14 @@
      * @description 释放资源，将引用资源的属性置空。
      */
     destroy() {
-      const me = this;
-      me.id = null;
-      me.style = null;
-      me.parts = null;
-      me.partTopo = null;
-      me.points = null;
-      me.type = null;
-      me.prjCoordSys = null;
+      const me = this
+      me.id = null
+      me.style = null
+      me.parts = null
+      me.partTopo = null
+      me.points = null
+      me.type = null
+      me.prjCoordSys = null
     }
 
     /**
@@ -5290,8 +5294,8 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeometry() {
-      const me = this;
-      const geoType = me.type;
+      const me = this
+      const geoType = me.type
       switch (geoType.toUpperCase()) {
         case GeometryType.POINT:
           return me.toGeoPoint()
@@ -5318,17 +5322,17 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoPoint() {
-      const me = this;
-      const geoParts = me.parts || [];
-      const geoPoints = me.points || [];
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.parts || []
+      const geoPoints = me.points || []
+      const len = geoParts.length
       if (len > 0) {
         if (len === 1) {
           return new Point(geoPoints[0].x, geoPoints[0].y)
         } else {
-          const pointList = [];
+          const pointList = []
           for (let i = 0; i < len; i++) {
-            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y));
+            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y))
           }
           return new MultiPoint(pointList)
         }
@@ -5343,15 +5347,15 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoLine() {
-      const me = this;
-      const geoParts = me.parts || [];
-      const geoPoints = me.points || [];
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.parts || []
+      const geoPoints = me.points || []
+      const len = geoParts.length
       if (len > 0) {
         if (len === 1) {
-          const pointList = [];
+          const pointList = []
           for (let i = 0; i < geoParts[0]; i++) {
-            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y));
+            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y))
           }
           // 判断线是否闭合，如果闭合，则返回LinearRing，否则返回LineString
           if (pointList[0].equals(pointList[geoParts[0] - 1])) {
@@ -5360,14 +5364,14 @@
             return new LineString(pointList)
           }
         } else {
-          const lineList = [];
+          const lineList = []
           for (let i = 0; i < len; i++) {
-            const pointList = [];
+            const pointList = []
             for (let j = 0; j < geoParts[i]; j++) {
-              pointList.push(new Point(geoPoints[j].x, geoPoints[j].y));
+              pointList.push(new Point(geoPoints[j].x, geoPoints[j].y))
             }
-            lineList.push(new LineString(pointList));
-            geoPoints.splice(0, geoParts[i]);
+            lineList.push(new LineString(pointList))
+            geoPoints.splice(0, geoParts[i])
           }
           return new MultiLineString(lineList)
         }
@@ -5382,36 +5386,36 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoLineEPS() {
-      const me = this;
-      const geoParts = me.parts || [];
-      const geoPoints = me.points || [];
-      let i;
-      let j;
-      let pointList;
-      let lineList;
-      let lineEPS;
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.parts || []
+      const geoPoints = me.points || []
+      let i
+      let j
+      let pointList
+      let lineList
+      let lineEPS
+      const len = geoParts.length
       if (len > 0) {
         if (len === 1) {
           for (i = 0, pointList = []; i < geoParts[0]; i++) {
-            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y, geoPoints[i].type));
+            pointList.push(new Point(geoPoints[i].x, geoPoints[i].y, geoPoints[i].type))
           }
           // 判断线是否闭合，如果闭合，则返回LinearRing，否则返回LineString
           if (pointList[0].equals(pointList[geoParts[0] - 1])) {
-            lineEPS = LineString.createLineEPS(pointList);
+            lineEPS = LineString.createLineEPS(pointList)
             return new LinearRing(lineEPS)
           } else {
-            lineEPS = LineString.createLineEPS(pointList);
+            lineEPS = LineString.createLineEPS(pointList)
             return new LineString(lineEPS)
           }
         } else {
           for (i = 0, lineList = []; i < len; i++) {
             for (j = 0, pointList = []; j < geoParts[i]; j++) {
-              pointList.push(new Point(geoPoints[j].x, geoPoints[j].y));
+              pointList.push(new Point(geoPoints[j].x, geoPoints[j].y))
             }
-            lineEPS = LineString.createLineEPS(pointList);
-            lineList.push(new LineString(lineEPS));
-            geoPoints.splice(0, geoParts[i]);
+            lineEPS = LineString.createLineEPS(pointList)
+            lineList.push(new LineString(lineEPS))
+            geoPoints.splice(0, geoParts[i])
           }
           return new MultiLineString(lineList)
         }
@@ -5426,7 +5430,7 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoLinem() {
-      const me = this;
+      const me = this
       return Route.fromJson(me)
     }
 
@@ -5436,60 +5440,60 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoRegion() {
-      const me = this;
-      const geoParts = me.parts || [];
-      const geoTopo = me.partTopo || [];
-      const geoPoints = me.points || [];
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.parts || []
+      const geoTopo = me.partTopo || []
+      const geoPoints = me.points || []
+      const len = geoParts.length
       if (len <= 0) {
         return null
       }
-      let polygonArray = [];
-      let pointList = [];
+      let polygonArray = []
+      let pointList = []
       if (len == 1) {
         for (let i = 0; i < geoPoints.length; i++) {
-          pointList.push(new Point(geoPoints[i].x, geoPoints[i].y));
+          pointList.push(new Point(geoPoints[i].x, geoPoints[i].y))
         }
-        polygonArray.push(new Polygon([new LinearRing(pointList)]));
+        polygonArray.push(new Polygon([new LinearRing(pointList)]))
         return new MultiPolygon(polygonArray)
       }
       // 处理复杂面
-      let CCWArray = [];
-      const areaArray = [];
-      const polygonArrayTemp = [];
-      const polygonBounds = [];
+      let CCWArray = []
+      const areaArray = []
+      const polygonArrayTemp = []
+      const polygonBounds = []
       // polyon岛洞标识数组，初始都是岛。
-      const CCWIdent = [];
+      const CCWIdent = []
       for (let i = 0, pointIndex = 0; i < len; i++) {
         for (let j = 0; j < geoParts[i]; j++) {
-          pointList.push(new Point(geoPoints[pointIndex + j].x, geoPoints[pointIndex + j].y));
+          pointList.push(new Point(geoPoints[pointIndex + j].x, geoPoints[pointIndex + j].y))
         }
-        pointIndex += geoParts[i];
-        const polygon = new Polygon([new LinearRing(pointList)]);
-        pointList = [];
-        polygonArrayTemp.push(polygon);
+        pointIndex += geoParts[i]
+        const polygon = new Polygon([new LinearRing(pointList)])
+        pointList = []
+        polygonArrayTemp.push(polygon)
         if (geoTopo.length === 0) {
-          polygonBounds.push(polygon.getBounds());
+          polygonBounds.push(polygon.getBounds())
         }
-        CCWIdent.push(1);
-        areaArray.push(polygon.getArea());
+        CCWIdent.push(1)
+        areaArray.push(polygon.getArea())
       }
       // iServer 9D新增字段
       if (geoTopo.length === 0) {
         // 根据面积排序
-        ServerGeometry.bubbleSort(areaArray, polygonArrayTemp, geoTopo, polygonBounds);
+        ServerGeometry.bubbleSort(areaArray, polygonArrayTemp, geoTopo, polygonBounds)
         // 岛洞底层判断原则：将所有的子对象按照面积排序，面积最大的直接判定为岛（1），从面积次大的开始处理，
         // 如果发现该对象在某个面积大于它的对象之中（即被包含），则根据包含它的对象的标识（1 or -1），指定其标识（-1 or 1），
         // 依次处理完所有对象，就得到了一个标识数组，1表示岛，-1表示洞
         // 目标polygon索引列表 -1标示没有被任何polygon包含，
-        const targetArray = [];
+        const targetArray = []
         for (let i = 1; i < polygonArrayTemp.length; i++) {
           for (let j = i - 1; j >= 0; j--) {
-            targetArray[i] = -1;
+            targetArray[i] = -1
             if (polygonBounds[j].containsBounds(polygonBounds[i])) {
-              CCWIdent[i] = CCWIdent[j] * -1;
+              CCWIdent[i] = CCWIdent[j] * -1
               if (CCWIdent[i] < 0) {
-                targetArray[i] = j;
+                targetArray[i] = j
               }
               break
             }
@@ -5497,32 +5501,32 @@
         }
         for (let i = 0; i < polygonArrayTemp.length; i++) {
           if (CCWIdent[i] > 0) {
-            polygonArray.push(polygonArrayTemp[i]);
+            polygonArray.push(polygonArrayTemp[i])
           } else {
-            polygonArray[targetArray[i]].components = polygonArray[targetArray[i]].components.concat(polygonArrayTemp[i].components);
+            polygonArray[targetArray[i]].components = polygonArray[targetArray[i]].components.concat(polygonArrayTemp[i].components)
             // 占位
-            polygonArray.push("");
+            polygonArray.push("")
           }
         }
       } else {
-        polygonArray = [];
+        polygonArray = []
         for (let i = 0; i < polygonArrayTemp.length; i++) {
           if (geoTopo[i] && geoTopo[i] == -1) {
-            CCWArray = CCWArray.concat(polygonArrayTemp[i].components);
+            CCWArray = CCWArray.concat(polygonArrayTemp[i].components)
           } else {
             if (CCWArray.length > 0 && polygonArray.length > 0) {
-              polygonArray[polygonArray.length - 1].components = polygonArray[polygonArray.length - 1].components.concat(CCWArray);
-              CCWArray = [];
+              polygonArray[polygonArray.length - 1].components = polygonArray[polygonArray.length - 1].components.concat(CCWArray)
+              CCWArray = []
             }
-            polygonArray.push(polygonArrayTemp[i]);
+            polygonArray.push(polygonArrayTemp[i])
           }
           if (i == len - 1) {
-            const polyLength = polygonArray.length;
+            const polyLength = polygonArray.length
             if (polyLength) {
-              polygonArray[polyLength - 1].components = polygonArray[polyLength - 1].components.concat(CCWArray);
+              polygonArray[polyLength - 1].components = polygonArray[polyLength - 1].components.concat(CCWArray)
             } else {
               for (let k = 0, length = CCWArray.length; k < length; k++) {
-                polygonArray.push(new Polygon(CCWArray));
+                polygonArray.push(new Polygon(CCWArray))
               }
             }
           }
@@ -5537,66 +5541,66 @@
      * @returns {Geometry} 转换后的客户端几何对象。
      */
     toGeoRegionEPS() {
-      const me = this;
-      const geoParts = me.parts || [];
-      const geoTopo = me.partTopo || [];
-      const geoPoints = me.points || [];
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.parts || []
+      const geoTopo = me.partTopo || []
+      const geoPoints = me.points || []
+      const len = geoParts.length
 
       if (len <= 0) {
         return null
       }
-      let polygonArray = [];
-      let pointList = [];
-      let lineEPS;
+      let polygonArray = []
+      let pointList = []
+      let lineEPS
       if (len == 1) {
         for (let i = 0; i < geoPoints.length; i++) {
-          pointList.push(new Point(geoPoints[i].x, geoPoints[i].y));
+          pointList.push(new Point(geoPoints[i].x, geoPoints[i].y))
         }
 
-        lineEPS = LineString.createLineEPS(pointList);
-        polygonArray.push(new Polygon([new LinearRing(lineEPS)]));
+        lineEPS = LineString.createLineEPS(pointList)
+        polygonArray.push(new Polygon([new LinearRing(lineEPS)]))
         return new MultiPolygon(polygonArray)
       }
       // 处理复杂面
-      let CCWArray = [];
-      const areaArray = [];
-      const polygonArrayTemp = [];
-      const polygonBounds = [];
+      let CCWArray = []
+      const areaArray = []
+      const polygonArrayTemp = []
+      const polygonBounds = []
       // polyon岛洞标识数组，初始都是岛。
-      const CCWIdent = [];
+      const CCWIdent = []
       for (let i = 0, pointIndex = 0; i < len; i++) {
         for (let j = 0; j < geoParts[i]; j++) {
-          pointList.push(new Point(geoPoints[pointIndex + j].x, geoPoints[pointIndex + j].y));
+          pointList.push(new Point(geoPoints[pointIndex + j].x, geoPoints[pointIndex + j].y))
         }
-        pointIndex += geoParts[i];
+        pointIndex += geoParts[i]
 
-        lineEPS = LineString.createLineEPS(pointList);
-        const polygon = new Polygon([new LinearRing(lineEPS)]);
-        pointList = [];
-        polygonArrayTemp.push(polygon);
+        lineEPS = LineString.createLineEPS(pointList)
+        const polygon = new Polygon([new LinearRing(lineEPS)])
+        pointList = []
+        polygonArrayTemp.push(polygon)
         if (geoTopo.length === 0) {
-          polygonBounds.push(polygon.getBounds());
+          polygonBounds.push(polygon.getBounds())
         }
-        CCWIdent.push(1);
-        areaArray.push(polygon.getArea());
+        CCWIdent.push(1)
+        areaArray.push(polygon.getArea())
       }
       // iServer 9D新增字段
       if (geoTopo.length === 0) {
         // 根据面积排序
-        ServerGeometry.bubbleSort(areaArray, polygonArrayTemp, geoTopo, polygonBounds);
+        ServerGeometry.bubbleSort(areaArray, polygonArrayTemp, geoTopo, polygonBounds)
         // 岛洞底层判断原则：将所有的子对象按照面积排序，面积最大的直接判定为岛（1），从面积次大的开始处理，
         // 如果发现该对象在某个面积大于它的对象之中（即被包含），则根据包含它的对象的标识（1 or -1），指定其标识（-1 or 1），
         // 依次处理完所有对象，就得到了一个标识数组，1表示岛，-1表示洞
         // 目标polygon索引列表 -1标示没有被任何polygon包含，
-        const targetArray = [];
+        const targetArray = []
         for (let i = 1; i < polygonArrayTemp.length; i++) {
           for (let j = i - 1; j >= 0; j--) {
-            targetArray[i] = -1;
+            targetArray[i] = -1
             if (polygonBounds[j].containsBounds(polygonBounds[i])) {
-              CCWIdent[i] = CCWIdent[j] * -1;
+              CCWIdent[i] = CCWIdent[j] * -1
               if (CCWIdent[i] < 0) {
-                targetArray[i] = j;
+                targetArray[i] = j
               }
               break
             }
@@ -5604,32 +5608,32 @@
         }
         for (let i = 0; i < polygonArrayTemp.length; i++) {
           if (CCWIdent[i] > 0) {
-            polygonArray.push(polygonArrayTemp[i]);
+            polygonArray.push(polygonArrayTemp[i])
           } else {
-            polygonArray[targetArray[i]].components = polygonArray[targetArray[i]].components.concat(polygonArrayTemp[i].components);
+            polygonArray[targetArray[i]].components = polygonArray[targetArray[i]].components.concat(polygonArrayTemp[i].components)
             // 占位
-            polygonArray.push("");
+            polygonArray.push("")
           }
         }
       } else {
-        polygonArray = [];
+        polygonArray = []
         for (let i = 0; i < polygonArrayTemp.length; i++) {
           if (geoTopo[i] && geoTopo[i] == -1) {
-            CCWArray = CCWArray.concat(polygonArrayTemp[i].components);
+            CCWArray = CCWArray.concat(polygonArrayTemp[i].components)
           } else {
             if (CCWArray.length > 0 && polygonArray.length > 0) {
-              polygonArray[polygonArray.length - 1].components = polygonArray[polygonArray.length - 1].components.concat(CCWArray);
-              CCWArray = [];
+              polygonArray[polygonArray.length - 1].components = polygonArray[polygonArray.length - 1].components.concat(CCWArray)
+              CCWArray = []
             }
-            polygonArray.push(polygonArrayTemp[i]);
+            polygonArray.push(polygonArrayTemp[i])
           }
           if (i == len - 1) {
-            const polyLength = polygonArray.length;
+            const polyLength = polygonArray.length
             if (polyLength) {
-              polygonArray[polyLength - 1].components = polygonArray[polyLength - 1].components.concat(CCWArray);
+              polygonArray[polyLength - 1].components = polygonArray[polyLength - 1].components.concat(CCWArray)
             } else {
               for (let k = 0, length = CCWArray.length; k < length; k++) {
-                polygonArray.push(new Polygon(CCWArray));
+                polygonArray.push(new Polygon(CCWArray))
               }
             }
           }
@@ -5639,16 +5643,16 @@
     }
 
     transformGeoCompound() {
-      const me = this;
-      const geoParts = me.geoParts || [];
-      const len = geoParts.length;
+      const me = this
+      const geoParts = me.geoParts || []
+      const len = geoParts.length
       if (len <= 0) {
         return null
       }
-      const geometryList = [];
+      const geometryList = []
       for (let index = 0; index < len; index++) {
-        const geometry = geoParts[index];
-        geometryList.push(new ServerGeometry(geometry).toGeometry());
+        const geometry = geoParts[index]
+        geometryList.push(new ServerGeometry(geometry).toGeometry())
       }
       return new Collection(geometryList)
     }
@@ -5687,16 +5691,16 @@
       if (!geometry) {
         return
       }
-      let id = 0;
-      const parts = [];
-      const points = [];
-      let type = null;
-      const icomponents = geometry.components;
-      const className = geometry.CLASS_NAME;
-      const prjCoordSys = { epsgCode: geometry.SRID };
+      let id = 0
+      const parts = []
+      const points = []
+      let type = null
+      const icomponents = geometry.components
+      const className = geometry.CLASS_NAME
+      const prjCoordSys = { epsgCode: geometry.SRID }
 
       if (!isNaN(geometry.id)) {
-        id = geometry.id;
+        id = geometry.id
       }
       // 坑爹的改法，没法，为了支持态势标绘，有时间就得全改
       if (
@@ -5704,58 +5708,58 @@
         className != "SuperMap.Geometry.LineString" &&
         (geometry instanceof MultiPoint || geometry instanceof MultiLineString)
       ) {
-        const ilen = icomponents.length;
+        const ilen = icomponents.length
         for (let i = 0; i < ilen; i++) {
-          const vertices = icomponents[i].getVertices();
-          const partPointsCount = vertices.length;
-          parts.push(partPointsCount);
+          const vertices = icomponents[i].getVertices()
+          const partPointsCount = vertices.length
+          parts.push(partPointsCount)
           for (let j = 0; j < partPointsCount; j++) {
-            points.push(new Point(vertices[j].x, vertices[j].y));
+            points.push(new Point(vertices[j].x, vertices[j].y))
           }
         }
         // 这里className不是多点就全部是算线
-        type = className == "SuperMap.Geometry.MultiPoint" ? GeometryType.POINT : GeometryType.LINE;
+        type = className == "SuperMap.Geometry.MultiPoint" ? GeometryType.POINT : GeometryType.LINE
       } else if (geometry instanceof MultiPolygon) {
-        const ilen = icomponents.length;
+        const ilen = icomponents.length
         for (let i = 0; i < ilen; i++) {
-          const polygon = icomponents[i];
-          const linearRingOfPolygon = polygon.components;
-          const linearRingOfPolygonLen = linearRingOfPolygon.length;
+          const polygon = icomponents[i]
+          const linearRingOfPolygon = polygon.components
+          const linearRingOfPolygonLen = linearRingOfPolygon.length
           for (let j = 0; j < linearRingOfPolygonLen; j++) {
-            const vertices = linearRingOfPolygon[j].getVertices();
-            const partPointsCount = vertices.length + 1;
-            parts.push(partPointsCount);
+            const vertices = linearRingOfPolygon[j].getVertices()
+            const partPointsCount = vertices.length + 1
+            parts.push(partPointsCount)
             for (let k = 0; k < partPointsCount - 1; k++) {
-              points.push(new Point(vertices[k].x, vertices[k].y));
+              points.push(new Point(vertices[k].x, vertices[k].y))
             }
-            points.push(new Point(vertices[0].x, vertices[0].y));
+            points.push(new Point(vertices[0].x, vertices[0].y))
           }
         }
-        type = GeometryType.REGION;
+        type = GeometryType.REGION
       } else if (geometry instanceof Polygon) {
-        const ilen = icomponents.length;
+        const ilen = icomponents.length
         for (let i = 0; i < ilen; i++) {
-          const vertices = icomponents[i].getVertices();
-          const partPointsCount = vertices.length + 1;
-          parts.push(partPointsCount);
+          const vertices = icomponents[i].getVertices()
+          const partPointsCount = vertices.length + 1
+          parts.push(partPointsCount)
           for (let j = 0; j < partPointsCount - 1; j++) {
-            points.push(new Point(vertices[j].x, vertices[j].y));
+            points.push(new Point(vertices[j].x, vertices[j].y))
           }
-          points.push(new Point(vertices[0].x, vertices[0].y));
+          points.push(new Point(vertices[0].x, vertices[0].y))
         }
-        type = GeometryType.REGION;
+        type = GeometryType.REGION
       } else {
-        const vertices = geometry.getVertices();
-        let geometryVerticesCount = vertices.length;
+        const vertices = geometry.getVertices()
+        let geometryVerticesCount = vertices.length
         for (let j = 0; j < geometryVerticesCount; j++) {
-          points.push(new Point(vertices[j].x, vertices[j].y));
+          points.push(new Point(vertices[j].x, vertices[j].y))
         }
         if (geometry instanceof LinearRing) {
-          points.push(new Point(vertices[0].x, vertices[0].y));
-          geometryVerticesCount++;
+          points.push(new Point(vertices[0].x, vertices[0].y))
+          geometryVerticesCount++
         }
-        parts.push(geometryVerticesCount);
-        type = geometry instanceof Point ? GeometryType.POINT : GeometryType.LINE;
+        parts.push(geometryVerticesCount)
+        type = geometry instanceof Point ? GeometryType.POINT : GeometryType.LINE
       }
 
       return new ServerGeometry({
@@ -5775,14 +5779,14 @@
      * @returns {number} 返回值大于 0，逆时针；小于 0，顺时针。
      */
     static IsClockWise(points) {
-      const length = points.length;
+      const length = points.length
       if (length < 3) {
         return 0.0
       }
-      let s = points[0].y * (points[length - 1].x - points[1].x);
-      points.push(points[0]);
+      let s = points[0].y * (points[length - 1].x - points[1].x)
+      points.push(points[0])
       for (let i = 1; i < length; i++) {
-        s += points[i].y * (points[i - 1].x - points[i + 1].x);
+        s += points[i].y * (points[i - 1].x - points[i + 1].x)
       }
       return s * 0.5
     }
@@ -5791,21 +5795,21 @@
       for (let i = 0; i < areaArray.length; i++) {
         for (let j = 0; j < areaArray.length; j++) {
           if (areaArray[i] > areaArray[j]) {
-            const d = areaArray[j];
-            areaArray[j] = areaArray[i];
-            areaArray[i] = d;
-            const b = pointList[j];
-            pointList[j] = pointList[i];
-            pointList[i] = b;
+            const d = areaArray[j]
+            areaArray[j] = areaArray[i]
+            areaArray[i] = d
+            const b = pointList[j]
+            pointList[j] = pointList[i]
+            pointList[i] = b
             if (geoTopo && geoTopo.length > 0) {
-              const c = geoTopo[j];
-              geoTopo[j] = geoTopo[i];
-              geoTopo[i] = c;
+              const c = geoTopo[j]
+              geoTopo[j] = geoTopo[i]
+              geoTopo[i] = c
             }
             if (polygonBounds && polygonBounds.length > 0) {
-              const f = polygonBounds[j];
-              polygonBounds[j] = polygonBounds[i];
-              polygonBounds[i] = f;
+              const f = polygonBounds[j]
+              polygonBounds[j] = polygonBounds[i]
+              polygonBounds[i] = f
             }
           }
         }
@@ -5836,14 +5840,14 @@
    */
   class GeoJSON extends JSONFormat {
     constructor(options) {
-      super(options);
+      super(options)
       /**
        * @member {boolean} [GeoJSONFormat.prototype.ignoreExtraDims=true]
        * @description 忽略维度超过 2 的几何要素。
        */
-      this.ignoreExtraDims = true;
+      this.ignoreExtraDims = true
 
-      this.CLASS_NAME = "SuperMap.Format.GeoJSON";
+      this.CLASS_NAME = "SuperMap.Format.GeoJSON"
       /**
        * @member {Object} GeoJSONFormat.prototype.parseCoords
        * @private
@@ -5870,11 +5874,11 @@
          * @returns {Geometry} 一个几何对象。
          */
         multipoint: function (array) {
-          const points = [];
-          let p = null;
+          const points = []
+          let p = null
           for (let i = 0, len = array.length; i < len; ++i) {
-            p = this.parseCoords.point.apply(this, [array[i]]);
-            points.push(p);
+            p = this.parseCoords.point.apply(this, [array[i]])
+            points.push(p)
           }
           return new MultiPoint(points)
         },
@@ -5886,11 +5890,11 @@
          * @returns {Geometry} 一个几何对象。
          */
         linestring: function (array) {
-          const points = [];
-          let p = null;
+          const points = []
+          let p = null
           for (let i = 0, len = array.length; i < len; ++i) {
-            p = this.parseCoords.point.apply(this, [array[i]]);
-            points.push(p);
+            p = this.parseCoords.point.apply(this, [array[i]])
+            points.push(p)
           }
           return new LineString(points)
         },
@@ -5902,11 +5906,11 @@
          * @returns {Geometry} 一个几何对象。
          */
         multilinestring: function (array) {
-          const lines = [];
-          let l = null;
+          const lines = []
+          let l = null
           for (let i = 0, len = array.length; i < len; ++i) {
-            l = this.parseCoords.linestring.apply(this, [array[i]]);
-            lines.push(l);
+            l = this.parseCoords.linestring.apply(this, [array[i]])
+            lines.push(l)
           }
           return new MultiLineString(lines)
         },
@@ -5917,16 +5921,16 @@
          * @returns {Geometry} 一个几何对象。
          */
         polygon: function (array) {
-          const rings = [];
-          let r, l;
+          const rings = []
+          let r, l
           for (let i = 0, len = array.length; i < len; ++i) {
             try {
-              l = this.parseCoords.linestring.apply(this, [array[i]]);
+              l = this.parseCoords.linestring.apply(this, [array[i]])
             } catch (err) {
               throw err
             }
-            r = new LinearRing(l.components);
-            rings.push(r);
+            r = new LinearRing(l.components)
+            rings.push(r)
           }
           return new Polygon(rings)
         },
@@ -5938,15 +5942,15 @@
          * @returns {Geometry} 一个几何对象。
          */
         multipolygon: function (array) {
-          const polys = [];
-          let p = null;
+          const polys = []
+          let p = null
           for (let i = 0, len = array.length; i < len; ++i) {
             try {
-              p = this.parseCoords.polygon.apply(this, [array[i]]);
+              p = this.parseCoords.polygon.apply(this, [array[i]])
             } catch (err) {
               throw err
             }
-            polys.push(p);
+            polys.push(p)
           }
           return new MultiPolygon(polys)
         },
@@ -5971,7 +5975,7 @@
             ])
           ])
         }
-      };
+      }
       /**
        * @member {Object} GeoJSONFormat.prototype.extract
        * @private
@@ -5985,22 +5989,22 @@
          * @returns {Object} 一个表示点的对象。
          */
         feature: function (feature) {
-          const geom = this.extract.geometry.apply(this, [feature.geometry]);
+          const geom = this.extract.geometry.apply(this, [feature.geometry])
           const json = {
             type: "Feature",
             properties: this.createAttributes(feature),
             geometry: geom
-          };
+          }
 
           if (feature.geometry && feature.geometry.type === "TEXT") {
-            json.properties.texts = feature.geometry.texts;
-            json.properties.textStyle = feature.geometry.textStyle;
+            json.properties.texts = feature.geometry.texts
+            json.properties.textStyle = feature.geometry.textStyle
           }
           if (feature.fid) {
-            json.id = feature.fid;
+            json.id = feature.fid
           }
           if (feature.ID) {
-            json.id = feature.ID;
+            json.id = feature.ID
           }
           return json
         },
@@ -6016,30 +6020,30 @@
             return null
           }
           if (!geometry.parts && geometry.points) {
-            geometry.parts = [geometry.points.length];
+            geometry.parts = [geometry.points.length]
           }
-          const geo = geometry.hasOwnProperty("geometryType") ? geometry : new ServerGeometry(geometry).toGeometry() || geometry;
-          let geometryType = geo.geometryType || geo.type;
+          const geo = geometry.hasOwnProperty("geometryType") ? geometry : new ServerGeometry(geometry).toGeometry() || geometry
+          let geometryType = geo.geometryType || geo.type
 
           if (geometryType === "LinearRing") {
-            geometryType = "LineString";
+            geometryType = "LineString"
           }
           if (geometryType === "LINEM") {
-            geometryType = "MultiLineString";
+            geometryType = "MultiLineString"
           }
-          const data = this.extract[geometryType.toLowerCase()].apply(this, [geo]);
-          geometryType = geometryType === "TEXT" ? "Point" : geometryType;
-          let json;
+          const data = this.extract[geometryType.toLowerCase()].apply(this, [geo])
+          geometryType = geometryType === "TEXT" ? "Point" : geometryType
+          let json
           if (geometryType === "Collection") {
             json = {
               type: "GeometryCollection",
               geometries: data
-            };
+            }
           } else {
             json = {
               type: geometryType,
               coordinates: data
-            };
+            }
           }
           return json
         },
@@ -6051,10 +6055,10 @@
          * @returns {Array} 一个表示一个点的坐标组。
          */
         point: function (point) {
-          const p = [point.x, point.y];
+          const p = [point.x, point.y]
           for (const name in point) {
             if (name !== "x" && name !== "y" && point[name] !== null && !isNaN(point[name])) {
-              p.push(point[name]);
+              p.push(point[name])
             }
           }
           return p
@@ -6077,9 +6081,9 @@
          * @returns {Array} 一个表示多点的坐标组数组。
          */
         multipoint: function (multipoint) {
-          const array = [];
+          const array = []
           for (let i = 0, len = multipoint.components.length; i < len; ++i) {
-            array.push(this.extract.point.apply(this, [multipoint.components[i]]));
+            array.push(this.extract.point.apply(this, [multipoint.components[i]]))
           }
           return array
         },
@@ -6091,9 +6095,9 @@
          * @returns {Array} 一个表示线对象的坐标组数组。
          */
         linestring: function (linestring) {
-          const array = [];
+          const array = []
           for (let i = 0, len = linestring.components.length; i < len; ++i) {
-            array.push(this.extract.point.apply(this, [linestring.components[i]]));
+            array.push(this.extract.point.apply(this, [linestring.components[i]]))
           }
           return array
         },
@@ -6106,9 +6110,9 @@
          * @returns {Array} 一个表示多线的线数组。
          */
         multilinestring: function (multilinestring) {
-          const array = [];
+          const array = []
           for (let i = 0, len = multilinestring.components.length; i < len; ++i) {
-            array.push(this.extract.linestring.apply(this, [multilinestring.components[i]]));
+            array.push(this.extract.linestring.apply(this, [multilinestring.components[i]]))
           }
           return array
         },
@@ -6120,9 +6124,9 @@
          * @returns {Array} 一组表示面的线环。
          */
         polygon: function (polygon) {
-          const array = [];
+          const array = []
           for (let i = 0, len = polygon.components.length; i < len; ++i) {
-            array.push(this.extract.linestring.apply(this, [polygon.components[i]]));
+            array.push(this.extract.linestring.apply(this, [polygon.components[i]]))
           }
           return array
         },
@@ -6134,9 +6138,9 @@
          * @returns {Array} 一组表示多面的面。
          */
         multipolygon: function (multipolygon) {
-          const array = [];
+          const array = []
           for (let i = 0, len = multipolygon.components.length; i < len; ++i) {
-            array.push(this.extract.polygon.apply(this, [multipolygon.components[i]]));
+            array.push(this.extract.polygon.apply(this, [multipolygon.components[i]]))
           }
           return array
         },
@@ -6148,14 +6152,14 @@
          * @returns {Array} 一组表示几何要素集合的几何要素数组。
          */
         collection: function (collection) {
-          const len = collection.components.length;
-          const array = new Array(len);
+          const len = collection.components.length
+          const array = new Array(len)
           for (let i = 0; i < len; ++i) {
-            array[i] = this.extract.geometry.apply(this, [collection.components[i]]);
+            array[i] = this.extract.geometry.apply(this, [collection.components[i]])
           }
           return array
         }
-      };
+      }
     }
 
     /**
@@ -6171,59 +6175,59 @@
      */
 
     read(json, type, filter) {
-      type = type || "FeatureCollection";
-      let results = null;
-      let obj = null;
+      type = type || "FeatureCollection"
+      let results = null
+      let obj = null
       if (typeof json === "string") {
-        obj = super.read(json, filter);
+        obj = super.read(json, filter)
       } else {
-        obj = json;
+        obj = json
       }
-      if (!obj) ; else if (typeof obj.type !== "string") ; else if (this.isValidType(obj, type)) {
+      if (!obj) { ; } else if (typeof obj.type !== "string") { ; } else if (this.isValidType(obj, type)) {
         switch (type) {
           case "Geometry":
             try {
-              results = this.parseGeometry(obj);
+              results = this.parseGeometry(obj)
             } catch (err) {
               // console.error(err);
             }
             break
           case "Feature":
             try {
-              results = this.parseFeature(obj);
-              results.type = "Feature";
+              results = this.parseFeature(obj)
+              results.type = "Feature"
             } catch (err) {
               // console.error(err);
             }
             break
           case "FeatureCollection":
             // for type FeatureCollection, we allow input to be any type
-            results = [];
+            results = []
             switch (obj.type) {
               case "Feature":
                 try {
-                  results.push(this.parseFeature(obj));
+                  results.push(this.parseFeature(obj))
                 } catch (err) {
-                  results = null;
+                  results = null
                   // console.error(err);
                 }
                 break
               case "FeatureCollection":
                 for (let i = 0, len = obj.features.length; i < len; ++i) {
                   try {
-                    results.push(this.parseFeature(obj.features[i]));
+                    results.push(this.parseFeature(obj.features[i]))
                   } catch (err) {
-                    results = null;
+                    results = null
                     // console.error(err);
                   }
                 }
                 break
               default:
                 try {
-                  const geom = this.parseGeometry(obj);
-                  results.push(new Vector(geom));
+                  const geom = this.parseGeometry(obj)
+                  results.push(new Vector(geom))
                 } catch (err) {
-                  results = null;
+                  results = null
                   // console.error(err);
                 }
             }
@@ -6254,7 +6258,7 @@
      * @returns {Object}  iServer Feature JSON。
      */
     fromGeoJSON(json, type, filter) {
-      const feature = this.read(json, type, filter);
+      const feature = this.read(json, type, filter)
       if (!Util.isArray(feature)) {
         return this._toiSevrerFeature(feature)
       }
@@ -6273,27 +6277,27 @@
     toGeoJSON(obj) {
       let geojson = {
         type: null
-      };
+      }
       if (Util.isArray(obj)) {
-        geojson.type = "FeatureCollection";
-        const numFeatures = obj.length;
-        geojson.features = new Array(numFeatures);
+        geojson.type = "FeatureCollection"
+        const numFeatures = obj.length
+        geojson.features = new Array(numFeatures)
         for (let i = 0; i < numFeatures; ++i) {
-          const element = obj[i];
+          const element = obj[i]
           if (isGeometry(element)) {
-            const feature = {};
-            feature.geometry = element;
-            geojson.features[i] = this.extract.feature.apply(this, [feature]);
+            const feature = {}
+            feature.geometry = element
+            geojson.features[i] = this.extract.feature.apply(this, [feature])
           } else {
-            geojson.features[i] = this.extract.feature.apply(this, [element]);
+            geojson.features[i] = this.extract.feature.apply(this, [element])
           }
         }
       } else if (isGeometry(obj)) {
-        const feature = {};
-        feature.geometry = obj;
-        geojson = this.extract.feature.apply(this, [feature]);
+        const feature = {}
+        feature.geometry = obj
+        geojson = this.extract.feature.apply(this, [feature])
       } else {
-        geojson = this.extract.feature.apply(this, [obj]);
+        geojson = this.extract.feature.apply(this, [obj])
       }
 
       function isGeometry(input) {
@@ -6310,24 +6314,24 @@
      *  @private
      */
     isValidType(obj, type) {
-      let valid = false;
+      let valid = false
       switch (type) {
         case "Geometry":
           if (
             Util.indexOf(["Point", "MultiPoint", "LineString", "MultiLineString", "Polygon", "MultiPolygon", "Box", "GeometryCollection"], obj.type) ==
             -1
-          ) ; else {
-            valid = true;
+          ) { ; } else {
+            valid = true
           }
           break
         case "FeatureCollection":
           // allow for any type to be converted to a feature collection
-          valid = true;
+          valid = true
           break
         default:
           // for Feature types must match
           if (obj.type == type) {
-            valid = true;
+            valid = true
           }
       }
       return valid
@@ -6341,22 +6345,22 @@
      * @returns {FeatureVector} 一个要素。
      */
     parseFeature(obj) {
-      let geometry;
-      const attributes = obj.properties ? obj.properties : {};
-      const bbox = (obj.geometry && obj.geometry.bbox) || obj.bbox;
+      let geometry
+      const attributes = obj.properties ? obj.properties : {}
+      const bbox = (obj.geometry && obj.geometry.bbox) || obj.bbox
       try {
-        geometry = this.parseGeometry(obj.geometry);
+        geometry = this.parseGeometry(obj.geometry)
       } catch (err) {
         // deal with bad geometries
         throw err
       }
-      const feature = new Vector(geometry, attributes);
+      const feature = new Vector(geometry, attributes)
       if (bbox) {
-        feature.bounds = Bounds.fromArray(bbox);
+        feature.bounds = Bounds.fromArray(bbox)
       }
       if (obj.id) {
-        feature.geometry.id = obj.id;
-        feature.fid = obj.id;
+        feature.geometry.id = obj.id
+        feature.fid = obj.id
       }
       return feature
     }
@@ -6372,17 +6376,17 @@
       if (obj == null) {
         return null
       }
-      let geometry;
+      let geometry
       if (obj.type == "GeometryCollection") {
         // if (!Util.isArray(obj.geometries)) {
         //   throw "GeometryCollection must have geometries array: " + obj
         // }
-        const numGeom = obj.geometries.length;
-        const components = new Array(numGeom);
+        const numGeom = obj.geometries.length
+        const components = new Array(numGeom)
         for (let i = 0; i < numGeom; ++i) {
-          components[i] = this.parseGeometry([obj.geometries[i]]);
+          components[i] = this.parseGeometry([obj.geometries[i]])
         }
-        geometry = new Collection(components);
+        geometry = new Collection(components)
       } else {
         // if (!Util.isArray(obj.coordinates)) {
         //   throw "Geometry must have coordinates array: " + obj
@@ -6391,7 +6395,7 @@
         //   throw "Unsupported geometry type: " + obj.type
         // }
         try {
-          geometry = this.parseCoords[obj.type.toLowerCase()].apply(this, [obj.coordinates]);
+          geometry = this.parseCoords[obj.type.toLowerCase()].apply(this, [obj.coordinates])
         } catch (err) {
           // deal with bad coordinates
           throw err
@@ -6408,43 +6412,43 @@
      * @returns {GeoJSONObject} 一个可作为 GeoJSON 对象的 CRS 属性使用的对象。
      */
     createCRSObject(object) {
-      const proj = object.layer.projection.toString();
-      let crs = {};
+      const proj = object.layer.projection.toString()
+      let crs = {}
       if (proj.match(/epsg:/i)) {
-        const code = parseInt(proj.substring(proj.indexOf(":") + 1));
+        const code = parseInt(proj.substring(proj.indexOf(":") + 1))
         if (code == 4326) {
           crs = {
             type: "name",
             properties: {
               name: "urn:ogc:def:crs:OGC:1.3:CRS84"
             }
-          };
+          }
         } else {
           crs = {
             type: "name",
             properties: {
               name: "EPSG:" + code
             }
-          };
+          }
         }
       }
       return crs
     }
 
     _toiSevrerFeature(feature) {
-      const attributes = feature.attributes;
-      const attrNames = [];
-      const attrValues = [];
+      const attributes = feature.attributes
+      const attrNames = []
+      const attrValues = []
       for (const attr in attributes) {
-        attrNames.push(attr);
-        attrValues.push(attributes[attr]);
+        attrNames.push(attr)
+        attrValues.push(attributes[attr])
       }
       const newFeature = {
         fieldNames: attrNames,
         fieldValues: attrValues,
         geometry: ServerGeometry.fromGeometry(feature.geometry)
-      };
-      newFeature.geometry.id = feature.fid;
+      }
+      newFeature.geometry.id = feature.fid
       return newFeature
     }
 
@@ -6452,24 +6456,24 @@
       if (!feature) {
         return null
       }
-      const attr = {};
-      processFieldsAttributes(feature, attr);
-      const exceptKeys = ["fieldNames", "fieldValues", "geometry", "stringID", "ID"];
+      const attr = {}
+      processFieldsAttributes(feature, attr)
+      const exceptKeys = ["fieldNames", "fieldValues", "geometry", "stringID", "ID"]
       for (const key in feature) {
         if (exceptKeys.indexOf(key) > -1) {
           continue
         }
-        attr[key] = feature[key];
+        attr[key] = feature[key]
       }
 
       function processFieldsAttributes(feature, attributes) {
         if (!(feature.hasOwnProperty("fieldNames") && feature.hasOwnProperty("fieldValues"))) {
           return
         }
-        const names = feature.fieldNames;
-        const values = feature.fieldValues;
+        const names = feature.fieldNames
+        const values = feature.fieldValues
         for (const i in names) {
-          attributes[names[i]] = values[i];
+          attributes[names[i]] = values[i]
         }
       }
 
@@ -6478,10 +6482,10 @@
   }
 
   function toGeoJSON(features) {
-    const geoJSONFormat = new GeoJSON();
+    const geoJSONFormat = new GeoJSON()
     return geoJSONFormat.toGeoJSON(features)
   }
 
-  exports.toGeoJSON = toGeoJSON;
+  exports.toGeoJSON = toGeoJSON
 
-}));
+})

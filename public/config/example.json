@@ -47,12 +47,6 @@
                 }
               ]
             }
-          },
-          {
-            "name": "GUI属性控件",
-            "thumbnail": "map-create-gui.jpg",
-            "main": "map/create/gui",
-            "hasPannel": true
           }
         ]
       }
@@ -933,17 +927,6 @@
             "main": "layer-other/i3s/basis",
             "api": "I3SLayer.html",
             "hasPannel": true
-          },
-          {
-            "name": "超图S3M三维模型图层",
-            "thumbnail": "layero-s3m-basis.jpg",
-            "main": "layer-other/s3m/basis",
-            "libs": [
-              "mars3d",
-              "cesium-comp",
-              "mars3d-supermap"
-            ],
-            "hasPannel": true
           }
         ]
       },
@@ -1091,13 +1074,6 @@
             "main": "layer-graphic/wfs/arcgis-feature-surface",
             "api": "ArcGisWfsLayer.html",
             "download": false
-          },
-          {
-            "name": "POI图层",
-            "thumbnail": "layerg-wfs-poi.jpg",
-            "main": "layer-graphic/wfs/poi",
-            "hasPannel": true,
-            "download": false
           }
         ]
       },
@@ -1216,14 +1192,6 @@
       {
         "name": "各类模型的支持",
         "children": [
-          {
-            "name": "3DGS高斯泼溅",
-            "thumbnail": "layer3d-type-ply.jpg",
-            "main": "layer-tileset/type/basis",
-            "api": "TilesetLayer.html",
-            "hasPannel": true,
-            "params": "data=ply-xiaoqu"
-          },
           {
             "name": "倾斜摄影(县城城区)",
             "thumbnail": "layer3d-type-basis.jpg",
@@ -1411,7 +1379,7 @@
             "hasPannel": true
           },
           {
-            "name": "customShader案例1",
+            "name": "customShader综合案例",
             "thumbnail": "layer3d-style-customShader-demo1.gif",
             "main": "layer-tileset/style/customShader-demo1",
             "api": "TilesetLayer.html#customShader",
@@ -3377,7 +3345,7 @@
             "hasPannel": true
           },
           {
-            "name": "点位置平移编辑",
+            "name": "点对象平移旋转图上控制",
             "thumbnail": "thing-other-matrixMove.jpg",
             "main": "thing/other/matrixMove",
             "api": "MatrixMove.html"
@@ -4347,6 +4315,7 @@
             "name": "北京航班流向图",
             "thumbnail": "layero-echarts-lines-hanban.gif",
             "main": "layer-other/echarts/lines-hanban",
+            "hasPannel":true,
             "api": "EchartsLayer.html",
             "developerShow": false,
             "libs": [
@@ -4365,31 +4334,10 @@
             ]
           },
           {
-            "name": "物流运输图",
-            "thumbnail": "layero-echarts-lines-wuliu.gif",
-            "main": "layer-other/echarts/lines-wuliu",
-            "api": "EchartsLayer.html",
-            "developerShow": false,
-            "libs": [
-              "mars3d",
-              "mars3d-echarts"
-            ]
-          },
-          {
             "name": "人口迁徙图",
             "thumbnail": "layero-echarts-lines-qianxi.gif",
             "main": "layer-other/echarts/lines-qianxi",
-            "api": "EchartsLayer.html",
-            "developerShow": false,
-            "libs": [
-              "mars3d",
-              "mars3d-echarts"
-            ]
-          },
-          {
-            "name": "城市流向效果",
-            "thumbnail": "layero-echarts-lines-flow.gif",
-            "main": "layer-other/echarts/lines-flow",
+            "hasPannel": true,
             "api": "EchartsLayer.html",
             "developerShow": false,
             "libs": [

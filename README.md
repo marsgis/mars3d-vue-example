@@ -60,6 +60,7 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 
 - 推荐使用 vscode，安装参考[开发环境搭建教程](/guide/start/env.html)
 - 安装 vscode 插件，推荐安装 volar（并禁用 vetur）、ESlint 、 Prettier
+- Node.js 版本要求 v20.19.0 及以上（建议下载安装官网最新稳定版本）
 - 配置 vscode 参数， setting.json 相关配置
 
 ```json
@@ -88,25 +89,25 @@ git clone git@gitee.com:marsgis/mars3d-vue-example.git
 
 
 ### 运行命令
-请将机器Node版本升级到v18及以上版本(建议下载安装官网最新稳定版本)
+请将机器Node版本升级到v20.19.0及以上版本(建议下载安装官网最新稳定版本)
 
 #### 首次运行前安装依赖
 ```
 npm install
 
-//或使用代理
-npm i --registry=http://registry.taobao.org
+//或使用国内镜像
+npm i --registry=https://registry.npmmirror.com
 ```
 
 #### 启动开发环境
 ```
-npm run serve
+npm run serve  //服务启动后访问 http://localhost:3001
 ```
 
 #### 编译构建
 
 ```
-npm run build //编译后生成在dist目录，拷贝出去发布即可
+npm run build //编译后生成在dist目录，拷贝出去发布即可（构建前会自动执行lint检查）
 npm run serve:dist  //测试dist运行状态
 
 // 或者将dist文件夹发布在自己的服务数据上
@@ -150,22 +151,24 @@ npm run serve:dist  //测试dist运行状态
 ```
 mars3d-vue-example
 └───src                 主要项目代码
-│   └───components      vue组件代码【重要】
+│   └───components      vue组件代码【重要】（mars-ui基础组件、mars-work列表页组件、mars-sample示例公共组件）
 │   └───example         示例代码【重要】
 │   └───misc            主要存放ts相关的模块定义
-│   └───pages           页面入口
-│   └───styles          样式文件
+│   └───pages           页面入口（index列表页、editor编辑页、read只读页）
+│   └───widgets         框架级功能控件（图层管理、底图切换、属性编辑等）
 │   └───utils           工具方法
+└───build               vite自定义插件
 └───public              无需编译构建的静态资源【重要】
 │   └───config          项目和功能的配置文件
 │   └───img             图片资源
 │   └───lib             示例依赖资源
 │   └───temp            示例的公共基础代码
-│───.eslintrc.js        eslint配置文件
+│───.eslintrc.json      eslint配置文件
 │─── package.json       项目配置信息
 └─── vite.config.ts     vite 配置文件
 └─── index.html         列表页入口
-└─── editor-vue.html        编辑器页面入口
+└─── editor-vue.html    编辑器页面入口
+└─── read-vue.html      只读展示页面入口
 ```
 与示例相关的3个主要目录是：`src\example`、`public`、`src\components`(部分功能依赖)。
 

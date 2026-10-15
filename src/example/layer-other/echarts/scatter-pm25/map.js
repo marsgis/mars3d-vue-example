@@ -17,9 +17,16 @@ export function onMounted(mapInstance) {
   createEchartsLayer()
 }
 
+let resizeHandler // resize监听引用，供卸载时移除
+
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (resizeHandler) {
+    window.removeEventListener("resize", resizeHandler)
+    resizeHandler = null
+  }
 }
 
 function createEchartsLayer() {
@@ -29,9 +36,10 @@ function createEchartsLayer() {
   map.addLayer(echartsLayer)
 
   // 图表自适应
-  window.addEventListener("resize", function () {
+  resizeHandler = function () {
     echartsLayer.resize()
-  })
+  }
+  window.addEventListener("resize", resizeHandler)
 }
 
 /**
