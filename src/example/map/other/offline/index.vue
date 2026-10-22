@@ -1,6 +1,6 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10">
-    <mars-button href="http://mall.marsgis.cn/#/product/data-example3d" target="_blank" class="noBorder">购买离线数据</mars-button>
+    <mars-button href="http://mars3d.cn/buy.html" target="_blank" class="noBorder">购买离线数据</mars-button>
     <br />
     提示：该示例目的用于交付的离线数据的测试页<br />
     1、包括全国地形0-13级<br />
