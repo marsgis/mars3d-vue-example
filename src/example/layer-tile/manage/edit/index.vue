@@ -1,7 +1,9 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
     <div class="edit-contain">
-      <mars-gui :options="options" :labelCol="7" ref="marsGuiRef"></mars-gui>
+      <a-form class="mars-gui-form" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
+        <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+      </a-form>
       <div class="f-tac load-button">
         <a-space>
           <mars-button size="middle" @click="loadCoverage">{{ loadCoverageText }}</mars-button>
@@ -15,11 +17,11 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, h } from "vue"
 import * as mapWork from "./map.js"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
+import { updateField, updateFields, getValues } from "@mars/components/mars-ui/mars-gui-item"
 import MarsButton from "@mars/components/mars-ui/mars-button/index.vue"
 
-const marsGuiRef = ref()
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "input",
     field: "url",
@@ -62,7 +64,7 @@ const options: GuiItem[] = [
       }
     ],
     change(data) {
-      marsGuiRef.value.updateField("type", data)
+      updateField(options, "type", data)
       dataUpdate()
     }
   },
@@ -72,7 +74,7 @@ const options: GuiItem[] = [
     label: "图层名",
     value: "",
     change(data) {
-      marsGuiRef.value.updateField("txtLayer", data)
+      updateField(options, "txtLayer", data)
       dataUpdate()
     },
     show(data) {
@@ -85,7 +87,7 @@ const options: GuiItem[] = [
     label: "瓦片格式",
     value: "png",
     change(data) {
-      marsGuiRef.value.updateField("txtLayer", data)
+      updateField(options, "txtLayer", data)
       dataUpdate()
     },
     show(data) {
@@ -108,7 +110,7 @@ const options: GuiItem[] = [
     label: "坐标系",
     value: "",
     change(data) {
-      marsGuiRef.value.updateField("CRS", data)
+      updateField(options, "CRS", data)
       dataUpdate()
     },
     data: [
@@ -136,7 +138,7 @@ const options: GuiItem[] = [
     label: "国内坐标系",
     value: "WGS84",
     change(data) {
-      marsGuiRef.value.updateField("chinaCRS", data)
+      updateField(options, "chinaCRS", data)
       dataUpdate()
     },
     data: [
@@ -164,7 +166,7 @@ const options: GuiItem[] = [
     max: 21,
     value: [0, 21],
     change(data) {
-      marsGuiRef.value.updateField("loadLevel", data)
+      updateField(options, "loadLevel", data)
       dataUpdate()
     }
   },
@@ -178,7 +180,7 @@ const options: GuiItem[] = [
     max: 21,
     value: [0, 21],
     change(data) {
-      marsGuiRef.value.updateField("showLevel", data)
+      updateField(options, "showLevel", data)
       dataUpdate()
     }
   },
@@ -201,7 +203,7 @@ const options: GuiItem[] = [
       if (data === "") {
         mapWork.btnClearExtent()
       }
-      marsGuiRef.value.updateField("rectangle", data)
+      updateField(options, "rectangle", data)
       dataUpdate()
     }
   },
@@ -214,7 +216,7 @@ const options: GuiItem[] = [
     max: 1,
     value: 1,
     change(data) {
-      marsGuiRef.value.updateField("opacity", data)
+      updateField(options, "opacity", data)
       mapWork.changeOpacity(data)
       dataUpdate()
     }
@@ -228,7 +230,7 @@ const options: GuiItem[] = [
     max: 1,
     value: 1,
     change(data) {
-      marsGuiRef.value.updateField("brightness", data)
+      updateField(options, "brightness", data)
       mapWork.changeBrightness(data)
       dataUpdate()
     }
@@ -245,29 +247,29 @@ const options: GuiItem[] = [
     ],
     change(data) {
       if (data[0]) {
-        marsGuiRef.value.updateField("chkProxy", true)
+        updateField(options, "chkProxy", true)
       } else {
-        marsGuiRef.value.updateField("chkProxy", false)
+        updateField(options, "chkProxy", false)
       }
       dataUpdate()
     }
   }
-]
+])
 
 let updateValue
 
 const onCheckedoutUrl = (data) => {
   const url = data.toLowerCase()
   if (url.indexOf("wms") !== -1) {
-    marsGuiRef.value.updateField("type", "wms")
+    updateField(options, "type", "wms")
   } else if (url.indexOf("wmts") !== -1) {
-    marsGuiRef.value.updateField("type", "wmts")
+    updateField(options, "type", "wmts")
   } else if (url.indexOf("_alllayers") !== -1) {
-    marsGuiRef.value.updateField("type", "arcgis_cache")
+    updateField(options, "type", "arcgis_cache")
   } else if (url.indexOf("arcgis") !== -1) {
-    marsGuiRef.value.updateField("type", "arcgis")
+    updateField(options, "type", "arcgis")
   } else if (url.indexOf("{x}") !== -1 && url.indexOf("{z}") !== -1) {
-    marsGuiRef.value.updateField("type", "xyz")
+    updateField(options, "type", "xyz")
   }
 }
 const loadCoverageText = ref("加载图层")
@@ -285,7 +287,7 @@ const loadCoverage = async () => {
 }
 
 const reset = () => {
-  marsGuiRef.value.updateField("rectangle", "")
+  updateField(options, "rectangle", "")
 
   // 清除绘制区域和移除加载的矢量数据
   mapWork.btnClearExtent()
@@ -299,7 +301,7 @@ const saveParams = () => {
 onMounted(() => {
   const lastData = JSON.parse(localStorage.getItem("tileLayer_edit"))
   if (lastData) {
-    marsGuiRef.value.updateFields(lastData)
+    updateFields(options, lastData)
     updateAllData(lastData)
     if (lastData.rectangle) {
       mapWork.creatHRectangleEntity(JSON.parse(lastData.rectangle))
@@ -312,14 +314,14 @@ onMounted(() => {
 
 mapWork.eventTarget.on("rectangle", (e: any) => {
   if (e.rectangle) {
-    marsGuiRef.value.updateField("rectangle", JSON.stringify(e.rectangle))
+    updateField(options, "rectangle", JSON.stringify(e.rectangle))
     dataUpdate()
   }
 })
 
 // 当参数改变时，修改加载图层的部分参数
 const dataUpdate = () => {
-  const data = marsGuiRef.value.getValues()
+  const data = getValues(options)
   updateAllData(data)
   mapWork.dataUpdate(updateValue)
   // 记录到历史

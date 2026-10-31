@@ -90,7 +90,7 @@ const CustomLang = {
   _位置信息: "The location information",
   _经度: "Lon",
   _纬度: "Lat",
-  _海拔: "Alt",
+  _大地高: "Alt",
   _横坐标: "X",
   _纵坐标: "Y",
 
@@ -207,12 +207,8 @@ const CustomLang = {
 
   _停止编辑: "Stop editing",
   _删除该点: "Delete that point",
-  _按轴平移: "Translation by axis",
-  _停止按轴平移: "Stop translation along axis",
-  _按轴旋转: "Rotation on axis",
-  _停止按轴旋转: "Stop rotation on axis",
-  _调整比例: "Edit Scale",
-  _停止调整比例: "Stop edit scale",
+  _按轴编辑: "Editing by axis",
+  _停止按轴编辑: "Stop editing along axis",
 
   _释放后完成修改: "Complete the modification after release",
   _该对象不允许编辑: "This object does not allow editing",

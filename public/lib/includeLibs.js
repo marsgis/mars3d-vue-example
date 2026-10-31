@@ -57,29 +57,29 @@ window.configLibs = {
   //////////////////////////cesium相关第3方插件////////////////////////
   "cesium-pbf-ol": [
     // pbf矢量瓦片支持（基于openlayer渲染）
-    "mars3d/thirdParty/pbf-ol/ol.js",
-    "mars3d/thirdParty/pbf-ol/olms.js",
-    "mars3d/thirdParty/pbf-ol/style/MapboxStreetsV6.js",
-    "mars3d/thirdParty/pbf-ol/PbfolLayer.js"
+    "czmThirdParty/pbf-ol/ol.js",
+    "czmThirdParty/pbf-ol/olms.js",
+    "czmThirdParty/pbf-ol/style/MapboxStreetsV6.js",
+    "czmThirdParty/pbf-ol/PbfolLayer.js"
   ],
   "cesium-pbf-mapbox": [
     // pbf矢量瓦片支持（基于mapbox渲染）
-    "mars3d/thirdParty/pbf-mapbox/mapbox-gl.js",
-    "mars3d/thirdParty/pbf-mapbox/PbfLayer.js"
+    "czmThirdParty/pbf-mapbox/mapbox-gl.js",
+    "czmThirdParty/pbf-mapbox/PbfLayer.js"
   ],
   "cesium-pbf-protomaps": [
     // pbf矢量瓦片支持（基于protomaps解析）
-    "mars3d/thirdParty/pbf-protomaps/protomaps.min.js",
-    "mars3d/thirdParty/pbf-protomaps/ArcGISPbfLayer.js"
+    "czmThirdParty/pbf-protomaps/protomaps.min.js",
+    "czmThirdParty/pbf-protomaps/ArcGISPbfLayer.js"
   ],
   "cesium-weiVectorTile": [
     // 项目矢量瓦片方式加载GeoJson插件
-    "mars3d/thirdParty/weiVectorTile/CesiumVectorTile.js",
-    "mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
+    "czmThirdParty/weiVectorTile/CesiumVectorTile.js",
+    "czmThirdParty/weiVectorTile/WeiVectorTileLayer.js"
   ],
   "cesium-sensorVolumes": [
     // 支持agi_conicSensor，agi_customPatternSensor和agi_rectangularSensor展示的czml插件
-    "mars3d/thirdParty/sensorVolumes/cesium-sensor-volumes.js"
+    "czmThirdParty/sensorVolumes/cesium-sensor-volumes.js"
   ],
   olcesium: [
     "ol/ol.css",

@@ -190,7 +190,10 @@ function startEditGraphic(record: GraphicTableItem) {
 const deleteGraphic = (record: GraphicTableItem) => {
   const graphicLayer = getManagerLayer()
   const graphic = graphicLayer.getGraphicById(record.key)
-  graphic && graphic.remove(true)
+  // graphic可能不存在（getGraphicById未找到时返回null），需判空
+  if (graphic) {
+    graphic.remove(true)
+  }
 }
 
 </script>

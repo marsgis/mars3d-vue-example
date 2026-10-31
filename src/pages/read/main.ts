@@ -1,18 +1,14 @@
-import { createApp, defineComponent } from "vue"
+import { createApp, defineComponent, h } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, key } from "@mars/widgets/common/store/widget"
-import { getExampleId, getQueryString } from "@mars/utils/mars-util"
+import { getQueryString, normalizeExampleId, renderExampleEmptyState } from "@mars/utils/mars-util"
 import store from "@mars/widgets/widget-store"
-import { Editor as MarsgisEditor } from "@marsgis/editor"
+import { Editor as MarsgisEditor, Util as MarsgisEditorUtil } from "@marsgis/editor"
 import "@marsgis/editor/dist/editor.css"
 import "@mars/components/mars-ui/common"
 
-// https跳转处理
-const protocol = window.location.protocol
-// if (protocol === "https:") {
-//   window.location.href = window.location.href.replace("https", "http")
-// }
+// 禁用浏览器右键菜单（地图场景需要右键进行漫游等操作）
 document.oncontextmenu = function (e) {
   e.preventDefault()
 }
@@ -33,8 +29,9 @@ window.marsEditor = marsEditor
 
 let inited = false
 marsEditor.on("loaded", (exampleConfig) => {
+  // 切换示例时销毁旧的UI实例，避免重复挂载
   if (inited) {
-    destoryUI()
+    destroyUI()
   }
   initUI(!exampleConfig.hasPannel)
   inited = true
@@ -46,7 +43,7 @@ function initUI(simple: boolean) {
   if (simple) {
     vueApp = createApp(
       defineComponent({
-        template: "<div></div>"
+        render: () => h("div")
       })
     )
   } else {
@@ -67,13 +64,32 @@ function initUI(simple: boolean) {
   vueApp.mount("#mars-ui-root")
 }
 
-function destoryUI() {
+function destroyUI() {
   vueApp.unmount()
   vueApp = null
 }
 
-marsEditor.render({
-  container: document.getElementById("root"),
-  exampleId: getExampleId(),
-  exampleKey: getQueryString("key")
-})
+// 非法/缺失 ?id= 时渲染空态提示并中止，避免面板空白无任何用户可读信息（I019）
+async function bootstrap() {
+  const rawId = getQueryString("id")
+  if (!rawId) {
+    renderExampleEmptyState(null)
+    return
+  }
+  const exampleId = normalizeExampleId(rawId)
+  const exampleKey = getQueryString("key") || undefined
+
+  // 预校验示例配置是否存在，避免 editor 内部 alert 后渲染出空白面板
+  const exampleConfig = await MarsgisEditorUtil.getCompConfig(exampleId, exampleKey)
+  if (!exampleConfig) {
+    renderExampleEmptyState(exampleId)
+    return
+  }
+
+  marsEditor.render({
+    container: document.getElementById("root"),
+    exampleId,
+    exampleKey
+  })
+}
+bootstrap()

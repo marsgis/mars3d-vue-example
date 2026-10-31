@@ -151,7 +151,7 @@ export const mapOptions = {
       name: "建筑物面",
       url: "https://data.mars3d.cn/file/geojson/buildings-demo.json",
       symbol: { styleOptions: { color: "#0d3685", outlineColor: "#0d3685", opacity: 0.8 } },
-      buildings: { cloumn: "floors", height: "flo_height" },
+      buildings: { cloumn: "{floors}", height: "{flo_height}" },
       popup: "all",
       flyTo: true,
       flyToOptions: { minHeight: 2000 }

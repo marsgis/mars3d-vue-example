@@ -19,7 +19,9 @@
       </div>
 
       <div class="f-mb">
-        <mars-gui :options="options" ref="marsGuiRef" :labelCol="8"></mars-gui>
+        <a-form class="mars-gui-form" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+          <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+        </a-form>
       </div>
     </div>
   </mars-dialog>
@@ -29,7 +31,8 @@
 import GraphicLayerState from "@mars/components/mars-sample/graphic-layer-state.vue"
 import { reactive, ref } from "vue"
 import * as mapWork from "./map.js"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
+import { updateField, updateFields } from "@mars/components/mars-ui/mars-gui-item"
 
 // 点击表格开始编辑矢量数据的参数
 const pannelTitle = ref<string>("")
@@ -39,7 +42,7 @@ function onStartEditor(data) {
   const graphic = mapWork.getGraphic(data.graphicId)
   pannelTitle.value = data.graphicName
 
-  marsGuiRef.value.updateFields({
+  updateFields(options, {
     ...graphic.style
   })
 
@@ -50,8 +53,7 @@ function onStopEditor() {
   selectedGraphic.value = false
 }
 
-const marsGuiRef = ref()
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "slider",
     field: "heading",
@@ -63,7 +65,7 @@ const options: GuiItem[] = [
     extra: "{heading}(°)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("heading", data)
+      updateField(options, "heading", data)
       mapWork.setStylyToGraphic({ heading: data })
     }
   },
@@ -78,7 +80,7 @@ const options: GuiItem[] = [
     extra: "{pitch}(°)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("pitch", data)
+      updateField(options, "pitch", data)
       mapWork.setStylyToGraphic({ pitch: data })
     }
   },
@@ -93,7 +95,7 @@ const options: GuiItem[] = [
     extra: "{roll}(°)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("roll", data)
+      updateField(options, "roll", data)
       mapWork.setStylyToGraphic({ roll: data })
     }
   },
@@ -108,7 +110,7 @@ const options: GuiItem[] = [
     extra: "{particleSize}(px)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("particleSize", data)
+      updateField(options, "particleSize", data)
       mapWork.setStylyToGraphic({ particleSize: data })
     }
   },
@@ -123,7 +125,7 @@ const options: GuiItem[] = [
     extra: "{emissionRate}(次/秒)",
     extraWidth: 80,
     change(data) {
-      marsGuiRef.value.updateField("emissionRate", data)
+      updateField(options, "emissionRate", data)
       mapWork.setStylyToGraphic({ emissionRate: data })
     }
   },
@@ -138,7 +140,7 @@ const options: GuiItem[] = [
     extra: "{gravity}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("gravity", data)
+      updateField(options, "gravity", data)
       mapWork.setStylyToGraphic({ gravity: data })
     }
   },
@@ -153,7 +155,7 @@ const options: GuiItem[] = [
     extra: "{transX}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("transX", data)
+      updateField(options, "transX", data)
       mapWork.setStylyToGraphic({ transX: data })
     }
   },
@@ -168,7 +170,7 @@ const options: GuiItem[] = [
     extra: "{transY}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("transY", data)
+      updateField(options, "transY", data)
       mapWork.setStylyToGraphic({ transY: data })
     }
   },
@@ -183,7 +185,7 @@ const options: GuiItem[] = [
     extra: "{transZ}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("transZ", data)
+      updateField(options, "transZ", data)
       mapWork.setStylyToGraphic({ transZ: data })
     }
   },
@@ -198,7 +200,7 @@ const options: GuiItem[] = [
     extraWidth: 60,
     extra: "{startScale}",
     change(data) {
-      marsGuiRef.value.updateField("startScale", data)
+      updateField(options, "startScale", data)
       mapWork.setStylyToGraphic({ startScale: data })
     }
   },
@@ -213,7 +215,7 @@ const options: GuiItem[] = [
     extra: "{endScale}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("endScale", data)
+      updateField(options, "endScale", data)
       mapWork.setStylyToGraphic({ endScale: data })
     }
   },
@@ -228,7 +230,7 @@ const options: GuiItem[] = [
     extra: "{minimumParticleLife}(秒)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("minimumParticleLife", data)
+      updateField(options, "minimumParticleLife", data)
       mapWork.setStylyToGraphic({ minimumParticleLife: data })
     }
   },
@@ -243,7 +245,7 @@ const options: GuiItem[] = [
     extra: "{maximumParticleLife}(秒)",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("maximumParticleLife", data)
+      updateField(options, "maximumParticleLife", data)
       mapWork.setStylyToGraphic({ maximumParticleLife: data })
     }
   },
@@ -258,7 +260,7 @@ const options: GuiItem[] = [
     extra: "{minimumSpeed}",
     extraWidth: 60,
     change(data) {
-      marsGuiRef.value.updateField("minimumSpeed", data)
+      updateField(options, "minimumSpeed", data)
       mapWork.setStylyToGraphic({ minimumSpeed: data })
     }
   },
@@ -273,11 +275,11 @@ const options: GuiItem[] = [
     extra: "{maximumSpeed}",
     extraWidth: 70,
     change(data) {
-      marsGuiRef.value.updateField("maximumSpeed", data)
+      updateField(options, "maximumSpeed", data)
       mapWork.setStylyToGraphic({ maximumSpeed: data })
     }
   }
-]
+])
 
 // 所在位置
 const btnSelectPosition = () => {

@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 import * as mapWork from "./map.js"
 const isPlay = ref(false)
 const isPause = ref(false)
@@ -61,6 +61,13 @@ onMounted(() => {
   })
   mapWork.addGraphics()
   totalTimes.value = `${Math.floor(time / 60)}分${time % 60}秒`
+})
+
+onUnmounted(() => {
+  if (interval) {
+    clearInterval(interval)
+    interval = null
+  }
 })
 
 function play() {

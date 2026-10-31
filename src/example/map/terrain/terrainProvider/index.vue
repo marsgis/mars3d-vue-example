@@ -1,14 +1,17 @@
 <template>
   <mars-dialog :visible="true" width="330" right="10" top="10">
-    <mars-gui :options="options" :labelCol="4"></mars-gui>
+    <a-form class="mars-gui-form" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }">
+      <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+    </a-form>
   </mars-dialog>
 </template>
 
 <script lang="ts" setup>
 import * as mapWork from "./map.js"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import { reactive } from "vue"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
 
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "radio",
     field: "type",
@@ -67,7 +70,7 @@ const options: GuiItem[] = [
       )
     }
   }
-]
+])
 </script>
 
 <style lang="less" scoped>

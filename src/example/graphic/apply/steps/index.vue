@@ -54,7 +54,7 @@
   </mars-dialog>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import * as mapWork from "./map.js"
 
 const isPlay = ref(false)
@@ -273,6 +273,13 @@ onMounted(() => {
     )
   })
   totalTimes.value = `${Math.floor(time / 60)}分${time % 60}秒`
+})
+
+onUnmounted(() => {
+  if (interval) {
+    clearInterval(interval)
+    interval = null
+  }
 })
 </script>
 

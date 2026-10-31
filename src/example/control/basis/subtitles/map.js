@@ -8,7 +8,6 @@ export const eventTarget = new mars3d.BaseClass()
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
-    center: { lat: 34.213866, lng: 108.956499, alt: 832, heading: 22, pitch: -35 },
     clock: {
       startTime: "2017/08/25 08:00:00",
       stopTime: "2017/08/25 08:01:00",

@@ -171,22 +171,24 @@ function removeLayer() {
   }
 }
 
+// 需要相关工具将3DGS高斯泼溅ply转为3dtiles格式
+// cesium版本在不断修改3DGS的相关标准，存在版本差异
 export function showPlyXiaoquDemo() {
-  removeLayer()
+  // removeLayer()
 
-  tiles3dLayer = new mars3d.layer.TilesetLayer({
-    name: "3DGS高斯泼溅",
-    url: "http://data.mars3d.cn/3dtiles/ply-xiaoqu/tileset.json",
-    maximumScreenSpaceError: 1,
-    maxMemory: 1024, // 最大缓存内存大小(MB)
-    position: { lng: 117.140246, lat: 31.83299, alt: 43 },
-    axis: "Z_UP_TO_Y_UP",
-    flyTo: true
-  })
-  map.addLayer(tiles3dLayer)
+  // tiles3dLayer = new mars3d.layer.TilesetLayer({
+  //   name: "3DGS高斯泼溅",
+  //   url: "http://data.mars3d.cn/3dtiles/ply-xiaoqu/tileset.json",
+  //   maximumScreenSpaceError: 1,1
+  //   maxMemory: 1024, // 最大缓存内存大小(MB)
+  //   position: { lng: 117.140246, lat: 31.83299, alt: 43 },
+  //   axis: "Z_UP_TO_Y_UP",
+  //   flyTo: true
+  // })
+  // map.addLayer(tiles3dLayer)
 
-  // https://gitee.com/marsgis/mars3d/issues/IHTSM9?from=project-issue
-  globalMsg("因为cesium版本的问题，没加载出来的话，使用mars3d-cesium1.132.0 或者最新版试试")
+  // // https://gitee.com/marsgis/mars3d/issues/IHTSM9?from=project-issue
+  // globalMsg("因为cesium版本的问题，没加载出来的话，使用mars3d-cesium1.132.0 或者最新版试试")
 }
 
 /**

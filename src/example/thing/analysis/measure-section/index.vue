@@ -93,13 +93,13 @@ function setEchartsData(data: any) {
           return inhtml
         }
 
-        const hbgd = params[0].value // 海拔高度
+        const hbgd = params[0].value // 大地高
         const point = arrPoint[params[0].dataIndex] // 所在经纬度
         const result = mapWork.calculation(params[0])
 
         inhtml = `当前位置<br />
                       距起点：${result.len}<br />
-                      海拔：<span style='color:${params[0].color};'>${result.hbgdStr}</span><br />
+                      大地高：<span style='color:${params[0].color};'>${result.hbgdStr}</span><br />
                       经度：${point.lng}<br />
                       纬度：${point.lat}`
 

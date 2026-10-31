@@ -16,22 +16,29 @@ export function onUnmounted(): void {
 }
 
 function selectGraphicById(layerId: string | number, graphicId: string | number): void {
+  graphic = null
+  if (!map) {
+    layer = null
+    return
+  }
   layer = map.getLayerById(layerId)
   if (!layer) {
     console.log("没有获取到图层", layerId)
-    return null
+    return
   }
 
   graphic = layer.getGraphicById(graphicId)
   if (!graphic) {
     console.log("没有获取到矢量", graphicId)
-    return null
   }
 }
 
 export function getGraphicOptions(layerId, graphicId) {
   if (!layer || !graphic || layerId !== layer.id || graphicId !== graphic.id) {
     selectGraphicById(layerId, graphicId)
+  }
+  if (!graphic) {
+    return null
   }
 
   const graphicOptions: any = graphic.toJSON()
@@ -53,8 +60,6 @@ export function getGraphicOptions(layerId, graphicId) {
     graphicOptions.maxPointNum = graphic._maxPointNum ?? 999
   }
 
-  console.log("map.ts 矢量属性面板：获取到矢量对象的参数", graphicOptions)
-
   return graphicOptions
 }
 
@@ -70,17 +75,6 @@ function getPositionType(graphicOptions) {
 
 export function downloadFile(fileName: string, content: string) {
   mars3d.Util.downloadFile(fileName, content)
-}
-
-export function julianToDate(julianToDate: any) {
-  return Cesium.JulianDate.toDate(julianToDate)
-}
-
-export function getMapCurrentTime() {
-  const start = map.clock.currentTime.clone()
-  const stop = Cesium.JulianDate.addSeconds(start, 10, new Cesium.JulianDate())
-
-  return { start: Cesium.JulianDate.toDate(start), stop: Cesium.JulianDate.toDate(stop) }
 }
 
 export function setGraphicOptions(options) {

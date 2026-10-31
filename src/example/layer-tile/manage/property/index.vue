@@ -4,16 +4,19 @@
       <div class="content-title">
         <h2 class="f-mb title">瓦片底图通用参数</h2>
       </div>
-      <mars-gui :options="options"></mars-gui>
+      <a-form class="mars-gui-form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+      </a-form>
     </div>
   </mars-dialog>
 </template>
 
 <script lang="ts" setup>
 import * as mapWork from "./map.js"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import { reactive } from "vue"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
 
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "slider",
     field: "opacity",
@@ -98,7 +101,7 @@ const options: GuiItem[] = [
       setLayerOptions("gamma", data)
     }
   }
-]
+])
 
 const setLayerOptions = (attribute: string, val: number) => {
   mapWork.setLayerOptions(attribute, val)

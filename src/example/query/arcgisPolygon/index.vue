@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue"
+import { onMounted, onUnmounted, ref, computed } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 import { setAutoHeight } from "@mars/utils/mars-util"
@@ -228,11 +228,13 @@ const removeAll = () => {
 }
 
 const tableScrollHeight = ref(0)
+let stopAutoHeight = () => {}
 onMounted(() => {
-  setAutoHeight((height) => {
+  stopAutoHeight = setAutoHeight((height) => {
     tableScrollHeight.value = height
   }, 400)
 })
+onUnmounted(() => stopAutoHeight())
 </script>
 <style scoped lang="less">
 :deep(.ant-tabs-tab-btn) {

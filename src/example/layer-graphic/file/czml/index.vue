@@ -52,7 +52,7 @@ const layersObj: any = {}
 
 // 隐藏button
 const isShow = ref()
-isShow.value = getQueryString("data") === ("CZML" || null)
+isShow.value = getQueryString("data") === "CZML"
 
 mapWork.eventTarget.on("loadGraphicLayer", function (event: any) {
   const modelList = event.data.list

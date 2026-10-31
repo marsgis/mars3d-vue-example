@@ -1287,7 +1287,11 @@ const styleConfig = {
         defval: 1.0,
         min: 0.1,
         max: 10.0,
-        step: 0.1
+        step: 0.1,
+        show({ graphicType }) {
+          // entity支持Cesium.Color不支持亮度数值，primiate支持
+          return graphicType.endsWith("P")
+        }
       },
 
       {
@@ -4753,6 +4757,8 @@ const styleConfig = {
           return style?.rotate > 0
         }
       },
+      { name: "offsetX", label: "X偏移", type: "number", min: -1, max: 1, step: 0.1, defval: 0 },
+      { name: "offsetY", label: "Y偏移", type: "number", min: -1, max: 1, step: 0.1, defval: 0 },
 
       { name: "text", label: "注记文本", type: "textarea", defval: "" },
       { name: "text_color", label: "注记颜色", type: "color", defval: "#000000" },

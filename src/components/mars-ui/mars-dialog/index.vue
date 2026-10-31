@@ -5,7 +5,7 @@
     </div>
     <div class="mars-dialog" :class="[customClass, animationClass]" ref="dialogRef" v-show="visible && !isFold && show">
       <div v-if="showHeader" class="mars-dialog__header" :style="{ cursor: mergeProps.draggable ? 'move' : 'auto' }" @mousedown="dragStart">
-        <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" color="#41A8FF" class="icon"></mars-icon>
+        <mars-icon v-if="mergeProps.icon" :icon="mergeProps.icon" :width="18" class="icon"></mars-icon>
         <slot v-else-if="slots.icon" name="icon"></slot>
         <slot v-if="slots.title" name="title"></slot>
         <span v-else class="title">{{ mergeProps.title }}</span>
@@ -525,7 +525,7 @@ const animationClass = computed(() => {
       return "fadein-left"
     }
     const top = mergeProps.value.top
-    if (left || (top >= 0 && top < 100)) {
+    if (top || (top >= 0 && top < 100)) {
       return "fadein-down"
     }
     const bottom = mergeProps.value.bottom
@@ -646,7 +646,8 @@ export default {
 
     .icon {
       margin-right: 11px;
-      color: #41a8ff;
+      // 不传color时icon-park默认fill为currentColor，继承此处的CSS颜色，随主题变量切换
+      color: var(--mars-primary-color);
     }
 
     .title {

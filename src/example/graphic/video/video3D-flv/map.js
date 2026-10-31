@@ -56,7 +56,7 @@ const flvUrl = "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_
 
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
-  videoElement.setAttribute("muted", "muted")
+  videoElement.muted = true
   videoElement.setAttribute("autoplay", "autoplay")
   videoElement.setAttribute("loop", "loop")
   videoElement.setAttribute("crossorigin", "")

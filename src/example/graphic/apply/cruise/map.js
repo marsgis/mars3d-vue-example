@@ -382,9 +382,11 @@ function addDivgraphic(position, attr) {
   const graphic = graphicLayer.getGraphicById("descPannel")
   if (attr?.id) {
     const attackDiv = graphicLayer.getGraphicById(attr?.id)
-    attackDiv && attackDiv.remove()
-  } else {
-    graphic && graphic.remove()
+    if (attackDiv) {
+      attackDiv.remove()
+    }
+  } else if (graphic) {
+    graphic.remove()
   }
 
   if (!position) {

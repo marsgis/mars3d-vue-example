@@ -48,13 +48,11 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
 
   graphicLayer.bindPopup(
     (event) => {
-      const attr = event.graphic.attr || {}
+      const attr = event.graphic?.attr
       if (!attr) {
         return
       }
       const vNodeDom = document.createElement("div")
-      document.body.appendChild(vNodeDom)
-
       const vNode = createApp(QueryPopup, {
         id: attr.id,
         name: attr.name,
@@ -62,9 +60,10 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
         address: attr.address,
         type: attr.type ? attr.type.toString() : ""
       })
-      vNode.mount(vNodeDom) // vue2中可使用extend
-      // return vNode._container // 项目中可以直接返回DOM
-      return vNode._container.innerHTML // 示例中特殊处理，转为html元素
+      vNode.mount(vNodeDom)
+      const html = vNodeDom.innerHTML
+      vNode.unmount()
+      return html
     },
     { template: false }
   )
@@ -75,17 +74,26 @@ export async function onMounted(mapInstance: mars3d.Map): Promise<void> {
 }
 
 async function cameraChanged() {
+  if (!map || !queryPoi) {
+    return
+  }
   const radius = map.camera.positionCartographic.height // 单位：米
   if (radius > 100000) {
     address = null
-    if (queryAddressDOM) { queryAddressDOM.innerHTML = "" }
+    if (queryAddressDOM) {
+      queryAddressDOM.textContent = ""
+    }
     return
   }
 
-  address = await queryPoi.getAddress({
-    location: map.getCenter()
+  const poi = queryPoi
+  const location = map.getCenter()
+  address = await poi.getAddress({
+    location
   })
-  if (address && queryAddressDOM) { queryAddressDOM.innerHTML = "地址：" + address.address }
+  if (address && queryAddressDOM) {
+    queryAddressDOM.textContent = "地址：" + (address.address || "")
+  }
 }
 
 // 释放当前业务
@@ -93,8 +101,10 @@ export function onUnmounted(): void {
   if (!map) {
     return
   }
+  map.off(mars3d.EventType.cameraMoveEnd, cameraChanged)
+  queryAddressDOM?.remove()
+  queryAddressDOM = null
   map.removeLayer(graphicLayer)
-  map.off(mars3d.EventType.cameraChanged, cameraChanged)
   graphicLayer.remove()
   queryPoi = null
   address = null

@@ -5,6 +5,8 @@
  * @author 木遥 2022-01-01
  */
 
+// 注：vue-color-kit 的 theme 默认为 dark，当前封装未传入 theme，
+// 因此组件永远不会挂 .light 类，无需浅色主题覆盖样式，面板配色统一走 --mars-* 变量
 .hu-color-picker {
   padding: 10px;
   background: transparent;
@@ -12,27 +14,6 @@
   z-index: 1;
   width: 220px !important;
   box-shadow: none;
-}
-
-.hu-color-picker.light {
-  background: #f7f8f9;
-}
-
-.hu-color-picker.light .color-show .sucker {
-  background: #eceef0;
-}
-
-.hu-color-picker.light .color-type .name {
-  background: #e7e8e9;
-}
-
-.hu-color-picker.light .color-type .value {
-  color: #666;
-  background: #eceef0;
-}
-
-.hu-color-picker.light .colors.history {
-  border-top: 1px solid #eee;
 }
 
 .hu-color-picker canvas {

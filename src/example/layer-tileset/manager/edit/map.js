@@ -91,7 +91,9 @@ export function showModel(url) {
     maxMemory: 1024, // 最大缓存内存大小(MB)
     popup: "all",
     matrixMove: {
-      hasMiddle: false
+      hasMiddle: true,
+      scaleEnabled: false,
+      originOffset: new Cesium.Cartesian3(0, 0, 30)
     },
     flyTo: true
   })
@@ -143,7 +145,7 @@ export function showModel(url) {
 
 // 异步求准确高度
 export function updateHeightForSurfaceTerrain(position) {
-  // 求地面海拔 (异步)
+  // 求地面大地高 (异步)
   if (Cesium.defined(position) && Cesium.defined(position.alt)) {
     // 存在历史设置的高度时不用处理
   } else {
@@ -152,7 +154,7 @@ export function updateHeightForSurfaceTerrain(position) {
         return
       }
       const offsetZ = Math.ceil(result.height - tiles3dLayer.orginCenterPoint.alt + 1)
-      console.log("地面海拔：" + result.height.toFixed(2) + ",需要偏移" + offsetZ)
+      console.log("地面大地高：" + result.height.toFixed(2) + ",需要偏移" + offsetZ)
 
       tiles3dLayer.height = offsetZ
 

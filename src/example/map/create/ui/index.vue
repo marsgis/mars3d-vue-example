@@ -17,7 +17,7 @@
             </a-form-item>
 
             <a-form-item label="数字输入">
-              <mars-input-number v-model:value="formState.countCar" :step="0.1" @change="onNumberChange" />
+              <mars-input-number v-model:value="formState.countCar" aria-label="车辆数量" :step="0.1" @change="onNumberChange" />
             </a-form-item>
 
             <a-form-item label="下拉选择">
@@ -29,12 +29,12 @@
             </a-form-item>
 
             <a-form-item label="滑动条">
-              <mars-slider v-model:value="formState.brightness" :min="-0.5" :max="1.5" :step="0.05"
+              <mars-slider v-model:value="formState.brightness" aria-label-for-handle="亮度" :min="-0.5" :max="1.5" :step="0.05"
                 @change="onSliderChange" />
             </a-form-item>
 
             <a-form-item label="刻度滑动条">
-              <mars-slider v-model:value="formState.contrast" range :marks="marks" :min="-255" :max="255" :step="1"/>
+              <mars-slider v-model:value="formState.contrast" range :aria-label-group-for-handles="['对比度下限', '对比度上限']" :marks="marks" :min="-255" :max="255" :step="1"/>
             </a-form-item>
 
             <a-form-item label="多选" class="f-push-20-t">
@@ -56,7 +56,7 @@
 
             <a-form-item label="鼠标操作">
               <a-space>
-                <mars-switch v-model:checked="formState.isScale" @change="onSwitchChange" />
+                <mars-switch v-model:checked="formState.isScale" aria-label="是否允许" @change="onSwitchChange" />
                 <span class="f-fs12 f-ff0" style="color: rgba(234, 242, 255, 0.5)">是否允许</span>
               </a-space>
             </a-form-item>
@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import axios from "axios"
+import { fetchJson } from "@mars/utils/mars-util"
 import type { Dayjs } from "dayjs"
 import * as mapWork from "./map.js"
 import { $message, $notify, $alert } from "@mars/components/mars-ui/index"
@@ -331,8 +331,7 @@ const typhoonList = ref<typhoon[]>([]) // 列表数据
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   const url = "https://data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
-  axios.get(url).then(function (res: any) {
-    const data = res.data
+  fetchJson({ url }).then(function (data: any) {
     typhoonList.value = data.typhoonList.map((item: any) => ({
       id: item[0],
       name_en: item[1],
@@ -345,6 +344,8 @@ onMounted(() => {
 
 // 勾选了表格列表的行
 const rowSelection: TableProps["rowSelection"] = {
+  // 复选框无可访问名称时读屏只报「复选框」，逐行用台风名命名（ant Checkbox 会把 attrs 透给 input）
+  getCheckboxProps: (record: any) => ({ "aria-label": `选择 ${record.name_cn || record.id}` }) as any,
   onSelect: (selectedRow: any, selectedRows: boolean) => {
     if (selectedRows) {
       $message("勾选了行:" + selectedRow.name_cn)

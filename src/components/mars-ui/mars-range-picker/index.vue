@@ -1,8 +1,5 @@
 <template>
   <a-range-picker :locale="locale" :dayjs="dayjs" class="mars-range-picker" v-bind="attrs">
-    <!-- <template v-for="(comp, name) in slots" :key="name" v-slot:[name]>
-      <component :is="comp" />
-    </template> -->
   </a-range-picker>
 </template>
 <script lang="ts">

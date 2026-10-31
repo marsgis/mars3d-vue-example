@@ -17,6 +17,14 @@ export const mapOptions = {
   //   baseLayerPicker: true,
   //   terrainProviderViewModels: getTerrainProviderViewModelsArr() // 自baseLayerPicker面板的地形可选数组
   // }
+  // 方式3：图层的方式（一般用于图层管理中，多个地形的切换）
+  // layers: [
+  //   {
+  //     type: "terrain",
+  //     url: "http://localhost/tile/terrain/LB1JLTBH",
+  //     show: true
+  //   }
+  // ]
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数

@@ -210,10 +210,10 @@ export function begin(data) {
   const maxValue = Number(data.maxHeight)
   const speed = Number(data.speed)
   if (minValue <= 27) {
-    globalMsg("最低海拔过低，请耐心等候几秒")
+    globalMsg("最低大地高过低，请耐心等候几秒")
   }
   if (minValue > maxValue) {
-    globalMsg("当前最低海拔高于最高海拔")
+    globalMsg("当前最低大地高高于最高大地高")
     return false
   }
 

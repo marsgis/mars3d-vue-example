@@ -154,7 +154,7 @@ async function computeStepSurfaceLine(positions) {
     }
     arrLen.push(Number(all_distance.toFixed(1)))
 
-    // 海拔高度
+    // 大地高
     const point = mars3d.LngLatPoint.fromCartesian(arrHeightPoints1[i])
     arrHB1.push(point.alt)
     arrPoint.push(point)
@@ -193,7 +193,7 @@ let tipGraphic
  *
  * @export
  * @param {Array} point 坐标点
- * @param {number} z 海拔高度
+ * @param {number} z 大地高
  * @param {html} inthtml html
  * @returns {void}
  */

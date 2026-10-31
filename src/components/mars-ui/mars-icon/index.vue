@@ -24,11 +24,17 @@ export default defineComponent({
     const attrs = useAttrs()
     const iconName = computed(() => _.upperFirst(_.camelCase(props.icon)))
 
-    const svgComponent = svgModule[iconName.value]({
-      theme: "outline",
-      fill: props.color,
-      size: props.width,
-      ...attrs
+    const svgComponent = computed(() => {
+      const render = svgModule[iconName.value]
+      if (typeof render !== "function") {
+        return ""
+      }
+      return render({
+        theme: "outline",
+        fill: props.color,
+        size: props.width,
+        ...attrs
+      })
     })
 
     return {

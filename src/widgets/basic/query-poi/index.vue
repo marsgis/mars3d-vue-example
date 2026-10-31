@@ -150,7 +150,6 @@ const selectPoint = async (value: any) => {
 
   $showLoading()
   addHistory(value)
-  console.log("开始搜索", value)
 
   siteSource.value = []
   allCount.value = 0

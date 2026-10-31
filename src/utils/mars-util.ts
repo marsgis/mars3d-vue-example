@@ -4,7 +4,7 @@
  * @copyright mars3d.cn
  * @author 木遥 2022-01-01
  */
-import axios from "axios"
+import request from "./request"
 
 /**
  * 判断是否 "经度,纬度" 字符串值
@@ -25,22 +25,17 @@ export function isLonLat(text: string): boolean {
  * @param {string} [container="sanbox-warpper"] 窗口id
  * @return {void}
  */
-export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "sanbox-warpper"): void {
+export function setAutoHeight(callback: (v: number) => void, lose = 0, container = "sanbox-warpper"): () => void {
   const wapper = document.getElementById(container) || document.body
 
-  let wapperHeight = wapper?.clientHeight || 0
-  const result = wapperHeight - lose
-  callback(result)
-
   const resize = () => {
-    wapperHeight = wapper?.clientHeight || 0
-    const resizeHeight = wapperHeight - lose
-    callback(resizeHeight)
+    const wapperHeight = wapper?.clientHeight || 0
+    callback(wapperHeight - lose)
   }
 
-  window.addEventListener("resize", resize)
-
   resize()
+  window.addEventListener("resize", resize)
+  return () => window.removeEventListener("resize", resize)
 }
 
 /**
@@ -56,58 +51,56 @@ export function getQueryString(parameter: string): string | null {
 
 
 /**
+ *  归一化示例ID（兼容传入 src/example/ 前缀、/map.js 后缀与反斜杠）
+ * @export
+ * @param {string} exampleId 原始示例ID
+ * @return {string}  归一化后的示例ID
+ */
+export function normalizeExampleId(exampleId: string): string {
+  return exampleId.replace(/\\/gm, "/").replace("src/example/", "").replace("/map.js", "")
+}
+
+/**
  *  获取示例ID
  * @export
  * @return {string}  示例ID
  */
 export function getExampleId(): string {
-  let exampleId = getQueryString("id")
+  const exampleId = getQueryString("id")
   if (!exampleId) {
     throw new Error("id不能为空")
   }
-  exampleId = exampleId.replace(/\\/gm, "/").replace("src/example/", "").replace("/map.js", "")
-
-  return exampleId
+  return normalizeExampleId(exampleId)
 }
 
 /**
- * 将指定的异步方法转为Promise
- *
- * @param {*} context
- * @param {string} apiName
- * @param {string} [success="success"]
- * @param {string} [error="error"]
- * @return {*} Promise
+ * 渲染示例空态：非法/缺失 ?id= 时给出用户可读提示与返回入口（I019）
+ * 说明：exampleId 来自 URL，一律走 textContent 赋值，避免注入
+ * @export
+ * @param {string | null} exampleId 归一化后的示例ID，缺失时传 null
+ * @return {void}
  */
-export function apiToSync(context: any, apiName: string, success = "success", error = "error") {
-  return apiArrayToSync(context, [apiName], success, error)[0]
-}
+export function renderExampleEmptyState(exampleId: string | null): void {
+  const root = document.getElementById("root")
+  if (!root) {
+    return
+  }
+  const wrapper = document.createElement("div")
+  wrapper.style.cssText =
+    "position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1f1f1f;z-index:999;"
 
-/**
- * 将指定的多个异步方法转为Promise
- *
- * @param {*} context
- * @param {string[]} apiNames
- * @param {string} [success="success"]
- * @param {string} [error="error"]
- * @return {*} Promise[]
- */
-export function apiArrayToSync(context: any, apiNames: string[], success = "success", error = "error") {
-  return apiNames.map((name) => {
-    const apiFunc = context[name]
+  const text = document.createElement("p")
+  text.style.cssText = "margin:0;color:rgba(255,255,255,0.85);font-size:16px;"
+  text.textContent = exampleId ? `未找到示例「${exampleId}」，它可能已被移除或更名` : "当前链接缺少示例参数 id"
 
-    return (options: any) =>
-      new Promise((resolve, reject) => {
-        options[success] = function (result: any) {
-          resolve(result)
-        }
-        options[error] = function (error) {
-          reject(error)
-        }
-        // console.log("zhix", options)
-        apiFunc.call(context, options)
-      })
-  })
+  const link = document.createElement("a")
+  link.style.cssText = "margin-top:12px;color:#4dabf7;font-size:14px;text-decoration:none;"
+  link.href = `${process.env.BASE_URL}index.html`
+  link.textContent = "返回示例列表"
+
+  wrapper.appendChild(text)
+  wrapper.appendChild(link)
+  root.appendChild(wrapper)
 }
 
 /**
@@ -115,10 +108,11 @@ export function apiArrayToSync(context: any, apiNames: string[], success = "succ
  *
  * @param {object} options 请求参数
  * @param {string} options.url 服务URL地址
+ * @param {string} [options.method="get"] 请求方法，需要 POST 等场景时传入
  * @return {Promise<object>} 返回Promise异步处理结果，对象为JSON数据
  */
 export async function fetchJson(options) {
-  const result: any = await axios.get(options.url, options)
+  const result = await request({ ...options, url: options.url })
   return result.data
 }
 

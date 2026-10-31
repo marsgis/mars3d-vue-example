@@ -72,8 +72,8 @@ function createDthGraphic(options) {
   const points = options.positions // 各顶点的坐标
   const attr = options.attr // 楼层层高配置信息
 
-  const minHight = attr.bottomHeight // 当前层的 底部海拔高度
-  const maxHight = attr.topHeight // 当前层的 顶部海拔高度
+  const minHight = attr.bottomHeight // 当前层的 底部大地高
+  const maxHight = attr.topHeight // 当前层的 顶部大地高
 
   const graphic = new mars3d.graphic.PolygonPrimitive({
     positions: points,

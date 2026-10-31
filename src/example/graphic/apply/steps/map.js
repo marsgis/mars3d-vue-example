@@ -597,19 +597,33 @@ export function clear() {
 }
 
 export function clearPoint() {
-  pointLayer && pointLayer.destroy()
-  textLayer && textLayer.destroy()
+  if (pointLayer) {
+    pointLayer.destroy()
+  }
+  if (textLayer) {
+    textLayer.destroy()
+  }
   pointLayer = null
   textLayer = null
   stopRotatePoint()
 }
 
 export function clearLine() {
-  polyLineLayer && polyLineLayer.destroy()
-  lineGraphic && lineGraphic.remove()
-  polyline1 && polyline1.remove()
-  polyline2 && polyline2.remove()
-  contourLine && map.removeThing(contourLine, true)
+  if (polyLineLayer) {
+    polyLineLayer.destroy()
+  }
+  if (lineGraphic) {
+    lineGraphic.remove()
+  }
+  if (polyline1) {
+    polyline1.remove()
+  }
+  if (polyline2) {
+    polyline2.remove()
+  }
+  if (contourLine) {
+    map.removeThing(contourLine, true)
+  }
   lineGraphic = null
   polyline1 = null
   polyline2 = null

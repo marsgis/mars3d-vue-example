@@ -1,26 +1,45 @@
 <template>
   <div class="page-wrap">
+    <h1 class="sr-only">Mars3D 开发中心 · 功能示例</h1>
     <!--导航-->
 
     <div class="page-box">
       <!--   侧边栏  -->
       <div class="sidebar">
+        <!-- 侧边栏交互全部由数据驱动：activeFirstId 高亮项 / expandedFirstId 展开项 / activeSecondId 选中子项 -->
         <div class="sidebar-1" v-for="item in examples_list" :key="item.id">
-          <div class="side1-item">
+          <div
+            class="side1-item"
+            :class="{ active1: activeFirstId === item.id, active3: activeFirstId === item.id }"
+            role="button"
+            tabindex="0"
+            :aria-expanded="expandedFirstId === item.id"
+            @click="toggleFirst(item)"
+            @keydown.enter.prevent="toggleFirst(item)"
+            @keydown.space.prevent="toggleFirst(item)"
+          >
             <i class="fa" :class="item.icon"></i>
-            <p class="name">{{ item.name }} ({{ item.count }})</p>
+            <p class="name" :class="{ active3: activeFirstId === item.id }">{{ item.name }} ({{ item.count }})</p>
             <mars-icon icon="right" width="24"></mars-icon>
           </div>
-          <div class="sidebar-2">
-            <div class="side2-item" @click="clearBoth" v-for="item1 in item.children" :key="item1.id">
+          <div class="sidebar-2" v-show="expandedFirstId === item.id">
+            <div
+              class="side2-item"
+              :class="{ active2: activeSecondId === item1.id }"
+              @click="clickSecond(item1)"
+              v-for="item1 in item.children"
+              :key="item1.id"
+            >
               <span>·</span>
-              <a class="a" :href="'#' + item1.id">{{ item1.name }} ({{ item1.count }})</a>
+              <a class="a" :class="{ linkActive: activeSecondId === item1.id }" :href="'#' + item1.id">
+                {{ item1.name }} ({{ item1.count }})</a
+              >
             </div>
           </div>
         </div>
 
         <div class="download">
-          <div>【共 {{ allCount }} 个示例】</div>
+          <div>【{{ loading ? "示例加载中…" : `共 ${allCount} 个示例` }}】</div>
           <div>
             <a href="javascript:downloadExampleTxt();">下载功能清单.txt</a>
           </div>
@@ -33,16 +52,33 @@
       <div class="contain">
         <div class="search-wrap" :class="{ wrapIsfixed: wrapFixed }">
           <div class="search-l">
-            <input type="text" placeholder="请输入示例名称筛选..." v-model="searchValue" @input="searchDetail" @keyup.enter="searchDetail" />
-            <div class="ss-pic" @click="searchDetail">
+            <input type="text" placeholder="请输入示例名称筛选..." aria-label="按示例名称筛选" v-model="searchValue" @input="searchDetail" @keyup.enter="searchDetail" />
+            <div
+              class="ss-pic"
+              role="button"
+              tabindex="0"
+              aria-label="搜索"
+              @click="searchDetail"
+              @keydown.enter.prevent="searchDetail"
+              @keydown.space.prevent="searchDetail"
+            >
               <mars-icon icon="search" width="24" color="#ffffff"></mars-icon>
             </div>
-            <div class="clear-value" v-if="searchValue" @click="clearAll">
+            <div
+              class="clear-value"
+              v-if="searchValue"
+              role="button"
+              tabindex="0"
+              aria-label="清空筛选"
+              @click="clearAll"
+              @keydown.enter.prevent="clearAll"
+              @keydown.space.prevent="clearAll"
+            >
               <mars-icon icon="close" width="18"></mars-icon>
             </div>
           </div>
 
-          <div class="search-r">
+          <div class="search-r" tabindex="0">
             <mars-icon class="icon" icon="help" size="20" fill="#bbbbbb"></mars-icon>
             <p class="look">查看说明</p>
             <div class="sanjiao"></div>
@@ -83,6 +119,17 @@
           </div>
         </div>
 
+        <div class="load-error" v-if="loadFailed" role="alert">
+          示例清单加载失败，请检查网络后刷新页面重试。
+        </div>
+
+        <!-- 清单到达前保持骨架，避免显示空列表与“共 0 个示例”（D026） -->
+        <div class="list-skeleton" v-if="loading" aria-hidden="true">
+          <div class="sk-row" v-for="n in 4" :key="n">
+            <div class="sk-block" v-for="m in 4" :key="m"></div>
+          </div>
+        </div>
+
         <div class="big" v-for="item in list" :key="item.id">
           <div class="start" v-if="item.children.length !== 0">
             <!-- <div class="fa" :class="item.icon"></div> -->
@@ -116,9 +163,9 @@
                   style="overflow: hidden"
                 >
                   <span class="hideInfo">{{ item2.main  }} , {{ item2.api  }}</span>
-                  <span title="这是最近新加的功能" :class="{ nweVer: isNew }" v-if="isnew(item2)">新</span>
+                  <span title="这是最近新加的功能" :class="{ newVer: isNew }" v-if="isnew(item2)">新</span>
                   <div class="pic">
-                    <img :src="item2.thumbnail" :onerror="imgOnError" />
+                    <img :src="item2.thumbnail" :alt="item2.name" loading="lazy" decoding="async" :onerror="imgOnError" />
                   </div>
                   <p>
                     {{ item2.name }}
@@ -153,9 +200,7 @@
 </template>
 
 <script>
-import { Editor as MarsgisEditor, Util } from "@marsgis/editor"
 import MarsIcon from "@mars/components/mars-ui/mars-icon/index.vue"
-import { nextTick } from "vue"
 
 export default {
   components: {
@@ -168,28 +213,22 @@ export default {
       indexActive: "",
       navActive: 1, // head的激活顺序
       searchValue: "",
+      allCount: 0, // 示例总数
       isNew: true, // 提示点的样式
-      wrapFixed: false
+      wrapFixed: false,
+      loading: true, // 清单与编辑器模块加载中（D026：动态引入 @marsgis/editor）
+      loadFailed: false, // 示例清单（config/example.json）加载失败提示
+      activeFirstId: null, // 侧边栏当前高亮的一级分类id
+      expandedFirstId: null, // 侧边栏当前展开的一级分类id（再点一次收起）
+      activeSecondId: null // 侧边栏当前选中的二级分类id
     }
   },
   created() {
-    const marsEditor = new MarsgisEditor({
-      baseUrl: process.env.BASE_URL,
-      thumbnailPublicPath: `${process.env.BASE_URL}config/thumbnail/`,
-      configSourceUrl: `${process.env.BASE_URL}config/example.json`
-    })
-
     window.scrollTo(0, 0)
+    this.initExampleList()
   },
   mounted() {
-    Util.getExampleList().then((data) => {
-      this.examples_list = data
-      this.list = data
-      this.allCount = Util.totalCount
-      nextTick(() => {
-        this.show()
-      })
-    })
+    // 挂载全局下载方法（供模板中的a链接调用）
     window.downloadExampleTxt = () => {
       this.downloadFile("Mars3D功能清单.txt", this.getAllName())
     }
@@ -198,55 +237,48 @@ export default {
     }
     window.addEventListener("scroll", this.isfixed)
   },
+  beforeUnmount() {
+    // 组件卸载时移除滚动监听，避免事件泄漏
+    window.removeEventListener("scroll", this.isfixed)
+  },
   methods: {
+    // D026：动态引入 @marsgis/editor，首页首屏不再预加载编辑器与 monaco。
+    // 编辑器实例仅用于初始化 Util 的静态配置（configSourceUrl 等），Util.getExampleList() 依赖该配置。
+    async initExampleList() {
+      try {
+        const { Editor: MarsgisEditor, Util } = await import("@marsgis/editor")
+        this.marsEditor = new MarsgisEditor({
+          baseUrl: process.env.BASE_URL,
+          thumbnailPublicPath: `${process.env.BASE_URL}config/thumbnail/`,
+          configSourceUrl: `${process.env.BASE_URL}config/example.json`
+        })
+        const data = await Util.getExampleList()
+        this.examples_list = data
+        this.list = data
+        this.allCount = Util.totalCount
+      } catch {
+        // 清单请求失败（网络/404）或编辑器模块加载失败时给出可见反馈，避免只显示空列表
+        this.loadFailed = true
+      } finally {
+        this.loading = false
+      }
+    },
     clearBoth() {
       this.clearAll()
     },
-    show() {
-      const side2 = document.querySelectorAll(".sidebar-2")
-      const side1Item = document.querySelectorAll(".side1-item")
-      const p = document.querySelectorAll(".sidebar-1 p")
-      const side2Item = document.querySelectorAll(".side2-item")
-      const a = document.querySelectorAll(".a")
-
-      for (let i = 0; i < side1Item.length; i++) {
-        side1Item[i].onclick = function () {
-          for (let j = 0; j < side1Item.length; j++) {
-            if (i === j) {
-              /* side2[j].style.display='block' */
-              side1Item[j].classList.add("active1")
-              side1Item[j].classList.add("active3")
-              p[j].classList.add("active3")
-              const x = side2[i].style.display
-              if (x !== "block") {
-                side2[j].style.display = "block"
-              } else {
-                side2[j].style.display = "none"
-              }
-            } else {
-              side2[j].style.display = "none"
-              side1Item[j].classList.remove("active1")
-              side1Item[j].classList.remove("active3")
-              p[j].classList.remove("active3")
-            }
-          }
-        }
+    // 点击一级分类：首次点击高亮并展开，再次点击收起（高亮保留，与原DOM交互行为一致）
+    toggleFirst(item) {
+      if (this.activeFirstId === item.id) {
+        this.expandedFirstId = null
+      } else {
+        this.activeFirstId = item.id
+        this.expandedFirstId = item.id
       }
-      for (let i = 0; i < side2Item.length; i++) {
-        side2Item[i].onclick = function () {
-          for (let j = 0; j < side2Item.length; j++) {
-            if (i === j) {
-              side2Item[j].classList.add("active2")
-              a[j].style.color = "#f08519"
-              a[j].style.opacity = 1.0
-            } else {
-              side2Item[j].classList.remove("active2")
-              a[j].style.color = "#FFFFFF"
-              a[j].style.opacity = 0.6
-            }
-          }
-        }
-      }
+    },
+    // 点击二级分类：标记选中并清除搜索筛选
+    clickSecond(item1) {
+      this.activeSecondId = item1.id
+      this.clearBoth()
     },
     isnew(item) {
       return item.new
@@ -273,7 +305,10 @@ API：mars3d.${api_name}`
       this.$emit("jump", item)
     },
     imgOnError(e) {
-      const img = e.srcElement
+      const img = e.target || e.srcElement
+      if (!img) {
+        return
+      }
       console.log(`缺少缩略图图片: ${img.src}`)
 
       img.src = `${process.env.BASE_URL}config/thumbnail/map-options-basemaps.jpg`
@@ -330,7 +365,7 @@ API：mars3d.${api_name}`
 
       const idx = name.indexOf("(")
       if (idx !== -1) {
-        name = name.substr(0, idx)
+        name = name.substring(0, idx)
       }
 
       return name
@@ -428,6 +463,29 @@ API：mars3d.${api_name}`
   box-sizing: border-box;
   background: #fff;
 }
+
+/* 仅屏幕阅读器可见（不引入视觉变化） */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 键盘焦点可见：覆盖入口页全局 input:focus{outline:0} 的影响 */
+.side1-item:focus-visible,
+.ss-pic:focus-visible,
+.clear-value:focus-visible,
+.search-r:focus-visible,
+.search-l input:focus-visible {
+  outline: 2px solid #008aff;
+  outline-offset: 2px;
+}
 .page-box {
   height: calc(100vh - 0px);
 }
@@ -492,7 +550,7 @@ img {
 }
 .sidebar-2 {
   margin-left: 0px;
-  display: none;
+  /* 展开/收起由模板中的 v-show 控制，此处不再写死 display */
   left: 0px;
   top: 46px;
   padding-bottom: 10px;
@@ -522,6 +580,11 @@ img {
 .active2 {
   color: #f08519;
 }
+/* 二级分类选中时链接的高亮态（对应原JS中内联设置的color/opacity） */
+.side2-item .linkActive {
+  color: #f08519;
+  opacity: 1;
+}
 .active3 {
   opacity: 1 !important;
 }
@@ -535,12 +598,59 @@ img {
   display: flex;
   justify-content: space-between;
   z-index: 100;
+  background-color: #fff;
 }
+/* 滚动后吸顶：随 .contain 宽度布局，固定在顶栏（68px）下方，避免被 fixed 顶栏遮挡或横向跳位 */
 .wrapIsfixed {
-  width: calc(100% - 270px);
-  position: fixed;
-  top: 0px;
-  min-width: 50px;
+  position: sticky;
+  top: 68px;
+  padding: 5px 0;
+  margin-top: 0;
+}
+/* 清单加载失败提示：与卡片列表同列，保证失败时仍有可见反馈 */
+.load-error {
+  margin: 40px 0 0 38px;
+  padding: 16px 20px;
+  max-width: 520px;
+  border: 1px solid #f0b4b4;
+  border-radius: 6px;
+  background-color: #fff7f7;
+  color: #c0392b;
+  font-size: 14px;
+  line-height: 22px;
+}
+/* 清单骨架（D026）：与卡片网格同列，清单到达后由真实列表替换 */
+.list-skeleton {
+  margin: 30px 0 0 38px;
+
+  .sk-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 26px;
+  }
+
+  .sk-block {
+    width: 22%;
+    height: 160px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #f2f3f5 25%, #e8eaed 37%, #f2f3f5 63%);
+    background-size: 400% 100%;
+    animation: sk-shimmer 1.4s ease infinite;
+  }
+}
+@keyframes sk-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+/* 992px 以下顶栏为 80px 白色导航 */
+@media screen and (max-width: 992px) {
+  .search-wrap.wrapIsfixed {
+    top: 80px;
+  }
 }
 .search-l {
   align-items: center;
@@ -625,13 +735,16 @@ input:-ms-input-placeholder {
   margin-right: 20px;
   vertical-align: middle;
 }
-.search-r:hover .sanjiao {
+.search-r:hover .sanjiao,
+.search-r:focus-within .sanjiao {
   display: block;
 }
-.search-r:hover .sanjiao-1 {
+.search-r:hover .sanjiao-1,
+.search-r:focus-within .sanjiao-1 {
   display: block;
 }
-.search-r:hover .explain {
+.search-r:hover .explain,
+.search-r:focus-within .explain {
   display: block;
 }
 
@@ -748,7 +861,7 @@ input:-ms-input-placeholder {
   opacity: 1;
 }
 
-.nweVer {
+.newVer {
   width: 33px;
   height: 26px;
   position: relative;
@@ -1142,6 +1255,10 @@ input:-ms-input-placeholder {
 
   .search-wrap {
     margin-top: 100px;
+  }
+  .search-wrap.wrapIsfixed {
+    margin-top: 0;
+    top: 80px;
   }
   .search-l {
     height: 35px;

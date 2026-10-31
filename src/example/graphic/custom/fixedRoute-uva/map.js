@@ -201,10 +201,10 @@ function addGroundLine() {
     // 更新其他矢量对象
     groundPoint.position = pt2
 
-    // const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行海拔-地面海拔
+    // const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行高-地面高
     // fixedRoute.label.text = `火星无人机\nAGL:${mars3d.Util.formatNum(wrjHeight, 2)}m`
 
-    // 绝对高度（ASL）‌: 飞行海拔
+    // 绝对高度（ASL）‌: 飞行高
     fixedRoute.label.text = `火星无人机\nASL:${mars3d.Util.formatNum(wrjCarto.height, 2)}m`
   })
 }
@@ -248,6 +248,23 @@ function addRectSensor(arr) {
     }
   })
   graphicLayer.addGraphic(rectSensor)
+
+  // 鹰眼地图方向
+  const additionalCamera = new mars3d.control.CameraOverviewMap({
+    style: {
+      right: "15px",
+      bottom: "45px",
+      width: "400px",
+      height: "300px"
+    },
+    zoomFactor: 1.0
+  })
+  map.addControl(additionalCamera)
+
+  additionalCamera.position = fixedRoute.property // 坐标跟随route
+  additionalCamera.heading = headingProperty
+  additionalCamera.pitch = pitchProperty
+  additionalCamera.roll = rollProperty
 
   // 连接线
   const testLine = new mars3d.graphic.PolylineEntity({
@@ -434,6 +451,7 @@ function bindPopup(fixedRoute) {
     }
   })
 }
+
 
 // ui层使用
 export const formatDistance = mars3d.MeasureUtil.formatDistance

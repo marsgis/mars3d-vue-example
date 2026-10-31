@@ -12,10 +12,11 @@ const props = defineProps<{
   units: string[]
 }>()
 
-const values = ref([])
+const values = ref<string[]>([])
 
 watchEffect(() => {
-  values.value = props.value
+  // 复制一份，避免 v-model 回写时直接修改父组件传入的 props 数组
+  values.value = [...(props.value || [])]
 })
 
 const emits = defineEmits(["update:value", "change"])

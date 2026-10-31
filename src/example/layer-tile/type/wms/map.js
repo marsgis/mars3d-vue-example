@@ -73,6 +73,15 @@ let tileLayer
 export function addTileLayer() {
   removeTileLayer()
 
+  // 如果wms参数有不好处理的，也可以直接使用xyz的方式请求
+  // tileLayer = new mars3d.layer.XyzLayer({
+  //   url: "http://127.0.0.1:9098/geoserver/DaQi/wms?service=WMS&version=1.3.0&request=GetMap&layers=DaQi:gyl&bbox={westProjected},{southProjected},{eastProjected},{northProjected}&crs=EPSG:4326&width=256&height=256&styles=&format=image/png&transparent=true",
+  //   crs: "EPSG:4326",
+  //   flyTo: true
+  // })
+  // map.addLayer(tileLayer)
+
+
   // 方式2：在创建地球后调用addLayer添加图层(直接new对应type类型的图层类)
   tileLayer = new mars3d.layer.WmsLayer({
     name: "合肥WMS",

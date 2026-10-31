@@ -1,6 +1,8 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <mars-gui :options="options" :labelCol="6" ref="marsGuiRef"></mars-gui>
+    <a-form class="mars-gui-form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+    </a-form>
 
     <div class="draw-tools">
       <a-space>
@@ -34,12 +36,12 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue"
+import { nextTick, reactive, ref } from "vue"
 import * as mapWork from "./map.js"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
+import { updateField } from "@mars/components/mars-ui/mars-gui-item"
 
-const marsGuiRef = ref()
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "switch",
     field: "type",
@@ -47,7 +49,7 @@ const options: GuiItem[] = [
     value: true,
     change(data) {
       mapWork.showDengGX(data)
-      marsGuiRef.value.updateField("type", data)
+      updateField(options, "type", data)
     }
   },
   {
@@ -130,7 +132,7 @@ const options: GuiItem[] = [
       mapWork.chkClippingPlanes(data)
     }
   }
-]
+])
 
 interface TableItem {
   key: number
@@ -188,7 +190,7 @@ const deleted = (record: any) => {
   mapWork.deletedGraphic(record.key)
   dataSource.value = dataSource.value.filter((item: any) => item.key !== record.key)
   if (dataSource.value.length === 0) {
-    marsGuiRef.value.updateField("control", true)
+    updateField(options, "control", true)
   }
   mapWork.changeTable(dataSource.value)
 }
@@ -206,7 +208,7 @@ const clearAll = () => {
   mapWork.clearAll()
 
   // formState.showElse = true
-  marsGuiRef.value.updateField("control", true)
+  updateField(options, "control", true)
   // 清除表格
   dataSource.value = []
 }

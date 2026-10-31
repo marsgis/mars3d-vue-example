@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, onUnmounted, reactive, ref } from "vue"
 import * as echarts from "echarts"
 import * as mapWork from "./map.js"
 
@@ -45,6 +45,7 @@ let HBTJ
 
 let route = [] // 国内机场航线数据
 let flight = []
+let hbtjResizeHandler: (() => void) | null = null // 航班统计图表resize监听引用
 
 onMounted(() => {
   const airData = mapWork.getAirData()
@@ -59,6 +60,14 @@ onMounted(() => {
 
   initCharts_Two()
   initCharts_Three()
+})
+
+// 组件卸载时移除resize监听，避免泄漏
+onUnmounted(() => {
+  if (hbtjResizeHandler) {
+    window.removeEventListener("resize", hbtjResizeHandler)
+    hbtjResizeHandler = null
+  }
 })
 
 function initCharts_Two() {
@@ -155,9 +164,10 @@ function initCharts_Three() {
 
   myChart.setOption(option)
 
-  window.addEventListener("resize", function () {
+  hbtjResizeHandler = function () {
     myChart.resize()
-  })
+  }
+  window.addEventListener("resize", hbtjResizeHandler)
 }
 </script>
 <style scoped lang="less">

@@ -30,6 +30,7 @@ export function onMounted(mapInstance) {
   // 加一些演示数据
   addDemoGraphic1(graphicLayer)
   addDemoGraphic2(graphicLayer)
+  // addDemoGraphic3(graphicLayer)
 }
 
 // 释放当前地图业务的生命周期函数
@@ -81,6 +82,46 @@ function addDemoGraphic2(graphicLayer) {
     attr: { remark: "线面状数据坐标positions" }
   })
   graphicLayer.addGraphic(graphic)
+}
+
+function addDemoGraphic3(graphicLayer) {
+  const fixedRoute = new mars3d.graphic.FixedRoute({
+    position: {
+      type: "time", // 时序动态坐标
+      speed: 80,
+      list: [
+        [117.154814, 31.852722, 44], [117.158841, 31.828314, 38.8]
+      ]
+    },
+    frameRate: 1,
+    showStop: true,
+    model: {
+      url: "https://data.mars3d.cn/gltf/mars/man/walk.gltf",
+      scale: 5,
+      minimumPixelSize: 50
+    },
+    polyline: {
+      color: "#ffff00",
+      width: 2
+    }
+  })
+  graphicLayer.addGraphic(fixedRoute)
+  fixedRoute.start()
+
+  setTimeout(() => {
+    fixedRoute.setOptions({
+      position: {
+        type: "ajax",
+        url: "https://studio-api.mars3d.cn/api/gap/open/random/point",
+        time: 5,
+        latColumn: "lat",
+        lngColumn: "lng",
+        altColumn: "alt",
+        dataColumn: "data"
+      }
+    })
+    console.log("fixedRoute修改为ajax", fixedRoute.toJSON({ toNum: true }))
+  }, 5000)
 }
 
 // 在图层绑定Popup弹窗

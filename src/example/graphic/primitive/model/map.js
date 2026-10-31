@@ -2,6 +2,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
+let waveTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -42,6 +43,11 @@ export function onMounted(mapInstance) {
 export function onUnmounted() {
   map = null
 
+  if (waveTimer) {
+    clearInterval(waveTimer)
+    waveTimer = null
+  }
+
   graphicLayer.remove()
   graphicLayer = null
 }
@@ -56,7 +62,12 @@ function addDemoGraphic1(graphicLayer) {
       minimumPixelSize: 50,
       heading: 90,
       lightColor: 6, // 解决模型发暗，直接把光增强lightColor倍 (建议同时打开map.fixedLight = true)
-
+      // customShader: new Cesium.CustomShader({
+      //   fragmentShaderText: `
+      //     void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
+      //       material.diffuse *= 1.8; // 解决模型发暗，调整亮度系数
+      //     }`
+      // }),
       distanceDisplayCondition: true,
       distanceDisplayCondition_near: 0,
       distanceDisplayCondition_far: 10000,
@@ -206,6 +217,10 @@ function addDemoGraphic2(graphicLayer) {
     const model = event.model
 
     // 参考API: http://mars3d.cn/api/cesium/ModelAnimationCollection.html
+    const activeAnimations = model.activeAnimations
+    console.log(activeAnimations)
+    window.activeAnimations = activeAnimations
+
     model.activeAnimations.addAll({
       multiplier: 0.5, // 播放速度
       loop: Cesium.ModelAnimationLoop.REPEAT // 循环播放动画
@@ -213,21 +228,34 @@ function addDemoGraphic2(graphicLayer) {
       // removeOnStop: true, // 动画停止时不删除(默认)
     })
 
-    // let animation = model.activeAnimations.add({
-    //   index: 0, //第一个叶子
-    //   multiplier: 0.5, // Play at double speed
-    //   loop: Cesium.ModelAnimationLoop.REPEAT, // Loop the animation
-    // });
+    // // 动画： 螺旋桨循环旋转
+    // const animation1 = activeAnimations.add({
+    //   index: 0,
+    //   multiplier: 1,
+    //   loop: Cesium.ModelAnimationLoop.REPEAT,
+    //   startTime: mars3d.Util.getJulianDate(1, map.clock.currentTime),
+    //   stopTime: mars3d.Util.getJulianDate(10, map.clock.currentTime),
+    //   removeOnStop: true
+    // })
 
-    // animation.start.addEventListener(function (model, animation) {
-    //   console.log("Animation started: " + animation.name);
-    // });
-    // animation.update.addEventListener(function (model, animation, time) {
-    //   console.log("Animation updated: " + animation.name + ". glTF animation time: " + time);
-    // });
-    // animation.stop.addEventListener(function (model, animation) {
-    //   console.log("Animation stopped: " + animation.name);
-    // });
+    // //  动画：起落架一次性收起
+    // const animation2 = activeAnimations.add({
+    //   index: 1,
+    //   multiplier: 0.5,
+    //   loop: Cesium.ModelAnimationLoop.NONE,
+    //   startTime: mars3d.Util.getJulianDate(2, map.clock.currentTime),
+    //   removeOnStop: true
+    // })
+
+    // // 动画： 起落架一次性放下
+    // const animation3 = activeAnimations.add({
+    //   index: 1,
+    //   reverse: true, // 倒序播放
+    //   multiplier: 0.5,
+    //   loop: Cesium.ModelAnimationLoop.NONE,
+    //   startTime: mars3d.Util.getJulianDate(10, map.clock.currentTime),
+    //   removeOnStop: true
+    // })
   })
 }
 
@@ -351,7 +379,7 @@ function addDemoGraphic5(graphicLayer) {
   })
   // 监听postUpdate，来演示修改uniforms变量
   const startTime = performance.now()
-  setInterval(() => {
+  waveTimer = setInterval(() => {
     const elapsedTimeSeconds = (performance.now() - startTime) / 1000
     pointCloudWaveShader.setUniform("u_time", elapsedTimeSeconds)
   }, 200)

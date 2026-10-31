@@ -1,6 +1,7 @@
 import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
+let idxTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -25,6 +26,11 @@ export function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (idxTimer) {
+    clearInterval(idxTimer)
+    idxTimer = null
+  }
 }
 
 //  RectangleEntity的方式
@@ -220,7 +226,6 @@ function showImagesByAlpha() {
 
   let step = 0
   const alphaStep = 0.01
-  let idxTimer
 
   function changeRadarAlpha(time) {
     if (step > arrTileLayer.length - 1) {

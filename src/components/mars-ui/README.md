@@ -20,7 +20,7 @@
 需要修改自己项目的文件：
 
 - `package.json`
-- `vite.config.ts` 或 `vue.config.js`
+- `vite.config.mts` 或 `vue.config.js`
 - `src/main.js`
 - 需要加地图的`vue文件`
 
@@ -44,8 +44,8 @@ MarsUIInstall(app);
     "ant-design-vue": "^4.0.7",
     "consola": "^3.2.3",
     "echarts": "^5.4.3",
-    "mars3d": "~3.11.0",
-    "mars3d-cesium": "~1.143.0",
+    "mars3d": "~3.12.0",
+    "mars3d-cesium": "~1.146.0",
     "nprogress": "^0.2.0",
     "vite-plugin-style-import": "^2.0.0",
      "vue": "^3.5.13",

@@ -117,7 +117,7 @@ let tipGraphic
  *
  * @export
  * @param {Array} point 坐标点
- * @param {number} z 海拔高度
+ * @param {number} z 大地高
  * @param {html} inthtml html
  * @returns {void}
  */

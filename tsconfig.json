@@ -2,18 +2,18 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": false,
-    "strictNullChecks": false,
+    "strictFunctionTypes": true, // 模块 08 开启（C023）：全仓仅 1 处示例回调签名需修正
+    "strictNullChecks": false, // 维持关闭：全仓 157 处诊断（示例 90 / 公共层 67），见问题台账 I042
     "jsx": "preserve",
     "allowJs": true,
     "sourceMap": true,
     "alwaysStrict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": false, // 维持关闭：全仓 420 处诊断（示例 226 / 公共层 194），见问题台账 I042
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -21,9 +21,8 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "isolatedModules": false,
     "types": ["node"],
-    "baseUrl": ".",
     "paths": {
-      "@mars/*": ["src/*"]
+      "@mars/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],

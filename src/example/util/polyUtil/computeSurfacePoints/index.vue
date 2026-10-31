@@ -90,7 +90,7 @@ function setEchartsData(data: any) {
           return inhtml
         }
 
-        const hbgd = params[0].value // 海拔高度
+        const hbgd = params[0].value // 大地高
         const point = arrPoint[params[0].dataIndex] // 所在经纬度
         const len = mapWork.formatDistance(Number(params[0].axisValue))
         const hbgdStr1 = mapWork.formatDistance(Number(params[0].value)) || "无"

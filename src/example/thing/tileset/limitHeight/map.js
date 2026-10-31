@@ -48,7 +48,7 @@ export function onMounted(mapInstance) {
   limitHeight = new mars3d.thing.LimitHeight({
     color: "rgba(255,0,0,0.5)",
     height: 80, // 限高
-    bottomHeight: 32, // 模型地面的海拔高度（单位：米）
+    bottomHeight: 32, // 模型地面的大地高（单位：米）
     positions: [
       [117.210446, 31.829032, 0],
       [117.226334, 31.826662, 0],

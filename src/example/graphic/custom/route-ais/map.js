@@ -2,6 +2,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
+let posTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -51,6 +52,11 @@ export function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (posTimer) {
+    clearInterval(posTimer)
+    posTimer = null
+  }
 }
 
 export function addDemoGraphics(points) {
@@ -82,7 +88,7 @@ export function addDemoGraphics(points) {
   // 定时更新动态位置（setInterval为演示）
   const interval = 3
   changePosition(interval)
-  setInterval(() => {
+  posTimer = setInterval(() => {
     changePosition(interval)
   }, interval * 1000)
 }

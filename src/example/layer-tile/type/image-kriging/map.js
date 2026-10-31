@@ -1,6 +1,6 @@
 import * as mars3d from "mars3d"
 // import kriging from "kriging"
-const kriging = window.kriging
+const krigingLib = window.kriging
 
 export let map // mars3d.Map三维地图对象
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
@@ -68,7 +68,7 @@ export async function addTileLayer() {
   // map.flyToExtent({ xmin, xmax, ymin, ymax })
 
   // 训练并得到格网[kriging适合少量数据，数据量大就卡死了]
-  const variogram = kriging.train(vals, lngs, lats, "exponential", 0, 100)
+  const variogram = krigingLib.train(vals, lngs, lats, "exponential", 0, 100)
   const extent = [
     [
       [xmin, ymin],
@@ -77,7 +77,7 @@ export async function addTileLayer() {
       [xmin, ymax]
     ]
   ]
-  const grid = kriging.grid(extent, variogram, (xmax - xmin) / 500)
+  const grid = krigingLib.grid(extent, variogram, (xmax - xmin) / 500)
 
   // 进行绘图
   const canvas = document.createElement("canvas")

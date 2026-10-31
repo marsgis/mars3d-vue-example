@@ -99,6 +99,10 @@ function addRandomGraphicByCount(graphicLayer, position) {
       hls.loadSource(hlsUrl)
       hls.attachMedia(videoElement)
       hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
+        // 锁定到最高码率级别，避免自适应码率切换导致视频分辨率变化而闪烁
+        if (hls.levels && hls.levels.length > 0) {
+          hls.currentLevel = hls.levels.length - 1
+        }
         videoElement.play()
       })
     } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {

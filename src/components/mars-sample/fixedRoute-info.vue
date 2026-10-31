@@ -92,7 +92,7 @@ const formState: UnwrapRef<FormState> = reactive({
 
 const props = withDefaults(
   defineProps<{
-    top: string
+    top?: string | null
   }>(),
   {
     top: null

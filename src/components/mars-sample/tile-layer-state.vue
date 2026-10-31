@@ -52,7 +52,9 @@
       </div>
 
       <div class="f-mb">
-        <mars-gui :options="options" labelCol="6"></mars-gui>
+        <a-form class="mars-gui-form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+          <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+        </a-form>
       </div>
 
       <!-- 图层交互 -->
@@ -87,9 +89,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, watch } from "vue"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import { ref, reactive, onMounted, onBeforeUnmount, watch } from "vue"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
 import type { UnwrapRef } from "vue"
+import { onMapWorkReady } from "@mars/utils/map-work"
 
 // mapWork是map.js内定义的所有对象， 在项目中使用时可以改为import方式使用:  import * as mapWork from './map.js'
 const mapWork = window.mapWork
@@ -180,8 +183,31 @@ const tileLayerCustomRowObj = (record) => {
 let map
 let thisLayer: any // 选中的图层
 
+let offMapWorkReady: (() => void) | null = null
+
+// map.js 的 onMounted 由框架（pages/editor|read/App.vue）调用 useLifecycle() 触发，
+// 与本组件的 onMounted 没有固定先后顺序，等“地图业务就绪”（map 已创建）后再读取图层列表
 onMounted(() => {
+  offMapWorkReady = onMapWorkReady(() => initTileLayers(), {
+    // 兜底：旧版框架未派发就绪事件时，以“地图对象已创建”作为就绪条件
+    probe: () => !!mapWork.map
+  })
+})
+
+onBeforeUnmount(() => {
+  if (offMapWorkReady) {
+    offMapWorkReady()
+    offMapWorkReady = null
+  }
+})
+
+// 初始化图层列表（地图对象就绪后调用）
+function initTileLayers() {
   map = mapWork.map
+  if (!map) {
+    console.warn("[tile-layer-state] 未获取到 map.js 中创建的 map 对象，跳过初始化")
+    return
+  }
 
   formState.hasAddTileLayer = Boolean(mapWork.addTileLayer)
 
@@ -203,9 +229,6 @@ onMounted(() => {
     rowKeys.value.push(layer.id)
   }
   tileLayerList.value = list
-
-  console.log("当前图层列表为", list)
-
 
   selectedFirst()
 
@@ -240,7 +263,7 @@ onMounted(() => {
       formState.layerName = "" // 隐藏编辑面板
     }
   })
-})
+}
 
 function selectedFirst() {
   setTimeout(() => {
@@ -252,7 +275,7 @@ function selectedFirst() {
 }
 
 // 编辑图层面板的参数
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "slider",
     field: "opacity",
@@ -337,7 +360,7 @@ const options: GuiItem[] = [
       setLayerOptions("gamma", data)
     }
   }
-]
+])
 
 const setLayerOptions = (attribute: string, val: number) => {
   if (thisLayer) {

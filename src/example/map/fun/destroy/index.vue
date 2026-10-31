@@ -16,12 +16,9 @@ import { useWidget } from "@mars/widgets/common/store/widget"
 import * as mapWork from "./map.js"
 const { activate, disableAll } = useWidget()
 
-const emits = defineEmits(["updateMap"])
-
 // 创建地图
 const createMap = () => {
   window._mapInstance = mapWork.createMap()
-  emits("updateMap") // 更新  \App.vue
 
   activate("tools-button")
 }

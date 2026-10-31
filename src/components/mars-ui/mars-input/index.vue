@@ -61,7 +61,7 @@ export default defineComponent({
   padding: 0px 0px 0px 7px;
   border-radius: 0px !important;
   border-color: transparent;
-  color: #fff;
+  color: var(--mars-control-text);
 }
 .ant-input-affix-wrapper-focused {
   box-shadow: none;

@@ -1,16 +1,19 @@
 <template>
   <mars-dialog :visible="true" right="10" top="10" width="330">
-    <mars-gui :options="options" labelCol="3" :noPadding="true"></mars-gui>
+    <a-form class="mars-gui-form pad-none" :label-col="{ span: 3 }" :wrapper-col="{ span: 21 }">
+      <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"></mars-gui-item>
+    </a-form>
   </mars-dialog>
 </template>
 
 <script setup lang="ts">
 import * as mapWork from "./map.js"
+import { reactive } from "vue"
 import { useWidget } from "@mars/widgets/common/store/widget"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
 const { activate, disable } = useWidget()
 
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "checkbox",
     field: "button",
@@ -89,7 +92,7 @@ const options: GuiItem[] = [
       }
     ]
   }
-]
+])
 
 // 按钮
 const chooseButton = (data) => {

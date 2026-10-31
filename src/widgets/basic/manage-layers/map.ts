@@ -55,6 +55,9 @@ export function flytoModelNode(nodeid: number, nodesphere: any) {
   // 构件节点位置
   let center = new Cesium.Cartesian3(nodesphere[0], nodesphere[1], nodesphere[2])
   const tiles3dLayer: mars3d.layer.TilesetLayer = map.getLayerById(nodeid)
+  if (!tiles3dLayer) {
+    return
+  }
 
   // 获取构件节点位置，现对于原始矩阵变化后的新位置
   center = tiles3dLayer.getPositionByOrginMatrix(center)
@@ -72,6 +75,9 @@ export function checkModelStyle(layerid: number, arrIds: any) {
     return
   }
   const tiles3dLayer = map.getLayerById(layerid)
+  if (!tiles3dLayer) {
+    return
+  }
 
   let titleStyle = ""
   if (!arrIds.length) {

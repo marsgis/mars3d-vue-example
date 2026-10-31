@@ -3,6 +3,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 let graphicLayer
+let timeTik
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -38,6 +39,11 @@ export function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (timeTik) {
+    clearInterval(timeTik)
+    timeTik = null
+  }
 }
 
 // 取数据方法只是用于当前示例模拟实时数据，真实项目直接取数据调用addRoute方法
@@ -61,7 +67,7 @@ async function loadRouteDemoData() {
   }
   startPlay()
 
-  const timeTik = setInterval(startPlay, 1000)
+  timeTik = setInterval(startPlay, 1000)
 }
 
 // 更新无人机路线（没有构造时自动添加对象）
@@ -104,6 +110,8 @@ function addRoute(item) {
     // 是与route绑定的矢量对象，放在route构造时一起构造
     addGroundLine(route, graphicId)
     addRectSensor(route, graphicId)
+
+    addCameraOverviewMap(route)
   }
 
   const position = Cesium.Cartesian3.fromDegrees(item.lng, item.lat, item.alt)
@@ -115,6 +123,11 @@ function addRoute(item) {
   rectSensor.roll = item.camera.roll
   rectSensor.angle1 = 10 + item.camera.zoom
   rectSensor.angle2 = 10 + item.camera.zoom
+
+  // 鹰眼地图方向
+  additionalCamera.heading = item.camera.heading
+  additionalCamera.pitch = item.camera.pitch
+  additionalCamera.roll = item.camera.roll
 
   console.log("更新数据完成", item)
 }
@@ -162,10 +175,10 @@ function addGroundLine(route) {
     groundPoint.position = pt2
 
     if (route.label) {
-      // const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行海拔-地面海拔
+      // const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行高度-地面高度
       // fixedRoute.label.text = `火星无人机\nAGL:${mars3d.Util.formatNum(wrjHeight, 2)}m`
 
-      // 绝对高度（ASL）‌: 飞行海拔
+      // 绝对高度（ASL）‌: 飞行高度
       route.label.text = `火星无人机\nASL:${mars3d.Util.formatNum(wrjCarto.height, 2)}m`
     }
   })
@@ -305,12 +318,11 @@ function bindPopup(fixedRoute) {
     const lblAGL = container.querySelector("#lblAGL")
     if (lblAGL) {
       const dmHeight = mars3d.PointUtil.getHeight(map?.scene, wrjCarto, { max: wrjCarto.height })
-      const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行海拔-地面海拔
+      const wrjHeight = wrjCarto.height - dmHeight // 相对地面高度（AGL）‌: 飞行高度-地面高度
       lblAGL.innerHTML = `${mars3d.Util.formatNum(wrjHeight, 2)}m`
     }
   })
 }
-
 
 // 当需要无人机竖直飞行时，方向不乱变化，执行下下面方法
 function bindVelocityVectorPropertyGetValueFun() {
@@ -352,11 +364,9 @@ function bindVelocityVectorPropertyGetValueFun() {
 
     position2 = mars3d.PointUtil.setPositionsHeight(position2, mars3d.Cesium.Cartographic.fromCartesian(position1).height)
 
-
     if (mars3d.Cesium.Cartesian3.distance(position1, position2) < 0.01) {
       return undefined
     }
-
 
     if (Cesium.defined(positionResult)) {
       position1.clone(positionResult)
@@ -369,5 +379,21 @@ function bindVelocityVectorPropertyGetValueFun() {
 
     return Cesium.Cartesian3.divideByScalar(velocity, 1, velocityResult)
   }
+}
 
+// 添加相机鹰眼小地图
+let additionalCamera
+function addCameraOverviewMap(route) {
+  additionalCamera = new mars3d.control.CameraOverviewMap({
+    style: {
+      right: "15px",
+      bottom: "45px",
+      width: "400px",
+      height: "300px"
+    },
+    zoomFactor: 1.0
+  })
+  map.addControl(additionalCamera)
+
+  additionalCamera.position = route.property // 坐标跟随route
 }

@@ -75,9 +75,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue"
+import { onMounted, onUnmounted } from "vue"
 
 import * as echarts from "echarts"
+
+let realPopulationResizeHandler: (() => void) | null = null // 实有人口图表resize监听引用
+let structureResizeHandler: (() => void) | null = null // 人口结构图表resize监听引用
+let agingResizeHandler: (() => void) | null = null // 老龄化分析图表resize监听引用
 
 onMounted(() => {
   const realPopulationDom = document.getElementById("population")
@@ -87,6 +91,22 @@ onMounted(() => {
   initRealPopulation(realPopulationDom)
   initPopulationStructure(populationStructureDom)
   initAging(agingDom)
+})
+
+// 组件卸载时移除resize监听，避免泄漏
+onUnmounted(() => {
+  if (realPopulationResizeHandler) {
+    window.removeEventListener("resize", realPopulationResizeHandler)
+    realPopulationResizeHandler = null
+  }
+  if (structureResizeHandler) {
+    window.removeEventListener("resize", structureResizeHandler)
+    structureResizeHandler = null
+  }
+  if (agingResizeHandler) {
+    window.removeEventListener("resize", agingResizeHandler)
+    agingResizeHandler = null
+  }
 })
 
 // 实有人口
@@ -153,9 +173,10 @@ function initRealPopulation(dom: any) {
   }
   realEcharts.setOption(realPopulationOption)
 
-  window.addEventListener("resize", function () {
+  realPopulationResizeHandler = function () {
     realEcharts.resize()
-  })
+  }
+  window.addEventListener("resize", realPopulationResizeHandler)
 }
 // 人口结构
 function initPopulationStructure(dom: any) {
@@ -235,9 +256,10 @@ function initPopulationStructure(dom: any) {
   }
   structureEcharts.setOption(structureOption)
 
-  window.addEventListener("resize", function () {
+  structureResizeHandler = function () {
     structureEcharts.resize()
-  })
+  }
+  window.addEventListener("resize", structureResizeHandler)
 }
 
 // 人口老龄化分析
@@ -319,9 +341,10 @@ function initAging(dom: any) {
   }
   agingEcharts.setOption(agingOption)
 
-  window.addEventListener("resize", function () {
+  agingResizeHandler = function () {
     agingEcharts.resize()
-  })
+  }
+  window.addEventListener("resize", agingResizeHandler)
 }
 </script>
 <style scoped lang="less">

@@ -57,10 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, onUnmounted, reactive, ref } from "vue"
 import { TableColumnType, TableProps } from "ant-design-vue"
-import { setAutoHeight } from "@mars/utils/mars-util"
-import axios from "axios"
+import { fetchJson, setAutoHeight } from "@mars/utils/mars-util"
 import * as mapWork from "./map.js"
 
 interface typhoon {
@@ -125,12 +124,12 @@ const formState = reactive<typhoon>({
 })
 
 // 高度自适应
+let stopAutoHeight = () => {}
 onMounted(() => {
   // 访问后端接口，取台风列表数据
   // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_default", //在线实时接口
   const url = "https://data.mars3d.cn/file/apidemo/typhoon/list_2020.json"
-  axios.get(url).then(function (res: any) {
-    const data = res.data
+  fetchJson({ url }).then(function (data: any) {
     typhoonList.value = data.typhoonList.map((item: any) => ({
       id: item[0],
       name_en: item[1],
@@ -140,10 +139,11 @@ onMounted(() => {
     }))
   })
 
-  setAutoHeight((height) => {
+  stopAutoHeight = setAutoHeight((height) => {
     tableScrollHeight.value = height - 64
   }, 420)
 })
+onUnmounted(() => stopAutoHeight())
 
 const rowSelection: TableProps["rowSelection"] = {
   hideSelectAll: true,
@@ -193,8 +193,8 @@ function selectOneTyphoon(item: typhoon) {
 function getPath(id) {
   // url: "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/view_" + id, //在线实时接口
   const url = "http://data.mars3d.cn/file/apidemo/typhoon/view_" + id + ".json"
-  return axios.get(url).then(function (res: any) {
-    const newData = conversionPathData(res.data.typhoon) // 在Typhoon.js中
+  return fetchJson({ url }).then(function (data: any) {
+    const newData = conversionPathData(data.typhoon) // 在Typhoon.js中
     return newData
   })
 }

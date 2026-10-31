@@ -44,7 +44,7 @@ function initMap() {
   const locationBar = new mars3d.control.LocationBar({
     fps: true,
     template:
-      "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"
+      "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>大地高：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}度</div> <div>俯仰角：{pitch}度</div><div>视高：{cameraHeight}米</div>"
   })
   map.addControl(locationBar)
 

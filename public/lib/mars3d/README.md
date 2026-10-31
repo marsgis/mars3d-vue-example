@@ -137,8 +137,6 @@
 
  ![image](https://cdn.marsgis.cn/mall/mars3d-studio-map/1.jpg)
 
-
-
 ## 📄 版权说明 / License
 
 Mars3D SDK采用 **“社区免费版 + 商业授权版” 双重授权**。

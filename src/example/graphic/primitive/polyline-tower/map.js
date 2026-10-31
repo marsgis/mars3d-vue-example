@@ -180,7 +180,7 @@ function drawWireTowerModel(position, degree, scale, item) {
       { field: "type", name: "杆塔型号" },
       { field: "degree", name: "方向" },
       { field: "height", name: "杆塔高度" },
-      { field: "alt", name: "海拔高度" }
+      { field: "alt", name: "大地高" }
     ],
     attr: item
   })

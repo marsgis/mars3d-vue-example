@@ -2,7 +2,7 @@
 // 它利用 MapLibre GL Native 进行服务器端的矢量图层渲染，将pbf矢量瓦片转为普通瓦片数据后提供通过 WMTS 协议在Mars3D前端进行加载展示。
 
 import * as mars3d from "mars3d"
-import { PbfLayer } from "../../../../../public/lib/mars3d/thirdParty/pbf-mapbox/PbfLayer.js"
+import { PbfLayer } from "../../../../../public/lib/czmThirdParty/pbf-mapbox/PbfLayer.js"
 
 export let map // mars3d.Map三维地图对象
 
@@ -16,7 +16,7 @@ export const mapOptions = {
     {
       name: "矢量瓦片图层",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/osm.png",
-      type: "pbf", // lib\mars3d\thirdParty\pbf-mapbox\PbfLayer.js 中定义的类型
+      type: "pbf", // lib\czmThirdParty\pbf-mapbox\PbfLayer.js 中定义的类型
       url: "https://api.maptiler.com/maps/basic/style.json?key=pSHUA9sSkNny3iqoWG4P",
       popup: "all",
       show: true
@@ -42,7 +42,7 @@ export function onUnmounted() {
 }
 
 // function addPbfLayer() {
-//   // 在 lib\mars3d\thirdParty\pbf-mapbox\PbfLayer.js 中定义的
+//   // 在 lib\czmThirdParty\pbf-mapbox\PbfLayer.js 中定义的
 //   const pbfLayer = new PbfLayer({
 //     url: "https://api.maptiler.com/maps/basic/style.json?key=pSHUA9sSkNny3iqoWG4P",
 //     popup: "all"
@@ -492,7 +492,7 @@ function addPbfLayer2() {
     }
   }
 
-  // 在 lib\mars3d\thirdParty\pbf-mapbox\PbfLayer.js 中定义的
+  // 在 lib\czmThirdParty\pbf-mapbox\PbfLayer.js 中定义的
   const pbfLayer = new PbfLayer({
     style: exampleStyle,
     popup: "all"

@@ -1,19 +1,24 @@
 <template>
   <mars-dialog customClass="example-gui" :visible="true" top="20" right="10" :width="330">
-    <!-- 方式一： 通过组件api 删除或添加显示的元素， option不需要是响应式数据 -->
+    <!-- 方式一： 通过工具函数 删除或添加显示的元素， option不需要是响应式数据 -->
     <div class="title-vertical_line">表单一</div>
-    <mars-gui ref="marsGuiRef" :options="options" @change="gui1Change"></mars-gui>
+    <a-form class="mars-gui-form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <mars-gui-item v-for="(item, index) in options" :key="index" :option="item" :options="options"
+        @change="gui1Change"></mars-gui-item>
+    </a-form>
 
     <!-- 方式二： 直接通过options控制显示元素， option需要是响应式数据 -->
     <div class="title-vertical_line f-mt">表单二</div>
-    <mars-gui :options="options2"></mars-gui>
+    <a-form class="mars-gui-form" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <mars-gui-item v-for="(item, index) in options2" :key="index" :option="item" :options="options2"></mars-gui-item>
+    </a-form>
 
     <div class="footer-btns">
       <mars-button @click="deleteJingdu">删除数字</mars-button>
       <mars-button @click="deleteFirst">删除第一个</mars-button>
       <mars-button @click="insertOne">插入一个</mars-button>
       <mars-button @click="insertMore">插入多个</mars-button>
-      <mars-button @click="updateExtra">改变后缀</mars-button>
+      <mars-button @click="changeExtra">改变后缀</mars-button>
       <mars-button @click="updateAll">完全替换</mars-button>
       <mars-button @click="updateAllDate">批量更新</mars-button>
     </div>
@@ -23,11 +28,12 @@
 <script setup lang="ts">
 import { $message } from "@mars/components/mars-ui"
 import MarsButton from "@mars/components/mars-ui/mars-button/index.vue"
-import type { GuiItem } from "@mars/components/mars-ui/mars-gui"
+import type { GuiItem } from "@mars/components/mars-ui/mars-gui-item"
+import { deleteItem, insertItem, updateExtra, updateFields } from "@mars/components/mars-ui/mars-gui-item"
 import * as mapWork from "./map.js"
-import { ref, h, defineComponent } from "vue"
+import { reactive, ref, h, defineComponent } from "vue"
 
-const options: GuiItem[] = [
+const options = reactive<GuiItem[]>([
   {
     type: "inputGroup",
     field: "dufenmiao",
@@ -217,23 +223,21 @@ const options: GuiItem[] = [
       mapWork.enableMapMouseController(data) // 调用地图方法
     }
   }
-]
-
-const marsGuiRef = ref()
+])
 
 // 删除数字
 function deleteJingdu() {
-  marsGuiRef.value.delete("count")
+  deleteItem(options, "count")
 }
 
 // 删除第一个
 function deleteFirst() {
-  marsGuiRef.value.delete(0)
+  deleteItem(options, 0)
 }
 
 // 在指定位置插入内容
 function insertOne() {
-  marsGuiRef.value.insert(3, {
+  insertItem(options, 3, {
     type: "input",
     field: "weidu",
     label: "纬度",
@@ -246,7 +250,8 @@ function insertOne() {
 
 // 在指点位置插入更多内容
 function insertMore() {
-  marsGuiRef.value.insert(
+  insertItem(
+    options,
     6,
     {
       type: "input",
@@ -270,8 +275,8 @@ function insertMore() {
 }
 
 // 更新显示面板
-function updateExtra() {
-  marsGuiRef.value.updateExtra("dufenmiao", "测试改变为显示经度{jingdu}")
+function changeExtra() {
+  updateExtra(options, "dufenmiao", "测试改变为显示经度{jingdu}")
 }
 
 // gui对象改变时就会触发
@@ -307,7 +312,7 @@ function updateAll() {
 }
 
 function updateAllDate() {
-  marsGuiRef.value.updateFields({
+  updateFields(options, {
     opcity: 0.8,
     car: "货车"
   })

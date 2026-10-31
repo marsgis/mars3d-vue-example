@@ -15,6 +15,7 @@ export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出
 let moveGraphicObj
 const tiles3dLayerArr = []
 let removeGraphicArr
+let timeTik
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
 export function onMounted(mapInstance) {
   map = mapInstance // 记录map
@@ -662,6 +663,11 @@ export function addGraphics() {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (timeTik) {
+    clearInterval(timeTik)
+    timeTik = null
+  }
 }
 
 // 得到一个拱起的曲线坐标
@@ -741,7 +747,7 @@ export function firstStep() {
     graphicLayer.addGraphic(rescueIcon)
   }
 
-  const timeTik = setInterval(() => {
+  timeTik = setInterval(() => {
     if (rescueIcon.isDestroy) {
       clearInterval(timeTik)
       return

@@ -3,6 +3,7 @@ import * as mars3d from "mars3d"
 export let map // mars3d.Map三维地图对象
 export let graphicLayer // 矢量图层对象
 export const eventTarget = new mars3d.BaseClass()
+let addPointTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -53,6 +54,12 @@ export function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (addPointTimer) {
+    clearInterval(addPointTimer)
+    addPointTimer = null
+  }
+
   graphicLayer.remove()
   graphicLayer = null
 }
@@ -603,7 +610,7 @@ function addDemoGraphic16(graphicLayer) {
 
   // 动态平滑追加点
   const positions_draw = graphic.setCallbackPositions() // 切换坐标为动态回调模式
-  setInterval(() => {
+  addPointTimer = setInterval(() => {
     const position = new mars3d.LngLatPoint(116.979661 + Math.random() * 0.01, 31.863542 + Math.random() * 0.01, 38).toCartesian()
 
     // 开始处理重复点位，cesium渲染存在问题：最后一个点会跟之前轨迹上的某一个点连在一起，形成错误的效果

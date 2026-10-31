@@ -1,5 +1,5 @@
 import * as mars3d from "mars3d"
-import { WeiVectorTileLayer } from "../../../../../public/lib/mars3d/thirdParty/weiVectorTile/WeiVectorTileLayer.js"
+import { WeiVectorTileLayer } from "../../../../../public/lib/czmThirdParty/weiVectorTile/WeiVectorTileLayer.js"
 
 export let map // mars3d.Map三维地图对象
 
@@ -26,7 +26,7 @@ export function onUnmounted() {
   map = null
 }
 /**
- * API文档，参考public\lib\mars3d\thirdParty\weiVectorTile\README.md
+ * API文档，参考public\lib\czmThirdParty\weiVectorTile\README.md
  * 显示国界线
  *
  * @returns {void}

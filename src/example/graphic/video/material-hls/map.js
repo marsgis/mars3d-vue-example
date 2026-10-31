@@ -58,7 +58,7 @@ const hlsUrl = "https://demo.unified-streaming.com/k8s/features/stable/video/tea
 
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
-  videoElement.setAttribute("muted", "muted")
+  videoElement.muted = true
   videoElement.setAttribute("autoplay", "autoplay")
   videoElement.setAttribute("loop", "loop")
   videoElement.setAttribute("crossorigin", "")
@@ -74,6 +74,11 @@ function createVideoDom() {
     hls.loadSource(hlsUrl)
     hls.attachMedia(videoElement)
     hls.on(window.Hls.Events.MANIFEST_PARSED, function () {
+      // 锁定到最高码率级别，防止播放过程中自适应码率切换导致视频分辨率变化，
+      // 进而引发 Cesium 视频纹理尺寸不匹配的 GL_INVALID_VALUE 报错卡顿
+      if (hls.levels && hls.levels.length > 0) {
+        hls.currentLevel = hls.levels.length - 1
+      }
       playVideo()
     })
   } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
@@ -82,6 +87,19 @@ function createVideoDom() {
       playVideo()
     })
   }
+
+  // 兜底：监听视频尺寸变化，当 HLS 码率切换导致分辨率变化时，
+  // 重新设置 Graphic 的 material 以重建 WebGL 纹理，避免 GL_INVALID_VALUE 报错
+  videoElement.addEventListener("resize", function () {
+    if (!graphicLayer) {
+      return
+    }
+    graphicLayer.eachGraphic(function (graphic) {
+      if (graphic && graphic.setStyle) {
+        graphic.setStyle({ material: videoElement })
+      }
+    })
+  })
 
   setTimeout(() => {
     try {

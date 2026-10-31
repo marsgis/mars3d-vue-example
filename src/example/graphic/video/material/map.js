@@ -55,7 +55,7 @@ export function onUnmounted() {
 
 function createVideoDom() {
   videoElement = mars3d.DomUtil.create("video", "", document.body)
-  videoElement.setAttribute("muted", "muted")
+  videoElement.muted = true
   videoElement.setAttribute("autoplay", "autoplay")
   videoElement.setAttribute("loop", "loop")
   videoElement.setAttribute("crossorigin", "")

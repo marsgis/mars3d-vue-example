@@ -112,7 +112,9 @@ export function onMounted(mapInstance) {
 }
 
 export function clear() {
-  intervalNum && clearInterval(intervalNum)
+  if (intervalNum) {
+    clearInterval(intervalNum)
+  }
 }
 
 // 改变位置

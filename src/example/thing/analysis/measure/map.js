@@ -220,7 +220,7 @@ function getZoonData(lngLat) {
 export async function measurePoint() {
   const graphic = await measure.point({
     popupOptions: {
-      pointerEvents: false
+      // closeButton: false
     },
     popup: function (point, event) {
       const { jdDms, wdDms } = getDegreeMinuteSecondData({ lng: point.lng, lat: point.lat })
@@ -232,7 +232,7 @@ export async function measurePoint() {
           <div><label>纬度</label>${point.lat} &nbsp ${wdDms.degree}° ${wdDms.minute}′ ${wdDms.second}″</div>
           <div><label>横坐标</label>${gk6X}</div>
           <div><label>纵坐标</label>${gk6Y}</div>
-          <div><label>海拔</label>${point.alt}米</div>
+          <div><label>大地高</label>${point.alt}米</div>
       </div>`
     }
   })

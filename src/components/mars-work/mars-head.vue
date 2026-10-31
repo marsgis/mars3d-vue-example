@@ -2,11 +2,11 @@
   <div class="top-nav">
     <div class="logo-wrap">
       <div class="l-logo mobile_hide">
-        <img src="/img/icon/logo.png" />
+        <img src="/img/icon/logo.png" alt="" />
         <span class="logo-name">Mars3D开发中心</span>
       </div>
       <div class="l-logo pc_hide">
-        <img src="/img/icon/logo.png" />
+        <img src="/img/icon/logo.png" alt="" />
         <span class="logo-name">Mars3D开发中心</span>
       </div>
       <div class="r-item mobile_hide">

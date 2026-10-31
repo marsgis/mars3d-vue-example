@@ -39,6 +39,11 @@ const clickNav = (item) => {
 }
 </script>
 
+<!--
+  此处样式为 index 入口页的全局基础样式（reset + 工具类），
+  会被同入口的 mars-head、example-list 等子组件共同依赖，
+  因此不能改为 scoped；如需调整请同步检查子组件中对这些工具类的引用。
+-->
 <style lang="less">
 body {
   background-color: #fff;
@@ -48,9 +53,6 @@ body {
   margin: 0;
 }
 
-.hide {
-  display: none;
-}
 ul,
 li {
   list-style: none;
@@ -79,7 +81,6 @@ select:focus {
   outline: 0;
 }
 textarea {
-  resize: vertical;
   resize: none;
 }
 em,

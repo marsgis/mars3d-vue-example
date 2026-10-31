@@ -43,16 +43,12 @@ export function onUnmounted() {
 // 改变视角  跟踪，上方和侧方
 export function viewAircraft() {
   map.trackedEntity = pathEntity.entity
-
-  setTimeout(() => {
-    pathEntity.flyToPoint({
-      radius: 500, // 距离目标点的距离
-      heading: 40,
-      pitch: -50,
-      duration: 0
-    })
-  }, 100)
 }
+export function cacheViewAircraft() {
+  map.trackedEntity = undefined
+}
+
+
 export function viewTopDown() {
   map.trackedEntity = undefined
 

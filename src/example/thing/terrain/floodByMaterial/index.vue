@@ -3,14 +3,14 @@
     <div v-show="!isShow">
       <div class="f-mb">
         <a-space>
-          <span class="text-default">最低海拔:</span>
+          <span class="text-default">最低大地高:</span>
           <mars-input-number v-model:value="formState.minHeight" :step="1" addon-after="米" />
         </a-space>
       </div>
 
       <div class="f-mb">
         <a-space>
-          <span class="text-default">最高海拔:</span>
+          <span class="text-default">最高大地高:</span>
           <mars-input-number v-model:value="formState.maxHeight" :step="1" addon-after="米" />
         </a-space>
       </div>

@@ -50,6 +50,11 @@ function addDemoGraphic1(graphicLayer) {
   const graphic = new mars3d.graphic.ModelEntity({
     name: "警车",
     position: [116.346929, 30.861947, 401.34],
+    matrixMove: {
+      rotateEnabled: true,
+      radius: 200,
+      scaleEnabled: false
+    },
     style: {
       url: "https://data.mars3d.cn/gltf/mars/jingche/jingche.gltf",
       scale: 20,
@@ -197,6 +202,10 @@ function addDemoGraphic2(graphicLayer) {
     attr: { remark: "示例2" }
   })
   graphicLayer.addGraphic(graphic)
+
+  graphic.on(mars3d.EventType.load, function (event) {
+    console.log("风机ModelEntity模型加载完成", event)
+  })
 }
 
 function addDemoGraphic3(graphicLayer) {

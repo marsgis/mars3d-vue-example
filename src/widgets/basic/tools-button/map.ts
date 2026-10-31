@@ -17,11 +17,9 @@ let basemapsTool: mars3d.control.ToolButton
 export function onMounted(mapInstance: mars3d.Map, mars3d): void {
   if (!mapInstance) { return }
 
-  console.log("tools-button onMounted 初始化")
-
   map = mapInstance // 记录map
   layersTool = new mars3d.control.ToolButton({
-    // @ts-ignore
+    // mars3d类型定义中title支持传入函数，用于切换中英文时动态返回标题
     title: (e) => { return map.lang.type === "cn" ? "图层控制" : "Layer control" }, // 切换语音的支持
     icon: "img/svg/layers.svg",
     insertBefore: "homeButton",
@@ -46,13 +44,12 @@ export function onMounted(mapInstance: mars3d.Map, mars3d): void {
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
-  if (!map.options) {
+  if (!map?.options) {
+    map = null
     return
   }
 
-  console.log("tools-button onUnmounted 卸载了")
   eventTarget.off()
-
   if (layersTool) {
     map.removeControl(layersTool, true)
     layersTool = null

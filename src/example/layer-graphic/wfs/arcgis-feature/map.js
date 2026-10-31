@@ -89,7 +89,7 @@ function addArcGisWFSLayer1() {
       }
     },
     buildings: {
-      cloumn: "floor"
+      cloumn: "{floor}"
     },
     debuggerTileInfo: false,
     popup: "数据：矢量图层<br />名称：{NAME}<br />层数：{floor}"

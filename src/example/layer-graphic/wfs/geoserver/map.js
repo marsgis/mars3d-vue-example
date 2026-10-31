@@ -128,7 +128,7 @@ function addWmsLayer() {
       }
     },
     buildings: {
-      cloumn: "floor"
+      cloumn: "{floor}"
     },
     debuggerTileInfo: false,
     popup: "名称：{NAME}<br />层数：{floor}",

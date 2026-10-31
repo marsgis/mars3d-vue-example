@@ -18,10 +18,11 @@
  * @copyright mars3d.cn
  * @author 木遥 2022-01-01
  */
-import { ref, reactive, onMounted, markRaw } from "vue"
+import { ref, reactive, onMounted, onBeforeUnmount, markRaw } from "vue"
 import type { UnwrapRef } from "vue"
 import { $alert } from "@mars/components/mars-ui/index"
 import { useWidget } from "@mars/widgets/common/store/widget"
+import { onMapWorkReady } from "@mars/utils/map-work"
 
 const props = withDefaults(
   defineProps<{
@@ -62,16 +63,6 @@ if (mapWork.eventTarget) {
   })
 }
 
-setTimeout(() => {
-  const layer = getManagerLayer()
-  if (layer) {
-    formState.enabledShowHide = layer.show
-    formState.enabledPopup = layer.hasPopup()
-    formState.enabledTooltip = layer.hasTooltip()
-    formState.enabledRightMenu = layer.hasContextMenu()
-  }
-}, 1000)
-
 // 获取map.js中定义的需要管理的图层
 function getManagerLayer() {
   if (mapWork.getManagerLayer) {
@@ -79,6 +70,34 @@ function getManagerLayer() {
   }
   return mapWork.graphicLayer
 }
+
+let offMapWorkReady: (() => void) | null = null
+
+// map.js 的 onMounted 由框架（pages/editor|read/App.vue）调用 useLifecycle() 触发，
+// 与本组件的挂载没有固定先后顺序，等“地图业务就绪”后再读取图层状态
+onMounted(() => {
+  offMapWorkReady = onMapWorkReady(
+    () => {
+      const layer = getManagerLayer()
+      if (!layer) {
+        return
+      }
+      formState.enabledShowHide = layer.show
+      formState.enabledPopup = layer.hasPopup()
+      formState.enabledTooltip = layer.hasTooltip()
+      formState.enabledRightMenu = layer.hasContextMenu()
+    },
+    // 兜底：旧版框架未派发就绪事件时，以“图层对象已创建”作为就绪条件
+    { probe: () => !!getManagerLayer() }
+  )
+})
+
+onBeforeUnmount(() => {
+  if (offMapWorkReady) {
+    offMapWorkReady()
+    offMapWorkReady = null
+  }
+})
 
 const onChangeShow = () => {
   const layer = getManagerLayer()

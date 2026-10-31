@@ -19,7 +19,7 @@ import MarsSwitch from "./mars-switch/index.vue"
 import MarsDialog from "./mars-dialog/index.vue"
 import MarsSlider from "./mars-slider/index.vue"
 import MarsDropDown from "./mars-dropdown"
-import MarsGui from "./mars-gui/index.vue"
+import MarsGuiItem from "./mars-gui-item/index.vue"
 import MarsTable from "./mars-table/index.vue"
 
 import MarsMessage, { $message as marsMessage } from "./mars-message"
@@ -92,7 +92,7 @@ const components = [
   MarsTextarea,
   MarsSwitch,
   MarsSlider,
-  MarsGui,
+  MarsGuiItem,
   MarsTable,
   MarsColor
 ]

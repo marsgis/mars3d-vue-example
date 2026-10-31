@@ -121,7 +121,46 @@ export function mapFlyToGraphic() {
     })
     map.graphicLayer.addGraphic(graphic)
   }
-  map.flyToGraphic(graphic, { radius: 10000 })
+  if (map.scene.mode === Cesium.SceneMode.COLUMBUS_VIEW) {
+    flyToForColumbusView({
+      position: graphic.position,
+      pitch: -40,
+      radius: 10000
+    })
+  } else {
+    map.flyToGraphic(graphic, { radius: 10000 })
+  }
+}
+
+function flyToForColumbusView(options) {
+  const heading = Cesium.Math.toRadians(options.heading ?? 0)
+  const pitch = Cesium.Math.toRadians(options.pitch ?? 0)
+  const range = Cesium.Math.toRadians(options.radius ?? 1000)
+  const center = mars3d.LngLatPoint.toCartesian(options.position)
+
+  const cosPitch = Math.cos(pitch)
+  const sinPitch = Math.sin(pitch)
+  const cosHeading = Math.cos(heading)
+  const sinHeading = Math.sin(heading)
+
+  // ENU坐标系：X东 Y北 Z天
+  const localX = -range * cosPitch * sinHeading
+  const localY = -range * cosPitch * cosHeading
+  const localZ = -range * sinPitch
+
+  const localOffset = new Cesium.Cartesian3(localX, localY, localZ)
+
+  const enuMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center)
+  const cameraWorldPos = Cesium.Matrix4.multiplyByPoint(enuMatrix, localOffset, new Cesium.Cartesian3())
+
+  map.camera.flyTo({
+    ...options,
+    destination: cameraWorldPos,
+    orientation: {
+      heading: heading,
+      pitch: pitch
+    }
+  })
 }
 
 export function mapFlyToExtent() {

@@ -2,6 +2,7 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 export const eventTarget = new mars3d.BaseClass() // 事件对象，用于抛出事件到面板中
+let addPolygonTimer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
@@ -30,6 +31,11 @@ export function onMounted(mapInstance) {
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 export function onUnmounted() {
   map = null
+
+  if (addPolygonTimer) {
+    clearInterval(addPolygonTimer)
+    addPolygonTimer = null
+  }
 }
 
 let fixedRoute
@@ -163,7 +169,7 @@ function testShading() {
   groundLayer = new mars3d.layer.GraphicLayer()
   map.addLayer(groundLayer)
 
-  setInterval(function () {
+  addPolygonTimer = setInterval(function () {
     if (!map.clock.shouldAnimate || !thisPositions) {
       return
     }

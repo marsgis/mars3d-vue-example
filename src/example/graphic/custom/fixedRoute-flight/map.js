@@ -167,7 +167,8 @@ function addGraphicLayer() {
   graphicLayer.addGraphic(fixedRoute)
 
   // 添加视频对象
-  addVideoDemo()
+  // addVideoDemo()
+  addCameraOverviewMap(fixedRoute)
 
   // 绑定popup
   bindPopup(fixedRoute)
@@ -284,4 +285,33 @@ function addVideoDemo() {
     video2D.style.pitch = fixedRoute.pitch
     video2D.style.roll = fixedRoute.roll
   })
+}
+
+
+
+// 添加相机鹰眼小地图
+let additionalCamera
+function addCameraOverviewMap(route) {
+  additionalCamera = new mars3d.control.CameraOverviewMap({
+    style: {
+      right: "10px",
+      bottom: "332px",
+      width: "328px",
+      height: "246px"
+    },
+    zoomFactor: 1.0
+  })
+  map.addControl(additionalCamera)
+
+  additionalCamera.position = route.property // 坐标跟随route
+   // 方向跟随route
+  additionalCamera.heading = new Cesium.CallbackProperty((time) => {
+    return route.heading + 90
+  }, false)
+  additionalCamera.pitch = new Cesium.CallbackProperty((time) => {
+    return route.pitch
+  }, false)
+  additionalCamera.roll = new Cesium.CallbackProperty((time) => {
+    return route.roll
+  }, false)
 }

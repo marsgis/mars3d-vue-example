@@ -2,7 +2,7 @@
 // 它利用 MapLibre GL Native 进行服务器端的矢量图层渲染，将pbf矢量瓦片转为普通瓦片数据后提供通过 WMTS 协议在Mars3D前端进行加载展示。
 
 import * as mars3d from "mars3d"
-import { ArcGISPbfLayer } from "../../../../../public/lib/mars3d/thirdParty/pbf-protomaps/ArcGISPbfLayer.js"
+import { ArcGISPbfLayer } from "../../../../../public/lib/czmThirdParty/pbf-protomaps/ArcGISPbfLayer.js"
 
 export let map // mars3d.Map三维地图对象
 
@@ -16,7 +16,7 @@ export const mapOptions = {
     {
       name: "矢量瓦片图层",
       icon: "https://data.mars3d.cn/img/thumbnail/basemap/osm.png",
-      type: "arcgis-pbf", //  \lib\mars3d\thirdParty\pbf-protomaps\ArcGISPbfLayer.js 中定义的类型
+      type: "arcgis-pbf", //  \lib\czmThirdParty\pbf-protomaps\ArcGISPbfLayer.js 中定义的类型
       url: "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
       styleUrl: "https://jsapi.maps.arcgis.com/sharing/rest/content/items/75f4dfdff19e445395653121a95a85db/resources/styles/root.json",
       show: true

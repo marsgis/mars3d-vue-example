@@ -12,20 +12,14 @@ const MarsTree = defineComponent({
   name: "mars-tree",
   inheritAttrs: false,
   setup(props, context) {
+    // 根据节点状态返回图标节点（key使用固定状态值，避免随机key导致组件反复重建）
     const icon = (isLeaf: boolean, expanded: boolean, group: boolean) => {
       if (isLeaf && !group) {
-        return [
-          h(Icon, {
-            icon: "bring-to-front",
-            width: "14",
-            theme: "outline",
-            key: new Date().getTime()
-          })
-        ]
+        return [h(Icon, { icon: "bring-to-front", width: "14", theme: "outline", key: "leaf" })]
       } else if (!expanded) {
-        return [h(Icon, { icon: "folder-close", width: "14", theme: "outline", key: new Date().getTime() })]
+        return [h(Icon, { icon: "folder-close", width: "14", theme: "outline", key: "folder-close" })]
       } else if (expanded) {
-        return [h(Icon, { icon: "folder-open", width: "14", theme: "outline", key: new Date().getTime() })]
+        return [h(Icon, { icon: "folder-open", width: "14", theme: "outline", key: "folder-open" })]
       }
     }
     return () =>

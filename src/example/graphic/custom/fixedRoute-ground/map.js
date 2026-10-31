@@ -76,6 +76,12 @@ function addGraphicLayer() {
       mergeOrientation: true, // 用于设置模型不是标准的方向时的纠偏处理,在orientation基础的方式值上加上设置是heading值
       minimumPixelSize: 50,
       lightColor: 6 // 解决模型发暗，直接把光增强lightColor倍 (建议同时打开map.fixedLight = true)
+      // customShader: new Cesium.CustomShader({
+      //   fragmentShaderText: `
+      //     void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
+      //       material.diffuse *= 1.8; // 解决模型发暗，调整亮度系数
+      //     }`
+      // })
     },
     // polyline: {
     //   color: "rgba(255,0,0,0.5)",
@@ -98,6 +104,12 @@ function addGraphicLayer() {
     }
   })
   graphicLayer.addGraphic(fixedRoute)
+
+  // const tilesetColorCorrection = new mars3d.thing.TilesetColorCorrection({
+  //   brightness: 1.0,
+  //   layer: fixedRoute.model
+  // })
+  // map.addThing(tilesetColorCorrection)
 
   // 绑定popup
   bindPopup(fixedRoute)

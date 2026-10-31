@@ -97,7 +97,6 @@ function initTree() {
       }
     }
   })
-  console.log("获取到的map图层树", result)
 
   // 赋予树控件
   treeData.value = result.tree
