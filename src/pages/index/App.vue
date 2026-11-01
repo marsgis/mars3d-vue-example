@@ -1,12 +1,15 @@
 <template>
   <!--导航-->
   <Head @clickNav="clickNav" />
-  <example-list v-show="!showIframe" @jump="jumpUrl"></example-list>
-  <iframe v-show="showIframe" style="width: 100%; height: 100vh; overflow: auto; margin-top: 68px" frameborder="0" :src="iframeSrc"></iframe>
+  <main id="main">
+    <example-list v-show="!showIframe" @jump="jumpUrl"></example-list>
+    <!-- 文档页按需创建：避免初始 src="" 把当前页面再加载到隐藏 iframe 中 -->
+    <iframe v-if="showIframe" class="doc-frame" title="Mars3D 文档" :src="iframeSrc"></iframe>
+  </main>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 import ExampleList from "@mars/components/mars-work/example-list.vue"
 import Head from "@/components/mars-work/mars-head.vue"
 
@@ -22,17 +25,19 @@ const jumpUrl = (item: any) => {
   }
 
   // 处理参数
-  url += `?key=${item.id}&id=` + encodeURI(item.main)
+  url += `?id=${encodeURI(item.main)}`
   if (item.params) {
     url += `&${item.params}`
   }
+  // url += `&key=${item.id}`
+
   window.open(url, "_blank")
 }
 
-const clickNav = (item) => {
+const clickNav = (item: { page?: string }) => {
   if (item.page) {
-    showIframe.value = true
     iframeSrc.value = item.page
+    showIframe.value = true
   } else {
     showIframe.value = false
   }
@@ -52,7 +57,6 @@ body {
   padding: 0;
   margin: 0;
 }
-
 ul,
 li {
   list-style: none;
@@ -128,10 +132,12 @@ strike {
   color: #fff;
   opacity: 0.6;
 }
-.download {
-  color: #d5e5f8;
-  a {
-    color: #91adc6;
-  }
+
+/* 文档 iframe：占满顶栏以下的视口高度 */
+.doc-frame {
+  display: block;
+  width: 100%;
+  height: calc(100vh - var(--mh-header-height, 76px));
+  border: 0;
 }
 </style>

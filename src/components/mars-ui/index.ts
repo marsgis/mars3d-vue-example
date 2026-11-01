@@ -142,7 +142,7 @@ export default function (app: App, config: Record<string, any> = {}): App {
   app.use(Empty)
 
   components.forEach((comp) => {
-    app.component(comp.name, comp)
+    app.component(comp.name!, comp)
   })
   MarsMessage(app)
   MarsAlert(app)

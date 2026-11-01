@@ -130,11 +130,12 @@ const slots = useSlots()
 const mergeProps = computed(() => {
   const newProps: Record<string, any> = {}
 
-  for (const k in props) {
-    if (props[k] === undefined) {
+  const propValues = props as unknown as Record<string, any>
+  for (const k in propValues) {
+    if (propValues[k] === undefined) {
       newProps[k] = globalConfig[k]
     } else {
-      newProps[k] = props[k]
+      newProps[k] = propValues[k]
     }
   }
 
@@ -208,7 +209,7 @@ const getContentStyle = () => {
 
 const dialogRef = ref()
 const thumbnailRef = ref()
-let warpperEle = null
+let warpperEle: HTMLElement | null = null
 
 let observeDialog = false // 控制是否自动监听
 let hasUserSet = false // 控制是否自动监听
@@ -228,7 +229,7 @@ defineExpose({
   }
 })
 
-function toogleFold(status) {
+function toogleFold(status: boolean) {
   isFold.value = status
   nextTick(() => {
     if (status) {
@@ -262,7 +263,7 @@ function initDialog() {
   autoNiceHeight()
 }
 onMounted(() => {
-  warpperEle = document.querySelector(mergeProps.value.warpper)
+  warpperEle = document.querySelector(mergeProps.value.warpper) as HTMLElement | null
   if (isFold.value) {
     initThumbnail()
   } else {
@@ -291,6 +292,9 @@ function initPosition() {
 
 // 初始化大小
 function initSize() {
+  if (!warpperEle) {
+    return
+  }
   let w = null
   let h = null
 
@@ -325,7 +329,7 @@ function dragStart(event: any) {
 
   bindMouseDrag(toPointerPosition)
 
-  function toPointerPosition(e: any) {
+  function toPointerPosition(e: MouseEvent) {
     const distanceX = e.clientX - x
     const distanceY = e.clientY - y
     const left = bl + distanceX
@@ -361,7 +365,10 @@ function resizeStart(handle: string, event: any) {
 
   bindMouseDrag(handleMove)
 
-  function handleMove(e: any) {
+  function handleMove(e: MouseEvent) {
+    if (!warpperEle) {
+      return
+    }
     if (handleName.indexOf("l") !== -1) {
       const L = x - e.clientX
       if (e.clientX > 0 && e.clientX < warpperEle.offsetWidth) {
@@ -391,7 +398,10 @@ function resizeStart(handle: string, event: any) {
   }
 }
 
-function setSize(attr: "width" | "height", v) {
+function setSize(attr: "width" | "height", v: any) {
+  if (!warpperEle) {
+    return
+  }
   if (isAllowValue(v)) {
     let value = v
     switch (attr) {
@@ -414,7 +424,10 @@ function setSize(attr: "width" | "height", v) {
   }
 }
 
-function setPosition(attr: "left" | "top", v) {
+function setPosition(attr: "left" | "top", v: any) {
+  if (!warpperEle) {
+    return
+  }
   if (isAllowValue(v)) {
     let value = v
     const pb = dialogRef.value
@@ -435,12 +448,12 @@ function setPosition(attr: "left" | "top", v) {
   }
 }
 
-let domObserver
+let domObserver: MutationObserver | null = null
 onMounted(() => {
   addEvent(window, "resize", resize)
 
   // 监听元素变化
-  domObserver = new MutationObserver((mList, ob) => {
+  domObserver = new MutationObserver(() => {
     autoNiceHeight()
   })
 
@@ -452,12 +465,12 @@ onMounted(() => {
 })
 onUnmounted(() => {
   removeEvent(window, "resize", resize)
-  domObserver.disconnect()
+  domObserver?.disconnect()
 })
 
 // 处理高度超出的情况
 function autoNiceHeight() {
-  if (observeDialog) {
+  if (observeDialog && warpperEle) {
     const isExceed = warpperEle.offsetHeight < dialogRef.value.offsetHeight + dialogRef.value.offsetTop
     if (isExceed) {
       const niceHeight = warpperEle.offsetHeight - dialogRef.value.offsetTop
@@ -482,7 +495,7 @@ function resize() {
 }
 
 // 处理百分比
-function isPercentage(value) {
+function isPercentage(value: any) {
   if (typeof value === "string") {
     return value.search("%") !== -1
   } else {
@@ -549,16 +562,16 @@ function autoUnit(value: number | string) {
   }
 }
 
-function isAllowValue(value) {
+function isAllowValue(value: any) {
   return value !== null && value !== undefined
 }
 
 // 事件绑定处理
-function bindMouseDrag(callback) {
+function bindMouseDrag(callback: (e: MouseEvent) => void) {
   addEvent(document.documentElement, "mousemove", handleMove)
   addEvent(document.documentElement, "mouseup", handleUp)
 
-  function handleMove(e) {
+  function handleMove(e: MouseEvent) {
     e.preventDefault()
     e.stopPropagation()
     hasUserSet = true

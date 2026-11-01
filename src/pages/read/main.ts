@@ -1,4 +1,4 @@
-import { createApp, defineComponent, h } from "vue"
+import { createApp, defineComponent, h, type App } from "vue"
 import Application from "./App.vue"
 import MarsUIInstall from "@mars/components/mars-ui"
 import { injectState, key } from "@mars/widgets/common/store/widget"
@@ -37,7 +37,7 @@ marsEditor.on("loaded", (exampleConfig) => {
   inited = true
 })
 
-let vueApp
+let vueApp: App | null = null
 
 function initUI(simple: boolean) {
   if (simple) {
@@ -65,7 +65,7 @@ function initUI(simple: boolean) {
 }
 
 function destroyUI() {
-  vueApp.unmount()
+  vueApp?.unmount()
   vueApp = null
 }
 
@@ -87,7 +87,7 @@ async function bootstrap() {
   }
 
   marsEditor.render({
-    container: document.getElementById("root"),
+    container: document.getElementById("root")!,
     exampleId,
     exampleKey
   })

@@ -22,10 +22,10 @@ export default defineComponent({
   },
   setup(props) {
     const attrs = useAttrs()
-    const iconName = computed(() => _.upperFirst(_.camelCase(props.icon)))
+    const iconName = computed(() => _.upperFirst(_.camelCase(props.icon ?? "")))
 
     const svgComponent = computed(() => {
-      const render = svgModule[iconName.value]
+      const render = (svgModule as Record<string, unknown>)[iconName.value]
       if (typeof render !== "function") {
         return ""
       }

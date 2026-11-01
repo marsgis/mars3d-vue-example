@@ -58,9 +58,11 @@ const MarsColorPicker = defineComponent({
       emitChangeEvent()
     }
 
-    let timeTik // 防抖
+    let timeTik: ReturnType<typeof setTimeout> | undefined // 防抖
     const emitChangeEvent = () => {
-      clearTimeout(timeTik)
+      if (timeTik) {
+        clearTimeout(timeTik)
+      }
       timeTik = setTimeout(() => {
         context.emit("update:value", pointColor.value)
         context.emit("change", colorObject)
@@ -69,7 +71,9 @@ const MarsColorPicker = defineComponent({
 
     // 卸载时清理防抖定时器，避免组件销毁后继续向父级派发事件
     onBeforeUnmount(() => {
-      clearTimeout(timeTik)
+      if (timeTik) {
+        clearTimeout(timeTik)
+      }
     })
 
     const Buttons = [
@@ -121,7 +125,7 @@ const MarsColorPicker = defineComponent({
 })
 
 export function install(app: App): App {
-  app.component(MarsColorPicker.name, MarsColorPicker)
+  app.component(MarsColorPicker.name!, MarsColorPicker)
   return app
 }
 export default MarsColorPicker

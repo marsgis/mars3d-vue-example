@@ -40,7 +40,7 @@ export function getFormData(options: GuiItem[]) {
 }
 
 export function deleteItem(options: GuiItem[], key: string | number) {
-  let index: number
+  let index: number | undefined
   if (typeof key === "string") {
     options.forEach((item, i) => {
       if (item.field === key) {

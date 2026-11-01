@@ -1,60 +1,32 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# =========================================================
+# .gitignore · mars3d-vue-example
+# 结构：按产物类型分类，统一忽略项已并入对应分类
+# =========================================================
 
-# compiled output
-/dist
-/tmp
-/out-tsc
-# Only exists if Bazel was run
-/bazel-out
-.cache/
-
-# dependencies
-/node_modules
-public/lib/CesiumUnminified/
-public/lib/mars3d/plugins/widget/
-mars3d-*src.*
-!mars3d-supermap-src.js*
-!mars3d-tdt-src.js*
-
-# profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
-
-# IDEs and editors
+# ---------- 编辑器+缓存+日志 相关 -----
 /.vscode
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+/.cache
 .DS_Store
 Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.idea
+.history/
+*.sublime-workspace
+
+
+# ---------- 依赖 ----------
+node_modules
 package-lock.json
 yarn.lock
+mars*d-*src.*
+public/lib/CesiumUnminified/
 
-# 本地测试
+# ---------- 构建与缓存产物 ----------
+/dist
+coverage/
+
+# ---------- 本地测试 ----------
 src/example/a-test
-public/lib/Cesium-*
-public/lib/mars3d-*

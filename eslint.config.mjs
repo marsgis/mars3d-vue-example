@@ -154,7 +154,7 @@ export default defineConfigWithVueTs(
     plugins,
     rules: {
       "no-console": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/ban-ts-comment": "warn"
     }

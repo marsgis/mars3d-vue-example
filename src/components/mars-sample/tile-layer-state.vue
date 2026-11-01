@@ -131,7 +131,7 @@ interface LayerTableItem {
   isTile: boolean
 }
 
-const tileLayerList = ref([])
+const tileLayerList = ref<LayerTableItem[]>([])
 const rowKeys = ref<string[]>([])
 
 
@@ -169,7 +169,7 @@ const tileLayerRowSelection = ref({
   }
 })
 // 实现点击行聚焦到对应位置
-const tileLayerCustomRowObj = (record) => {
+const tileLayerCustomRowObj = (record: LayerTableItem) => {
   return {
     onClick: () => {
       const layer = map.getLayerById(record.key)
@@ -180,7 +180,7 @@ const tileLayerCustomRowObj = (record) => {
   }
 }
 
-let map
+let map: any = null
 let thisLayer: any // 选中的图层
 
 let offMapWorkReady: (() => void) | null = null
@@ -233,7 +233,7 @@ function initTileLayers() {
   selectedFirst()
 
   // 添加新的图层，数组中也添加数据
-  map.on(mars3d.EventType.addLayer, function (event) {
+  map.on(mars3d.EventType.addLayer, function (event: any) {
     const layer = event.layer
     if (layer.isPrivate || layer.name === "POI查询") {
       return
@@ -252,7 +252,7 @@ function initTileLayers() {
   })
 
   // 删除图层
-  map.on(mars3d.EventType.removeLayer, function (event) {
+  map.on(mars3d.EventType.removeLayer, function (event: any) {
     const layerId = event.layer.id
 
     const idx = tileLayerList.value.findIndex((item) => item.key === layerId)

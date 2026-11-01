@@ -3,7 +3,7 @@ import type { ConfigEnv } from "vite"
 import { defineConfig, loadEnv } from "vite" // 帮手函数，这样不用 jsdoc 注解也可以获取类型提示
 import vue from "@vitejs/plugin-vue"
 import examplePlugin from "./build/vite-example-plugin.mts"
-import pruneLibDebugAssets from "./build/vite-prune-lib-plugin.mts"
+import cleanDistPlugin from "./build/vite-clean-dist-plugin.mts"
 import copyPlugin from "rollup-plugin-copy"
 import monacoEditorPluginCjs from "vite-plugin-monaco-editor"
 import eslintPlugin from "vite-plugin-eslint"
@@ -32,7 +32,8 @@ export default ({ mode }: ConfigEnv) => {
         mode,
         BASE_URL: ENV.VITE_BASE_URL,
         EXAMPLE_SOURCE_PATH: ENV.VITE_EXAMPLE_SOURCE_PATH,
-        EDITOR_MODE: ENV.VITE_EDITOR_MODE !== "0"
+        EDITOR_MODE: ENV.VITE_EDITOR_MODE !== "0",
+        MARS3D_HOST: ENV.VITE_MARS3D_HOST
       }
     },
     resolve: {
@@ -121,8 +122,6 @@ export default ({ mode }: ConfigEnv) => {
       // D001：实测编辑器仅请求 editorWorkerService 与 typescript 两类 worker（css/html/json 从未被请求），
       // 按实际语言子集裁剪，避免产出与部署无用的 3 个 worker 包
       monacoEditorPlugin({ publicPath: "example/assets-monaco", languageWorkers: ["editorWorkerService", "typescript"] }),
-      // 发布包中剔除 public/lib 复制进来的第三方 .map / *-debug.js / *-src.js（I041 / D033）
-      pruneLibDebugAssets(),
       {
         ...copyPlugin({
           hook: "closeBundle",
@@ -143,7 +142,9 @@ export default ({ mode }: ConfigEnv) => {
             }
           ]
         })
-      }
+      },
+      // 发布产物清理：删除 public/ 复制进来的调试/源码副本（必须在 copyPlugin 之后注册）
+      cleanDistPlugin()
     ]
   })
 }
